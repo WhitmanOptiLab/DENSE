@@ -1,6 +1,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
+#include "reaction.hpp"
 
 
 using namespace std;
@@ -21,6 +22,7 @@ private:
     int cells; // The total number of cells in the simulation
     
     array2D<double>  factors_gradient;
+    vector<reaction> reactions;
     
 public:
     

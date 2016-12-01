@@ -1,6 +1,8 @@
 #ifndef SIMULATION_HPP
 #define SIMULATION_HPP
 
+#include "param_set.h"
+#include "model.h"
 
 
 using namespace std;
@@ -35,6 +37,7 @@ private:
     int width_initial; // The width in cells of the PSM before anterior growth
     int width_current; // The width in cells of the PSM at the current time step
     int height; // The height in cells of the PSM
+    int cells; // The number of cells in the simulation
     int cells_total; // The total number of cells of the PSM (total width * total height)
     
     // Neighbors and boundaries
@@ -52,6 +55,9 @@ private:
     int num_active_mutants; // The number of mutants to simulate for each parameter set
     double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
     double max_score_all; // The maximum score possible for all mutants for all testing sections
+
+    const param_set& _parameter_set;
+    const model& _model;
 
 public:
     

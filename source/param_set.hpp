@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class paran_set{
+class param_set{
 private:
    
     
