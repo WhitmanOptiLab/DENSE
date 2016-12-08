@@ -34,8 +34,8 @@ int main(){
     reaction mespb_synthesis= new reaction(psm2,depay_pm2,mm2,pm2);
     reaction mepsb_degradation= new reaction(pdm2,0,pm2,pm2);
     reaction mespb_dissociation= new reaction(dd11,0,pm11,new vector(pm2,pm11));
-    reaction mespb_dissociation2= new reaction(dd12,0,pm12,new vector(pm2,pm11));
-    reaction mespb_dissociation3= new reaction(dd22,0,pm22,new vector(pm2,pm11));
+    reaction mespb_dissociation2= new reaction(dd12,0,pm12,new vector(pm2,pm12));
+    reaction mespb_dissociation3= new reaction(dd22,0,pm22,new vector(pm2,pm22));
     reaction mespb_association= new reaction(dam11,0,new vector(pm1,pm1),new vector(pm2,pm11));
     reaction mespb_association2= new reaction(dam12,0,new vector(pm1,pm2),new vector(pm2,pm12));
     reaction mespb_association3= new reaction(dam22,0,new vector(pm2,pm2),new vector(pm2,pm22));
