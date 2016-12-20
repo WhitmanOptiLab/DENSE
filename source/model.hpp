@@ -15,14 +15,16 @@ private:
      rates_active is the final, active rates that should be used in the simulation.
      todo:
      */
-    double factors_perturb[NUM_RATES]; // Perturbations (as percentages with 1=100%) taken from the perturbations input file
+    double factors_perturb[NUM_REACTIONS]; // Perturbations (as percentages with 1=100%) taken from the perturbations input file
     bool using_gradients; // Whether or not any rates have specified perturbations
     int width; // The total width of the simulation
-    bool has_gradient[NUM_RATES]; // Whether each rate has a specified gradient
+    bool has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
     int cells; // The total number of cells in the simulation
     
-    array2D<double>  factors_gradient;
-    vector<reaction> reactions;
+    //array2D<double>  factors_gradient;
+#define REACTION(name) reaction<name> reaction_##name;
+    LIST_OF_REACTIONS
+#undef REACTION
     
 public:
     

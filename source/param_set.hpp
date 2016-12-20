@@ -1,9 +1,14 @@
 #ifndef PARAM_SET_HPP
 #define PARAM_SET_HPP
 
+#include <utility>
 
+#include "reaction.hpp"
 
 using namespace std;
+
+#define NUM_SECTIONS 2
+#define MAX_CONDS_ANY 2
 
 class param_set{
 private:
@@ -18,7 +23,7 @@ private:
     double overexpression_factor; // Overexpression factors with 1=100% overexpressed, if 0 then no overexpression
     int induction; // The induction point for mutants that are time sensitive
     int recovery;
-    con_levels cl; // The concentration levels at the end of this mutant's posterior simulation run
+    //con_levels cl; // The concentration levels at the end of this mutant's posterior simulation run
     /*
      bool initialized; // Whether or not this struct's data have been initialized
      int num_con_levels; // The number of concentration levels this struct stores (not necessarily the total number of concentration levels)
@@ -30,20 +35,18 @@ private:
      int* active_end_record; // Record of the end of the active PSM at each time step
      int* _active_end_record; // Record of the end of the active PSM at each time step
      */
-    double (*tests[2])(mutant_data&, features&); // The posterior and anterior conditions tests
-    int (*wave_test)(pair<int, int>[], int, mutant_data&, int, int); // The traveling wave conditions test
+    //double (*tests[2])(mutant_data&, features&); // The posterior and anterior conditions tests
+    //int (*wave_test)(pair<int, int>[], int, mutant_data&, int, int); // The traveling wave conditions test
     int num_conditions[NUM_SECTIONS+1]; // The number of conditions this mutant is tested on
     double cond_scores[NUM_SECTIONS+1][MAX_CONDS_ANY]; // The score this mutant can achieve for each condition
     double max_cond_scores[NUM_SECTIONS]; // The maximum score this mutant can achieve for each section
     bool secs_passed[NUM_SECTIONS]; // Whether or not this mutant has passed each section's conditions
     double conds_passed[NUM_SECTIONS][1 + MAX_CONDS_ANY]; // The score this mutant achieved for each condition when run
-    feature feat; // The oscillation features this mutant produced when run
+    //feature feat; // The oscillation features this mutant produced when run
     int print_con; // The index of the concentration that should be printed (usually mh1)
     bool only_post; //indicating if only the posterior is simulated
     
-    double rates_base[NUM_RATES]; // Base rates taken from the current parameter set
-    array2D<double>  rates_active;
-    array2D<double>  rates_cell;
+    double rates_base[NUM_REACTIONS]; // Base rates taken from the current parameter set
 };
 
 
