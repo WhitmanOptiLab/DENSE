@@ -2,7 +2,9 @@
 #define REACTION_HPP
 #include <vector>
 
-#include "reactions_list.h"
+#include "reactions_list.hpp"
+#include "specie.hpp"
+#include "context.hpp"
 
 using namespace std;
 
@@ -14,29 +16,43 @@ LIST_OF_REACTIONS
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
 };
 
-class Context;
-
 typedef std::pair<int, int> ReactionTerm;
 
 template<class RATETYPE, class IMPL>
 class reaction_base{
  public:
-  RATETYPE active_rate(const Context& c);
-    
- protected:
+  RATETYPE active_rate(const Context<double>& c) const;
   RATETYPE rate;
   RATETYPE delay;
-  vector<ReactionTerm> inputs;
-  vector<ReactionTerm> outputs;
     
 };
 
 template<reaction_id RID>
 class reaction : public reaction_base<double, reaction<RID> > {
  public:
-  reaction(double rate_in, double delay_in, vector<ReactionTerm> inputs_in, vector<ReactionTerm> outputs_in);
-  double active_rate(const Context& c);
+  reaction();
+  double active_rate(const Context<double>& c) const;
+ protected:
+  int num_inputs, num_outputs;
+  const int* in_counts;
+  const specie_id* inputs;
+  const int* out_counts;
+  const specie_id* outputs;
 };
+
+
+//And by the way, all of these will be declared at some point
+
+#define REACTION(name) \
+extern const int num_inputs_##name; \
+extern const int num_outputs_##name; \
+extern const int in_counts_##name[]; \
+extern const specie_id inputs_##name[]; \
+extern const int out_counts_##name[]; \
+extern const specie_id outputs_##name[];
+
+LIST_OF_REACTIONS
+#undef REACTION
 
 #endif
 

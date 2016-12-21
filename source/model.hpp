@@ -2,6 +2,7 @@
 #define MODEL_HPP
 
 #include "reaction.hpp"
+#include "specie.hpp"
 
 
 using namespace std;
@@ -21,12 +22,12 @@ private:
     bool has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
     int cells; // The total number of cells in the simulation
     
+  public:
     //array2D<double>  factors_gradient;
 #define REACTION(name) reaction<name> reaction_##name;
     LIST_OF_REACTIONS
 #undef REACTION
     
-public:
     
 };
 

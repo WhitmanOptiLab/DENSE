@@ -3,6 +3,8 @@
 #ifndef CONTEXT_HPP
 #define CONTEXT_HPP
 
+#include "specie.hpp"
+
 template <class E>
 class Context {
   //FIXME - want to make this private at some point
