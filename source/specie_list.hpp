@@ -11,8 +11,19 @@
 
 
 #define LIST_OF_SPECIES \
-  SPECIE(specie_one) \
-  SPECIE(specie_two) \
-  SPECIE(specie_three) 
+  SPECIE(ph1) \
+  SPECIE(pd) \
+  SPECIE(pm1) \
+  SPECIE(pm2) \
+  SPECIE(ph11) \
+  SPECIE(pm11) \
+  SPECIE(pm12) \
+  SPECIE(pm22) \
+  SPECIE(mh1) \
+  SPECIE(md) \
+  SPECIE(mm1) \
+  SPECIE(mm2) \
+
+
 
 

@@ -67,12 +67,6 @@ int main(){
     //mespb mRNA
     reaction mm2_synthesis= new reation(msm2,delay_mm2,new vector(pd,pm11,pm12,pm22),mm2);
     reaction mm2_degradation= new reaction(mdm2,0,mm2,mm2);
-    
-    const int num_inputs_three = 0;
-    const int num_outputs_three = 1;
-    const int in_counts_three[] = {};
-    const specie_id inputs_three[] = {};
-    const int out_counts_three[] = {1};
-    const specie_id outputs_three[] = {specie_one};
+
     
 }

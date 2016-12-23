@@ -26,3 +26,12 @@ void simulation::test_sim() {
   std::cout << "If you're seeing this, simulation.cpp compiles correctly:" 
             << sum_rates << std::endl;
 }
+
+
+void simulation::model(){
+    Context<double> contexts[]= {};
+#define REACTION(name) sum_rates += _model.reaction_##name.active_rate(c);
+    LIST_OF_REACTIONS
+#undef REACTION
+    
+}
