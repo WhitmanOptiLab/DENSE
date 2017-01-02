@@ -27,11 +27,20 @@ void simulation::test_sim() {
             << sum_rates << std::endl;
 }
 
-
+/*
 void simulation::model(){
     Context<double> contexts[]= {};
+    int j;
+    int baby_j; 
+    bool past_induction[6];
+    bool past_recovery[6];
+    Context<double> c;
+    
+    double sum_rates = 0.0;
+    
+    
 #define REACTION(name) sum_rates += _model.reaction_##name.active_rate(c);
     LIST_OF_REACTIONS
 #undef REACTION
-    
-}
+
+}*/

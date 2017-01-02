@@ -62,6 +62,7 @@ class simulation{
  public:
   simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m) { }
   void test_sim();
+    void model();
 
 };
 #endif

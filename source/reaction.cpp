@@ -44,12 +44,12 @@ const specie_id inputs_pd_synthesis[] = {};
 const int out_counts_pd_synthesis[] = {1};
 const specie_id outputs_pd_synthesis[] = {pd};
 
-const int num_inputs_pd_degradatino = 0;
-const int num_outputs_pd_degradatino = 1;
-const int in_counts_pd_degradatino[] = {};
-const specie_id inputs_pd_degradatino[] = {};
-const int out_counts_pd_degradatino[] = {1};
-const specie_id outputs_pd_degradatino[] = {pd};
+const int num_inputs_pd_degradation = 0;
+const int num_outputs_pd_degradation = 1;
+const int in_counts_pd_degradation[] = {};
+const specie_id inputs_pd_degradation[] = {};
+const int out_counts_pd_degradation[] = {1};
+const specie_id outputs_pd_degradation[] = {pd};
 
 
 
