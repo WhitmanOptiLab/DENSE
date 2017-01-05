@@ -59,11 +59,16 @@ class simulation{
   const param_set& _parameter_set;
   const model& _model;
 
+  vector<int> baby_j;
+  vector<int> time_prev;
  public:
-  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m) { }
+  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m),baby_j(NUM_REACTIONS), time_prev(NUM_REACTIONS) { }
   void test_sim();
     void model();
-
+    void baby_to_cl(concentration& cl);
+    void copy_records(con_levels& cl, vector<int> time, vector<int> time_prev);
+    bool any_less_than_0(con_levels& cl, vector<int> time);
+    bool concentrations_too_high (con_levels& cl, vector<int> time, double max_con_thresh);
 };
 #endif
 
