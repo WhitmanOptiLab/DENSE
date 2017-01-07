@@ -58,17 +58,21 @@ class simulation{
 
   const param_set& _parameter_set;
   const model& _model;
-
-  vector<int> baby_j;
-  vector<int> time_prev;
+    Rates& _rates;
+    Concentration_level& _cl;
+    vector<Concentration_level>& _babyl_cl;
+    vector<Context>& _contexts;
+    vector<int>& _baby_j;
+    vector<int>& _time_prev;
  public:
-  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m),baby_j(NUM_REACTIONS), time_prev(NUM_REACTIONS) { }
+  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m),_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates() { }
   void test_sim();
     void model();
-    void baby_to_cl(concentration& cl);
-    void copy_records(con_levels& cl, vector<int> time, vector<int> time_prev);
-    bool any_less_than_0(con_levels& cl, vector<int> time);
-    bool concentrations_too_high (con_levels& cl, vector<int> time, double max_con_thresh);
+    void baby_to_cl(Concentration_level& _cl);
+    void copy_records(Concentration_level& _cl, vector<int>& time, vector<int> time_prev);
+    bool any_less_than_0(Concentration_level& baby_cl, vector<int>& time);
+    bool concentrations_too_high (con_levels& baby_cl, vector<int> time, double max_con_thresh);
+    void calculate_delay_indices(Concentration_level& baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]));
 };
 #endif
 

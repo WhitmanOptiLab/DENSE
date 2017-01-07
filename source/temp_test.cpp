@@ -19,7 +19,7 @@ int main(){
     
     //deltaC monomer
     reaction pd_synthesis= new reaction(psd,delay_pd,md,pd);
-    reaction pd_degradatino= new reaction(pdd,0,pd,pd);
+    reaction pd_degradation= new reaction(pdd,0,pd,pd);
     
     //mesp1 monomer
     reaction mespa_synthesis= new reaction(psm1,depay_pm1,mm1,pm1);

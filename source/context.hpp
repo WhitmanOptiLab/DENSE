@@ -9,8 +9,8 @@ template <class E>
 class Context {
   //FIXME - want to make this private at some point
  public:
-  std::vector<E> concentrations;
-  Context() : concentrations(NUM_SPECIES) { }
+  const simulation& _simulation;
+  Context(const const simulation& sim) : _simulation(sim) { }
 };
 
 #endif // CONTEXT_HPP

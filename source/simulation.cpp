@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+
+using namespace std;
 //declare reaction inits here
 #define REACTION(name) \
   template<> \
@@ -47,16 +49,18 @@ void simulation::model(){
         time_prev[i]= WRAP(baby_j[i]-1, rates.delay_size[i]);
     }
         //int time_prev = WRAP(baby_j - 1, sd.max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
-    copy_records(baby_cl, baby_j, time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
+    
+    //where to keep the birth and parent information
+    //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
         
         
-    // Iterate through each extant cell
-    for (int k = 0; k < cells_total; k++) {
+    // Iterate through each extant cell or context
+    for (int k = 0; k < sizeof(_contexts); k++) {
         if (width_current == width_total || k % width_total <= active_start) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
-            int old_cells_mrna[NUM_INDICES];
-            int old_cells_protein[NUM_INDICES];
-            calculate_delay_indices(sd, baby_cl, baby_j, j, k, rs.rates_active, old_cells_mrna, old_cells_protein);
+            int old_cells_mrna[NUM_SPECIES];
+            int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
+            calculate_delay_indices(_cl, _baby_j, j, k, _rates, old_cells_mrna, old_cells_protein);
                 
             // Perform biological calculations
             #define REACTION(name);
@@ -102,31 +106,44 @@ void simulation::baby_to_cl(concentration cl){
 
 }
 
-
-inline void simulation::copy_records (con_levels& cl, vector<int> time, vector<int> time_prev) {
+/*
+void simulation::copy_records (vector<Context> contexts, vector<int> time, vector<int> time_prev) {
     for (int k = 0; k < sd.cells_total; k++) {
         cl.cons[BIRTH][time][k] = cl.cons[BIRTH][time_prev][k];
         cl.cons[PARENT][time][k] = cl.cons[PARENT][time_prev][k];
     }
-}
+}*/
 
-
-inline bool simulation::any_less_than_0 (con_levels& cl, vector<int> time) {
-    for (int i = MIN_CON_LEVEL; i <= MAX_CON_LEVEL; i++) {
-        if (cl.cons[i][time][0] < 0) { // This checks only the first cell
+bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& time) {
+    for (int i = 0; i <= NUM_SPECIES; i++) {
+        if (baby_cl[i][time][0] < 0) { // This checks only the first cell
             return true;
         }
     }
     return false;
 }
 
-inline bool simulation::concentrations_too_high (con_levels& cl, vector<int> time, double max_con_thresh) {
+bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<int> time, double max_con_thresh) {
     if (max_con_thresh != INFINITY) {
-        for (int i = MIN_CON_LEVEL; i <= MAX_CON_LEVEL; i++) {
-            if (cl.cons[i][time][0] > max_con_thresh) { // This checks only the first cell
+        for (int i = 0; i <= NUM_SPECIES; i++) {
+            if (baby_cl[i][time][0] > max_con_thresh) { // This checks only the first cell
                 return true;
             }
         }
     }
     return false;
+}
+
+void simulation::calculate_delay_indices (Concentration_level& _baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
+    if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
+        for (int l = 0; l < NUM_INDICES; l++) {
+            old_cells_mrna[IMH1 + l] = cell_index;
+            old_cells_protein[IPH1 + l] = cell_index;
+        }
+    /*} else { // Cells in anterior simulations split so with long enough delays the cell must look to its parent for values, causing its effective index to change over time
+        for (int l = 0; l < NUM_INDICES; l++) {
+            old_cells_mrna[IMH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYMH1 + l][cell_index]);
+            old_cells_protein[IPH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYPH1 + l][cell_index]);
+        }
+    }*/
 }

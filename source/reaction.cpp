@@ -21,19 +21,21 @@ const specie_id inputs_ph1_degradation[] = {ph1};
 const int out_counts_ph1_degradation[] = {};
 const specie_id outputs_ph1_degradation[] = {};
 
+//dimer dissociation comsumes dimer and produces monomer
+//dimer association consumes monomer and produces dimer
 const int num_inputs_ph1_dissociation = 1;
 const int num_outputs_ph1_dissociation = 1;
 const int in_counts_ph1_dissociation[] = {1};
-const specie_id inputs_ph1_dissociation[] = {ph1};
+const specie_id inputs_ph1_dissociation[] = {ph11};
 const int out_counts_ph1_dissociation[] = {1};
-const specie_id outputs_ph1_dissociation[] = {ph11};
+const specie_id outputs_ph1_dissociation[] = {ph1};
 
-const int num_inputs_ph1_association = 0;
-const int num_outputs_ph1_association = 2;
-const int in_counts_ph1_association[] = {};
-const specie_id inputs_ph1_association[] = {};
-const int out_counts_ph1_association[] = {2};
-const specie_id outputs_ph1_association[] = {ph1,ph11};
+const int num_inputs_ph1_association = 1;
+const int num_outputs_ph1_association = 1;
+const int in_counts_ph1_association[] = {1};
+const specie_id inputs_ph1_association[] = {ph1};
+const int out_counts_ph1_association[] = {1};
+const specie_id outputs_ph1_association[] = {ph11};
 
 
 
@@ -67,48 +69,6 @@ const specie_id inputs_mepsa_degradation[] = {pm1};
 const int out_counts_mepsa_degradation[] = {};
 const specie_id outputs_mepsa_degradation[] = {};
 
-const int num_inputs_mespa_dissociation = 1;
-const int num_outputs_mespa_dissociation = 1;
-const int in_counts_mespa_dissociation[] = {1};
-const specie_id inputs_mespa_dissociation[] = {pm1};
-const int out_counts_mespa_dissociation[] = {1};
-const specie_id outputs_mespa_dissociation[] = {pm11};
-
-const int num_inputs_mespa_dissociation2 = 1;
-const int num_outputs_mespa_dissociation2 = 1;
-const int in_counts_mespa_dissociation2[] = {1};
-const specie_id inputs_mespa_dissociation2[] = {pm1,};
-const int out_counts_mespa_dissociation2[] = {1};
-const specie_id outputs_mespa_dissociation2[] = {pm12};
-
-const int num_inputs_mespa_dissociation3 = 1;
-const int num_outputs_mespa_dissociation3 = 1;
-const int in_counts_mespa_dissociation3[] = {1};
-const specie_id inputs_mespa_dissociation3[] = {pm1};
-const int out_counts_mespa_dissociation3[] = {1};
-const specie_id outputs_mespa_dissociation3[] = {pm22};
-
-const int num_inputs_mespa_association = 0;
-const int num_outputs_mespa_association = 2;
-const int in_counts_mespa_association[] = {};
-const specie_id inputs_mespa_association[] = {};
-const int out_counts_mespa_association[] = {2};
-const specie_id outputs_mespa_association[] = {pm1,pm11};
-
-const int num_inputs_mespa_association2 = 0;
-const int num_outputs_mespa_association2 = 2;
-const int in_counts_mespa_association2[] = {};
-const specie_id inputs_mespa_association2[] = {};
-const int out_counts_mespa_association2[] = {2};
-const specie_id outputs_mespa_association2[] = {pm1,pm12};
-
-const int num_inputs_mespa_association3 = 0;
-const int num_outputs_mespa_association3 = 2;
-const int in_counts_mespa_association3[] = {};
-const specie_id inputs_mespa_association3[] = {};
-const int out_counts_mespa_association3[] = {2};
-const specie_id outputs_mespa_association3[] = {pm1,pm22};
-
 
 
 const int num_inputs_mespb_synthesis = 0;
@@ -124,27 +84,27 @@ const int in_counts_mepsb_degradation[] = {1};
 const specie_id inputs_mepsb_degradation[] = {pm2};
 const int out_counts_mepsb_degradation[] = {};
 const specie_id outputs_mepsb_degradation[] = {};
-
+/*
 const int num_inputs_mespb_dissociation = 1;
 const int num_outputs_mespb_dissociation = 1;
 const int in_counts_mespb_dissociation[] = {1};
-const specie_id inputs_mespb_dissociation[] = {pm2};
+const specie_id inputs_mespb_dissociation[] = {pm11};
 const int out_counts_mespb_dissociation[] = {1};
-const specie_id outputs_mespb_dissociation[] = {pm11};
+const specie_id outputs_mespb_dissociation[] = {pm2};
 
 const int num_inputs_mespb_dissociation2 = 1;
 const int num_outputs_mespb_dissociation2 = 1;
 const int in_counts_mespb_dissociation2[] = {1};
-const specie_id inputs_mespb_dissociation2[] = {pm2};
+const specie_id inputs_mespb_dissociation2[] = {pm11};
 const int out_counts_mespb_dissociation2[] = {1};
-const specie_id outputs_mespb_dissociation2[] = {pm12};
+const specie_id outputs_mespb_dissociation2[] = {pm2};
 
 const int num_inputs_mespb_dissociation3 = 1;
 const int num_outputs_mespb_dissociation3 = 1;
 const int in_counts_mespb_dissociation3[] = {1};
-const specie_id inputs_mespb_dissociation3[] = {pm2};
+const specie_id inputs_mespb_dissociation3[] = {pm11};
 const int out_counts_mespb_dissociation3[] = {1};
-const specie_id outputs_mespb_dissociation3[] = {pm22};
+const specie_id outputs_mespb_dissociation3[] = {pm2};
 
 const int num_inputs_mespb_association = 0;
 const int num_outputs_mespb_association = 2;
@@ -166,7 +126,7 @@ const int in_counts_mespb_association3[] = {};
 const specie_id inputs_mespb_association3[] = {};
 const int out_counts_mespb_association3[] = {2};
 const specie_id outputs_mespb_association3[] = {pm2,pm22};
-
+*/
 
 
 const int num_inputs_ph11_degradation = 1;
@@ -259,3 +219,44 @@ const int out_counts_mm2_degradation[] = {};
 const specie_id outputs_mm2_degradation[] = {};
 
 
+const int num_inputs_pm11_dissociation = 1;
+const int num_outputs_pm11_dissociation = 1;
+const int in_counts_pm11_dissociation[] = {1};
+const specie_id inputs_pm11_dissociation[] = {pm11};
+const int out_counts_pm11_dissociation[] = {1};
+const specie_id outputs_pm11_dissociation[] = {pm1};
+
+const int num_inputs_pm12_dissociation = 1;
+const int num_outputs_pm12_dissociation = 2;
+const int in_counts_pm12_dissociation[] = {1};
+const specie_id inputs_pm12_dissociation[] = {pm12};
+const int out_counts_pm12_dissociation[] = {2};
+const specie_id outputs_pm12_dissociation[] = {pm1,pm2};
+
+const int num_inputs_pm22_dissociation = 1;
+const int num_outputs_pm22_dissociation = 1;
+const int in_counts_pm22_dissociation[] = {1};
+const specie_id inputs_pm22_dissociation[] = {pm22};
+const int out_counts_pm22_dissociation[] = {1};
+const specie_id outputs_pm22_dissociation[] = {pm2};
+
+const int num_inputs_pm11_association = 1;
+const int num_outputs_pm11_association = 1;
+const int in_counts_pm11_association[] = {1};
+const specie_id inputs_pm11_association[] = {pm1};
+const int out_counts_pm11_association[] = {1};
+const specie_id outputs_pm11_association[] = {pm11};
+
+const int num_inputs_pm12_association = 2;
+const int num_outputs_pm12_association = 1;
+const int in_counts_pm12_association[] = {2};
+const specie_id inputs_pm12_association[] = {pm1,pm2};
+const int out_counts_pm12_association[] = {1};
+const specie_id outputs_pm12_association[] = {pm12};
+
+const int num_inputs_pm22_association = 1;
+const int num_outputs_pm22_association = 1;
+const int in_counts_pm22_association[] = {1};
+const specie_id inputs_pm22_association[] = {pm2};
+const int out_counts_pm22_association[] = {1};
+const specie_id outputs_pm22_association[] = {pm22};
