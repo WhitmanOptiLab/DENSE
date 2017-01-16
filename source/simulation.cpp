@@ -33,19 +33,19 @@ void simulation::test_sim() {
 
 void simulation::model(){
     //concentration cl;
-    Rates rates;
+    //Rates rates;
     int steps_elapsed = steps_split; // Used to determine when to split a column of cells
     //update_rates(rs, active_start); // Update the active rates based on the base rates, perturbations, and gradients
     
     //Context<double> contexts[]= {};
     //int j;
-    //int baby_j;
+    //vector<int> baby_j;
     //bool past_induction = false; // Whether we've passed the point of induction of knockouts or overexpression
     //bool past_recovery = false; // Whether we've recovered from the knockouts or overexpression
     //for (j = time_start; j < time_end; j++) {
         
         
-    for (int i=0; i< sizeof(baby_j);i++){
+    for (int i=0; i< NUM_SPECIES;i++){
         time_prev[i]= WRAP(baby_j[i]-1, rates.delay_size[i]);
     }
         //int time_prev = WRAP(baby_j - 1, sd.max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
@@ -80,13 +80,13 @@ void simulation::model(){
     
     // Copy from the simulating cl to the analysis cl
     if (j % big_gran == 0) {
-        baby_to_cl(baby_cl, cl, baby_j, j / big_gran);
+        baby_to_cl(_baby_cl, _cl, _baby_j, _j / big_gran);
     }
         
     //}
     
     // Copy the last time step from the simulating cl to the analysis cl and mark where the simulating cl left off time-wise
-    baby_to_cl(cl,);
+    baby_to_cl(_baby_cl,_cl,_j,_baby_j);
     //sd.time_baby = baby_j;
     //return true;
 
@@ -94,9 +94,10 @@ void simulation::model(){
 
 
 
-void simulation::baby_to_cl(concentration cl){
-    for (int i = 0; i < cl.num_con_levels; i++) {
-        for (int k = 0; k < cl.cells; k++) {
+void simulation::baby_to_cl(concentration _baby_cl, concentration_level& _cl, int time, vector<int>& baby_times){
+    for (int i = 0; i <= NUM_SPECIES; i++) {
+        int baby_time = baby_times[i];
+        for (int k = 0; k < cells_total; k++) {
             cl.cons[i][time][k] = baby_cl.cons[i][baby_time][k];
         }
     }
@@ -114,8 +115,9 @@ void simulation::copy_records (vector<Context> contexts, vector<int> time, vecto
     }
 }*/
 
-bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& time) {
+bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
+        int time = times[i];
         if (baby_cl[i][time][0] < 0) { // This checks only the first cell
             return true;
         }
@@ -123,9 +125,10 @@ bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& tim
     return false;
 }
 
-bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<int> time, double max_con_thresh) {
+bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<int>& times, double max_con_thresh) {
     if (max_con_thresh != INFINITY) {
         for (int i = 0; i <= NUM_SPECIES; i++) {
+            int time = times[i];
             if (baby_cl[i][time][0] > max_con_thresh) { // This checks only the first cell
                 return true;
             }
@@ -136,9 +139,9 @@ bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<i
 
 void simulation::calculate_delay_indices (Concentration_level& _baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
     if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
-        for (int l = 0; l < NUM_INDICES; l++) {
-            old_cells_mrna[IMH1 + l] = cell_index;
-            old_cells_protein[IPH1 + l] = cell_index;
+        for (int l = 0; l < NUM_SPECIES; l++) {
+            old_cells_mrna[l] = cell_index;
+            old_cells_protein[l] = cell_index;
         }
     /*} else { // Cells in anterior simulations split so with long enough delays the cell must look to its parent for values, causing its effective index to change over time
         for (int l = 0; l < NUM_INDICES; l++) {
@@ -146,4 +149,12 @@ void simulation::calculate_delay_indices (Concentration_level& _baby_cl, vector<
             old_cells_protein[IPH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYPH1 + l][cell_index]);
         }
     }*/
+}
+    
+void simulation::initialize(){
+    _j=0;
+    _baby_j(NUM_SPECIES,0);
+    _time_prev(NUM_SPECIES,0);
+    _baby_cl.initialize(NUM_SPECIES, 0,cells_total,1);
+    _cl.initialize(5,0,cells_total,0);
 }
