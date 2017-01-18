@@ -65,6 +65,8 @@ class simulation{
     vector<int>& _baby_j;
     vector<int>& _time_prev;
     int _j;
+    int** _neighbors;
+    double** _sets;
  public:
   simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m)
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
@@ -77,6 +79,7 @@ class simulation{
     bool concentrations_too_high (con_levels& baby_cl, vector<int> time, double max_con_thresh);
     void calculate_delay_indices(Concentration_level& baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]));
     void initialize();
+    void calc_neighbor_2d();
 };
 #endif
 

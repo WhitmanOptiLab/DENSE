@@ -48,7 +48,7 @@ void simulation::model(){
     for (int i=0; i< NUM_SPECIES;i++){
         time_prev[i]= WRAP(baby_j[i]-1, rates.delay_size[i]);
     }
-        //int time_prev = WRAP(baby_j - 1, sd.max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
+        //int time_prev = WRAP(baby_j - 1, max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
@@ -75,8 +75,8 @@ void simulation::model(){
     
     // Update the active record data and split counter
     steps_elapsed++;
-    //baby_cl.active_start_record[baby_j] = sd.active_start;
-    //baby_cl.active_end_record[baby_j] = sd.active_end;
+    //baby_cl.active_start_record[baby_j] = active_start;
+    //baby_cl.active_end_record[baby_j] = active_end;
     
     // Copy from the simulating cl to the analysis cl
     if (j % big_gran == 0) {
@@ -87,7 +87,7 @@ void simulation::model(){
     
     // Copy the last time step from the simulating cl to the analysis cl and mark where the simulating cl left off time-wise
     baby_to_cl(_baby_cl,_cl,_j,_baby_j);
-    //sd.time_baby = baby_j;
+    //time_baby = baby_j;
     //return true;
 
 }
@@ -109,7 +109,7 @@ void simulation::baby_to_cl(concentration _baby_cl, concentration_level& _cl, in
 
 /*
 void simulation::copy_records (vector<Context> contexts, vector<int> time, vector<int> time_prev) {
-    for (int k = 0; k < sd.cells_total; k++) {
+    for (int k = 0; k < cells_total; k++) {
         cl.cons[BIRTH][time][k] = cl.cons[BIRTH][time_prev][k];
         cl.cons[PARENT][time][k] = cl.cons[PARENT][time_prev][k];
     }
@@ -157,4 +157,35 @@ void simulation::initialize(){
     _time_prev(NUM_SPECIES,0);
     _baby_cl.initialize(NUM_SPECIES, 0,cells_total,1);
     _cl.initialize(5,0,cells_total,0);
+}
+    
+    
+void simulation::calc_neighbor_2d(){
+    for (int i = 0; i < cells_total; i++) {
+        if (i % 2 == 0) {																		// All even column cells
+            _neighbors[i][0] = (i - width_total + cells_total) % cells_total;			// Top
+            _neighbors[i][1] = (i - width_total + 1 + cells_total) % cells_total;		// Top-right
+            _neighbors[i][2] = (i + 1) % cells_total;											// Bottom-right
+            _neighbors[i][3] = (i + width_total) % cells_total;								// Bottom
+            if (i % width_total == 0) {														// Left edge
+                _neighbors[i][4] = i + width_total - 1;										// Bottom-left
+                _neighbors[i][5] = (i - 1 + cells_total) % cells_total;						// Top-left
+            } else {																			// Not a left edge
+                _neighbors[i][4] = i - 1;															// Bottom-left
+                _neighbors[i][5] = (i - width_total - 1 + cells_total) % cells_total;	// Top-left
+            }
+        } else {																				// All odd column cells
+            _neighbors[i][0] = (i - width_total + cells_total) % cells_total;			// Top
+            if (i % width_total == width_total - 1) {											// Right edge
+                _neighbors[i][1] = i - width_total + 1;										// Top-right
+                _neighbors[i][2] = (i + 1) % cells_total;										// Bottom-right
+            } else {																			// Not a right edge
+                _neighbors[i][1] = i + 1;															// Top-right
+                _neighbors[i][2] = (i + width_total + 1 + cells_total) % cells_total;	// Nottom-right
+            }																					// All odd column cells
+            _neighbors[i][3] = (i + width_total) % cells_total;								// Bottom
+            _neighbors[i][4] = (i + width_total - 1) % cells_total;							// Bottom-left
+            _neighbors[i][5] = (i - 1 + cells_total) % cells_total;							// Top-left
+        }
+    }
 }
