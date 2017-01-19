@@ -2,7 +2,7 @@
 #define REACTION_HPP
 #include <vector>
 
-#include "reactions_list.hpp"
+//#include "reactions_list.hpp"
 #include "specie.hpp"
 #include "context.hpp"
 
@@ -11,9 +11,18 @@ using namespace std;
 
 enum reaction_id {
 #define REACTION(name) name, 
-LIST_OF_REACTIONS
+#include "reaction_list.hpp"
 #undef REACTION
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
+};
+
+enum delay_reaction_id {
+#define REACTION(name)
+#define DELAY_REACTION(name) dreact_##name,
+#include "reactions_list.hpp"
+#undef DELAY_REACTION
+#undef REACTION
+  NUM_DD_INDICES
 };
 
 typedef std::pair<int, int> ReactionTerm;

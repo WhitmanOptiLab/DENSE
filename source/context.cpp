@@ -10,30 +10,27 @@
 
 using namespace std;
 
-void context::calculateNeighbourAvg(specie sp, double[] old_cells_mrna, concentration_level& cl){
+double context::calculateNeighbourAvg(specie sp, int time){
+    int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     int neighbors[NUM_DD_INDICES][NEIGHBORS_2D];
-    for (int j = 0; j < NUM_DD_INDICES; j++) {
-        // 2D neighbors are precalculated and simply copied from the structure as needed
-        int cell = old_cells_mrna[IMH1 + j];
-        memcpy(neighbors[IMH1 + j], _simulation.neighbors[cell], sizeof(int) * NEIGHBORS_2D);
-    }
+ 
+    memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
+    delay = rs[sp.index][_cell] / _simulation.step_size;
     
     // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
-    for (int j = 0; j < NUM_DD_INDICES; j++) {
-        int* cells = neighbors[IMH1 + j];
-        int cell = old_cells_mrna[IMH1 + j];
-        int time = WRAP(stc.time_cur - delays[j], _simulation.max_delay_size);
-        concentration_level<double>::cell cur_cons = cl[CPDELTA][time];
-        double sum=0;
-        if (cell % _simulation.width_total == cl.active_start_record[time]) {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
-        } else if (cell % _simulation.width_total == cl.active_start_record[time]) {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
-        } else {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
-        }
-        avg_delays[IMH1 + j] = sum;
+    int* cells = neighbors[sp.index];
+    //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
+    concentration_level<double>::cell cur_cons = cl[CPDELTA][time];
+    double sum=0;
+    if (_cell % _simulation.width_total == _simulation.active_start_record[time]) {
+        sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
+    } else if (_cell % _simulation.width_total == _simulation.active_start_record[time]) {
+        sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
+    } else {
+        sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
     }
+
+    return sum;
 }
 
 double[] calculateRates(){

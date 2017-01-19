@@ -63,10 +63,13 @@ class simulation{
     Concentration_level& _babyl_cl;
     vector<Context>& _contexts;
     vector<int>& _baby_j;
+    vector<int>& _delay_size;
     vector<int>& _time_prev;
     int _j;
     int** _neighbors;
     double** _sets;
+    int NEIGHBORS_2D;
+    
  public:
   simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m)
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
