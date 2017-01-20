@@ -66,7 +66,7 @@ class simulation{
     vector<int>& _delay_size;
     vector<int>& _time_prev;
     int _j;
-    int** _neighbors;
+    int* _neighbors;
     double** _sets;
     int NEIGHBORS_2D;
     

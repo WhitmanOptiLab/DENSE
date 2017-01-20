@@ -41,9 +41,9 @@
   REACTION(pm22_association)
   REACTION(pm12_association)
   REACTION(pm11_association)
-  REACTION(pm11_dessociation)
-  REACTION(pm12_dessociation)
-  REACTION(pm22_dessociation)
+  REACTION(pm11_dissociation)
+  REACTION(pm12_dissociation)
+  REACTION(pm22_dissociation)
 #endif
 
 /*

@@ -14,11 +14,11 @@ double context::calculateNeighbourAvg(specie sp, int time){
     int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     int neighbors[NUM_DD_INDICES][NEIGHBORS_2D];
  
-    memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
+    //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     delay = rs[sp.index][_cell] / _simulation.step_size;
     
     // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
-    int* cells = neighbors[sp.index];
+    int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     concentration_level<double>::cell cur_cons = cl[CPDELTA][time];
     double sum=0;
