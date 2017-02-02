@@ -34,7 +34,29 @@ double context::calculateNeighbourAvg(specie sp, int time){
 }
 
 double[] calculateRates(){
+    //Step 1: for each reaction, compute reaction rate
+    E reaction_rates[NUM_REACTIONS];
+    #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(c);
+        #include "reaction_list.hpp"
+    #undef REACTION
     
+    //Step 2: allocate specie concentration rate change array
+    std::array<E, NUM_SPECIES> specie_deltas;
+    for (int i = 0; i < NUM_SPECIES; i++) specie_deltas[i] = 0.0;
+    
+    //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
+    
+    #define REACTION(name) \
+    for (int j = 0; j < _model.reaction_##name.num_inputs; j++) { \
+        specie_deltas[name.inputs[j]] -= reaction_rates[name]*_model.reaction_##name.in_counts[j]; \
+    } \
+    for (int j = 0; j < _model.reaction_##name.num_outputs; j++) { \
+        specie_deltas[name.outputs[j]] += reaction_rates[name]*_model.reaction_##name.out_counts[j]; \
+    }
+    #include "reaction_list.hpp"
+    #undef REACTION(name)
+    
+    return specie_deltas;
 }
 
 void context::updateCon(double[] rates){

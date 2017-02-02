@@ -11,7 +11,7 @@ using namespace std;
 
 enum reaction_id {
 #define REACTION(name) name, 
-#include "reaction_list.hpp"
+#include "reactions_list.hpp"
 #undef REACTION
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
 };

@@ -25,7 +25,7 @@ private:
   public:
     //array2D<double>  factors_gradient;
 #define REACTION(name) reaction<name> reaction_##name;
-    #include "reaction_list.hpp"
+    #include "reactions_list.hpp"
 #undef REACTION
     
     
