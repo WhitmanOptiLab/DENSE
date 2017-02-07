@@ -11,6 +11,7 @@
 
 #ifndef DELAY_REACTION
 #define DELAY_REACTION REACTION
+#define UNDO_DELAY_REACTION_DEF
 
 /*
  
@@ -22,30 +23,33 @@
   REACTION(ph1_association)
   REACTION(pd_synthesis)
   REACTION(pd_degradation)
-  REACTION(mespa_synthesis)
-  REACTION(mepsa_degradation)
-  REACTION(mespb_synthesis)
-  REACTION(mepsb_degradation)
+  REACTION(pma_synthesis)
+  REACTION(pma_degradation)
+  REACTION(pmb_synthesis)
+  REACTION(pmb_degradation)
   REACTION(ph11_degradation)
-  REACTION(pm11_degradation)
-  REACTION(pm12_degradation)
-  REACTION(pm22_degradation)
+  REACTION(pmaa_degradation)
+  REACTION(pmab_degradation)
+  REACTION(pmbb_degradation)
   REACTION(mh1_synthesis)
   REACTION(mh1_degradation)
   REACTION(md_synthesis)
   REACTION(md_degradation)
-  REACTION(mm1_synthesis)
-  REACTION(mm1_degradation)
-  REACTION(mm2_synthesis)
-  REACTION(mm2_degradation)
-  REACTION(pm22_association)
-  REACTION(pm12_association)
-  REACTION(pm11_association)
-  REACTION(pm11_dissociation)
-  REACTION(pm12_dissociation)
-  REACTION(pm22_dissociation)
+  REACTION(mma_synthesis)
+  REACTION(mma_degradation)
+  REACTION(mmb_synthesis)
+  REACTION(mmb_degradation)
+  REACTION(pmbb_association)
+  REACTION(pmab_association)
+  REACTION(pmaa_association)
+  REACTION(pmaa_dissociation)
+  REACTION(pmab_dissociation)
+  REACTION(pmbb_dissociation)
 #endif
-
+#ifdef UNDO_DELAY_REACTION_DEF
+#undef DELAY_REACTION 
+#undef UNDO_DELAY_REACTION_DEF
+#endif
 /*
  REACTION(mespa_dissociation)
  REACTION(mespa_dissociation2)

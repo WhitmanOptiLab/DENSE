@@ -1,7 +1,7 @@
 
 #include "simulation.hpp"
 #include "rates.hpp"
-#include "contexts.hpp"
+#include "context.hpp"
 #include "model_impl.hpp"
 
 #include <iostream>
@@ -15,7 +15,7 @@ using namespace std;
     num_inputs(num_inputs_##name), num_outputs(num_outputs_##name), \
     in_counts(in_counts_##name), inputs(inputs_##name), \
     out_counts(out_counts_##name), outputs(outputs_##name) {}
-LIST_OF_REACTIONS
+#include "reactions_list.hpp"
 #undef REACTION
 
 //A quick test case to make sure all reaction rates are defined by link time
@@ -24,7 +24,7 @@ void simulation::test_sim() {
 
   double sum_rates = 0.0;
 #define REACTION(name) sum_rates += _model.reaction_##name.active_rate(c);
-  LIST_OF_REACTIONS
+#include "reactions_list.hpp"
 #undef REACTION
   std::cout << "If you're seeing this, simulation.cpp compiles correctly:" 
             << sum_rates << std::endl;
@@ -46,7 +46,7 @@ void simulation::model(){
         
         
     for (int i=0; i< NUM_SPECIES;i++){
-        time_prev[i]= WRAP(baby_j[i]-1, rates.delay_size[i]);
+        _time_prev[i]= WRAP(_baby_j[i]-1, rates.delay_size[i]);
     }
         //int time_prev = WRAP(baby_j - 1, max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
     
@@ -64,7 +64,7 @@ void simulation::model(){
                 
             // Perform biological calculations
             #define REACTION(name);
-                LIST_OF_REACTIONS
+            #include "reactions_list.hpp"
             #undef REACTION
         }
     }

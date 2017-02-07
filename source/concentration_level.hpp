@@ -1,11 +1,11 @@
 #ifndef CONCENTRATION_LEVEL_HPP
 #define CONCENTRATION_LEVEL_HPP
 #include "specie.hpp"
-#include "simulation.hpp"
 #include "model.hpp"
 using namespace std;
 
-template <class T>
+class simulation;
+
 class Concentration_level {
     //FIXME - want to make this private at some point
 public:
@@ -13,26 +13,26 @@ public:
     const model& _model;
     int   _height,_length, _width;
     bool _cuda;
-    T *_array;
-    T *_darray;
+    RATETYPE *_array;
+    RATETYPE *_darray;
     
     
     class cell{
     public:
-        cell(T *row): _array(row) {}
-        T& operator[](int k){
+        cell(RATETYPE *row): _array(row) {}
+        RATETYPE& operator[](int k){
             return _array[k];
         }
-        const T& operator[](int k) const {
+        const RATETYPE& operator[](int k) const {
             return _array[k];
         }
-        T *_array;
+        RATETYPE *_array;
     };
     
     
     class timespan{
     public:
-        timespan(T *plane,int width): _array(plane), _width(width) {};
+        timespan(RATETYPE *plane,int width): _array(plane), _width(width) {};
         cell operator[](int j) {
             cell temp(_array+_width*j);
             return temp;
@@ -42,22 +42,22 @@ public:
             cell temp(_array+_width*j);
             return temp;
         }
-        T *_array;
+        RATETYPE *_array;
         int _width;
     };
     
-    concentration_level(simulation& sim)
-    :_height(NUM_SPECIES),_length(length),_width(sim.cells_total),_cuda(false),_simulation(sim){
+    Concentration_level(simulation& sim)
+    :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim),_model(sim._model){
         allocate_array();
     }
     
-    concentration_level(int helight, int length, int width, simulation& sim)
-    :_height(height),_length(length),_width(width),_cuda(false),_simulation(sim){
+    Concentration_level(int helight, int length, int width, simulation& sim)
+    :_height(),_length(),_width(),_cuda(false),_sim(sim),_model(sim._model){
         allocate_array();
     }
 /*
 #if 0
-    concentration_level(const concentration_level<T>& other)
+    concentration_level(const concentration_level& other)
     :_height(other._height),_length(other._length),_width(other._width),_cuda(other._cuda){
         allocate_array();
         for (int he=0; he< _height; he++){
@@ -84,16 +84,7 @@ public:
     
     
     
-    double calc_delay(int[] relatedReactions){
-        double max;
-        for (int j = 0; j <= sizeof(relatedReactions); j++) {
-            for (int k = 0; k < _sim.width_total; k++) {
-                // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
-                max = MAX(max, (_sim.sets[i][j] + (_sim.sets[i][j] * _model.factors_perturb[j])) * _model.factors_gradient[j][k]);
-            }
-        }
-        return max;
-    }
+    double calc_delay(int relatedReactions[]){}
     
     void createArrary(){
         
@@ -164,8 +155,8 @@ protected:
     
     void allocate_array(){
         if (_width*_length*_height >0){
-            _array= new T[_height*_length*_width];
-            if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
+            _array= new RATETYPE[_height*_length*_width];
+            //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
         else{
             _array= NULL;

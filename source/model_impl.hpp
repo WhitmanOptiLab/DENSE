@@ -69,55 +69,56 @@ double reaction<pd_degradation>::active_rate(const Context<double>& c) const {
 }
 
 template<>
-double reaction<mespa_synthesis>::active_rate(const Context<double>& c) const {
+double reaction<pma_synthesis>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mepsa_degradation>::active_rate(const Context<double>& c) const {
+double reaction<pma_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_dissociation>::active_rate(const Context<double>& c) const {
+double reaction<pmbb_association>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_dissociation2>::active_rate(const Context<double>& c) const {
+double reaction<pmaa_association>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_dissociation3>::active_rate(const Context<double>& c) const {
+double reaction<pmab_association>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_association>::active_rate(const Context<double>& c) const {
+double reaction<pmaa_dissociation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_association2>::active_rate(const Context<double>& c) const {
+double reaction<pmab_dissociation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespa_association3>::active_rate(const Context<double>& c) const {
+double reaction<pmbb_dissociation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mespb_synthesis>::active_rate(const Context<double>& c) const {
+double reaction<pmb_synthesis>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mepsb_degradation>::active_rate(const Context<double>& c) const {
+double reaction<pmb_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
+/*
 template<>
 double reaction<mespb_dissociation>::active_rate(const Context<double>& c) const {
     return 6.0;
@@ -147,24 +148,24 @@ template<>
 double reaction<mespb_association3>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
-
+*/
 template<>
 double reaction<ph11_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<pm11_degradation>::active_rate(const Context<double>& c) const {
+double reaction<pmaa_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<pm12_degradation>::active_rate(const Context<double>& c) const {
+double reaction<pmab_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<pm22_degradation>::active_rate(const Context<double>& c) const {
+double reaction<pmbb_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
@@ -189,22 +190,22 @@ double reaction<md_degradation>::active_rate(const Context<double>& c) const {
 }
 
 template<>
-double reaction<mm1_synthesis>::active_rate(const Context<double>& c) const {
+double reaction<mma_synthesis>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mm1_degradation>::active_rate(const Context<double>& c) const {
+double reaction<mma_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mm2_synthesis>::active_rate(const Context<double>& c) const {
+double reaction<mmb_synthesis>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 
 template<>
-double reaction<mm2_degradation>::active_rate(const Context<double>& c) const {
+double reaction<mmb_degradation>::active_rate(const Context<double>& c) const {
     return 6.0;
 }
 

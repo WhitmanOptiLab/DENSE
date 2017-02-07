@@ -169,7 +169,7 @@ const specie_id outputs_mh1_synthesis[] = {mh1};
 const int num_inputs_mh1_degradation = 1;
 const int num_outputs_mh1_degradation = 0;
 const int in_counts_mh1_degradation[] = {1};
-const specie_id inputs_mh1_degradation[] = {mh11};
+const specie_id inputs_mh1_degradation[] = {mh1};
 const int out_counts_mh1_degradation[] = {};
 const specie_id outputs_mh1_degradation[] = {};
 

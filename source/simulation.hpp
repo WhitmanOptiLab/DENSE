@@ -3,8 +3,8 @@
 
 #include "param_set.hpp"
 #include "model.hpp"
-
-
+#include "rates.hpp"
+#include "concentration_level.hpp"
 using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
@@ -12,6 +12,7 @@ using namespace std;
  There should be only one instance of simulation at any time.
 	todo:
  */
+
 
 class simulation{
     
@@ -58,29 +59,29 @@ class simulation{
 
   const param_set& _parameter_set;
   const model& _model;
-    Rates& _rates;
-    Concentration_level& _cl;
-    Concentration_level& _babyl_cl;
-    vector<Context>& _contexts;
-    vector<int>& _baby_j;
-    vector<int>& _delay_size;
-    vector<int>& _time_prev;
+    Rates _rates;
+    Concentration_level _cl;
+    Concentration_level _babyl_cl;
+    //Context<double> _contexts;
+    int* _baby_j;
+    int* _delay_size;
+    int* _time_prev;
     int _j;
     int* _neighbors;
     double** _sets;
     int NEIGHBORS_2D;
     
  public:
-  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m)
+  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _babyl_cl(*this)
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
-    { }
+    {}
   void test_sim();
     void model();
     void baby_to_cl(Concentration_level& _cl);
     void copy_records(Concentration_level& _cl, vector<int>& time, vector<int> time_prev);
     bool any_less_than_0(Concentration_level& baby_cl, vector<int>& time);
-    bool concentrations_too_high (con_levels& baby_cl, vector<int> time, double max_con_thresh);
-    void calculate_delay_indices(Concentration_level& baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]));
+    bool concentrations_too_high (Concentration_level& baby_cl, vector<int> time, double max_con_thresh);
+    void calculate_delay_indices(Concentration_level& baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
     void initialize();
     void calc_neighbor_2d();
 };

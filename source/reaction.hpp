@@ -2,12 +2,12 @@
 #define REACTION_HPP
 #include <vector>
 
-//#include "reactions_list.hpp"
 #include "specie.hpp"
-#include "context.hpp"
+//#include "context.hpp"
 
 using namespace std;
-
+typedef float RATETYPE;
+class Context;
 
 enum reaction_id {
 #define REACTION(name) name, 
@@ -27,6 +27,7 @@ enum delay_reaction_id {
 
 typedef std::pair<int, int> ReactionTerm;
 
+
 template<class RATETYPE, class IMPL>
 class reaction_base{
  public:
@@ -40,7 +41,7 @@ template<reaction_id RID>
 class reaction : public reaction_base<double, reaction<RID> > {
  public:
   reaction();
-  double active_rate(const Context<double>& c) const;
+  RATETYPE active_rate(const Context<double>& c) const;
  protected:
   int num_inputs, num_outputs;
   const int* in_counts;
@@ -60,7 +61,7 @@ extern const specie_id inputs_##name[]; \
 extern const int out_counts_##name[]; \
 extern const specie_id outputs_##name[];
 
-LIST_OF_REACTIONS
+#include "reactions_list.hpp"
 #undef REACTION
 
 #endif
