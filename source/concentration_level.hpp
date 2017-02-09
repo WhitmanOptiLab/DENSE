@@ -10,7 +10,7 @@ class Concentration_level {
     //FIXME - want to make this private at some point
 public:
     const simulation& _sim;
-    const model& _model;
+    //const model& _model;
     int   _height,_length, _width;
     bool _cuda;
     RATETYPE *_array;
@@ -47,12 +47,12 @@ public:
     };
     
     Concentration_level(simulation& sim)
-    :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim),_model(sim._model){
+    :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim){
         allocate_array();
     }
     
     Concentration_level(int helight, int length, int width, simulation& sim)
-    :_height(),_length(),_width(),_cuda(false),_sim(sim),_model(sim._model){
+    :_height(),_length(),_width(),_cuda(false),_sim(sim){
         allocate_array();
     }
 /*
@@ -84,7 +84,7 @@ public:
     
     
     
-    double calc_delay(int relatedReactions[]){}
+    RATETYPE calc_delay(int relatedReactions[]);
     
     void createArrary(){
         

@@ -20,7 +20,7 @@ using namespace std;
 
 //A quick test case to make sure all reaction rates are defined by link time
 void simulation::test_sim() {
-  Context<double> c;
+  Context c(*this, cells_total);
 
   double sum_rates = 0.0;
 #define REACTION(name) sum_rates += _model.reaction_##name.active_rate(c);
@@ -46,7 +46,7 @@ void simulation::model(){
         
         
     for (int i=0; i< NUM_SPECIES;i++){
-        _time_prev[i]= WRAP(_baby_j[i]-1, rates.delay_size[i]);
+        _time_prev[i]= WRAP(_baby_j[i]-1, _rates._delay_size[i]);
     }
         //int time_prev = WRAP(baby_j - 1, max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
     
@@ -55,12 +55,12 @@ void simulation::model(){
         
         
     // Iterate through each extant cell or context
-    for (int k = 0; k < sizeof(_contexts); k++) {
+    for (int k = 0; k < cells_total; k++) {
         if (width_current == width_total || k % width_total <= active_start) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
-            calculate_delay_indices(_cl, _baby_j, j, k, _rates, old_cells_mrna, old_cells_protein);
+            calculate_delay_indices(_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
                 
             // Perform biological calculations
             #define REACTION(name);
@@ -69,8 +69,10 @@ void simulation::model(){
         }
     }
     // Check to make sure the numbers are still valid
-    if (any_less_than_0(baby_cl, baby_j) || concentrations_too_high(baby_cl, baby_j, max_con_thresh)) {
-        return false;
+    if (any_less_than_0(_baby_cl, _baby_j) || concentrations_too_high(_baby_cl, _baby_j, max_con_thresh)) {
+        //return false;
+        //printf "Concentration too high or below zero. Exiting."
+        exit(0);
     }
     
     // Update the active record data and split counter
@@ -79,8 +81,8 @@ void simulation::model(){
     //baby_cl.active_end_record[baby_j] = active_end;
     
     // Copy from the simulating cl to the analysis cl
-    if (j % big_gran == 0) {
-        baby_to_cl(_baby_cl, _cl, _baby_j, _j / big_gran);
+    if (_j % big_gran == 0) {
+        baby_to_cl(_baby_cl, _cl,  _j / big_gran, _baby_j);
     }
         
     //}
@@ -94,15 +96,16 @@ void simulation::model(){
 
 
 
-void simulation::baby_to_cl(concentration _baby_cl, concentration_level& _cl, int time, vector<int>& baby_times){
+void simulation::baby_to_cl(Concentration_level baby_cl, Concentration_level& cl, int time, int* baby_times){
+    int baby_time = 0;
     for (int i = 0; i <= NUM_SPECIES; i++) {
-        int baby_time = baby_times[i];
+        baby_time = baby_times[i];
         for (int k = 0; k < cells_total; k++) {
-            cl.cons[i][time][k] = baby_cl.cons[i][baby_time][k];
+            cl[i][time][k] = baby_cl[i][baby_time][k];
         }
     }
-    cl.active_start_record[time] = baby_cl.active_start_record[baby_time];
-    cl.active_end_record[time] = baby_cl.active_end_record[baby_time];
+    //cl.active_start_record[time] = baby_cl.active_start_record[baby_time];
+    //cl.active_end_record[time] = baby_cl.active_end_record[baby_time];
 
 
 }
@@ -115,7 +118,7 @@ void simulation::copy_records (vector<Context> contexts, vector<int> time, vecto
     }
 }*/
 
-bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& times) {
+bool simulation::any_less_than_0 (Concentration_level& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
         int time = times[i];
         if (baby_cl[i][time][0] < 0) { // This checks only the first cell
@@ -125,7 +128,7 @@ bool simulation::any_less_than_0 (concentration_level& baby_cl, vector<int>& tim
     return false;
 }
 
-bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<int>& times, double max_con_thresh) {
+bool simulation::concentrations_too_high (Concentration_level& baby_cl, int* times, double max_con_thresh) {
     if (max_con_thresh != INFINITY) {
         for (int i = 0; i <= NUM_SPECIES; i++) {
             int time = times[i];
@@ -137,7 +140,7 @@ bool simulation::concentrations_too_high (concentration_level& baby_cl, vector<i
     return false;
 }
 
-void simulation::calculate_delay_indices (Concentration_level& _baby_cl, vector<int> baby_time, vector<int> time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
+void simulation::calculate_delay_indices (Concentration_level& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
     if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
         for (int l = 0; l < NUM_SPECIES; l++) {
             old_cells_mrna[l] = cell_index;
@@ -149,12 +152,13 @@ void simulation::calculate_delay_indices (Concentration_level& _baby_cl, vector<
             old_cells_protein[IPH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYPH1 + l][cell_index]);
         }
     }*/
+    }
 }
-    
+
 void simulation::initialize(){
     _j=0;
-    _baby_j(NUM_SPECIES,0);
-    _time_prev(NUM_SPECIES,0);
+    //_baby_j(NUM_SPECIES,0);
+    //_time_prev(NUM_SPECIES,0);
     _baby_cl.initialize(NUM_SPECIES, 0,cells_total,1);
     _cl.initialize(5,0,cells_total,0);
 }

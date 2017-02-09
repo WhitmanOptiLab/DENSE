@@ -28,20 +28,20 @@ enum delay_reaction_id {
 typedef std::pair<int, int> ReactionTerm;
 
 
-template<class RATETYPE, class IMPL>
+template<class IMPL>
 class reaction_base{
  public:
-  RATETYPE active_rate(const Context<double>& c) const;
+  RATETYPE active_rate(const Context& c) const;
   RATETYPE rate;
   RATETYPE delay;
     
 };
 
 template<reaction_id RID>
-class reaction : public reaction_base<double, reaction<RID> > {
+class reaction : public reaction_base<reaction<RID> > {
  public:
   reaction();
-  RATETYPE active_rate(const Context<double>& c) const;
+  RATETYPE active_rate(const Context& c) const;
  protected:
   int num_inputs, num_outputs;
   const int* in_counts;
