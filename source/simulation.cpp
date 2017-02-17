@@ -1,4 +1,4 @@
-
+#include <cmath>
 #include "simulation.hpp"
 #include "rates.hpp"
 #include "context.hpp"
@@ -30,6 +30,9 @@ void simulation::test_sim() {
             << sum_rates << std::endl;
 }
 
+void set_test_data(){
+    
+}
 
 void simulation::model(){
     //concentration cl;
@@ -44,10 +47,11 @@ void simulation::model(){
     //bool past_recovery = false; // Whether we've recovered from the knockouts or overexpression
     //for (j = time_start; j < time_end; j++) {
         
-        
+    /*
     for (int i=0; i< NUM_SPECIES;i++){
         _time_prev[i]= WRAP(_baby_j[i]-1, _rates._delay_size[i]);
     }
+     */
         //int time_prev = WRAP(baby_j - 1, max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
     
     //where to keep the birth and parent information
@@ -141,18 +145,18 @@ bool simulation::concentrations_too_high (Concentration_level& baby_cl, int* tim
 }
 
 void simulation::calculate_delay_indices (Concentration_level& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
-    if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
-        for (int l = 0; l < NUM_SPECIES; l++) {
-            old_cells_mrna[l] = cell_index;
-            old_cells_protein[l] = cell_index;
-        }
+    //if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
+    for (int l = 0; l < NUM_SPECIES; l++) {
+        old_cells_mrna[l] = cell_index;
+        old_cells_protein[l] = cell_index;
+    }
     /*} else { // Cells in anterior simulations split so with long enough delays the cell must look to its parent for values, causing its effective index to change over time
         for (int l = 0; l < NUM_INDICES; l++) {
             old_cells_mrna[IMH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYMH1 + l][cell_index]);
             old_cells_protein[IPH1 + l] = index_with_splits(sd, cl, baby_time, time, cell_index, active_rates[RDELAYPH1 + l][cell_index]);
         }
     }*/
-    }
+    
 }
 
 void simulation::initialize(){

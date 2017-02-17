@@ -19,8 +19,8 @@
 
   REACTION(ph1_synthesis)
   REACTION(ph1_degradation)
-  REACTION(ph1_dissociation)
-  REACTION(ph1_association)
+  REACTION(ph11_dissociation)
+  REACTION(ph11_association)
   REACTION(pd_synthesis)
   REACTION(pd_degradation)
   REACTION(pma_synthesis)

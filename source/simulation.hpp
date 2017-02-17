@@ -68,7 +68,7 @@ class simulation{
     int* _time_prev;
     int _j;
     int** _neighbors;
-    double** _sets;
+    //double* _sets;
     int NEIGHBORS_2D;
     
  public:
@@ -84,6 +84,7 @@ class simulation{
     void calculate_delay_indices(Concentration_level& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
     void initialize();
     void calc_neighbor_2d();
+    void set_test_data();
 };
 #endif
 

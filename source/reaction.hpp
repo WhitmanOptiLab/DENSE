@@ -43,11 +43,12 @@ class reaction : public reaction_base<reaction<RID> > {
   reaction();
   RATETYPE active_rate(const Context& c) const;
  protected:
-  int num_inputs, num_outputs;
+  int num_inputs, num_outputs, num_factors;
   const int* in_counts;
   const specie_id* inputs;
   const int* out_counts;
   const specie_id* outputs;
+  const specie_id* factors;
 };
 
 
@@ -56,10 +57,12 @@ class reaction : public reaction_base<reaction<RID> > {
 #define REACTION(name) \
 extern const int num_inputs_##name; \
 extern const int num_outputs_##name; \
+extern const int num_factors_##name; \
 extern const int in_counts_##name[]; \
 extern const specie_id inputs_##name[]; \
 extern const int out_counts_##name[]; \
-extern const specie_id outputs_##name[];
+extern const specie_id outputs_##name[]; \
+extern const specie_id factors_##name[];
 
 #include "reactions_list.hpp"
 #undef REACTION

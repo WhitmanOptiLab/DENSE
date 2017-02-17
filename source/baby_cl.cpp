@@ -6,7 +6,7 @@ RATETYPE calc_delay(int relatedReactions[]){
     for (int j = 0; j <= sizeof(&relatedReactions); j++) {
         for (int k = 0; k < _sim.width_total; k++) {
             // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
-            max = MAX(max, (_sim.sets[j] + (_sim.sets[j] * _model.factors_perturb[j])) * _model.factors_gradient[j][k]);
+            max = MAX(max, (_sim._parameter_set._sets[j] + (_sim._parameter_set._sets[j] * _model.factors_perturb[j])) * _model.factors_gradient[j][k]);
         }
     }
     return max;
