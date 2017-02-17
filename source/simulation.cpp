@@ -14,7 +14,8 @@ using namespace std;
   reaction< name >::reaction() : \
     num_inputs(num_inputs_##name), num_outputs(num_outputs_##name), \
     in_counts(in_counts_##name), inputs(inputs_##name), \
-    out_counts(out_counts_##name), outputs(outputs_##name) {}
+    out_counts(out_counts_##name), outputs(outputs_##name), \
+    num_factors(num_factors_##name), factors(factors_##name){}
 #include "reactions_list.hpp"
 #undef REACTION
 

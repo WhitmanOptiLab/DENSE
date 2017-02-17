@@ -49,12 +49,12 @@ RATETYPE reaction<ph1_degradation>::active_rate(const Context& c) const {
 }
 
 template<>
-RATETYPE reaction<ph1_dissociation>::active_rate(const Context& c) const {
+RATETYPE reaction<ph11_dissociation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<ph1_association>::active_rate(const Context& c) const {
+RATETYPE reaction<ph11_association>::active_rate(const Context& c) const {
     return 6.0;
 }
 
@@ -69,52 +69,52 @@ RATETYPE reaction<pd_degradation>::active_rate(const Context& c) const {
 }
 
 template<>
-RATETYPE reaction<pma_synthesis>::active_rate(const Context& c) const {
+RATETYPE reaction<pm1_synthesis>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pma_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm1_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmbb_association>::active_rate(const Context& c) const {
+RATETYPE reaction<pm22_association>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmaa_association>::active_rate(const Context& c) const {
+RATETYPE reaction<pm11_association>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmab_association>::active_rate(const Context& c) const {
+RATETYPE reaction<pm12_association>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmaa_dissociation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm11_dissociation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmab_dissociation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm12_dissociation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmbb_dissociation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm22_dissociation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmb_synthesis>::active_rate(const Context& c) const {
+RATETYPE reaction<pm2_synthesis>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmb_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm2_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
@@ -155,17 +155,17 @@ RATETYPE reaction<ph11_degradation>::active_rate(const Context& c) const {
 }
 
 template<>
-RATETYPE reaction<pmaa_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm11_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmab_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm12_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<pmbb_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<pm22_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
@@ -190,22 +190,22 @@ RATETYPE reaction<md_degradation>::active_rate(const Context& c) const {
 }
 
 template<>
-RATETYPE reaction<mma_synthesis>::active_rate(const Context& c) const {
+RATETYPE reaction<mm1_synthesis>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<mma_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<mm1_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<mmb_synthesis>::active_rate(const Context& c) const {
+RATETYPE reaction<mm2_synthesis>::active_rate(const Context& c) const {
     return 6.0;
 }
 
 template<>
-RATETYPE reaction<mmb_degradation>::active_rate(const Context& c) const {
+RATETYPE reaction<mm2_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 

@@ -67,43 +67,43 @@ const specie_id factors_pd_degradation[] = {};
 
 
 
-const int num_inputs_pma_synthesis = 0;
-const int num_outputs_pma_synthesis = 1;
-const int in_counts_pma_synthesis[] = {};
-const specie_id inputs_pma_synthesis[] = {};
-const int out_counts_pma_synthesis[] = {1};
-const specie_id outputs_pma_synthesis[] = {pm1};
-const int num_factors_pma_synthesis = 1;
-const specie_id factors_pma_synthesis[] = {mm1};
+const int num_inputs_pm1_synthesis = 0;
+const int num_outputs_pm1_synthesis = 1;
+const int in_counts_pm1_synthesis[] = {};
+const specie_id inputs_pm1_synthesis[] = {};
+const int out_counts_pm1_synthesis[] = {1};
+const specie_id outputs_pm1_synthesis[] = {pm1};
+const int num_factors_pm1_synthesis = 1;
+const specie_id factors_pm1_synthesis[] = {mm1};
 
-const int num_inputs_pma_degradation = 1;
-const int num_outputs_pma_degradation = 0;
-const int in_counts_pma_degradation[] = {1};
-const specie_id inputs_pma_degradation[] = {pm1};
-const int out_counts_pma_degradation[] = {};
-const specie_id outputs_pma_degradation[] = {};
-const int num_factors_pma_degradation = 0;
-const specie_id factors_pma_degradation[] = {};
+const int num_inputs_pm1_degradation = 1;
+const int num_outputs_pm1_degradation = 0;
+const int in_counts_pm1_degradation[] = {1};
+const specie_id inputs_pm1_degradation[] = {pm1};
+const int out_counts_pm1_degradation[] = {};
+const specie_id outputs_pm1_degradation[] = {};
+const int num_factors_pm1_degradation = 0;
+const specie_id factors_pm1_degradation[] = {};
 
 
 
-const int num_inputs_pmb_synthesis = 0;
-const int num_outputs_pmb_synthesis = 1;
-const int in_counts_pmb_synthesis[] = {};
-const specie_id inputs_pmb_synthesis[] = {};
-const int out_counts_pmb_synthesis[] = {1};
-const specie_id outputs_pmb_synthesis[] = {pm2};
-const int num_factors_pmb_synthesis = 1;
-const specie_id factors_pmb_synthesis[] = {mm2};
+const int num_inputs_pm2_synthesis = 0;
+const int num_outputs_pm2_synthesis = 1;
+const int in_counts_pm2_synthesis[] = {};
+const specie_id inputs_pm2_synthesis[] = {};
+const int out_counts_pm2_synthesis[] = {1};
+const specie_id outputs_pm2_synthesis[] = {pm2};
+const int num_factors_pm2_synthesis = 1;
+const specie_id factors_pm2_synthesis[] = {mm2};
 
-const int num_inputs_pmb_degradation = 1;
-const int num_outputs_pmb_degradation = 0;
-const int in_counts_pmb_degradation[] = {1};
-const specie_id inputs_pmb_degradation[] = {pm2};
-const int out_counts_pmb_degradation[] = {};
-const specie_id outputs_pmb_degradation[] = {};
-const int num_factors_pmb_degradation = 0;
-const specie_id factors_pmb_degradation[] = {};
+const int num_inputs_pm2_degradation = 1;
+const int num_outputs_pm2_degradation = 0;
+const int in_counts_pm2_degradation[] = {1};
+const specie_id inputs_pm2_degradation[] = {pm2};
+const int out_counts_pm2_degradation[] = {};
+const specie_id outputs_pm2_degradation[] = {};
+const int num_factors_pm2_degradation = 0;
+const specie_id factors_pm2_degradation[] = {};
 /*
 const int num_inputs_mespb_dissociation = 1;
 const int num_outputs_mespb_dissociation = 1;
