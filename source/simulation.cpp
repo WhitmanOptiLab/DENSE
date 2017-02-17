@@ -65,7 +65,7 @@ void simulation::model(){
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
-            calculate_delay_indices(_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
+            calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
                 
             // Perform biological calculations
             #define REACTION(name);
@@ -101,7 +101,7 @@ void simulation::model(){
 
 
 
-void simulation::baby_to_cl(Concentration_level baby_cl, Concentration_level& cl, int time, int* baby_times){
+void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
     int baby_time = 0;
     for (int i = 0; i <= NUM_SPECIES; i++) {
         baby_time = baby_times[i];
@@ -123,7 +123,7 @@ void simulation::copy_records (vector<Context> contexts, vector<int> time, vecto
     }
 }*/
 
-bool simulation::any_less_than_0 (Concentration_level& baby_cl, int* times) {
+bool simulation::any_less_than_0 (baby_cl& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
         int time = times[i];
         if (baby_cl[i][time][0] < 0) { // This checks only the first cell
@@ -133,7 +133,7 @@ bool simulation::any_less_than_0 (Concentration_level& baby_cl, int* times) {
     return false;
 }
 
-bool simulation::concentrations_too_high (Concentration_level& baby_cl, int* times, double max_con_thresh) {
+bool simulation::concentrations_too_high (baby_cl& baby_cl, int* times, double max_con_thresh) {
     if (max_con_thresh != INFINITY) {
         for (int i = 0; i <= NUM_SPECIES; i++) {
             int time = times[i];
@@ -145,7 +145,7 @@ bool simulation::concentrations_too_high (Concentration_level& baby_cl, int* tim
     return false;
 }
 
-void simulation::calculate_delay_indices (Concentration_level& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
+void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
     //if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
     for (int l = 0; l < NUM_SPECIES; l++) {
         old_cells_mrna[l] = cell_index;
@@ -164,7 +164,7 @@ void simulation::initialize(){
     _j=0;
     //_baby_j(NUM_SPECIES,0);
     //_time_prev(NUM_SPECIES,0);
-    _baby_cl.initialize(NUM_SPECIES, 0,cells_total,1);
+    //_baby_cl.initialize();
     _cl.initialize(5,0,cells_total,0);
 }
     

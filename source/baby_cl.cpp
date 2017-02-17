@@ -1,32 +1,35 @@
 #include "baby_cl.hpp"
-
+#include "simulation.hpp"
 using namespace std;
-RATETYPE calc_delay(int relatedReactions[]){
-    RATETYPE max;
-    for (int j = 0; j <= sizeof(&relatedReactions); j++) {
+RATETYPE baby_cl::calc_delay(int relatedReactions[]){
+    int max;
+    for (int i = 0; i <= sizeof(&relatedReactions); i++) {
+        int j = relatedReactions[i];
         for (int k = 0; k < _sim.width_total; k++) {
             // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
-            max = MAX(max, (_sim._parameter_set._sets[j] + (_sim._parameter_set._sets[j] * _model.factors_perturb[j])) * _model.factors_gradient[j][k]);
+            max = MAX(max, (_sim._parameter_set._sets[j] + (_sim._parameter_set._sets[j] * _sim._model.factors_perturb[j])) * _sim._model.factors_gradient[j][k]);
         }
     }
     return max;
 }
 
-void fill_position(){
-    int current_pos =0;
-    int delay;
+/*
+void baby_cl::fill_position(){
     for (int i =0; i <= NUM_SPECIES; i++){
-        delay = calc_delay();
+    }
+}
+*/
+void baby_cl::initialize(){
+    int sum;
+    int delay;
+    int current_pos =0;
+    
+    for (int i = 0; i <= NUM_SPECIES; i++){
+        delay = calc_delay(_relatedReactions[i]);
+        sum += delay;
         _delay_size[i]= delay;
         _position[i] = current_pos;
         current_pos += delay * _sim.cells_total;
-    }
-}
-
-void initialize(){
-    sum = 0
-    for (int i = 0; i <= NUM_SPECIES; i++){
-        sum += calc_delay();
     }
     _width = _sim.cells_total;
     _total_length = sum * _sim.cells_total;

@@ -1,9 +1,9 @@
 #ifndef BABY_CL_HPP
 #define BABY_CL_HPP
 #include "specie.hpp"
-#include "simulation.hpp"
 #include "model.hpp"
 #define WRAP(x, y) ((x) + (y)) % (y)
+#define MAX(x, y) ((x) < (y) ? (y) : (x))
 using namespace std;
 
 
@@ -20,7 +20,7 @@ public:
     RATETYPE *_darray;
     int _position[NUM_SPECIES];
     int _delay_size[NUM_SPECIES];
-    
+    int* _relatedReactions[NUM_SPECIES];
     class cell{
     public:
         cell(RATETYPE *row): _array(row) {}
@@ -38,13 +38,13 @@ public:
     public:
         timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
         cell operator[](int j) {
-            j = WRAP(j, _delay_size[_pos])
+            j = WRAP(j, _pos);
             cell temp(_array+_width*j);
             return temp;
         }
         
         const cell operator[](int j) const{
-            j = WRAP(j, _delay_size[_pos])
+            j = WRAP(j, _pos);
             cell temp(_array+_width*j);
             return temp;
         }
@@ -53,12 +53,12 @@ public:
         int _pos;
     };
     
-    Concentration_level(simulation& sim)
+    baby_cl(simulation& sim)
     :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim){
         allocate_array();
     }
     
-    Concentration_level(int helight, int length, int width, simulation& sim)
+    baby_cl(int helight, int length, int width, simulation& sim)
     :_height(),_length(),_width(),_cuda(false),_sim(sim){
         allocate_array();
     }
@@ -93,9 +93,7 @@ public:
     
     RATETYPE calc_delay(int relatedReactions[]);
     void fill_position();
-    void createArrary(){
-        
-    }
+    void initialize();
     void reset(){
         for (int i = 0; i < _total_length; i++) {
                     _array[i] = 0; // Initialize every concentration level at every time step for every cell to 0
@@ -121,23 +119,25 @@ public:
      */
     timespan operator[](int i){
         if (_cuda){
-            timespan temp(_darray+_length*_width*i, _width);
+            timespan temp(_darray+_length*_width*i, _width, _delay_size[i] );
             return temp;
         }
         else{
             //int pos =
-            timespan temp(_array+_position[i], _width,i);
+            timespan temp(_array+_position[i], _width, _delay_size[i]);
             return temp;
         }
     }
     
     const timespan operator[](int i) const{
         if (_cuda){
-            timespan temp(_darray+_position[i], _width);
+            
+            timespan temp(_darray+_position[i], _width, _delay_size[i]);
             return temp;
         }
         else{
-            timespan temp(_array+_position[i], _width);
+            
+            timespan temp(_array+_position[i], _width, _delay_size[i]);
             return temp;
         }
     }
@@ -145,7 +145,7 @@ public:
     int height() const {return _height;}
     int length() const {return _length;}
     int width() const {return _width;}
-    int total_length() const {return _total_length};
+    int total_length() const {return _total_length;}
     bool getStatus() { return _cuda; }
     
     

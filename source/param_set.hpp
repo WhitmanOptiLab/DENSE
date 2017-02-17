@@ -11,7 +11,7 @@ using namespace std;
 #define MAX_CONDS_ANY 2
 
 class param_set{
-private:
+public:
    
     
     int index; // The index, i.e. how many mutants run before this one

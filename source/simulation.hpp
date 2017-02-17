@@ -5,6 +5,7 @@
 #include "model.hpp"
 #include "rates.hpp"
 #include "concentration_level.hpp"
+#include "baby_cl.hpp"
 using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
@@ -16,7 +17,7 @@ using namespace std;
 
 class simulation{
     
- private:
+ public:
   // Times and timing
   double step_size; // The step size in minutes
   int time_total; // The number of minutes to run for
@@ -61,7 +62,7 @@ class simulation{
   const model& _model;
     Rates _rates;
     Concentration_level _cl;
-    Concentration_level _baby_cl;
+    baby_cl _baby_cl;
     //Context<double> _contexts;
     int* _baby_j;
     int* _delay_size;
@@ -71,17 +72,17 @@ class simulation{
     //double* _sets;
     int NEIGHBORS_2D;
     
- public:
+    
   simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this)
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
     {}
   void test_sim();
     void model();
-    void baby_to_cl(Concentration_level baby_cl, Concentration_level& cl, int time, int* baby_times);
+    void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);
     void copy_records(Concentration_level& cl, int* time, int* time_prev);
-    bool any_less_than_0(Concentration_level& baby_cl, int* times);
-    bool concentrations_too_high (Concentration_level& baby_cl, int* time, double max_con_thresh);
-    void calculate_delay_indices(Concentration_level& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
+    bool any_less_than_0(baby_cl& baby_cl, int* times);
+    bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
+    void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
     void initialize();
     void calc_neighbor_2d();
     void set_test_data();
