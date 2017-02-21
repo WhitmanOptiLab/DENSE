@@ -118,37 +118,6 @@ RATETYPE reaction<pm2_degradation>::active_rate(const Context& c) const {
     return 6.0;
 }
 
-/*
-template<>
-RATETYPE reaction<mespb_dissociation>::active_rate(const Context& c) const {
-    return 6.0;
-}
-
-template<>
-RATETYPE reaction<mespb_dissociation2>::active_rate(const Context& c) const {
-    return 6.0;
-}
-
-template<>
-RATETYPE reaction<mespb_dissociation3>::active_rate(const Context& c) const {
-    return 6.0;
-}
-
-template<>
-RATETYPE reaction<mespb_association>::active_rate(const Context& c) const {
-    return 6.0;
-}
-
-template<>
-RATETYPE reaction<mespb_association2>::active_rate(const Context& c) const {
-    return 6.0;
-}
-
-template<>
-RATETYPE reaction<mespb_association3>::active_rate(const Context& c) const {
-    return 6.0;
-}
-*/
 template<>
 RATETYPE reaction<ph11_degradation>::active_rate(const Context& c) const {
     return 6.0;

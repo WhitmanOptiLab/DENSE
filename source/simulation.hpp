@@ -66,16 +66,19 @@ class simulation{
     //Context<double> _contexts;
     int* _baby_j;
     int* _delay_size;
-    int* _time_prev;
+    //int* _time_prev;
     int _j;
     int** _neighbors;
     //double* _sets;
     int NEIGHBORS_2D;
     
     
-  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this)
+    simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
-    {}
+        
+        
+        
+    }
   void test_sim();
     void model();
     void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);

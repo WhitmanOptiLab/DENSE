@@ -119,9 +119,15 @@ public:
         }
     }
     
+    void update_rates();
     int height() const {return _height;}
     int width() const {return _width;}
-    
+    inline RATETYPE random_perturbation (RATETYPE perturb) {
+        return random_rate(pair<RATETYPE, RATETYPE>(1 - perturb, 1 + perturb));
+    }
+    RATETYPE random_rate(pair<RATETYPE, RATETYPE> range) {
+        return range.first + (range.second - range.first) * rand() / (RAND_MAX + 1.0);
+    }
 protected:
     void dealloc_array(){
         if (_array){

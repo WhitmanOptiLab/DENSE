@@ -18,13 +18,13 @@ private:
      */
        
   public:
-    double factors_perturb[NUM_REACTIONS]; // Perturbations (as percentages with 1=100%) taken from the perturbations input file
-    bool using_gradients; // Whether or not any rates have specified perturbations
-    int width; // The total width of the simulation
-    double* factors_gradient[NUM_REACTIONS];
-    bool has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
-    int cells; // The total number of cells in the simulation
-    //array2D<double>  factors_gradient;
+    
+    //currently in use
+    RATETYPE factors_perturb[NUM_REACTIONS]; // Perturbations (as percentages with 1=100%) taken from the perturbations input file
+    bool _using_gradients; // Whether or not any rates have specified perturbations
+    RATETYPE* factors_gradient[NUM_REACTIONS];
+    bool _has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
+    
 #define REACTION(name) reaction<name> reaction_##name;
     #include "reactions_list.hpp"
 #undef REACTION

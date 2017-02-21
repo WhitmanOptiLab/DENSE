@@ -7,7 +7,7 @@ RATETYPE baby_cl::calc_delay(int relatedReactions[]){
         int j = relatedReactions[i];
         for (int k = 0; k < _sim.width_total; k++) {
             // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
-            max = MAX(max, (_sim._parameter_set._sets[j] + (_sim._parameter_set._sets[j] * _sim._model.factors_perturb[j])) * _sim._model.factors_gradient[j][k]);
+            max = MAX(max, (_sim._parameter_set._delay_sets[j] + (_sim._parameter_set._delay_sets[j] * _sim._model.factors_perturb[j])) * _sim._model.factors_gradient[j][k]);
         }
     }
     return max;

@@ -45,8 +45,12 @@ public:
     //feature feat; // The oscillation features this mutant produced when run
     int print_con; // The index of the concentration that should be printed (usually mh1)
     bool only_post; //indicating if only the posterior is simulated
-    RATETYPE* _sets;
-    double rates_base[NUM_REACTIONS]; // Base rates taken from the current parameter set
+    
+    
+    // currently in use
+    //RATETYPE* _sets;
+    RATETYPE* _delay_sets;
+    RATETYPE _rates_base[NUM_REACTIONS]; // Base rates taken from the current parameter set
 };
 
 
