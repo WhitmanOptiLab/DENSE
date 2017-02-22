@@ -169,6 +169,7 @@ void simulation::initialize(){
     int _baby_j[NUM_SPECIES];
     _baby_cl.initialize();
     _cl.initialize(5,0,cells_total,0);
+    /*
     _parameter_set._delay_sets = {7.012622,14.984612,8.023912,14.704954,
                                   1.243684,0.425859,0.409653,10.049570};
     _parameter_set._rates_base[NUM_REACTIONS] = {30.012607,51.696917,38.245038,30.602979,
@@ -189,7 +190,7 @@ void simulation::initialize(){
     _model._using_gradients = true;
     _model.factors_gradient[][] =;
     _model._has_gradient[] = [];
-    
+    */
     _rates.update_rates();
 }
     
@@ -222,4 +223,9 @@ void simulation::calc_neighbor_2d(){
             _neighbors[i][5] = (i - 1 + cells_total) % cells_total;							// Top-left
         }
     }
+}
+
+
+void simulation::find_related_reactions(){
+    
 }

@@ -71,7 +71,8 @@ class simulation{
     int** _neighbors;
     //double* _sets;
     int NEIGHBORS_2D;
-    
+    int* _relatedReactions[NUM_SPECIES];
+
     
     simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
@@ -89,6 +90,7 @@ class simulation{
     void initialize();
     void calc_neighbor_2d();
     void set_test_data();
+    void find_related_reactions();
 };
 #endif
 

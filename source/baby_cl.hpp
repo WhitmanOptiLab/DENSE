@@ -20,7 +20,6 @@ public:
     RATETYPE *_darray;
     int _position[NUM_SPECIES];
     int _delay_size[NUM_SPECIES];
-    int* _relatedReactions[NUM_SPECIES];
     class cell{
     public:
         cell(RATETYPE *row): _array(row) {}

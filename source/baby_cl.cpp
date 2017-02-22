@@ -1,9 +1,9 @@
 #include "baby_cl.hpp"
 #include "simulation.hpp"
 using namespace std;
-RATETYPE baby_cl::calc_delay(int relatedReactions[]){
+RATETYPE baby_cl::calc_delay(int relatedReaction[]){
     int max;
-    for (int i = 0; i <= sizeof(&relatedReactions); i++) {
+    for (int i = 0; i <= sizeof(&relatedReaction); i++) {
         int j = relatedReactions[i];
         for (int k = 0; k < _sim.width_total; k++) {
             // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
@@ -25,7 +25,7 @@ void baby_cl::initialize(){
     int current_pos =0;
     
     for (int i = 0; i <= NUM_SPECIES; i++){
-        delay = calc_delay(_relatedReactions[i]);
+        delay = calc_delay(_sim._relatedReactions[i]);
         sum += delay;
         _delay_size[i]= delay;
         _position[i] = current_pos;
