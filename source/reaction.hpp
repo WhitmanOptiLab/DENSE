@@ -42,6 +42,15 @@ class reaction : public reaction_base<reaction<RID> > {
  public:
   reaction();
   RATETYPE active_rate(const Context& c) const;
+  int getNumInputs() const { return num_inputs; }
+  int getNumFactors() const { return num_factors; }
+  int getNumOutputs() const { return num_outputs; }
+  const specie_id* getInputs() const { return inputs; }
+  const specie_id* getFactors() const { return factors; }
+  const specie_id* getOutputs() const { return outputs; }
+  const int* getInputCounts() const { return in_counts; }
+  const int* getOutputCounts() const { return out_counts; }
+
  protected:
   int num_inputs, num_outputs, num_factors;
   const int* in_counts;
