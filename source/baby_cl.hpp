@@ -6,6 +6,7 @@
 #define MAX(x, y) ((x) < (y) ? (y) : (x))
 using namespace std;
 
+#include <cstddef>
 
 class simulation;
 

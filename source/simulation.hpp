@@ -81,7 +81,7 @@ class simulation{
         
     }
   void test_sim();
-    void model();
+    void execute();
     void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);
     void copy_records(Concentration_level& cl, int* time, int* time_prev);
     bool any_less_than_0(baby_cl& baby_cl, int* times);
