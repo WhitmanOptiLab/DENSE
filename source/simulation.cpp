@@ -191,7 +191,7 @@ void simulation::initialize(){
     _model.factors_gradient[][] =;
     _model._has_gradient[] = [];
     */
-    //_rates.update_rates();
+    _rates.update_rates();
 }
     
     
