@@ -35,7 +35,7 @@ void set_test_data(){
     
 }
 
-void simulation::model(){
+void simulation::execute(){
     //concentration cl;
     //Rates rates;
     int steps_elapsed = steps_split; // Used to determine when to split a column of cells
@@ -191,7 +191,7 @@ void simulation::initialize(){
     _model.factors_gradient[][] =;
     _model._has_gradient[] = [];
     */
-    _rates.update_rates();
+    //_rates.update_rates();
 }
     
     
