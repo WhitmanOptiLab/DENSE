@@ -7,6 +7,7 @@
 #include <iostream>
 //#include "simulation.hpp"
 #include "specie.hpp"
+#include "reaction.hpp"
 /*
 #ifdef __CUDACC__
 #define CPUGPU_FUNC __host__ __device__
@@ -16,6 +17,7 @@
 */
 using namespace std;
 class simulation;
+
 class Rates {
     //FIXME - want to make this private at some point
 public:
