@@ -3,8 +3,10 @@
 using namespace std;
 RATETYPE baby_cl::calc_delay(int relatedReactions[]){
     int max;
+
     for (int i = 0; i <= sizeof(&relatedReactions); i++) {
         int j = relatedReactions[i];
+
         for (int k = 0; k < _sim.width_total; k++) {
             // Calculate the minimum delay, accounting for the maximum allowable perturbation and gradients
             max = MAX(max, (_sim._parameter_set._delay_sets[j] + (_sim._parameter_set._delay_sets[j] * _sim._model.factors_perturb[j])) * _sim._model.factors_gradient[j][k]);
@@ -19,6 +21,7 @@ void baby_cl::fill_position(){
     }
 }
 */
+
 void baby_cl::initialize(){
     int sum;
     int delay;
