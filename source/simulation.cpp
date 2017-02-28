@@ -226,6 +226,29 @@ void simulation::calc_neighbor_2d(){
 }
 
 
-void simulation::find_related_reactions(){
-    
+void simulation::calc_max_delays() {
+  for (int s = 0; s < NUM_SPECIES; s++) {
+    max_delays[s] = 0;
+  }
+
+  //for each reaction
+  //  for each input
+  //    accumulate delay into specie
+  //  for each factor
+  //    accumulate delay into specie
+#define REACTION(name) \
+  RATETYPE max_gradient_##name = 0; \
+  for (int k = 0; k < width_total; k++) { \
+    max_gradient_##name = std::max<int>(_model.factors_gradient[ name ][k], max_gradient_##name); \
+  } \
+  for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \
+    int& sp_max_delay = max_delays[_model.reaction_##name.getInputs()[in]]; \
+    sp_max_delay = std::max<int>(_parameter_set._delay_sets[ name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
+  } \
+  for (int in = 0; in < _model.reaction_##name.getNumFactors(); in++) { \
+    int& sp_max_delay = max_delays[_model.reaction_##name.getFactors()[in]]; \
+    sp_max_delay = std::max<int>(_parameter_set._delay_sets[ name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
+  } 
+#include "reactions_list.hpp"
+#undef REACTION
 }
