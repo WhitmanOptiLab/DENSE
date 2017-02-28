@@ -1,10 +1,10 @@
 #include "rates.hpp"
-
+#include "simulation.hpp"
 #include <iostream>
 
 
 using namespace std;
-void rates::update_rates(){
+void Rates::update_rates(){
     for (int i = 0; i < NUM_SPECIES; i++) {
         if (_sim._model.factors_perturb[i] == 0) { // If the current rate has no perturbation factor then set every cell's rate to the base rate
             for (int j = 0; j < _sim.cells_total; j++) {

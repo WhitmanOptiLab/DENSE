@@ -6,6 +6,7 @@
 //#include <cuda.h>
 #include <iostream>
 //#include "simulation.hpp"
+#include "reaction.hpp"
 #include "specie.hpp"
 /*
 #ifdef __CUDACC__
