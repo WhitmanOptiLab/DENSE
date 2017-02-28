@@ -33,6 +33,7 @@ class simulation{
   // Cutoff values
   double max_con_thresh; // The maximum threshold concentrations can reach before the simulation is prematurely ended
   int max_delay_size; // The maximum number of time steps any delay in the current parameter set takes plus 1 (so that baby_cl and each mutant know how many minutes to store)
+  int max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
 
   // Sizes
   int width_total; // The width in cells of the PSM
@@ -60,37 +61,38 @@ class simulation{
 
   const param_set& _parameter_set;
   const model& _model;
-    Rates _rates;
-    Concentration_level _cl;
-    baby_cl _baby_cl;
-    //Context<double> _contexts;
-    int* _baby_j;
-    int* _delay_size;
-    //int* _time_prev;
-    int _j;
-    int** _neighbors;
-    //double* _sets;
-    int NEIGHBORS_2D;
-    int* _relatedReactions[NUM_SPECIES];
+  Rates _rates;
+  Concentration_level _cl;
+  baby_cl _baby_cl;
+  //Context<double> _contexts;
+  int* _baby_j;
+  int* _delay_size;
+  //int* _time_prev;
+  int _j;
+  int** _neighbors;
+  //double* _sets;
+  int NEIGHBORS_2D;
+  int* _relatedReactions[NUM_SPECIES];
 
     
-    simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this){
+  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
         
         
         
-    }
+  }
   void test_sim();
-    void execute();
-    void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);
-    void copy_records(Concentration_level& cl, int* time, int* time_prev);
-    bool any_less_than_0(baby_cl& baby_cl, int* times);
-    bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
-    void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
-    void initialize();
-    void calc_neighbor_2d();
-    void set_test_data();
-    void find_related_reactions();
+  void execute();
+  void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);
+  void copy_records(Concentration_level& cl, int* time, int* time_prev);
+  bool any_less_than_0(baby_cl& baby_cl, int* times);
+  bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
+  void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
+  void initialize();
+  void calc_neighbor_2d();
+  void set_test_data();
+ private:
+  void calc_max_delays();
 };
 #endif
 
