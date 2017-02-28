@@ -91,8 +91,8 @@ public:
     */
     
     
-    RATETYPE calc_delay(int relatedReactions[]);
-    void fill_position();
+    //RATETYPE calc_delay(int relatedReactions[]);
+    //void fill_position();
     void initialize();
     void reset(){
         for (int i = 0; i < _total_length; i++) {

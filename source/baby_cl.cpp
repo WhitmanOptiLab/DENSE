@@ -1,6 +1,8 @@
 #include "baby_cl.hpp"
 #include "simulation.hpp"
 using namespace std;
+
+/*
 RATETYPE baby_cl::calc_delay(int relatedReactions[]){
     int max;
 
@@ -14,6 +16,7 @@ RATETYPE baby_cl::calc_delay(int relatedReactions[]){
     }
     return max;
 }
+*/
 
 /*
 void baby_cl::fill_position(){
@@ -28,7 +31,7 @@ void baby_cl::initialize(){
     int current_pos =0;
     
     for (int i = 0; i <= NUM_SPECIES; i++){
-        delay = calc_delay(_sim._relatedReactions[i]);
+        delay = _sim.max_delays[i];
         sum += delay;
         _delay_size[i]= delay;
         _position[i] = current_pos;
