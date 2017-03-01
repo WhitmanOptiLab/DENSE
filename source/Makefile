@@ -1,6 +1,6 @@
 CC=g++
 NVCC=nvcc
-CFLAGS=-O3
+CFLAGS=-O3 -std=c++11
 LFLAGS=${CFLAGS}
 TESTS=test_sim_compile
 
