@@ -2,12 +2,16 @@ CC=g++
 NVCC=nvcc
 CFLAGS=-O3 -std=c++11
 LFLAGS=${CFLAGS}
-TESTS=test_sim_compile
+TESTS=test_sim_compile test_simulation
 
-test: test_sim_compile
+test: ${TESTS}
 	./test_sim_compile 
+	./test_simulation
 	
 test_sim_compile: test_sim_compile.o simulation.o baby_cl.o rates.o model.o reaction.o
+	${CC} ${CFLAGS} $^ -o $@ 
+
+test_simulation: test_simulation.o simulation.o reaction.o rates.o baby_cl.o
 	${CC} ${CFLAGS} $^ -o $@ 
 
 %.o: %.cpp $(wildcard *.h)
