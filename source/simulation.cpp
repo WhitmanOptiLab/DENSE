@@ -21,7 +21,7 @@ using namespace std;
 
 //A quick test case to make sure all reaction rates are defined by link time
 void simulation::test_sim() {
-  Context c(*this, cells_total);
+  Context c(*this, _cells_total);
 
   double sum_rates = 0.0;
 #define REACTION(name) sum_rates += _model.reaction_##name.active_rate(c);
@@ -60,8 +60,8 @@ void simulation::execute(){
         
         
     // Iterate through each extant cell or context
-    for (int k = 0; k < cells_total; k++) {
-        if (width_current == width_total || k % width_total <= active_start) { // Compute only existing (i.e. already grown)cells
+    for (int k = 0; k < _cells_total; k++) {
+        if (width_current == _width_total || k % _width_total <= active_start) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
@@ -105,7 +105,7 @@ void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time,
     int baby_time = 0;
     for (int i = 0; i <= NUM_SPECIES; i++) {
         baby_time = baby_times[i];
-        for (int k = 0; k < cells_total; k++) {
+        for (int k = 0; k < _cells_total; k++) {
             cl[i][time][k] = baby_cl[i][baby_time][k];
         }
     }
@@ -165,13 +165,13 @@ void simulation::initialize(){
     /*
     _j=0;
     cells_total = 200;
-    width_total = 50;
+    _width_total = 50;
     NEIGHBORS_2D = 6;
     */
     
-    int _baby_j[NUM_SPECIES];
-    _baby_cl.initialize();
-    _cl.initialize(5,0,cells_total,0);
+    //int _baby_j[NUM_SPECIES];
+    //_baby_cl.initialize();
+    //_cl.initialize(5,0,_cells_total,0);
     /*
     _parameter_set._delay_sets = {7.012622,14.984612,8.023912,14.704954,
                                   1.243684,0.425859,0.409653,10.049570};
@@ -194,36 +194,36 @@ void simulation::initialize(){
     _model.factors_gradient[][] =;
     _model._has_gradient[] = [];
     */
-    _rates.update_rates();
+    //_rates.update_rates();
 }
     
     
 void simulation::calc_neighbor_2d(){
-    for (int i = 0; i < cells_total; i++) {
+    for (int i = 0; i < _cells_total; i++) {
         if (i % 2 == 0) {																		// All even column cells
-            _neighbors[i][0] = (i - width_total + cells_total) % cells_total;			// Top
-            _neighbors[i][1] = (i - width_total + 1 + cells_total) % cells_total;		// Top-right
-            _neighbors[i][2] = (i + 1) % cells_total;											// Bottom-right
-            _neighbors[i][3] = (i + width_total) % cells_total;								// Bottom
-            if (i % width_total == 0) {														// Left edge
-                _neighbors[i][4] = i + width_total - 1;										// Bottom-left
-                _neighbors[i][5] = (i - 1 + cells_total) % cells_total;						// Top-left
+            _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
+            _neighbors[i][1] = (i - _width_total + 1 + _cells_total) % _cells_total;		// Top-right
+            _neighbors[i][2] = (i + 1) % _cells_total;											// Bottom-right
+            _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
+            if (i % _width_total == 0) {														// Left edge
+                _neighbors[i][4] = i + _width_total - 1;										// Bottom-left
+                _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;						// Top-left
             } else {																			// Not a left edge
                 _neighbors[i][4] = i - 1;															// Bottom-left
-                _neighbors[i][5] = (i - width_total - 1 + cells_total) % cells_total;	// Top-left
+                _neighbors[i][5] = (i - _width_total - 1 + _cells_total) % _cells_total;	// Top-left
             }
         } else {																				// All odd column cells
-            _neighbors[i][0] = (i - width_total + cells_total) % cells_total;			// Top
-            if (i % width_total == width_total - 1) {											// Right edge
-                _neighbors[i][1] = i - width_total + 1;										// Top-right
-                _neighbors[i][2] = (i + 1) % cells_total;										// Bottom-right
+            _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
+            if (i % _width_total == _width_total - 1) {											// Right edge
+                _neighbors[i][1] = i - _width_total + 1;										// Top-right
+                _neighbors[i][2] = (i + 1) % _cells_total;										// Bottom-right
             } else {																			// Not a right edge
                 _neighbors[i][1] = i + 1;															// Top-right
-                _neighbors[i][2] = (i + width_total + 1 + cells_total) % cells_total;	// Nottom-right
+                _neighbors[i][2] = (i + _width_total + 1 + _cells_total) % _cells_total;	// Nottom-right
             }																					// All odd column cells
-            _neighbors[i][3] = (i + width_total) % cells_total;								// Bottom
-            _neighbors[i][4] = (i + width_total - 1) % cells_total;							// Bottom-left
-            _neighbors[i][5] = (i - 1 + cells_total) % cells_total;							// Top-left
+            _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
+            _neighbors[i][4] = (i + _width_total - 1) % _cells_total;							// Bottom-left
+            _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;							// Top-left
         }
     }
 }
@@ -241,7 +241,7 @@ void simulation::calc_max_delays() {
   //    accumulate delay into specie
 #define REACTION(name) \
   RATETYPE max_gradient_##name = 0; \
-  for (int k = 0; k < width_total; k++) { \
+  for (int k = 0; k < _width_total; k++) { \
     max_gradient_##name = std::max<int>(_model.factors_gradient[ name ][k], max_gradient_##name); \
   } \
   for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \

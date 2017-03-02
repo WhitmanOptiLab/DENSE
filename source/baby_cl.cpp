@@ -35,10 +35,10 @@ void baby_cl::initialize(){
         sum += delay;
         _delay_size[i]= delay;
         _position[i] = current_pos;
-        current_pos += delay * _sim.cells_total;
+        current_pos += delay * _sim._cells_total;
     }
-    _width = _sim.cells_total;
-    _total_length = sum * _sim.cells_total;
+    _width = _sim._cells_total;
+    _total_length = sum * _sim._cells_total;
     dealloc_array();
     _cuda=false;
     allocate_array();

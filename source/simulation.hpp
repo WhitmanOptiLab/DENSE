@@ -65,10 +65,10 @@ class simulation{
   Concentration_level _cl;
   baby_cl _baby_cl;
   //Context<double> _contexts;
-  int _baby_j[NUM_SPECIES] = 0;
+  int _baby_j[NUM_SPECIES];
   //int* _delay_size;
   //int* _time_prev;
-  int _j = 0;
+  int _j;
   int** _neighbors;
   //double* _sets;
   int _NEIGHBORS_2D;
@@ -77,7 +77,7 @@ class simulation{
     
   simulation(const model& m, const param_set& ps, int cells_total, int width_total) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
-      
+      _j =0 ;
       _NEIGHBORS_2D = 6;
         
   }

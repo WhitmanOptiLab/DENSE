@@ -13,8 +13,9 @@ int main() {
     
     //setting up param_set
     param_set ps;
-    RATETYPE delay_sets = {7.012622,14.984612,8.023912,14.704954,1.243684,0.425859,0.409653,10.049570};
-    RATETYPE rates_base = {30.012607,51.696917,38.245038,30.602979,
+    
+    RATETYPE delay_sets[8] = {7.012622,14.984612,8.023912,14.704954,1.243684,0.425859,0.409653,10.049570};
+    RATETYPE rates_base[NUM_REACTIONS] = {30.012607,51.696917,38.245038,30.602979,
         
         0.499898,0.100750,0.244993,0.479945,
         
@@ -29,10 +30,10 @@ int main() {
         0.224610,0.489840,0.486618,0.483102};
     
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
-        m._delay_sets[i] = delay_sets[i];
+        ps._delay_sets[i] = delay_sets[i];
     }
     for (int i = 0; i < NUM_REACTIONS; i++) {
-        m._rates_base[i] = rates_base[i];
+        ps._rates_base[i] = rates_base[i];
     }
     
     //setting up simulation
