@@ -21,7 +21,7 @@ class Context {
   RATETYPE getCon(specie_id sp, int delay = 0) {
     // FIXME: calculate an actual time, not just using the delay, and make sure the indexes are 
     // in the right order
-    return _simulation._baby_cl[_cell][delay][sp];
+    return _simulation._baby_cl[sp][delay][_cell];
   }
 };
 
