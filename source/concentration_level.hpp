@@ -72,7 +72,7 @@ public:
 #endif
 */
     
-    void initialize(int height, int length, int width, bool delay){
+    void initialize(int height, int length, int width){
         dealloc_array();
         _width=width;
         _height=height;
@@ -84,7 +84,7 @@ public:
     
     
     
-    RATETYPE calc_delay(int relatedReactions[]);
+    //RATETYPE calc_delay(int relatedReactions[]);
     
     void createArrary(){
         

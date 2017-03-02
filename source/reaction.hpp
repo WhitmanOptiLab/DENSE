@@ -22,7 +22,7 @@ enum delay_reaction_id {
 #include "reactions_list.hpp"
 #undef DELAY_REACTION
 #undef REACTION
-  NUM_DD_INDICES
+  NUM_DELAY_REACTIONS
 };
 
 typedef std::pair<int, int> ReactionTerm;

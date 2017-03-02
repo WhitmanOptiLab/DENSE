@@ -12,7 +12,7 @@ using namespace std;
 
 double context::calculateNeighbourAvg(specie sp, int time){
     int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
-    int neighbors[NUM_DD_INDICES][NEIGHBORS_2D];
+    int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
  
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     delay = rs[sp.index][_cell] / _simulation.step_size;

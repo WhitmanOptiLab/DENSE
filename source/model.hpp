@@ -20,6 +20,7 @@ private:
   public:
     
     //currently in use
+    bool _using_perturb;
     RATETYPE factors_perturb[NUM_REACTIONS]; // Perturbations (as percentages with 1=100%) taken from the perturbations input file
     bool _using_gradients; // Whether or not any rates have specified perturbations
     RATETYPE* factors_gradient[NUM_REACTIONS];

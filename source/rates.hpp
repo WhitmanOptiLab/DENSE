@@ -29,10 +29,6 @@ public:
     RATETYPE *_darray;
     const simulation& _sim;
     
-    //std::vector<E> rates_active;
-    //std::vector<int> delay_size;
-    //Rates(const simulation& _sim) : _simulation(_sim), rates_base(NUM_REACTIONS*cells), rates_active(NUM_REACTIONS*cells), delay_size(NUM_REACTIONS) { }
-    
     
     class cell{
     public:
@@ -53,52 +49,6 @@ public:
         allocate_array();
     }
     
-    /*
-    Rates(const array2D<RATETYPE>& other)
-    :_height(other._height),_width(other._width){
-        //allocate_array();
-        _array=other._array;
-        //_darray=other._darray;
-    }*/
-    
-    /*
-    void initialize(int height, int width){
-        dealloc_array();
-        _width=width;
-        _height=height;
-        //_cuda=false;
-        allocate_array();
-        reset();
-    }
-    
-    void initialize_as_1(int height, int width){
-        dealloc_array();
-        _width=width;
-        _height=height;
-        _cuda=false;
-        allocate_array();
-        set_to_1();
-    }
-    
-    
-    void set_to_1(){
-        for (int i = 0; i < _height; i++) {
-            for (int k = 0; k < _width; k++) {
-                _array[i*_width+k] = 1; // Initialize every concentration level at every time step for every cell to 0
-                
-            }
-        }
-    }
-    
-    void reset(){
-        for (int i = 0; i < _height; i++) {
-            for (int k = 0; k < _width; k++) {
-                _array[i*_width+k] = 0; // Initialize every concentration level at every time step for every cell to 0
-                
-            }
-        }
-    }
-    */
     
     cell operator[](int i){
         if (_cuda){

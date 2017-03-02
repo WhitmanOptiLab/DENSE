@@ -36,12 +36,12 @@ class simulation{
   int max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
 
   // Sizes
-  int width_total; // The width in cells of the PSM
+  int _width_total; // The width in cells of the PSM
   int width_initial; // The width in cells of the PSM before anterior growth
   int width_current; // The width in cells of the PSM at the current time step
   int height; // The height in cells of the PSM
   int cells; // The number of cells in the simulation
-  int cells_total; // The total number of cells of the PSM (total width * total height)
+  int _cells_total; // The total number of cells of the PSM (total width * total height)
 
   // Neighbors and boundaries
   //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
@@ -65,20 +65,20 @@ class simulation{
   Concentration_level _cl;
   baby_cl _baby_cl;
   //Context<double> _contexts;
-  int* _baby_j;
-  int* _delay_size;
+  int _baby_j[NUM_SPECIES] = 0;
+  //int* _delay_size;
   //int* _time_prev;
-  int _j;
+  int _j = 0;
   int** _neighbors;
   //double* _sets;
-  int NEIGHBORS_2D;
-  int* _relatedReactions[NUM_SPECIES];
+  int _NEIGHBORS_2D;
+  //int* _relatedReactions[NUM_SPECIES];
 
     
-  simulation(const model& m, const param_set& ps) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this){
+  simulation(const model& m, const param_set& ps, int cells_total, int width_total) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
-        
-        
+      
+      _NEIGHBORS_2D = 6;
         
   }
   void test_sim();

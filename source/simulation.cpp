@@ -161,10 +161,13 @@ void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int 
 }
 
 void simulation::initialize(){
+    
+    /*
     _j=0;
     cells_total = 200;
     width_total = 50;
     NEIGHBORS_2D = 6;
+    */
     
     int _baby_j[NUM_SPECIES];
     _baby_cl.initialize();

@@ -2,6 +2,8 @@
 #include <iostream>
 
 int main() {
+    
+    //setting up model
     model m;
     m._using_perturb = false;
     m._using_gradients = false;
@@ -9,6 +11,7 @@ int main() {
         m._has_gradient[i] = false;
     }
     
+    //setting up param_set
     param_set ps;
     RATETYPE delay_sets = {7.012622,14.984612,8.023912,14.704954,1.243684,0.425859,0.409653,10.049570};
     RATETYPE rates_base = {30.012607,51.696917,38.245038,30.602979,
@@ -28,11 +31,16 @@ int main() {
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
         m._delay_sets[i] = delay_sets[i];
     }
-    
     for (int i = 0; i < NUM_REACTIONS; i++) {
         m._rates_base[i] = rates_base[i];
     }
     
-    simulation s(m, ps);
-    s.test_sim();
+    //setting up simulation
+    simulation s(m, ps, 200, 50);
+    s._rates.update_rates();
+    s._cl.initialize(4,300,200);
+    s._baby_cl.initialize();
+    
+    //run simulation
+    s.execute();
 }
