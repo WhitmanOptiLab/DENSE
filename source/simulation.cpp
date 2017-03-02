@@ -162,39 +162,6 @@ void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int 
 
 void simulation::initialize(){
     
-    /*
-    _j=0;
-    cells_total = 200;
-    _width_total = 50;
-    NEIGHBORS_2D = 6;
-    */
-    
-    //int _baby_j[NUM_SPECIES];
-    //_baby_cl.initialize();
-    //_cl.initialize(5,0,_cells_total,0);
-    /*
-    _parameter_set._delay_sets = {7.012622,14.984612,8.023912,14.704954,
-                                  1.243684,0.425859,0.409653,10.049570};
-    _parameter_set._rates_base[NUM_REACTIONS] = {30.012607,51.696917,38.245038,30.602979,
-                                  
-                                  0.499898,0.100750,0.244993,0.479945,
-                                  
-                                  54.038194,44.558513,23.450357,51.855638,
-                                  
-                                  0.119014,0.266534,0.445092,0.497927,
-                                  
-                                  0.025518,0.018589,0.026202,0.013235,
-                                  
-                                  0.151772,0.244074,0.223924,0.264807,
-                                  
-                                  0.224610,0.489840,0.486618,0.483102};
-    
-    _model.factors_perturb[] = [];
-    _model._using_gradients = true;
-    _model.factors_gradient[][] =;
-    _model._has_gradient[] = [];
-    */
-    //_rates.update_rates();
 }
     
     

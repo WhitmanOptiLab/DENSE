@@ -6,6 +6,8 @@
 #include "rates.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
+#include <vector>
+#include <array>
 using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
@@ -69,17 +71,17 @@ class simulation{
   //int* _delay_size;
   //int* _time_prev;
   int _j;
-  int** _neighbors;
+  std::vector<std::array<int, 6> > _neighbors;
   //double* _sets;
   int _NEIGHBORS_2D;
   //int* _relatedReactions[NUM_SPECIES];
 
     
-  simulation(const model& m, const param_set& ps, int cells_total, int width_total) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total){
+    simulation(const model& m, const param_set& ps, int cells_total, int width_total) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_neighbors(_cells_total){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       _NEIGHBORS_2D = 6;
-        
+    
   }
   void test_sim();
   void execute();
