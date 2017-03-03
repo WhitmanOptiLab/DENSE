@@ -6,7 +6,7 @@
 #include "reaction.hpp"
 #include "specie.hpp"
 #include "model.hpp"
-
+#include "context.hpp"
 #include <cstddef>
 
 // Next, define all of your reaction rate functions
