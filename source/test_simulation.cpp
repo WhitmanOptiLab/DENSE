@@ -13,7 +13,7 @@ int main() {
     
     //setting up param_set
     param_set ps;
-    
+    RATETYPE critical_values[5] = {691.147030,766.126001,1989.301517,1077.693514,2457.897298};
     RATETYPE delay_sets[8] = {7.012622,14.984612,8.023912,14.704954,1.243684,0.425859,0.409653,10.049570};
     RATETYPE rates_base[NUM_REACTIONS] = {30.012607,51.696917,38.245038,30.602979,
         
@@ -29,7 +29,11 @@ int main() {
         
         0.224610,0.489840,0.486618,0.483102};
     
-    for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
+    for (int i = 0; i < 5; i++) {
+        ps._critical_values[i] = critical_values[i];
+    }
+    
+    for (int i = 0; i < 8; i++) {
         ps._delay_sets[i] = delay_sets[i];
     }
     for (int i = 0; i < NUM_REACTIONS; i++) {

@@ -76,3 +76,35 @@ void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
     }
     
 }
+
+
+RATETYPE cal_avgpd(){
+    /*
+    for (int j = 0; j < 3; j++) {
+        int* cells = _simulation._neighbors[IMH1 + j];
+        //int cell = old_cells_mrna[IMH1 + j];
+        //int time = WRAP(stc.time_cur - delays[j], sd.max_delay_size);
+        concentration_level<double>::cell cur_cons = cl.cons[CPDELTA][time];
+        double sum=0;
+        if (cell % sd.width_total == cl.active_start_record[time]) {
+            sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
+        } else if (cell % sd.width_total == cl.active_start_record[time]) {
+            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
+        } else {
+            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
+        }
+        avg_delays = sum;
+    }
+    
+    return avg_delay
+     */
+    return 1.1;
+}
+
+
+
+
+
+
+
+
