@@ -24,6 +24,9 @@ class Context {
       int modified_step = _simulation._baby_j[sp] - delay;
     return _simulation._baby_cl[sp][modified_step][_cell];
   }
+    RATETYPE getRate(int reaction){
+        return _simulation._rates[reaction][_cell]
+    }
 };
 
 #endif // CONTEXT_HPP

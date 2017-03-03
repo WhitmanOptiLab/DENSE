@@ -49,7 +49,7 @@ public:
     
     // currently in use
     //RATETYPE* _sets;
-    RATETYPE _delay_sets[NUM_DELAY_REACTIONS]; //hard coded for now to be changed later
+    RATETYPE _delay_sets[8]; //hard coded for now to be changed later
     RATETYPE _rates_base[NUM_REACTIONS]; // Base rates taken from the current parameter set
 };
 
