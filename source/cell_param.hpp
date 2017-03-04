@@ -73,7 +73,7 @@ public:
         }
     }
     
-    void update_rates(RATETYPE param_data[]);
+    void update_rates(const RATETYPE param_data[]);
     int height() const {return _height;}
     int width() const {return _width;}
     inline RATETYPE random_perturbation (RATETYPE perturb) {

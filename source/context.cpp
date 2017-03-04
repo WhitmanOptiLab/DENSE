@@ -100,7 +100,6 @@ RATETYPE Context::cal_avgpd(int mRNA_idx) const{
 
 RATETYPE Context::cal_transcription_her1() const{
     RATETYPE th1h1= 0, tdelta;
-    
     th1h1 = _simulation._critValues[0][_cell] == 0 ? 0 : getCon(ph11) / _simulation._critValues[0][_cell];
     tdelta = _simulation._critValues[1][_cell] == 0 ? 0 : cal_avgpd(mh1) / _simulation._critValues[1][_cell];
     return ((1 + tdelta) / (1 + tdelta + th1h1*th1h1));
