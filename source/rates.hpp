@@ -25,7 +25,7 @@ public:
     int   _height, _width;
     bool _cuda;
     RATETYPE *_array;
-    int _delay_size[NUM_REACTIONS];
+    //int _delay_size[NUM_REACTIONS];
     RATETYPE *_darray;
     const simulation& _sim;
     
@@ -44,7 +44,7 @@ public:
     
     
     Rates(const simulation& sim)
-    :_height(NUM_SPECIES),_sim(sim),_cuda(false){
+    :_height(NUM_REACTIONS),_sim(sim),_cuda(false){
         //_delay_size = int
         allocate_array();
     }

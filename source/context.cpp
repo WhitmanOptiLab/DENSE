@@ -4,7 +4,6 @@
 #include "simulation.hpp"
 #include "rates.hpp"
 #include "context.hpp"
-#include "model_impl.hpp"
 #include <iostream>
 
 using namespace std;
