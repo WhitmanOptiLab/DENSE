@@ -7,7 +7,7 @@
 using namespace std;
 
 template<int N>
-void cell_param<N>::update_rates(RATETYPE param_data[]){
+void cell_param<N>::update_rates(const RATETYPE param_data[]){
     if (_sim._model._using_perturb){
         for (int i = 0; i < NUM_SPECIES; i++) {
             if (_sim._model.factors_perturb[i] == 0) { // If the current rate has no perturbation factor then set every cell's rate to the base rate
