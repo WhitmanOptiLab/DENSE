@@ -2,7 +2,7 @@
 //   reside
 
 #include "simulation.hpp"
-#include "rates.hpp"
+#include "cell_param.hpp"
 #include "context.hpp"
 #include <iostream>
 
@@ -77,30 +77,34 @@ void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
 }
 
 
-RATETYPE cal_avgpd(){
-    /*
-    for (int j = 0; j < 3; j++) {
-        int* cells = _simulation._neighbors[IMH1 + j];
-        //int cell = old_cells_mrna[IMH1 + j];
-        //int time = WRAP(stc.time_cur - delays[j], sd.max_delay_size);
-        concentration_level<double>::cell cur_cons = cl.cons[CPDELTA][time];
-        double sum=0;
-        if (cell % sd.width_total == cl.active_start_record[time]) {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
-        } else if (cell % sd.width_total == cl.active_start_record[time]) {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
-        } else {
-            sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
-        }
-        avg_delays = sum;
-    }
+RATETYPE Context::cal_avgpd(int mRNA_idx) const{
+    //3 = number of mrna that is delta dependent
     
-    return avg_delay
-     */
-    return 1.1;
+        std::array<int, 6> cells = _simulation._neighbors[mRNA_idx];
+        //int cell = old_cells_mrna[IMH1 + j];
+        int time =  _simulation._baby_j[mRNA_idx]- _simulation._delays[mRNA_idx][_cell];
+        baby_cl::cell cur_cons = _simulation._baby_cl[pd][time];
+        double avg_delay = 0;
+        if (_cell % _simulation._width_total == cl.active_start_record[time]) {
+            avg_delay = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
+        } else if (_cell % _simulation._width_total == cl.active_end_record[time]) {
+            avg_delay = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
+        } else {
+            avg_delay = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
+        }
+        //avg_delays = sum;
+    
+    
+    return avg_delay;
 }
 
-
+RATETYPE Context::cal_transcription_her1() const{
+    RATETYPE th1h1= 0, tdelta;
+    
+    th1h1 = _simulation._critValues[0][_cell] == 0 ? 0 : getCon(ph11) / _simulation._critValues[0][_cell];
+    tdelta = _simulation._critValues[1][_cell] == 0 ? 0 : cal_avgpd(mh1) / _simulation._critValues[1][_cell];
+    return ((1 + tdelta) / (1 + tdelta + th1h1*th1h1));
+}
 
 
 

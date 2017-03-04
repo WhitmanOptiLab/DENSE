@@ -42,7 +42,9 @@ int main() {
     
     //setting up simulation
     simulation s(m, ps, 200, 50);
-    s._rates.update_rates();
+    s._rates.update_rates(s._parameter_set._rates_base);
+    s._delays.update_rates(s._parameter_set._delay_sets);
+    s._critValues.update_rates(s._parameter_set._critical_values);
     s._cl.initialize(4,300,200);
     s._baby_cl.initialize();
     

@@ -1,6 +1,6 @@
 #include <cmath>
 #include "simulation.hpp"
-#include "rates.hpp"
+#include "cell_param.hpp"
 #include "context.hpp"
 #include "model_impl.hpp"
 

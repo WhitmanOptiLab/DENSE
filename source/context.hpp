@@ -27,7 +27,8 @@ class Context {
   RATETYPE getRate(int reaction) const {
         return _simulation._rates[reaction][_cell];
     }
-    RATETYPE cal_avgpd();
+  RATETYPE cal_avgpd(int mRNA_idx) const;
+  RATETYPE cal_transcription_her1() const;
 };
 
 #endif // CONTEXT_HPP
