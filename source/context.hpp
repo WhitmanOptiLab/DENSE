@@ -15,7 +15,7 @@ class Context {
   simulation& _simulation;
   double _avg;
   Context(simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
-  RATETYPE calculateNeighbourAvg(specie_id sp, int delay);
+  RATETYPE calculateNeighbourAvg(specie_id sp) const;
   void updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates);
   const std::array<RATETYPE, NUM_SPECIES> calculateRatesOfChange();
   RATETYPE getCon(specie_id sp, int delay = 0) const {
@@ -27,8 +27,10 @@ class Context {
   RATETYPE getRate(int reaction) const {
         return _simulation._rates[reaction][_cell];
     }
-  RATETYPE cal_avgpd(int mRNA_idx) const;
-  RATETYPE cal_transcription_her1() const;
+  RATETYPE cal_avgpd(specie_id sp) const;
+  RATETYPE cal_transcription(specie_id sp) const;
+  RATETYPE cal_tdelta(specie_id sp) const;
+  RATETYPE cal_tdimer(specie_id sp) const;
 };
 
 #endif // CONTEXT_HPP

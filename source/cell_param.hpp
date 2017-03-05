@@ -8,7 +8,7 @@
 //#include "simulation.hpp"
 #include "reaction.hpp"
 #include "specie.hpp"
-#include "reaction.hpp"
+
 /*
 #ifdef __CUDACC__
 #define CPUGPU_FUNC __host__ __device__

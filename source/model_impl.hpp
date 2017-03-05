@@ -140,7 +140,7 @@ RATETYPE reaction<pm22_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh1_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(0);
+    return c.getRate(0) * c.cal_transcription(mh1);
 }
 
 template<>
@@ -150,7 +150,7 @@ RATETYPE reaction<mh1_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<md_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(3) * c.cal_transcription_her1();
+    return c.getRate(3) * c.cal_transcription(md);
 }
 
 template<>
@@ -160,7 +160,7 @@ RATETYPE reaction<md_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mm1_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(1);
+    return c.getRate(1) * c.cal_transcription(mm1);
 }
 
 template<>
@@ -170,7 +170,7 @@ RATETYPE reaction<mm1_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mm2_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(2);
+    return c.getRate(2) * c.cal_transcription(mm2);
 }
 
 template<>

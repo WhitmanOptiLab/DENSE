@@ -96,7 +96,10 @@ void simulation::execute(){
     baby_to_cl(_baby_cl,_cl,_j,_baby_j);
     //time_baby = baby_j;
     //return true;
-
+    _j++;
+    for (int i =0; i< NUM_SPECIES ; i++){
+        _baby_j[i]++;
+    }
 }
 
 
