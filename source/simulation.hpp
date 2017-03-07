@@ -3,7 +3,7 @@
 
 #include "param_set.hpp"
 #include "model.hpp"
-#include "rates.hpp"
+#include "cell_param.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
 #include <vector>
@@ -17,11 +17,15 @@ using namespace std;
  */
 
 
+typedef cell_param<NUM_REACTIONS> Rates;
+typedef cell_param<NUM_DELAY_REACTIONS> Delays;
+typedef cell_param<5> CritValues;
+
 class simulation{
     
  public:
   // Times and timing
-  double step_size; // The step size in minutes
+  RATETYPE _step_size; // The step size in minutes
   int time_total; // The number of minutes to run for
   int steps_total; // The number of time steps to simulate (total time / step size)
   int steps_split; // The number of time steps it takes for cells to split
@@ -64,6 +68,8 @@ class simulation{
   const param_set& _parameter_set;
   const model& _model;
   Rates _rates;
+  Delays _delays;
+  CritValues _critValues;
   Concentration_level _cl;
   baby_cl _baby_cl;
   //Context<double> _contexts;
@@ -77,7 +83,7 @@ class simulation{
   //int* _relatedReactions[NUM_SPECIES];
 
     
-    simulation(const model& m, const param_set& ps, int cells_total, int width_total) : _parameter_set(ps), _model(m), _rates(*this), _cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_neighbors(_cells_total){
+    simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _parameter_set(ps), _model(m), _rates(*this), _delays(*this), _critValues(*this),_cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_neighbors(_cells_total), _step_size(step_size){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       _NEIGHBORS_2D = 6;

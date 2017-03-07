@@ -1,5 +1,5 @@
-#ifndef RATES_HPP
-#define RATES_HPP
+#ifndef CELL_PARAM_HPP
+#define CELL_PARAM_HPP
 
 #include <stdlib.h>
 //#include <cuda_runtime_api.h>
@@ -8,7 +8,7 @@
 //#include "simulation.hpp"
 #include "reaction.hpp"
 #include "specie.hpp"
-#include "reaction.hpp"
+
 /*
 #ifdef __CUDACC__
 #define CPUGPU_FUNC __host__ __device__
@@ -19,13 +19,14 @@
 using namespace std;
 class simulation;
 
-class Rates {
+template<int N>
+class cell_param {
     //FIXME - want to make this private at some point
 public:
     int   _height, _width;
     bool _cuda;
     RATETYPE *_array;
-    int _delay_size[NUM_REACTIONS];
+    //int _delay_size[NUM_REACTIONS];
     RATETYPE *_darray;
     const simulation& _sim;
     
@@ -43,8 +44,8 @@ public:
     };
     
     
-    Rates(const simulation& sim)
-    :_height(NUM_SPECIES),_sim(sim),_cuda(false){
+    cell_param(const simulation& sim)
+    :_height(N),_sim(sim),_cuda(false){
         //_delay_size = int
         allocate_array();
     }
@@ -72,7 +73,7 @@ public:
         }
     }
     
-    void update_rates();
+    void update_rates(const RATETYPE param_data[]);
     int height() const {return _height;}
     int width() const {return _width;}
     inline RATETYPE random_perturbation (RATETYPE perturb) {
