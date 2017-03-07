@@ -4,6 +4,7 @@
 #include "param_set.hpp"
 #include "model.hpp"
 #include "cell_param.hpp"
+#include "reaction.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
 #include <vector>
@@ -19,7 +20,7 @@ using namespace std;
 
 typedef cell_param<NUM_REACTIONS> Rates;
 typedef cell_param<NUM_DELAY_REACTIONS> Delays;
-typedef cell_param<5> CritValues;
+typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
 class simulation{
     

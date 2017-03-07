@@ -4,6 +4,6 @@
 int main() {
   model m;
   param_set ps;
-  simulation s(m, ps, 1, 1);
+  simulation s(m, ps, 1, 1, 1.0);
   s.test_sim();
 }
