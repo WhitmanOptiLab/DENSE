@@ -80,7 +80,8 @@ public:
     RATETYPE random_rate(pair<RATETYPE, RATETYPE> range) {
         return range.first + (range.second - range.first) * rand() / (RAND_MAX + 1.0);
     }
-protected:
+    void initialize();
+//protected:
     void dealloc_array(){
         if (_array){
             delete[] _array;

@@ -57,8 +57,7 @@ void simulation::execute(){
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
-        
-        
+    
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
         if (width_current == _width_total || k % _width_total <= active_start) { // Compute only existing (i.e. already grown)cells
@@ -73,12 +72,15 @@ void simulation::execute(){
             #undef REACTION
         }
     }
+
     // Check to make sure the numbers are still valid
+    /*
     if (any_less_than_0(_baby_cl, _baby_j) || concentrations_too_high(_baby_cl, _baby_j, max_con_thresh)) {
         //return false;
         //printf "Concentration too high or below zero. Exiting."
         exit(0);
     }
+     */
     
     // Update the active record data and split counter
     steps_elapsed++;
@@ -86,30 +88,40 @@ void simulation::execute(){
     //baby_cl.active_end_record[baby_j] = active_end;
     
     // Copy from the simulating cl to the analysis cl
-    if (_j % big_gran == 0) {
-        baby_to_cl(_baby_cl, _cl,  _j / big_gran, _baby_j);
+    /*
+    if (_j % _big_gran == 0) {
+        cout<<"08"<<endl;
+        baby_to_cl(_baby_cl, _cl,  _j / _big_gran, _baby_j);
     }
-        
+    */
+
     //}
     
     // Copy the last time step from the simulating cl to the analysis cl and mark where the simulating cl left off time-wise
-    baby_to_cl(_baby_cl,_cl,_j,_baby_j);
+    //baby_to_cl(_baby_cl,_cl,_j,_baby_j);
     //time_baby = baby_j;
     //return true;
     _j++;
     for (int i =0; i< NUM_SPECIES ; i++){
         _baby_j[i]++;
     }
+    
+    
 }
 
 
 
 void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
     int baby_time = 0;
+    cout<<"09"<<endl;
     for (int i = 0; i <= NUM_SPECIES; i++) {
+        cout<<"10"<<endl;
         baby_time = baby_times[i];
         for (int k = 0; k < _cells_total; k++) {
-            cl[i][time][k] = baby_cl[i][baby_time][k];
+            cout<<"11"<<endl;
+            RATETYPE temp =baby_cl[i][baby_time][k];
+            cout<<"12"<<endl;
+            cl[i][time][k] = temp;
         }
     }
     //cl.active_start_record[time] = baby_cl.active_start_record[baby_time];
