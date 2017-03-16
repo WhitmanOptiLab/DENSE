@@ -62,14 +62,13 @@ void simulation::execute(){
     for (int k = 0; k < _cells_total; k++) {
         if (width_current == _width_total || k % _width_total <= active_start) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
+            Context c(*this, k);
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
             calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
-                
+
             // Perform biological calculations
-            #define REACTION(name);
-            #include "reactions_list.hpp"
-            #undef REACTION
+            c.updateCon(c.calculateRatesOfChange());
         }
     }
 
@@ -226,12 +225,12 @@ void simulation::calc_max_delays() {
   //    accumulate delay into specie
   //  for each factor
   //    accumulate delay into specie
+  //RATETYPE max_gradient_##name = 0; \
+  //for (int k = 0; k < _width_total; k++) { \
+  //  max_gradient_##name = std::max<int>(_model.factors_gradient[ name ][k], max_gradient_##name); \
+  //} 
 #define REACTION(name) 
 #define DELAY_REACTION(name) \
-  RATETYPE max_gradient_##name = 0; \
-  for (int k = 0; k < _width_total; k++) { \
-    max_gradient_##name = std::max<int>(_model.factors_gradient[ name ][k], max_gradient_##name); \
-  } \
   for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \
     int& sp_max_delay = max_delays[_model.reaction_##name.getInputs()[in]]; \
     sp_max_delay = std::max<int>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
@@ -239,7 +238,7 @@ void simulation::calc_max_delays() {
   for (int in = 0; in < _model.reaction_##name.getNumFactors(); in++) { \
     int& sp_max_delay = max_delays[_model.reaction_##name.getFactors()[in]]; \
     sp_max_delay = std::max<int>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
-  } 
+  }
 #include "reactions_list.hpp"
 #undef REACTION
 #undef DELAY_REACTION
