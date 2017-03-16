@@ -39,15 +39,12 @@ int main() {
     for (int i = 0; i < NUM_REACTIONS; i++) {
         ps._rates_base[i] = rates_base[i];
     }
-    
+    cout << "no seg fault"<<endl;
     //setting up simulation
     simulation s(m, ps, 200, 50,0.01);
-    s._delays.update_rates(s._parameter_set._delay_sets);
-    s._rates.update_rates(s._parameter_set._rates_base);
-    s._critValues.update_rates(s._parameter_set._critical_values);
-    s._cl.initialize(4,300,200);
-    s._baby_cl.initialize();
-    //cout << "no seg fault"<<endl;
+    cout << "no seg fault"<<endl;
+    s.initialize();
+    cout << "no seg fault"<<endl;
     //run simulation
     s.execute();
 }

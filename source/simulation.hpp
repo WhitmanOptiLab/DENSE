@@ -92,7 +92,8 @@ class simulation{
       }
       _NEIGHBORS_2D = 6;
       _big_gran = 1;
-    
+      cout << "no seg fault2"<<endl;
+      calc_max_delays();
   }
   void test_sim();
   void execute();
