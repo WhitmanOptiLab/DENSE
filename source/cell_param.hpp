@@ -26,7 +26,6 @@ public:
     int   _height, _width;
     bool _cuda;
     RATETYPE *_array;
-    //int _delay_size[NUM_REACTIONS];
     RATETYPE *_darray;
     const simulation& _sim;
     
@@ -44,9 +43,8 @@ public:
     };
     
     
-    cell_param(const simulation& sim)
-    :_height(N),_sim(sim),_cuda(false){
-        //_delay_size = int
+    cell_param(const simulation& sim, int ncells)
+    :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
     }
     

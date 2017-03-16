@@ -1,8 +1,15 @@
+MODEL=mesp_model_2016
+ifndef MODEL
+$(error Please define the variable MODEL to be one of ($(shell ls ../models)))
+endif
+
 CC=clang++
 NVCC=nvcc
-CFLAGS=-std=c++11
+CFLAGS=-std=c++11 -g -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 TESTS=test_sim_compile test_simulation
+
+all: ${TESTS}
 
 test: ${TESTS}
 	./test_sim_compile 

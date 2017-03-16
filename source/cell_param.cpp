@@ -54,11 +54,11 @@ void cell_param<N>::update_rates(const RATETYPE param_data[]){
 
 //Dummy function to force generation of update_rates for all the simulation types
 void __genUpdateRates(simulation& s) {
-  Rates r(s);
+  Rates r(s, 1);
   r.update_rates(NULL);
-  Delays d(s);
+  Delays d(s, 1);
   d.update_rates(NULL);
-  CritValues c(s);
+  CritValues c(s, 1);
   c.update_rates(NULL);
 }
 
