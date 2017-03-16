@@ -1,4 +1,4 @@
-CC=g++
+CC=clang++
 NVCC=nvcc
 CFLAGS=-std=c++11
 LFLAGS=${CFLAGS}

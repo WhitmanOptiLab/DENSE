@@ -4,3 +4,7 @@
 *.ptx
 *.cubin
 *.fatbin
+*.o
+test_sim_compile
+test_simulation
+*.swp
