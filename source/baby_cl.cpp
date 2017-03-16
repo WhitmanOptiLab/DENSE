@@ -39,6 +39,7 @@ void baby_cl::initialize(){
     }
     _width = _sim._cells_total;
     _total_length = sum * _sim._cells_total;
+    cout<<"total_length:" <<_total_length<<endl;
     dealloc_array();
     _cuda=false;
     allocate_array();

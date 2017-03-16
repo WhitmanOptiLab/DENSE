@@ -8,6 +8,7 @@ using namespace std;
 
 template<int N>
 void cell_param<N>::update_rates(const RATETYPE param_data[]){
+    initialize();
     if (_sim._model._using_perturb){
         for (int i = 0; i < N; i++) {
             if (_sim._model.factors_perturb[i] == 0) { // If the current rate has no perturbation factor then set every cell's rate to the base rate
@@ -25,11 +26,10 @@ void cell_param<N>::update_rates(const RATETYPE param_data[]){
     } else {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < _sim._cells_total; j++) {
-                _array[_width*i+j] = param_data[i];
+                _array[_width*i+j] =param_data[i];
             }
         }
     }
-    
     if (_sim._model._using_gradients) { // If at least one rate has a gradient
         for (int i = 0; i < N; i++) {
             if (_sim._model._has_gradient[i]) { // If this rate has a gradient
@@ -62,3 +62,9 @@ void __genUpdateRates(simulation& s) {
   c.update_rates(NULL);
 }
 
+template<int N>
+void cell_param<N>:: initialize(){
+    _width = _sim._cells_total;
+    dealloc_array();
+    allocate_array();
+}

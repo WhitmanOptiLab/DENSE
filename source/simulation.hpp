@@ -34,7 +34,7 @@ class simulation{
   bool no_growth; // Whether or not the simulation should rerun with growth
 
   // Granularities
-  int big_gran; // The granularity in time steps with which to analyze and store data
+  int _big_gran; // The granularity in time steps with which to analyze and store data
   int small_gran; // The granularit in time steps with which to simulate data
 
   // Cutoff values
@@ -88,6 +88,7 @@ class simulation{
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       _NEIGHBORS_2D = 6;
+      _big_gran = 1;
     
   }
   void test_sim();
