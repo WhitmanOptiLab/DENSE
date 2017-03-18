@@ -1,4 +1,4 @@
-MODEL=mesp_model_2016
+MODEL=her_model_2014
 ifndef MODEL
 $(error Please define the variable MODEL to be one of ($(shell ls ../models)))
 endif

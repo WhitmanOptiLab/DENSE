@@ -81,6 +81,7 @@ class simulation{
   std::vector<std::array<int, 6> > _neighbors;
   //double* _sets;
   int _NEIGHBORS_2D;
+  int _num_history_steps; // how many steps in history are needed for this numerical method
   //int* _relatedReactions[NUM_SPECIES];
 
     
@@ -92,6 +93,7 @@ class simulation{
       }
       _NEIGHBORS_2D = 6;
       _big_gran = 1;
+      _num_history_steps = 2;
       cout << "no seg fault2"<<endl;
       calc_max_delays();
   }

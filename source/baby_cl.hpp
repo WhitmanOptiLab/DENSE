@@ -20,7 +20,7 @@ public:
     RATETYPE *_array;
     RATETYPE *_darray;
     int _position[NUM_SPECIES];
-    int _delay_size[NUM_SPECIES];
+    int _specie_size[NUM_SPECIES];
     class cell{
     public:
         cell(RATETYPE *row): _array(row) {}
@@ -119,12 +119,12 @@ public:
      */
     timespan operator[](int i){
         if (_cuda){
-            timespan temp(_darray+_length*_width*i, _width, _delay_size[i] );
+            timespan temp(_darray+_length*_width*i, _width, _specie_size[i] );
             return temp;
         }
         else{
             //int pos =
-            timespan temp(_array+_position[i], _width, _delay_size[i]);
+            timespan temp(_array+_position[i], _width, _specie_size[i]);
             return temp;
         }
     }
@@ -132,12 +132,12 @@ public:
     const timespan operator[](int i) const{
         if (_cuda){
             
-            timespan temp(_darray+_position[i], _width, _delay_size[i]);
+            timespan temp(_darray+_position[i], _width, _specie_size[i]);
             return temp;
         }
         else{
             
-            timespan temp(_array+_position[i], _width, _delay_size[i]);
+            timespan temp(_array+_position[i], _width, _specie_size[i]);
             return temp;
         }
     }
