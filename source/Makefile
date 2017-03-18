@@ -8,6 +8,7 @@ NVCC=nvcc
 CFLAGS=-std=c++11 -g -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 TESTS=test_sim_compile test_simulation
+HEADERS=$(wildcard *.h) $(wildcard ../models/${MODEL}/*.h)
 
 all: ${TESTS}
 
@@ -21,7 +22,10 @@ test_sim_compile: test_sim_compile.o simulation.o baby_cl.o cell_param.o model.o
 test_simulation: test_simulation.o simulation.o reaction.o cell_param.o baby_cl.o context.o
 	${CC} ${CFLAGS} $^ -o $@ 
 
-%.o: %.cpp $(wildcard *.h)
+reaction.o: ../models/${MODEL}/reaction.cpp $(HEADERS)
+	${CC} ${CFLAGS} -c $< -o $@
+
+%.o: %.cpp $(wildcard *.h) $(HEADERS)
 	${CC} ${CFLAGS} -c $< -o $@
 
 clean:

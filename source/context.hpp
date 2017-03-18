@@ -15,22 +15,21 @@ class Context {
   simulation& _simulation;
   double _avg;
   Context(simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
-  RATETYPE calculateNeighbourAvg(specie_id sp) const;
+  RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
   void updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates);
   const std::array<RATETYPE, NUM_SPECIES> calculateRatesOfChange();
   RATETYPE getCon(specie_id sp, int delay = 0) const {
     // FIXME: calculate an actual time, not just using the delay, and make sure the indexes are 
     // in the right order
-      int modified_step = _simulation._baby_j[sp] - delay;
+    int modified_step = _simulation._baby_j[sp] - delay;
     return _simulation._baby_cl[sp][modified_step][_cell];
   }
-  RATETYPE getRate(int reaction) const {
+  RATETYPE getCritVal(critspecie_id rcritsp) const {
+    return _simulation._critValues[rcritsp][_cell];
+  }
+  RATETYPE getRate(reaction_id reaction) const {
         return _simulation._rates[reaction][_cell];
     }
-  RATETYPE cal_avgpd(specie_id sp) const;
-  RATETYPE cal_transcription(specie_id sp) const;
-  RATETYPE cal_tdelta(specie_id sp) const;
-  RATETYPE cal_tdimer(specie_id sp) const;
 };
 
 #endif // CONTEXT_HPP

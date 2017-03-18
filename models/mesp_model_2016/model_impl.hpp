@@ -140,7 +140,9 @@ RATETYPE reaction<pm22_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh1_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mh1_synthesis) * c.cal_transcription(mh1);
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    return c.getRate(mh1_synthesis) * (tdelta/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)));
 }
 
 template<>
@@ -150,7 +152,8 @@ RATETYPE reaction<mh1_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<md_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(md_synthesis) * c.cal_transcription(md);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    return c.getRate(md_synthesis) * (RATETYPE(1.0)/(RATETYPE(1.0)+(th1h1*th1h1)));
 }
 
 template<>
@@ -160,7 +163,9 @@ RATETYPE reaction<md_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mm1_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mm1_synthesis) * c.cal_transcription(mm1);
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    return c.getRate(mm1_synthesis) * ((RATETYPE(1.0) + tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)));
 }
 
 template<>
@@ -170,7 +175,12 @@ RATETYPE reaction<mm1_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mm2_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mm2_synthesis) * c.cal_transcription(mm2);
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE tm1m1 = c.getCon(pm11)/c.getCritVal(rcrit_pm11);
+    RATETYPE tm1m2 = c.getCon(pm12)/c.getCritVal(rcrit_pm12);
+    RATETYPE tm2m2 = c.getCon(pm22)/c.getCritVal(rcrit_pm22);
+    RATETYPE denominator = RATETYPE(1.0) + tdelta + tm1m1*tm1m1 + tm1m2*tm1m2 + tm2m2*tm2m2;
+    return c.getRate(mm2_synthesis) * (RATETYPE(1.0)+tdelta)/denominator;
 }
 
 template<>
