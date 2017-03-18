@@ -170,7 +170,10 @@ RATETYPE reaction<ph713_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh1_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mh1_synthesis) * c.cal_transcription(mh1);
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
+    return c.getRate(mh1_synthesis) * ((RATETYPE(1.0)+tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)+(th7h13*th7h13)));
 }
 
 template<>
@@ -180,7 +183,9 @@ RATETYPE reaction<mh1_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<md_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(md_synthesis) * c.cal_transcription(md);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
+    return c.getRate(md_synthesis) * (RATETYPE(1.0)/(RATETYPE(1.0)+(th1h1*th1h1)+(th7h13*th7h13)));
 }
 
 template<>
@@ -190,8 +195,10 @@ RATETYPE reaction<md_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh7_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mh7_synthesis) * c.cal_transcription(mh7);
-}
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
+    return c.getRate(mh7_synthesis) * ((RATETYPE(1.0)+tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)+(th7h13*th7h13)));}
 
 template<>
 RATETYPE reaction<mh7_degradation>::active_rate(const Context& c) const {
@@ -200,7 +207,10 @@ RATETYPE reaction<mh7_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh13_synthesis>::active_rate(const Context& c) const {
-    return c.getRate(mh13_synthesis) * c.cal_transcription(mh13);
+    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
+    return c.getRate(mh13_synthesis) * ((RATETYPE(1.0)+tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)+(th7h13*th7h13)));
 }
 
 template<>
