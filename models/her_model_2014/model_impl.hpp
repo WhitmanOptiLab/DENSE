@@ -1,0 +1,211 @@
+// In this header file, define your model!
+// This includes functions to describe each reaction.
+// Make sure that you've first completed reaction_list.h and specie_list.h
+#ifndef MODEL_IMPL_H
+#define MODEL_IMPL_H
+#include "reaction.hpp"
+#include "specie.hpp"
+#include "model.hpp"
+#include "context.hpp"
+#include <cstddef>
+
+// Next, define all of your reaction rate functions
+// For example, if you enumerated a reaction R_ONE, you should declare a 
+//   function like this:
+//
+// RATETYPE reaction<R_ONE>::active_rate(const Context c) const { return 6.0; }
+// 
+// Or, for a more interesting reaction rate, you might do something like
+// 
+// RATETYPE reaction<R_TWO>::active_rate(const Context c) const {
+//   return c.rate[R_TWO] * c.concentration[SPECIE_ONE] * 
+//                                   c.neighbors.concentration[SPECIE_TWO];
+// }
+/*
+template<>
+RATETYPE reaction<one>::active_rate(const Context& c) const {
+  return 6.0;
+}
+
+template<>
+RATETYPE reaction<two>::active_rate(const Context& c) const {
+  return 3.0;
+}
+
+template<>
+RATETYPE reaction<three>::active_rate(const Context& c) const {
+  return 8.0;
+}
+*/
+
+template<>
+RATETYPE reaction<ph1_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(ph1_synthesis) * c.getCon(mh1);
+}
+
+template<>
+RATETYPE reaction<ph1_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph1_degradation) * c.getCon(ph1);
+}
+
+template<>
+RATETYPE reaction<ph7_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(ph7_synthesis) * c.getCon(mh7);
+}
+
+template<>
+RATETYPE reaction<ph7_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph7_degradation) * c.getCon(ph7);
+}
+
+template<>
+RATETYPE reaction<ph13_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(ph13_synthesis) * c.getCon(mh13);
+}
+
+template<>
+RATETYPE reaction<ph13_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph13_degradation) * c.getCon(ph13);
+}
+
+template<>
+RATETYPE reaction<pd_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(pd_synthesis) * c.getCon(md);
+}
+
+template<>
+RATETYPE reaction<pd_degradation>::active_rate(const Context& c) const {
+    return c.getRate(pd_degradation) * c.getCon(pd);
+}
+
+template<>
+RATETYPE reaction<ph11_association>::active_rate(const Context& c) const {
+    return c.getRate(ph11_association) * c.getCon(ph1) * c.getCon(ph1);
+}
+
+template<>
+RATETYPE reaction<ph77_association>::active_rate(const Context& c) const {
+    return c.getRate(ph77_association) * c.getCon(ph7) * c.getCon(ph7);
+}
+
+template<>
+RATETYPE reaction<ph1313_association>::active_rate(const Context& c) const {
+    return c.getRate(ph1313_association) * c.getCon(ph13) * c.getCon(ph13);
+}
+
+template<>
+RATETYPE reaction<ph17_association>::active_rate(const Context& c) const {
+    return c.getRate(ph17_association) * c.getCon(ph1) * c.getCon(ph7);
+}
+
+template<>
+RATETYPE reaction<ph113_association>::active_rate(const Context& c) const {
+    return c.getRate(ph113_association) * c.getCon(ph1) * c.getCon(ph13);
+}
+
+template<>
+RATETYPE reaction<ph713_association>::active_rate(const Context& c) const {
+    return c.getRate(ph713_association) * c.getCon(ph13) * c.getCon(ph7);
+}
+
+template<>
+RATETYPE reaction<ph11_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph11_dissociation) * c.getCon(ph11);
+}
+
+template<>
+RATETYPE reaction<ph77_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph77_dissociation) * c.getCon(ph77);
+}
+
+template<>
+RATETYPE reaction<ph1313_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph1313_dissociation) * c.getCon(ph1313);
+}
+
+template<>
+RATETYPE reaction<ph17_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph17_dissociation) * c.getCon(ph17);
+}
+
+template<>
+RATETYPE reaction<ph113_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph113_dissociation) * c.getCon(ph113);
+}
+
+template<>
+RATETYPE reaction<ph713_dissociation>::active_rate(const Context& c) const {
+    return c.getRate(ph713_dissociation) * c.getCon(ph713);
+}
+
+template<>
+RATETYPE reaction<ph11_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph11_degradation) * c.getCon(ph11);
+}
+
+template<>
+RATETYPE reaction<ph77_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph77_degradation) * c.getCon(ph77);
+}
+
+template<>
+RATETYPE reaction<ph1313_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph1313_degradation) * c.getCon(ph1313);
+}
+
+template<>
+RATETYPE reaction<ph17_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph17_degradation) * c.getCon(ph17);
+}
+
+template<>
+RATETYPE reaction<ph113_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph113_degradation) * c.getCon(ph113);
+}
+
+template<>
+RATETYPE reaction<ph713_degradation>::active_rate(const Context& c) const {
+    return c.getRate(ph713_degradation) * c.getCon(ph713);
+}
+
+template<>
+RATETYPE reaction<mh1_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(mh1_synthesis) * c.cal_transcription(mh1);
+}
+
+template<>
+RATETYPE reaction<mh1_degradation>::active_rate(const Context& c) const {
+    return c.getRate(mh1_degradation) * c.getCon(mh1);
+}
+
+template<>
+RATETYPE reaction<md_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(md_synthesis) * c.cal_transcription(md);
+}
+
+template<>
+RATETYPE reaction<md_degradation>::active_rate(const Context& c) const {
+    return c.getRate(md_degradation) * c.getCon(md);
+}
+
+template<>
+RATETYPE reaction<mh7_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(mh7_synthesis) * c.cal_transcription(mh7);
+}
+
+template<>
+RATETYPE reaction<mh7_degradation>::active_rate(const Context& c) const {
+    return c.getRate(mh7_degradation) * c.getCon(mh7);
+}
+
+template<>
+RATETYPE reaction<mh13_synthesis>::active_rate(const Context& c) const {
+    return c.getRate(mh13_synthesis) * c.cal_transcription(mh13);
+}
+
+template<>
+RATETYPE reaction<mh13_degradation>::active_rate(const Context& c) const {
+    return c.getRate(mh13_degradation) * c.getCon(mh13);
+}
+
+#endif // MODEL_IMPL_H
