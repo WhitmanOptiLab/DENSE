@@ -31,7 +31,7 @@ void baby_cl::initialize(){
     int specie_size;
     int current_pos =0;
     
-    for (int i = 0; i <= NUM_SPECIES; i++){
+    for (int i = 0; i < NUM_SPECIES; i++){
         delay = _sim.max_delays[i];
         specie_size = delay + _sim._num_history_steps;
         sum += delay;

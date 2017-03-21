@@ -105,7 +105,15 @@ void simulation::execute(){
         _baby_j[i]++;
     }
     
+    for (int i =0; i< _cells_total; i++){
+        cout<< _baby_cl[mh1][_j][i];
+    }
+    cout<<endl;
     
+    for (int i =0; i< _cells_total; i++){
+        cout<< _rates[mh1_synthesis][i];
+    }
+    cout<<endl;
 }
 
 

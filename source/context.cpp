@@ -71,7 +71,7 @@ void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
     for (int i=0; i< NUM_SPECIES; i++){
         curr_rate= rates[i];
         int baby_j= _simulation._baby_j[i];
-        _simulation._cl[i][baby_j+1][_cell]=_simulation._cl[i][baby_j][_cell]+ _simulation._step_size* curr_rate;
+        _simulation._baby_cl[i][baby_j+1][_cell]=_simulation._baby_cl[i][baby_j][_cell]+ _simulation._step_size* curr_rate;
     }
     
 }
