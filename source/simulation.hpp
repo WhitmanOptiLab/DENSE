@@ -40,8 +40,7 @@ class simulation{
   // Cutoff values
   double max_con_thresh; // The maximum threshold concentrations can reach before the simulation is prematurely ended
   int max_delay_size; // The maximum number of time steps any delay in the current parameter set takes plus 1 (so that baby_cl and each mutant know how many minutes to store)
-  int max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
-
+  
   // Sizes
   int _width_total; // The width in cells of the PSM
   int width_initial; // The width in cells of the PSM before anterior growth
@@ -83,6 +82,8 @@ class simulation{
   int _NEIGHBORS_2D;
   int _num_history_steps; // how many steps in history are needed for this numerical method
   //int* _relatedReactions[NUM_SPECIES];
+  int max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
+    
 
     
     simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_neighbors(_cells_total), _step_size(step_size){
@@ -107,6 +108,14 @@ class simulation{
   void initialize();
   void calc_neighbor_2d();
   void set_test_data();
+    void simulate(RATETYPE totoal_min);
+    void print_delay(){
+        cout<<"delay for mh1 ";
+        for (int i =0; i<_cells_total;i++){
+            cout<< _delays[dreact_mh1_synthesis][i]<< " ";
+        }
+        cout<<endl;
+    }
  private:
   void calc_max_delays();
 };

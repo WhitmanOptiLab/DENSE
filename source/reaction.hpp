@@ -20,8 +20,8 @@ enum delay_reaction_id {
 #define REACTION(name)
 #define DELAY_REACTION(name) dreact_##name,
 #include "reactions_list.hpp"
-#undef DELAY_REACTION
 #undef REACTION
+#undef DELAY_REACTION
   NUM_DELAY_REACTIONS
 };
 

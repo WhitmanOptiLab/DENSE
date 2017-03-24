@@ -41,5 +41,6 @@ int main() {
     s.initialize();
     cout << "no seg fault"<<endl;
     //run simulation
-    s.execute();
+    s.simulate(.5);
+    //s.print_delay();
 }

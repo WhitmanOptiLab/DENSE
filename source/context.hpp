@@ -29,6 +29,9 @@ class Context {
   }
   RATETYPE getRate(reaction_id reaction) const {
         return _simulation._rates[reaction][_cell];
+  }
+    RATETYPE getDelay(delay_reaction_id delay_reaction) const{
+        return _simulation._delays[delay_reaction][_cell];
     }
 };
 

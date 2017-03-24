@@ -35,6 +35,13 @@ void set_test_data(){
     
 }
 
+void simulation::simulate(RATETYPE sim_time){
+    RATETYPE total_step = sim_time/_step_size;
+    for (int i = 0; i< total_step; i++){
+        execute();
+    }
+}
+
 void simulation::execute(){
     //concentration cl;
     //Rates rates;
@@ -60,7 +67,7 @@ void simulation::execute(){
     
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
-        if (width_current == _width_total || k % _width_total <= active_start) { // Compute only existing (i.e. already grown)cells
+        if (width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             Context c(*this, k);
             int old_cells_mrna[NUM_SPECIES];
@@ -106,14 +113,15 @@ void simulation::execute(){
     }
     
     for (int i =0; i< _cells_total; i++){
-        cout<< _baby_cl[mh1][_j][i];
+        cout<< _baby_cl[mh1][_j][i]<< " ";
     }
     cout<<endl;
-    
+    /*
     for (int i =0; i< _cells_total; i++){
         cout<< _rates[mh1_synthesis][i];
     }
     cout<<endl;
+     */
 }
 
 
