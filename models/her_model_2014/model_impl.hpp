@@ -21,23 +21,6 @@
 //   return c.rate[R_TWO] * c.concentration[SPECIE_ONE] * 
 //                                   c.neighbors.concentration[SPECIE_TWO];
 // }
-/*
-template<>
-RATETYPE reaction<one>::active_rate(const Context& c) const {
-  return 6.0;
-}
-
-template<>
-RATETYPE reaction<two>::active_rate(const Context& c) const {
-  return 3.0;
-}
-
-template<>
-RATETYPE reaction<three>::active_rate(const Context& c) const {
-  return 8.0;
-}
-*/
-
 template<>
 RATETYPE reaction<ph1_synthesis>::active_rate(const Context& c) const {
     return c.getRate(ph1_synthesis) * c.getCon(mh1,c.getDelay(dreact_ph1_synthesis));

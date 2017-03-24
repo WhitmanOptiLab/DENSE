@@ -111,11 +111,12 @@ void simulation::execute(){
     for (int i =0; i< NUM_SPECIES ; i++){
         _baby_j[i]++;
     }
-    
-    for (int i =0; i< _cells_total; i++){
-        cout<< _baby_cl[mh1][_j][i]<< " ";
+    if (true){
+        for (int i =0; i< _cells_total; i++){
+            cout<< _baby_cl[mh1][_j][i]<< " ";
+        }
+        cout<<endl;
     }
-    cout<<endl;
     /*
     for (int i =0; i< _cells_total; i++){
         cout<< _rates[mh1_synthesis][i];
@@ -235,7 +236,7 @@ void simulation::calc_max_delays() {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0;
   }
-
+    RATETYPE temp_delays[NUM_SPECIES];
   //for each reaction
   //  for each input
   //    accumulate delay into specie
@@ -248,14 +249,17 @@ void simulation::calc_max_delays() {
 #define REACTION(name) 
 #define DELAY_REACTION(name) \
   for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \
-    int& sp_max_delay = max_delays[_model.reaction_##name.getInputs()[in]]; \
+    RATETYPE& sp_max_delay = temp_delays[_model.reaction_##name.getInputs()[in]]; \
     sp_max_delay = std::max<int>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
   } \
   for (int in = 0; in < _model.reaction_##name.getNumFactors(); in++) { \
-    int& sp_max_delay = max_delays[_model.reaction_##name.getFactors()[in]]; \
+    RATETYPE& sp_max_delay = temp_delays[_model.reaction_##name.getFactors()[in]]; \
     sp_max_delay = std::max<int>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION
 #undef DELAY_REACTION
+    for (int s = 0; s < NUM_SPECIES; s++) {
+        max_delays[s] = temp_delays[s]/_step_size;
+    }
 }
