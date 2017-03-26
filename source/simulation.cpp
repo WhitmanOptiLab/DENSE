@@ -111,13 +111,8 @@ void simulation::execute(){
     for (int i =0; i< NUM_SPECIES ; i++){
         _baby_j[i]++;
     }
-    if (true){
-        for (int i =0; i< _cells_total; i++){
-            cout<< _baby_cl[mh1][_j][i]<< " ";
-        }
-        cout<<endl;
-    }
-    /*
+    cout<< _j<< " "<<_baby_cl[mh1][_j][1]<< " ";
+           /*
     for (int i =0; i< _cells_total; i++){
         cout<< _rates[mh1_synthesis][i];
     }
