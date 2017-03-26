@@ -89,7 +89,7 @@ void simulation::execute(){
      */
     
     // Update the active record data and split counter
-    steps_elapsed++;
+    //steps_elapsed++;
     //baby_cl.active_start_record[baby_j] = active_start;
     //baby_cl.active_end_record[baby_j] = active_end;
     
@@ -105,19 +105,13 @@ void simulation::execute(){
     
     // Copy the last time step from the simulating cl to the analysis cl and mark where the simulating cl left off time-wise
     //baby_to_cl(_baby_cl,_cl,_j,_baby_j);
-    //time_baby = baby_j;
-    //return true;
     _j++;
     for (int i =0; i< NUM_SPECIES ; i++){
         _baby_j[i]++;
     }
+    
+    //print the concentration level of mh1 for cell 1
     cout<< _j<< " "<<_baby_cl[mh1][_j][1]<< " ";
-           /*
-    for (int i =0; i< _cells_total; i++){
-        cout<< _rates[mh1_synthesis][i];
-    }
-    cout<<endl;
-     */
 }
 
 
