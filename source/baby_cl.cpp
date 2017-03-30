@@ -36,9 +36,9 @@ void baby_cl::initialize(){
         specie_size = delay + _sim._num_history_steps;
         sum += delay;
         _specie_size[i]= specie_size;
-        cout<< specie_size<<endl;
+        //cout<< specie_size<<endl;
         _position[i] = current_pos;
-        current_pos += delay * _sim._cells_total;
+        current_pos += specie_size * _sim._cells_total;
     }
     _width = _sim._cells_total;
     _total_length = sum * _sim._cells_total;

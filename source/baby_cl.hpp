@@ -119,7 +119,7 @@ public:
      */
     timespan operator[](int i){
         if (_cuda){
-            timespan temp(_darray+_length*_width*i, _width, _specie_size[i] );
+            timespan temp(_array+_position[i], _width, _specie_size[i]);
             return temp;
         }
         else{
