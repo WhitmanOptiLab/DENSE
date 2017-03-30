@@ -190,10 +190,11 @@ RATETYPE reaction<mh7_degradation>::active_rate(const Context& c) const {
 
 template<>
 RATETYPE reaction<mh13_synthesis>::active_rate(const Context& c) const {
-    RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
-    RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
-    RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
-    return c.getRate(mh13_synthesis) * ((RATETYPE(1.0)+tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)+(th7h13*th7h13)));
+    //RATETYPE tdelta = c.calculateNeighborAvg(pd)/c.getCritVal(rcrit_pd);
+    //RATETYPE th1h1 = c.getCon(ph11)/c.getCritVal(rcrit_ph11);
+    //RATETYPE th7h13 = c.getCon(ph713)/c.getCritVal(rcrit_ph713);
+    //return c.getRate(mh13_synthesis) * ((RATETYPE(1.0)+tdelta)/(RATETYPE(1.0)+tdelta+(th1h1*th1h1)+(th7h13*th7h13)));
+    return c.getRate(mh13_synthesis);
 }
 
 template<>

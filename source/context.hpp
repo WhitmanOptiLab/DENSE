@@ -18,10 +18,10 @@ class Context {
   RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
   void updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates);
   const std::array<RATETYPE, NUM_SPECIES> calculateRatesOfChange();
-  RATETYPE getCon(specie_id sp, int delay = 0) const {
+  RATETYPE getCon(specie_id sp, int delay = 1) const {
     // FIXME: calculate an actual time, not just using the delay, and make sure the indexes are 
     // in the right order
-    int modified_step = _simulation._baby_j[sp] - delay;
+    int modified_step = _simulation._baby_j[sp] + 1 - delay;
     return _simulation._baby_cl[sp][modified_step][_cell];
   }
   RATETYPE getCritVal(critspecie_id rcritsp) const {

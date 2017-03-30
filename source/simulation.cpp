@@ -64,7 +64,7 @@ void simulation::execute(){
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
-     //cout<< _j<< " "<<_baby_cl[ph11][_j][1]<< " ";
+    cout<< _j<< " "<<_baby_cl[mh1][_j][1]<< " ";
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
         if (width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
@@ -239,11 +239,11 @@ void simulation::calc_max_delays() {
 #define DELAY_REACTION(name) \
   for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \
     RATETYPE& sp_max_delay = temp_delays[_model.reaction_##name.getInputs()[in]]; \
-    sp_max_delay = std::max<RATETYPE>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>(_parameter_set._delay_sets[ dreact_##name ], sp_max_delay); \
   } \
   for (int in = 0; in < _model.reaction_##name.getNumFactors(); in++) { \
     RATETYPE& sp_max_delay = temp_delays[_model.reaction_##name.getFactors()[in]]; \
-    sp_max_delay = std::max<RATETYPE>(_parameter_set._delay_sets[ dreact_##name ] * (1.0 + _model.factors_perturb[ name ] ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>(_parameter_set._delay_sets[ dreact_##name ], sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION
