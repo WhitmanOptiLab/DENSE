@@ -3,10 +3,10 @@
 #include "cell_param.hpp"
 #include "context.hpp"
 #include "model_impl.hpp"
-
+#include <limits>
 #include <iostream>
 
-
+typedef std::numeric_limits<double> dbl;
 using namespace std;
 //declare reaction inits here
 #define REACTION(name) \
@@ -64,7 +64,8 @@ void simulation::execute(){
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
-    cout<< _j<< " "<<_baby_cl[ph13][_j][1]<< " ";
+    cout.precision(dbl::max_digits10);
+    cout<< _j<< " "<<_baby_cl[mh1][_j][1]<<endl;
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
         if (width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells

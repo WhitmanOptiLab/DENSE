@@ -65,7 +65,7 @@ int main() {
      ps._rates_base[ph713_association] = 0.017196;
      ps._rates_base[ph1313_association] = 0.020549;
     
-    ps._rates_base[ph11_dissociation] = 0.280481;
+     ps._rates_base[ph11_dissociation] = 0.280481;
      ps._rates_base[ph17_dissociation] = 0.256498;
      ps._rates_base[ph113_dissociation] = 0.030745;
      ps._rates_base[ph77_dissociation] = 0.296646;
@@ -73,7 +73,7 @@ int main() {
      ps._rates_base[ph1313_dissociation] = 0.195206;
     
      ps._rates_base[ph11_degradation] = 0.296753;
-     ps._rates_base[ph17_dissociation] = 0.324761;
+     ps._rates_base[ph17_degradation] = 0.324761;
      ps._rates_base[ph113_degradation] = 0.144681;
      ps._rates_base[ph77_degradation] = 0.253744;
      ps._rates_base[ph713_degradation] = 0.240119;
@@ -85,6 +85,6 @@ int main() {
     s.initialize();
     cout << "no seg fault"<<endl;
     //run simulation
-    s.simulate(5);
+    s.simulate(50);
     //s.print_delay();
 }

@@ -26,15 +26,15 @@ void baby_cl::fill_position(){
 */
 
 void baby_cl::initialize(){
-    int sum;
-    int delay;
-    int specie_size;
+    int sum =0;
+    int delay =0;
+    int specie_size =0;
     int current_pos =0;
     
     for (int i = 0; i < NUM_SPECIES; i++){
         delay = _sim.max_delays[i];
         specie_size = delay + _sim._num_history_steps;
-        sum += delay;
+        sum += specie_size;
         _specie_size[i]= specie_size;
         //cout<< specie_size<<endl;
         _position[i] = current_pos;

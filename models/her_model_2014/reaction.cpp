@@ -255,8 +255,8 @@ const int in_counts_mh1_synthesis[] = {};
 const specie_id inputs_mh1_synthesis[] = {};
 const int out_counts_mh1_synthesis[] = {1};
 const specie_id outputs_mh1_synthesis[] = {mh1};
-const int num_factors_mh1_synthesis = 2;
-const specie_id factors_mh1_synthesis[] = {pd,ph11};
+const int num_factors_mh1_synthesis = 3;
+const specie_id factors_mh1_synthesis[] = {pd,ph11,ph713};
 
 const int num_inputs_mh1_degradation = 1;
 const int num_outputs_mh1_degradation = 0;
@@ -273,8 +273,8 @@ const int in_counts_mh7_synthesis[] = {};
 const specie_id inputs_mh7_synthesis[] = {};
 const int out_counts_mh7_synthesis[] = {1};
 const specie_id outputs_mh7_synthesis[] = {mh7};
-const int num_factors_mh7_synthesis = 2;
-const specie_id factors_mh7_synthesis[] = {pd,ph77};
+const int num_factors_mh7_synthesis = 3;
+const specie_id factors_mh7_synthesis[] = {pd,ph11,ph713};
 
 const int num_inputs_mh7_degradation = 1;
 const int num_outputs_mh7_degradation = 0;
@@ -292,7 +292,7 @@ const specie_id inputs_mh13_synthesis[] = {};
 const int out_counts_mh13_synthesis[] = {1};
 const specie_id outputs_mh13_synthesis[] = {mh13};
 const int num_factors_mh13_synthesis = 2;
-const specie_id factors_mh13_synthesis[] = {pd,ph1313};
+const specie_id factors_mh13_synthesis[] = {};
 
 const int num_inputs_mh13_degradation = 1;
 const int num_outputs_mh13_degradation = 0;
@@ -309,8 +309,8 @@ const int in_counts_md_synthesis[] = {};
 const specie_id inputs_md_synthesis[] = {};
 const int out_counts_md_synthesis[] = {1};
 const specie_id outputs_md_synthesis[] = {md};
-const int num_factors_md_synthesis = 1;
-const specie_id factors_md_synthesis[] = {ph11};
+const int num_factors_md_synthesis = 2;
+const specie_id factors_md_synthesis[] = {ph11,ph713};
 
 const int num_inputs_md_degradation = 1;
 const int num_outputs_md_degradation = 0;
