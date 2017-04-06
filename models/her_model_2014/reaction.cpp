@@ -291,7 +291,7 @@ const int in_counts_mh13_synthesis[] = {};
 const specie_id inputs_mh13_synthesis[] = {};
 const int out_counts_mh13_synthesis[] = {1};
 const specie_id outputs_mh13_synthesis[] = {mh13};
-const int num_factors_mh13_synthesis = 2;
+const int num_factors_mh13_synthesis = 0;
 const specie_id factors_mh13_synthesis[] = {};
 
 const int num_inputs_mh13_degradation = 1;
