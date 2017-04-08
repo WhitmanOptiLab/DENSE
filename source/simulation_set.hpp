@@ -26,7 +26,7 @@ class simulation_set{
     param_set _ps;
     vector<simulation> _sim_set;
     
-    model_init(bool using_gradients = false, bool using_perturb = false){
+    void model_init(bool using_gradients = false, bool using_perturb = false){
         _m._using_perturb = using_perturb;
         _m._using_gradients = using_gradients;
         for (int i = 0; i < NUM_SPECIES; i++) {
@@ -34,7 +34,7 @@ class simulation_set{
         }
     }
     
-    param_set_init(RATETYPE* paramset){
+    void param_set_init(RATETYPE* paramset){
         _ps._critical_values[rcrit_pd] = paramset[44];
         _ps._critical_values[rcrit_ph11] = paramset[42];
         _ps._critical_values[rcrit_ph713] = paramset[43];
@@ -92,11 +92,17 @@ class simulation_set{
     
     
     simulation_set(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size){
-        model_init(using_gradients, _using_perturb);
-        _sim_set.reserve(num_param);
+        model_init(using_gradients, using_perturb);
+        //_sim_set.reserve(num_param);
         for (int i=0; i< num_param; i++){
-            _sim_set[i] = new simulation(_m, _ps, cell_total, total_width, step_size);
+            _sim_set.emplace(_sim_set.end(),_m, _ps, cell_total, total_width, step_size);
             _sim_set[i].initialize();
+        }
+    }
+    
+    void simulate_sets(){
+        for (int i=0; i<sizeof(_sim_set); i++){
+            _sim_set[i].simulate(20);
         }
     }
  private:
