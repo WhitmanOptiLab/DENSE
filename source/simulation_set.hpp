@@ -26,15 +26,7 @@ class simulation_set{
     param_set _ps;
     vector<simulation> _sim_set;
     
-    model_init(bool using_gradients = false, bool using_perturb = false){
-        _m._using_perturb = using_perturb;
-        _m._using_gradients = using_gradients;
-        for (int i = 0; i < NUM_SPECIES; i++) {
-            _m._has_gradient[i] = false;
-        }
-    }
-    
-    param_set_init(RATETYPE* paramset){
+    void param_set_init(RATETYPE* paramset){
         _ps._critical_values[rcrit_pd] = paramset[44];
         _ps._critical_values[rcrit_ph11] = paramset[42];
         _ps._critical_values[rcrit_ph713] = paramset[43];
@@ -81,7 +73,7 @@ class simulation_set{
         _ps._rates_base[ph77_dissociation] = paramset[25];
         _ps._rates_base[ph713_dissociation] = paramset[26];
         _ps._rates_base[ph1313_dissociation] = paramset[27];
-        
+
         _ps._rates_base[ph11_degradation] = paramset[28];
         _ps._rates_base[ph17_degradation] = paramset[29];
         _ps._rates_base[ph113_degradation] = paramset[30];
@@ -91,12 +83,12 @@ class simulation_set{
     }
     
     
-    simulation_set(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size){
-        model_init(using_gradients, _using_perturb);
-        _sim_set.reserve(num_param);
+    simulation_set(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size) :
+      _m(using_gradients, using_perturb) {
+        param_set_init(paramset);
         for (int i=0; i< num_param; i++){
-            _sim_set[i] = new simulation(_m, _ps, cell_total, total_width, step_size);
-            _sim_set[i].initialize();
+          _sim_set.emplace_back(_m, _ps, cell_total, total_width, step_size);
+          _sim_set[i].initialize();
         }
     }
  private:
