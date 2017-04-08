@@ -96,7 +96,6 @@ class simulation{
       _big_gran = 1;
       _num_history_steps = 2;
       cout << "no seg fault2"<<endl;
-      calc_max_delays();
   }
   void test_sim();
   void execute();
