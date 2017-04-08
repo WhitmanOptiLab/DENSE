@@ -47,6 +47,10 @@ public:
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
     }
+
+    ~cell_param() {
+      dealloc_array();
+    }
     
     
     cell operator[](int i){

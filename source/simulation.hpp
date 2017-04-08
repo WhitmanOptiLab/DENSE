@@ -43,8 +43,8 @@ class simulation{
   
   // Sizes
   int _width_total; // The width in cells of the PSM
-  int width_initial; // The width in cells of the PSM before anterior growth
-  int width_current; // The width in cells of the PSM at the current time step
+  int _width_initial; // The width in cells of the PSM before anterior growth
+  int _width_current; // The width in cells of the PSM at the current time step
   int height; // The height in cells of the PSM
   int cells; // The number of cells in the simulation
   int _cells_total; // The total number of cells of the PSM (total width * total height)
@@ -86,7 +86,7 @@ class simulation{
     
 
     
-    simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_neighbors(_cells_total), _step_size(step_size){
+    simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total),_neighbors(_cells_total), _step_size(step_size){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       for (int i = 0; i < NUM_SPECIES; i++) {

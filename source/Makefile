@@ -8,7 +8,7 @@ NVCC=nvcc
 CFLAGS=-std=c++11 -g -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 TESTS=test_sim_compile test_simulation
-HEADERS=$(wildcard *.h) $(wildcard ../models/${MODEL}/*.h)
+HEADERS=$(wildcard *.hpp) $(wildcard ../models/${MODEL}/*.hpp)
 
 all: ${TESTS}
 
