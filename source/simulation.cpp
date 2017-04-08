@@ -68,7 +68,7 @@ void simulation::execute(){
     cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
-        if (width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
+        if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             Context c(*this, k);
             int old_cells_mrna[NUM_SPECIES];
@@ -223,10 +223,11 @@ void simulation::calc_neighbor_2d(){
 
 
 void simulation::calc_max_delays() {
+  RATETYPE temp_delays[NUM_SPECIES];
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0;
+    temp_delays[s] = 0.0;
   }
-    RATETYPE temp_delays[NUM_SPECIES];
   //for each reaction
   //  for each input
   //    accumulate delay into specie
