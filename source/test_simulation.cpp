@@ -4,12 +4,7 @@
 int main() {
     
     //setting up model
-    model m;
-    m._using_perturb = false;
-    m._using_gradients = false;
-    for (int i = 0; i < NUM_SPECIES; i++) {
-        m._has_gradient[i] = false;
-    }
+    model m(false, false);
     
     //setting up param_set
     param_set ps;

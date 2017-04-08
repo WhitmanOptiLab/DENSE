@@ -26,6 +26,7 @@ private:
     bool _using_gradients; // Whether or not any rates have specified perturbations
     RATETYPE* factors_gradient[NUM_REACTIONS];
     bool _has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
+
     model(bool using_gradients = false, bool using_perturb=false) :
       _using_perturb(using_perturb),
       _using_gradients(using_gradients) {
@@ -40,7 +41,7 @@ private:
     #include "reactions_list.hpp"
 #undef REACTION
     
-    
+    model(bool using_gradients, bool using_perturb);
 };
 
 #endif
