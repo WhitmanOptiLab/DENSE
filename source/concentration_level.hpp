@@ -47,12 +47,12 @@ public:
     };
     
     Concentration_level(simulation& sim)
-    :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim){
+    :_height(NUM_SPECIES),_width(0),_length(0), _cuda(false),_sim(sim){
         allocate_array();
     }
     
-    Concentration_level(int helight, int length, int width, simulation& sim)
-    :_height(),_length(),_width(),_cuda(false),_sim(sim){
+    Concentration_level(int height, int length, int width, simulation& sim)
+    :_height(height),_length(length),_width(width),_cuda(false),_sim(sim){
         allocate_array();
     }
 /*

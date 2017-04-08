@@ -12,15 +12,16 @@ class simulation;
 
 class baby_cl {
     //FIXME - want to make this private at some point
-public:
+  private:
     const simulation& _sim;
     //const model& _model;
-    int   _height,_length, _width,_total_length;
+    int   _length, _width,_total_length;
     bool _cuda;
     RATETYPE *_array;
     RATETYPE *_darray;
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
+  public:
     class cell{
     public:
         cell(RATETYPE *row): _array(row) {}
@@ -54,12 +55,12 @@ public:
     };
     
     baby_cl(simulation& sim)
-    :_height(NUM_SPECIES),_length(), _cuda(false),_sim(sim){
+    :_width(0), _total_length(0),_cuda(false),_sim(sim){
         allocate_array();
     }
     
-    baby_cl(int helight, int length, int width, simulation& sim)
-    :_height(),_length(),_width(),_cuda(false),_sim(sim){
+    baby_cl(int length, int width, simulation& sim)
+    :_width(width),_total_length(0),_cuda(false),_sim(sim){
         allocate_array();
     }
     /*
@@ -96,7 +97,7 @@ public:
     void initialize();
     void reset(){
         for (int i = 0; i < _total_length; i++) {
-                    _array[i] = 0; // Initialize every concentration level at every time step for every cell to 0
+                    _array[i] = 0.0; // Initialize every concentration level at every time step for every cell to 0
         }
     }
     
@@ -142,11 +143,12 @@ public:
         }
     }
     
-    int height() const {return _height;}
-    int length() const {return _length;}
     int width() const {return _width;}
     int total_length() const {return _total_length;}
     bool getStatus() { return _cuda; }
+    ~baby_cl() {
+      dealloc_array();
+    }
     
     
 protected:
