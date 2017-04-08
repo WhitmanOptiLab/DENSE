@@ -64,7 +64,7 @@ void simulation::execute(){
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
-    cout.precision(dbl::max_digits10);
+    //cout.precision(dbl::max_digits10);
     cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {

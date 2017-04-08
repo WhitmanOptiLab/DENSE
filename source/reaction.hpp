@@ -6,7 +6,7 @@
 //#include "context.hpp"
 
 using namespace std;
-typedef double RATETYPE;
+typedef float RATETYPE;
 class Context;
 
 enum reaction_id {
