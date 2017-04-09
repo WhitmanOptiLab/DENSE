@@ -94,7 +94,7 @@ class simulation_set{
     }
     
     void simulate_sets(){
-        for (int i=0; i<sizeof(_sim_set); i++){
+        for (int i=0; i<_sim_set.size(); i++){
             _sim_set[i].simulate(20);
         }
     }
