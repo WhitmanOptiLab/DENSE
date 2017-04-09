@@ -32,6 +32,9 @@ reaction.o: ../models/${MODEL}/reaction.cpp $(HEADERS)
 %.o: %.cpp $(wildcard *.h) $(HEADERS)
 	${CC} ${CFLAGS} -c $< -o $@
 
+%.o: %.cu $(wildcard *.h) $(HEADERS)
+	${NVCC} ${CFLAGS} -c $< -o $@
+
 clean:
 	rm -f ${TESTS} ./*.o
 

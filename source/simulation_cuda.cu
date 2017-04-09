@@ -9,7 +9,7 @@
 typedef std::numeric_limits<double> dbl;
 using namespace std;
 
-__global__ void simulation_cuda::initialize(){
+void simulation_cuda::initialize(){
     calc_max_delays(); 
     _delays.update_rates(_parameter_set._delay_sets);
     _rates.update_rates(_parameter_set._rates_base);
