@@ -7,6 +7,7 @@
 #include "reaction.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl_cuda.hpp"
+#include "simulation.hpp"
 #include <vector>
 #include <array>
 using namespace std;
@@ -18,12 +19,12 @@ using namespace std;
  */
 
 
-class simulation_cuda: public simulation{
-public:
+class simulation_cuda: public simulation {
+  public:
+    baby_cl_cuda _baby_cl_cuda;
     void initialize();
-    simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size){
-        simulation(m,ps,cells_total,width_total,step_size);
-    }
+    simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) :
+        simulation(m,ps,cells_total,width_total,step_size), _baby_cl_cuda(*this) {}
 };
 #endif
 

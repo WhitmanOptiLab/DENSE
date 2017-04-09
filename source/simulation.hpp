@@ -103,6 +103,9 @@ class simulation{
   void copy_records(Concentration_level& cl, int* time, int* time_prev);
   bool any_less_than_0(baby_cl& baby_cl, int* times);
   bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
+#ifdef __CUDACC__
+  __host__ __device__
+#endif
   void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
   void initialize();
   void calc_neighbor_2d();
