@@ -115,7 +115,7 @@ class simulation{
         }
         cout<<endl;
     }
- private:
+ protected:
   void calc_max_delays();
 };
 #endif

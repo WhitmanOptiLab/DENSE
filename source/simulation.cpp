@@ -20,7 +20,7 @@ using namespace std;
 #undef REACTION
 
 //A quick test case to make sure all reaction rates are defined by link time
-void simulation::test_sim() {
+__global__ void simulation::test_sim() {
   Context c(*this, _cells_total);
 
   double sum_rates = 0.0;
@@ -31,9 +31,7 @@ void simulation::test_sim() {
             << sum_rates << std::endl;
 }
 
-void set_test_data(){
-    
-}
+
 
 void simulation::simulate(RATETYPE sim_time){
     RATETYPE total_step = sim_time/_step_size;
@@ -117,7 +115,7 @@ void simulation::execute(){
 
 
 
-void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
+__global__ void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
     int baby_time = 0;
     cout<<"09"<<endl;
     for (int i = 0; i <= NUM_SPECIES; i++) {
@@ -144,7 +142,7 @@ void simulation::copy_records (vector<Context> contexts, vector<int> time, vecto
     }
 }*/
 
-bool simulation::any_less_than_0 (baby_cl& baby_cl, int* times) {
+__global__ bool simulation::any_less_than_0 (baby_cl& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
         int time = times[i];
         if (baby_cl[i][time][0] < 0) { // This checks only the first cell
@@ -154,7 +152,7 @@ bool simulation::any_less_than_0 (baby_cl& baby_cl, int* times) {
     return false;
 }
 
-bool simulation::concentrations_too_high (baby_cl& baby_cl, int* times, double max_con_thresh) {
+__global__ bool simulation::concentrations_too_high (baby_cl& baby_cl, int* times, double max_con_thresh) {
     if (max_con_thresh != INFINITY) {
         for (int i = 0; i <= NUM_SPECIES; i++) {
             int time = times[i];
@@ -166,7 +164,7 @@ bool simulation::concentrations_too_high (baby_cl& baby_cl, int* times, double m
     return false;
 }
 
-void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
+__global__ void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]) {
     //if (section == SEC_POST) { // Cells in posterior simulations do not split so the indices never change
     for (int l = 0; l < NUM_SPECIES; l++) {
         old_cells_mrna[l] = cell_index;
@@ -181,7 +179,7 @@ void simulation::calculate_delay_indices (baby_cl& baby_cl, int* baby_time, int 
     
 }
 
-void simulation::initialize(){
+__global__ void simulation::initialize(){
     calc_max_delays(); 
     _delays.update_rates(_parameter_set._delay_sets);
     _rates.update_rates(_parameter_set._rates_base);
@@ -191,7 +189,7 @@ void simulation::initialize(){
 }
     
     
-void simulation::calc_neighbor_2d(){
+__global__ void simulation::calc_neighbor_2d(){
     for (int i = 0; i < _cells_total; i++) {
         if (i % 2 == 0) {																		// All even column cells
             _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
@@ -222,7 +220,7 @@ void simulation::calc_neighbor_2d(){
 }
 
 
-void simulation::calc_max_delays() {
+__global__ void simulation::calc_max_delays() {
   RATETYPE temp_delays[NUM_SPECIES];
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0;

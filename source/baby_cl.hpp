@@ -12,7 +12,7 @@ class simulation;
 
 class baby_cl {
     //FIXME - want to make this private at some point
-  private:
+  protected:
     const simulation& _sim;
     //const model& _model;
     int   _length, _width,_total_length;
