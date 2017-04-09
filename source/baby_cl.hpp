@@ -24,10 +24,22 @@ class baby_cl {
   public:
     class cell{
     public:
+        
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         cell(RATETYPE *row): _array(row) {}
+        
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         RATETYPE& operator[](int k){
             return _array[k];
         }
+        
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         const RATETYPE& operator[](int k) const {
             return _array[k];
         }
@@ -37,13 +49,23 @@ class baby_cl {
     
     class timespan{
     public:
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
+        
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         cell operator[](int j) {
             j = WRAP(j, _pos);
             cell temp(_array+_width*j);
             return temp;
         }
         
+#ifdef __CUDACC__
+        __host__ __device__
+#endif
         const cell operator[](int j) const{
             j = WRAP(j, _pos);
             cell temp(_array+_width*j);
@@ -118,6 +140,10 @@ class baby_cl {
      return *this;
      }
      */
+    
+#ifdef __CUDACC__
+    __host__ __device__
+#endif
     timespan operator[](int i){
         if (_cuda){
             timespan temp(_array+_position[i], _width, _specie_size[i]);
@@ -130,6 +156,9 @@ class baby_cl {
         }
     }
     
+#ifdef __CUDACC__
+    __host__ __device__
+#endif
     const timespan operator[](int i) const{
         if (_cuda){
             
@@ -145,7 +174,7 @@ class baby_cl {
     
     int width() const {return _width;}
     int total_length() const {return _total_length;}
-    bool getStatus() { return _cuda; }
+    //bool getStatus() { return _cuda; }
     ~baby_cl() {
       dealloc_array();
     }

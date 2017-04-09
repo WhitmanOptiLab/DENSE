@@ -99,16 +99,70 @@ class simulation{
   }
   void test_sim();
   void execute();
-  void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times);
+#ifdef __CUDACC__
+    __host__ __device__
+#endif
+    void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
+        int baby_time = 0;
+        cout<<"09"<<endl;
+        for (int i = 0; i <= NUM_SPECIES; i++) {
+            cout<<"10"<<endl;
+            baby_time = baby_times[i];
+            for (int k = 0; k < _cells_total; k++) {
+                cout<<"11"<<endl;
+                RATETYPE temp =baby_cl[i][baby_time][k];
+                cout<<"12"<<endl;
+                cl[i][time][k] = temp;
+            }
+        }
+    }
   void copy_records(Concentration_level& cl, int* time, int* time_prev);
   bool any_less_than_0(baby_cl& baby_cl, int* times);
   bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
 #ifdef __CUDACC__
   __host__ __device__
 #endif
-  void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]);
+    void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]){
+        for (int l = 0; l < NUM_SPECIES; l++) {
+            old_cells_mrna[l] = cell_index;
+            old_cells_protein[l] = cell_index;
+        }
+    }
+    
   void initialize();
-  void calc_neighbor_2d();
+#ifdef __CUDACC__
+    __host__ __device__
+#endif
+    void calc_neighbor_2d(){
+        for (int i = 0; i < _cells_total; i++) {
+            if (i % 2 == 0) {																		// All even column cells
+                _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
+                _neighbors[i][1] = (i - _width_total + 1 + _cells_total) % _cells_total;		// Top-right
+                _neighbors[i][2] = (i + 1) % _cells_total;											// Bottom-right
+                _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
+                if (i % _width_total == 0) {														// Left edge
+                    _neighbors[i][4] = i + _width_total - 1;										// Bottom-left
+                    _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;						// Top-left
+                } else {																			// Not a left edge
+                    _neighbors[i][4] = i - 1;															// Bottom-left
+                    _neighbors[i][5] = (i - _width_total - 1 + _cells_total) % _cells_total;	// Top-left
+                }
+            } else {																				// All odd column cells
+                _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
+                if (i % _width_total == _width_total - 1) {											// Right edge
+                    _neighbors[i][1] = i - _width_total + 1;										// Top-right
+                    _neighbors[i][2] = (i + 1) % _cells_total;										// Bottom-right
+                } else {																			// Not a right edge
+                    _neighbors[i][1] = i + 1;															// Top-right
+                    _neighbors[i][2] = (i + _width_total + 1 + _cells_total) % _cells_total;	// Nottom-right
+                }																					// All odd column cells
+                _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
+                _neighbors[i][4] = (i + _width_total - 1) % _cells_total;							// Bottom-left
+                _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;							// Top-left
+            }
+        }
+    }
+    
   void set_test_data();
     void simulate(RATETYPE totoal_min);
     void print_delay(){
