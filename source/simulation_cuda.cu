@@ -2,7 +2,6 @@
 #include "simulation_cuda.hpp"
 #include "cell_param.hpp"
 #include "context.hpp"
-#include "model_impl.hpp"
 #include <limits>
 #include <iostream>
 

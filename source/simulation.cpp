@@ -69,9 +69,11 @@ void simulation::execute(){
         if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             Context c(*this, k);
+#if 0
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
             calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
+#endif
 
             // Perform biological calculations
             c.updateCon(c.calculateRatesOfChange());

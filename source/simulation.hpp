@@ -99,19 +99,16 @@ class simulation{
   }
   void test_sim();
   void execute();
-#ifdef __CUDACC__
-    __host__ __device__
-#endif
     void baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
         int baby_time = 0;
-        cout<<"09"<<endl;
+        //cout<<"09"<<endl;
         for (int i = 0; i <= NUM_SPECIES; i++) {
-            cout<<"10"<<endl;
+            //cout<<"10"<<endl;
             baby_time = baby_times[i];
             for (int k = 0; k < _cells_total; k++) {
-                cout<<"11"<<endl;
+                //cout<<"11"<<endl;
                 RATETYPE temp =baby_cl[i][baby_time][k];
-                cout<<"12"<<endl;
+                //cout<<"12"<<endl;
                 cl[i][time][k] = temp;
             }
         }

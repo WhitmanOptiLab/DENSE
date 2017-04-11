@@ -3,7 +3,7 @@
 #include "specie.hpp"
 #include "model.hpp"
 #include "baby_cl.hpp"
-#include <cuda/cuda.h>
+#include <cuda.h>
 #define WRAP(x, y) ((x) + (y)) % (y)
 #define MAX(x, y) ((x) < (y) ? (y) : (x))
 using namespace std;
