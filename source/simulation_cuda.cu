@@ -19,4 +19,6 @@ void simulation_cuda::initialize(){
 }
 
 
+__global__ void simulation_cuda::simulate_cuda(){
 
+}

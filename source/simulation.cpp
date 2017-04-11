@@ -71,7 +71,7 @@ void simulation::execute(){
             Context c(*this, k);
             int old_cells_mrna[NUM_SPECIES];
             int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
-            calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
+            //calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
 
             // Perform biological calculations
             c.updateCon(c.calculateRatesOfChange());
