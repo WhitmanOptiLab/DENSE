@@ -19,8 +19,6 @@ class Context {
   void updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates);
   const std::array<RATETYPE, NUM_SPECIES> calculateRatesOfChange();
   RATETYPE getCon(specie_id sp, int delay = 1) const {
-    // FIXME: calculate an actual time, not just using the delay, and make sure the indexes are 
-    // in the right order
     int modified_step = _simulation._baby_j[sp] + 1 - delay;
     return _simulation._baby_cl[sp][modified_step][_cell];
   }
@@ -28,11 +26,11 @@ class Context {
     return _simulation._critValues[rcritsp][_cell];
   }
   RATETYPE getRate(reaction_id reaction) const {
-        return _simulation._rates[reaction][_cell];
+    return _simulation._rates[reaction][_cell];
   }
-    RATETYPE getDelay(delay_reaction_id delay_reaction) const{
-        return _simulation._delays[delay_reaction][_cell]/_simulation._step_size;
-    }
+  RATETYPE getDelay(delay_reaction_id delay_reaction) const{
+    return _simulation._delays[delay_reaction][_cell]/_simulation._step_size;
+  }
 };
 
 #endif // CONTEXT_HPP
