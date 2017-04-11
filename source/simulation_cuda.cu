@@ -24,8 +24,9 @@ __global__ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
 
     //Set dimensions
     dim3 dimBlock(_cells_total,1,1); //each cell had own thread
-    dim3 dimGrid(6,1,1); //simulation done on single block
 
+    //dim3 dimGrid(6,1,1); //simulation done on single block
+    dim3 dimGrid(total_step,1,1);
 
     cudaDeviceSetLimit(cudaLimitStackSize, 65536);
     //Run kernel
@@ -44,22 +45,28 @@ __global__ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
 __global__ void execute(){
 
     unsigned int k = threadIdx.x;
-    unsigned int i = blockIdx.x;
-    baby_cls[i].cons[BIRTH][baby_j][k] = baby_cls[i].cons[BIRTH][time_prev][k];
-    baby_cls[i].cons[PARENT][baby_j][k] = baby_cls[i].cons[PARENT][time_prev][k];
+    //unsigned int i = blockIdx.x;
+    int steps_elapsed = steps_split;
+    cout.precision(dbl::max_digits10);
+    cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
+    // Iterate through each extant cell or context
+
+    if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
+        // Calculate the cell indices at the start of each mRNA and protein's dela
+        Context c(*this, k);
+#if 0
+        int old_cells_mrna[NUM_SPECIES];
+        int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
+        //calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
+
+        // Perform biological calculations
+        c.updateCon(c.calculateRatesOfChange());
+    }
 
 
-    if (sd.width_current == sd.width_total || k % sd.width_total <= sd.active_start) { // Compute only existing (i.e. already grown) cells
-    // Calculate the cell indices at the start of each mRNA and protein's delay
-    int old_cells_mrna[NUM_INDICES];
-    int old_cells_protein[NUM_INDICES];
-    calculate_delay_indices(sd, baby_cls[i], baby_j, j, k, rates_active_arr[i], old_cells_mrna, old_cells_protein);
-
-    // Perform biological calculations
-    st_context stc(time_prev, baby_j, k);
-    protein_synthesis(sd, rates_active_arr[i], baby_cls[i], stc, old_cells_protein);
-    dimer_proteins(sd,rates_active_arr[i], baby_cls[i], stc);
-    mRNA_synthesis(sd, rates_active_arr[i], baby_cls[i], stc, old_cells_mrna, p[i], past_induction[i], past_recovery[i]);
+    _j++;
+    for (int i =0; i< NUM_SPECIES ; i++){
+        _baby_j[i]++;
     }
 
 }
