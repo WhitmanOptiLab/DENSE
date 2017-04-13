@@ -5,6 +5,11 @@
 #include "reaction.hpp"
 #include "specie.hpp"
 
+#ifdef __CUDACC__
+#define CPUGPU_FUNC __host__ __device__
+#else
+#define CPUGPU_FUNC
+#endif
 
 using namespace std;
 

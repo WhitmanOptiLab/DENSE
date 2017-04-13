@@ -1,5 +1,7 @@
 // A context defines a locale in which reactions take place and species 
 //   reside
+#ifndef CONTEXT_IMPL
+#define CONTEXT_IMPL
 
 #include "simulation.hpp"
 #include "cell_param.hpp"
@@ -8,6 +10,7 @@
 #define SQUARE(x) ((x) * (x))
 using namespace std;
 
+CPUGPU_FUNC
 RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
@@ -34,6 +37,7 @@ RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
     return sum;
 }
 
+CPUGPU_FUNC
 const std::array<RATETYPE, NUM_SPECIES> Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
@@ -64,6 +68,7 @@ const std::array<RATETYPE, NUM_SPECIES> Context::calculateRatesOfChange(){
     return specie_deltas;
 }
 
+CPUGPU_FUNC
 void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
     //double step_size= _simulation.step_size;
     
@@ -76,3 +81,4 @@ void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
     
 }
 
+#endif // CONTEXT_IMPL
