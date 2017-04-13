@@ -25,21 +25,15 @@ class baby_cl {
     class cell{
     public:
         
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         cell(RATETYPE *row): _array(row) {}
         
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         RATETYPE& operator[](int k){
             return _array[k];
         }
         
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         const RATETYPE& operator[](int k) const {
             return _array[k];
         }
@@ -49,23 +43,17 @@ class baby_cl {
     
     class timespan{
     public:
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
         
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         cell operator[](int j) {
             j = WRAP(j, _pos);
             cell temp(_array+_width*j);
             return temp;
         }
         
-#ifdef __CUDACC__
-        __host__ __device__
-#endif
+        CPUGPU_FUNC
         const cell operator[](int j) const{
             j = WRAP(j, _pos);
             cell temp(_array+_width*j);
@@ -141,9 +129,7 @@ class baby_cl {
      }
      */
     
-#ifdef __CUDACC__
-    __host__ __device__
-#endif
+    CPUGPU_FUNC
     timespan operator[](int i){
         if (_cuda){
             timespan temp(_array+_position[i], _width, _specie_size[i]);
@@ -156,9 +142,7 @@ class baby_cl {
         }
     }
     
-#ifdef __CUDACC__
-    __host__ __device__
-#endif
+    CPUGPU_FUNC
     const timespan operator[](int i) const{
         if (_cuda){
             
