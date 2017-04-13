@@ -25,13 +25,15 @@ __global__ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
     //Set dimensions
     dim3 dimBlock(_cells_total,1,1); //each cell had own thread
 
-    //dim3 dimGrid(6,1,1); //simulation done on single block
+    //dim3 dimGrid(1,1,1); //simulation done on single block
     dim3 dimGrid(total_step,1,1);
 
-    cudaDeviceSetLimit(cudaLimitStackSize, 65536);
+    //cudaDeviceSetLimit(cudaLimitStackSize, 65536);
     //Run kernel
-    //execute<<<dimGrid,dimBlock>>>(st,critical,cx,cHOR,cells);
-    execute<<<dimGrid, dimBlock>>>();
+    for (int i=0;i<total_step;i++){
+        execute<<<dimGrid, dimBlock>>>();
+    }
+
 
     CUDA_ERRCHK(cudaDeviceSynchronize());
     //convert back to CPU
@@ -45,10 +47,10 @@ __global__ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
 __global__ void execute(){
 
     unsigned int k = threadIdx.x;
-    //unsigned int i = blockIdx.x;
+
     int steps_elapsed = steps_split;
-    cout.precision(dbl::max_digits10);
-    cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
+    //cout.precision(dbl::max_digits10);
+    //cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
     // Iterate through each extant cell or context
 
     if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
@@ -57,7 +59,6 @@ __global__ void execute(){
 #if 0
         int old_cells_mrna[NUM_SPECIES];
         int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
-        //calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
 
         // Perform biological calculations
         c.updateCon(c.calculateRatesOfChange());
