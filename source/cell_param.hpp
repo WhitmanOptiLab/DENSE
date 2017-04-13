@@ -1,6 +1,12 @@
 #ifndef CELL_PARAM_HPP
 #define CELL_PARAM_HPP
 
+#ifdef __CUDACC__
+#define CPUGPU_FUNC __host__ __device__
+#else
+#define CPUGPU_FUNC
+#endif
+
 #include <stdlib.h>
 //#include <cuda_runtime_api.h>
 //#include <cuda.h>
@@ -25,17 +31,20 @@ public:
     
     class cell{
     public:
+        CPUGPU_FUNC
         cell(RATETYPE *row): _array(row) {}
+        CPUGPU_FUNC
         RATETYPE& operator[](int k){
             return _array[k];
         }
+        CPUGPU_FUNC
         const RATETYPE& operator[](int k) const {
             return _array[k];
         }
         RATETYPE *_array;
     };
     
-    
+    CPUGPU_FUNC
     cell_param(const simulation& sim, int ncells)
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
@@ -45,7 +54,7 @@ public:
       dealloc_array();
     }
     
-    
+    CPUGPU_FUNC
     cell operator[](int i){
         if (_cuda){
             cell temp(_darray+_width*i);
@@ -57,6 +66,7 @@ public:
         }
     }
     
+    CPUGPU_FUNC
     const cell operator[](int i) const{
         if (_cuda){
             cell temp(_darray+_width*i);
@@ -79,6 +89,7 @@ public:
     }
     void initialize();
 //protected:
+    CPUGPU_FUNC
     void dealloc_array(){
         if (_array){
             delete[] _array;
@@ -86,6 +97,7 @@ public:
         _array= NULL;
     }
     
+    CPUGPU_FUNC
     void allocate_array(){
         if (_width*_height >0){
             _array= new RATETYPE[_height*_width];
