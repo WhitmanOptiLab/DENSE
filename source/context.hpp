@@ -5,12 +5,12 @@
 
 #include "specie.hpp"
 #include "concentration_level.hpp"
-#include <array>
 
 
 class Context {
   //FIXME - want to make this private at some point
  public:
+  typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
   const int _cell;
   simulation& _simulation;
   double _avg;
@@ -19,9 +19,9 @@ class Context {
   CPUGPU_FUNC
   RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
   CPUGPU_FUNC
-  void updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates);
+  void updateCon(const SpecieRates& rates);
   CPUGPU_FUNC
-  const std::array<RATETYPE, NUM_SPECIES> calculateRatesOfChange();
+  const SpecieRates calculateRatesOfChange();
   CPUGPU_FUNC
   RATETYPE getCon(specie_id sp, int delay = 1) const {
     int modified_step = _simulation._baby_j[sp] + 1 - delay;

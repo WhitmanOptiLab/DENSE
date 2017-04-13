@@ -1,4 +1,6 @@
 #include "simulation_set.hpp"
+#include "model_impl.hpp"
+#include "context_impl.hpp"
 #include <iostream>
 
 int main() {

@@ -4,6 +4,12 @@
 
 #include "specie.hpp"
 //#include "context.hpp"
+#ifdef __CUDACC__
+#define CPUGPU_FUNC __host__ __device__
+#else
+#define CPUGPU_FUNC
+#endif
+
 
 using namespace std;
 typedef float RATETYPE;
@@ -31,6 +37,7 @@ typedef std::pair<int, int> ReactionTerm;
 template<class IMPL>
 class reaction_base{
  public:
+  CPUGPU_FUNC
   RATETYPE active_rate(const Context& c) const;
   RATETYPE rate;
   RATETYPE delay;
@@ -41,14 +48,23 @@ template<reaction_id RID>
 class reaction : public reaction_base<reaction<RID> > {
  public:
   reaction();
+  CPUGPU_FUNC
   RATETYPE active_rate(const Context& c) const;
+  CPUGPU_FUNC
   int getNumInputs() const { return num_inputs; }
+  CPUGPU_FUNC
   int getNumFactors() const { return num_factors; }
+  CPUGPU_FUNC
   int getNumOutputs() const { return num_outputs; }
+  CPUGPU_FUNC
   const specie_id* getInputs() const { return inputs; }
+  CPUGPU_FUNC
   const specie_id* getFactors() const { return factors; }
+  CPUGPU_FUNC
   const specie_id* getOutputs() const { return outputs; }
+  CPUGPU_FUNC
   const int* getInputCounts() const { return in_counts; }
+  CPUGPU_FUNC
   const int* getOutputCounts() const { return out_counts; }
 
  protected:

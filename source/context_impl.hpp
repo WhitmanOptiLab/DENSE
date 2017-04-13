@@ -14,7 +14,7 @@ CPUGPU_FUNC
 RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
-    std::array<int, 6> cells = _simulation._neighbors[sp];
+    CPUGPU_TempArray<int, 6> cells = _simulation._neighbors[sp];
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
@@ -38,17 +38,17 @@ RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
 }
 
 CPUGPU_FUNC
-const std::array<RATETYPE, NUM_SPECIES> Context::calculateRatesOfChange(){
+const Context::SpecieRates Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
-    std::array<RATETYPE, NUM_REACTIONS> reaction_rates;
+    CPUGPU_TempArray<RATETYPE, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION
     
     //Step 2: allocate specie concentration rate change array
-    std::array<RATETYPE, NUM_SPECIES> specie_deltas;
+    Context::SpecieRates specie_deltas;
     for (int i = 0; i < NUM_SPECIES; i++) 
       specie_deltas[i] = 0.0;
     
@@ -69,7 +69,7 @@ const std::array<RATETYPE, NUM_SPECIES> Context::calculateRatesOfChange(){
 }
 
 CPUGPU_FUNC
-void Context::updateCon(const std::array<RATETYPE, NUM_SPECIES>& rates){
+void Context::updateCon(const Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
     
     double curr_rate=0;
