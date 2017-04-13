@@ -18,32 +18,30 @@ void simulation_cuda::initialize(){
 }
 
 namespace {
-__global__ void cudasim_execute(){
+    __global__ void cudasim_execute(simulation_cuda _sim_cu){
 
-    unsigned int k = threadIdx.x;
+        unsigned int k = threadIdx.x;
 
-    int steps_elapsed = steps_split;
-    //cout.precision(dbl::max_digits10);
-    //cout<< _j<< " "<<_baby_cl[ph11][_j][1]<<endl;
-    // Iterate through each extant cell or context
+        int steps_elapsed = _sim_cu.steps_split;
+        // Iterate through each extant cell or context
 
-    if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
-        // Calculate the cell indices at the start of each mRNA and protein's dela
-        Context c(*this, k);
-        int old_cells_mrna[NUM_SPECIES];
-        int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
+        if (_sim_cu._width_current == _sim_cu._width_total || k % _sim_cu._width_total <= 10) { // Compute only existing (i.e. already grown)cells
+            // Calculate the cell indices at the start of each mRNA and protein's dela
+            Context c(_sim_cu, k);
+            int old_cells_mrna[NUM_SPECIES];
+            int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
 
-        // Perform biological calculations
-        c.updateCon(c.calculateRatesOfChange());
+            // Perform biological calculations
+            c.updateCon(c.calculateRatesOfChange());
+        }
+
+        if (k==0){
+            _sim_cu._j++;
+            for (int i =0; i< NUM_SPECIES ; i++){
+                _sim_cu._baby_j[i]++;
+            }
+        }
     }
-
-
-    _j++;
-    for (int i =0; i< NUM_SPECIES ; i++){
-        _baby_j[i]++;
-    }
-
-}
 } // end namespace
 
 
