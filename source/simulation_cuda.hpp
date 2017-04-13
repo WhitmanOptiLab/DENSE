@@ -23,7 +23,7 @@ class simulation_cuda: public simulation {
   public:
     baby_cl_cuda _baby_cl_cuda;
     void initialize();
-    __global__ void simulate_cuda();
+    void simulate_cuda(RATETYPE sim_time);
     simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) :
         simulation(m,ps,cells_total,width_total,step_size), _baby_cl_cuda(*this) {}
 };
