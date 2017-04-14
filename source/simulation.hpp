@@ -34,8 +34,6 @@ class simulation{
         simulation& _simulation;
         double _avg;
         CPUGPU_FUNC
-        Context();
-        CPUGPU_FUNC
         Context(simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
         CPUGPU_FUNC
         RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
