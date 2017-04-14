@@ -31,6 +31,12 @@ class simulation_cuda: public simulation {
             int modified_step = _simulation._baby_j[sp] + 1 - delay;
             return static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[sp][modified_step][_cell];
         }
+        CPUGPU_FUNC
+        void updateCon(const SpecieRates& rates);
+        CPUGPU_FUNC
+        const SpecieRates calculateRatesOfChange();
+        CPUGPU_FUNC
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay) const;
     };
     baby_cl_cuda _baby_cl_cuda;
     CPUGPU_TempArray<int, 6>* _old_neighbors;
