@@ -1,13 +1,23 @@
 #include "simulation_cuda.hpp"
 #include <iostream>
 
+#define CPUGPU_ALLOC(type, var, ...) \
+  type* var##_ptr; \
+  cudaMallocManaged(&var##_ptr, sizeof(type)); \
+  type& var = *(new(var##_ptr) type(__VA_ARGS__))
+
+#define CPUGPU_DELETE(type, var) \
+  var.~type(); \
+  cudaFree(&var);
+  
+
 int main() {
     
     //setting up model
-    model m(false, false);
+    CPUGPU_ALLOC(model, m, false, false);
     
     //setting up param_set
-    param_set ps;
+    CPUGPU_ALLOC(param_set, ps);
     /*
      critical_values[NUM_CRITICAL_SPECIES] = {713.625,740.349,201.173};
      delay_sets[NUM_DELAY_REACTIONS] = {10.6427,9.15516,0,11.2572,1.72161,1.93494,0.805212,11.3695};
@@ -75,11 +85,14 @@ int main() {
      ps._rates_base[ph1313_degradation] = 0.205776;
     cout << "no seg fault"<<endl;
     //setting up simulation
-    simulation_cuda s(m, ps, 200, 50,0.01);
-    cout << "no seg fault"<<endl;
+    CPUGPU_ALLOC(simulation_cuda, s, m, ps, 200, 50, 0.01);
     s.initialize();
     cout << "no seg fault"<<endl;
     //run simulation
-    s.simulate(600);
+    s.simulate_cuda(600);
     //s.print_delay();
+    CPUGPU_DELETE(simulation_cuda, s);
+    CPUGPU_DELETE(model, m);
+    CPUGPU_DELETE(param_set, ps);
+
 }

@@ -25,7 +25,6 @@ public:
     int   _height, _width;
     bool _cuda;
     RATETYPE *_array;
-    RATETYPE *_darray;
     const simulation& _sim;
     
     
@@ -56,26 +55,12 @@ public:
     
     CPUGPU_FUNC
     cell operator[](int i){
-        if (_cuda){
-            cell temp(_darray+_width*i);
-            return temp;
-        }
-        else{
-            cell temp(_array+_width*i);
-            return temp;
-        }
+        return cell(_array+_width*i);
     }
     
     CPUGPU_FUNC
     const cell operator[](int i) const{
-        if (_cuda){
-            cell temp(_darray+_width*i);
-            return temp;
-        }
-        else{
-            cell temp(_array+_width*i);
-            return temp;
-        }
+        return cell(_array+_width*i);
     }
     
     void update_rates(const RATETYPE param_data[]);

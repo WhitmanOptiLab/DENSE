@@ -7,8 +7,8 @@ CC=g++
 NVCC=nvcc
 CFLAGS=-g -std=c++11 -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
-CUFLAGS=${CFLAGS}
-CULFLAGS=${CFLAGS} -lcuda -lcudart_static
+CUFLAGS=${CFLAGS} -arch=sm_30
+CULFLAGS=${CFLAGS} -arch=sm_30 -lcuda -lcudart_static
 TESTS=test_sim_compile test_simulation test_simulation_cuda test_simulation_set
 HEADERS=$(wildcard *.hpp) $(wildcard ../models/${MODEL}/*.hpp)
 
@@ -39,7 +39,7 @@ reaction.o: ../models/${MODEL}/reaction.cpp $(HEADERS)
 	${CC} ${CFLAGS} -c $< -o $@
 
 %.o: %.cu $(wildcard *.h) $(HEADERS)
-	${NVCC} ${CFLAGS} -c $< -o $@
+	${NVCC} ${CUFLAGS} -c $< -o $@
 
 clean:
 	rm -f ${TESTS} ./*.o

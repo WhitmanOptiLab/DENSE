@@ -25,6 +25,14 @@ typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 class simulation{
     
  public:
+  // Sizes
+  int _width_total; // The width in cells of the PSM
+  int _width_initial; // The width in cells of the PSM before anterior growth
+  int _width_current; // The width in cells of the PSM at the current time step
+  int height; // The height in cells of the PSM
+  int cells; // The number of cells in the simulation
+  int _cells_total; // The total number of cells of the PSM (total width * total height)
+
   // Times and timing
   RATETYPE _step_size; // The step size in minutes
   int time_total; // The number of minutes to run for
@@ -41,14 +49,6 @@ class simulation{
   double max_con_thresh; // The maximum threshold concentrations can reach before the simulation is prematurely ended
   int max_delay_size; // The maximum number of time steps any delay in the current parameter set takes plus 1 (so that baby_cl and each mutant know how many minutes to store)
   
-  // Sizes
-  int _width_total; // The width in cells of the PSM
-  int _width_initial; // The width in cells of the PSM before anterior growth
-  int _width_current; // The width in cells of the PSM at the current time step
-  int height; // The height in cells of the PSM
-  int cells; // The number of cells in the simulation
-  int _cells_total; // The total number of cells of the PSM (total width * total height)
-
   // Neighbors and boundaries
   //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
   int active_start; // The start of the active portion of the PSM
@@ -73,7 +73,7 @@ class simulation{
   Concentration_level _cl;
   baby_cl _baby_cl;
   //Context<double> _contexts;
-  int _baby_j[NUM_SPECIES];
+  CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
   int _j;
@@ -86,7 +86,7 @@ class simulation{
     
 
     
-  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total),_neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
+  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total), _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       for (int i = 0; i < NUM_SPECIES; i++) {

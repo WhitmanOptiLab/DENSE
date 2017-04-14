@@ -14,7 +14,7 @@ CPUGPU_FUNC
 RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
-    CPUGPU_TempArray<int, 6> cells = _simulation._neighbors[sp];
+    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[sp];
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
@@ -53,14 +53,13 @@ const Context::SpecieRates Context::calculateRatesOfChange(){
       specie_deltas[i] = 0.0;
     
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
-    
     #define REACTION(name) \
     const reaction<name>& r##name = _model.reaction_##name; \
     for (int j = 0; j < r##name.getNumInputs(); j++) { \
-        specie_deltas[r##name.getInputs()[j]] -= reaction_rates[name]*r##name.getInputCounts()[j]; \
+        specie_deltas[inputs_##name[j]] -= reaction_rates[name]*in_counts_##name[j]; \
     } \
     for (int j = 0; j < _model.reaction_##name.getNumOutputs(); j++) { \
-        specie_deltas[r##name.getOutputs()[j]] += reaction_rates[name]*r##name.getOutputCounts()[j]; \
+        specie_deltas[outputs_##name[j]] += reaction_rates[name]*out_counts_##name[j]; \
     }
     #include "reactions_list.hpp"
     #undef REACTION
