@@ -21,6 +21,20 @@ using namespace std;
 
 class simulation_cuda: public simulation {
   public:
+    class Context: public simulation::Context{
+    public:
+        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
+        const int _cell;
+        simulation_cuda& _simulation;
+        double _avg;
+        CPUGPU_FUNC
+        Context(simulation_cuda& sim, int cell) : _simulation(sim),_cell(cell) { }
+        CPUGPU_FUNC
+        RATETYPE getCon(specie_id sp, int delay = 1) const {
+            int modified_step = _simulation._baby_j[sp] + 1 - delay;
+            return _simulation._baby_cl_cuda[sp][modified_step][_cell];
+        }
+    };
     baby_cl_cuda _baby_cl_cuda;
     CPUGPU_TempArray<int, 6>* _old_neighbors;
     RATETYPE* _old_rates;

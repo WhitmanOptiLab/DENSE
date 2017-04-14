@@ -1,7 +1,6 @@
 #include <cmath>
 #include "simulation_cuda.hpp"
 #include "cell_param.hpp"
-#include "context.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
 #include <limits>
@@ -53,7 +52,7 @@ namespace {
         // Iterate through each extant cell or context
         if (_sim_cu._width_current == _sim_cu._width_total || k % _sim_cu._width_total <= 10) { // Compute only existing (i.e. already grown)cells
             // Calculate the cell indices at the start of each mRNA and protein's dela
-            Context c(_sim_cu, k);
+            simulation_cuda::Context c(_sim_cu, k);
 
             // Perform biological calculations
             c.calculateRatesOfChange();
