@@ -79,15 +79,21 @@ class reaction : public reaction_base<reaction<RID> > {
 
 //And by the way, all of these will be declared at some point
 
+#ifdef __CUDACC__
+#define STATIC_VAR __managed__
+#else
+#define STATIC_VAR
+#endif
+
 #define REACTION(name) \
-extern const int num_inputs_##name; \
-extern const int num_outputs_##name; \
-extern const int num_factors_##name; \
-extern const int in_counts_##name[]; \
-extern const specie_id inputs_##name[]; \
-extern const int out_counts_##name[]; \
-extern const specie_id outputs_##name[]; \
-extern const specie_id factors_##name[];
+extern STATIC_VAR int num_inputs_##name; \
+extern STATIC_VAR int num_outputs_##name; \
+extern STATIC_VAR int num_factors_##name; \
+extern STATIC_VAR int in_counts_##name[]; \
+extern STATIC_VAR specie_id inputs_##name[]; \
+extern STATIC_VAR int out_counts_##name[]; \
+extern STATIC_VAR specie_id outputs_##name[]; \
+extern STATIC_VAR specie_id factors_##name[];
 
 #include "reactions_list.hpp"
 #undef REACTION

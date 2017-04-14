@@ -7,7 +7,31 @@
 #include <limits>
 #include <iostream>
 
-#define CUDA_ERRCHK(call) (call)
+namespace { const char *strerrno(int) { return strerror(errno); } }
+
+template<class T, T Success, const char *(ErrorStr)(T t)>
+struct ErrorInfoBase {
+  static constexpr bool isSuccess(T t) { return t == Success; }
+  static const char *getErrorStr(T t) { return ErrorStr(t); }
+};
+template<class T> struct ErrorInfo;
+template <> struct ErrorInfo<cudaError_t> :
+  ErrorInfoBase<cudaError_t, cudaSuccess, cudaGetErrorString> {};
+template <> struct ErrorInfo<int> :
+  ErrorInfoBase<int, 0, strerrno> {};
+
+
+#define check(RESULT) do {                      \
+    check(RESULT, __FILE__, __LINE__);          \
+  } while(0)
+template<class T>
+static void (check)(T result, const char *file, unsigned line) {
+  if (ErrorInfo<T>::isSuccess(result)) return;
+  std::cerr << file << ":"
+            << line << ": "
+            << ErrorInfo<T>::getErrorStr(result) << "\n";
+  exit(-1);
+}
 
 typedef std::numeric_limits<double> dbl;
 using namespace std;
@@ -22,7 +46,7 @@ void simulation_cuda::initialize(){
 }
 
 namespace {
-    __global__ void cudasim_execute(simulation_cuda _sim_cu){
+    __global__ void cudasim_execute(simulation_cuda& _sim_cu){
 
         unsigned int k = threadIdx.x;
 
@@ -32,7 +56,8 @@ namespace {
             Context c(_sim_cu, k);
 
             // Perform biological calculations
-            c.updateCon(c.calculateRatesOfChange());
+            c.calculateRatesOfChange();
+            //c.updateCon(c.calculateRatesOfChange());
         }
 
         if (k==0){
@@ -52,7 +77,7 @@ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
     dim3 dimBlock(_cells_total,1,1); //each cell had own thread
 
     //dim3 dimGrid(1,1,1); //simulation done on single block
-    dim3 dimGrid(total_step,1,1);
+    dim3 dimGrid(1,1,1);
 
     //cudaDeviceSetLimit(cudaLimitStackSize, 65536);
     //Run kernel
@@ -60,8 +85,7 @@ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
         cudasim_execute<<<dimGrid, dimBlock>>>(*this);
     }
 
-
-    CUDA_ERRCHK(cudaDeviceSynchronize());
+    check(cudaDeviceSynchronize());
     //convert back to CPU
     if (cudaPeekAtLastError() != cudaSuccess) {
         cout << "Kernel launch error: " << cudaPeekAtLastError() << "\n";

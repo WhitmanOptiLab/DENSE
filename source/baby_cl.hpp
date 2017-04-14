@@ -16,9 +16,8 @@ class baby_cl {
     const simulation& _sim;
     //const model& _model;
     int   _length, _width,_total_length;
-    bool _cuda;
     RATETYPE *_array;
-    RATETYPE *_darray;
+//    RATETYPE *_darray;
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
   public:
@@ -65,45 +64,15 @@ class baby_cl {
     };
     
     baby_cl(simulation& sim)
-    :_width(0), _total_length(0),_cuda(false),_sim(sim){
+    :_width(0), _total_length(0),_sim(sim){
         allocate_array();
     }
     
     baby_cl(int length, int width, simulation& sim)
-    :_width(width),_total_length(0),_cuda(false),_sim(sim){
+    :_width(width),_total_length(0),_sim(sim){
         allocate_array();
     }
-    /*
-     #if 0
-     concentration_level(const concentration_level& other)
-     :_height(other._height),_length(other._length),_width(other._width),_cuda(other._cuda){
-     allocate_array();
-     for (int he=0; he< _height; he++){
-     for (int le=0; le< _length; le++){
-     for (int wi=0; wi< _width; wi++){
-     _array[he*_length*_width+le*_width+wi]=other._array[he*_length*_width+le*_width+wi];
-     _darray[he*_length*_width+le*_width+wi]=other._darray[he*_length*_width+le*_width+wi];
-     }
-     }
-     }
-     }
-     #endif
-     */
-    /*
-    void initialize(int height, int length, int width, bool delay){
-        dealloc_array();
-        _width=width;
-        _height=height;
-        //_length=length;
-        _cuda=false;
-        allocate_array();
-        reset();
-    }
-    */
     
-    
-    //RATETYPE calc_delay(int relatedReactions[]);
-    //void fill_position();
     void initialize();
     void reset(){
         for (int i = 0; i < _total_length; i++) {
@@ -111,54 +80,18 @@ class baby_cl {
         }
     }
     
-    /*
-     concentration_level& operator=(const concentration_level& other){
-     dealloc_array();
-     _height=other._height;
-     _length=other._length;
-     _width=other._width;
-     allocate_array();
-     for (int he; he< _height; he++){
-     for (int le; le< _length; le++){
-     for (int wi; wi< _width; wi++){
-     _array[he*_length*_width+le*_width+wi]=other._array[he*_length*_width+le*_width+wi];
-     }
-     }
-     }
-     return *this;
-     }
-     */
-    
     CPUGPU_FUNC
     timespan operator[](int i){
-        if (_cuda){
-            timespan temp(_array+_position[i], _width, _specie_size[i]);
-            return temp;
-        }
-        else{
-            //int pos =
-            timespan temp(_array+_position[i], _width, _specie_size[i]);
-            return temp;
-        }
+        return timespan(_array+_position[i], _width, _specie_size[i]);
     }
     
     CPUGPU_FUNC
     const timespan operator[](int i) const{
-        if (_cuda){
-            
-            timespan temp(_darray+_position[i], _width, _specie_size[i]);
-            return temp;
-        }
-        else{
-            
-            timespan temp(_array+_position[i], _width, _specie_size[i]);
-            return temp;
-        }
+        return timespan(_array+_position[i], _width, _specie_size[i]);
     }
     
     int width() const {return _width;}
     int total_length() const {return _total_length;}
-    //bool getStatus() { return _cuda; }
     ~baby_cl() {
       dealloc_array();
     }
