@@ -1,5 +1,6 @@
 #include "simulation_cuda.hpp"
 #include <iostream>
+#include "context_impl.hpp"
 
 #define CPUGPU_ALLOC(type, var, ...) \
   type* var##_ptr; \

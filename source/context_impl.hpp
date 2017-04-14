@@ -11,7 +11,7 @@
 using namespace std;
 
 CPUGPU_FUNC
-RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
+RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
     CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[sp];
@@ -38,7 +38,7 @@ RATETYPE Context::calculateNeighborAvg(specie_id sp, int delay) const{
 }
 
 CPUGPU_FUNC
-const Context::SpecieRates Context::calculateRatesOfChange(){
+const simulation::Context::SpecieRates simulation::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
@@ -68,7 +68,7 @@ const Context::SpecieRates Context::calculateRatesOfChange(){
 }
 
 CPUGPU_FUNC
-void Context::updateCon(const Context::SpecieRates& rates){
+void simulation::Context::updateCon(const simulation::Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
     
     double curr_rate=0;
