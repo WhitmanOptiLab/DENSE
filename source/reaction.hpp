@@ -3,6 +3,8 @@
 #include <vector>
 
 #include "specie.hpp"
+
+//#include "simulation.hpp"
 //#include "context.hpp"
 #ifdef __CUDACC__
 #define CPUGPU_FUNC __host__ __device__
@@ -13,7 +15,13 @@
 
 using namespace std;
 typedef float RATETYPE;
-class Context;
+
+/*
+class simulation{
+public:
+    class Context;
+};*/
+
 
 enum reaction_id {
 #define REACTION(name) name, 
@@ -38,7 +46,7 @@ template<class IMPL>
 class reaction_base{
  public:
   CPUGPU_FUNC
-  RATETYPE active_rate(const Context& c) const;
+    RATETYPE active_rate(const simulation::Context& c) const;
   RATETYPE rate;
   RATETYPE delay;
     
@@ -49,7 +57,7 @@ class reaction : public reaction_base<reaction<RID> > {
  public:
   reaction();
   CPUGPU_FUNC
-  RATETYPE active_rate(const Context& c) const;
+  RATETYPE active_rate(const simulation::Context& c) const;
   CPUGPU_FUNC
   int getNumInputs() const { return num_inputs; }
   CPUGPU_FUNC

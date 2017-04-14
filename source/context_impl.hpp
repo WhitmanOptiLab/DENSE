@@ -5,7 +5,7 @@
 
 #include "simulation.hpp"
 #include "cell_param.hpp"
-#include "context.hpp"
+//#include "context.hpp"
 #include <iostream>
 #define SQUARE(x) ((x) * (x))
 using namespace std;
