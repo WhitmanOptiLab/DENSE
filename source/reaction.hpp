@@ -16,12 +16,6 @@
 using namespace std;
 typedef float RATETYPE;
 
-/*
-class simulation{
-public:
-    class Context;
-};*/
-
 
 enum reaction_id {
 #define REACTION(name) name, 
@@ -45,8 +39,9 @@ typedef std::pair<int, int> ReactionTerm;
 template<class IMPL>
 class reaction_base{
  public:
+  template<class Ctxt>
   CPUGPU_FUNC
-    RATETYPE active_rate(const simulation::Context& c) const;
+  RATETYPE active_rate(const Ctxt& c) const;
   RATETYPE rate;
   RATETYPE delay;
     
@@ -56,8 +51,9 @@ template<reaction_id RID>
 class reaction : public reaction_base<reaction<RID> > {
  public:
   reaction();
+  template<class Ctxt>
   CPUGPU_FUNC
-  RATETYPE active_rate(const simulation::Context& c) const;
+  RATETYPE active_rate(const Ctxt& c) const;
   CPUGPU_FUNC
   int getNumInputs() const { return num_inputs; }
   CPUGPU_FUNC
