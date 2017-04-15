@@ -1,17 +1,15 @@
 // A context defines a locale in which reactions take place and species 
 //   reside
-#ifndef CONTEXT_IMPL
-#define CONTEXT_IMPL
+#ifndef CUDA_CONTEXT_IMPL
+#define CUDA_CONTEXT_IMPL
 
-#include "simulation.hpp"
+#include "simulation_cuda.hpp"
 #include "cell_param.hpp"
-//#include "context.hpp"
 #include <iostream>
-#define SQUARE(x) ((x) * (x))
 using namespace std;
 
 CPUGPU_FUNC
-RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
+RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
     CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[sp];
@@ -23,7 +21,7 @@ RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) cons
     //int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     // TODO: remove CPDELTA hardcoding
-    baby_cl::cell cur_cons = _simulation._baby_cl[pd][time];
+    baby_cl_cuda::cell cur_cons = static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[pd][time];
     RATETYPE sum=0;
     //since the tissue is not growing now
     //start is 0 and end is 10, instead of_simulation.active_start_record[time] and_simulation.active_end_record[time]
@@ -38,7 +36,7 @@ RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) cons
 }
 
 CPUGPU_FUNC
-const simulation::Context::SpecieRates simulation::Context::calculateRatesOfChange(){
+const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
@@ -68,14 +66,16 @@ const simulation::Context::SpecieRates simulation::Context::calculateRatesOfChan
 }
 
 CPUGPU_FUNC
-void simulation::Context::updateCon(const simulation::Context::SpecieRates& rates){
+void simulation_cuda::Context::updateCon(const simulation_cuda::Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
     
     double curr_rate=0;
     for (int i=0; i< NUM_SPECIES; i++){
         curr_rate= rates[i];
         int baby_j= _simulation._baby_j[i];
-        _simulation._baby_cl[i][baby_j+1][_cell]=_simulation._baby_cl[i][baby_j][_cell]+ _simulation._step_size* curr_rate;
+
+        static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][baby_j+1][_cell]=
+          static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][baby_j][_cell] + _simulation._step_size* curr_rate;
     }
     
 }

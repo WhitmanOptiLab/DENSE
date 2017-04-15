@@ -3,6 +3,7 @@
 #include "cell_param.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
+#include "cuda_context_impl.hpp"
 #include <limits>
 #include <iostream>
 
@@ -55,8 +56,7 @@ namespace {
             simulation_cuda::Context c(_sim_cu, k);
 
             // Perform biological calculations
-            c.calculateRatesOfChange();
-            //c.updateCon(c.calculateRatesOfChange());
+            c.updateCon(c.calculateRatesOfChange());
         }
 
         if (k==0){

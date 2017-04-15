@@ -21,6 +21,8 @@ class baby_cl_cuda : public baby_cl {
     ~baby_cl_cuda() {
       dealloc_array();
     }
+
+    void initialize();
     
     
 protected:
@@ -29,10 +31,10 @@ protected:
         _array = NULL;
     }
     
-    virtual void allocate_array(){
+    void allocate_array(){
         if (_total_length >0){
             int size = _total_length * sizeof(RATETYPE);
-            (cudaMalloc((void**)&_array, size));
+            (cudaMallocManaged((void**)&_array, size));
             //_array= new RATETYPE[_total_length];
             //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
