@@ -86,6 +86,7 @@ class simulation_set{
 
     simulation_set(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size) :
       _m(using_gradients, using_perturb) {
+        _sim_set.reserve(num_param);
         param_set_init(paramset);
         for (int i=0; i< num_param; i++){
           _sim_set.emplace_back(_m, _ps, cell_total, total_width, step_size);
@@ -93,9 +94,9 @@ class simulation_set{
         }
     }
     
-    void simulate_sets(){
+    void simulate_sets(int time){
         for (int i=0; i<_sim_set.size(); i++){
-            _sim_set[i].simulate(20);
+            _sim_set[i].simulate(time);
         }
     }
  private:

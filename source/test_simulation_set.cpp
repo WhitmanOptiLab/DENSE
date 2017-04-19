@@ -16,6 +16,6 @@ int main() {
         10.6427,9.15516,0,11.2572,1.72161,1.93494,0.805212,11.3695,
         713.625,740.349,201.173};
 
-    simulation_set sim_set(1, false, false, param_set, 200, 50, 0.01);
-    sim_set.simulate_sets();
+    simulation_set sim_set(20, false, false, param_set, 200, 50, 0.01);
+    sim_set.simulate_sets(3);
 }
