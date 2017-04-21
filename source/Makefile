@@ -4,7 +4,7 @@ $(error Please define the variable MODEL to be one of ($(shell ls ../models)))
 endif
 
 CC=g++
-NVCC=nvcc
+NVCC=/usr/local/cuda/bin/nvcc
 CFLAGS=-g -std=c++11 -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 CUFLAGS=${CFLAGS} -arch=sm_30
