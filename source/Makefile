@@ -5,7 +5,7 @@ endif
 
 CC=g++
 NVCC=nvcc
-CFLAGS=-g -std=c++11 -I../models/${MODEL} -I.
+CFLAGS=-O3 -std=c++11 -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 CUFLAGS=-dc ${CFLAGS} -arch=sm_30
 CULFLAGS=${CFLAGS} -arch=sm_30 -lcuda -lcudart_static
