@@ -87,7 +87,7 @@ int main() {
     //setting up simulation
     CPUGPU_ALLOC(simulation_cuda, s, m, ps, 200, 50, 0.01);
     s.initialize();
-    cout << "no seg fault"<<endl;
+    cout << "no seg fault before sim"<<endl;
     //run simulation
     s.simulate_cuda(600);
     //s.print_delay();

@@ -58,7 +58,14 @@ namespace {
             // Perform biological calculations
             c.updateCon(c.calculateRatesOfChange());
         }
-
+        if (threadIdx.x == 0) {
+            //printf("Concentration at time step %d, is: %d\n", _sim_cu._j, _sim_cu._baby_cl_cuda[ph11][_sim_cu._j][0]);
+            //printf("thread block is %d\n", threadIdx.x);
+#if __CUDA_ARCH__ >= 200
+    printf("Hi Cuda World");
+#endif
+            
+        }
         if (k==0){
             _sim_cu._j++;
         }
@@ -82,6 +89,7 @@ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
     //Run kernel
     for (int i=0;i<total_step;i++){
         cudasim_execute<<<dimGrid, dimBlock>>>(*this);
+        //cout<< _j<< " "<<_baby_cl_cuda[ph11][_j][1]<<endl;
     }
 
     check(cudaDeviceSynchronize());
