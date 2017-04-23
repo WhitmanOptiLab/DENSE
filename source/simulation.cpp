@@ -1,22 +1,12 @@
 #include <cmath>
 #include "simulation.hpp"
 #include "cell_param.hpp"
-//#include "context.hpp"
+#include "model_impl.hpp"
 #include <limits>
 #include <iostream>
 
 typedef std::numeric_limits<double> dbl;
 using namespace std;
-//declare reaction inits here
-#define REACTION(name) \
-  template<> \
-  reaction< name >::reaction() : \
-    num_inputs(num_inputs_##name), num_outputs(num_outputs_##name), \
-    in_counts(in_counts_##name), inputs(inputs_##name), \
-    out_counts(out_counts_##name), outputs(outputs_##name), \
-    num_factors(num_factors_##name), factors(factors_##name){}
-#include "reactions_list.hpp"
-#undef REACTION
 
 //A quick test case to make sure all reaction rates are defined by link time
 void simulation::test_sim() {

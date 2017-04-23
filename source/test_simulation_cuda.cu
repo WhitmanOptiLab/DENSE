@@ -11,8 +11,9 @@
   cudaFree(&var);
   
 
+
 int main() {
-    
+    cudaSetDevice(0);
     //setting up model
     CPUGPU_ALLOC(model, m, false, false);
     
@@ -86,6 +87,7 @@ int main() {
     cout << "no seg fault"<<endl;
     //setting up simulation
     CPUGPU_ALLOC(simulation_cuda, s, m, ps, 200, 50, 0.01);
+    cout << "no seg fault"<<endl;
     s.initialize();
     cout << "no seg fault before sim"<<endl;
     //run simulation
