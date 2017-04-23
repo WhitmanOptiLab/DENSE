@@ -50,11 +50,11 @@ class simulation_cuda: public simulation {
           _old_neighbors = _neighbors;
           cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total);
           _old_rates = _rates._array;
-          cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total);
+          cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS);
           _old_delays = _delays._array;
-          cudaMallocManaged(&(_delays._array), sizeof(RATETYPE)*_cells_total);
+          cudaMallocManaged(&(_delays._array), sizeof(RATETYPE)*_cells_total*NUM_DELAY_REACTIONS);
           _old_crits = _critValues._array;
-          cudaMallocManaged(&(_critValues._array), sizeof(RATETYPE)*_cells_total);
+          cudaMallocManaged(&(_critValues._array), sizeof(RATETYPE)*_cells_total*NUM_CRITICAL_SPECIES);
         }
     ~simulation_cuda() {
       cudaFree(_delays._array);
