@@ -86,12 +86,8 @@ class simulation_set_cuda {
           _sim_set[i].initialize();
         }
     }
-    
-    void simulate_sets(int time){
-        for (int i=0; i<_num_sets; i++){
-            _sim_set[i].simulate_cuda(time);
-        }
-    }
+
+    void simulate_sets(int time);
 
     ~simulation_set_cuda() {
       cudaFree(_ps);
