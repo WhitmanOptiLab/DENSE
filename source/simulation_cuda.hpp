@@ -1,4 +1,4 @@
-#ifndef SIMULATION_CUDA_HPP
+w#ifndef SIMULATION_CUDA_HPP
 #define SIMULATION_CUDA_HPP
 
 #include "param_set.hpp"
