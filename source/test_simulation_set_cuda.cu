@@ -15,5 +15,5 @@ int main() {
         713.625,740.349,201.173};
 
     simulation_set_cuda sim_set(20, false, false, param_set, 200, 50, 0.01);
-    sim_set.simulate_sets(3);
+    sim_set.simulate_sets(600);
 }

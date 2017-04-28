@@ -1,4 +1,4 @@
-#ifndef SIMULATION_CUDA_HPP
+w#ifndef SIMULATION_CUDA_HPP
 #define SIMULATION_CUDA_HPP
 
 #include "param_set.hpp"
@@ -45,6 +45,25 @@ class simulation_cuda: public simulation {
     RATETYPE* _old_crits;
     void initialize();
     void calc_max_delays();
+
+    CPUGPU_FUNC
+    void execute_one(int k) { 
+        // Iterate through each extant cell or context
+        if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
+            // Calculate the cell indices at the start of each mRNA and protein's dela
+            Context c(*this, k);
+
+            // Perform biological calculations
+            c.updateCon(c.calculateRatesOfChange());
+        }
+        if (k==0){
+            _j++;
+        }
+        if (k < NUM_SPECIES) {
+            _baby_j[k]++;
+        }
+    }
+    
     void simulate_cuda(RATETYPE sim_time);
     simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) :
         simulation(m,ps,cells_total,width_total,step_size), _baby_cl_cuda(*this) {
