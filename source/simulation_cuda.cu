@@ -49,21 +49,7 @@ namespace {
     __global__ void cudasim_execute(simulation_cuda& _sim_cu){
 
         unsigned int k = threadIdx.x;
-
-        // Iterate through each extant cell or context
-        if (_sim_cu._width_current == _sim_cu._width_total || k % _sim_cu._width_total <= 10) { // Compute only existing (i.e. already grown)cells
-            // Calculate the cell indices at the start of each mRNA and protein's dela
-            simulation_cuda::Context c(_sim_cu, k);
-
-            // Perform biological calculations
-            c.updateCon(c.calculateRatesOfChange());
-        }
-        if (k==0){
-            _sim_cu._j++;
-        }
-        if (k < NUM_SPECIES) {
-            _sim_cu._baby_j[k]++;
-        }
+        _sim_cu.execute_one(k);
     }
 } // end namespace
 
