@@ -5,22 +5,26 @@ endif
 
 CC=g++
 NVCC=nvcc
-CFLAGS=-O3 -std=c++11 -I../models/${MODEL} -I.
+CFLAGS=-g -std=c++11 -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 CUFLAGS=-dc ${CFLAGS} -arch=sm_30
 CULFLAGS=${CFLAGS} -arch=sm_30 -lcuda -lcudart_static
-TESTS=test_sim_compile test_simulation test_simulation_cuda test_simulation_set test_simulation_set_cuda
+CPU_TESTS=test_simulation test_simulation_set 
+CUDA_TESTS=test_simulation_cuda test_simulation_set_cuda
 HEADERS=$(wildcard *.hpp) $(wildcard ../models/${MODEL}/*.hpp)
 
 
-all: ${TESTS}
+all: ${CPU_TESTS}
 
-test: ${TESTS}
-	./test_sim_compile 
+cpu_test: ${CPU_TESTS}
 	./test_simulation
-	./test_simulation_cuda
 	./test_simulation_set
+
+cuda_test: ${CUDA_TESTS}
+	./test_simulation_cuda
 	./test_simulation_set_cuda
+
+test: cpu_test cuda_test
 	
 test_sim_compile: test_sim_compile.o simulation.o baby_cl.o cell_param.o model.o reaction.o 
 	${CC} ${LFLAGS} $^ -o $@ 
