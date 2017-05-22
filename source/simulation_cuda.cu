@@ -49,7 +49,6 @@ namespace {
     __global__ void cudasim_execute(simulation_cuda& _sim_cu){
 
         unsigned int k = threadIdx.x;
-
         _sim_cu.execute_one(k);
     }
 } // end namespace
@@ -70,6 +69,7 @@ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
     for (int i=0;i<total_step;i++){
         cout<< _j<< " "<<_baby_cl_cuda[ph11][_j][0]<<endl;
         cudasim_execute<<<dimGrid, dimBlock>>>(*this);
+
         cudaDeviceSynchronize(); //Required to be able to access managed 
                                  // GPU data
     }
