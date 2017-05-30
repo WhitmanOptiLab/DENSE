@@ -8,7 +8,7 @@ using namespace std;
 
 
 // Comment/Uncomment this next line to enable/disable 3D array test data structure.
-// To rid these files of TEST_STRUCT conditions, use a text editor's regex find and replace feature to replace "#else\n.*\n#endif" and "#ifndef TEST_STRUCT" with blank lines
+// To rid these files of TEST_STRUCT conditions, use a text editor's regex find and replace feature to replace "#else\n.*#endif\n", "#endif\n", and "#ifndef TEST_STRUCT" with blank lines
 #define TEST_STRUCT
 
 
