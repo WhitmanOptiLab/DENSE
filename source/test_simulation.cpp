@@ -89,7 +89,9 @@ int main() {
     cout << "no seg fault"<<endl;
     //run simulation
     s.simulate();
+    /*
     ofstream outFile;
     dl.exportDataToFile(outFile);
+    */
     //s.print_delay();
 }
