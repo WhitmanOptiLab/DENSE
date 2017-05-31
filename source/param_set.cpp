@@ -1,3 +1,4 @@
+#include "color.hpp"
 #include "param_set.hpp"
 
 #include <exception>
@@ -59,7 +60,7 @@ bool param_set::open_ifstream(const string& pFileName)
     }
     else
     {
-        printf("\x1b[31mFailed to open \'%s\'.\x1b[0m\n", pFileName.c_str());
+        cout << color::set(color::RED) << "Failed to open \'" << pFileName << "\'." << color::set(color::RESET) << endl;
         return false;
     }
 }
@@ -203,7 +204,7 @@ bool param_set::load_next_set(param_set &pLoadTo)
                                 }
                                 catch(exception ex) // For catching stold() errors
                                 {
-                                    printf("\x1b[31mCSV parsing failed. Invalid data contained at line %i.\n", line_num); // red text
+                                    cout << color::set(color::RED) << "CSV parsing failed. Invalid data contained at line " << line_num << "." << color::set(color::RESET) << endl;
                                     load_success = false;
                                     break;
                                 }
@@ -235,14 +236,13 @@ bool param_set::load_next_set(param_set &pLoadTo)
     }
     else // if failed to open current_ifstream
     {
-        printf("\x1b[31mCSV parsing failed. No CSV file has been chosen.\n"); // red text
+        cout << color::set(color::RED) << "CSV parsing failed. No CSV file has been chosen." << color::set(color::RESET) << endl;
         load_success = false;
     }
     
     // Decrement current_remaining if successful
     load_success ? current_remaining-- : 0;
     
-    printf("\x1b[0m"); // reset color
     return load_success;
 }
 

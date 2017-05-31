@@ -1,8 +1,10 @@
 #include "arg_parse.hpp"
+#include "color.hpp"
 
 #include "reaction.hpp" // for "typedef float RATETYPE;"
 
 #include <cstring>
+#include <iostream>
 #include <exception>
 #include <vector>
 using namespace std;
@@ -31,7 +33,7 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            printf("\x1b[31mCommand line argument search failed. No argument provided after flag \'%s\' or \'%s\'.\x1b[0m\n", pcOptShort.c_str(), pcOptLong.c_str()); // red text
+                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'" << pcOptShort << "\' or \'" << pcOptLong << "\'." << color::set(color::RESET) << endl;
                         }
                         else
                         {
@@ -70,7 +72,7 @@ namespace arg_parse
     template<typename T>
     const T get(const std::string& pcOptShort, const T& pcDefault, const std::string& pcOptLong)
     {
-        printf("\x1b[31mCommand line argument search failed. Invalid typename for flag \'%s\' or \'%s\'.\x1b[0m\n", pcOptShort.c_str(), pcOptLong.c_str()); // red text
+        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'" << pcOptShort << "\' or \'" << pcOptLong << "\'." << color::set(color::RESET) << endl;
         return nullptr;
     }
 
@@ -99,8 +101,8 @@ namespace arg_parse
             }
             catch (exception ex)
             {
-                printf("\x1b[31mCommand line argument parsing failed. Argument \'%s\' cannot be converted to integer.\x1b[0m\n", iArgVec[index].c_str()); // red text
-            return pcDefault;
+                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to integer." << color::set(color::RESET) << endl;
+                return pcDefault;
             }
         }
         else
@@ -119,8 +121,8 @@ namespace arg_parse
             }
             catch (exception ex)
             {
-                printf("\x1b[31mCommand line argument parsing failed. Argument \'%s\' cannot be converted to RATETYPE.\x1b[0m\n", iArgVec[index].c_str()); // red text
-            return pcDefault;
+                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to RATETYPE." << color::set(color::RESET) << endl;
+                return pcDefault;
             }
         }
         else
