@@ -2,6 +2,7 @@
 #include "param_set.hpp"
 
 #include <exception>
+#include <iostream>
 using namespace std;
 
 
@@ -60,7 +61,7 @@ bool param_set::open_ifstream(const string& pFileName)
     }
     else
     {
-        cout << color::set(color::RED) << "Failed to open \'" << pFileName << "\'." << color::set(color::RESET) << endl;
+        cout << color::set(color::RED) << "Failed to open \'" << pFileName << "\'." << color::clear() << endl;
         return false;
     }
 }
@@ -204,7 +205,7 @@ bool param_set::load_next_set(param_set &pLoadTo)
                                 }
                                 catch(exception ex) // For catching stold() errors
                                 {
-                                    cout << color::set(color::RED) << "CSV parsing failed. Invalid data contained at line " << line_num << "." << color::set(color::RESET) << endl;
+                                    cout << color::set(color::RED) << "CSV parsing failed. Invalid data contained at line " << line_num << "." << color::clear() << endl;
                                     load_success = false;
                                     break;
                                 }
@@ -236,7 +237,7 @@ bool param_set::load_next_set(param_set &pLoadTo)
     }
     else // if failed to open current_ifstream
     {
-        cout << color::set(color::RED) << "CSV parsing failed. No CSV file has been chosen." << color::set(color::RESET) << endl;
+        cout << color::set(color::RED) << "CSV parsing failed. No CSV file has been chosen." << color::clear() << endl;
         load_success = false;
     }
     

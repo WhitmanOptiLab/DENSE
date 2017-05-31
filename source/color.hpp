@@ -17,13 +17,12 @@ namespace color
         BLUE,
         MAGENTA,
         CYAN,
-        WHITE,
-        RESET
+        WHITE
     };
     
-    extern bool enable;
-    
-    const std::string set(const unsigned int& setColor);
+    void enable(const bool& pcEnable);
+    const std::string set(const unsigned int& pcSetColor);
+    const std::string clear();
 };
 
 #endif // COLOR_HPP

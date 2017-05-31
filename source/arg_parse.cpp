@@ -1,9 +1,11 @@
 #include "arg_parse.hpp"
 #include "color.hpp"
 
-#include "reaction.hpp" // for "typedef float RATETYPE;"
+#include "reaction.hpp" // For "typedef float RATETYPE;"
 
-#include <cstring>
+#include <cfloat> // For LDBL_MIN
+#include <climits>
+#include <cstring> // For INT_MIN
 #include <iostream>
 #include <exception>
 #include <vector>
@@ -19,21 +21,25 @@ namespace arg_parse
         // For storing a copy of *argv[]
         vector<string> iArgVec;
         
-        // Get index of (or index after) pcOpt if it exists in iArgVec. Return -1 if not found.
-        const int getIndex(std::string pcOptShort, std::string pcOptLong, const bool& pcNext)
+        // Stops obligatory message
+        bool suppressObligatory = false;
+        
+        
+        // Get index of (or index after) pcFlag if it exists in iArgVec. Return -1 if not found.
+        const int getIndex(std::string pcFlagShort, std::string pcFlagLong, const bool& pcNext)
         {
-            pcOptShort = "-" + pcOptShort;
-            pcOptLong = "--" + pcOptLong;
+            pcFlagShort = "-" + pcFlagShort;
+            pcFlagLong = "--" + pcFlagLong;
             
             for ( int i=0; i<iArgVec.size(); i++)
             {
-                if (iArgVec[i] == pcOptShort || iArgVec[i] == pcOptLong)
+                if (iArgVec[i] == pcFlagShort || iArgVec[i] == pcFlagLong)
                 {
                     if (pcNext)
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'" << pcOptShort << "\' or \'" << pcOptLong << "\'." << color::set(color::RESET) << endl;
+                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\'." << color::clear() << endl;
                         }
                         else
                         {
@@ -50,7 +56,30 @@ namespace arg_parse
             return -1;
         }
         
+        
+        // Prints message warning that flag is required
+        void warnObligatory(std::string pcFlagShort, std::string pcFlagLong)
+        {
+            if (!suppressObligatory)
+            {
+                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\' is required in order for the program to execute." << color::clear() << endl;
+            }
+        }
+        
+        
+        template<typename T>
+        const T getSuppressObligatory(const std::string& pcFlagShort, const std::string& pcFlagLong)
+        {
+            suppressObligatory = true;
+            const T rval = get<T>(pcFlagShort, pcFlagLong);
+            suppressObligatory = false;
+            return rval;
+        }
+        
     }; // end anonymous namespace
+
+
+
 
 
     
@@ -68,31 +97,54 @@ namespace arg_parse
 
 
 
+
+
+
     // See usage documentation in header
     template<typename T>
-    const T get(const std::string& pcOptShort, const T& pcDefault, const std::string& pcOptLong)
+    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong)
     {
-        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'" << pcOptShort << "\' or \'" << pcOptLong << "\'." << color::set(color::RESET) << endl;
+        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\'." << color::clear() << endl;
         return nullptr;
+    }
+    
+    template<typename T>
+    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong, const T& pcDefault)
+    {
+        return get<T>(pcFlagShort, pcFlagLong);
     }
 
 
 
     // Template specializations
     template<>
-    const string get<string>(const std::string& pcOptShort, const string& pcDefault, const std::string& pcOptLong)
+    const string get<string>(const std::string& pcFlagShort, const std::string& pcFlagLong)
     {
-        int index = getIndex(pcOptShort, pcOptLong, true);
+        int index = getIndex(pcFlagShort, pcFlagLong, true);
         if (index != -1)
+        {
             return iArgVec[index];
+        }
         else
-            return pcDefault;
+        {
+            warnObligatory(pcFlagShort, pcFlagLong);
+            return "";
+        }
     }
     
     template<>
-    const int get<int>(const std::string& pcOptShort, const int& pcDefault, const std::string& pcOptLong)
+    const string get<string>(const std::string& pcFlagShort, const std::string& pcFlagLong, const string& pcDefault)
     {
-        int index = getIndex(pcOptShort, pcOptLong, true);
+        string rval = getSuppressObligatory<string>(pcFlagShort, pcFlagLong);
+        return rval != "" ? rval : pcDefault;
+    }
+    
+    
+    
+    template<>
+    const int get<int>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    {
+        int index = getIndex(pcFlagShort, pcFlagLong, true);
         if (index != -1)
         {
             try
@@ -101,18 +153,27 @@ namespace arg_parse
             }
             catch (exception ex)
             {
-                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to integer." << color::set(color::RESET) << endl;
-                return pcDefault;
+                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to integer." << color::clear() << endl;
             }
         }
-        else
-            return pcDefault;
+        
+        warnObligatory(pcFlagShort, pcFlagLong);
+        return INT_MIN;
     }
     
     template<>
-    const RATETYPE get<RATETYPE>(const std::string& pcOptShort, const RATETYPE& pcDefault, const std::string& pcOptLong)
+    const int get<int>(const std::string& pcFlagShort, const std::string& pcFlagLong, const int& pcDefault)
     {
-        int index = getIndex(pcOptShort, pcOptLong, true);
+        int rval = getSuppressObligatory<int>(pcFlagShort, pcFlagLong);
+        return rval != INT_MIN ? rval : pcDefault;
+    }
+    
+    
+    
+    template<>
+    const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    {
+        int index = getIndex(pcFlagShort, pcFlagLong, true);
         if (index != -1)
         {
             try
@@ -121,18 +182,36 @@ namespace arg_parse
             }
             catch (exception ex)
             {
-                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to RATETYPE." << color::set(color::RESET) << endl;
-                return pcDefault;
+                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to RATETYPE." << color::clear() << endl;
             }
         }
-        else
-            return pcDefault;
+        
+        warnObligatory(pcFlagShort, pcFlagLong);
+        return LDBL_MIN;
     }
     
     template<>
-    const bool get<bool>(const std::string& pcOptShort, const bool& pcDefault, const std::string& pcOptLong)
+    const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong, const RATETYPE& pcDefault)
     {
-        if (getIndex(pcOptShort, pcOptLong, false) != -1) // If found
+        RATETYPE rval = getSuppressObligatory<RATETYPE>(pcFlagShort, pcFlagLong);
+        return rval != LDBL_MIN ? rval : pcDefault;
+    }
+    
+    
+    
+    template<>
+    const bool get<bool>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    {
+        if (getIndex(pcFlagShort, pcFlagLong, false) != -1) // If found
+            return true;
+        else
+            return false;
+    }
+    
+    template<>
+    const bool get<bool>(const std::string& pcFlagShort, const std::string& pcFlagLong, const bool& pcDefault)
+    {
+        if (getIndex(pcFlagShort, pcFlagLong, false) != -1) // If found
             return !pcDefault;
         else
             return pcDefault;
