@@ -11,9 +11,12 @@ int main(int argc, char *argv[])
     arg_parse::init(argc, argv);
     color::enable(arg_parse::get<bool>("C", "no-color", true));
     
-    if (arg_parse::get<bool>("H", "help"))
+    if (arg_parse::get<bool>("H", "help") || arg_parse::get<bool>("h", "usage") || argc == 1)
     {
         // # Display all possible command line arguments with descriptions
+        cout << color::set(color::YELLOW) <<
+            "[-H | -h | --help | --usage]    " << color::set(color::GREEN) <<
+            "Print information about program's various command line arguments." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-C | --no-color]               " << color::set(color::GREEN) <<
             "Disable color in the terminal." << color::clear() << endl;
@@ -21,17 +24,16 @@ int main(int argc, char *argv[])
             
         // TODO Improve these two help dialogues
         cout << color::set(color::YELLOW) <<
-            "[-G | --gradients]              " << color::set(color::GREEN) <<
-            "Enable ???" << color::clear() << endl;
+            "[-G | --gradients]              " << color::set(color::RED) <<
+            "Enable {TODO: WRITE DESC}" << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-P | --perturb]                " << color::set(color::GREEN) <<
-            "Enable ???" << color::clear() << endl;
+            "[-P | --perturb]                " << color::set(color::RED) <<
+            "Enable {TODO: WRITE DESC}" << color::clear() << endl;
             
             
         cout << color::set(color::YELLOW) <<
             "[-p | --param-list]    <string> " << color::set(color::GREEN) <<
             "Relative file location of the parameter list csv. \"../param_list.csv\", for example, excluding quotation marks." << color::clear() << endl;
-        
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
