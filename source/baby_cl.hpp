@@ -6,9 +6,16 @@
 #define MAX(x, y) ((x) < (y) ? (y) : (x))
 using namespace std;
 
+
+// Comment/Uncomment this next line to enable/disable 3D array test data structure.
+// To rid these files of TEST_STRUCT conditions, use a text editor's regex find and replace feature to replace "#else\n.*#endif\n", "#endif\n", and "#ifndef TEST_STRUCT" with blank lines
+#define TEST_STRUCT
+
+
 #include <cstddef>
 
 class simulation;
+
 
 class baby_cl {
     //FIXME - want to make this private at some point
@@ -18,8 +25,15 @@ class baby_cl {
     int   _length, _width,_total_length;
     RATETYPE *_array;
 //    RATETYPE *_darray;
+
+#ifndef TEST_STRUCT
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
+#else
+    int _max_delay = 0;
+    int _specie_size = 0;
+#endif
+
   public:
     class cell{
     public:
@@ -76,19 +90,17 @@ class baby_cl {
     void initialize();
     void reset(){
         for (int i = 0; i < _total_length; i++) {
-                    _array[i] = 0.0; // Initialize every concentration level at every time step for every cell to 0
+            _array[i] = 0.0; // Initialize every concentration level at every time step for every cell to 0
         }
     }
     
-    CPUGPU_FUNC
-    timespan operator[](int i){
-        return timespan(_array+_position[i], _width, _specie_size[i]);
-    }
     
     CPUGPU_FUNC
-    const timespan operator[](int i) const{
-        return timespan(_array+_position[i], _width, _specie_size[i]);
-    }
+    timespan operator[](int i);
+    
+    CPUGPU_FUNC
+    const timespan operator[](int i) const;
+    
     
     int width() const {return _width;}
     int total_length() const {return _total_length;}

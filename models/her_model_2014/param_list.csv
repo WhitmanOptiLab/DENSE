@@ -1,0 +1,16 @@
+# IMPORTANT: Rename this file to "param_list.csv" once data has been entered!
+#
+# CSV Specification
+#   Ignored by the simulation file reader are:
+#     (1) blank rows and all other whitespace
+#     (2) rows beginning with '#' -- these act as comments
+#     (3) blank cells such as "A, B, , D, E"
+#     (4) the first non-comment, non-blank row in the file*
+#   *The cells of the first non-comment, non-blank row are column headers. These are provided for the user's convenience.
+#   It is futile to modify the order of the column headers. Data must be entered in the order specified by the generated column headers in order for the simulation to work properly.
+
+mh1_synthesis, mh7_synthesis, mh13_synthesis, md_synthesis, mh1_degradation, mh7_degradation, mh13_degradation, md_degradation, ph1_synthesis, ph7_synthesis, ph13_synthesis, pd_synthesis, ph1_degradation, ph7_degradation, ph13_degradation, pd_degradation, ph11_association, ph17_association, ph113_association, ph77_association, ph713_association, ph1313_association, ph11_dissociation, ph17_dissociation, ph113_dissociation, ph77_dissociation, ph713_dissociation, ph1313_dissociation, ph11_degradation, ph17_degradation, ph113_degradation, ph77_degradation, ph713_degradation, ph1313_degradation, , dreact_mh1_synthesis, dreact_mh7_synthesis, dreact_mh13_synthesis, dreact_md_synthesis, dreact_ph1_synthesis, dreact_ph7_synthesis, dreact_ph13_synthesis, dreact_pd_synthesis, , rcrit_pd, rcrit_ph11, rcrit_ph713, 
+55.282, 55.8188, 44.856, 35.3622, 0.215387, 0.37152, 0.10447, 0.453508, 25.8443, 40.6742, 35.8334, 54.2915, 0.210157, 0.269844, 0.335617, 0.282566, 0.020873, 0.002822, 0.027891, 0.027807, 0.017196, 0.020549, 0.280481, 0.256498, 0.030745, 0.296646, 0.067092, 0.195206, 0.296753, 0.324761, 0.144681, 0.253744, 0.240119, 0.205776, , 10.6427, 9.15516, 0, 11.2572, 1.72161, 1.93494, 0.805212, 11.3695, , 201.173, 713.625, 740.349, 
+# Fake Data
+23.123, 24.4434, 60.666, 33.3456, 0.210123, 0.37373, 0.10800, 0.650505, 22.8765, 30.1323, 65.8356, 26.2688, 0.384739, 0.385947, 0.102736, 0.947843, 0.037484, 0.008376, 0.038475, 0.098763, 0.037383, 0.039844, 0.394857, 0.585747, 0.022383, 0.495853, 0.048765, 0.938763, 0.487554, 0.485789, 0.987283, 0.484752, 0.238475, 0.984653, , 45.2574, 4.23475, 0, 35.3456, 4.23434, 7.56783, 0.475865, 53.2343, , 647.123, 655.556, 357.753, 
+55.282, 55.8188, 44.856, 35.3622, 0.215387, 0.37152, 0.10447, 0.453508, 25.8443, 40.6742, 35.8334, 54.2915, 0.210157, 0.269844, 0.335617, 0.282566, 0.020873, 0.002822, 0.027891, 0.027807, 0.017196, 0.020549, 0.280481, 0.256498, 0.030745, 0.296646, 0.067092, 0.195206, 0.296753, 0.324761, 0.144681, 0.253744, 0.240119, 0.205776, , 10.6427, 9.15516, 0, 11.2572, 1.72161, 1.93494, 0.805212, 11.3695, , 201.173, 713.625, 740.349, 

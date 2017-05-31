@@ -23,6 +23,8 @@ int main() {
         0.280481,0.256498,0.030745,0.296646,0.067092,0.195206,
         0.296753,0.324761,0.144681,0.253744,0.240119,0.205776};
     */
+    
+    /*
      ps._critical_values[rcrit_pd] = 201.173;
      ps._critical_values[rcrit_ph11] = 713.625;
      ps._critical_values[rcrit_ph713] = 740.349;
@@ -76,22 +78,31 @@ int main() {
      ps._rates_base[ph77_degradation] = 0.253744;
      ps._rates_base[ph713_degradation] = 0.240119;
      ps._rates_base[ph1313_degradation] = 0.205776;
-    cout << "no seg fault"<<endl;
-    //setting up simulation
-
-    RATETYPE sim_time = 60;
-    RATETYPE analysis_interval = 10;
-
-    simulation s(m, ps, 200, 50,0.01,analysis_interval,sim_time);
-    DataLogger dl(&s, analysis_interval);
-
-    cout << "no seg fault"<<endl;
-    s.initialize();
-    cout << "no seg fault"<<endl;
-    //run simulation
-    s.simulate();
-    /*
-    ofstream outFile;
-    dl.exportDataToFile(outFile);
     */
+    
+    if (param_set::open_ifstream("../models/her_model_2014/param_list.csv"))
+    {
+        unsigned int set_n = 1;
+        while (param_set::load_next_set(ps))
+        {
+            cout << "loaded param_set " << set_n++ << endl;
+            
+            cout << "no seg fault"<<endl;
+            //setting up simulation
+            simulation s(m, ps, 200, 50,0.01,10,60);
+	    DataLogger dl(&s,10);
+            cout << "no seg fault"<<endl;
+            s.initialize();
+            cout << "no seg fault"<<endl;
+            //run simulation
+            s.simulate();
+            //s.print_delay();
+	/*
+	    ofstream outFile;
+	    dl.exportDataToFile(outFile);
+	*/	
+        }
+	
+    } 
+    ps.close_ifstream();
 }
