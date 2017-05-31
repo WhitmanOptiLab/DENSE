@@ -9,11 +9,11 @@ int main(int argc, char *argv[])
     arg_parse::init(argc, argv);
     
     simulation_set sim_set(
-        arg_parse::get<bool>("G", false, "gradients"),
-        arg_parse::get<bool>("P", false, "perturb"),
-        arg_parse::get<string>("p", "../models/her_model_2014/param_list.csv", "param-list"),
-        arg_parse::get<int>("c", 200, "cell-total"),
-        arg_parse::get<int>("w", 50, "total-width"),
-        arg_parse::get<RATETYPE>("s", 0.01, "step-size") );
-    sim_set.simulate_sets(arg_parse::get<int>("t", 60, "time"));
+        arg_parse::get<bool>("G", "gradients", false),
+        arg_parse::get<bool>("P", "perturb", false),
+        arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv"),
+        arg_parse::get<int>("c", "cell-total", 200),
+        arg_parse::get<int>("w", "total-width", 50),
+        arg_parse::get<RATETYPE>("s", "step-size", 0.01) );
+    sim_set.simulate_sets(arg_parse::get<int>("t", "time", 60));
 }
