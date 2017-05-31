@@ -84,6 +84,7 @@ int main() {
 
     simulation s(m, ps, 200, 50,0.01,analysis_interval,sim_time);
     DataLogger dl(&s, analysis_interval);
+
     cout << "no seg fault"<<endl;
     s.initialize();
     cout << "no seg fault"<<endl;
@@ -93,5 +94,4 @@ int main() {
     ofstream outFile;
     dl.exportDataToFile(outFile);
     */
-    //s.print_delay();
 }

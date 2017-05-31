@@ -101,7 +101,6 @@ class simulation_set{
             _sim_set[i].simulate();
         }
     }
- private:
 };
 #endif
 

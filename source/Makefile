@@ -39,6 +39,7 @@ test_simulation_set: test_simulation_set.o simulation.o reaction.o cell_param.o 
 	${CC} ${LFLAGS} $^ -o $@ 
 
 test_simulation_set_cuda: test_simulation_set_cuda.o simulation_set_cuda.o simulation.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl.o baby_cl_cuda.o model.o observable.o  
+
 	${NVCC} ${CULFLAGS} $^ -o $@ 
 
 reaction_cu.o: ../models/${MODEL}/reaction.cu $(HEADERS)

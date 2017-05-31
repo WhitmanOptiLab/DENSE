@@ -57,7 +57,6 @@ namespace {
 void simulation_cuda::simulate_cuda(){
     RATETYPE analysis_chunks = time_total/analysis_gran;
     RATETYPE total_step = analysis_gran/_step_size;
-
     //Set dimensions
     dim3 dimBlock(_cells_total,1,1); //each cell had own thread
 

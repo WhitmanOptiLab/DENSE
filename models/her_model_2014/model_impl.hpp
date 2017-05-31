@@ -1,5 +1,5 @@
 // In this header file, define your model!
-// This includes functions to describe EACH reaction.
+// This includes functions to describe each reaction.
 // Make sure that you've first completed reaction_list.h and specie_list.h
 #ifndef MODEL_IMPL_H
 #define MODEL_IMPL_H
@@ -20,13 +20,11 @@
 // 
 // RATETYPE reaction<R_TWO>::active_rate(const Ctxt c) const {
 //   return c.rate[R_TWO] * c.concentration[SPECIE_ONE] * 
-
 //                                   c.neighbors.concentration[SPECIE_TWO];
 // }
 template<>
 template<class Ctxt>
 RATETYPE reaction<ph1_synthesis>::active_rate(const Ctxt& c) const {
-
     return c.getRate(ph1_synthesis) * c.getCon(mh1,c.getDelay(dreact_ph1_synthesis));
 }
 

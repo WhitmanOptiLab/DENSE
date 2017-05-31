@@ -107,6 +107,27 @@ void simulation::execute(){
 
 
 /*
+__host__ __device__ void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
+    int baby_time = 0;
+    cout<<"09"<<endl;
+    for (int i = 0; i <= NUM_SPECIES; i++) {
+        cout<<"10"<<endl;
+        baby_time = baby_times[i];
+        for (int k = 0; k < _cells_total; k++) {
+            cout<<"11"<<endl;
+            RATETYPE temp =baby_cl[i][baby_time][k];
+            cout<<"12"<<endl;
+            cl[i][time][k] = temp;
+        }
+    }
+    //cl.active_start_record[time] = baby_cl.active_start_record[baby_time];
+    //cl.active_end_record[time] = baby_cl.active_end_record[baby_time];
+
+
+}*/
+
+/*
+>>>>>>> 705e09f7b98feb27457bc0cbbca5231e5130f617
 void simulation::copy_records (vector<Context> contexts, vector<int> time, vector<int> time_prev) {
     for (int k = 0; k < cells_total; k++) {
         cl.cons[BIRTH][time][k] = cl.cons[BIRTH][time_prev][k];

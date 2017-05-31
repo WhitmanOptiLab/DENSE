@@ -24,7 +24,7 @@ typedef cell_param<NUM_DELAY_REACTIONS> Delays;
 typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
 class simulation : public Observable{
-    
+  
  public:
     class Context {
         //FIXME - want to make this private at some point
@@ -60,6 +60,7 @@ class simulation : public Observable{
         }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
+
   // Sizes
   int _width_total; // The width in cells of the PSM
   int _width_initial; // The width in cells of the PSM before anterior growth
@@ -78,8 +79,8 @@ class simulation : public Observable{
   bool no_growth; // Whether or not the simulation should rerun with growth
 
   // Granularities
-//  int _big_gran; // The granularity in time steps with which to analyze and store data.
-  //TODO: MOVE _big_gran to DataLogger
+  int _big_gran; // The granularity in time steps with which to analyze and store data
+  int small_gran; // The granularit in time steps with which to simulate data
 
   // Cutoff values
   double max_con_thresh; // The maximum threshold concentrations can reach before the simulation is prematurely ended
@@ -131,6 +132,7 @@ class simulation : public Observable{
         _baby_j[i] = 0;
       }
       _NEIGHBORS_2D = 6;
+      _big_gran = 1;
       _num_history_steps = 2;
       cout << "no seg fault2"<<endl;
   }

@@ -19,4 +19,5 @@ int main() {
     RATETYPE analysis_interval = 10;
     simulation_set sim_set(20, false, false, param_set, 200, 50, 0.01,analysis_interval,sim_time);
     sim_set.simulate_sets();
+
 }
