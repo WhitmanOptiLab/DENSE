@@ -26,7 +26,7 @@ void baby_cl::fill_position(){
 */
 
 void baby_cl::initialize(){
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
     int sum =0;
     int delay =0;
     int specie_size =0;
@@ -34,7 +34,7 @@ void baby_cl::initialize(){
 #endif
     
     for (int i = 0; i < NUM_SPECIES; i++){
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
         delay = _sim.max_delays[i];
         specie_size = delay + _sim._num_history_steps;
         sum += specie_size;
@@ -49,7 +49,7 @@ void baby_cl::initialize(){
     
     _width = _sim._cells_total;
     
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
     _total_length = sum * _sim._cells_total;
 #else
     _max_delay += _sim._num_history_steps;
@@ -66,7 +66,7 @@ void baby_cl::initialize(){
 
 CPUGPU_FUNC
 baby_cl::timespan baby_cl::operator[](int i){
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
     return timespan(_array+_position[i], _width, _specie_size[i]);
 #else
     return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
@@ -75,9 +75,9 @@ baby_cl::timespan baby_cl::operator[](int i){
 
 CPUGPU_FUNC
 const baby_cl::timespan baby_cl::operator[](int i) const{
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
     return timespan(_array+_position[i], _width, _specie_size[i]);
 #else
-    return timespan(_array+(i*_sim._cells_total), 0, 0);
+    return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
 #endif
 }
