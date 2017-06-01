@@ -8,8 +8,8 @@ using namespace std;
 
 
 // Comment/Uncomment this next line to enable/disable 3D array test data structure.
-// To rid these files of TEST_STRUCT conditions, use a text editor's regex find and replace feature to replace "#else\n.*#endif\n", "#endif\n", and "#ifndef TEST_STRUCT" with blank lines
-#define TEST_STRUCT
+// To rid these files of the SPARSE_STRUCT feature entirely, use a text editor's regex find and replace feature to replace "#else\n.*#endif\n", "#endif\n", and "#ifndef SPARSE_STRUCT" with blank lines
+//#define SPARSE_STRUCT
 
 
 #include <cstddef>
@@ -26,7 +26,7 @@ class baby_cl {
     RATETYPE *_array;
 //    RATETYPE *_darray;
 
-#ifndef TEST_STRUCT
+#ifndef SPARSE_STRUCT
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
 #else

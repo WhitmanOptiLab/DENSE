@@ -6,6 +6,9 @@
  *   anyway, so we might as well make it a namespace!
 */
 
+#ifndef ARG_PARSE_HPP
+#define ARG_PARSE_HPP
+
 #include <string>
 
 namespace arg_parse
@@ -24,24 +27,32 @@ namespace arg_parse
     
     
     /**
-     *  Get Command Line Option Value or Return Default Value
+     *  Get Command Line flag Value or Return Default Value
      *  
      *  usage
-     *      Anywhere in your program after init(...) is called, return the value proceeding "-pcOptShort" or "--pcOptLong"
+     *      Anywhere in your program after init(...) is called, return the value proceeding "-pcFlagShort" or "--pcFlagLong"
      *      typename T must be either std::string, bool, int, or RATETYPE
      *  
      *  parameters
-     *      pcOptShort - short version of command line tag, do not include "-" at beginning
-     *      pcDefault - default value to return if either pcOptShort or pcOptLong is not found
-     *      pcOptLong - long version of command line tag, do not include "--" at beginning
+     *      pcFlagShort - short version of command line flag, do not include "-" at beginning
+     *      pcFlagLong - long version of command line flag, do not include "--" at beginning
+     *      pcDefault - default value to return if either pcFlagShort or pcFlagLong is not found
      *  
      *  returns
-     *      Value of typename T proceeding indicated command line tags/options
+     *      Value from command line in type T proceeding flag
      *      If typename is not of std::string, bool, int, or RATETYPE, prints an error to the command line and returns nullptr
      *  
      *  notes
      *      BEFORE CALLING THIS FUNCTION, PLEASE CALL "arg_parse::init(...)"
+     *      Flag Standards
+     *          bool flags have upper-case pcFlagShort while all else have lowercase
+     *          Seperate words of pcFlagLong by single dashes "-" as in "file-name"
+     *      Version without pcDefault means that the flag is obligatory (unless typename is bool) and will print warning message to user if not present in argv
     */
     template<typename T>
-    const T get(const std::string& pcOptShort, const T& pcDefault, const std::string& pcOptLong = "");
+    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong);
+    template<typename T>
+    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong, const T& pcDefault);
 };
+
+#endif // ARG_PARSE_HPP

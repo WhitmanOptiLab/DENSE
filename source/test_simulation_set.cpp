@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
     
 
     simulation_set sim_set(
-        arg_parse::get<bool>("g", false, "gradients"),
-        arg_parse::get<bool>("p", false, "perturb"),
-        arg_parse::get<string>("mf", "../models/her_model_2014/param_list.csv", "model_file"),
-        arg_parse::get<int>("ct", 200, "cell_total"),
-        arg_parse::get<int>("tw", 50, "total_width"),
-        arg_parse::get<RATETYPE>("ss", 0.01, "step_size"),
-	arg_parse::get<RATETYPE>("ai", 10, "analysis_interval"),
-	arg_parse::get<RATETYPE>("st", 60, "sim_time") );	
+        arg_parse::get<bool>("G", "gradients", false),
+        arg_parse::get<bool>("P", "perturb", false),
+        arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv"),
+        arg_parse::get<int>("c", "cell-total", 200),
+        arg_parse::get<int>("w", "total-width", 50),
+        arg_parse::get<RATETYPE>("s", "step-size", 0.01),
+	arg_parse::get<RATETYPE>("a", "analysis_interval", 10),
+	arg_parse::get<RATETYPE>("t", "sim_time", 60) );
     sim_set.simulate_sets();
 }
