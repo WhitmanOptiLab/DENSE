@@ -187,14 +187,14 @@ namespace arg_parse
         }
         
         warnObligatory(pcFlagShort, pcFlagLong);
-        return LDBL_MIN;
+        return FLT_MIN;
     }
     
     template<>
     const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong, const RATETYPE& pcDefault)
     {
         RATETYPE rval = getSuppressObligatory<RATETYPE>(pcFlagShort, pcFlagLong);
-        return rval != LDBL_MIN ? rval : pcDefault;
+        return rval != FLT_MIN ? rval : pcDefault;
     }
     
     
