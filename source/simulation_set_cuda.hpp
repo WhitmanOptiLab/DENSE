@@ -16,6 +16,8 @@ using namespace std;
 class simulation_set_cuda {
     
  public:
+    
+    RATETYPE time_total;    
 
     void param_set_init(RATETYPE* paramset){
         _ps->_critical_values[rcrit_pd] = paramset[44];
@@ -75,19 +77,20 @@ class simulation_set_cuda {
     
     
 
-    simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size) : _num_sets(num_param) {
+    simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) : _num_sets(num_param) {
         cudaMallocManaged(&_ps, sizeof(param_set));
         cudaMallocManaged(&_m, sizeof(model));
         new(_m) model(false, false);
+	time_total = sim_time;
         cudaMallocManaged(&_sim_set, sizeof(simulation_cuda)*_num_sets);
         param_set_init(paramset);
         for (int i=0; i< _num_sets; i++){
-          new(&_sim_set[i]) simulation_cuda(*_m, *_ps, cell_total, total_width, step_size);
+          new(&_sim_set[i]) simulation_cuda(*_m, *_ps, cell_total, total_width, step_size,analysis_interval,sim_time);
           _sim_set[i].initialize();
         }
     }
 
-    void simulate_sets(int time);
+    void simulate_sets();
 
     ~simulation_set_cuda() {
       cudaFree(_ps);

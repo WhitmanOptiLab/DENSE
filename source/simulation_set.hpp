@@ -23,11 +23,13 @@ class simulation_set{
  public:
     //setting up model
     model _m;
+   // param_set _ps;
+    RATETYPE total_time;
     vector<param_set> _ps;
     vector<simulation> _sim_set;
     
     
-    simulation_set(bool using_gradients, bool using_perturb, const string &param_file, int cell_total, int total_width, RATETYPE step_size) :
+    simulation_set(bool using_gradients, bool using_perturb, const string &param_file, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
         _m(using_gradients, using_perturb)
     {
         // Setup only if param_file actually exists
@@ -42,15 +44,15 @@ class simulation_set{
             for (unsigned int i=0; i<set_count; i++)
             {
                 _ps.push_back(param_set::load_next_set());
-                _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size);
+                _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
                 _sim_set[i].initialize();
             }
         }
     }
     
-    void simulate_sets(int time){
+    void simulate_sets(){
         for (int i=0; i<_sim_set.size(); i++){
-            _sim_set[i].simulate(time);
+            _sim_set[i].simulate();
         }
     }
     
@@ -58,7 +60,6 @@ class simulation_set{
     {
         
     }
- private:
 };
 #endif
 

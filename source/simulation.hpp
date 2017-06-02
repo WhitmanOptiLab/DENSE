@@ -1,6 +1,6 @@
 #ifndef SIMULATION_HPP
 #define SIMULATION_HPP
-
+#include "observable.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
@@ -23,8 +23,8 @@ typedef cell_param<NUM_REACTIONS> Rates;
 typedef cell_param<NUM_DELAY_REACTIONS> Delays;
 typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
-class simulation{
-    
+class simulation : public Observable{
+  
  public:
     class Context {
         //FIXME - want to make this private at some point
@@ -59,6 +59,7 @@ class simulation{
             return _simulation._delays[delay_reaction][_cell]/_simulation._step_size;
         }
     };
+  // PSM stands for Presomitic Mesoderm (growth region of embryo)
 
   // Sizes
   int _width_total; // The width in cells of the PSM
@@ -70,7 +71,8 @@ class simulation{
 
   // Times and timing
   RATETYPE _step_size; // The step size in minutes
-  int time_total; // The number of minutes to run for
+  RATETYPE time_total;
+  RATETYPE analysis_gran;
   int steps_total; // The number of time steps to simulate (total time / step size)
   int steps_split; // The number of time steps it takes for cells to split
   int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
@@ -121,9 +123,12 @@ class simulation{
     
 
     
-  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) : _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total), _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
+  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+    _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total), _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
+      analysis_gran = analysis_interval;
+      time_total = sim_time;
       for (int i = 0; i < NUM_SPECIES; i++) {
         _baby_j[i] = 0;
       }
@@ -197,7 +202,7 @@ class simulation{
     }
     
   void set_test_data();
-    void simulate(RATETYPE totoal_min);
+    void simulate();
     void print_delay(){
         cout<<"delay for mh1 ";
         for (int i =0; i<_cells_total;i++){

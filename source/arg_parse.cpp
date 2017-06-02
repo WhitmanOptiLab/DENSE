@@ -3,7 +3,7 @@
 
 #include "reaction.hpp" // For "typedef float RATETYPE;"
 
-#include <cfloat> // For LDBL_MIN
+#include <cfloat> // For FLT_MIN
 #include <climits>
 #include <cstring> // For INT_MIN
 #include <iostream>
@@ -194,7 +194,8 @@ namespace arg_parse
     const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong, const RATETYPE& pcDefault)
     {
         RATETYPE rval = getSuppressObligatory<RATETYPE>(pcFlagShort, pcFlagLong);
-        return rval != FLT_MIN ? rval : pcDefault;
+
+	    return rval != FLT_MIN ? rval : pcDefault;
     }
     
     

@@ -11,9 +11,8 @@ __global__ void executeAll(simulation_cuda* _sim_set) {
 }
 }
 
-void simulation_set_cuda::simulate_sets(int time) {
-    RATETYPE total_step = time/_sim_set[0]._step_size;
-
+void simulation_set_cuda::simulate_sets() {
+    RATETYPE total_step = time_total/_sim_set[0]._step_size;
     //Set dimensions
     dim3 dimBlock(_sim_set[0]._cells_total,1,1); //each cell had own thread
 

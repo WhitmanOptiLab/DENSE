@@ -1,5 +1,6 @@
 #include "arg_parse.hpp"
 #include "simulation.hpp"
+#include "datalogger.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
 #include <iostream>
@@ -24,18 +25,28 @@ int main(int argc, char *argv[]) {
             cout << "no seg fault"<<endl;
             
             //setting up simulation
+	        RATETYPE analysis_interval = 10;
+
             simulation s(m, ps,
                 arg_parse::get<int>("c", "cell-total", 200),
                 arg_parse::get<int>("w", "total-width", 50),
-                arg_parse::get<RATETYPE>("s", "step-size", 0.01) );
-            cout << "no seg fault"<<endl;
-            s.initialize();
-            cout << "no seg fault"<<endl;
-            //run simulation
-            s.simulate(arg_parse::get<int>("t", "time", 60));
-            //s.print_delay();
+                arg_parse::get<RATETYPE>("s", "step-size", 0.01),
+		        arg_parse::get<RATETYPE>("a", "analysis_interval", analysis_interval),
+		        arg_parse::get<RATETYPE>("t", "sim_time", 60) );
+	   
+	        DataLogger dl(&s,analysis_interval); 
+	        cout << "no seg fault"<<endl;
+                s.initialize();
+                cout << "no seg fault"<<endl;
+                //run simulation
+                s.simulate();
+                //s.print_delay();
+	
+	        ofstream outFile;
+	        dl.exportDataToFile(outFile);
+		
         }
-    }
-    
+	
+    } 
     ps.close_ifstream();
 }

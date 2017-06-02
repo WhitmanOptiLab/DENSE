@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
     }
     else // if argc != 2
     {
-        printf("\x1b[31mCSV column header generation failed. Missing required command line argument:\n\t(1) relative directory containing desired model files, such as \"../models/her_model_2014/\", not including quotation marks\n"); // red text
+        printf("\x1b[31mCSV column header generation failed. Missing required command line argument:\n\t(1) Relative directory containing desired model files, such as \"../models/her_model_2014/\", not including quotation marks. For the current directory, enter \"./\".\n"); // red text
     }
     
     printf("\x1b[0m"); // clear color

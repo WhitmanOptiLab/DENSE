@@ -64,10 +64,12 @@ class simulation_cuda: public simulation {
         }
     }
     
-    void simulate_cuda(RATETYPE sim_time);
-    simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size) :
+    void simulate_cuda();
+    simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
         simulation(m,ps,cells_total,width_total,step_size), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
+	  analysis_gran = analysis_interval;
+	  time_total = sim_time;
           cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total);
           _old_rates = _rates._array;
           cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS);

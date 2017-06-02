@@ -1,3 +1,4 @@
+#include "observable.hpp"
 #include <cmath>
 #include "simulation.hpp"
 #include "cell_param.hpp"
@@ -20,13 +21,15 @@ void simulation::test_sim() {
             << sum_rates << std::endl;
 }
 
-
-
-void simulation::simulate(RATETYPE sim_time){
-    RATETYPE total_step = sim_time/_step_size;
-    for (int i = 0; i< total_step; i++){
-        execute();
-    }
+void simulation::simulate(){
+	RATETYPE analysis_chunks = time_total/analysis_gran;
+    	RATETYPE total_step = analysis_gran/_step_size;
+	for (int c = 0; c<analysis_chunks;c++){
+		notify();
+		for (int i = 0; i< total_step; i++){
+			execute();
+		}
+	}
 }
 
 void simulation::execute(){
@@ -124,6 +127,7 @@ __host__ __device__ void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_
 }*/
 
 /*
+>>>>>>> 705e09f7b98feb27457bc0cbbca5231e5130f617
 void simulation::copy_records (vector<Context> contexts, vector<int> time, vector<int> time_prev) {
     for (int k = 0; k < cells_total; k++) {
         cl.cons[BIRTH][time][k] = cl.cons[BIRTH][time_prev][k];

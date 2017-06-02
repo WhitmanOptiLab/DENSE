@@ -86,12 +86,14 @@ int main() {
      ps._rates_base[ph1313_degradation] = 0.205776;
     cout << "no seg fault"<<endl;
     //setting up simulation
-    CPUGPU_ALLOC(simulation_cuda, s, m, ps, 200, 50, 0.01);
+    RATETYPE sim_time;
+    RATETYPE analysis_interval;
+    CPUGPU_ALLOC(simulation_cuda, s, m, ps, 200, 50, 0.01,analysis_interval,sim_time);
     cout << "no seg fault"<<endl;
     s.initialize();
     cout << "no seg fault before sim"<<endl;
     //run simulation
-    s.simulate_cuda(600);
+    s.simulate_cuda();
     //s.print_delay();
     CPUGPU_DELETE(simulation_cuda, s);
     CPUGPU_DELETE(model, m);

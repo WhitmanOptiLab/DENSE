@@ -54,9 +54,9 @@ namespace {
 } // end namespace
 
 
-void simulation_cuda::simulate_cuda(RATETYPE sim_time){
-    RATETYPE total_step = sim_time/_step_size;
-
+void simulation_cuda::simulate_cuda(){
+    RATETYPE analysis_chunks = time_total/analysis_gran;
+    RATETYPE total_step = analysis_gran/_step_size;
     //Set dimensions
     dim3 dimBlock(_cells_total,1,1); //each cell had own thread
 
@@ -66,12 +66,14 @@ void simulation_cuda::simulate_cuda(RATETYPE sim_time){
     //cudaDeviceSetLimit(cudaLimitStackSize, 65536);
     //Run kernel
     cout.precision(dbl::max_digits10);
-    for (int i=0;i<total_step;i++){
-        cout<< _j<< " "<<_baby_cl_cuda[ph11][_j][0]<<endl;
-        cudasim_execute<<<dimGrid, dimBlock>>>(*this);
+    for (int c=0; c<analysis_chunks; c++){
+    	for (int i=0;i<total_step;i++){
+        	cout<< _j<< " "<<_baby_cl_cuda[ph11][_j][0]<<endl;
+        	cudasim_execute<<<dimGrid, dimBlock>>>(*this);
 
-        cudaDeviceSynchronize(); //Required to be able to access managed 
-                                 // GPU data
+        	cudaDeviceSynchronize(); //Required to be able to access managed 
+                	                 // GPU data
+    	}
     }
 
     check(cudaDeviceSynchronize());
