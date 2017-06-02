@@ -6,6 +6,6 @@
 int main() {
   model m(false, false);
   param_set ps;
-  simulation s(m, ps, 1, 1, 1.0);
+  simulation s(m, ps, 1, 1, 1.0, 10, 60);
   s.test_sim();
 }

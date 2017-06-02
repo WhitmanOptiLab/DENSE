@@ -57,8 +57,10 @@ int main(int argc, char *argv[])
             arg_parse::get<string>("p", "param-list"),
             arg_parse::get<int>("c", "cell-total"),
             arg_parse::get<int>("w", "total-width"),
-            arg_parse::get<RATETYPE>("s", "step-size") );
-        sim_set.simulate_sets(arg_parse::get<int>("t", "time"));
+            arg_parse::get<RATETYPE>("s", "step-size"),
+            arg_parse::get<RATETYPE>("a", "analysis_interval"),
+            arg_parse::get<RATETYPE>("t", "sim_time"));
+        sim_set.simulate_sets();
         
     }
 }
