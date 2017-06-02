@@ -1,5 +1,6 @@
 #ifndef SIMULATION_HPP
 #define SIMULATION_HPP
+
 #include "observable.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
@@ -123,7 +124,8 @@ class simulation : public Observable{
     
 
     
-  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) : _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total), _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
+  simulation(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+    _cells_total(cells_total),_width_total(width_total),_width_initial(width_total),_width_current(width_total), _parameter_set(ps), _model(m), _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total),_cl(*this), _baby_cl(*this), _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), _step_size(step_size){
     //,_baby_j(NUM_REACTIONS), _time_prev(NUM_REACTIONS), _contexts(cells), _rates()
       _j =0 ;
       analysis_gran = analysis_interval;

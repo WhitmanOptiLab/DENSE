@@ -1,3 +1,6 @@
+#ifndef DATALOGGER_HPP
+#define DATALOGGER_HPP
+
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
@@ -101,3 +104,5 @@ class DataLogger : public  Observer {
 	
 	void importFileToData(ifstream inFile);
 };
+
+#endif

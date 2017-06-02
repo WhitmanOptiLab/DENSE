@@ -195,7 +195,7 @@ namespace arg_parse
     {
         RATETYPE rval = getSuppressObligatory<RATETYPE>(pcFlagShort, pcFlagLong);
 
-	return rval != FLT_MIN ? rval : pcDefault;
+        return rval != FLT_MIN ? rval : pcDefault;
     }
     
     

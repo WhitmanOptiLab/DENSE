@@ -25,28 +25,26 @@ int main(int argc, char *argv[]) {
             cout << "no seg fault"<<endl;
             
             //setting up simulation
-	    RATETYPE analysis_interval = 10;
+            RATETYPE analysis_interval = 10;
 
             simulation s(m, ps,
                 arg_parse::get<int>("c", "cell-total", 200),
                 arg_parse::get<int>("w", "total-width", 50),
                 arg_parse::get<RATETYPE>("s", "step-size", 0.01),
-		arg_parse::get<RATETYPE>("a", "analysis_interval", analysis_interval),
-		arg_parse::get<RATETYPE>("t", "sim_time", 60) );
+                arg_parse::get<RATETYPE>("a", "analysis_interval", analysis_interval),
+                arg_parse::get<RATETYPE>("t", "sim_time", 60) );
 	   
-	    DataLogger dl(&s,analysis_interval); 
-	    cout << "no seg fault"<<endl;
+            DataLogger dl(&s,analysis_interval); 
+            cout << "no seg fault"<<endl;
             s.initialize();
             cout << "no seg fault"<<endl;
             //run simulation
             s.simulate();
             //s.print_delay();
 	
-	    ofstream outFile;
-	    dl.exportDataToFile(outFile);
-		
+            ofstream outFile;
+            dl.exportDataToFile(outFile);
         }
-	
     } 
     ps.close_ifstream();
 }

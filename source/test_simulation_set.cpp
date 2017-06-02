@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
         arg_parse::get<int>("c", "cell-total", 200),
         arg_parse::get<int>("w", "total-width", 50),
         arg_parse::get<RATETYPE>("s", "step-size", 0.01),
-	arg_parse::get<RATETYPE>("a", "analysis_interval", 10),
-	arg_parse::get<RATETYPE>("t", "sim_time", 60) );
+        arg_parse::get<RATETYPE>("a", "analysis_interval", 10),
+        arg_parse::get<RATETYPE>("t", "sim_time", 60) );
     sim_set.simulate_sets();
 }
