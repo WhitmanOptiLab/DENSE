@@ -42,8 +42,7 @@ int main(int argc, char *argv[]) {
             s.simulate();
             //s.print_delay();
 	
-            ofstream outFile;
-            dl.exportDataToFile(outFile);
+            dl.exportDataToFile("../models/her_model_2014/test_simulation.cpp");
         }
     } 
     ps.close_ifstream();

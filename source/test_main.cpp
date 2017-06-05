@@ -1,5 +1,6 @@
 #include "arg_parse.hpp"
 #include "color.hpp"
+#include "datalogger.hpp"
 #include "simulation_set.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
@@ -24,16 +25,21 @@ int main(int argc, char *argv[])
             
         // TODO Improve these two help dialogues
         cout << color::set(color::YELLOW) <<
-            "[-G | --gradients]              " << color::set(color::RED) <<
-            "Enable {TODO: WRITE DESC}" << color::clear() << endl;
+            "[-G | --gradients]              " << color::set(color::GREEN) <<
+            "Enable " << color::set(color::RED) <<
+            "{TODO: WRITE DESC}" << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-P | --perturb]                " << color::set(color::RED) <<
-            "Enable {TODO: WRITE DESC}" << color::clear() << endl;
+            "[-P | --perturb]                " << color::set(color::GREEN) <<
+            "Enable " << color::set(color::RED) <<
+            "{TODO: WRITE DESC}" << color::clear() << endl;
             
             
         cout << color::set(color::YELLOW) <<
             "[-p | --param-list]    <string> " << color::set(color::GREEN) <<
-            "Relative file location of the parameter list csv. \"../param_list.csv\", for example, excluding quotation marks." << color::clear() << endl;
+            "Relative file location and name of the parameter list csv. \"../param_list.csv\", for example, excluding quotation marks." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-d | --data-out]      <string> " << color::set(color::GREEN) <<
+            "Relative file location and name of the output of the data logger csv. \"../data_out.csv\", for example, excluding quotation marks." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
@@ -44,12 +50,15 @@ int main(int argc, char *argv[])
             "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
             "Increment size in which the simulation progresses through time." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
+            "[-a | --anlys-intvl]      <int> " << color::set(color::GREEN) <<
+            "Analysis interval. How frequently data is fetched from simulation for analysis." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-t | --time]             <int> " << color::set(color::GREEN) <<
             "Amount of time to simulate." << color::clear() << endl;
     }
     else
     {
-        //arg_parse::get<RATETYPE>("i", 0.1, "analysis-interval");
+        RATETYPE anlys_intvl = arg_parse::get<RATETYPE>("a", "anlys-intvl");
         
         simulation_set sim_set(
             arg_parse::get<bool>("G", "gradients"),
@@ -58,9 +67,12 @@ int main(int argc, char *argv[])
             arg_parse::get<int>("c", "cell-total"),
             arg_parse::get<int>("w", "total-width"),
             arg_parse::get<RATETYPE>("s", "step-size"),
-            arg_parse::get<RATETYPE>("a", "analysis_interval", 10),
-            arg_parse::get<RATETYPE>("t", "sim_time", 60));
+            anlys_intvl,
+            arg_parse::get<RATETYPE>("t", "sim_time"));
+        
+        DataLogger dl(&sim_set._sim_set[0],anlys_intvl); 
         sim_set.simulate_sets();
+        dl.exportDataToFile(arg_parse::get<string>("d", "data-out"));
         
     }
 }

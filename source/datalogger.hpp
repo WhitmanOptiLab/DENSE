@@ -18,10 +18,33 @@
 
 using namespace std;
 
+
+
+
+
 /*
 The DataLogger observes Simulation and periodically records the concentrations levels for analysis and record.
 */
 class DataLogger : public  Observer {
+
+    enum ENUM_ALL_SPECIES {
+        #define SPECIE(name) name,
+        #define CRITICAL_SPECIE(name) name, 
+        #include "specie_list.hpp"
+        #undef SPECIE
+        #undef CRITICAL_SPECIE
+        NUM_ALL_SPECIES
+    };
+
+    const string STR_ALL_SPECIES[NUM_ALL_SPECIES] = {
+        #define SPECIE(name) #name, 
+        #define CRITICAL_SPECIE(name) #name, 
+        #include "specie_list.hpp"
+        #undef SPECIE
+        #undef CRITICAL_SPECIE
+    };
+	
+	
 	
 	int analysis_interval;
 	
@@ -82,24 +105,28 @@ class DataLogger : public  Observer {
 
 	/**
 	*exportDataToFile: writes logged concentration levels to a file
-	*outFile: given file object to write to, named "dataOut"
+	*ofname: directory/name of file to write to, .csv extension not needed
 	*/
-	void exportDataToFile(ofstream& outFile){
-		outFile.open("dataOut.txt");
+	void exportDataToFile(const string& ofname){
+	    ofstream outFile;
+		outFile.open(ofname);
 		for (int c = 0; c < contexts; c++){
-			outFile<<"    Cell "<<c<<endl;
+			outFile<<", Cell "<<c<<endl<<"Time, ";
 			for (int s = 0; s < species; s++){
-				outFile<<"    Specie "<<s;
+			    // TODO As of now I have no way of figuring out whether the order in which the specie names are outputted here is the same order in which the data is outputted.
+				outFile<<"Specie "<<STR_ALL_SPECIES[s]<<", ";
 			}
 			outFile<<endl;
 			for (int t = 0; t<steps; t++){
-				outFile<<"Time "<<t*analysis_interval;
+				outFile<<t*analysis_interval<<", ";
 				for (int s = 0; s<species; s++){
-					outFile<<std::setprecision(5)<<datalog[s][c][t]<<"    ";
+					outFile<<std::setprecision(5)<<datalog[s][c][t]<<", ";
 				}
 				outFile<<endl;
 			}
+			outFile<<endl;
 		}
+		outFile.close();
 	}
 	
 	void importFileToData(ifstream inFile);

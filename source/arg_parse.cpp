@@ -62,7 +62,7 @@ namespace arg_parse
         {
             if (!suppressObligatory)
             {
-                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\' is required in order for the program to execute." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\' is required in order for all program behaviors to function properly." << color::clear() << endl;
             }
         }
         
