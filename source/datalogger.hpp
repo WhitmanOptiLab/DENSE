@@ -1,11 +1,14 @@
 #ifndef DATALOGGER_HPP
 #define DATALOGGER_HPP
 
+#include "csv_reader.hpp"
+#include "color.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
 #include "cell_param.hpp"
 #include "simulation.hpp"
+#include "simulation_set.hpp"
 #include "reaction.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
@@ -54,8 +57,9 @@ class DataLogger : public  Observer {
 	int species;
 	int contexts;
 	int steps;
+	int sims;
 	
-	simulation* sim;	
+	simulation* sim;
 
 	public:
 
@@ -102,6 +106,32 @@ class DataLogger : public  Observer {
 	void testDataLogger();
 	
 	void reallocateData(int last_relevant_time);
+	
+	/**
+	 * Import File To Data -- read data from *.csv file and load it into the Data Logger
+	 * ofname: directory/name of file to write to, .csv extension not needed
+	*/
+	void importFileToData(const string& pcfFileName)
+	{
+	    CSVReader gCSVR(pcfFileName);
+	    bool gError = false;
+	    
+        for (int i = 0; i<species && !gError; i++)
+        {
+		    for (int j = 0; j<contexts && !gError; j++)
+		    {
+		        for (int k = 0; k<steps && !gError; k++)
+		        {
+		            gError = !gCSVR.nextCSVCell(datalog[i][j][k]);
+		        }
+		    }
+	    }
+		
+		if (gError)
+		{
+		    cout << color::set(color::RED) << "Failed to import \'" << pcfFileName << "\' to data logger." << color::clear() << endl;
+		}
+	}
 
 	/**
 	*exportDataToFile: writes logged concentration levels to a file
@@ -111,7 +141,7 @@ class DataLogger : public  Observer {
 	    ofstream outFile;
 		outFile.open(ofname);
 		for (int c = 0; c < contexts; c++){
-			outFile<<", Cell "<<c<<endl<<"Time, ";
+			outFile<<"Cell "<<c<<endl<<"Time, ";
 			for (int s = 0; s < species; s++){
 			    // TODO As of now I have no way of figuring out whether the order in which the specie names are outputted here is the same order in which the data is outputted.
 				outFile<<"Specie "<<STR_ALL_SPECIES[s]<<", ";
@@ -128,8 +158,6 @@ class DataLogger : public  Observer {
 		}
 		outFile.close();
 	}
-	
-	void importFileToData(ifstream inFile);
 };
 
 #endif

@@ -38,8 +38,11 @@ int main(int argc, char *argv[])
             "[-p | --param-list]    <string> " << color::set(color::GREEN) <<
             "Relative file location and name of the parameter list csv. \"../param_list.csv\", for example, excluding quotation marks." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-d | --data-out]      <string> " << color::set(color::GREEN) <<
+            "[-e | --data-export]    <string> " << color::set(color::GREEN) <<
             "Relative file location and name of the output of the data logger csv. \"../data_out.csv\", for example, excluding quotation marks." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-i | --data-import]    <string> " << color::set(color::GREEN) <<
+            "Relative file location and name of csv data to import into the data logger. \"../data_in.csv\", for example, excluding quotation marks. Using this flag skips the simulation." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
@@ -71,8 +74,23 @@ int main(int argc, char *argv[])
             arg_parse::get<RATETYPE>("t", "sim_time"));
         
         DataLogger dl(&sim_set._sim_set[0],anlys_intvl); 
-        sim_set.simulate_sets();
-        dl.exportDataToFile(arg_parse::get<string>("d", "data-out"));
         
+        string data_import = arg_parse::get<string>("i", "data-import", "");
+        if (data_import.size() > 0)
+        {
+            dl.importFileToData(data_import);
+            // TODO call feature analysis function(s) here
+            cout << color::set(color::YELLOW) <<
+                "TODO: CALL FEATURE ANALYSIS FUNCTION(S) IN MAIN" << color::clear() << endl;
+        }
+        else 
+        {
+            string data_export = arg_parse::get<string>("e", "data-export");
+            if (data_export.size() > 0)
+            {
+                sim_set.simulate_sets();
+                dl.exportDataToFile(data_export);
+            }
+        }
     }
 }

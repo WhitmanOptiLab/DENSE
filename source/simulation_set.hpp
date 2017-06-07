@@ -33,7 +33,7 @@ class simulation_set{
         _m(using_gradients, using_perturb)
     {
         // Setup only if param_file actually exists
-        if (param_set::open_ifstream(param_file))
+        if (param_set::open_file(param_file))
         {
             // Allocate space based on amount of sets in file
             unsigned int set_count = param_set::get_set_total();

@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     //setting up param_set
     param_set ps;
     
-    if (param_set::open_ifstream(arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv")))
+    if (param_set::open_file(arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv")))
     {
         unsigned int set_n = 1;
         while (param_set::load_next_set(ps))
@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
             s.simulate();
             //s.print_delay();
 	
-            dl.exportDataToFile("../models/her_model_2014/test_simulation.cpp");
+            dl.exportDataToFile("../models/her_model_2014/data_out.csv");
         }
     } 
-    ps.close_ifstream();
+    ps.close_file();
 }
