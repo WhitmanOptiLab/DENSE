@@ -1,0 +1,189 @@
+#ifndef ANALYSIS_HPP
+#define ANALYSIS_HPP
+
+#include "observable.hpp"
+#include <vector>
+#include <set>
+#include <string>
+#include "queue.hpp"
+
+using namespace std;
+
+
+class Analysis : public Observer {
+protected:
+	DataLogger *dl;
+	int time;
+public:
+	Analysis(DataLogger *dLog) : Observer(dLog) {
+		dl = dLog;
+		time = 0;
+	}
+
+};
+
+
+class BasicAnalysis : public Analysis {
+
+	RATETYPE *averages;
+	RATETYPE *mins;
+	RATETYPE *maxs;
+	RATETYPE **avgs_by_context;
+	RATETYPE **mins_by_context;
+	RATETYPE **maxs_by_context;
+
+
+	BasicAnalysis(DataLogger *dLog) : Analysis(dLog) {
+	
+		averages = new RATETYPE[NUM_SPECIES];
+		mins = new RATETYPE[NUM_SPECIES];
+		maxs = new RATETYPE[NUM_SPECIES];
+		avgs_by_context = new RATETYPE*[dl->sim->_cells_total];
+		mins_by_context = new RATETYPE*[dl->sim->_cells_total];
+		maxs_by_context = new RATETYPE*[dl->sim->_cells_total];	
+	
+		for (int c=0; c<dl->contexts; c++){
+			
+			avgs_by_context[c] = new RATETYPE[NUM_SPECIES];
+			mins_by_context[c] = new RATETYPE[NUM_SPECIES];
+			maxs_by_context[c] = new RATETYPE[NUM_SPECIES];
+
+			for (int s=0; s<NUM_SPECIES; s++){
+				mins_by_context[c][s] = 9999;
+			}
+		}
+		for (int s=0; s<NUM_SPECIES; s++){
+			mins[s] = 9999;
+		}
+		
+		time = 0;
+
+	}
+
+	void update(){
+		
+		update_averages();
+		update_minmax();
+	/*		
+		if (dl->sim_done){
+		}
+	*/
+	}
+	
+	void update_averages();
+	void update_minmax();
+};
+
+class OscillationAnalysis : public Analysis {
+
+	struct crit_point {
+		bool is_peak;
+		RATETYPE time;
+		RATETYPE conc;
+	};
+
+	Queue **windows;
+	vector<crit_point> **peaksAndTroughs;
+	RATETYPE local_range;
+	int range_steps;
+	set<RATETYPE,greater<RATETYPE>> **max_bst;
+	set<RATETYPE> **min_bst;
+
+	void addCritPoint(int context, int specie, bool isPeak, RATETYPE minute, RATETYPE concentration);
+
+public:	
+	OscillationAnalysis(DataLogger *dLog, RATETYPE loc_Range) : Analysis(dLog) {
+		local_range = loc_Range; 
+	}
+
+	void initialize(){
+		
+		range_steps = local_range/dl->analysis_interval;
+		windows = new Queue*[dl->contexts];
+		peaksAndTroughs = new vector<crit_point>*[dl->contexts];
+		max_bst = new set<RATETYPE,greater<RATETYPE>>*[dl->contexts];
+		min_bst = new set<RATETYPE>*[dl->contexts];
+	
+		for (int c=0; c<dl->contexts; c++){
+			windows[c] = new Queue(NUM_SPECIES);
+			peaksAndTroughs[c] = new vector<crit_point>[NUM_SPECIES];
+			max_bst[c] = new set<RATETYPE,greater<RATETYPE>>[NUM_SPECIES];
+			min_bst[c] = new set<RATETYPE>[NUM_SPECIES];
+			
+			for (int s=0; s<NUM_SPECIES; s++){
+				Queue q(range_steps);
+				windows[c][s] = q; 
+				vector<crit_point> v;
+				peaksAndTroughs[c][s] = v; 
+				set<RATETYPE,greater<RATETYPE>> mxBST;
+				max_bst[c][s] = mxBST; 
+				set<RATETYPE> mnBST;
+				min_bst[c][s] = mnBST; 
+
+				for (time=0; time<(range_steps/2); time++){
+					windows[c][s].enqueue(dl->datalog[s][c][time]);
+					min_bst[c][s].insert(dl->datalog[s][c][time]);
+					max_bst[c][s].insert(dl->datalog[s][c][time]);
+				}
+
+				for (int t=0; t<range_steps; t++){
+					if (windows[c][s].getVal(t)==*max_bst[c][s].begin()){
+						addCritPoint(c,s,true,t*dl->analysis_interval,windows[c][s].getVal(t));
+					}
+					if (windows[c][s].getVal(t)==*min_bst[c][s].begin()){
+						addCritPoint(c,s,false,t*dl->analysis_interval,windows[c][s].getVal(t));
+					}
+					time++;
+					windows[c][s].enqueue(dl->datalog[s][c][time]);
+					min_bst[c][s].insert(dl->datalog[s][c][time]);
+					max_bst[c][s].insert(dl->datalog[s][c][time]);
+				}
+			}
+		}
+	}
+
+	void testQueue(){
+		for (int c=0; c<dl->contexts; c++){
+			cout<<"CELL "<<c<<endl;
+			for (int s=0; s<NUM_SPECIES; s++){
+				cout<<"SPECIES "<<s<<endl;
+				for (int t=0; t<peaksAndTroughs[c][s].size(); t++){
+					string text = "Trough: ";
+					if (peaksAndTroughs[c][s][t].is_peak){
+						text = "Peak: ";
+					}
+					cout<<text<<peaksAndTroughs[c][s][t].conc<<" at time "<<peaksAndTroughs[c][s][t].time<<endl;
+				}
+			}
+		}			
+	}
+
+	void update(){
+		if (time==0){
+			initialize();
+		}
+		get_peaks_and_troughs();
+		time++;
+	}
+
+
+	void get_peaks_and_troughs();
+	
+	void calc_amplitudes();
+
+	void calc_periods();
+
+};
+
+class CorrelationAnalysis : public Analysis {
+
+	CorrelationAnalysis(DataLogger *dLog) : Analysis(dLog) {
+	}
+
+	void update(){
+	}
+
+	bool pearsonCorrelate();
+};
+
+#endif

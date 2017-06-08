@@ -1,0 +1,14 @@
+#include "analysis.hpp"
+
+using namespace std;
+
+BasicAnalysis : void update_total_averages(){
+	
+	for (
+
+
+
+OscillationAnalysis : get_peaks_and_troughs(){
+
+	
+}
