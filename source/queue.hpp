@@ -9,23 +9,8 @@ class Queue {
 
 private:
 	vector<RATETYPE> contents;
-	int start,end,midpoint,size;
+	int start,end,current,size;
 	
-	void recalc_midpoint(){
-		if (end>start){
-			midpoint = ((end-start)/2)+start;
-		}else if(start>end){
-			int mid_temp = start+(((size+end)-start)/2);
-			if (mid_temp>=size){
-				midpoint = mid_temp-size;
-			}else{
-				midpoint = mid_temp;
-			}
-		}else{
-			midpoint = -1;
-		}
-	}
-
 public:
 //	Queue();
 	
@@ -33,8 +18,8 @@ public:
 		contents.resize(length);
 		size = length;
 		start = 0;
-		midpoint = -1;
-		end = 0;
+		current = -1;
+		end = -1;
 	}
 /*
 	void populate(RATETYPE transferArray[]){
@@ -53,6 +38,8 @@ public:
 		return (midpoint == -1);
 	}
 */
+	int getSize() { return (end + size - start) % size + 1; }
+
 	void enqueue(RATETYPE entry){
 		if (end == (size-1)){
 			end=0;
@@ -63,7 +50,12 @@ public:
 
 		contents[end] = entry;
 
-		recalc_midpoint();
+		if (getSize() >= size/2) {
+			current++;
+			if (current == size) {
+				current = 0;
+			}
+		}
 	}
 
 	RATETYPE dequeue(){
@@ -74,8 +66,12 @@ public:
 		else{
 			start++;
 		}		
-		recalc_midpoint();
-	
+		if (getSize() <= size/2) {
+			current++;
+			if (current == size) {
+				current = 0;
+			}
+		}
 		return popped;
 	}
 	
@@ -83,8 +79,8 @@ public:
 		return contents[index];
 	}	
 
-	RATETYPE getMidpoint(){
-		return midpoint;
+	RATETYPE getCurrent(){
+		return current;
 	}
 
 	void print(){

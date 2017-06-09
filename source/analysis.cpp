@@ -36,77 +36,52 @@ void BasicAnalysis :: update_minmax(){
 	}
 }
 
-void OscillationAnalysis :: initialize(){
-	
-	for (int c=0; c<dl->contexts; c++){
-
-		Queue q(range_steps);
-		vector<crit_point> v;
-		set<RATETYPE> BST;
-
-		windows.push_back(q);
-		peaksAndTroughs.push_back(v);
-		bst.push_back(BST);
-
-		for (time; time<range_steps/2; time++){
-			RATETYPE val = dl->datalog[s][c][time];
-			windows[c].enqueue(val);
-			bst[c].insert(val);
-		}
-		for (int t=0; t<range_steps/2; t++){
-			RATETYPE check = dl->datalog[s][c][t];
-			if (check == *bst[c].end()){
-				addCritPoint(c,true,t*dl->analysis_interval,check);
-			}
-			else if (check == *bst[c].begin()){
-				addCritPoint(c,false,t*dl->analysis_interval,check);
-			}
-			time++;
-			RATETYPE next = dl->datalog[s][c][time];
-			windows[c].enqueue(next);
-			bst[c].insert(next);
-		}
-	}
-}
 
 void OscillationAnalysis :: get_peaks_and_troughs(){
 
+	int time_temp;
+
 	for (int c=0; c<dl->contexts; c++){
-		for (time; time<dl->last_log_time; time++){
-			RATETYPE removed = windows[c].dequeue();
-			bst[c].erase(removed);
-		
-			RATETYPE added = dl->datalog[s][c][time];	
-			windows[c].enqueue(added);
-			bst[c].insert(added);
 
-			RATETYPE mid_conc = windows[c].getVal(windows[c].getMidpoint()); 
-
-			if (mid_conc==*bst[c].end()){
-				addCritPoint(c,true,(time-(range_steps/2))*dl->analysis_interval,mid_conc);
-			}
-			else if (mid_conc==*bst[c].begin()){
-				addCritPoint(c,false,(time-(range_steps/2))*dl->analysis_interval,mid_conc);
-			}
+		time_temp = time;
+		bool ending = false;
+		int loopTo = dl->last_log_time;
+		if (dl->last_log_time == dl->steps){
+			loopTo+=(range_steps/2);
 		}
-		if (dl->last_log_time == static_cast<int>(dl->sim->time_total/dl->analysis_interval - 1)){
-			int middle = windows[c].getMidpoint();
-			for (int l=1; l<range_steps/2; l++){
+			
+		for (time_temp; time_temp<loopTo; time_temp++){
+			
+			if (time_temp == dl->last_log_time){
+				ending = true;
+			}
+
+			if ( windows[c].getSize() == range_steps || ending) {
 				RATETYPE removed = windows[c].dequeue();
 				bst[c].erase(removed);
-				
-				RATETYPE check_conc = windows[c].getVal(middle+l);
-					
-				if (check_conc==*bst[c].end()){
-					addCritPoint(c,true,((time-(range_steps/2))+l)*dl->analysis_interval, check_conc);
-				}
-				else if (check_conc==*bst[c].begin()){
-					addCritPoint(c,false,((time-(range_steps/2))+l)*dl->analysis_interval, check_conc);
-				}
+                        }
+		
+			if (!ending){
+				RATETYPE added = dl->datalog[s][c][time_temp];	
+				windows[c].enqueue(added);
+				bst[c].insert(added);
 			}
-			cout<<"CRITICAL POINTS GENERATED"<<endl;
+
+			if ( windows[c].getSize() < range_steps/2 && !ending) {
+				continue;
+			}
+
+			RATETYPE mid_conc = windows[c].getVal(windows[c].getCurrent()); 
+
+			if (mid_conc==*bst[c].rbegin()){
+				addCritPoint(c,true,(time_temp-(range_steps/2))*dl->analysis_interval,mid_conc);
+			}
+			else if (mid_conc==*bst[c].begin()){
+				addCritPoint(c,false,(time_temp-(range_steps/2))*dl->analysis_interval,mid_conc);
+			}
 		}
 	}
+	time = time_temp;
 }
 
 
@@ -115,13 +90,23 @@ void OscillationAnalysis :: addCritPoint(int context, bool isPeak, RATETYPE minu
 	crit.is_peak = isPeak;
 	crit.time = minute;
 	crit.conc = concentration;
-	peaksAndTroughs[context].push_back(crit);
+	
+	if (peaksAndTroughs[context].size() > 0){
+		crit_point prev_crit = peaksAndTroughs[context].back();
+		if (prev_crit.is_peak == crit.is_peak){
+			if ((crit.is_peak && crit.conc>=prev_crit.conc)||(!crit.is_peak&&crit.conc<=prev_crit.conc)){
+				peaksAndTroughs[context].back() = crit;
+			}
+		}
+		else{
+			peaksAndTroughs[context].push_back(crit);
+		}
+	}else{
+		peaksAndTroughs[context].push_back(crit);
+	}
 }
 
 
 void OscillationAnalysis :: update(){
-	if (time==0){
-		initialize();
-	}
 	get_peaks_and_troughs();
 }

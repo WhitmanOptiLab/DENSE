@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 	    cout << "no seg fault"<<endl;
             s.initialize();
 
-	    OscillationAnalysis o(&dl,4,mh1);
+	    OscillationAnalysis o(&dl,4,ph1);
 
             cout << "no seg fault"<<endl;
             //run simulation

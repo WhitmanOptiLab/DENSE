@@ -25,7 +25,7 @@ CPUGPU_FUNC
 RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
-    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[sp];
+    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[_cell];
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;

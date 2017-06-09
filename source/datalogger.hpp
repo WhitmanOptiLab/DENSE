@@ -61,6 +61,16 @@ public:
 		
 		last_log_time = 0;
 	}
+
+	~DataLogger() {
+		for (int i = 0; i < NUM_SPECIES; i++) {
+			for (int j = 0; j < contexts; j++){
+				delete[] datalog[i][j]; 
+			}
+			delete[] datalog[i];
+		}
+		delete[] datalog;
+	}
 	
 	/**
 	*update: overrrides inherited update, called when observable simulation notifies observer

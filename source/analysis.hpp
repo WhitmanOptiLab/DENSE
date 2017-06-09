@@ -95,18 +95,25 @@ class OscillationAnalysis : public Analysis {
 	vector<set<RATETYPE> > bst;
 
 	void addCritPoint(int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
-
-	void initialize();
+	void get_peaks_and_troughs();
 
 public:	
 	OscillationAnalysis(DataLogger *dLog, RATETYPE loc_Range, specie_id specieID) : Analysis(dLog) {
 		local_range = loc_Range;
 		range_steps = local_range/dl->analysis_interval;
 		s = specieID;
+		for (int c=0; c<dl->contexts; c++){
+			Queue q(range_steps);
+			vector<crit_point> v;
+			set<RATETYPE> BST;
+
+			windows.push_back(q);
+			peaksAndTroughs.push_back(v);
+			bst.push_back(BST);
+		}
 	}
 
 	void testQueue(){
-		cout<<s<<endl;
 		for (int c=0; c<dl->contexts; c++){
 			cout<<"CELL "<<c<<endl;
 			for (int t=0; t<peaksAndTroughs[c].size(); t++){
@@ -120,8 +127,6 @@ public:
 	}
 
 	void update();
-
-	void get_peaks_and_troughs();
 	
 	void calc_amplitudes();
 
