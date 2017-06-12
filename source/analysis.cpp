@@ -109,4 +109,35 @@ void OscillationAnalysis :: addCritPoint(int context, bool isPeak, RATETYPE minu
 
 void OscillationAnalysis :: update(){
 	get_peaks_and_troughs();
+	calcAmpsAndPers();
 }
+
+
+void OscillationAnalysis :: calcAmpsAndPers(){
+	int t;
+	for (int c=0; c<dl->contexts; c++){
+		vector<crit_point> crits = peaksAndTroughs[c];
+		t = crit_tracker;
+		for (t;t<crits.size();t++){
+			if (crits[t].is_peak){
+				peakSum[c]+=crits[t].conc;
+				numPeaks[c]++;
+			}
+			else{
+				troughSum[c]+=crits[t].conc;
+				numTroughs[c]++;
+			}
+			if (t<2){
+				continue;
+			}
+			cycles[c]++;
+			cycleSum[c]+=(crits[t].time-crits[t-2].time);
+		}
+		if (t == crit_tracker+1){continue;}
+		if (c == 198){cout<<"numPeaks= "<<numPeaks[c]<<"  numTroughs= "<<numTroughs[c]<<"  cycles= "<<cycles[c]<<endl;}
+		amplitudes[c] = ((peakSum[c]/numPeaks[c])-(troughSum[c]/numTroughs[c]))/2;
+		periods[c] = cycleSum[c]/cycles[c];
+	}				
+	crit_tracker = t;
+}
+

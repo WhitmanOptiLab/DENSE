@@ -92,16 +92,25 @@ class OscillationAnalysis : public Analysis {
 	int range_steps;
 	specie_id s;
 
+	int crit_tracker;
+	vector<int> numPeaks,numTroughs,cycles;
+	vector<RATETYPE> peakSum,troughSum,cycleSum;
+
 	vector<set<RATETYPE> > bst;
+
+	vector<RATETYPE> amplitudes;
+	vector<RATETYPE> periods;
 
 	void addCritPoint(int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
 	void get_peaks_and_troughs();
+	void calcAmpsAndPers();
 
 public:	
 	OscillationAnalysis(DataLogger *dLog, RATETYPE loc_Range, specie_id specieID) : Analysis(dLog) {
 		local_range = loc_Range;
 		range_steps = local_range/dl->analysis_interval;
 		s = specieID;
+		crit_tracker = 0;
 		for (int c=0; c<dl->contexts; c++){
 			Queue q(range_steps);
 			vector<crit_point> v;
@@ -110,28 +119,26 @@ public:
 			windows.push_back(q);
 			peaksAndTroughs.push_back(v);
 			bst.push_back(BST);
+				
+			amplitudes.push_back(0);
+			periods.push_back(0);
+			numPeaks.push_back(0);
+			numTroughs.push_back(0);
+			cycles.push_back(0);
+			peakSum.push_back(0);
+			troughSum.push_back(0);
+			cycleSum.push_back(0);
 		}
 	}
 
 	void testQueue(){
 		for (int c=0; c<dl->contexts; c++){
 			cout<<"CELL "<<c<<endl;
-			for (int t=0; t<peaksAndTroughs[c].size(); t++){
-				string text = "Trough: ";
-				if (peaksAndTroughs[c][t].is_peak){
-					text = "Peak: ";
-				}
-				cout<<text<<peaksAndTroughs[c][t].conc<<" at time "<<peaksAndTroughs[c][t].time<<endl;
-			}
+			cout<<"Amplitude = "<<amplitudes[c]<<"   Period = "<<periods[c]<<"min"<<endl;
 		}			
 	}
 
 	void update();
-	
-	void calc_amplitudes();
-
-	void calc_periods();
-
 };
 
 class CorrelationAnalysis : public Analysis {
