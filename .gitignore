@@ -5,9 +5,14 @@
 *.cubin
 *.fatbin
 *.o
+*.cpp~
+*.hpp~
+*.cu~
 test_sim_compile
 test_simulation
 test_simulation_set
 test_simulation_cuda
 test_simulation_set_cuda
 *.swp
+*.swo
+*.swn

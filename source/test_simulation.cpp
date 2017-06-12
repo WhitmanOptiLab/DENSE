@@ -3,6 +3,7 @@
 #include "datalogger.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
+#include "analysis.hpp"
 #include <iostream>
 
 int main(int argc, char *argv[]) {
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
             cout << "no seg fault"<<endl;
             
             //setting up simulation
-            RATETYPE analysis_interval = 10;
+            RATETYPE analysis_interval = .1;
 
             simulation s(m, ps,
                 arg_parse::get<int>("c", "cell-total", 200),
@@ -37,10 +38,13 @@ int main(int argc, char *argv[]) {
             DataLogger dl(&s,analysis_interval); 
             cout << "no seg fault"<<endl;
             s.initialize();
+            OscillationAnalysis o(&dl,4,ph1);
+
             cout << "no seg fault"<<endl;
             //run simulation
             s.simulate();
-            //s.print_delay();
+            //s.print_delay()	
+            o.testQueue();
 	
             ofstream outFile;
             dl.exportDataToFile(outFile);

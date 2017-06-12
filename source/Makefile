@@ -29,10 +29,10 @@ cuda_test: ${CUDA_TESTS}
 
 test: cpu_test cuda_test
 	
-test_sim_compile: test_sim_compile.o simulation.o baby_cl.o cell_param.o model.o reaction.o observable.o color.o   
+test_sim_compile: test_sim_compile.o simulation.o baby_cl.o cell_param.o model.o reaction.o observable.o color.o 
 	${CC} ${LFLAGS} $^ -o $@ 
 
-test_simulation: test_simulation.o simulation.o reaction.o cell_param.o baby_cl.o model.o observable.o param_set.o arg_parse.o color.o
+test_simulation: test_simulation.o simulation.o reaction.o cell_param.o baby_cl.o model.o observable.o param_set.o arg_parse.o color.o analysis.o
 	${PARAM_SETS} ${CC} ${LFLAGS} $^ -o $@ 
 
 test_simulation_cuda: test_simulation_cuda.o simulation.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl_cuda.o model.o baby_cl.o observable.o color.o 

@@ -21,21 +21,18 @@ using namespace std;
 /*
 The DataLogger observes Simulation and periodically records the concentrations levels for analysis and record.
 */
-class DataLogger : public  Observer {
-	
-	int analysis_interval;
-	
-	RATETYPE*** datalog;
+class DataLogger : public  Observer, public Observable {	
 
+public:
 	int last_log_time;
 	int species;
 	int contexts;
 	int steps;
 	
+	RATETYPE analysis_interval;
 	simulation* sim;	
-
-	public:
-
+	RATETYPE*** datalog;
+	
 	DataLogger();
 	DataLogger(int = 1);
 
@@ -44,7 +41,7 @@ class DataLogger : public  Observer {
 	*sub: simulation to observe
 	*analysis_gran: interval between concentration level recordings
 	*/
-	DataLogger(simulation *sub, int analysis_gran) : Observer(sub) {
+	DataLogger(simulation *sub, RATETYPE analysis_gran) : Observer(sub) {
 		
 		sim = sub;
 		analysis_interval = analysis_gran;
@@ -52,6 +49,7 @@ class DataLogger : public  Observer {
 		species = NUM_SPECIES;
 		contexts = sim->_cells_total;
 		steps = sim->time_total/analysis_interval;
+		cout<<"steps = "<<steps<<"  time_total = "<<sim->time_total<<"  analysis_interval = "<<analysis_interval<<endl;
 
 		datalog = new RATETYPE**[species];
 		for (int i = 0; i < species; i++){
@@ -62,6 +60,16 @@ class DataLogger : public  Observer {
 		}
 		
 		last_log_time = 0;
+	}
+
+	~DataLogger() {
+		for (int i = 0; i < NUM_SPECIES; i++) {
+			for (int j = 0; j < contexts; j++){
+				delete[] datalog[i][j]; 
+			}
+			delete[] datalog[i];
+		}
+		delete[] datalog;
 	}
 	
 	/**
@@ -74,6 +82,9 @@ class DataLogger : public  Observer {
 			}
 		}
 		last_log_time++;
+		if (last_log_time%100==0){
+			notify();
+		}
 	}
 	
 	void testDataLogger();
