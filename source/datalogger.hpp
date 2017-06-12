@@ -1,11 +1,14 @@
 #ifndef DATALOGGER_HPP
 #define DATALOGGER_HPP
 
+#include "csv_reader.hpp"
+#include "color.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
 #include "cell_param.hpp"
 #include "simulation.hpp"
+#include "simulation_set.hpp"
 #include "reaction.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
@@ -18,11 +21,22 @@
 
 using namespace std;
 
+
+
+
+
 /*
 The DataLogger observes Simulation and periodically records the concentrations levels for analysis and record.
 */
 class DataLogger : public  Observer, public Observable {	
 
+    const string STR_ALL_SPECIES[NUM_SPECIES] = {
+        #define SPECIE(name) #name, 
+        #include "specie_list.hpp"
+        #undef SPECIE
+    };
+	
+	
 public:
 	int last_log_time;
 	int species;
@@ -42,7 +56,6 @@ public:
 	*analysis_gran: interval between concentration level recordings
 	*/
 	DataLogger(simulation *sub, RATETYPE analysis_gran) : Observer(sub) {
-		
 		sim = sub;
 		analysis_interval = analysis_gran;
 
@@ -90,30 +103,58 @@ public:
 	void testDataLogger();
 	
 	void reallocateData(int last_relevant_time);
+	
+	/**
+	 * Import File To Data -- read data from *.csv file and load it into the Data Logger
+	 * ofname: directory/name of file to write to, .csv extension not needed
+	*/
+	void importFileToData(const string& pcfFileName)
+	{
+	    CSVReader gCSVR(pcfFileName);
+	    bool gError = false;
+	    
+        for (int i = 0; i<species && !gError; i++)
+        {
+		    for (int j = 0; j<contexts && !gError; j++)
+		    {
+		        for (int k = 0; k<steps && !gError; k++)
+		        {
+		            gError = !gCSVR.nextCSVCell(datalog[i][j][k]);
+		        }
+		    }
+	    }
+		
+		if (gError)
+		{
+		    cout << color::set(color::RED) << "Failed to import \'" << pcfFileName << "\' to data logger." << color::clear() << endl;
+		}
+	}
 
 	/**
 	*exportDataToFile: writes logged concentration levels to a file
-	*outFile: given file object to write to, named "dataOut"
+	*ofname: directory/name of file to write to, .csv extension not needed
 	*/
-	void exportDataToFile(ofstream& outFile){
-		outFile.open("dataOut.txt");
+	void exportDataToFile(const string& ofname){
+	    ofstream outFile;
+		outFile.open(ofname);
 		for (int c = 0; c < contexts; c++){
-			outFile<<"    Cell "<<c<<endl;
+			outFile<<"Cell "<<c<<endl<<"Time, ";
 			for (int s = 0; s < species; s++){
-				outFile<<"    Specie "<<s;
+			    // TODO As of now I have no way of figuring out whether the order in which the specie names are outputted here is the same order in which the data is outputted.
+				outFile<<"Specie "<<STR_ALL_SPECIES[s]<<", ";
 			}
 			outFile<<endl;
 			for (int t = 0; t<steps; t++){
-				outFile<<"Time "<<t*analysis_interval;
+				outFile<<t*analysis_interval<<", ";
 				for (int s = 0; s<species; s++){
-					outFile<<std::setprecision(5)<<datalog[s][c][t]<<"    ";
+					outFile<<std::setprecision(5)<<datalog[s][c][t]<<", ";
 				}
 				outFile<<endl;
 			}
+			outFile<<endl;
 		}
+		outFile.close();
 	}
-	
-	void importFileToData(ifstream inFile);
 };
 
 #endif

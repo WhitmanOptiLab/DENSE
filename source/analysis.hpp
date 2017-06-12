@@ -96,7 +96,7 @@ class OscillationAnalysis : public Analysis {
 	vector<int> numPeaks,numTroughs,cycles;
 	vector<RATETYPE> peakSum,troughSum,cycleSum;
 
-	vector<set<RATETYPE> > bst;
+	vector<multiset<RATETYPE> > bst;
 
 	vector<RATETYPE> amplitudes;
 	vector<RATETYPE> periods;
@@ -114,7 +114,7 @@ public:
 		for (int c=0; c<dl->contexts; c++){
 			Queue q(range_steps);
 			vector<crit_point> v;
-			set<RATETYPE> BST;
+			multiset<RATETYPE> BST;
 
 			windows.push_back(q);
 			peaksAndTroughs.push_back(v);

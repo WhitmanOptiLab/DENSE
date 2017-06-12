@@ -1,13 +1,29 @@
+#ifndef ARG_PARSE_HPP
+#define ARG_PARSE_HPP
+
 /*
  * Why a namespace?! Fascinating read on the dangers of the "private static
  *   member solution": https://stackoverflow.com/a/112451
  *
  * This class was going to be entirely full of static functions and fields
  *   anyway, so we might as well make it a namespace!
+ *
+ * What do the variable prefixes mean???
+ *   u - public / visible (namespace)
+ *   o - protected
+ *   i - private / anonymous (namespace)
+ *   s - static
+ *   p - parameter
+ *   r - return
+ *   t - temporary holder variable
+ *   h - push (to a container/array)
+ *   c - constant
+ *   f - reference
+ *   n - pointer
+ *   l - iterator (looper)
+ *   g - general/other -- only use when NO other prefix applies; never use with another prefix
+ * Append prefixes in the order they are listed in.
 */
-
-#ifndef ARG_PARSE_HPP
-#define ARG_PARSE_HPP
 
 #include <string>
 
@@ -23,7 +39,7 @@ namespace arg_parse
      *      pcArgc - argc of "int main(int argc, char *argv[])"
      *      pcArgv - argv of "int main(int argc, char *argv[])"
     */
-    void init(const int& pcArgc, char* pcArgv[]);
+    void init(const int& pcfArgc, char* pcfArgv[]);
     
     
     /**
@@ -50,9 +66,9 @@ namespace arg_parse
      *      Version without pcDefault means that the flag is obligatory (unless typename is bool) and will print warning message to user if not present in argv
     */
     template<typename T>
-    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong);
+    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong);
     template<typename T>
-    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong, const T& pcDefault);
+    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault);
 };
 
 #endif // ARG_PARSE_HPP

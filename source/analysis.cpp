@@ -56,16 +56,16 @@ void OscillationAnalysis :: get_peaks_and_troughs(){
 				ending = true;
 			}
 
-			if ( windows[c].getSize() == range_steps || ending) {
-				RATETYPE removed = windows[c].dequeue();
-				bst[c].erase(removed);
-                        }
-		
 			if (!ending){
 				RATETYPE added = dl->datalog[s][c][time_temp];	
 				windows[c].enqueue(added);
 				bst[c].insert(added);
 			}
+
+			if ( windows[c].getSize() == range_steps + 1 || ending) {
+				RATETYPE removed = windows[c].dequeue();
+				bst[c].erase(bst[c].find(removed));
+      }
 
 			if ( windows[c].getSize() < range_steps/2 && !ending) {
 				continue;

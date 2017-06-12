@@ -1,25 +1,25 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_executable(gen_csv gen_csv.cpp)
-add_executable(test_sim_compile test_sim_compile.cpp simulation.cpp baby_cl.cpp cell_param.cpp model.cpp ${PROJECT_BINARY_DIR}/reaction.cpp color.cpp observable.cpp)
-add_executable(test_simulation test_simulation.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp analysis.cpp)
-add_executable(test_simulation_set test_simulation_set.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp)
-add_executable(test_main test_main.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp)
+add_executable(csv_gen csv_gen.cpp)
+add_executable(test_sim_compile test_sim_compile.cpp simulation.cpp baby_cl.cpp cell_param.cpp model.cpp csv_reader.cpp ${PROJECT_BINARY_DIR}/reaction.cpp color.cpp observable.cpp)
+add_executable(test_simulation test_simulation.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp analysis.cpp)
+add_executable(test_simulation_set test_simulation_set.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp)
+add_executable(test_main test_main.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp)
 
 #add_test(ctest_sim_compile test_sim_compile)
 add_test(ctest_simulation test_simulation -p ../param_list.csv)
 add_test(ctest_simulation_set test_simulation_set -p ../param_list.csv)
-add_test(ctest_main test_main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 10 -t 60)
+add_test(ctest_main test_main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 10 -t 60 -d ../data_out.csv)
 
 
 
-# Forces gen_csv to run before all the test_'s are built.
+# Forces csv_gen to run before all the test_'s are built.
 # This occurs when 'make' is run.
-add_custom_target(gen_csv_run ${PROJECT_BINARY_DIR}/source/gen_csv ../)
+add_custom_target(csv_gen_run ${PROJECT_BINARY_DIR}/source/csv_gen ../)
 
-add_dependencies(test_simulation gen_csv_run)
-add_dependencies(test_simulation_set gen_csv_run)
-add_dependencies(test_main gen_csv_run)
+add_dependencies(test_simulation csv_gen_run)
+add_dependencies(test_simulation_set csv_gen_run)
+add_dependencies(test_main csv_gen_run)
 
 
 

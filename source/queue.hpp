@@ -15,8 +15,8 @@ public:
 //	Queue();
 	
 	Queue(int length){
-		contents.resize(length);
-		size = length;
+		contents.resize(length+1);
+		size = length+1;
 		start = 0;
 		current = -1;
 		end = -1;

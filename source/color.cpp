@@ -5,19 +5,19 @@ namespace color
 {
     namespace
     {
-        bool enableColor = true;
+        bool iEnableColor = true;
     }
     
-    void enable(const bool& pcEnable)
+    void enable(const bool& pcfEnable)
     {
-        enableColor = pcEnable;
+        iEnableColor = pcfEnable;
     }
     
-    const std::string set(const unsigned int& pcSetColor)
+    const std::string set(const unsigned int& pcfSetColor)
     {
-        if (enableColor)
+        if (iEnableColor)
         {
-            return "\x1b[3" + std::to_string(pcSetColor) + "m";
+            return "\x1b[3" + std::to_string(pcfSetColor) + "m";
         }
         else
         {

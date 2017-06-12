@@ -3,9 +3,9 @@
 
 #include "reaction.hpp" // For "typedef float RATETYPE;"
 
-#include <cfloat> // For FLT_MIN
-#include <climits>
-#include <cstring> // For INT_MIN
+#include <cfloat> // For FLT_MAX
+#include <climits> // For INT_MAX
+#include <cstring>
 #include <iostream>
 #include <exception>
 #include <vector>
@@ -22,24 +22,24 @@ namespace arg_parse
         vector<string> iArgVec;
         
         // Stops obligatory message
-        bool suppressObligatory = false;
+        bool iSuppressObligatory = false;
         
         
         // Get index of (or index after) pcFlag if it exists in iArgVec. Return -1 if not found.
-        const int getIndex(std::string pcFlagShort, std::string pcFlagLong, const bool& pcNext)
+        const int getIndex(std::string pcfFlagShort, std::string pcfFlagLong, const bool& pcfNext)
         {
-            pcFlagShort = "-" + pcFlagShort;
-            pcFlagLong = "--" + pcFlagLong;
+            pcfFlagShort = "-" + pcfFlagShort;
+            pcfFlagLong = "--" + pcfFlagLong;
             
             for ( int i=0; i<iArgVec.size(); i++)
             {
-                if (iArgVec[i] == pcFlagShort || iArgVec[i] == pcFlagLong)
+                if (iArgVec[i] == pcfFlagShort || iArgVec[i] == pcfFlagLong)
                 {
-                    if (pcNext)
+                    if (pcfNext)
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\'." << color::clear() << endl;
+                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\'." << color::clear() << endl;
                         }
                         else
                         {
@@ -58,21 +58,21 @@ namespace arg_parse
         
         
         // Prints message warning that flag is required
-        void warnObligatory(std::string pcFlagShort, std::string pcFlagLong)
+        void warnObligatory(std::string pcfFlagShort, std::string pcfFlagLong)
         {
-            if (!suppressObligatory)
+            if (!iSuppressObligatory)
             {
-                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\' is required in order for the program to execute." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\' is required in order for all program behaviors to function properly." << color::clear() << endl;
             }
         }
         
         
         template<typename T>
-        const T getSuppressObligatory(const std::string& pcFlagShort, const std::string& pcFlagLong)
+        const T getSuppressObligatory(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
         {
-            suppressObligatory = true;
-            const T rval = get<T>(pcFlagShort, pcFlagLong);
-            suppressObligatory = false;
+            iSuppressObligatory = true;
+            const T rval = get<T>(pcfFlagShort, pcfFlagLong);
+            iSuppressObligatory = false;
             return rval;
         }
         
@@ -84,14 +84,14 @@ namespace arg_parse
 
     
     // See usage documentation in header
-    void init(const int& pcArgc, char* pcArgv[])
+    void init(const int& pcfArgc, char* pcfArgv[])
     {
         // Skip argv[0] because that's just the file name
-        for ( int i=1; i<pcArgc; i++)
+        for ( int i=1; i<pcfArgc; i++)
         {
-            char pushStr[strlen(pcArgv[i])];
-            strcpy(pushStr, pcArgv[i]);
-            iArgVec.push_back(string(pushStr));
+            char hStr[strlen(pcfArgv[i])];
+            strcpy(hStr, pcfArgv[i]);
+            iArgVec.push_back(string(hStr));
         }
     }
 
@@ -102,49 +102,49 @@ namespace arg_parse
 
     // See usage documentation in header
     template<typename T>
-    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
     {
-        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'-" << pcFlagShort << "\' or \'--" << pcFlagLong << "\'." << color::clear() << endl;
+        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\'." << color::clear() << endl;
         return nullptr;
     }
     
     template<typename T>
-    const T get(const std::string& pcFlagShort, const std::string& pcFlagLong, const T& pcDefault)
+    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault)
     {
-        return get<T>(pcFlagShort, pcFlagLong);
+        return get<T>(pcfFlagShort, pcfFlagLong);
     }
 
 
 
     // Template specializations
     template<>
-    const string get<string>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    const string get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
     {
-        int index = getIndex(pcFlagShort, pcFlagLong, true);
+        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
         if (index != -1)
         {
             return iArgVec[index];
         }
         else
         {
-            warnObligatory(pcFlagShort, pcFlagLong);
+            warnObligatory(pcfFlagShort, pcfFlagLong);
             return "";
         }
     }
     
     template<>
-    const string get<string>(const std::string& pcFlagShort, const std::string& pcFlagLong, const string& pcDefault)
+    const string get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const string& pcfDefault)
     {
-        string rval = getSuppressObligatory<string>(pcFlagShort, pcFlagLong);
-        return rval != "" ? rval : pcDefault;
+        string rval = getSuppressObligatory<string>(pcfFlagShort, pcfFlagLong);
+        return rval != "" ? rval : pcfDefault;
     }
     
     
     
     template<>
-    const int get<int>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    const int get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
     {
-        int index = getIndex(pcFlagShort, pcFlagLong, true);
+        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
         if (index != -1)
         {
             try
@@ -157,23 +157,23 @@ namespace arg_parse
             }
         }
         
-        warnObligatory(pcFlagShort, pcFlagLong);
-        return INT_MIN;
+        warnObligatory(pcfFlagShort, pcfFlagLong);
+        return INT_MAX;
     }
     
     template<>
-    const int get<int>(const std::string& pcFlagShort, const std::string& pcFlagLong, const int& pcDefault)
+    const int get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const int& pcfDefault)
     {
-        int rval = getSuppressObligatory<int>(pcFlagShort, pcFlagLong);
-        return rval != INT_MIN ? rval : pcDefault;
+        int rval = getSuppressObligatory<int>(pcfFlagShort, pcfFlagLong);
+        return rval != INT_MAX ? rval : pcfDefault;
     }
     
     
     
     template<>
-    const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    const RATETYPE get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
     {
-        int index = getIndex(pcFlagShort, pcFlagLong, true);
+        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
         if (index != -1)
         {
             try
@@ -186,35 +186,35 @@ namespace arg_parse
             }
         }
         
-        warnObligatory(pcFlagShort, pcFlagLong);
-        return FLT_MIN;
+        warnObligatory(pcfFlagShort, pcfFlagLong);
+        return FLT_MAX;
     }
     
     template<>
-    const RATETYPE get<RATETYPE>(const std::string& pcFlagShort, const std::string& pcFlagLong, const RATETYPE& pcDefault)
+    const RATETYPE get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const RATETYPE& pcfDefault)
     {
-        RATETYPE rval = getSuppressObligatory<RATETYPE>(pcFlagShort, pcFlagLong);
+        RATETYPE rval = getSuppressObligatory<RATETYPE>(pcfFlagShort, pcfFlagLong);
 
-        return rval != FLT_MIN ? rval : pcDefault;
+        return rval != FLT_MAX ? rval : pcfDefault;
     }
     
     
     
     template<>
-    const bool get<bool>(const std::string& pcFlagShort, const std::string& pcFlagLong)
+    const bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
     {
-        if (getIndex(pcFlagShort, pcFlagLong, false) != -1) // If found
+        if (getIndex(pcfFlagShort, pcfFlagLong, false) != -1) // If found
             return true;
         else
             return false;
     }
     
     template<>
-    const bool get<bool>(const std::string& pcFlagShort, const std::string& pcFlagLong, const bool& pcDefault)
+    const bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const bool& pcfDefault)
     {
-        if (getIndex(pcFlagShort, pcFlagLong, false) != -1) // If found
-            return !pcDefault;
+        if (getIndex(pcfFlagShort, pcfFlagLong, false) != -1) // If found
+            return !pcfDefault;
         else
-            return pcDefault;
+            return pcfDefault;
     }
 }
