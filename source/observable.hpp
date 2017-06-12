@@ -4,6 +4,8 @@
 #include <iostream>
 #include <vector>
 
+#include "context.hpp"
+
 using namespace std;
 class Observer;
 
@@ -11,7 +13,6 @@ class Observer;
 Superclass for Simulation
 */
 class Observable{
-
 	vector<Observer*> observerList;
 
 	public:
@@ -32,7 +33,8 @@ class Observer{
 
 	public:
 	Observer(Observable *oAble);
-	virtual void update() = 0;
+
+	virtual void update(ContextBase& start) = 0;
 };
 #endif
 
