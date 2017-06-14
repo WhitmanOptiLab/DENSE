@@ -47,7 +47,6 @@ public:
 		else{
 			end++;
 		}
-
 		contents[end] = entry;
 
 		if (getSize() >= size/2) {

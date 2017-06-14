@@ -68,8 +68,10 @@ class simulation : public Observable{
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
+	CPUGPU_FUNC
+	virtual void reset() final {_cell = 0;}
         CPUGPU_FUNC
-        virtual bool isValid() final { return _cell >= 0 && _cell < _simulation._cells_total; }
+        virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
 
@@ -147,7 +149,6 @@ class simulation : public Observable{
       _NEIGHBORS_2D = 6;
       _big_gran = 1;
       _num_history_steps = 2;
-      cout << "no seg fault2"<<endl;
   }
   ~simulation() {delete[] _neighbors; }
   void test_sim();

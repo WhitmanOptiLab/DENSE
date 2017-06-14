@@ -21,6 +21,7 @@ class Observable{
 	}
 
 	void notify(ContextBase& start);
+	void notify(ContextBase& start, bool isFinal);
 };
 
 /**
@@ -33,7 +34,8 @@ class Observer{
 
 	public:
 	Observer(Observable *oAble);
-
+	
+	virtual void finalize(ContextBase& start) = 0;
 	virtual void update(ContextBase& start) = 0;
 };
 #endif

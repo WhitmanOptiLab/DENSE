@@ -21,31 +21,32 @@ int main(int argc, char *argv[]) {
     unsigned int set_n = 1;
     while (csvrp.get_next(ps))
     {
-        cout << "loaded param_set " << set_n++ << endl;
-        
-        cout << "no seg fault"<<endl;
-        
-        //setting up simulation
-        RATETYPE analysis_interval = .1;
+        unsigned int set_n = 1;
+        while (csvrp.get_next(ps))
+        {
+            cout << "loaded param_set " << set_n++ << endl;
+            
+            //setting up simulation
+            RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.1);
 
-        simulation s(m, ps,
-            arg_parse::get<int>("c", "cell-total", 200),
-            arg_parse::get<int>("w", "total-width", 50),
-            arg_parse::get<RATETYPE>("s", "step-size", 0.01),
-            arg_parse::get<RATETYPE>("a", "analysis_interval", analysis_interval),
-            arg_parse::get<RATETYPE>("t", "sim_time", 60) );
-   
-        DataLogger dl(&s,analysis_interval); 
-        cout << "no seg fault"<<endl;
-        s.initialize();
-        OscillationAnalysis o(&dl,4,ph1);
+            simulation s(m, ps,
+                arg_parse::get<int>("c", "cell-total", 200),
+                arg_parse::get<int>("w", "total-width", 50),
+                arg_parse::get<RATETYPE>("s", "step-size", 0.01),
+                analysis_interval,
+                arg_parse::get<RATETYPE>("t", "sim_time", 60) );
+	   
+           // DataLogger dl(&s); 
+            s.initialize();
 
-        cout << "no seg fault"<<endl;
-        //run simulation
-        s.simulate();
-        //s.print_delay()	
-        o.testQueue();
-
-        dl.exportDataToFile("../models/her_model_2014/data_out.csv");
-    }
+	    //BasicAnalysis a(&s);
+            OscillationAnalysis o(&s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
+	    BasicAnalysis a(&s);
+            //run simulation
+            s.simulate();
+            //s.print_delay()	
+           // o.test();
+	   // a.test();
+        }
+    } 
 }
