@@ -6,8 +6,8 @@
 
 using namespace std;
 
-template<int N>
-void cell_param<N>::update_rates(const RATETYPE param_data[]){
+template<int N, class T>
+void cell_param<N,T>::update_rates(const RATETYPE param_data[], const RATETYPE normfactor){
 //    initialize();
     if (_sim._model._using_perturb){
         for (int i = 0; i < N; i++) {
@@ -15,18 +15,18 @@ void cell_param<N>::update_rates(const RATETYPE param_data[]){
                 for (int j = 0; j < _sim._cells_total; j++) {
                     //double rnum;
                     //rnum=0.082;
-                    _array[_width*i+j] = param_data[i];
+                    _array[_width*i+j] = param_data[i]/normfactor;
                 }
             } else { // If the current rate has a perturbation factor then set every cell's rate to a randomly perturbed positive or negative variation of the base with a maximum perturbation up to the rate's perturbation factor
                 for (int j = 0; j < _sim._cells_total; j++) {
-                    _array[_width*i+j] = param_data[i] * random_perturbation(_sim._model.factors_perturb[i]);
+                    _array[_width*i+j] = param_data[i] * random_perturbation(_sim._model.factors_perturb[i]) / normfactor;
                 }
             }
         }
     } else {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < _sim._cells_total; j++) {
-                _array[_width*i+j] =param_data[i];
+                _array[_width*i+j] =param_data[i] / normfactor;
             }
         }
     }
@@ -62,8 +62,8 @@ void __genUpdateRates(simulation& s) {
   c.update_rates(NULL);
 }
 
-template<int N>
-void cell_param<N>:: initialize(){
+template<int N, class T>
+void cell_param<N,T>:: initialize(){
     _width = _sim._cells_total;
     dealloc_array();
     allocate_array();

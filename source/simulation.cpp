@@ -176,7 +176,7 @@ __host__ __device__ void simulation::calculate_delay_indices (baby_cl& baby_cl, 
 void simulation::initialize(){
     calc_max_delays(); 
     calc_neighbor_2d();
-    _delays.update_rates(_parameter_set._delay_sets);
+    _delays.update_rates(_parameter_set._delay_sets, _step_size);
     _rates.update_rates(_parameter_set._rates_base);
     _critValues.update_rates(_parameter_set._critical_values);
     _cl.initialize(4,300,200);

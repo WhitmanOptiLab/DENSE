@@ -21,7 +21,7 @@ using namespace std;
 
 
 typedef cell_param<NUM_REACTIONS> Rates;
-typedef cell_param<NUM_DELAY_REACTIONS> Delays;
+typedef cell_param<NUM_DELAY_REACTIONS, int> Delays;
 typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
 class simulation : public Observable{
@@ -56,8 +56,8 @@ class simulation : public Observable{
             return _simulation._rates[reaction][_cell];
         }
         CPUGPU_FUNC
-        RATETYPE getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._delays[delay_reaction][_cell]/_simulation._step_size;
+        int getDelay(delay_reaction_id delay_reaction) const{
+            return _simulation._delays[delay_reaction][_cell];
         }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
