@@ -10,90 +10,119 @@
 
 using namespace std;
 
-
+/*
+* Superclass for Analysis Objects
+* - observes passed "Observable"
+* - does not implement any analysis
+*/
 class Analysis : public Observer {
 protected:
-	DataLogger *dl;
 	int time;
 public:
-	Analysis(DataLogger *dLog) : Observer(dLog) {
-		dl = dLog;
-
+	Analysis(Observable *dLog) : Observer(dLog) {
 		time = 0;
 	}
 
 };
 
-
+/*
+* Subclass of Analysis superclass
+* - records overall mins and maxs for each specie
+* - records mins and maxs for each specie per cell
+* - records overall specie averages
+* - records specie averages per cell
+*/
 class BasicAnalysis : public Analysis {
 
-	RATETYPE *averages;
-	RATETYPE *mins;
-	RATETYPE *maxs;
-	RATETYPE **avgs_by_context;
-	RATETYPE **mins_by_context;
-	RATETYPE **maxs_by_context;
+private:
+	vector<RATETYPE> averages;
+	vector<RATETYPE> mins;
+	vector<RATETYPE> maxs;
+	vector<vector<RATETYPE> > avgs_by_context;
+	vector<vector<RATETYPE> > mins_by_context;
+	vector<vector<RATETYPE> > maxs_by_context;
 
+	void update_averages(const ContextBase& start,int c);
+	void update_minmax(const ContextBase& start,int c);
 
-	BasicAnalysis(DataLogger *dLog) : Analysis(dLog) {
-	
-		averages = new RATETYPE[NUM_SPECIES];
-		mins = new RATETYPE[NUM_SPECIES];
-		maxs = new RATETYPE[NUM_SPECIES];
-		avgs_by_context = new RATETYPE*[dl->sim->_cells_total];
-		mins_by_context = new RATETYPE*[dl->sim->_cells_total];
-		maxs_by_context = new RATETYPE*[dl->sim->_cells_total];	
-	
-		for (int c=0; c<dl->contexts; c++){
-			
-			avgs_by_context[c] = new RATETYPE[NUM_SPECIES];
-			mins_by_context[c] = new RATETYPE[NUM_SPECIES];
-			maxs_by_context[c] = new RATETYPE[NUM_SPECIES];
-
-			for (int s=0; s<NUM_SPECIES; s++){
-				mins_by_context[c][s] = 9999;
-			}
-		}
-		for (int s=0; s<NUM_SPECIES; s++){
-			mins[s] = 9999;
-		}
-		
-		time = 0;
-
+public:
+	BasicAnalysis(Observable *dLog) : Analysis(dLog) {
 	}
 
-	void update(){
-		
-		update_averages();
-		update_minmax();
-	/*		
-		if (dl->sim_done){
-		}
+	/*
+	* Update: repeatedly called by observable to notify that there is more data
+	* - arg ContextBase& start: reference to iterator over concentrations
+	* - precondition: start.isValid() is true.
+	* - postcondition: start.isValid() is false.
+	* - update is overloaded virtual function of Observer
 	*/
+	void update(ContextBase& start){
+		for (int c = 0; start.isValid(); c++){
+			if (time==0){
+				avgs_by_context.emplace_back();
+				mins_by_context.emplace_back();
+				maxs_by_context.emplace_back();
+				for (int s = 0; s<NUM_SPECIES; s++){
+					mins_by_context[c].push_back(9999);
+					maxs_by_context[c].push_back(0);
+					avgs_by_context[c].push_back(0);
+					if (c==0){
+						mins.push_back(9999);
+						maxs.push_back(0);
+						averages.push_back(0);
+					}
+				}
+			}
+			update_averages(start,c);
+			update_minmax(start,c);
+			start.advance();
+		}
+		time++;
+	}
+
+	// Test: prints output.
+	void test(){
+		for (int s=0; s<averages.size(); s++){
+			cout<<"Specie "<<s<<endl<<"average="<<averages[s]<<endl;
+			cout<<"minimum="<<mins[s]<<endl;
+			cout<<"maximum="<<maxs[s]<<endl<<endl;
+		}
+	}
+
+	/* Finalize: overloaded virtual function of observer
+	   - does nothing.
+	*/	
+	void finalize(ContextBase& start){
 	}
 	
-	void update_averages();
-	void update_minmax();
 };
 
+/*
+* OscillationAnalysis: Subclass of Analysis superclass
+* - identifies time and concentration of peaks and troughs of a given specie
+* - calculates average amplitude of oscillations per cell
+* - calculates average period of oscillations per cell
+*/
 class OscillationAnalysis : public Analysis {
 
+private:
 	struct crit_point {
 		bool is_peak;
 		RATETYPE time;
 		RATETYPE conc;
 	};
 
+	bool vectors_assigned;
+
 	vector<Queue> windows;
 
 	vector<vector<crit_point> > peaksAndTroughs;
 
-	RATETYPE local_range;
 	int range_steps;
+	RATETYPE analysis_interval;
 	specie_id s;
 
-	int crit_tracker;
-	vector<int> numPeaks,numTroughs,cycles;
+	vector<int> numPeaks,numTroughs,cycles,crit_tracker;
 	vector<RATETYPE> peakSum,troughSum,cycleSum;
 
 	vector<multiset<RATETYPE> > bst;
@@ -102,43 +131,59 @@ class OscillationAnalysis : public Analysis {
 	vector<RATETYPE> periods;
 
 	void addCritPoint(int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
-	void get_peaks_and_troughs();
-	void calcAmpsAndPers();
+	void get_peaks_and_troughs(const ContextBase& start,int c);
+	void calcAmpsAndPers(int c);
+	void checkCritPoint(int c);
 
 public:	
-	OscillationAnalysis(DataLogger *dLog, RATETYPE loc_Range, specie_id specieID) : Analysis(dLog) {
-		local_range = loc_Range;
-		range_steps = local_range/dl->analysis_interval;
+	/*
+	* Constructor: creates an oscillation analysis for a specific specie
+	* arg *dLog: observable to collected data from
+	* interval: frequency that OscillationAnalysis is updated, in minutes.
+	* range: required local range of a peak or trough in minutes.
+	* specieID: specie to analyze.
+	*/
+	OscillationAnalysis(Observable *dLog, RATETYPE interval, RATETYPE range, specie_id specieID) : Analysis(dLog) {
+		range_steps = range/interval;
+		analysis_interval = interval;
 		s = specieID;
-		crit_tracker = 0;
-		for (int c=0; c<dl->contexts; c++){
-			Queue q(range_steps);
-			vector<crit_point> v;
-			multiset<RATETYPE> BST;
-
-			windows.push_back(q);
-			peaksAndTroughs.push_back(v);
-			bst.push_back(BST);
-				
-			amplitudes.push_back(0);
-			periods.push_back(0);
-			numPeaks.push_back(0);
-			numTroughs.push_back(0);
-			cycles.push_back(0);
-			peakSum.push_back(0);
-			troughSum.push_back(0);
-			cycleSum.push_back(0);
-		}
 	}
 
-	void testQueue(){
-		for (int c=0; c<dl->contexts; c++){
+	//Test: print output.
+	void test(){
+		/*	
+		for (int c=0; c<200; c++){
 			cout<<"CELL "<<c<<endl;
 			cout<<"Amplitude = "<<amplitudes[c]<<"   Period = "<<periods[c]<<"min"<<endl;
-		}			
+		}
+		*/
+		cout<<endl;
+		for (int p=0; p<peaksAndTroughs[0].size();p++){
+			crit_point cp = peaksAndTroughs[0][p];
+			string text;
+			if (cp.is_peak){
+				text = "Peak: ";
+			}else{
+				text = "Trough: ";
+			}
+			cout<<text<<cp.conc<<" at "<<cp.time<<"min"<<endl;
+		}
+		cout<<"Amplitude = "<<amplitudes[0]<<"   Period = "<<periods[0]<<"min"<<endl;
+		cout<<endl;
 	}
 
-	void update();
+	/*
+	* Update: repeatedly called by observable to notify that there is more data
+	* - arg ContextBase& start: reference to iterator over concentrations
+	* - precondition: start.isValid() is true.
+	* - postcondition: start.isValid() is false.
+	* - update is overloaded virtual function of Observer
+	*/
+	void update(ContextBase& start);
+
+	//Finalize: called by observable to signal end of data
+	// - generates peaks and troughs in final slice of data.
+	void finalize(ContextBase& start);
 };
 
 class CorrelationAnalysis : public Analysis {
@@ -146,7 +191,7 @@ class CorrelationAnalysis : public Analysis {
 	CorrelationAnalysis(DataLogger *dLog) : Analysis(dLog) {
 	}
 
-	void update(){
+	void update(ContextBase& start){
 	}
 
 	bool pearsonCorrelate();
