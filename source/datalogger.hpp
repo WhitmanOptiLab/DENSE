@@ -88,11 +88,12 @@ public:
 	/**
 	*update: overrrides inherited update, called when observable simulation notifies observer
 	*/
-	void update() {
-		for (int s = 0; s<species; s++){
-			for (int c = 0; c<contexts; c++){
-				datalog[s][c][last_log_time] = sim->_baby_cl[s][sim->_baby_j[s]-1][c];
+	virtual void update(ContextBase& start) {
+	  for (int c = 0; c<contexts; c++){
+	  	for (int s = 0; s<species; s++){
+        datalog[s][c][last_log_time] = start.getCon(s);
 			}
+      start.advance();
 		}
 		last_log_time++;
 		if (last_log_time%100==0){

@@ -2,6 +2,7 @@
 #define SIMULATION_HPP
 
 #include "observable.hpp"
+#include "context.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
@@ -27,13 +28,15 @@ typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 class simulation : public Observable{
   
  public:
-    class Context {
+    class Context : public ContextBase {
         //FIXME - want to make this private at some point
-    public:
-        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
-        const int _cell;
+      private:
+        int _cell;
         simulation& _simulation;
         double _avg;
+
+      public:
+        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
         CPUGPU_FUNC
         Context(simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
         CPUGPU_FUNC
@@ -43,7 +46,11 @@ class simulation : public Observable{
         CPUGPU_FUNC
         const SpecieRates calculateRatesOfChange();
         CPUGPU_FUNC
-        RATETYPE getCon(specie_id sp, int delay = 1) const {
+        virtual RATETYPE getCon(specie_id sp) const final {
+          return getCon(sp, 1);
+        }
+        CPUGPU_FUNC
+        RATETYPE getCon(specie_id sp, int delay) const {
             int modified_step = _simulation._baby_j[sp] + 1 - delay;
             return _simulation._baby_cl[sp][modified_step][_cell];
         }
@@ -59,6 +66,10 @@ class simulation : public Observable{
         int getDelay(delay_reaction_id delay_reaction) const{
             return _simulation._delays[delay_reaction][_cell];
         }
+        CPUGPU_FUNC
+        virtual void advance() final { ++_cell; }
+        CPUGPU_FUNC
+        virtual bool isValid() final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
 
