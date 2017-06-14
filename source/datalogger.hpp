@@ -21,10 +21,6 @@
 
 using namespace std;
 
-
-
-
-
 /*
 The DataLogger observes Simulation and periodically records the concentrations levels for analysis and record.
 */
@@ -36,79 +32,81 @@ class DataLogger : public  Observer, public Observable {
         #undef SPECIE
     };
 	
-	
 public:
+	vector<vector<vector<RATETYPE> > > datalog;
 	int last_log_time;
-	int species;
-	int contexts;
-	int steps;
-	
-	RATETYPE analysis_interval;
-	simulation* sim;	
-	RATETYPE*** datalog;
-	
-	DataLogger();
-	DataLogger(int = 1);
 
+	class DataLog: public ContextBase {
+        //FIXME - want to make this private at some point
+     	private:
+        	int c;
+        	DataLogger& logger;
+
+	public:
+        	CPUGPU_FUNC
+        	DataLog(DataLogger& dl, int context) : logger(dl),c(context){ }
+        	CPUGPU_FUNC
+        	virtual RATETYPE getCon(specie_id sp) const final {
+			return logger.datalog[c][sp][logger.last_log_time];
+        	}
+        	CPUGPU_FUNC
+        	virtual void advance() final { ++c; }
+		CPUGPU_FUNC
+		virtual bool isValid() const final { return c >= 0 && c < logger.datalog.size(); }
+		CPUGPU_FUNC
+		virtual void reset() final {c=0;}
+	};
+
+	DataLogger();
 	/**
 	*Constructor for DataLogger
-	*sub: simulation to observe
+	*sub: subject to observe
 	*analysis_gran: interval between concentration level recordings
 	*/
-	DataLogger(simulation *sub, RATETYPE analysis_gran) : Observer(sub) {
-		sim = sub;
-		analysis_interval = analysis_gran;
-
-		species = NUM_SPECIES;
-		contexts = sim->_cells_total;
-		steps = sim->time_total/analysis_interval;
-		cout<<"steps = "<<steps<<"  time_total = "<<sim->time_total<<"  analysis_interval = "<<analysis_interval<<endl;
-
-		datalog = new RATETYPE**[species];
-		for (int i = 0; i < species; i++){
-			datalog[i] = new RATETYPE*[contexts];
-			for (int j=0; j<contexts; j++){
-				datalog[i][j] = new RATETYPE[steps];
-			}
-		}
-		
+	DataLogger(Observable *sub) : Observer(sub) {
 		last_log_time = 0;
 	}
 
-	~DataLogger() {
-		for (int i = 0; i < NUM_SPECIES; i++) {
-			for (int j = 0; j < contexts; j++){
-				delete[] datalog[i][j]; 
-			}
-			delete[] datalog[i];
-		}
-		delete[] datalog;
-	}
-	
-	/**
+	/*	
 	*update: overrrides inherited update, called when observable simulation notifies observer
 	*/
 	virtual void update(ContextBase& start) {
-	  for (int c = 0; c<contexts; c++){
-	  	for (int s = 0; s<species; s++){
-        datalog[s][c][last_log_time] = start.getCon(s);
+		for (int c = 0; start.isValid(); c++){
+			try{
+				datalog.at(c);
 			}
-      start.advance();
+			catch (const out_of_range& e){
+				datalog.emplace_back();
+			}
+			vector<vector<RATETYPE> >& contextlog = datalog.at(c);
+			for (int s = 0; s<NUM_SPECIES; s++){
+				specie_id sid = (specie_id) s;
+				try{
+					contextlog.at(s).push_back(start.getCon(sid));
+				}
+				catch (const out_of_range& e){
+					contextlog.emplace_back();
+					contextlog.at(s).push_back(start.getCon(sid));
+				}
+			}
+			start.advance();
 		}
+
 		last_log_time++;
-		if (last_log_time%100==0){
-			notify();
-		}
+		DataLog log(*this,0);
+		notify(log);
 	}
-	
-	void testDataLogger();
-	
+
+	virtual void finalize(ContextBase& start){
+		DataLog log(*this,0);
+		notify(log,true);
+	}
+
+/*	
 	void reallocateData(int last_relevant_time);
 	
-	/**
 	 * Import File To Data -- read data from *.csv file and load it into the Data Logger
 	 * ofname: directory/name of file to write to, .csv extension not needed
-	*/
 	void importFileToData(const string& pcfFileName)
 	{
 	    CSVReader gCSVR(pcfFileName);
@@ -131,10 +129,9 @@ public:
 		}
 	}
 
-	/**
+	
 	*exportDataToFile: writes logged concentration levels to a file
 	*ofname: directory/name of file to write to, .csv extension not needed
-	*/
 	void exportDataToFile(const string& ofname){
 	    ofstream outFile;
 		outFile.open(ofname);
@@ -156,6 +153,7 @@ public:
 		}
 		outFile.close();
 	}
+*/
 };
 
 #endif

@@ -11,11 +11,13 @@ class ContextBase {
   //FIXME - want to make this private at some point
  public:
   CPUGPU_FUNC
-  virtual RATETYPE getCon(specie_id sp) const;
+  virtual RATETYPE getCon(specie_id sp) const = 0;
   CPUGPU_FUNC
-  virtual void advance();
+  virtual void advance() = 0;
   CPUGPU_FUNC
-  virtual bool isValid() const;
+  virtual bool isValid() const = 0;
+  CPUGPU_FUNC
+  virtual void reset() = 0;
 };
 
 #endif // CONTEXT_HPP
