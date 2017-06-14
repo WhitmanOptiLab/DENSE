@@ -96,10 +96,23 @@ class baby_cl {
     
     
     CPUGPU_FUNC
-    timespan operator[](int i);
-    
+    timespan operator[](int i) {
+#ifndef SPARSE_STRUCT
+        return timespan(_array+_position[i], _width, _specie_size[i]);
+#else
+        return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
+#endif
+    }
+
     CPUGPU_FUNC
-    const timespan operator[](int i) const;
+    const timespan operator[](int i) const {
+#ifndef SPARSE_STRUCT
+        return timespan(_array+_position[i], _width, _specie_size[i]);
+#else
+        return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
+#endif
+    }
+    
     
     
     int width() const {return _width;}
@@ -128,6 +141,7 @@ protected:
     }
     
 };
+
 
 
 #endif

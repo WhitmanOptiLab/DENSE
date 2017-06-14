@@ -62,22 +62,3 @@ void baby_cl::initialize(){
     reset();
 }
 
-
-
-CPUGPU_FUNC
-baby_cl::timespan baby_cl::operator[](int i){
-#ifndef SPARSE_STRUCT
-    return timespan(_array+_position[i], _width, _specie_size[i]);
-#else
-    return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
-#endif
-}
-
-CPUGPU_FUNC
-const baby_cl::timespan baby_cl::operator[](int i) const{
-#ifndef SPARSE_STRUCT
-    return timespan(_array+_position[i], _width, _specie_size[i]);
-#else
-    return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
-#endif
-}
