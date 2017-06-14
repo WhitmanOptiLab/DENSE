@@ -20,7 +20,7 @@ class Observable{
 		observerList.push_back(o);
 	}
 
-	void notify();
+	void notify(ContextBase& start);
 };
 
 /**
@@ -37,4 +37,3 @@ class Observer{
 	virtual void update(ContextBase& start) = 0;
 };
 #endif
-

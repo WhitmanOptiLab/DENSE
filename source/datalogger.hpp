@@ -1,7 +1,6 @@
 #ifndef DATALOGGER_HPP
 #define DATALOGGER_HPP
 
-#include "csv_reader.hpp"
 #include "color.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
@@ -76,7 +75,7 @@ public:
 	}
 
 	~DataLogger() {
-		for (int i = 0; i < NUM_SPECIES; i++) {
+		for (int i = 0; i < species; i++) {
 			for (int j = 0; j < contexts; j++){
 				delete[] datalog[i][j]; 
 			}
@@ -84,6 +83,7 @@ public:
 		}
 		delete[] datalog;
 	}
+	
 	
 	/**
 	*update: overrrides inherited update, called when observable simulation notifies observer
@@ -109,8 +109,10 @@ public:
 	 * Import File To Data -- read data from *.csv file and load it into the Data Logger
 	 * ofname: directory/name of file to write to, .csv extension not needed
 	*/
-	void importFileToData(const string& pcfFileName)
+	/*void importFileToData(const string& pcfFileName)
 	{
+	    // Context, Specie, Time
+	    
 	    CSVReader gCSVR(pcfFileName);
 	    bool gError = false;
 	    
@@ -129,7 +131,7 @@ public:
 		{
 		    cout << color::set(color::RED) << "Failed to import \'" << pcfFileName << "\' to data logger." << color::clear() << endl;
 		}
-	}
+	}*/
 
 	/**
 	*exportDataToFile: writes logged concentration levels to a file
