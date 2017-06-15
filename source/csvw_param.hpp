@@ -1,5 +1,5 @@
-#ifndef CSVW_PARAM_H
-#define CSVW_PARAM_H
+#ifndef CSVW_PARAM_HPP
+#define CSVW_PARAM_HPP
 
 #include "csvw.hpp"
 

@@ -8,14 +8,9 @@
 class csvr_sim : public csvr, public Observable
 {
 public:
-    csvr_sim(const std::string& pcfFileName);
-    virtual ~csvr_sim();
-
-    void run();
-
-private:
     class mini_ct : public ContextBase
     {
+        friend class csvr_sim;
     public:
         mini_ct();
 
@@ -25,9 +20,18 @@ private:
         virtual void advance();
         CPUGPU_FUNC
         virtual bool isValid() const;
+        CPUGPU_FUNC
+        virtual void reset();
     
     private:
         RATETYPE iRate[NUM_SPECIES];
-        specie_id iIter;
-    }
+        int iIter;
+    };
+
+
+
+    csvr_sim(const std::string& pcfFileName);
+    virtual ~csvr_sim();
+
+    void run();
 };

@@ -23,7 +23,7 @@ void simulation::test_sim() {
 
 void simulation::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
-    	RATETYPE total_step = analysis_gran/_step_size;
+    RATETYPE total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
 		Context context(*this,0);
 		notify(context);

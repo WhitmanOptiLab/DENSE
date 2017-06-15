@@ -1,3 +1,5 @@
+#ifndef CSVR_PARAM_HPP
+#define CSVR_PARAM_HPP
 #include "csvr.hpp"
 #include "param_set.hpp"
 
@@ -8,8 +10,7 @@ public:
     csvr_param();
     csvr_param(const std::string& pcfFileName);
     virtual ~csvr_param();
-
-
+    
     /**
      *  Get Total/Remaining Counts of Data Sets
      *
@@ -32,7 +33,7 @@ public:
      *      For loading the next set of parameters in the file stream to the _critical_values, _delay_sets, and _rates_base of the param_set pLoadTo
      *
      *  parameters
-     *      pfParam - The instance of param_set to load the data to. Remember that these file loading functions are static!
+     *      pfLoadTo - The instance of param_set to load the data to. Remember that these file loading functions are static!
      *
      *  returns
      *      true - if successfully loaded the next set in ifstream
@@ -42,10 +43,12 @@ public:
      *      If no sets exist and/or the end of the file has been reached, will return false
      *      Secondary version of function instead returns a copy of a param_set with the data loaded onto it
     */
-    bool get_next(param_set& pfParam);
+    bool get_next(param_set& pfLoadTo);
     param_set get_next();
 
 private:
     unsigned int iCount;
     unsigned int iRemain;
 };
+
+#endif

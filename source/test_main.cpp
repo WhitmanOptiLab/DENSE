@@ -1,5 +1,8 @@
 #include "arg_parse.hpp"
+#include "analysis.hpp"
 #include "color.hpp"
+#include "csvr_sim.hpp"
+#include "csvw_sim.hpp"
 #include "datalogger.hpp"
 #include "simulation_set.hpp"
 #include "model_impl.hpp"
@@ -56,6 +59,9 @@ int main(int argc, char *argv[])
             "[-a | --anlys-intvl]      <int> " << color::set(color::GREEN) <<
             "Analysis interval. How frequently data is fetched from simulation for analysis." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
+            "[-r | --local_range] <RATETYPE> " << color::set(color::GREEN) <<
+            "Range in which oscillation features are searched for." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-t | --time]             <int> " << color::set(color::GREEN) <<
             "Amount of time to simulate." << color::clear() << endl;
     }
@@ -73,23 +79,33 @@ int main(int argc, char *argv[])
             anlys_intvl,
             arg_parse::get<RATETYPE>("t", "sim_time"));
         
-        DataLogger dl(&sim_set._sim_set[0],anlys_intvl); 
-        
+        RATETYPE local_range = arg_parse::get<RATETYPE>("r", "local_range");
         string data_import = arg_parse::get<string>("i", "data-import", "");
         if (data_import.size() > 0)
         {
-            dl.importFileToData(data_import);
-            // TODO call feature analysis function(s) here
-            cout << color::set(color::YELLOW) <<
-                "TODO: CALL FEATURE ANALYSIS FUNCTION(S) IN MAIN" << color::clear() << endl;
+            csvr_sim csvrs(data_import);
+            
+            OscillationAnalysis oa(&csvrs, anlys_intvl, local_range, ph1);
+            BasicAnalysis ba(&csvrs);
+            
+            csvrs.run();
+            
+            ba.test();
+            oa.test();
         }
         else 
         {
             string data_export = arg_parse::get<string>("e", "data-export");
             if (data_export.size() > 0)
             {
+                OscillationAnalysis oa(&sim_set._sim_set[0], anlys_intvl, local_range, ph1);
+                BasicAnalysis ba(&sim_set._sim_set[0]);
+                csvw_sim csvws(data_export, &sim_set._sim_set[0]);
+
                 sim_set.simulate_sets();
-                dl.exportDataToFile(data_export);
+
+                ba.test();
+                oa.test();
             }
         }
     }

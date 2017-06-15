@@ -9,7 +9,7 @@
 
 class csvr
 {
-protected:
+public:
     /**
      *  CSVReader ctor
      *  
@@ -18,7 +18,8 @@ protected:
     */
     csvr(const std::string& pcfFileName);
     virtual ~csvr();
-    
+
+    const bool is_open() const;    
     
     /**
      *  Get Next CSV Data Cell
@@ -34,7 +35,7 @@ protected:
      *      true - if there is a next cell and pfRate was successfully set to it
      *      false - if reached end of file or a parsing error
     */
-    bool get_next(RATETYPE* pnRate = 0) final;
+    bool get_next(RATETYPE* pnRate = 0);
     
     
 private:

@@ -5,7 +5,7 @@
 using namespace std;
 
 
-
+/*
 csvw_sim::csvw_sim(const string& pcfFileName) :
     csvw::csvw(pcfFileName, true)
 {
@@ -41,3 +41,4 @@ void csvw_sim::update(ContextBase& pfStart)
         pfStart.advance();
     }
 }
+*/

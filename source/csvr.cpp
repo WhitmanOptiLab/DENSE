@@ -29,6 +29,12 @@ csvr::~csvr()
 }
 
 
+const bool csvr::is_open() const
+{
+    return iFile.is_open() ? true : false;
+}
+
+
 bool csvr::get_next(RATETYPE* pnRate)
 {
     // Only bother if open

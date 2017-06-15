@@ -35,23 +35,28 @@ class simulation_set{
     {
         csvr_param csvrp(param_file);
         // Setup only if param_file actually exists
-    
-        // Allocate space based on amount of sets in file
-        unsigned int set_count = csvrp.get_total();
-        _ps.reserve(set_count);
-        _sim_set.reserve(set_count);
         
-        // For each set, load data to _ps and _sim_set
-        for (unsigned int i=0; i<set_count; i++)
+        if (csvrp.is_open())
         {
-            _ps.push_back(csvrp.get_next());
-            _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
-            _sim_set[i].initialize();
+            // Allocate space based on amount of sets in file
+            unsigned int set_count = csvrp.get_total();
+            _ps.reserve(set_count);
+            _sim_set.reserve(set_count);
+            
+            // For each set, load data to _ps and _sim_set
+            for (unsigned int i=0; i<set_count; i++)
+            {
+                cout << "init'ing set " << i << endl;
+                _ps.push_back(csvrp.get_next());
+                _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
+                _sim_set[i].initialize();
+            }
         }
     }
     
     void simulate_sets(){
         for (int i=0; i<_sim_set.size(); i++){
+            cout << "sim'ing set " << i << endl;
             _sim_set[i].simulate();
         }
     }

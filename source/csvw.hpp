@@ -20,7 +20,6 @@ protected:
     csvw(const std::string& pcfFileName, const bool& pcfWriteDoc = true, const std::string& pcfChildDoc = "");
     virtual ~csvw();
     
-    
     // TODO : Document
     void add_div(const std::string& pcfDiv);
     void add_data(const RATETYPE& pcfRate);

@@ -6,8 +6,8 @@ using namespace std;
 
 
 
-csvw_sim::csvw_sim(const string& pcfFileName) :
-    csvw::csvw(pcfFileName, true)
+csvw_sim::csvw_sim(const string& pcfFileName, Observable *pnObl) :
+    Observer(pnObl), csvw(pcfFileName, true, "# This file can be used as a template for user-created data inputs under this particular model. It is recommended that \n")
 {
     const string STR_ALL_SPECIES[NUM_SPECIES] = {
         #define SPECIE(name) #name, 
@@ -28,16 +28,21 @@ csvw_sim::~csvw_sim()
 }
 
 
+void csvw_sim::finalize(ContextBase& pfStart)
+{
+    // Anything even need to be in here?
+}
+
+
 void csvw_sim::update(ContextBase& pfStart)
 {
-    while (pfStart.isValid())
+    if (pfStart.isValid())
     {
         for (int i=0; i<NUM_SPECIES; i++)
         {
-            csvw::add_data(pfStart.getCon(i));
+            csvw::add_data(pfStart.getCon((specie_id) i));
         }
         
         csvw::add_div("\n");
-        pfStart.advance();
     }
 }

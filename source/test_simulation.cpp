@@ -16,12 +16,12 @@ int main(int argc, char *argv[]) {
     
     //setting up param_set
     param_set ps;
+
     csvr_param csvrp(arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv"));
     
-    unsigned int set_n = 1;
-    while (csvrp.get_next(ps))
+    if (csvrp.is_open())
     {
-        unsigned int set_n = 1;
+        unsigned int set_n = 0;
         while (csvrp.get_next(ps))
         {
             cout << "loaded param_set " << set_n++ << endl;
@@ -35,18 +35,18 @@ int main(int argc, char *argv[]) {
                 arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                 analysis_interval,
                 arg_parse::get<RATETYPE>("t", "sim_time", 60) );
-	   
-           // DataLogger dl(&s); 
+       
+            // DataLogger dl(&s); 
             s.initialize();
 
-	    //BasicAnalysis a(&s);
+            //BasicAnalysis a(&s);
             OscillationAnalysis o(&s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
-	    BasicAnalysis a(&s);
+            BasicAnalysis a(&s);
             //run simulation
             s.simulate();
             //s.print_delay()	
-           // o.test();
-	   // a.test();
+            //o.test();
+            //a.test();
         }
-    } 
+    }
 }
