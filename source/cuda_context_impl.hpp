@@ -16,12 +16,12 @@ RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay)
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
-    int time =  _simulation._baby_j[sp] - delay;
+    //int time =  _simulation._baby_j[sp] - delay;
     // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
     //int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     // TODO: remove CPDELTA hardcoding
-    baby_cl_cuda::cell cur_cons = static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[pd][time];
+    baby_cl_cuda::cell cur_cons = static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[pd][-delay];
     RATETYPE sum=0;
     //since the tissue is not growing now
     //start is 0 and end is 10, instead of_simulation.active_start_record[time] and_simulation.active_end_record[time]

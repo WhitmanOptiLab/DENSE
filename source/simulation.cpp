@@ -79,10 +79,8 @@ void simulation::execute(){
     //baby_cl.active_end_record[baby_j] = active_end;
     
     _j++;
-    for (int i =0; i< NUM_SPECIES ; i++){
-        _baby_j[i]++;
-    }
-    
+    //Advance the current timestep
+    _baby_cl.advance();
     //print the concentration level of mh1 for cell 1
    
 }

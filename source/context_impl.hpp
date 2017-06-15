@@ -29,12 +29,11 @@ RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) cons
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
-    int time =  _simulation._baby_j[sp] - delay;
     // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
     //int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     // TODO: remove CPDELTA hardcoding
-    baby_cl::cell cur_cons = _simulation._baby_cl[pd][time];
+    baby_cl::cell cur_cons = _simulation._baby_cl[pd][-delay];
     RATETYPE sum=0;
     //since the tissue is not growing now
     //start is 0 and end is 10, instead of_simulation.active_start_record[time] and_simulation.active_end_record[time]
@@ -85,10 +84,8 @@ void simulation::Context::updateCon(const simulation::Context::SpecieRates& rate
     double curr_rate=0;
     for (int i=0; i< NUM_SPECIES; i++){
         curr_rate= rates[i];
-        int baby_j= _simulation._baby_j[i];
-        _simulation._baby_cl[i][baby_j+1][_cell]=_simulation._baby_cl[i][baby_j][_cell]+ _simulation._step_size* curr_rate;
+        _simulation._baby_cl[i][1][_cell]=_simulation._baby_cl[i][0][_cell]+ _simulation._step_size* curr_rate;
     }
-    
 }
 
 #endif // CONTEXT_IMPL

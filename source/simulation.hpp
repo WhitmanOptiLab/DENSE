@@ -48,8 +48,7 @@ class simulation : public Observable{
         }
         CPUGPU_FUNC
         RATETYPE getCon(specie_id sp, int delay) const {
-            int modified_step = _simulation._baby_j[sp] + 1 - delay;
-            return _simulation._baby_cl[sp][modified_step][_cell];
+            return _simulation._baby_cl[sp][1 - delay][_cell];
         }
         CPUGPU_FUNC
         RATETYPE getCritVal(critspecie_id rcritsp) const {
@@ -121,7 +120,7 @@ class simulation : public Observable{
   Concentration_level _cl;
   baby_cl _baby_cl;
   //Context<double> _contexts;
-  CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
+  //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
   int _j;
@@ -140,9 +139,6 @@ class simulation : public Observable{
       _j =0 ;
       analysis_gran = analysis_interval;
       time_total = sim_time;
-      for (int i = 0; i < NUM_SPECIES; i++) {
-        _baby_j[i] = 0;
-      }
       //_NEIGHBORS_2D = 6;
       //_big_gran = 1;
       _num_history_steps = 2;

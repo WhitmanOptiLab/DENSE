@@ -23,6 +23,8 @@ class baby_cl {
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
 
+    int _j[NUM_SPECIES];
+
   public:
     class cell{
     public:
@@ -46,34 +48,41 @@ class baby_cl {
     class timespan{
     public:
         CPUGPU_FUNC
-        timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
+        timespan(RATETYPE *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
         
         CPUGPU_FUNC
         cell operator[](int j) {
-            j = WRAP(j, _pos);
+            j = (j == 0) ? _pos : WRAP(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
         
         CPUGPU_FUNC
         const cell operator[](int j) const{
-            j = WRAP(j, _pos);
+            j = (j == 0) ? _pos : WRAP(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
         RATETYPE *_array;
         int _width;
         int _pos;
+        int _hist_len;
     };
     
     baby_cl(simulation& sim)
     :_width(0), _total_length(0),_sim(sim){
         allocate_array();
+        for (int i = 0; i < NUM_SPECIES; i++) {
+          _j[i] = 0;
+        }
     }
     
     baby_cl(int length, int width, simulation& sim)
     :_width(width),_total_length(0),_sim(sim){
         allocate_array();
+        for (int i = 0; i < NUM_SPECIES; i++) {
+          _j[i] = 0;
+        }
     }
     
     void initialize();
@@ -81,19 +90,28 @@ class baby_cl {
         for (int i = 0; i < _total_length; i++) {
             _array[i] = 0.0; // Initialize every concentration level at every time step for every cell to 0
         }
+        for (int i = 0; i < NUM_SPECIES; i++) {
+          _j[i] = 0;
+        }
     }
     
     
     CPUGPU_FUNC
     timespan operator[](int i) {
-        return timespan(_array+_position[i], _width, _specie_size[i]);
+        return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
     CPUGPU_FUNC
     const timespan operator[](int i) const {
-        return timespan(_array+_position[i], _width, _specie_size[i]);
+        return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
     
+    CPUGPU_FUNC
+    void advance() { 
+      for (int i = 0; i < NUM_SPECIES; i++) {
+        _j[i] = WRAP(_j[i]+1, _specie_size[i]);
+      }
+    }
     
     
     int width() const {return _width;}
