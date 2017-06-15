@@ -23,140 +23,78 @@ int main(int argc, char *argv[])
         /**********************************************************************
         ******************** Generate param_list_template *********************
         **********************************************************************/
+        const string cReaction[] = {
+            #define REACTION(name) #name, 
+            #define DELAY_REACTION(name) #name, 
+            #include "reactions_list.hpp"
+            #undef REACTION
+            #undef DELAY_REACTION
+        };
+        
+        const string cDelay[] = {
+            #define REACTION(name) 
+            #define DELAY_REACTION(name) #name, 
+            #include "reactions_list.hpp"
+            #undef REACTION
+            #undef DELAY_REACTION
+        };
+        
+        const string cCritical[] = {
+            #define SPECIE(name)
+            #define CRITICAL_SPECIE(name) #name, 
+            #include "specie_list.hpp"
+            #undef SPECIE
+            #undef CRITICAL_SPECIE
+        };
+        
+        
+        // Create the new file along with comments documenting its format requirements
+        string csv_name = string(argv[1])+"param_list_template.csv";
+        ofstream csv_ofs(csv_name);
+        if (csv_ofs.is_open())
         {
-            const string cReaction[] = {
-                #define REACTION(name) #name, 
-                #define DELAY_REACTION(name) #name, 
-                #include "reactions_list.hpp"
-                #undef REACTION
-                #undef DELAY_REACTION
-            };
+            // Write documentation
+            csv_ofs << "# IMPORTANT: Rename this file to \"param_list.csv\" once data has been entered!\n#\n";
+            csv_ofs << "# CSV Specification\n";
             
-            const string cDelay[] = {
-                #define REACTION(name) 
-                #define DELAY_REACTION(name) #name, 
-                #include "reactions_list.hpp"
-                #undef REACTION
-                #undef DELAY_REACTION
-            };
-            
-            const string cCritical[] = {
-                #define SPECIE(name)
-                #define CRITICAL_SPECIE(name) #name, 
-                #include "specie_list.hpp"
-                #undef SPECIE
-                #undef CRITICAL_SPECIE
-            };
+            csv_ofs << "#   Ignored by the simulation file reader are:\n";
+            csv_ofs << "#     (1) blank rows and all other whitespace\n";
+            csv_ofs << "#     (2) comment rows which always begin with a \'#\'\n";
+            csv_ofs << "#     (3) blank cells such as \"A, B, , D, E\"\n";
+            csv_ofs << "#     (4) any cell that does not begin with a numerical or decimal place character*\n";
+            csv_ofs << "#   *Such cells column headers. These are provided for the user's convenience and can be modified as the user sees fit.\n";
+            csv_ofs << "#   It is futile to modify the order of the column headers. Data must be entered in the order specified by the generated column headers if the simulation is to interpret the data properly.\n\n";
             
             
-            // Create the new file along with comments documenting its format requirements
-            string csv_name = string(argv[1])+"param_list_template.csv";
-            ofstream csv_ofs(csv_name);
-            if (csv_ofs.is_open())
+            // Write column headers
+            for (unsigned int i=0; i<len(cReaction); i++)
             {
-                // Write documentation
-                csv_ofs << "# IMPORTANT: Rename this file to \"param_list.csv\" once data has been entered!\n#\n";
-                csv_ofs << "# CSV Specification\n";
-                
-                csv_ofs << "#   Ignored by the simulation file reader are:\n";
-                csv_ofs << "#     (1) blank rows and all other whitespace\n";
-                csv_ofs << "#     (2) rows beginning with \'#\' -- these act as comments\n";
-                csv_ofs << "#     (3) blank cells such as \"A, B, , D, E\"\n";
-                csv_ofs << "#     (4) any cell that does not begin with a numerical or decimal place character*\n";
-                csv_ofs << "#   *Such cells column headers. These are provided for the user's convenience and can be modified as the user sees fit.\n";
-                csv_ofs << "#   It is futile to modify the order of the column headers. Data must be entered in the order specified by the generated column headers if the simulation is to interpret the data properly.\n\n";
-                
-                
-                // Write column headers
-                for (unsigned int i=0; i<len(cReaction); i++)
-                {
-                    csv_ofs << cReaction[i] << ", ";
-                }
-                
-                csv_ofs << ", ";
-                
-                for (unsigned int i=0; i<len(cDelay); i++)
-                {
-                    csv_ofs << "dreact_" << cDelay[i] << ", ";
-                }
-                
-                csv_ofs << ", ";
-                
-                for (unsigned int i=0; i<len(cCritical); i++)
-                {
-                    csv_ofs << "rcrit_" << cCritical[i] << ", ";
-                }
-                
-                
-                // Victory message
-                printf("\x1b[32mCSV column header generation successful. See \'%s\'\n", csv_name.c_str()); // green text
+                csv_ofs << cReaction[i] << ", ";
             }
-            else // if output file stream failed to open
+            
+            csv_ofs << ", ";
+            
+            for (unsigned int i=0; i<len(cDelay); i++)
             {
-                printf("\x1b[31mCSV column header generation failed. Could not create file \'%s\'\n", csv_name.c_str()); // red text
+                csv_ofs << "dreact_" << cDelay[i] << ", ";
             }
-            csv_ofs.close();
+            
+            csv_ofs << ", ";
+            
+            for (unsigned int i=0; i<len(cCritical); i++)
+            {
+                csv_ofs << "rcrit_" << cCritical[i] << ", ";
+            }
+            
+            
+            // Victory message
+            printf("\x1b[32mCSV column header generation successful. See \'%s\'\n", csv_name.c_str()); // green text
         }
-        
-        
-        
-        /**********************************************************************
-        ********************** Generate data_in_template **********************
-        **********************************************************************/
+        else // if output file stream failed to open
         {
-            const string cSpecie[] = {
-                #define SPECIE(name) #name, 
-                #define CRITICAL_SPECIE(name) #name, 
-                #include "specie_list.hpp"
-                #undef SPECIE
-                #undef CRITICAL_SPECIE
-            };
-            
-            
-            // Create the new file along with comments documenting its format requirements
-            string csv_name = string(argv[1])+"data_in_template.csv";
-            ofstream csv_ofs(csv_name);
-            if (csv_ofs.is_open())
-            {
-                // Write documentation
-                csv_ofs << "# IMPORTANT: Rename this file to \"data_in.csv\" once data has been entered!\n#\n";
-                csv_ofs << "# CSV Specification\n";
-                
-                csv_ofs << "#   Ignored by the simulation file reader are:\n";
-                csv_ofs << "#     (1) blank rows and all other whitespace\n";
-                csv_ofs << "#     (2) rows beginning with \'#\' -- these act as comments\n";
-                csv_ofs << "#     (3) blank cells such as \"A, B, , D, E\"\n";
-                csv_ofs << "#     (4) any cell that does not begin with a numerical or decimal place character*\n";
-                csv_ofs << "#   *Such cells column headers. These are provided for the user's convenience and can be modified as the user sees fit.\n";
-                csv_ofs << "#   It is futile to modify the order of the column headers. Data must be entered in the order specified by the generated column headers if the simulation is to interpret the data properly.\n";
-                csv_ofs << "#   Be sure that the intervals between the items in the \'Time\' column are evenly spaced.\n";
-                csv_ofs << "#   Repeat/Copy-and-paste the format below for as many cells as you wish.\n\n";
-                
-                
-                // Write column headers
-                csv_ofs << "\nSIMUlATION SET 0";
-                for (unsigned int i=0; i<2;i++)
-                {
-                    csv_ofs << "\nCell " << i << "\nTime, ";
-                    for (unsigned int j=0; j<len(cSpecie); j++)
-                    {
-                        csv_ofs << "Specie " << cSpecie[j] << ", ";
-                    }
-                    csv_ofs << "\n\n";
-                }
-                csv_ofs << "\n# etc...";
-                
-                
-                
-                // Victory message
-                printf("\x1b[32mCSV column header generation successful. See \'%s\'\n", csv_name.c_str()); // green text
-            }
-            else // if output file stream failed to open
-            {
-                printf("\x1b[31mCSV column header generation failed. Could not create file \'%s\'\n", csv_name.c_str()); // red text
-            }
-            csv_ofs.close();
+            printf("\x1b[31mCSV column header generation failed. Could not create file \'%s\'\n", csv_name.c_str()); // red text
         }
+        csv_ofs.close();
     }
     else // if argc != 2
     {

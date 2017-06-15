@@ -1,9 +1,9 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_executable(csv_gen csv_gen.cpp)
-add_executable(test_simulation test_simulation.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp analysis.cpp)
-add_executable(test_simulation_set test_simulation_set.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp)
-add_executable(test_main test_main.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp param_set.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csv_reader.cpp)
+add_executable(test_simulation test_simulation.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp arg_parse.cpp model.cpp color.cpp observable.cpp analysis.cpp csvr.cpp csvr_param.cpp csvr_sim.cpp csvw.cpp csvw_param.cpp csvw_sim.cpp)
+add_executable(test_simulation_set test_simulation_set.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp arg_parse.cpp model.cpp color.cpp observable.cpp csvr.cpp csvr_param.cpp csvr_sim.cpp csvw.cpp csvw_param.cpp csvw_sim.cpp)
+add_executable(test_main test_main.cpp simulation.cpp ${PROJECT_BINARY_DIR}/reaction.cpp cell_param.cpp baby_cl.cpp arg_parse.cpp model.cpp color.cpp observable.cpp analysis.cpp csvr.cpp csvr_param.cpp csvr_sim.cpp csvw.cpp csvw_param.cpp csvw_sim.cpp)
 
 add_test(ctest_simulation test_simulation -p ../param_list.csv)
 add_test(ctest_simulation_set test_simulation_set -p ../param_list.csv)

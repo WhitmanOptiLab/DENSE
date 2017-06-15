@@ -29,13 +29,13 @@ cuda_test: ${CUDA_TESTS}
 
 test: cpu_test cuda_test
 	
-test_simulation: test_simulation.o simulation.o reaction.o cell_param.o baby_cl.o model.o observable.o param_set.o arg_parse.o color.o analysis.o csv_reader.o
+test_simulation: test_simulation.o simulation.o reaction.o cell_param.o baby_cl.o arg_parse.o model.o observable.o arg_parse.o color.o analysis.o csvr.o csvw.o csvw_param.o csvw_sim.o csvr_param.o
 	${PARAM_SETS} ${CC} ${LFLAGS} $^ -o $@ 
 
 test_simulation_cuda: test_simulation_cuda.o simulation.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl_cuda.o model.o baby_cl.o observable.o color.o csv_reader.o 
 	${NVCC} ${CULFLAGS} $^ -o $@ 
 
-test_simulation_set: test_simulation_set.o simulation.o reaction.o cell_param.o baby_cl.o model.o observable.o param_set.o arg_parse.o color.o csv_reader.o
+test_simulation_set: test_simulation_set.o simulation.o reaction.o cell_param.o baby_cl.o arg_parse.o model.o observable.o arg_parse.o color.o analysis.o csvr.o csvw.o csvw_param.o csvw_sim.o csvr_param.o
 	${CC} ${LFLAGS} $^ -o $@ 
 
 test_simulation_set_cuda: test_simulation_set_cuda.o simulation_set_cuda.o simulation.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl.o baby_cl_cuda.o model.o observable.o color.o csv_reader.o 

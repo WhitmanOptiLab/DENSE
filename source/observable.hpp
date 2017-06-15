@@ -39,4 +39,3 @@ class Observer{
 	virtual void update(ContextBase& start) = 0;
 };
 #endif
-

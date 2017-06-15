@@ -1,15 +1,14 @@
-#include "csv_reader.hpp"
+#include "csvr.hpp"
 
 #include "color.hpp"
 
-#include <cfloat> // For FLT_MAX
-#include <climits> // For INT_MAX
+#include <cfloat> // For FLT_MAX as an internal error code
 #include <iostream>
 using namespace std;
 
 
 
-bool CSVReader::open(const std::string& pcfFileName)
+csvr::csvr(const std::string& pcfFileName)
 {
     // Close any previously open file
     if (iFile.is_open())
@@ -17,31 +16,32 @@ bool CSVReader::open(const std::string& pcfFileName)
     
     // Open new file
     iFile.open(pcfFileName);
+    
+    // Check if open successful
+    if (!iFile.is_open())
+        cout << color::set(color::RED) << "CSV file input failed. CSV file \'" << pcfFileName << "\' not found or open." << color::clear() << endl;
 }
 
 
-void CSVReader::close()
+csvr::~csvr()
 {
     iFile.close();
 }
 
 
-CSVReader::CSVReader(const std::string& pcfFileName)
+const bool csvr::is_open() const
 {
-    if (pcfFileName.size() > 0)
-    {
-        open(pcfFileName);
-    }
+    return iFile.is_open() ? true : false;
 }
 
 
-bool CSVReader::nextCSVCell(RATETYPE& pfRate)
+bool csvr::get_next(RATETYPE* pnRate)
 {
     // Only bother if open
     if (iFile.is_open())
     {
-        // rParam data from file to be pushed
-        string rParam;
+        // tParam data from file to be "pushed" to pfRate
+        string tParam;
         
         // For error reporting
         unsigned int lLine = 1;
@@ -68,13 +68,13 @@ bool CSVReader::nextCSVCell(RATETYPE& pfRate)
                     // '\n' is there in case there is no comma after last item
                     if (c == ',' || c == '\n')
                     {
-                        if (rParam.length() > 0) // Only push if rParam contains something
+                        if (tParam.length() > 0) // Only push if tParam contains something
                         {
                             RATETYPE tRate = FLT_MAX;
                             
                             try
                             {
-                                tRate = stold(rParam);
+                                tRate = stold(tParam);
                             }
                             catch(exception ex) // For catching stold() errors
                             {
@@ -84,7 +84,7 @@ bool CSVReader::nextCSVCell(RATETYPE& pfRate)
                             // success
                             if (tRate != FLT_MAX)
                             {
-                                pfRate = tRate;
+                                pnRate != 0 ? *pnRate = tRate : 0;
                                 return true;
                             }
                             else // error
@@ -95,7 +95,7 @@ bool CSVReader::nextCSVCell(RATETYPE& pfRate)
                     }
                     else // Parse if it is numbers or decimal
                     {
-                        rParam += c;
+                        tParam += c;
                     }
                 }
             }

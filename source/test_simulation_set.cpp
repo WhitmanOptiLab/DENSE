@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     simulation_set sim_set(
         arg_parse::get<bool>("G", "gradients", false),
         arg_parse::get<bool>("P", "perturb", false),
-        arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv"),
+        arg_parse::get<string>("p", "param-list", "../param_list.csv"),
         arg_parse::get<int>("c", "cell-total", 200),
         arg_parse::get<int>("w", "total-width", 50),
         arg_parse::get<RATETYPE>("s", "step-size", 0.01),
