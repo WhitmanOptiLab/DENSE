@@ -23,7 +23,7 @@ void simulation::test_sim() {
 
 void simulation::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
-    	RATETYPE total_step = analysis_gran/_step_size;
+ 	RATETYPE total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
 		Context context(*this,0);
 		notify(context);
@@ -38,22 +38,13 @@ void simulation::simulate(){
 void simulation::execute(){
     //concentration cl;
     //Rates rates;
-    int steps_elapsed = steps_split; // Used to determine when to split a column of cells
+    //int steps_elapsed = steps_split; // Used to determine when to split a column of cells
     //update_rates(rs, active_start); // Update the active rates based on the base rates, perturbations, and gradients
     
-    //Context<double> contexts[]= {};
     //int j;
-    //vector<int> baby_j;
     //bool past_induction = false; // Whether we've passed the point of induction of knockouts or overexpression
     //bool past_recovery = false; // Whether we've recovered from the knockouts or overexpression
-    //for (j = time_start; j < time_end; j++) {
         
-    /*
-    for (int i=0; i< NUM_SPECIES;i++){
-        _time_prev[i]= WRAP(_baby_j[i]-1, _rates._delay_size[i]);
-    }
-     */
-        //int time_prev = WRAP(baby_j - 1, max_delay_size); // Time is cyclical, so time_prev may not be baby_j - 1
     
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
@@ -61,7 +52,7 @@ void simulation::execute(){
     //cout<< _j<< " "<<_baby_cl[ph1][_j][0]<<endl;
     // Iterate through each extant cell or context
     for (int k = 0; k < _cells_total; k++) {
-        if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
+        //if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             Context c(*this, k);
             int old_cells_mrna[NUM_SPECIES];
@@ -70,7 +61,7 @@ void simulation::execute(){
 
             // Perform biological calculations
             c.updateCon(c.calculateRatesOfChange());
-        }
+        //}
     }
 
     // Check to make sure the numbers are still valid
@@ -87,18 +78,6 @@ void simulation::execute(){
     //baby_cl.active_start_record[baby_j] = active_start;
     //baby_cl.active_end_record[baby_j] = active_end;
     
-    // Copy from the simulating cl to the analysis cl
-    /*
-    if (_j % _big_gran == 0) {
-        cout<<"08"<<endl;
-        baby_to_cl(_baby_cl, _cl,  _j / _big_gran, _baby_j);
-    }
-    */
-
-    //}
-    
-    // Copy the last time step from the simulating cl to the analysis cl and mark where the simulating cl left off time-wise
-    //baby_to_cl(_baby_cl,_cl,_j,_baby_j);
     _j++;
     for (int i =0; i< NUM_SPECIES ; i++){
         _baby_j[i]++;
@@ -107,36 +86,6 @@ void simulation::execute(){
     //print the concentration level of mh1 for cell 1
    
 }
-
-
-/*
-__host__ __device__ void simulation::baby_to_cl(baby_cl& baby_cl, Concentration_level& cl, int time, int* baby_times){
-    int baby_time = 0;
-    cout<<"09"<<endl;
-    for (int i = 0; i <= NUM_SPECIES; i++) {
-        cout<<"10"<<endl;
-        baby_time = baby_times[i];
-        for (int k = 0; k < _cells_total; k++) {
-            cout<<"11"<<endl;
-            RATETYPE temp =baby_cl[i][baby_time][k];
-            cout<<"12"<<endl;
-            cl[i][time][k] = temp;
-        }
-    }
-    //cl.active_start_record[time] = baby_cl.active_start_record[baby_time];
-    //cl.active_end_record[time] = baby_cl.active_end_record[baby_time];
-
-
-}*/
-
-/*
->>>>>>> 705e09f7b98feb27457bc0cbbca5231e5130f617
-void simulation::copy_records (vector<Context> contexts, vector<int> time, vector<int> time_prev) {
-    for (int k = 0; k < cells_total; k++) {
-        cl.cons[BIRTH][time][k] = cl.cons[BIRTH][time_prev][k];
-        cl.cons[PARENT][time][k] = cl.cons[PARENT][time_prev][k];
-    }
-}*/
 
 bool simulation::any_less_than_0 (baby_cl& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {

@@ -6,12 +6,6 @@
 #define MAX(x, y) ((x) < (y) ? (y) : (x))
 using namespace std;
 
-
-// Comment/Uncomment this next line to enable/disable 3D array test data structure.
-// To rid these files of the SPARSE_STRUCT feature entirely, use a text editor's regex find and replace feature to replace "#else\n.*#endif\n", "#endif\n", and "#ifndef SPARSE_STRUCT" with blank lines
-//#define SPARSE_STRUCT
-
-
 #include <cstddef>
 
 class simulation;
@@ -26,13 +20,8 @@ class baby_cl {
     RATETYPE *_array;
 //    RATETYPE *_darray;
 
-#ifndef SPARSE_STRUCT
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
-#else
-    int _max_delay = 0;
-    int _specie_size = 0;
-#endif
 
   public:
     class cell{
@@ -97,20 +86,12 @@ class baby_cl {
     
     CPUGPU_FUNC
     timespan operator[](int i) {
-#ifndef SPARSE_STRUCT
         return timespan(_array+_position[i], _width, _specie_size[i]);
-#else
-        return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
-#endif
     }
 
     CPUGPU_FUNC
     const timespan operator[](int i) const {
-#ifndef SPARSE_STRUCT
         return timespan(_array+_position[i], _width, _specie_size[i]);
-#else
-        return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
-#endif
     }
     
     
