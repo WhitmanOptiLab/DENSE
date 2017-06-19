@@ -8,13 +8,13 @@ using namespace std;
 
 #include <cstddef>
 
-class simulation;
+class simulation_determ;
 
 
 class baby_cl {
     //FIXME - want to make this private at some point
   protected:
-    const simulation& _sim;
+    const simulation_determ& _sim;
     //const model& _model;
     int   _length, _width,_total_length;
     RATETYPE *_array;
@@ -69,7 +69,7 @@ class baby_cl {
         int _hist_len;
     };
     
-    baby_cl(simulation& sim)
+    baby_cl(simulation_determ& sim)
     :_width(0), _total_length(0),_sim(sim){
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {
@@ -77,7 +77,7 @@ class baby_cl {
         }
     }
     
-    baby_cl(int length, int width, simulation& sim)
+    baby_cl(int length, int width, simulation_determ& sim)
     :_width(width),_total_length(0),_sim(sim){
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {

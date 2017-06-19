@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     arg_parse::init(argc, argv);
     
 
-    simulation_set sim_set(
+    simulation_set<simulation_determ> sim_set(
         arg_parse::get<bool>("G", "gradients", false),
         arg_parse::get<bool>("P", "perturb", false),
         arg_parse::get<string>("p", "param-list", "../param_list.csv"),

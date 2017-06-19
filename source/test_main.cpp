@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
     {
         RATETYPE anlys_intvl = arg_parse::get<RATETYPE>("a", "anlys-intvl");
         
-        simulation_set sim_set(
+        simulation_set<simulation_determ> sim_set(
             arg_parse::get<bool>("G", "gradients"),
             arg_parse::get<bool>("P", "perturb"),
             arg_parse::get<string>("p", "param-list"),

@@ -1,5 +1,5 @@
 #include "dense_cl.hpp"
-#include "simulation.hpp"
+#include "simulation_determ.hpp"
 using namespace std;
 
 void dense_cl::initialize(){
