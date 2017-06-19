@@ -36,7 +36,6 @@ int main(int argc, char *argv[]) {
                 analysis_interval,
                 arg_parse::get<RATETYPE>("t", "sim_time", 60) );
        
-            // DataLogger dl(&s); 
             s.initialize();
 
             //BasicAnalysis a(&s);
@@ -45,7 +44,7 @@ int main(int argc, char *argv[]) {
             //run simulation
             s.simulate();
             //s.print_delay()	
-            //o.test();
+            o.test();
             //a.test();
         }
     }
