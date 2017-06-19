@@ -16,7 +16,7 @@
 #include "specie.hpp"
 
 using namespace std;
-class simulation;
+class simulation_base;
 
 template<int N, class T=RATETYPE>
 class cell_param {
@@ -25,7 +25,7 @@ public:
     int   _height, _width;
     bool _cuda;
     T *_array;
-    const simulation& _sim;
+    const simulation_base& _sim;
     
     
     class cell{
@@ -44,7 +44,7 @@ public:
     };
     
     CPUGPU_FUNC
-    cell_param(const simulation& sim, int ncells)
+    cell_param(const simulation_base& sim, int ncells)
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
     }

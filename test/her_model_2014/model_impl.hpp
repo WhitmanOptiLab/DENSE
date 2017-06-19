@@ -6,7 +6,7 @@
 #include "reaction.hpp"
 #include "specie.hpp"
 #include "model.hpp"
-#include "simulation.hpp"
+#include "simulation_base.hpp"
 //#include "context.hpp"
 #include <cstddef>
 

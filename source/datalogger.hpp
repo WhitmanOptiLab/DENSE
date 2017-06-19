@@ -6,7 +6,7 @@
 #include "model.hpp"
 #include "specie.hpp"
 #include "cell_param.hpp"
-#include "simulation.hpp"
+#include "simulation_base.hpp"
 #include "simulation_set.hpp"
 #include "reaction.hpp"
 #include "concentration_level.hpp"

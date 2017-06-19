@@ -3,7 +3,7 @@
 #ifndef CONTEXT_IMPL
 #define CONTEXT_IMPL
 
-#include "simulation.hpp"
+#include "simulation_determ.hpp"
 #include "cell_param.hpp"
 //#include "context.hpp"
 #include <iostream>
@@ -22,7 +22,7 @@ using namespace std;
 #undef REACTION
 
 CPUGPU_FUNC
-RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
+RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
     CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[_cell];
@@ -48,7 +48,7 @@ RATETYPE simulation::Context::calculateNeighborAvg(specie_id sp, int delay) cons
 }
 
 CPUGPU_FUNC
-const simulation::Context::SpecieRates simulation::Context::calculateRatesOfChange(){
+const simulation_determ::Context::SpecieRates simulation_determ::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
@@ -78,7 +78,7 @@ const simulation::Context::SpecieRates simulation::Context::calculateRatesOfChan
 }
 
 CPUGPU_FUNC
-void simulation::Context::updateCon(const simulation::Context::SpecieRates& rates){
+void simulation_determ::Context::updateCon(const simulation_determ::Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
     
     double curr_rate=0;

@@ -1,5 +1,5 @@
 #include "arg_parse.hpp"
-#include "simulation.hpp"
+#include "simulation_determ.hpp"
 #include "datalogger.hpp"
 #include "model_impl.hpp"
 #include "context_impl.hpp"
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
             //setting up simulation
             RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.1);
 
-            simulation s(m, ps,
+            simulation_determ s(m, ps,
                 arg_parse::get<int>("c", "cell-total", 200),
                 arg_parse::get<int>("w", "total-width", 50),
                 arg_parse::get<RATETYPE>("s", "step-size", 0.01),
