@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
                         arg_parse::get<RATETYPE>("s", "step-size", &step_size, true) &&
                         arg_parse::get<RATETYPE>("t", "time", &time, true) )
                 {
-                    simulation_set sim_set(
+                    simulation_set<simulation_determ> sim_set(
                         arg_parse::get<bool>("G", "gradients", false),
                         arg_parse::get<bool>("P", "perturb", false),
                         param_list, cell_total, total_width,
