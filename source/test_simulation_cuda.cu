@@ -14,36 +14,8 @@
   var.~type(); \
   check(cudaFree(&var));
 
-#define check(RESULT) do {                      \
-    check(RESULT, __FILE__, __LINE__);          \
-  } while(0)
-
-namespace { const char *strerrno(int) { return strerror(errno); } }
-
-template<class T, T Success, const char *(ErrorStr)(T t)>
-struct ErrorInfoBase {
-  static constexpr bool isSuccess(T t) { return t == Success; }
-  static const char *getErrorStr(T t) { return ErrorStr(t); }
-};
-template<class T> struct ErrorInfo;
-template <> struct ErrorInfo<cudaError_t> :
-  ErrorInfoBase<cudaError_t, cudaSuccess, cudaGetErrorString> {};
-template <> struct ErrorInfo<int> :
-  ErrorInfoBase<int, 0, strerrno> {};
-
-namespace {
-template<class T>
-static void (check)(T result, const char *file, unsigned line) {
-  if (ErrorInfo<T>::isSuccess(result)) return;
-  std::cerr << file << ":"
-            << line << ": "
-            << ErrorInfo<T>::getErrorStr(result) << "\n";
-  exit(-1);
-}
-}
-
 int main(int argc, char *argv[]) {
-    cudaSetDevice(1);
+    cudaSetDevice(0);
 
     arg_parse::init(argc, argv);
     
@@ -64,6 +36,7 @@ int main(int argc, char *argv[]) {
             cout << "loaded param_set " << set_n++ << endl;
             CPUGPU_ALLOC(param_set, cudaps);
             cudaps = ps;
+            cudaps.printall();
             
             //setting up simulation
             RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.1);
@@ -79,16 +52,16 @@ int main(int argc, char *argv[]) {
             s.initialize();
 
             //BasicAnalysis a(&s);
-            OscillationAnalysis o(&s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
-            BasicAnalysis a(&s);
+            //OscillationAnalysis o(&s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
+            //BasicAnalysis a(&s);
             //run simulation
-            s.simulate();
+            s.simulate_cuda();
             //s.print_delay()	
-            o.test();
+            //o.test();
             //a.test();
             CPUGPU_DELETE(simulation_cuda, s);
+            CPUGPU_DELETE(param_set, cudaps);
         }
     }
     CPUGPU_DELETE(model, m);
-    CPUGPU_DELETE(param_set, ps);
 }

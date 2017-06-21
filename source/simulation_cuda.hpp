@@ -12,6 +12,34 @@
 #include <array>
 using namespace std;
 
+#define check(RESULT) do {                      \
+      check(RESULT, __FILE__, __LINE__);          \
+    } while(0)
+
+namespace { const char *strerrno(int) { return strerror(errno); } }
+
+template<class T, T Success, const char *(ErrorStr)(T t)>
+struct ErrorInfoBase {
+    static constexpr bool isSuccess(T t) { return t == Success; }
+      static const char *getErrorStr(T t) { return ErrorStr(t); }
+};
+template<class T> struct ErrorInfo;
+template <> struct ErrorInfo<cudaError_t> :
+  ErrorInfoBase<cudaError_t, cudaSuccess, cudaGetErrorString> {};
+template <> struct ErrorInfo<int> :
+  ErrorInfoBase<int, 0, strerrno> {};
+
+namespace {
+  template<class T>
+    static void (check)(T result, const char *file, unsigned line) {
+        if (ErrorInfo<T>::isSuccess(result)) return;
+          std::cerr << file << ":"
+                        << line << ": "
+                                    << ErrorInfo<T>::getErrorStr(result) << "\n";
+            exit(-1);
+    }
+}
+
 class simulation_cuda: public simulation_determ {
   public:
     class Context : public ContextBase {
@@ -62,7 +90,7 @@ class simulation_cuda: public simulation_determ {
     baby_cl_cuda _baby_cl_cuda;
     CPUGPU_TempArray<int, 6>* _old_neighbors;
     RATETYPE* _old_rates;
-    RATETYPE* _old_delays;
+    int* _old_intDelays;
     RATETYPE* _old_crits;
     void initialize();
     void calc_max_delays();
@@ -75,6 +103,8 @@ class simulation_cuda: public simulation_determ {
             Context c(*this, k);
 
             // Perform biological calculations
+            //_baby_cl_cuda[ph11][0][0] = 5.0; works
+            //c.calculateRatesOfChange();
             c.updateCon(c.calculateRatesOfChange());
         //}
         if (k==0){
@@ -87,17 +117,17 @@ class simulation_cuda: public simulation_determ {
     simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
         simulation_determ(m,ps,cells_total,width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
-          cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total);
+          check(cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total));
           _old_rates = _rates._array;
-          cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS);
-          _old_delays = _delays._array;
-          cudaMallocManaged(&(_delays._array), sizeof(RATETYPE)*_cells_total*NUM_DELAY_REACTIONS);
+          check(cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS));
+          _old_intDelays = _intDelays._array;
+          check(cudaMallocManaged(&(_intDelays._array), sizeof(RATETYPE)*_cells_total*NUM_DELAY_REACTIONS));
           _old_crits = _critValues._array;
-          cudaMallocManaged(&(_critValues._array), sizeof(RATETYPE)*_cells_total*NUM_CRITICAL_SPECIES);
+          check(cudaMallocManaged(&(_critValues._array), sizeof(RATETYPE)*_cells_total*NUM_CRITICAL_SPECIES));
         }
     ~simulation_cuda() {
-      cudaFree(_delays._array);
-      _delays._array = _old_delays;
+      cudaFree(_intDelays._array);
+      _intDelays._array = _old_intDelays;
       cudaFree(_rates._array);
       _rates._array = _old_rates;
       cudaFree(_critValues._array);

@@ -12,7 +12,7 @@ CPUGPU_FUNC
 RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
     //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
-    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[sp];
+    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[_cell];
 
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
@@ -21,13 +21,13 @@ RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay)
     //int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     // TODO: remove CPDELTA hardcoding
-    baby_cl_cuda::cell cur_cons = static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[pd][-delay];
+    baby_cl_cuda::cell cur_cons = _simulation._baby_cl_cuda[pd][-delay];
     RATETYPE sum=0;
     //since the tissue is not growing now
     //start is 0 and end is 10, instead of_simulation.active_start_record[time] and_simulation.active_end_record[time]
     if (_cell % _simulation._width_total == 0) {
         sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
-    } else if (_cell % _simulation._width_total == 10) {
+    } else if ( (_cell+1) % _simulation._width_total == 0) {
         sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
     } else {
         sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;

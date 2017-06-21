@@ -7,43 +7,11 @@
 #include <limits>
 #include <iostream>
 
-namespace { const char *strerrno(int) { return strerror(errno); } }
-
-template<class T, T Success, const char *(ErrorStr)(T t)>
-struct ErrorInfoBase {
-  static constexpr bool isSuccess(T t) { return t == Success; }
-  static const char *getErrorStr(T t) { return ErrorStr(t); }
-};
-template<class T> struct ErrorInfo;
-template <> struct ErrorInfo<cudaError_t> :
-  ErrorInfoBase<cudaError_t, cudaSuccess, cudaGetErrorString> {};
-template <> struct ErrorInfo<int> :
-  ErrorInfoBase<int, 0, strerrno> {};
-
-
-#define check(RESULT) do {                      \
-    check(RESULT, __FILE__, __LINE__);          \
-  } while(0)
-
-namespace {
-template<class T>
-static void (check)(T result, const char *file, unsigned line) {
-  if (ErrorInfo<T>::isSuccess(result)) return;
-  std::cerr << file << ":"
-            << line << ": "
-            << ErrorInfo<T>::getErrorStr(result) << "\n";
-  exit(-1);
-}
-}
-
 typedef std::numeric_limits<double> dbl;
 using namespace std;
 
 void simulation_cuda::initialize(){
-    calc_max_delays(); 
-    _delays.update_rates(_parameter_set._delay_sets);
-    _rates.update_rates(_parameter_set._rates_base);
-    _critValues.update_rates(_parameter_set._critical_values);
+    simulation_determ::initialize();
     _baby_cl_cuda.initialize();
 }
 
@@ -70,7 +38,7 @@ void simulation_cuda::simulate_cuda(){
     cout.precision(dbl::max_digits10);
     for (int c=0; c<analysis_chunks; c++){
     	for (int i=0;i<total_step;i++){
-        	cout<< _j<< " "<<_baby_cl_cuda[ph11][_j][0]<<endl;
+        	cout<< _j<< " "<<_baby_cl_cuda[ph11][0][0]<<endl;
         	cudasim_execute<<<dimGrid, dimBlock>>>(*this);
 
         	cudaDeviceSynchronize(); //Required to be able to access managed 

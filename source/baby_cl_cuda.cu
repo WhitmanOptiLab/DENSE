@@ -10,7 +10,7 @@ void baby_cl_cuda::initialize(){
     int current_pos =0;
     
     for (int i = 0; i < NUM_SPECIES; i++){
-        delay = _sim.max_delays[i];
+        delay = _sim.max_delays[i] / _sim._step_size;
         specie_size = delay + _sim._num_history_steps;
         sum += specie_size;
         _specie_size[i]= specie_size;
