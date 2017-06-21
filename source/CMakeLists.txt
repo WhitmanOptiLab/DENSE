@@ -7,7 +7,7 @@ add_executable(test_main test_main.cpp simulation_base.cpp simulation_determ.cpp
 
 add_test(ctest_simulation test_simulation -p ../param_list.csv)
 add_test(ctest_simulation_set test_simulation_set -p ../param_list.csv)
-add_test(ctest_main test_main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 10 -t 60 -d ../data_out.csv)
+add_test(ctest_main test_main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 0.1 -r 10 -t 60 -e ../data_out.csv)
 
 
 
