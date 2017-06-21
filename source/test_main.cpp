@@ -146,9 +146,10 @@ int main(int argc, char *argv[])
                         step_size, anlys_intvl, time);
                     
                     // Prepare data output
+                    bool doCSVWS;
                     csvw_sim *csvws[sim_set.getSetCount()];
                     string data_export;
-                    if (arg_parse::get<string>("e", "data-export", &data_export, false))
+                    if (doCSVWS = arg_parse::get<string>("e", "data-export", &data_export, false))
                     {
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                         {
@@ -195,7 +196,7 @@ int main(int argc, char *argv[])
                     else
                     {
                         // Warn user about kind of useless case
-                        if (!doAnlys && csvws==0)
+                        if (!doAnlys && !doCSVWS)
                         {
                             cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the \'-r | --local-range\' and/or \'-e | --data-export\' flag(s)?" << color::clear() << endl;
                         }
@@ -205,7 +206,7 @@ int main(int argc, char *argv[])
                     }
 
                     // Memory clean-up for CSV Writer
-                    for (unsigned int i=0; i<sim_set.getSetCount(); i++)
+                    for (unsigned int i=0; i<sim_set.getSetCount() && doCSVWS; i++)
                     {
                         delete csvws[i];
                     }
