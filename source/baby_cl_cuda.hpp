@@ -10,13 +10,11 @@ using namespace std;
 
 #include <cstddef>
 
-class simulation_cuda;
-
 class baby_cl_cuda : public baby_cl {
   public:
-    baby_cl_cuda(simulation& sim) : baby_cl(sim) { }
+    baby_cl_cuda(simulation_determ& sim) : baby_cl(sim) { }
     
-    baby_cl_cuda(int length, int width, simulation& sim) : baby_cl(length,width,sim) {}
+    baby_cl_cuda(int length, int width, simulation_determ& sim) : baby_cl(length,width,sim) {}
 
     ~baby_cl_cuda() {
       dealloc_array();

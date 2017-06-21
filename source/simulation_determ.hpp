@@ -25,7 +25,7 @@ class simulation_determ : public simulation_base {
  public:
     class Context : public ContextBase {
         //FIXME - want to make this private at some point
-      private:
+      protected:
         int _cell;
         simulation_determ& _simulation;
         double _avg;
@@ -109,7 +109,8 @@ class simulation_determ : public simulation_base {
   int _num_history_steps; // how many steps in history are needed for this numerical method
   //int* _relatedReactions[NUM_SPECIES];
     
-  simulation_determ(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+  simulation_determ(const model& m, const param_set& ps, int cells_total, int width_total, 
+                    RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
     simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~simulation_determ() {}

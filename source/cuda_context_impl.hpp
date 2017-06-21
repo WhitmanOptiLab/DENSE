@@ -72,10 +72,8 @@ void simulation_cuda::Context::updateCon(const simulation_cuda::Context::SpecieR
     double curr_rate=0;
     for (int i=0; i< NUM_SPECIES; i++){
         curr_rate= rates[i];
-        int baby_j= _simulation._baby_j[i];
-
-        static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][baby_j+1][_cell]=
-          static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][baby_j][_cell] + _simulation._step_size* curr_rate;
+        static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][1][_cell]=
+          static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][0][_cell] + _simulation._step_size* curr_rate;
     }
     
 }

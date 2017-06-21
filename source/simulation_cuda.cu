@@ -24,6 +24,8 @@ template <> struct ErrorInfo<int> :
 #define check(RESULT) do {                      \
     check(RESULT, __FILE__, __LINE__);          \
   } while(0)
+
+namespace {
 template<class T>
 static void (check)(T result, const char *file, unsigned line) {
   if (ErrorInfo<T>::isSuccess(result)) return;
@@ -31,6 +33,7 @@ static void (check)(T result, const char *file, unsigned line) {
             << line << ": "
             << ErrorInfo<T>::getErrorStr(result) << "\n";
   exit(-1);
+}
 }
 
 typedef std::numeric_limits<double> dbl;
@@ -41,7 +44,6 @@ void simulation_cuda::initialize(){
     _delays.update_rates(_parameter_set._delay_sets);
     _rates.update_rates(_parameter_set._rates_base);
     _critValues.update_rates(_parameter_set._critical_values);
-    _cl.initialize(4,300,200);
     _baby_cl_cuda.initialize();
 }
 
