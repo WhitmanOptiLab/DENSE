@@ -149,6 +149,7 @@ int main(int argc, char *argv[])
                     bool doCSVWS;
                     csvw_sim *csvws[sim_set.getSetCount()];
                     string data_export;
+                    // Not a typo
                     if (doCSVWS = arg_parse::get<string>("e", "data-export", &data_export, false))
                     {
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
@@ -158,7 +159,7 @@ int main(int argc, char *argv[])
                             data_num.insert(data_num.begin(), 4-data_num.size(), '0');
                             string data_mod = data_export.substr(0, data_export.find_last_of(".")) + "_" + data_num + data_export.substr(data_export.find_last_of("."));
                             cout << data_mod << endl;
-                            csvws[i] = new csvw_sim(data_mod, anlys_intvl, specie_option, &sim_set._sim_set[i]);
+                            csvws[i] = new csvw_sim(data_mod, anlys_intvl, cell_total, specie_option, &sim_set._sim_set[i]);
                         }
                     }
                     
