@@ -25,9 +25,15 @@ void simulation::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
  	RATETYPE total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
-		Context context(*this,0);
-		notify(context);
-		for (int i = 0; i< total_step; i++){
+		// Skip first as it only outputs all zeros
+        // This also allows for analysis to be skipped in the case that time_total==analysis_gran
+        if (c!=0)
+        {
+            Context context(*this,0);
+		    notify(context);
+        }
+		
+        for (int i = 0; i< total_step; i++){
 			execute();
 		}
 	}

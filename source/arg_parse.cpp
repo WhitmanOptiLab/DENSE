@@ -1,11 +1,13 @@
 #include "arg_parse.hpp"
 #include "color.hpp"
 
+#include "specie.hpp" // For specie_vec specialization
 #include "reaction.hpp" // For "typedef float RATETYPE;"
 
+#include <algorithm> // For remove
 #include <cfloat> // For FLT_MAX
 #include <climits> // For INT_MAX
-#include <cstring>
+#include <cstring> // For strcpy in init
 #include <iostream>
 #include <exception>
 #include <vector>
@@ -25,13 +27,13 @@ namespace arg_parse
         bool iSuppressObligatory = false;
         
         
-        // Get index of (or index after) pcFlag if it exists in iArgVec. Return -1 if not found.
-        const int getIndex(std::string pcfFlagShort, std::string pcfFlagLong, const bool& pcfNext)
+        // Get index of (or index after) pcFlag if it exists in iArgVec. Return false if not found.
+        const bool getIndex(string pcfFlagShort, string pcfFlagLong, int* pnIndex, const bool& pcfNext)
         {
             pcfFlagShort = "-" + pcfFlagShort;
             pcfFlagLong = "--" + pcfFlagLong;
-            
-            for ( int i=0; i<iArgVec.size(); i++)
+
+            for (int i=0; i<iArgVec.size(); i++)
             {
                 if (iArgVec[i] == pcfFlagShort || iArgVec[i] == pcfFlagLong)
                 {
@@ -39,26 +41,30 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\'." << color::clear() << endl;
+                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcfFlagShort << " | --" << pcfFlagLong << "\'." << color::clear() << endl;
                         }
                         else
                         {
-                            return i + 1;
+                            if (pnIndex)
+                                *pnIndex = i + 1;
+                            return true;
                         }
                     }
                     else
                     {
-                        return i;
+                        if (pnIndex)
+                            *pnIndex = i;
+                        return true;
                     }
                 }
             }
             
-            return -1;
+            return false;
         }
         
         
         // Prints message warning that flag is required
-        void warnObligatory(std::string pcfFlagShort, std::string pcfFlagLong)
+        void warnObligatory(string pcfFlagShort, string pcfFlagLong)
         {
             if (!iSuppressObligatory)
             {
@@ -68,7 +74,7 @@ namespace arg_parse
         
         
         template<typename T>
-        const T getSuppressObligatory(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
+        const T getNotOblig(const string& pcfFlagShort, const string& pcfFlagLong)
         {
             iSuppressObligatory = true;
             const T rval = get<T>(pcfFlagShort, pcfFlagLong);
@@ -77,8 +83,6 @@ namespace arg_parse
         }
         
     }; // end anonymous namespace
-
-
 
 
 
@@ -94,127 +98,137 @@ namespace arg_parse
             iArgVec.push_back(string(hStr));
         }
     }
-
-
-
-
-
-
-    // See usage documentation in header
-    template<typename T>
-    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
-    {
-        cout << color::set(color::RED) << "Command line argument search failed. Invalid typename for flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\'." << color::clear() << endl;
-        return nullptr;
-    }
     
-    template<typename T>
-    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault)
-    {
-        return get<T>(pcfFlagShort, pcfFlagLong);
-    }
-
-
-
-    // Template specializations
+    
+    
+    
     template<>
-    const string get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
+    bool get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, string* pnPushTo, const bool& pcfObligatory)
     {
-        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
-        if (index != -1)
+        int index;
+        if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
-            return iArgVec[index];
+            if (pnPushTo)
+                *pnPushTo = iArgVec[index];
+            return true;
         }
         else
         {
-            warnObligatory(pcfFlagShort, pcfFlagLong);
-            return "";
+            if (pcfObligatory)
+                warnObligatory(pcfFlagShort, pcfFlagLong);
+            return false;
+        }
+    }
+    
+    // The default is a vec filled with all specie ids
+    template<>
+    bool get<specie_vec>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, specie_vec* pnPushTo, const bool& pcfObligatory)
+    {
+        string tArg = get<string>(pcfFlagShort, pcfFlagLong, "");
+        tArg = "," + tArg + ",";
+        tArg.erase(remove(tArg.begin(), tArg.end(), ' '), tArg.end());
+
+        specie_vec rVec;
+        rVec.reserve(NUM_SPECIES);
+        for (unsigned int i=0; i<NUM_SPECIES; i++)
+        {
+            if (tArg.find(","+specie_str[i]+",") != string::npos || tArg == ",,")
+            {
+                rVec.push_back((specie_id) i);
+            }
+        }
+
+        if (rVec.size() > 0)
+        {
+            if (pnPushTo)
+                *pnPushTo = rVec;
+            return true;
+        }
+        else
+        {
+            if (pcfObligatory)
+                warnObligatory(pcfFlagShort, pcfFlagLong);
+            return false;
         }
     }
     
     template<>
-    const string get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const string& pcfDefault)
+    bool get<int>(const string& pcfFlagShort, const string& pcfFlagLong, int* pnPushTo, const bool& pcfObligatory)
     {
-        string rval = getSuppressObligatory<string>(pcfFlagShort, pcfFlagLong);
-        return rval != "" ? rval : pcfDefault;
-    }
-    
-    
-    
-    template<>
-    const int get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
-    {
-        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
-        if (index != -1)
+        bool success = true;
+        int index;
+        if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
             try
             {
-                return stoi(iArgVec[index]);
+                if (pnPushTo)
+                    *pnPushTo = stoi(iArgVec[index]);
             }
             catch (exception ex)
             {
+                success = false;
                 cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to integer." << color::clear() << endl;
             }
         }
+        else
+        {
+            if (pcfObligatory)
+                warnObligatory(pcfFlagShort, pcfFlagLong);
+            success = false;
+        }
         
-        warnObligatory(pcfFlagShort, pcfFlagLong);
-        return INT_MAX;
+        return success;
     }
     
     template<>
-    const int get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const int& pcfDefault)
+    bool get<RATETYPE>(const string& pcfFlagShort, const string& pcfFlagLong, RATETYPE* pnPushTo, const bool& pcfObligatory)
     {
-        int rval = getSuppressObligatory<int>(pcfFlagShort, pcfFlagLong);
-        return rval != INT_MAX ? rval : pcfDefault;
-    }
-    
-    
-    
-    template<>
-    const RATETYPE get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
-    {
-        int index = getIndex(pcfFlagShort, pcfFlagLong, true);
-        if (index != -1)
+        bool success = true;
+        int index;
+        if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
             try
             {
-                return stold(iArgVec[index]);
+                if (pnPushTo)
+                    *pnPushTo = stold(iArgVec[index]);
             }
             catch (exception ex)
             {
+                success = false;
                 cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to RATETYPE." << color::clear() << endl;
             }
         }
-        
-        warnObligatory(pcfFlagShort, pcfFlagLong);
-        return FLT_MAX;
-    }
-    
-    template<>
-    const RATETYPE get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const RATETYPE& pcfDefault)
-    {
-        RATETYPE rval = getSuppressObligatory<RATETYPE>(pcfFlagShort, pcfFlagLong);
-
-        return rval != FLT_MAX ? rval : pcfDefault;
-    }
-    
-    
-    
-    template<>
-    const bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong)
-    {
-        if (getIndex(pcfFlagShort, pcfFlagLong, false) != -1) // If found
-            return true;
         else
-            return false;
+        {
+            if (pcfObligatory)
+                warnObligatory(pcfFlagShort, pcfFlagLong);
+            success = false;
+        }
+        
+        return success;
     }
     
     template<>
-    const bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const bool& pcfDefault)
+    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong, bool* pnPushTo, const bool& pcfObligatory)
     {
-        if (getIndex(pcfFlagShort, pcfFlagLong, false) != -1) // If found
+        // true if found, false if not
+        bool found = getIndex(pcfFlagShort, pcfFlagLong, 0, false);
+        
+        if (pnPushTo)
+            *pnPushTo = found;
+        return found;
+    }
+    
+    
+    
+    /*
+    template<>
+    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong, const bool& pcfDefault)
+    {
+        if (getIndex(pcfFlagShort, pcfFlagLong, 0, false)) // If found
             return !pcfDefault;
         else
             return pcfDefault;
     }
+    */
 }

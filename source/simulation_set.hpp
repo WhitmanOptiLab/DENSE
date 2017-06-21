@@ -39,14 +39,14 @@ class simulation_set{
         if (csvrp.is_open())
         {
             // Allocate space based on amount of sets in file
-            unsigned int set_count = csvrp.get_total();
-            _ps.reserve(set_count);
-            _sim_set.reserve(set_count);
+            iSetCount = csvrp.get_total();
+            _ps.reserve(iSetCount);
+            _sim_set.reserve(iSetCount);
             
             // For each set, load data to _ps and _sim_set
-            for (unsigned int i=0; i<set_count; i++)
+            for (unsigned int i=0; i<iSetCount; i++)
             {
-                cout << "init'ing set " << i << endl;
+                cout << "Initializing Set " << i << endl;
                 _ps.push_back(csvrp.get_next());
                 _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
                 _sim_set[i].initialize();
@@ -56,7 +56,7 @@ class simulation_set{
     
     void simulate_sets(){
         for (int i=0; i<_sim_set.size(); i++){
-            cout << "sim'ing set " << i << endl;
+            cout << "Simulating Set " << i << endl;
             _sim_set[i].simulate();
         }
     }
@@ -65,6 +65,14 @@ class simulation_set{
     {
         
     }
+
+    const unsigned int& getSetCount() const
+    {
+        return iSetCount;
+    }
+
+private:
+    unsigned int iSetCount;
 };
 #endif
 

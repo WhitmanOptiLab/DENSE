@@ -7,7 +7,7 @@
 class csvw_param : public csvw
 {
 public:
-    csvw_param();
+    csvw_param(const std::string& pcfFileName);
     virtual ~csvw_param();
 };
 

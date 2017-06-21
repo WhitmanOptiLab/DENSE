@@ -5,33 +5,32 @@ using namespace std;
 
 
 
-
-csvr_sim::mini_ct::mini_ct() :
+csvr_sim::sim_ct::sim_ct() :
     iIter(0)
 {
-
+    iRate.reserve(NUM_SPECIES);
 }
 
 
-RATETYPE csvr_sim::mini_ct::getCon(specie_id sp) const
+RATETYPE csvr_sim::sim_ct::getCon(specie_id sp) const
 {
-    return iRate[sp];
+    return iRate[iIter].at(sp);
 }
 
 
-void csvr_sim::mini_ct::advance()
+void csvr_sim::sim_ct::advance()
 {
     iIter++;
 }
 
 
-bool csvr_sim::mini_ct::isValid() const
+bool csvr_sim::sim_ct::isValid() const
 {
-    return iIter < NUM_SPECIES;
+    return iIter < iRate.size();
 }
 
 
-void csvr_sim::mini_ct::reset()
+void csvr_sim::sim_ct::reset()
 {
     iIter = 0;
 }
@@ -39,32 +38,48 @@ void csvr_sim::mini_ct::reset()
 
 
 
-csvr_sim::csvr_sim(const string& pcfFileName) :
-    csvr(pcfFileName)
+csvr_sim::csvr_sim(const string& pcfFileName, const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec) :
+    csvr(pcfFileName), iSpecieVec(pcfSpecieVec), iCellTotal(pcfCellTotal)
 {
-
 }
 
 
 csvr_sim::~csvr_sim()
 {
-
 }
 
 
 void csvr_sim::run()
 {
-    int lID = 0;
-    csvr_sim::mini_ct hMCT;
-    while (csvr::get_next(&hMCT.iRate[lID++]))
+    int lCell = 0, lSpcVec = 0;
+    csvr_sim::sim_ct hSCT;
+    RATETYPE hRate;
+
+    // Skip first two columns
+    csvr::get_next();
+    csvr::get_next();
+    
+    while (csvr::get_next(&hRate))
     {
-        if (lID >= NUM_SPECIES)
+        if (lCell >= hSCT.iRate.size())
         {
-            lID = 0;
-            notify(hMCT);
+            hSCT.iRate.push_back(map<specie_id, RATETYPE>());
+        }
+        hSCT.iRate[lCell][iSpecieVec[lSpcVec]] = hRate;
+
+        if (lSpcVec++ >= iSpecieVec.size())
+        {
+            lSpcVec = 0;
+
+            // Skip first two columns
+            csvr::get_next();
+
+            if (++lCell >= iCellTotal)
+            {
+                lCell = 0;
+                notify(hSCT);
+                hSCT.iRate.clear();
+            }
         }
     }
 }
-
-
-

@@ -25,7 +25,10 @@
  * Append prefixes in the order they are listed in.
 */
 
+#include "specie_vec.hpp"
+
 #include <string>
+
 
 namespace arg_parse
 {
@@ -47,11 +50,14 @@ namespace arg_parse
      *  
      *  usage
      *      Anywhere in your program after init(...) is called, return the value proceeding "-pcFlagShort" or "--pcFlagLong"
-     *      typename T must be either std::string, bool, int, or RATETYPE
+     *      IMPORTANT!!! typename T must be either std::string, bool, int, RATETYPE, or specie_vec
+     *      Second version of get<>() does not work with specie_vec typename
      *  
      *  parameters
      *      pcFlagShort - short version of command line flag, do not include "-" at beginning
      *      pcFlagLong - long version of command line flag, do not include "--" at beginning
+     *      pnPushTo - pointer to a variable whose value you want set to that of the argument
+     *      pcfObligatory - if set to true and the flags aren't found, will output warning message saying that those flags are required
      *      pcDefault - default value to return if either pcFlagShort or pcFlagLong is not found
      *  
      *  returns
@@ -63,12 +69,19 @@ namespace arg_parse
      *      Flag Standards
      *          bool flags have upper-case pcFlagShort while all else have lowercase
      *          Seperate words of pcFlagLong by single dashes "-" as in "file-name"
-     *      Version without pcDefault means that the flag is obligatory (unless typename is bool) and will print warning message to user if not present in argv
+     *      get(...) without pcfDefault DOES NOT EXIST FOR GOOD REASON. It is optimal to use the first version of get<>() because one can control the flow of the program when it encounters missing required arguments, preventing pesky crashes and infinite loops.
     */
     template<typename T>
-    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong);
+    bool get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, T* pnPushTo, const bool& pcfObligatory);
     template<typename T>
-    const T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault);
+    T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault)
+    {
+        T rVar = pcfDefault;
+        // Not obligatory, explained in "notes"
+        get<T>(pcfFlagShort, pcfFlagLong, &rVar, false);
+        return rVar;
+    }
+
 };
 
 #endif // ARG_PARSE_HPP

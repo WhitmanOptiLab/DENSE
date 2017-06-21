@@ -157,7 +157,6 @@ public:
 			cout<<"Amplitude = "<<amplitudes[c]<<"   Period = "<<periods[c]<<"min"<<endl;
 		}
 		*/
-		cout<<endl;
 		for (int p=0; p<peaksAndTroughs[0].size();p++){
 			crit_point cp = peaksAndTroughs[0][p];
 			string text;
@@ -169,7 +168,7 @@ public:
 			cout<<text<<cp.conc<<" at "<<cp.time<<"min"<<endl;
 		}
 		cout<<"Amplitude = "<<amplitudes[0]<<"   Period = "<<periods[0]<<"min"<<endl;
-		cout<<endl;
+		cout<<endl<<endl;
 	}
 
 	/*

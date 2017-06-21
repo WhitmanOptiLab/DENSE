@@ -1,23 +1,17 @@
 #include "csvw_sim.hpp"
-#include "specie.hpp"
 
 #include <string>
 using namespace std;
 
 
 
-csvw_sim::csvw_sim(const string& pcfFileName, Observable *pnObl) :
-    Observer(pnObl), csvw(pcfFileName, true, "# This file can be used as a template for user-created data inputs under this particular model. It is recommended that \n")
+csvw_sim::csvw_sim(const string& pcfFileName, const RATETYPE& pcfTimeInterval, const specie_vec& pcfSpecieVec, Observable *pnObl) :
+    csvw(pcfFileName, true, "# This file can be used as a template for user-created data inputs under this particular model using this particular \'-o | --specie-option\' setting.\n"), iTimeInterval(pcfTimeInterval), Observer(pnObl), oSpecieVec(pcfSpecieVec), iTimeCount(1)
 {
-    const string STR_ALL_SPECIES[NUM_SPECIES] = {
-        #define SPECIE(name) #name, 
-        #include "specie_list.hpp"
-        #undef SPECIE
-    };
-
-    for (int i=0; i<NUM_SPECIES; i++)
+    csvw::add_div("Time, Cell, ");
+    for (const specie_id& lcfID : oSpecieVec)
     {
-        csvw::add_div(STR_ALL_SPECIES[i] + ", ");
+        csvw::add_div(specie_str[lcfID] + ", ");
     }
     csvw::add_div("\n");
 }
@@ -30,19 +24,24 @@ csvw_sim::~csvw_sim()
 
 void csvw_sim::finalize(ContextBase& pfStart)
 {
-    // Anything even need to be in here?
 }
 
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    if (pfStart.isValid())
+    unsigned int lCell = 0;
+    while (pfStart.isValid())
     {
-        for (int i=0; i<NUM_SPECIES; i++)
+        csvw::add_div(to_string(iTimeCount*iTimeInterval)+", "+to_string(lCell++)+", ");
+        for (const specie_id& lcfID : oSpecieVec)
         {
-            csvw::add_data(pfStart.getCon((specie_id) i));
+            csvw::add_data(pfStart.getCon(lcfID));
         }
-        
         csvw::add_div("\n");
+        pfStart.advance();
     }
+
+    iTimeCount++;
 }
+
+
