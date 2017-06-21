@@ -7,7 +7,7 @@
 #include "reaction.hpp"
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
-#include "simulation.hpp"
+#include "simulation_base.hpp"
 #include "csvr_param.hpp"
 #include <vector>
 #include <array>
@@ -19,6 +19,7 @@ using namespace std;
 	todo:
  */
 
+template <class SIM>
 class simulation_set{
     
  public:
@@ -27,7 +28,7 @@ class simulation_set{
    // param_set _ps;
     RATETYPE total_time;
     vector<param_set> _ps;
-    vector<simulation> _sim_set;
+    vector<SIM> _sim_set;
     
     
     simulation_set(bool using_gradients, bool using_perturb, const string &param_file, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :

@@ -1,5 +1,5 @@
 #include "cell_param.hpp"
-#include "simulation.hpp"
+#include "simulation_base.hpp"
 
 #include <iostream>
 
@@ -53,7 +53,7 @@ void cell_param<N,T>::update_rates(const RATETYPE param_data[], const RATETYPE n
 }
 
 //Dummy function to force generation of update_rates for all the simulation types
-void __genUpdateRates(simulation& s) {
+void __genUpdateRates(simulation_base& s) {
   Rates r(s, 1);
   r.update_rates(NULL);
   Delays d(s, 1);
