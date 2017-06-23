@@ -1,17 +1,12 @@
 #ifndef REACTION_HPP
 #define REACTION_HPP
-#include <vector>
 
 #include "specie.hpp"
+#include "common_utils.hpp"
+#include <utility>
 
 //#include "simulation.hpp"
 //#include "context.hpp"
-#ifdef __CUDACC__
-#define CPUGPU_FUNC __host__ __device__
-#else
-#define CPUGPU_FUNC
-#endif
-
 
 using namespace std;
 typedef float RATETYPE;
@@ -80,14 +75,23 @@ class reaction : public reaction_base<reaction<RID> > {
   const specie_id* factors;
 };
 
+/*
+static delay_reaction_id get_delay_reaction_id(reaction_id rid) {
+  switch (rid) {
+#define REACTION(name)
+#define DELAY_REACTION(name) \
+    case name : return dreact_##name; 
+
+#include "reactions_list.hpp"
+#undef REACTION
+#undef DELAY_REACTION
+    default: return NUM_DELAY_REACTIONS;
+  }
+};
+
+*/
 
 //And by the way, all of these will be declared at some point
-
-#ifdef __CUDACC__
-#define STATIC_VAR __managed__
-#else
-#define STATIC_VAR
-#endif
 
 #define REACTION(name) \
 extern STATIC_VAR int num_inputs_##name; \

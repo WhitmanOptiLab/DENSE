@@ -26,12 +26,26 @@ private:
     RATETYPE* factors_gradient[NUM_REACTIONS];
     bool _has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
 
+static delay_reaction_id getDelayReactionId(reaction_id rid) {
+  switch (rid) {
+#define REACTION(name)
+#define DELAY_REACTION(name) \
+    case name : return dreact_##name; 
+
+
+#include "reactions_list.hpp"
+#undef REACTION
+#undef DELAY_REACTION
+    default: return NUM_DELAY_REACTIONS;
+  }
+};    
+
 
     
 #define REACTION(name) reaction<name> reaction_##name;
     #include "reactions_list.hpp"
 #undef REACTION
-    
+
     model(bool using_gradients, bool using_perturb);
 };
 

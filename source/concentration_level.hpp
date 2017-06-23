@@ -5,16 +5,6 @@
 using namespace std;
 
 class simulation;
-template<class TYPE, int SIZE>
-class CPUGPU_TempArray {
-  TYPE array[SIZE];
- public:
-  CPUGPU_FUNC
-  TYPE& operator[](int i) { return array[i]; }
-  CPUGPU_FUNC
-  const TYPE& operator[](int i) const { return array[i]; }
-};
-
 
 class Concentration_level {
     //FIXME - want to make this private at some point
