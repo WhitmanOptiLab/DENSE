@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
             "Analysis AND file writing interval. How frequently (in units of simulated seconds) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-r | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
-            "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES WHETHER ANALYSIS IS RUN OR NOT." << color::clear() << endl;
+            "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES WHETHER ANALYSIS WILL RUN OR NOT." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-t | --time]             <int> " << color::set(color::GREEN) <<
             "Amount of time to simulate." << color::clear() << endl;

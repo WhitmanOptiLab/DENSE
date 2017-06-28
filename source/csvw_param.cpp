@@ -7,14 +7,6 @@
 using namespace std;
 
 
-// Gets the length of an array of type T
-// Based on https://stackoverflow.com/a/3368894
-template<typename T, const unsigned int rcSize>
-const unsigned int len(const T(&)[rcSize])
-{
-    return rcSize;
-}
-
 
 csvw_param::csvw_param(const string& pcfFileName) :
     csvw::csvw(pcfFileName, true, "# IMPORTANT: Rename this file to \"param_list.csv\" or similar once data has been entered!\n")
@@ -45,21 +37,21 @@ csvw_param::csvw_param(const string& pcfFileName) :
     
     
     // Write column headers
-    for (unsigned int i=0; i<len(cReaction); i++)
+    for (unsigned int i=0; i<NUM_REACTIONS; i++)
     {
         csvw::add_div(cReaction[i] + ", ");
     }
     
     csvw::add_div(", ");
     
-    for (unsigned int i=0; i<len(cDelay); i++)
+    for (unsigned int i=0; i<NUM_DELAY_REACTIONS; i++)
     {
         csvw::add_div("dreact_" + cDelay[i] + ", ");
     }
     
     csvw::add_div(", ");
     
-    for (unsigned int i=0; i<len(cCritical); i++)
+    for (unsigned int i=0; i<NUM_CRITICAL_SPECIES; i++)
     {
         csvw::add_div("rcrit_" + cCritical[i] + ", ");
     }
