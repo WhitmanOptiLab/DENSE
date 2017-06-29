@@ -15,10 +15,9 @@ using namespace std;
 #define REACTION(name) \
   template<> \
   reaction< name >::reaction() : \
-    num_inputs(num_inputs_##name), num_outputs(num_outputs_##name), \
-    in_counts(in_counts_##name), inputs(inputs_##name), \
-    out_counts(out_counts_##name), outputs(outputs_##name), \
-    num_factors(num_factors_##name), factors(factors_##name){}
+    reaction_base( num_inputs_##name, num_outputs_##name, \
+    num_factors_##name, in_counts_##name, out_counts_##name, \
+    inputs_##name, outputs_##name, factors_##name){}
 #include "reactions_list.hpp"
 #undef REACTION
 
@@ -34,7 +33,7 @@ RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int dela
 
     RATETYPE sum=0;
 
-    for (int i; i<_simulation._neighbors[_cell].size(); i++){
+    for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
     }
     

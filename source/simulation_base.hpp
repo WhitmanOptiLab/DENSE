@@ -94,7 +94,7 @@ class simulation_base : public Observable{
             
             _neighbors[i].clear();
 
-	    int adjacents[6];
+	        int adjacents[6];
 
             /* Hexagonal Adjacencies
             0: TOP
@@ -130,7 +130,8 @@ class simulation_base : public Observable{
                 adjacents[4] = (i + circumf - 1) % _cells_total;
                 adjacents[5] = (i - 1 + _cells_total) % _cells_total;
             }
-
+            
+            _neighbors[i].push_back(i);
             if (i % circumf == 0) {
                 _neighbors[i].push_back(adjacents[0]);
                 _neighbors[i].push_back(adjacents[3]);

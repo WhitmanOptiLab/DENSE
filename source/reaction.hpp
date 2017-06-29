@@ -9,7 +9,7 @@
 //#include "context.hpp"
 
 using namespace std;
-typedef float RATETYPE;
+typedef double RATETYPE;
 
 
 enum reaction_id {
@@ -31,24 +31,14 @@ enum delay_reaction_id {
 typedef std::pair<int, int> ReactionTerm;
 
 
-template<class IMPL>
 class reaction_base{
  public:
-  template<class Ctxt>
   CPUGPU_FUNC
-  RATETYPE active_rate(const Ctxt& c) const;
-  RATETYPE rate;
-  RATETYPE delay;
-    
-};
-
-template<reaction_id RID>
-class reaction : public reaction_base<reaction<RID> > {
- public:
-  reaction();
-  template<class Ctxt>
-  CPUGPU_FUNC
-  RATETYPE active_rate(const Ctxt& c) const;
+  reaction_base(int inputs_num, int outputs_num, int factors_num, const int* inCount,
+                const int* outCount, const specie_id* input_species, const specie_id* output_species,
+                const specie_id* factor_species) :
+                num_inputs(inputs_num), num_outputs(outputs_num),num_factors(factors_num),in_counts(inCount),
+                out_counts(outCount), inputs(input_species), outputs(output_species), factors(factor_species){}
   CPUGPU_FUNC
   int getNumInputs() const { return num_inputs; }
   CPUGPU_FUNC
@@ -73,6 +63,15 @@ class reaction : public reaction_base<reaction<RID> > {
   const int* out_counts;
   const specie_id* outputs;
   const specie_id* factors;
+};
+
+template<reaction_id RID>
+class reaction : public reaction_base {
+ public:
+  reaction();
+  template<class Ctxt>
+  CPUGPU_FUNC
+  RATETYPE active_rate(const Ctxt& c) const;
 };
 
 /*

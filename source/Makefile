@@ -16,7 +16,7 @@ HEADERS=$(wildcard *.hpp) $(wildcard ../models/${MODEL}/*.hpp)
 
 all: ${CPU_TESTS}
 
-csv_gen: csv_gen.o 
+csv_gen: csv_gen.o color.o csvw.o csvw_param.o
 	${CC} ${LFLAGS} $^ -o $@ 
 
 cpu_test: ${CPU_TESTS}

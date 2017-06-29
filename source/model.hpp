@@ -1,7 +1,8 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 #include <cstddef>
-
+#include <cstdlib>
+#include <iostream>
 #include "reaction.hpp"
 #include "specie.hpp"
 
@@ -38,7 +39,17 @@ static delay_reaction_id getDelayReactionId(reaction_id rid) {
 #undef DELAY_REACTION
     default: return NUM_DELAY_REACTIONS;
   }
-};    
+};
+
+const reaction_base& getReaction(reaction_id rid) const {
+  switch (rid) {
+  #define REACTION(name) \
+	case name: return reaction_##name;
+  #include "reactions_list.hpp"
+  #undef REACTION
+	default: cout<<"exiting"<<endl; exit (-1);
+  }
+}
 
 
     

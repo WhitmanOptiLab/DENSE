@@ -35,47 +35,60 @@ class simulation_stoch : public simulation_base {
     };
     multiset<event> event_schedule;
     vector<vector<int> > concs;
-    RATETYPE t;
+    long double t, littleT;
+    vector<vector<RATETYPE> > propensities;
+    vector<reaction_id> propensity_network[NUM_REACTIONS];
+    vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
 
     RATETYPE generateTau();
     RATETYPE getSoonestDelay();
     void executeDelayRXN();
     RATETYPE getRandVariable();
     void tauLeap(RATETYPE tau);
-    void fireReaction(ContextStoch &c, reaction_id rid);
+    void initPropensityNetwork();
+    void generateRXNTaus(RATETYPE tau);
+    void fireOrSchedule(int c, reaction_id rid);
   
- public:
+    public:
+
+    //DELETE LATER
+//    int chooseReactionCount;
+
     class ContextStoch : public ContextBase {
         //FIXME - want to make this private at some point
       private:
         int _cell;
         simulation_stoch& _simulation;
         double _avg;
-	vector<vector<RATETYPE> > propensities;
 
       public:
         typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;	
         CPUGPU_FUNC
         ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim),_cell(cell) { }
         CPUGPU_FUNC
-        RATETYPE calculateNeighborAvg(specie_id sp) const;
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay) const;
         CPUGPU_FUNC
-        void updateCon(specie_id sid){
-	  _simulation.concs[_cell][sid]++;
-	}
+        void updateCon(specie_id sid,int delta){
+	      if (_simulation.concs[_cell][sid]+delta < 0){
+              _simulation.concs[_cell][sid] = 0;
+          }
+          else{
+              _simulation.concs[_cell][sid]+=delta;
+          }
+	    }
         CPUGPU_FUNC
         void updatePropensities(reaction_id rid);
-	CPUGPU_FUNC
-	RATETYPE getTotalPropensity();
-	CPUGPU_FUNC
-	int chooseReaction(RATETYPE propensity_portion);
+	    CPUGPU_FUNC
+	    RATETYPE getTotalPropensity();
+	    CPUGPU_FUNC
+	    int chooseReaction(RATETYPE propensity_portion);
         CPUGPU_FUNC
         virtual RATETYPE getCon(specie_id sp) const final {
-          return _simulation.concs[_cell][(int)sp];
+          return _simulation.concs[_cell][sp];
         }
-	RATETYPE getCon(specie_id sp, int delay) const {
-	  return getCon(sp);
-	}
+	    RATETYPE getCon(specie_id sp, int delay) const {
+	      return getCon(sp);
+	    }
         CPUGPU_FUNC
         RATETYPE getCritVal(critspecie_id rcritsp) const {
             return _simulation._critValues[rcritsp][_cell];
@@ -90,11 +103,16 @@ class simulation_stoch : public simulation_base {
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
-	CPUGPU_FUNC
-	virtual void reset() final {_cell = 0;}
+	    CPUGPU_FUNC
+	    virtual void reset() final {_cell = 0;}
         CPUGPU_FUNC
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
+
+  private:
+    void fireReaction(ContextStoch *c, const reaction_id rid);
+
+  public:
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
 
   // Sizes

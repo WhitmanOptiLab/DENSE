@@ -19,7 +19,7 @@ public:
     csvr(const std::string& pcfFileName);
     virtual ~csvr();
 
-    const bool is_open() const;    
+    bool is_open() const;    
     
     /**
      *  Get Next CSV Data Cell
