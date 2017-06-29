@@ -3,6 +3,7 @@
 #ifndef CONTEXT_IMPL
 #define CONTEXT_IMPL
 
+#include "common_utils.hpp"
 #include "simulation_determ.hpp"
 #include "cell_param.hpp"
 //#include "context.hpp"
@@ -14,37 +15,30 @@ using namespace std;
 #define REACTION(name) \
   template<> \
   reaction< name >::reaction() : \
-    num_inputs(num_inputs_##name), num_outputs(num_outputs_##name), \
-    in_counts(in_counts_##name), inputs(inputs_##name), \
-    out_counts(out_counts_##name), outputs(outputs_##name), \
-    num_factors(num_factors_##name), factors(factors_##name){}
+    reaction_base( num_inputs_##name, num_outputs_##name, \
+    num_factors_##name, in_counts_##name, out_counts_##name, \
+    inputs_##name, outputs_##name, factors_##name){}
 #include "reactions_list.hpp"
 #undef REACTION
 
 CPUGPU_FUNC
 RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
-    //int neighbors[NUM_DELAY_REACTIONS][NEIGHBORS_2D];
-    CPUGPU_TempArray<int, 6>& cells = _simulation._neighbors[_cell];
-
     //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
     //delay = rs[sp][_cell] / _simulation._step_size;
     // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
     //int* cells = _simulation._neighbors[_cell];
     //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
     // TODO: remove CPDELTA hardcoding
-    baby_cl::cell cur_cons = _simulation._baby_cl[pd][-delay];
+
     RATETYPE sum=0;
-    //since the tissue is not growing now
-    //start is 0 and end is 10, instead of_simulation.active_start_record[time] and_simulation.active_end_record[time]
-    if (_cell % _simulation._width_total == 0) {
-        sum = (cur_cons[cells[0]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 4;
-    } else if (_cell % _simulation._width_total == 10) {
-        sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]]) / 4;
-    } else {
-        sum = (cur_cons[cells[0]] + cur_cons[cells[1]] + cur_cons[cells[2]] + cur_cons[cells[3]] + cur_cons[cells[4]] + cur_cons[cells[5]]) / 6;
+
+    for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
+        sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
     }
+    
     return sum;
+
 }
 
 CPUGPU_FUNC
@@ -58,7 +52,7 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
     #undef REACTION
     
     //Step 2: allocate specie concentration rate change array
-    Context::SpecieRates specie_deltas;
+    SpecieRates specie_deltas;
     for (int i = 0; i < NUM_SPECIES; i++) 
       specie_deltas[i] = 0;
     

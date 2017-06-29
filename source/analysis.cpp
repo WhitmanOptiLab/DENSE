@@ -97,6 +97,7 @@ void OscillationAnalysis :: addCritPoint(int context, bool isPeak, RATETYPE minu
 
 
 void OscillationAnalysis :: update(ContextBase& start){
+
 	for (int c=0; start.isValid(); c++){		
 		if (time==0){
 			Queue q(range_steps);

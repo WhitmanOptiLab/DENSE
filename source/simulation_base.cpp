@@ -33,7 +33,11 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 */
 
 void simulation_base::initialize(){
-    calc_max_delays(); 
+    for (int c=0; c<_cells_total; c++){
+        vector<int> v;
+        _neighbors.push_back(v);
+    }
+    calc_max_delays();
     calc_neighbor_2d();
     _delays.update_rates(_parameter_set._delay_sets);
     _rates.update_rates(_parameter_set._rates_base);

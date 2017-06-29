@@ -28,6 +28,7 @@ class simulation_base : public Observable{
 
   // Sizes
   int _width_total; // The width in cells of the PSM
+  int circumf;
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
   //int height; // The height in cells of the PSM
@@ -70,7 +71,7 @@ class simulation_base : public Observable{
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
-  CPUGPU_TempArray<int, 6>* _neighbors;
+  vector<vector<int> > _neighbors;
   //double* _sets;
   //int _NEIGHBORS_2D;
   RATETYPE max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
@@ -78,12 +79,11 @@ class simulation_base : public Observable{
 
     
   simulation_base(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
-    _cells_total(cells_total),_width_total(width_total), _parameter_set(ps), _model(m), 
+    _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
     _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), 
-    _neighbors(new CPUGPU_TempArray<int, 6>[_cells_total]), analysis_gran(analysis_interval), 
-    time_total(sim_time) { }
+    analysis_gran(analysis_interval), time_total(sim_time) { }
 
-  virtual ~simulation_base() {delete[] _neighbors; }
+  virtual ~simulation_base() {}
     
   virtual void initialize();
 #ifdef __CUDACC__
@@ -91,30 +91,64 @@ class simulation_base : public Observable{
 #endif
     void calc_neighbor_2d(){
         for (int i = 0; i < _cells_total; i++) {
-            if (i % 2 == 0) {																		// All even column cells
-                _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
-                _neighbors[i][1] = (i - _width_total + 1 + _cells_total) % _cells_total;		// Top-right
-                _neighbors[i][2] = (i + 1) % _cells_total;											// Bottom-right
-                _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
-                if (i % _width_total == 0) {														// Left edge
-                    _neighbors[i][4] = i + _width_total - 1;										// Bottom-left
-                    _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;						// Top-left
-                } else {																			// Not a left edge
-                    _neighbors[i][4] = i - 1;															// Bottom-left
-                    _neighbors[i][5] = (i - _width_total - 1 + _cells_total) % _cells_total;	// Top-left
+            
+            _neighbors[i].clear();
+
+	        int adjacents[6];
+
+            /* Hexagonal Adjacencies
+            0: TOP
+            1: TOP-RIGHT
+            2: BOTTOM-RIGHT
+            3: BOTTOM
+            4: TOP-LEFT
+            5: BOTTOM-LEFT
+            */
+
+            if (i % 2 == 0) {
+                adjacents[0] = (i - circumf + _cells_total) % _cells_total;
+                adjacents[1] = (i - circumf + 1 + _cells_total) % _cells_total;
+                adjacents[2] = (i + 1) % _cells_total;
+                adjacents[3] = (i + circumf) % _cells_total;
+                if (i % circumf == 0) {	
+                    adjacents[4] = i + circumf - 1;
+                    adjacents[5] = (i - 1 + _cells_total) % _cells_total;
+                } else {
+                    adjacents[4] = i - 1;
+                    adjacents[5] = (i - circumf - 1 + _cells_total) % _cells_total;
                 }
-            } else {																				// All odd column cells
-                _neighbors[i][0] = (i - _width_total + _cells_total) % _cells_total;			// Top
-                if (i % _width_total == _width_total - 1) {											// Right edge
-                    _neighbors[i][1] = i - _width_total + 1;										// Top-right
-                    _neighbors[i][2] = (i + 1) % _cells_total;										// Bottom-right
-                } else {																			// Not a right edge
-                    _neighbors[i][1] = i + 1;															// Top-right
-                    _neighbors[i][2] = (i + _width_total + 1 + _cells_total) % _cells_total;	// Nottom-right
-                }																					// All odd column cells
-                _neighbors[i][3] = (i + _width_total) % _cells_total;								// Bottom
-                _neighbors[i][4] = (i + _width_total - 1) % _cells_total;							// Bottom-left
-                _neighbors[i][5] = (i - 1 + _cells_total) % _cells_total;							// Top-left
+            } else {
+                adjacents[0] = (i - circumf + _cells_total) % _cells_total;
+                if (i % circumf == circumf - 1) {
+                    adjacents[1] = i - circumf + 1;
+                    adjacents[2] = (i + 1) % _cells_total;
+                } else {
+                    adjacents[1] = i + 1;
+                    adjacents[2] = (i + circumf + 1 + _cells_total) % _cells_total;
+                }
+                adjacents[3] = (i + circumf) % _cells_total;
+                adjacents[4] = (i + circumf - 1) % _cells_total;
+                adjacents[5] = (i - 1 + _cells_total) % _cells_total;
+            }
+            
+            _neighbors[i].push_back(i);
+            if (i % circumf == 0) {
+                _neighbors[i].push_back(adjacents[0]);
+                _neighbors[i].push_back(adjacents[3]);
+                _neighbors[i].push_back(adjacents[4]);
+		_neighbors[i].push_back(adjacents[5]);
+    	    }else if ((i+1) % circumf == 0) {
+                _neighbors[i].push_back(adjacents[0]);
+                _neighbors[i].push_back(adjacents[1]);
+                _neighbors[i].push_back(adjacents[2]);
+                _neighbors[i].push_back(adjacents[3]);
+            } else{
+                _neighbors[i].push_back(adjacents[0]);
+                _neighbors[i].push_back(adjacents[1]);
+                _neighbors[i].push_back(adjacents[2]);
+                _neighbors[i].push_back(adjacents[3]);
+                _neighbors[i].push_back(adjacents[4]);
+                _neighbors[i].push_back(adjacents[5]);
             }
         }
     }

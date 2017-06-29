@@ -1,7 +1,8 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 #include <cstddef>
-
+#include <cstdlib>
+#include <iostream>
 #include "reaction.hpp"
 #include "specie.hpp"
 
@@ -26,12 +27,36 @@ private:
     RATETYPE* factors_gradient[NUM_REACTIONS];
     bool _has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
 
+static delay_reaction_id getDelayReactionId(reaction_id rid) {
+  switch (rid) {
+#define REACTION(name)
+#define DELAY_REACTION(name) \
+    case name : return dreact_##name; 
+
+
+#include "reactions_list.hpp"
+#undef REACTION
+#undef DELAY_REACTION
+    default: return NUM_DELAY_REACTIONS;
+  }
+};
+
+const reaction_base& getReaction(reaction_id rid) const {
+  switch (rid) {
+  #define REACTION(name) \
+	case name: return reaction_##name;
+  #include "reactions_list.hpp"
+  #undef REACTION
+	default: cout<<"exiting"<<endl; exit (-1);
+  }
+}
+
 
     
 #define REACTION(name) reaction<name> reaction_##name;
     #include "reactions_list.hpp"
 #undef REACTION
-    
+
     model(bool using_gradients, bool using_perturb);
 };
 

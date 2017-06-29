@@ -1,20 +1,15 @@
 #ifndef REACTION_HPP
 #define REACTION_HPP
-#include <vector>
 
 #include "specie.hpp"
+#include "common_utils.hpp"
+#include <utility>
 
 //#include "simulation.hpp"
 //#include "context.hpp"
-#ifdef __CUDACC__
-#define CPUGPU_FUNC __host__ __device__
-#else
-#define CPUGPU_FUNC
-#endif
-
 
 using namespace std;
-typedef float RATETYPE;
+typedef double RATETYPE;
 
 
 enum reaction_id {
@@ -36,24 +31,14 @@ enum delay_reaction_id {
 typedef std::pair<int, int> ReactionTerm;
 
 
-template<class IMPL>
 class reaction_base{
  public:
-  template<class Ctxt>
   CPUGPU_FUNC
-  RATETYPE active_rate(const Ctxt& c) const;
-  RATETYPE rate;
-  RATETYPE delay;
-    
-};
-
-template<reaction_id RID>
-class reaction : public reaction_base<reaction<RID> > {
- public:
-  reaction();
-  template<class Ctxt>
-  CPUGPU_FUNC
-  RATETYPE active_rate(const Ctxt& c) const;
+  reaction_base(int inputs_num, int outputs_num, int factors_num, const int* inCount,
+                const int* outCount, const specie_id* input_species, const specie_id* output_species,
+                const specie_id* factor_species) :
+                num_inputs(inputs_num), num_outputs(outputs_num),num_factors(factors_num),in_counts(inCount),
+                out_counts(outCount), inputs(input_species), outputs(output_species), factors(factor_species){}
   CPUGPU_FUNC
   int getNumInputs() const { return num_inputs; }
   CPUGPU_FUNC
@@ -80,14 +65,32 @@ class reaction : public reaction_base<reaction<RID> > {
   const specie_id* factors;
 };
 
+template<reaction_id RID>
+class reaction : public reaction_base {
+ public:
+  reaction();
+  template<class Ctxt>
+  CPUGPU_FUNC
+  RATETYPE active_rate(const Ctxt& c) const;
+};
+
+/*
+static delay_reaction_id get_delay_reaction_id(reaction_id rid) {
+  switch (rid) {
+#define REACTION(name)
+#define DELAY_REACTION(name) \
+    case name : return dreact_##name; 
+
+#include "reactions_list.hpp"
+#undef REACTION
+#undef DELAY_REACTION
+    default: return NUM_DELAY_REACTIONS;
+  }
+};
+
+*/
 
 //And by the way, all of these will be declared at some point
-
-#ifdef __CUDACC__
-#define STATIC_VAR __managed__
-#else
-#define STATIC_VAR
-#endif
 
 #define REACTION(name) \
 extern STATIC_VAR int num_inputs_##name; \

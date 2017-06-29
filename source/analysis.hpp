@@ -78,6 +78,10 @@ public:
 			start.advance();
 		}
 		time++;
+/*
+        if (time%100==0){cout << "========== ANALYSIS ==========" << endl;
+//        test();
+        }*/
 	}
 
 	// Test: prints output.
