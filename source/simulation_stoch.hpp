@@ -14,6 +14,7 @@
 #include <vector>
 #include <array>
 #include <set>
+#include <random>
 
 using namespace std;
 
@@ -48,11 +49,10 @@ class simulation_stoch : public simulation_base {
     void initPropensityNetwork();
     void generateRXNTaus(RATETYPE tau);
     void fireOrSchedule(int c, reaction_id rid);
-  
-    public:
+    void initPropensities();
+    default_random_engine generator;
 
-    //DELETE LATER
-//    int chooseReactionCount;
+    public:
 
     class ContextStoch : public ContextBase {
         //FIXME - want to make this private at some point
@@ -149,7 +149,7 @@ class simulation_stoch : public simulation_base {
   //int _NEIGHBORS_2D;
   //int* _relatedReactions[NUM_SPECIES];
     
-  simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
+  simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time, unsigned seed): generator(default_random_engine(seed)),
     simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time),t(0){ }
 
   virtual ~simulation_stoch() {}
