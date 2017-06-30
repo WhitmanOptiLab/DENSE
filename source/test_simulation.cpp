@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
             RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.01);
    
            simulation_base* s; 
-           if (arg_parse::get<bool>("d", "determ",false))
+           if (arg_parse::get<bool>("d", "determ", false))
            { 
              s = new simulation_determ(m, ps,
                 arg_parse::get<int>("c", "cell-total", 10),
@@ -55,7 +55,6 @@ int main(int argc, char *argv[]) {
 
             s->initialize();
 
-            //BasicAnalysis a(&s);
             OscillationAnalysis o(s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
             BasicAnalysis a(s);
             //run simulation

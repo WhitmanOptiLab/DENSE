@@ -12,11 +12,8 @@ void simulation_determ::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
  	RATETYPE total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
-		if (c != 0)
-        {
-            Context context(*this,0);
-            notify(context);
-        }
+        Context context(*this,0);
+        notify(context);
         
         for (int i = 0; i<total_step; i++) {
 			execute();

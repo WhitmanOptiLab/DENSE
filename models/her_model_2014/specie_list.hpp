@@ -1,4 +1,4 @@
-// In this file, we declare the X-Macro for the list of SPECIES to 
+// In this file, we declare the X-Macro for the list of reactions to 
 //   be simulated.  
 // Each reaction must have a declared reaction rate function in 
 //   model_impl.h
