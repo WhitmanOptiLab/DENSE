@@ -9,7 +9,7 @@ using namespace std;
 
 
 csvw_param::csvw_param(const string& pcfFileName) :
-    csvw::csvw(pcfFileName, true, "# IMPORTANT: Rename this file to \"param_list.csv\" or similar once data has been entered!\n")
+    csvw::csvw(pcfFileName, true, "# Rename this file to \"param_list.csv\" or similar once data has been entered!\n")
 {
     const string cReaction[] = {
         #define REACTION(name) #name, 

@@ -26,7 +26,9 @@ public:
      *
      *  usage
      *      Because this returns a bool, it can easily be used in a while loop
-     *      Use this as a helper function inside other functions that load data from specially organized CSVs into classes such as param_set and datalogger
+     *      Use this as a helper function inside other functions that load
+     *        data from specially organized CSVs into classes such as param_set
+     *        and datalogger
      *  
      *  parameters
      *      pnRate - RATETYPE pointer you want the next data cell to be stored in
