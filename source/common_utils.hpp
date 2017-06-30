@@ -13,6 +13,8 @@
 #define STATIC_VAR
 #endif
 
+typedef double RATETYPE;
+
 template<class TYPE, int SIZE>
 class CPUGPU_TempArray {
   TYPE array[SIZE];

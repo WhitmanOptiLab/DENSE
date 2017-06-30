@@ -9,37 +9,49 @@
 #include "specie.hpp"
 #include "cell_param.hpp"
 #include "reaction.hpp"
-#include "concentration_level.hpp"
-#include "baby_cl.hpp"
 #include <vector>
-#include <array>
 #include <set>
 #include <random>
 
 using namespace std;
 
-/* simulation contains simulation data, partially taken from input_params and partially derived from other information
- */
 
 typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
+/*
+ * STOCHASTIC SIMULATOR:
+ * superclasses: simulation_base, Observable
+ * uses Gillespie's tau leaping algorithm
+ * uses Barrio's delay SSA
+*/
 class simulation_stoch : public simulation_base {
 
  private:
 
+    //"event" represents a delayed reaction scheduled to fire later
     struct event{
         RATETYPE time;
-	RATETYPE getTime() const{return time;}
-	int cell;
+	    RATETYPE getTime() const{return time;}
+	    int cell;
         reaction_id rxn;
-	bool operator<(event const &b) const {return getTime() < b.getTime();}
+	    bool operator<(event const &b) const {return getTime() < b.getTime();}
     };
+
+    //"event_schedule" is a set ordered by time of delay reactions that will fire
     multiset<event> event_schedule;
+
+    //"concs" stores current concentration levels for every species in every cell
     vector<vector<int> > concs;
+    //"t" is current simulation time
     long double t, littleT;
+    //"propensities" stores probability of each rxn firing, calculated from active rates
     vector<vector<RATETYPE> > propensities;
+    //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
     vector<reaction_id> propensity_network[NUM_REACTIONS];
+    //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
+    //random number generator
+    default_random_engine generator;
 
     RATETYPE generateTau();
     RATETYPE getSoonestDelay();
@@ -50,10 +62,13 @@ class simulation_stoch : public simulation_base {
     void generateRXNTaus(RATETYPE tau);
     void fireOrSchedule(int c, reaction_id rid);
     void initPropensities();
-    default_random_engine generator;
 
     public:
 
+    /*
+     * ContextStoch:
+     * iterator for observers to access conc levels with
+    */
     class ContextStoch : public ContextBase {
         //FIXME - want to make this private at some point
       private:
@@ -113,65 +128,21 @@ class simulation_stoch : public simulation_base {
     void fireReaction(ContextStoch *c, const reaction_id rid);
 
   public:
-  // PSM stands for Presomitic Mesoderm (growth region of embryo)
-
-  // Sizes
-  //int steps_total; // The number of time steps to simulate (total time / step size)
-  //int steps_split; // The number of time steps it takes for cells to split
-  //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
-  //bool no_growth; // Whether or not the simulation should rerun with growth
-
-  // Granularities
-  //int _big_gran; // The granularity in time steps with which to analyze and store data
-  //int small_gran; // The granularit in time steps with which to simulate data
-
-  // Neighbors and boundaries
-  //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
-  //int active_start; // The start of the active portion of the PSM
-  //int active_end; // The end of the active portion of the PSM
-
-  // PSM section and section-specific times
-  //int section; // Posterior or anterior (sec_post or sec_ant)
-  //int time_start; // The start time (in time steps) of the current simulation
-  //int time_end; // The end time (in time steps) of the current simulation
-  //int time_baby; // Time 0 for baby_cl at the end of a simulation
-
-  // Mutants and condition scores
-  //int num_active_mutants; // The number of mutants to simulate for each parameter set
-  //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
-  //double max_score_all; // The maximum score possible for all mutants for all testing sections
-
-  //Context<double> _contexts;
-  //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
-  //int* _delay_size;
-  //int* _time_prev;
-  //double* _sets;
-  //int _NEIGHBORS_2D;
-  //int* _relatedReactions[NUM_SPECIES];
-    
-  simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time, unsigned seed): generator(default_random_engine(seed)),
-    simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time),t(0){ }
-
-  virtual ~simulation_stoch() {}
-  //bool any_less_than_0(baby_cl& baby_cl, int* times);
-  //bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
-#if 0
-#ifdef __CUDACC__
-  __host__ __device__
-#endif
-    void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]){
-        for (int l = 0; l < NUM_SPECIES; l++) {
-            old_cells_mrna[l] = cell_index;
-            old_cells_protein[l] = cell_index;
-        }
+    /*
+     * Constructor:
+     * calls simulation base constructor
+     * initializes fields "t" and "generator"
+    */
+    simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total,
+                    RATETYPE analysis_interval, RATETYPE sim_time, unsigned seed):
+        simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time),
+        generator(default_random_engine(seed)), t(0){
     }
-#endif
-    
-  void initialize();
-    
-  void simulate();
 
- protected:
-  void calc_max_delays();
+    //Deconstructor
+    virtual ~simulation_stoch() {}
+
+    void initialize();
+    void simulate();
 };
 #endif

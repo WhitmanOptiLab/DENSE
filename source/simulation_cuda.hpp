@@ -5,7 +5,6 @@
 #include "model.hpp"
 #include "cell_param.hpp"
 #include "reaction.hpp"
-#include "concentration_level.hpp"
 #include "baby_cl_cuda.hpp"
 #include "simulation_determ.hpp"
 #include <vector>

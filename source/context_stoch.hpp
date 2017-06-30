@@ -9,15 +9,27 @@
 #include <iostream>
 using namespace std;
 
+/*
+ * CALCULATENEIGHBORAVG
+ * arg "sp": the specie to average from the surrounding cells
+ * arg "delay": unused, but used in deterministic context. Kept for polymorphism
+ * returns "avg": average concentration of specie in current and neighboring cells
+*/
 CPUGPU_FUNC
 RATETYPE simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
     RATETYPE sum=0;
     for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
         sum+=_simulation.concs[_simulation._neighbors[_cell][i]][sp];
     }
-    return sum/_simulation._neighbors[_cell].size();
+    RATETYPE avg = sum/_simulation._neighbors[_cell].size(); 
+    return avg;
 }
 
+/*
+ * UPDATEPROPENSITIES
+ * recalculates the propensities of reactions affected by the firing of "rid"
+ * arg "rid": the reaction that fired
+*/
 CPUGPU_FUNC
 void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
     const model& _model = _simulation._model;
@@ -42,6 +54,12 @@ void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
     #undef REACTION
 }
 
+/*
+ * GETTOTALPROPENSITY
+ * sums the propensities of every reaction in every cell
+ * called by "generateTau" in simulation_stoch.cpp
+ * return "sum": the propensity sum
+*/
 CPUGPU_FUNC
 RATETYPE simulation_stoch::ContextStoch::getTotalPropensity(){
     RATETYPE sum = 0;
@@ -53,22 +71,28 @@ RATETYPE simulation_stoch::ContextStoch::getTotalPropensity(){
     return sum;
 }
 
+/*
+ * CHOOSEREACTION
+ * randomly chooses a reaction biased by their propensities
+ * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
+ * return "j": the index of the reaction chosen.
+*/ 
 CPUGPU_FUNC
 int simulation_stoch::ContextStoch::chooseReaction(RATETYPE propensity_portion){
     RATETYPE sum=0;
     int c,s;
-
-
     for (c=0; c<_simulation._cells_total; c++){
       for (s=0; s<NUM_REACTIONS; s++){
         sum+=_simulation.propensities[c][s];
 	    
         if (sum>propensity_portion){
-            return (c*NUM_REACTIONS)+s;
+            int j = (c*NUM_REACTIONS)+s;
+            return j;
 	    }
       }
     }
-    return ((c-1)*NUM_REACTIONS)+(s-1);
+    int j = ((c-1)*NUM_REACTIONS)+(s-1); 
+    return j;
 }
 
 

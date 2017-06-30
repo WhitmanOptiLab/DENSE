@@ -1,7 +1,6 @@
 #ifndef ANALYSIS_HPP
 #define ANALYSIS_HPP
 
-#include "datalogger.hpp"
 #include "observable.hpp"
 #include <vector>
 #include <set>
@@ -78,10 +77,6 @@ public:
 			start.advance();
 		}
 		time++;
-/*
-        if (time%100==0){cout << "========== ANALYSIS ==========" << endl;
-//        test();
-        }*/
 	}
 
 	// Test: prints output.
@@ -191,7 +186,7 @@ public:
 
 class CorrelationAnalysis : public Analysis {
 
-	CorrelationAnalysis(DataLogger *dLog) : Analysis(dLog) {
+	CorrelationAnalysis(Observable *dLog) : Analysis(dLog) {
 	}
 
 	void update(ContextBase& start){

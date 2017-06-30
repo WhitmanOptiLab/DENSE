@@ -9,10 +9,8 @@
 #include "specie.hpp"
 #include "cell_param.hpp"
 #include "reaction.hpp"
-#include "concentration_level.hpp"
 #include "baby_cl.hpp"
-#include <vector>
-#include <array>
+
 using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information

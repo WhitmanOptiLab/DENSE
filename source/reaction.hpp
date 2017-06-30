@@ -9,7 +9,6 @@
 //#include "context.hpp"
 
 using namespace std;
-typedef double RATETYPE;
 
 
 enum reaction_id {

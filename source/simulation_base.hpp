@@ -1,34 +1,33 @@
 #ifndef SIMULATION_BASE_HPP
 #define SIMULATION_BASE_HPP
 
-#include "observable.hpp"
 #include "context.hpp"
+#include "observable.hpp"
 #include "param_set.hpp"
 #include "model.hpp"
 #include "specie.hpp"
 #include "cell_param.hpp"
 #include "reaction.hpp"
-#include "concentration_level.hpp"
 #include <vector>
-#include <array>
 using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
-
-
 typedef cell_param<NUM_REACTIONS> Rates;
 typedef cell_param<NUM_DELAY_REACTIONS> Delays;
 typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
+
+/* SIMULATION_BASE
+ * superclass for simulation_determ and simulation_stoch
+ * inherits from Observable, can be observed by Observer object
+*/
 class simulation_base : public Observable{
   
- public:
-  // PSM stands for Presomitic Mesoderm (growth region of embryo)
-
+  public:
   // Sizes
-  int _width_total; // The width in cells of the PSM
-  int circumf;
+  int _width_total; // The maximum width in cells of the PSM
+  int circumf; // The current width in cells
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
   //int height; // The height in cells of the PSM
@@ -43,15 +42,12 @@ class simulation_base : public Observable{
   //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
   //bool no_growth; // Whether or not the simulation should rerun with growth
 
-  // Granularities
-  //int _big_gran; // The granularity in time steps with which to analyze and store data
-  //int small_gran; // The granularit in time steps with which to simulate data
-
   // Neighbors and boundaries
   //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
   //int active_start; // The start of the active portion of the PSM
   //int active_end; // The end of the active portion of the PSM
-
+  vector<vector<int> > _neighbors;
+  
   // PSM section and section-specific times
   //int section; // Posterior or anterior (sec_post or sec_ant)
   //int time_start; // The start time (in time steps) of the current simulation
@@ -71,29 +67,44 @@ class simulation_base : public Observable{
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
-  vector<vector<int> > _neighbors;
   //double* _sets;
   //int _NEIGHBORS_2D;
   RATETYPE max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
     
 
-    
+  /*
+   * CONSTRUCTOR
+   * arg "m": assiged to "_model", used to access user-inputted active rate functions
+   * arg "ps": assiged to "_parameter_set", used to access user-inputted rate constants, delay times, and crit values
+   * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
+   * arg "width_total": the circumference of the tube, in cells
+   * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
+   * arg "sim_time": the total time to simulate for, in minutes
+  */
   simulation_base(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
     _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), 
     analysis_gran(analysis_interval), time_total(sim_time) { }
 
+  //DECONSTRUCTOR
   virtual ~simulation_base() {}
     
+  //Virtual function all subclasses must implement
   virtual void initialize();
+
 #ifdef __CUDACC__
     __host__ __device__
 #endif
-    void calc_neighbor_2d(){
-        for (int i = 0; i < _cells_total; i++) {
-            
-            _neighbors[i].clear();
 
+
+    /*
+     * CALC_NEIGHBOR_2D
+     * populates the data structure "_neighbors" with cell indices of neighbors
+     * follows hexagonal adjacencies for an unfilled tube
+    */
+    void calc_neighbor_2d(){
+        for (int i = 0; i < _cells_total; i++) {        
+            _neighbors[i].clear();
 	        int adjacents[6];
 
             /* Hexagonal Adjacencies
@@ -104,7 +115,6 @@ class simulation_base : public Observable{
             4: TOP-LEFT
             5: BOTTOM-LEFT
             */
-
             if (i % 2 == 0) {
                 adjacents[0] = (i - circumf + _cells_total) % _cells_total;
                 adjacents[1] = (i - circumf + 1 + _cells_total) % _cells_total;
@@ -152,10 +162,12 @@ class simulation_base : public Observable{
             }
         }
     }
-    
+  
+    //Virtual function all subclasses must implement  
     virtual void simulate() = 0;
- protected:
-  void calc_max_delays();
+
+  protected:
+    void calc_max_delays();
 };
 #endif
 

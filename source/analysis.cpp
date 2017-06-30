@@ -2,6 +2,12 @@
 
 using namespace std;
 
+/*
+ * UPDATE_AVERAGES
+ * arg "start": context iterator to access newest conc level with
+ * arg "c": the cell the context inhabits
+ * updates average concentration levels across all cells and per cell
+*/
 void BasicAnalysis :: update_averages(const ContextBase& start, int c){
 	
 	for (int s=0; s<NUM_SPECIES; s++){
@@ -11,6 +17,12 @@ void BasicAnalysis :: update_averages(const ContextBase& start, int c){
 	}
 }
 
+/*
+ * UPDATE_MINMAX
+ * arg "start": context iterator to access newest conc level with
+ * arg "c": the cell the context inhabits
+ * updates min and max conc levels across all cells and per cell
+*/
 void BasicAnalysis :: update_minmax(const ContextBase& start, int c){
 
 	for (int s=0; s<NUM_SPECIES; s++){
@@ -31,6 +43,12 @@ void BasicAnalysis :: update_minmax(const ContextBase& start, int c){
 	}
 }
 
+/*
+ * FINALIZE
+ * finds peaks and troughs in final half-window of simulation data
+ * arg "start": context iterator to access conc levels with
+ * precondition: the simulation has finished
+*/
 void OscillationAnalysis :: finalize(ContextBase& start){
 	
 	for (int c=0; start.isValid(); c++){
@@ -45,6 +63,12 @@ void OscillationAnalysis :: finalize(ContextBase& start){
 	}
 }
 
+/*
+ * GET_PEAKS_AND_TROUGHS
+ * advances the local range window and identifies critical points
+ * arg "start": context iterator to access conc levels with
+ * arg "c": the cell the context inhabits
+*/ 
 void OscillationAnalysis :: get_peaks_and_troughs(const ContextBase& start, int c){
 
 	RATETYPE added = start.getCon(s);
@@ -54,15 +78,18 @@ void OscillationAnalysis :: get_peaks_and_troughs(const ContextBase& start, int 
 	if ( windows[c].getSize() == range_steps + 1) {
 		RATETYPE removed = windows[c].dequeue();
 		bst[c].erase(bst[c].find(removed));
-    	}
-
+ 	}
 	if ( windows[c].getSize() < range_steps/2) {
 		return;
 	}
-
 	checkCritPoint(c);
 }
 
+/*
+ * CHECKCRITPOINT
+ * determines if a particular specie conc level in a particular cell is a peak, trough, or neither
+ * arg "c": the cell this concentration level is found in
+*/
 void OscillationAnalysis :: checkCritPoint(int c){
 	RATETYPE mid_conc = windows[c].getVal(windows[c].getCurrent()); 
 
@@ -74,6 +101,14 @@ void OscillationAnalysis :: checkCritPoint(int c){
 	}
 }
 
+/*
+ * ADDCRITPOINT
+ * adds the peak or trough to the "crit_point" vector if it is an oscillating feature (no two peaks or two troughs in a row)
+ * arg "context": context iterator to access conc levels with
+ * arg "isPeak": bool is true if the conc level is a peak and false if it is a trough
+ * arg "minute": time, in minutes, that the critical point occurs
+ * arg "concentration": the concentration level of the critical point
+*/
 void OscillationAnalysis :: addCritPoint(int context, bool isPeak, RATETYPE minute, RATETYPE concentration){
 	crit_point crit;
 	crit.is_peak = isPeak;
@@ -95,7 +130,14 @@ void OscillationAnalysis :: addCritPoint(int context, bool isPeak, RATETYPE minu
 	}
 }
 
-
+/*
+ * UPDATE
+ * called by attached observables in "notify" function
+ * main analysis function
+ * arg "start": context iterator to access con levels with
+ * precondition: "start" inhabits cell 0
+ * postcondtion: "start" inhabits an invalid cell
+*/
 void OscillationAnalysis :: update(ContextBase& start){
 
 	for (int c=0; start.isValid(); c++){		
@@ -126,7 +168,11 @@ void OscillationAnalysis :: update(ContextBase& start){
 	time++;
 }
 
-
+/*
+ * CALCAMPSANDPERS
+ * calculates amplitudes and periods off of current analysis data
+ * arg "c": the cell to analysis amplitudes and periods from
+*/
 void OscillationAnalysis :: calcAmpsAndPers(int c){
 	vector<crit_point> crits = peaksAndTroughs[c];	
 	if (crit_tracker[c] < crits.size()){
@@ -145,9 +191,6 @@ void OscillationAnalysis :: calcAmpsAndPers(int c){
 			cycles[c]++;
 			cycleSum[c]+=(crits[crit_tracker[c]].time-crits[crit_tracker[c]-2].time);
 		}
-			/*if (t == crit_tracker+1){continue;}
-			if (c == 198){cout<<"numPeaks= "<<numPeaks[c]<<"  numTroughs= "<<numTroughs[c]<<"  cycles= "<<cycles[c]<<endl;}
-			*/
 		amplitudes[c] = ((peakSum[c]/numPeaks[c])-(troughSum[c]/numTroughs[c]))/2;
 		periods[c] = cycleSum[c]/cycles[c];
 	}

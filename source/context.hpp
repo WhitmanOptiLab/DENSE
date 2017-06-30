@@ -4,8 +4,7 @@
 #define CONTEXT_HPP
 
 #include "specie.hpp"
-#include "concentration_level.hpp"
-
+#include "common_utils.hpp"
 
 class ContextBase {
   //FIXME - want to make this private at some point
