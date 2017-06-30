@@ -19,8 +19,9 @@ public:
 
 private:
     specie_vec oSpecieVec;
-    //unsigned int iTimeCount;
-    //const RATETYPE iTimeInterval;
+    unsigned int iTimeCount;
+    const unsigned int iCellTotal;
+    const RATETYPE iTimeInterval;
 };
 
 #endif

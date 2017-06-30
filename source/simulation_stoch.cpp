@@ -33,7 +33,7 @@ void simulation_stoch::simulate(){
 			}
 		}
         t += littleT;
-        if (a%100==0)
+        if (a%int(1.0/analysis_gran)==0)
             cout<<"time="<<t<<endl;
 	}
 	ContextStoch context(*this,0);

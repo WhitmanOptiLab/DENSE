@@ -57,13 +57,13 @@ int main(int argc, char *argv[])
             "Width of tissue to simulate. Height is inferred by c/w." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
-            "Increment size in which the simulation progresses through time." << color::clear() << endl;
+            "Increment size in which the simulation progresses through time. USING THIS ARGUMENT IMPLICITLY TOGGLES DETERMINISTIC (VS STOCHASTIC) SIMULATION." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-a | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
             "Analysis AND file writing interval. How frequently (in units of simulated seconds) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-r | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
-            "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES WHETHER ANALYSIS WILL RUN OR NOT." << color::clear() << endl;
+            "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-t | --time]             <int> " << color::set(color::GREEN) <<
             "Amount of time to simulate." << color::clear() << endl;
@@ -73,11 +73,13 @@ int main(int argc, char *argv[])
         // Nothing can run without cell_total; make sure user has set it
         int cell_total;
         RATETYPE anlys_intvl;
-        if (arg_parse::get<int>("c", "cell-total", &cell_total, true) && arg_parse::get<RATETYPE>("a", "anlys-intvl", &anlys_intvl, true))
+        if (arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
+                arg_parse::get<RATETYPE>("a", "anlys-intvl", &anlys_intvl, true))
         {
             // Allow for analysis to be optional
             RATETYPE local_range;
-            const bool doAnlys = arg_parse::get<RATETYPE>("r", "local-range", &local_range, false);
+            const bool doAnlys = 
+                arg_parse::get<RATETYPE>("r", "local-range", &local_range, false);
 
             // If there's no -o argument, specie_option will default to all species
             specie_vec specie_option;
@@ -101,7 +103,8 @@ int main(int argc, char *argv[])
                     OscillationAnalysis *oa[specie_option.size()];
                     for (unsigned int i=0; i<specie_option.size(); i++)
                     {
-                        oa[i] = new OscillationAnalysis(&csvrs, anlys_intvl, local_range, specie_option.at(i));
+                        oa[i] = new OscillationAnalysis(&csvrs,
+                                anlys_intvl, local_range, specie_option.at(i));
                     }
 
                     // Emulate a simulation
@@ -123,7 +126,8 @@ int main(int argc, char *argv[])
                     cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the \'-r | --local-range\' flag?" << color::clear() << endl;
                     
                     // No analysis, simply emulate a simulation
-                    // This particular case is pointless at the moment, but having analysis be optional is useful under the data_export case.
+                    // This particular case is pointless at the moment, but having
+                    //   analysis be optional is useful under the data_export case.
                     csvr_sim csvrs(data_import, cell_total, specie_option);
                     csvrs.run();
                 }
@@ -132,34 +136,48 @@ int main(int argc, char *argv[])
             {
                 string param_list;
                 int total_width;
-                RATETYPE step_size, time;
+                RATETYPE time;
+                bool gradients = arg_parse::get<bool>("G", "gradients", false),
+                     perturb = arg_parse::get<bool>("P", "perturb", false);
                 
                 if ( arg_parse::get<string>("p", "param-list", &param_list, true) &&
                         arg_parse::get<int>("w", "total-width", &total_width, true) &&
-                        arg_parse::get<RATETYPE>("s", "step-size", &step_size, true) &&
                         arg_parse::get<RATETYPE>("t", "time", &time, true) )
                 {
-                    simulation_set<simulation_determ> sim_set(
-                        arg_parse::get<bool>("G", "gradients", false),
-                        arg_parse::get<bool>("P", "perturb", false),
-                        param_list, cell_total, total_width,
-                        step_size, anlys_intvl, time);
+                    // If step_size not set, create stochastic simulation
+                    RATETYPE step_size =
+                        arg_parse::get<RATETYPE>("s", "step-size", 0.0);
                     
+                    // Warn user that they are not running deterministic sim
+                    if (step_size == 0.0)
+                    {
+                        cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the \'-s | --step-size\' flag." << color::clear() << endl;
+                    }
+                    
+                    simulation_set sim_set = simulation_set(
+                            gradients, perturb, param_list, cell_total,
+                            total_width, step_size, anlys_intvl, time);
+                   
+
                     // Prepare data output
                     bool doCSVWS;
                     csvw_sim *csvws[sim_set.getSetCount()];
                     string data_export;
                     // Not a typo
-                    if (doCSVWS = arg_parse::get<string>("e", "data-export", &data_export, false))
+                    if ( doCSVWS = arg_parse::get<string>(
+                                "e", "data-export", &data_export, false) )
                     {
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                         {
                             // Set file name to "x_####.y"
                             string data_num = to_string(i);
                             data_num.insert(data_num.begin(), 4-data_num.size(), '0');
-                            string data_mod = data_export.substr(0, data_export.find_last_of(".")) + "_" + data_num + data_export.substr(data_export.find_last_of("."));
+                            string data_mod = data_export.substr(0, 
+                                    data_export.find_last_of(".")) + "_" + data_num +
+                                    data_export.substr(data_export.find_last_of("."));
                             cout << data_mod << endl;
-                            csvws[i] = new csvw_sim(data_mod, anlys_intvl, cell_total, specie_option, &sim_set._sim_set[i]);
+                            csvws[i] = new csvw_sim(data_mod, anlys_intvl,
+                                    cell_total, specie_option, sim_set._sim_set[i]);
                         }
                     }
                     
@@ -174,7 +192,9 @@ int main(int argc, char *argv[])
                         {
                             for (unsigned int j=0; j<specie_option.size(); j++)
                             {
-                                oa[i][j] = new OscillationAnalysis(&sim_set._sim_set[i], anlys_intvl, local_range, specie_option.at(j));
+                                oa[i][j] = new OscillationAnalysis(
+                                        sim_set._sim_set[i], anlys_intvl, 
+                                        local_range, specie_option.at(j));
                             }
                         }
 
@@ -188,7 +208,8 @@ int main(int argc, char *argv[])
                         {
                             for (unsigned int j=0; j<specie_option.size(); j++)
                             {
-                                cout << "set " << i << " for specie " << specie_str[specie_option.at(j)] << endl;
+                                cout << "set " << i << " for specie " <<
+                                    specie_str[specie_option.at(j)] << endl;
                                 oa[i][j]->test();
                                 delete oa[i][j];
                             }

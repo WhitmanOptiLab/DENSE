@@ -5,7 +5,7 @@ endif
 
 CC=g++
 NVCC=nvcc
-CFLAGS=-g -std=c++11 -I../models/${MODEL} -I.
+CFLAGS=-O3 -std=c++11 -I../models/${MODEL} -I.
 LFLAGS=${CFLAGS}
 CUFLAGS=-dc ${CFLAGS} -arch=sm_30
 CULFLAGS=${CFLAGS} -arch=sm_30 -lcuda -lcudart_static
@@ -35,7 +35,7 @@ test_simulation: test_simulation.o simulation_base.o simulation_determ.o simulat
 test_simulation_cuda: test_simulation_cuda.o simulation_base.o simulation_determ.o simulation_stoch.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl_cuda.o model.o baby_cl.o observable.o color.o csv_reader.o 
 	${NVCC} ${CULFLAGS} $^ -o $@ 
 
-test_simulation_set: test_simulation_set.o simulation_base.o simulation_determ.o simulation_determ.o reaction.o cell_param.o baby_cl.o arg_parse.o model.o observable.o arg_parse.o color.o analysis.o csvr.o csvw.o csvw_param.o csvw_sim.o csvr_param.o
+test_simulation_set: test_simulation_set.o simulation_base.o simulation_determ.o simulation_stoch.o reaction.o cell_param.o baby_cl.o arg_parse.o model.o observable.o arg_parse.o color.o analysis.o csvr.o csvw.o csvw_param.o csvw_sim.o csvr_param.o
 	${CC} ${LFLAGS} $^ -o $@ 
 
 test_simulation_set_cuda: test_simulation_set_cuda.o simulation_set_cuda.o simulation_base.o simulation_determ.o simulation_cuda.o reaction_cu.o cell_param.o baby_cl.o baby_cl_cuda.o model.o observable.o color.o csvr.o csvw.o csvw_param.o csvr_param.o 

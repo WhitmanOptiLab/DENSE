@@ -8,6 +8,8 @@
 #include "concentration_level.hpp"
 #include "baby_cl.hpp"
 #include "simulation_base.hpp"
+#include "simulation_stoch.hpp"
+#include "simulation_determ.hpp"
 #include "csvr_param.hpp"
 #include <vector>
 #include <array>
@@ -19,7 +21,7 @@ using namespace std;
 	todo:
  */
 
-template <class SIM>
+
 class simulation_set{
     
  public:
@@ -28,7 +30,7 @@ class simulation_set{
    // param_set _ps;
     RATETYPE total_time;
     vector<param_set> _ps;
-    vector<SIM> _sim_set;
+    vector<simulation_base*> _sim_set;
     
     
     simulation_set(bool using_gradients, bool using_perturb, const string &param_file, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
@@ -49,8 +51,24 @@ class simulation_set{
             {
                 cout << "Initializing Set " << i << endl;
                 _ps.push_back(csvrp.get_next());
-                _sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
-                _sim_set[i].initialize();
+                
+                // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
+                if (step_size == 0.0)
+                {
+                    //_sim_set.emplace_back(_m, _ps[i], cell_total, total_width, analysis_interval, sim_time);
+                    _sim_set.push_back(
+                            new simulation_stoch(_m, _ps[i], cell_total, total_width,
+                                analysis_interval, sim_time));
+                }
+                else
+                {
+                    //_sim_set.emplace_back(_m, _ps[i], cell_total, total_width, step_size, analysis_interval, sim_time);
+                    _sim_set.push_back(
+                            new simulation_determ(_m, _ps[i], cell_total, total_width,
+                                step_size, analysis_interval, sim_time));
+                }
+
+                _sim_set[i]->initialize();
             }
         }
     }
@@ -58,7 +76,7 @@ class simulation_set{
     void simulate_sets(){
         for (int i=0; i<_sim_set.size(); i++){
             cout << "Simulating Set " << i << endl;
-            _sim_set[i].simulate();
+            _sim_set[i]->simulate();
         }
     }
     
