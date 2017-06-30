@@ -149,7 +149,7 @@ class simulation_stoch : public simulation_base {
   //int _NEIGHBORS_2D;
   //int* _relatedReactions[NUM_SPECIES];
     
-  simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time, unsigned seed): generator(default_random_engine(seed)),
+  simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time, int seed): generator(default_random_engine(seed)),
     simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time),t(0){ }
 
   virtual ~simulation_stoch() {}

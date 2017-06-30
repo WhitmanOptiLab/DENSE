@@ -2,6 +2,7 @@
 #include "simulation_set.hpp"
 #include "model_impl.hpp"
 #include "context_determ.hpp"
+#include <ctime>
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
         // If step-size == 0, then it will be stochastic
         arg_parse::get<RATETYPE>("s", "step-size", 0.0),
         arg_parse::get<RATETYPE>("a", "analysis_interval", 10),
-        arg_parse::get<RATETYPE>("t", "sim_time", 60) );
+        arg_parse::get<RATETYPE>("t", "sim-time", 60),
+        arg_parse::get<int>("r", "rand-seed", time(0)) );
     sim_set.simulate_sets();
 }

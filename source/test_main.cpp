@@ -7,6 +7,7 @@
 #include "simulation_set.hpp"
 #include "model_impl.hpp"
 #include "context_determ.hpp"
+#include <ctime>
 #include <iostream>
 
 
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
             "[-a | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
             "Analysis AND file writing interval. How frequently (in units of simulated seconds) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-r | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
+            "[-l | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
             "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-t | --time]             <int> " << color::set(color::GREEN) <<
@@ -79,7 +80,7 @@ int main(int argc, char *argv[])
             // Allow for analysis to be optional
             RATETYPE local_range;
             const bool doAnlys = 
-                arg_parse::get<RATETYPE>("r", "local-range", &local_range, false);
+                arg_parse::get<RATETYPE>("l", "local-range", &local_range, false);
 
             // If there's no -o argument, specie_option will default to all species
             specie_vec specie_option;
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     // Warn user about kind of useless case
-                    cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the \'-r | --local-range\' flag?" << color::clear() << endl;
+                    cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the \'-l | --local-range\' flag?" << color::clear() << endl;
                     
                     // No analysis, simply emulate a simulation
                     // This particular case is pointless at the moment, but having
@@ -136,27 +137,29 @@ int main(int argc, char *argv[])
             {
                 string param_list;
                 int total_width;
-                RATETYPE time;
+                RATETYPE sim_time;
                 bool gradients = arg_parse::get<bool>("G", "gradients", false),
                      perturb = arg_parse::get<bool>("P", "perturb", false);
                 
                 if ( arg_parse::get<string>("p", "param-list", &param_list, true) &&
                         arg_parse::get<int>("w", "total-width", &total_width, true) &&
-                        arg_parse::get<RATETYPE>("t", "time", &time, true) )
+                        arg_parse::get<RATETYPE>("t", "time", &sim_time, true) )
                 {
                     // If step_size not set, create stochastic simulation
                     RATETYPE step_size =
                         arg_parse::get<RATETYPE>("s", "step-size", 0.0);
-                    
+                    int seed = arg_parse::get<int>("r", "rand-seed", time(0)); 
+
                     // Warn user that they are not running deterministic sim
                     if (step_size == 0.0)
                     {
                         cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the \'-s | --step-size\' flag." << color::clear() << endl;
+                        cout << "Using seed \'" << seed << "\'." << endl;
                     }
                     
                     simulation_set sim_set = simulation_set(
                             gradients, perturb, param_list, cell_total,
-                            total_width, step_size, anlys_intvl, time);
+                            total_width, step_size, anlys_intvl, sim_time, seed);
                    
 
                     // Prepare data output
@@ -220,7 +223,7 @@ int main(int argc, char *argv[])
                         // Warn user about kind of useless case
                         if (!doAnlys && !doCSVWS)
                         {
-                            cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the \'-r | --local-range\' and/or \'-e | --data-export\' flag(s)?" << color::clear() << endl;
+                            cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the \'-l | --local-range\' and/or \'-e | --data-export\' flag(s)?" << color::clear() << endl;
                         }
 
                         // No analysis, simply run the simulation and output it to file
