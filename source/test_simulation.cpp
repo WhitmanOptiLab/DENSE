@@ -7,6 +7,7 @@
 #include "analysis.hpp"
 #include "csvr_param.hpp"
 #include <iostream>
+#include <chrono>
 
 int main(int argc, char *argv[]) {
     arg_parse::init(argc, argv);
@@ -46,7 +47,9 @@ int main(int argc, char *argv[]) {
                 arg_parse::get<int>("c", "cell-total", 10),
                 arg_parse::get<int>("w", "total-width", 5),
                 analysis_interval,
-                arg_parse::get<RATETYPE>("t", "sim_time", 6) );
+                arg_parse::get<RATETYPE>("t", "sim_time", 6),
+                arg_parse::get<int>("r","seed",chrono::system_clock::now().time_since_epoch().count())
+             );
 
            }
 //        simulation_stoch s(m, ps,1,1,0.1,6);

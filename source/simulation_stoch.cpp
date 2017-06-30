@@ -6,10 +6,9 @@
 #include "model.hpp"
 #include <limits>
 #include <iostream>
-#include <random>
-#include <chrono>
 #include <cmath>
 #include <cfloat>
+#include <set>
 
 typedef std::numeric_limits<double> dbl;
 using namespace std;
@@ -53,24 +52,7 @@ RATETYPE simulation_stoch::generateTau(){
 	return tau;
 
 }
-/*
-void simulation_stoch::generateRXNTaus(RATETYPE tau){
 
-    for (int c=0; c<_cells_total; c++){
-        for (int r=0; r<NUM_REACTIONS; r++){
-
-            RATETYPE u = getRandVariable();
-            RATETYPE propensity = propensities[c][r];
-
-            RATETYPE rTau = -(log(u))/propensity;
-
-            if (rTau<tau){
-                fireOrSchedule(c,(reaction_id)r);
-            }
-        }
-    }
-}
-*/
 
 RATETYPE simulation_stoch::getSoonestDelay(){
     RATETYPE dTime;
@@ -87,23 +69,17 @@ RATETYPE simulation_stoch::getSoonestDelay(){
 
 void simulation_stoch::executeDelayRXN(){
 	event delay_rxn = *event_schedule.begin();
-
-   // generateRXNTaus(delay_rxn.time - (t+littleT));
-
-	ContextStoch c(*this, delay_rxn.cell);
-
+	
+    ContextStoch c(*this, delay_rxn.cell);
 	fireReaction(&c,delay_rxn.rxn);
-
-	//t = delay_rxn.time;
+    
     littleT = delay_rxn.time - t;
-    //T CHANGED
-	event_schedule.erase(delay_rxn);
+	
+    event_schedule.erase(delay_rxn);
 }
 
 
 RATETYPE simulation_stoch::getRandVariable(){
-	unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-	default_random_engine generator (seed);
 	uniform_real_distribution<RATETYPE> distribution(0.0,1.0);
 	RATETYPE u = distribution(generator);
 	return u;
@@ -111,8 +87,6 @@ RATETYPE simulation_stoch::getRandVariable(){
 
 void simulation_stoch::tauLeap(RATETYPE tau){
 	
-   // generateRXNTaus(tau);
-
 	RATETYPE u = getRandVariable();
 
 	ContextStoch context(*this, 0);
@@ -177,105 +151,94 @@ void simulation_stoch::initialize(){
       for (int s = 0; s < NUM_SPECIES; s++) {
         concs[c].push_back(0);
       }
-      for (int r=0; r < NUM_REACTIONS; r++) {
-        propensities[c].push_back(0);
-      }
     }
-    for (int c=0; c<_cells_total;c++){
+    initPropensities(); 
+}
+
+void simulation_stoch::initPropensities(){
+    for (int c=0; c<_cells_total; c++){
         ContextStoch ctxt(*this,c);
-        for (int r=0; r < NUM_REACTIONS; r++) {
-            ctxt.updatePropensities((reaction_id) r);
-        }
+        #define REACTION(name) \
+        propensities[c].push_back(_model.reaction_##name.active_rate(ctxt));
+        #include "reactions_list.hpp"
+        #undef REACTION
     }
 }
 
 void simulation_stoch::initPropensityNetwork(){
-    //Initialize intracellular propensity dependencies
-    ContextStoch(*this,0);
-    #define REACTION(name) \
-    const reaction<name>& r##name = _model.reaction_##name; \
-    for (int n=0; n<NUM_REACTIONS; n++) { \
-        const reaction_base& r2 = _model.getReaction((reaction_id) n); \
-        bool isRelated = false; \
-        if (name == n){isRelated = true;} \
-        for (int f=0; f<r2.getNumFactors() && !isRelated; f++){ \
-            for (int o=0; o<r##name.getNumOutputs() && !isRelated; o++){ \
-                if (r##name.getOutputs()[o] == r2.getFactors()[f]){ \
-                    isRelated = true; \
-                } \
-            } \
-            for (int i=0; i<r##name.getNumInputs() && !isRelated; i++){ \
-                 if (r##name.getInputs()[i] == r2.getFactors()[f]){ \
-                    isRelated = true; \
-                 } \
-            } \
-        } \
-        for (int in=0; in<r2.getNumInputs() && !isRelated; in++){ \
-            for (int o=0; o<r##name.getNumOutputs() && !isRelated; o++){ \
-                 if (r##name.getOutputs()[o] == r2.getInputs()[in]){ \
-                    isRelated = true; \
-                 } \
-            } \
-            for (int i=0; i<r##name.getNumInputs() && !isRelated; i++){ \
-                 if (r##name.getInputs()[i] == r2.getInputs()[in]){ \
-                    isRelated = true; \
-                 } \
-            } \
-        } \
-        if (isRelated){ \
-            propensity_network[name].push_back((reaction_id)n); \
-        } \
-    }
-    #include "reactions_list.hpp"
-    #undef REACTION
-
-    //Initialize intercellular propensity dependencies
-    vector<specie_id> neighbor_dependencies[NUM_REACTIONS];
+   
+    set<specie_id> neighbor_dependencies[NUM_REACTIONS];
+    set<specie_id> dependencies[NUM_REACTIONS];
     
     class DependanceContext {
       public:
-        DependanceContext(vector<specie_id>& neighbordeps_tofill) : 
-            deps_tofill(neighbordeps_tofill) {};
-        RATETYPE getCon(specie_id sp, int delay=0) const { return 0.0; };
+        DependanceContext(set<specie_id>& neighbordeps_tofill,set<specie_id>& deps_tofill) : 
+            interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
+        RATETYPE getCon(specie_id sp, int delay=0) const {
+            intradeps_tofill.insert(sp);
+        };
+        RATETYPE getCon(specie_id sp){
+            intradeps_tofill.insert(sp);
+        };
         RATETYPE getRate(reaction_id rid) const { return 0.0; };
         RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
         RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
         RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const { 
-            deps_tofill.push_back(sp);
+            interdeps_tofill.insert(sp);
         };
       private:
-        vector<specie_id>& deps_tofill;
+        set<specie_id>& interdeps_tofill;
+        set<specie_id>& intradeps_tofill;
     };
 
     #define REACTION(name) \
-    r##name.active_rate(DependanceContext(neighbor_dependencies[name]));
-
+    const reaction<name>& r##name = _model.reaction_##name; \
+    r##name.active_rate( DependanceContext (neighbor_dependencies[name],dependencies[name]));
     #include "reactions_list.hpp"
     #undef REACTION
 
-
     #define REACTION(name) \
     for (int n=0; n<NUM_REACTIONS; n++) { \
-        const vector<specie_id>& deps = neighbor_dependencies[name]; \
-        bool isRelated = false; \
-        for (int in=0; in<deps.size() && !isRelated; in++){ \
-            for (int o=0; o<r##name.getNumOutputs() && !isRelated; o++){ \
-                 if (r##name.getOutputs()[o] == deps[in]) { \
-                    isRelated = true; \
+        const set<specie_id>& intradeps = dependencies[n]; \
+        const set<specie_id>& interdeps = neighbor_dependencies[n]; \
+        std::set<specie_id>::iterator intra = intradeps.begin(); \
+        std::set<specie_id>::iterator inter = interdeps.begin(); \
+        bool intraRelated = false; \
+        bool interRelated = false; \
+        for (int in=0; in<intradeps.size() && !intraRelated; in++){ \
+            std::advance(intra, in); \
+            for (int o=0; o<r##name.getNumOutputs() && !intraRelated; o++){ \
+                 if (r##name.getOutputs()[o] == *intra) { \
+                    intraRelated = true; \
                  } \
             } \
-            for (int i=0; i<r##name.getNumInputs() && !isRelated; i++){ \
-                 if (r##name.getInputs()[i] == deps[in]) { \
-                    isRelated = true; \
+            for (int i=0; i<r##name.getNumInputs() && !intraRelated; i++){ \
+                 if (r##name.getInputs()[i] == *intra) { \
+                    intraRelated = true; \
                  } \
             } \
         } \
-        if (isRelated){ \
+        for (int in=0; in<interdeps.size() && !interRelated; in++){ \
+            std::advance(inter, in); \
+            for (int o=0; o<r##name.getNumOutputs() && !interRelated; o++){ \
+                 if (r##name.getOutputs()[o] == *inter) { \
+                    interRelated = true; \
+                 } \
+            } \
+            for (int i=0; i<r##name.getNumInputs() && !interRelated; i++){ \
+                 if (r##name.getInputs()[i] == *inter) { \
+                    interRelated = true; \
+                 } \
+            } \
+        } \
+        if (intraRelated){ \
+            propensity_network[name].push_back((reaction_id)n); \
+        } \
+        if (interRelated){ \
             neighbor_propensity_network[name].push_back((reaction_id)n); \
         } \
     }
     #include "reactions_list.hpp"
     #undef REACTION
-
 }
 
