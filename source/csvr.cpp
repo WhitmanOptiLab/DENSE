@@ -59,8 +59,9 @@ bool csvr::get_next(RATETYPE* pnRate)
             // Parse only if not whitespace except for \n
             else if (c != ' ' && c != '\t')
             {
-                // Ignore non-numeric and non data seperator characters
-                if (!((c >= '0' && c <= '9') || c == '.' || c == ',' || c == '\n'))
+                // Ignore non-numeric, non data seperator, non e, -, and + characters
+                if (!((c >= '0' && c <= '9') || c == '.' || c == ',' || c == '\n' ||
+                        c == 'e' || c == '-' || c == '+'))
                 {
                     iFile.ignore(unsigned(-1), ',');
                 }

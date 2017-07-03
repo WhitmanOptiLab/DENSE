@@ -80,7 +80,8 @@ void csvw_sim::update(ContextBase& pfStart)
         */
     }
 
-    csvw::add_div("\n");
+    if (icCellTotal > 1)
+        csvw::add_div("\n");
    
 
     /*

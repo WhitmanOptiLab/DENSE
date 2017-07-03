@@ -39,7 +39,7 @@ public:
     void run();
 
 private:
-    const specie_vec iSpecieVec;
-    const unsigned int iCellTotal;
+    const specie_vec icSpecieVec;
+    const unsigned int icCellTotal;
 
 };

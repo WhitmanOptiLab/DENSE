@@ -36,6 +36,7 @@ csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string
         iFile << "#   *Such cells act as either column headers or other important "
             "notes. These are provided for the user's convenience and can be "
             "modified if the user sees fit.\n";
+        iFile << "#   Scientific notation in the form of 3.14e-42 is supported.\n";
         iFile << "#   It is futile to add/remove/modify the column headers with the "
             "expectation of changing the program's behavior. Data must be entered in "
             "the default order or must match the ordering of a respective command "
