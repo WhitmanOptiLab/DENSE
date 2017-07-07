@@ -9,7 +9,6 @@
 #include <climits> // For INT_MAX
 #include <cstring> // For strcpy in init
 #include <iostream>
-#include <exception>
 #include <vector>
 using namespace std;
 
@@ -27,8 +26,10 @@ namespace arg_parse
         bool iSuppressObligatory = false;
         
         
-        // Get index of (or index after) pcFlag if it exists in iArgVec. Return false if not found.
-        const bool getIndex(string pcfFlagShort, string pcfFlagLong, int* pnIndex, const bool& pcfNext)
+        // Get index of (or index after) pcFlag if it exists in iArgVec.
+        // Return false if not found.
+        const bool getIndex(string pcfFlagShort, string pcfFlagLong,
+                int* pnIndex, const bool& pcfNext)
         {
             pcfFlagShort = "-" + pcfFlagShort;
             pcfFlagLong = "--" + pcfFlagLong;
@@ -41,7 +42,10 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line argument search failed. No argument provided after flag \'-" << pcfFlagShort << " | --" << pcfFlagLong << "\'." << color::clear() << endl;
+                            cout << color::set(color::RED) << "Command line argument "
+                                "search failed. No argument provided after flag [" <<
+                                pcfFlagShort << " | " << pcfFlagLong << "]." <<
+                                color::clear() << endl;
                         }
                         else
                         {
@@ -68,7 +72,10 @@ namespace arg_parse
         {
             if (!iSuppressObligatory)
             {
-                cout << color::set(color::RED) << "Command line argument search failed. Flag \'-" << pcfFlagShort << "\' or \'--" << pcfFlagLong << "\' is required in order for all program behaviors to function properly." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument search "
+                    "failed. Flag [-" << pcfFlagShort << " | --" <<
+                    pcfFlagLong << "] is required in order for all program "
+                    "behaviors to function properly." << color::clear() << endl;
             }
         }
         
@@ -103,7 +110,8 @@ namespace arg_parse
     
     
     template<>
-    bool get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, string* pnPushTo, const bool& pcfObligatory)
+    bool get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
+            string* pnPushTo, const bool& pcfObligatory)
     {
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
@@ -122,7 +130,8 @@ namespace arg_parse
     
     // The default is a vec filled with all specie ids
     template<>
-    bool get<specie_vec>(const std::string& pcfFlagShort, const std::string& pcfFlagLong, specie_vec* pnPushTo, const bool& pcfObligatory)
+    bool get<specie_vec>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
+            specie_vec* pnPushTo, const bool& pcfObligatory)
     {
         string tArg = get<string>(pcfFlagShort, pcfFlagLong, "");
         tArg = "," + tArg + ",";
@@ -153,21 +162,26 @@ namespace arg_parse
     }
     
     template<>
-    bool get<int>(const string& pcfFlagShort, const string& pcfFlagLong, int* pnPushTo, const bool& pcfObligatory)
+    bool get<int>(const string& pcfFlagShort, const string& pcfFlagLong,
+            int* pnPushTo, const bool& pcfObligatory)
     {
         bool success = true;
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
-            try
-            {
-                if (pnPushTo)
-                    *pnPushTo = stoi(iArgVec[index]);
-            }
-            catch (exception ex)
+            char* tInvalidAt;
+            int tPushTo = strtol(iArgVec[index].c_str(), &tInvalidAt, 0);
+
+            if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to integer." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument parsing "
+                    "failed. Argument \"" << iArgVec[index] << "\" cannot be "
+                    "converted to integer." << color::clear() << endl;
+            }
+            else
+            {
+                *pnPushTo = tPushTo;
             }
         }
         else
@@ -181,21 +195,26 @@ namespace arg_parse
     }
     
     template<>
-    bool get<RATETYPE>(const string& pcfFlagShort, const string& pcfFlagLong, RATETYPE* pnPushTo, const bool& pcfObligatory)
+    bool get<RATETYPE>(const string& pcfFlagShort, const string& pcfFlagLong,
+            RATETYPE* pnPushTo, const bool& pcfObligatory)
     {
         bool success = true;
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
-            try
-            {
-                if (pnPushTo)
-                    *pnPushTo = stold(iArgVec[index]);
-            }
-            catch (exception ex)
+            char* tInvalidAt;
+            int tPushTo = strtold(iArgVec[index].c_str(), &tInvalidAt);
+
+            if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument parsing failed. Argument \'" << iArgVec[index] << "\' cannot be converted to RATETYPE." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument parsing "
+                    "failed. Argument \"" << iArgVec[index] << "\" cannot be "
+                    "converted to RATETYPE." << color::clear() << endl;
+            }
+            else
+            {
+                *pnPushTo = tPushTo;
             }
         }
         else
@@ -209,7 +228,8 @@ namespace arg_parse
     }
     
     template<>
-    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong, bool* pnPushTo, const bool& pcfObligatory)
+    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong,
+            bool* pnPushTo, const bool& pcfObligatory)
     {
         // true if found, false if not
         bool found = getIndex(pcfFlagShort, pcfFlagLong, 0, false);
@@ -223,7 +243,8 @@ namespace arg_parse
     
     /*
     template<>
-    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong, const bool& pcfDefault)
+    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong,
+            const bool& pcfDefault)
     {
         if (getIndex(pcfFlagShort, pcfFlagLong, 0, false)) // If found
             return !pcfDefault;

@@ -11,9 +11,9 @@ int main(int argc, char *argv[])
     
 
     simulation_set sim_set(
-        arg_parse::get<bool>("G", "gradients", false),
-        arg_parse::get<bool>("P", "perturb", false),
-        arg_parse::get<string>("p", "param-list", "../param_list.csv"),
+        arg_parse::get<string>("g", "gradients", ""),
+        arg_parse::get<string>("v", "perturb", ""),
+        arg_parse::get<string>("p", "param-sets", "../param_sets.csv"),
         arg_parse::get<int>("c", "cell-total", 200),
         arg_parse::get<int>("w", "total-width", 50),
         // If step-size == 0, then it will be stochastic

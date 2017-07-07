@@ -14,43 +14,39 @@
 int main(int argc, char *argv[])
 {
     arg_parse::init(argc, argv);
-    color::enable(!arg_parse::get<bool>("C", "no-color", 0, false));
+    color::enable(!arg_parse::get<bool>("n", "no-color", 0, false));
     
-    if (arg_parse::get<bool>("H", "help", false) || arg_parse::get<bool>("h", "usage", false) || argc == 1)
+    if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1)
     {
         // # Display all possible command line arguments with descriptions
         cout << color::set(color::YELLOW) <<
-            "[-H | -h | --help | --usage]    " << color::set(color::GREEN) <<
+            "[-h | --help | --usage]         " << color::set(color::GREEN) <<
             "Print information about program's various command line arguments." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-C | --no-color]               " << color::set(color::GREEN) <<
+            "[-n | --no-color]               " << color::set(color::GREEN) <<
             "Disable color in the terminal." << color::clear() << endl;
-            
-            
-        // TODO Improve these two help dialogues
         cout << color::set(color::YELLOW) <<
-            "[-G | --gradients]              " << color::set(color::GREEN) <<
-            "Enable " << color::set(color::RED) <<
-            "{TODO: WRITE DESCRIPTION}" << color::clear() << endl;
+            "[-g | --gradients]     <string> " << color::set(color::GREEN) <<
+            "Enables gradients and specifies the relative file location and name of the gradients csv. \"../param_grad.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-P | --perturb]                " << color::set(color::GREEN) <<
-            "Enable " << color::set(color::RED) <<
-            "{TODO: WRITE DESCRIPTION}" << color::clear() << endl;
-            
-            
+            "[-v | --perturb]       <string> " << color::set(color::GREEN) <<
+            "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-p | --param-list]    <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of the parameter list csv. \"../param_list.csv\", for example, excluding quotation marks." << color::clear() << endl;
+            "[-v | --perturb]     <RATETYPE> " << color::set(color::GREEN) <<
+            "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-v | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a RATETYPE." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-p | --param-sets]    <string> " << color::set(color::GREEN) <<
+            "Relative file location and name of the parameter sets csv. \"../param_sets.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-e | --data-export]   <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of the output of the data logger csv. \"../data_out.csv\", for example, excluding quotation marks." << color::clear() << endl;
+            "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-i | --data-import]   <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of csv data to import into the data logger. \"../data_in.csv\", for example, excluding quotation marks. Using this flag skips the simulation." << color::clear() << endl;
-         cout << color::set(color::YELLOW) <<
+            "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag skips the simulation." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-o | --specie-option] <string> " << color::set(color::GREEN) <<
-            "When -e is enabled, output only these species to file. When -i is enabled, this argument lets the simulation know that the import data file contains only these species. IF MORE THAN ONE SPECIE IS DESIRED, enclose the argument in quotation marks and seperate the species using commas (\',\'). For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
-       cout << color::set(color::YELLOW) <<
+            "When -e is enabled, output only these species to file. When -i is enabled, this argument lets the simulation know that the import data file contains only these species. IF MORE THAN ONE SPECIE IS DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
@@ -58,7 +54,7 @@ int main(int argc, char *argv[])
             "Width of tissue to simulate. Height is inferred by c/w." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
-            "Increment size in which the simulation progresses through time. USING THIS ARGUMENT IMPLICITLY TOGGLES DETERMINISTIC (VS STOCHASTIC) SIMULATION." << color::clear() << endl;
+            "Increment size in which the simulation progresses through time. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-a | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
             "Analysis AND file writing interval. How frequently (in units of simulated seconds) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
@@ -125,7 +121,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     // Warn user about kind of useless case
-                    cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the \'-l | --local-range\' flag?" << color::clear() << endl;
+                    cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the [-l | --local-range] flag?" << color::clear() << endl;
                     
                     // No analysis, simply emulate a simulation
                     // This particular case is pointless at the moment, but having
@@ -136,13 +132,11 @@ int main(int argc, char *argv[])
             }
             else // If not importing data
             {
-                string param_list;
+                string param_sets;
                 int total_width;
                 RATETYPE sim_time;
-                bool gradients = arg_parse::get<bool>("G", "gradients", false),
-                     perturb = arg_parse::get<bool>("P", "perturb", false);
                 
-                if ( arg_parse::get<string>("p", "param-list", &param_list, true) &&
+                if ( arg_parse::get<string>("p", "param-sets", &param_sets, true) &&
                         arg_parse::get<int>("w", "total-width", &total_width, true) &&
                         arg_parse::get<RATETYPE>("t", "time", &sim_time, true) )
                 {
@@ -154,13 +148,15 @@ int main(int argc, char *argv[])
                     // Warn user that they are not running deterministic sim
                     if (step_size == 0.0)
                     {
-                        cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the \'-s | --step-size\' flag." << color::clear() << endl;
-                        cout << "Using seed \'" << seed << "\'." << endl;
+                        cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << color::clear() << endl;
+                        cout << "Stochastic simulation seed: " << seed << endl;
                     }
                     
                     simulation_set sim_set = simulation_set(
-                            gradients, perturb, param_list, cell_total,
-                            total_width, step_size, anlys_intvl, sim_time, seed);
+                            arg_parse::get<string>("g", "gradients", ""),
+                            arg_parse::get<string>("v", "perturb", ""),
+                            param_sets, cell_total, total_width,
+                            step_size, anlys_intvl, sim_time, seed);
                    
 
                     // Prepare data output
@@ -173,14 +169,18 @@ int main(int argc, char *argv[])
                     {
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                         {
-                            // Set file name to "x_####.y"
-                            string data_num = to_string(i);
-                            data_num.insert(data_num.begin(), 4-data_num.size(), '0');
-                            string data_mod = data_export.substr(0, 
+                            string export_name = data_export;
+                            // If multiple sets, set file name to "x_####.y"
+                            if (sim_set.getSetCount() > 1)
+                            {
+                                string data_num = to_string(i);
+                                data_num.insert(data_num.begin(),
+                                    4-data_num.size(), '0');
+                                export_name = data_export.substr(0, 
                                     data_export.find_last_of(".")) + "_" + data_num +
                                     data_export.substr(data_export.find_last_of("."));
-                            cout << data_mod << endl;
-                            csvws[i] = new csvw_sim(data_mod, anlys_intvl,
+                            }
+                            csvws[i] = new csvw_sim(export_name, anlys_intvl,
                                     cell_total, specie_option, sim_set._sim_set[i]);
                         }
                     }
@@ -191,7 +191,8 @@ int main(int argc, char *argv[])
                     {
                         // Prepare analyses
                         //BasicAnalysis ba(&sim_set._sim_set[0]);
-                        OscillationAnalysis *oa[sim_set.getSetCount()][specie_option.size()];
+                        OscillationAnalysis *oa
+                            [sim_set.getSetCount()][specie_option.size()];
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                         {
                             for (unsigned int j=0; j<specie_option.size(); j++)
@@ -224,7 +225,7 @@ int main(int argc, char *argv[])
                         // Warn user about kind of useless case
                         if (!doAnlys && !doCSVWS)
                         {
-                            cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the \'-l | --local-range\' and/or \'-e | --data-export\' flag(s)?" << color::clear() << endl;
+                            cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the [-l | --local-range] and/or [-e | --data-export] flag(s)?" << color::clear() << endl;
                         }
 
                         // No analysis, simply run the simulation and output it to file
