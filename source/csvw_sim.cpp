@@ -61,9 +61,8 @@ void csvw_sim::update(ContextBase& pfStart)
         {
             csvw::add_data(pfStart.getCon(lcfID));
         }
-        csvw::add_div("\n");
+        //csvw::add_div("\n");
         pfStart.advance();
-
 
         // Was used to output averages over all cells.
         /*

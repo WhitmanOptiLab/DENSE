@@ -7,6 +7,7 @@
 #include "csvr_param.hpp"
 #include <iostream>
 #include <chrono>
+#include "csvw_sim.hpp"
 
 int main(int argc, char *argv[]) {
     arg_parse::init(argc, argv);
@@ -55,15 +56,21 @@ int main(int argc, char *argv[]) {
            }
 //        simulation_stoch s(m, ps,1,1,0.1,6);
 
-            s->initialize();
-
-            OscillationAnalysis o(s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),ph1);
-            BasicAnalysis a(s);
+           s->initialize();
+          specie_vec specie_option;
+         arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
+         csvw_sim write("outfile",0.01,200,specie_option,s);
+           OscillationAnalysis o(s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),mh1);
+            OscillationAnalysis o1(s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),mh7);
+            OscillationAnalysis o2(s,analysis_interval,arg_parse::get<RATETYPE>("r","local_range",4),md);
+           //            BasicAnalysis a(s);
             //run simulation
-            s->simulate();
+           s->simulate();
             //s.print_delay()	
-            o.test();
-            a.test();
+          //  o1.test();
+          //  o2.test();
+          // o.test();
+//            a.test();
         }
     }
 }
