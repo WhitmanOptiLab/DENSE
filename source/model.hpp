@@ -3,13 +3,14 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <string>
 #include "reaction.hpp"
 #include "specie.hpp"
 
 using namespace std;
 
 class model{
-private:
+  private:
 
     /* rates contains the rates specified by the current parameter set as well as perturbation and gradient data
      notes:
@@ -27,37 +28,36 @@ private:
     RATETYPE* factors_gradient[NUM_REACTIONS];
     bool _has_gradient[NUM_REACTIONS]; // Whether each rate has a specified gradient
 
-static delay_reaction_id getDelayReactionId(reaction_id rid) {
-  switch (rid) {
-#define REACTION(name)
-#define DELAY_REACTION(name) \
-    case name : return dreact_##name; 
+    static delay_reaction_id getDelayReactionId(reaction_id rid) {
+        switch (rid) {
+            #define REACTION(name)
+            #define DELAY_REACTION(name) \
+            case name : return dreact_##name; 
+            #include "reactions_list.hpp"
+            #undef REACTION
+            #undef DELAY_REACTION
+            default: return NUM_DELAY_REACTIONS;
+        }
+    }
 
-
-#include "reactions_list.hpp"
-#undef REACTION
-#undef DELAY_REACTION
-    default: return NUM_DELAY_REACTIONS;
-  }
-};
-
-const reaction_base& getReaction(reaction_id rid) const {
-  switch (rid) {
-  #define REACTION(name) \
-	case name: return reaction_##name;
-  #include "reactions_list.hpp"
-  #undef REACTION
-	default: cout<<"exiting"<<endl; exit (-1);
-  }
-}
+    const reaction_base& getReaction(reaction_id rid) const {
+        switch (rid) {
+            #define REACTION(name) \
+            case name: return reaction_##name;
+            #include "reactions_list.hpp"
+            #undef REACTION
+            default: cout<<"exiting"<<endl; exit (-1);
+        }
+    }
 
 
     
-#define REACTION(name) reaction<name> reaction_##name;
+    #define REACTION(name) reaction<name> reaction_##name;
     #include "reactions_list.hpp"
-#undef REACTION
+    #undef REACTION
 
-    model(bool using_gradients, bool using_perturb);
+    model(const string& pcfGradientFile, const string& pcfPerturbFile,
+            const int& pcfTotalWidth);
 };
 
 #endif

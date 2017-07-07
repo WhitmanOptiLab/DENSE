@@ -32,7 +32,7 @@ RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int dela
     // TODO: remove CPDELTA hardcoding
 
     RATETYPE sum=0;
-
+    
     for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
     }
@@ -44,7 +44,7 @@ RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int dela
 CPUGPU_FUNC
 const simulation_determ::Context::SpecieRates simulation_determ::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
-
+    
     //Step 1: for each reaction, compute reaction rate
     CPUGPU_TempArray<RATETYPE, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);

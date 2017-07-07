@@ -33,8 +33,8 @@ class simulation_set{
     vector<simulation_base*> _sim_set;
     
     
-    simulation_set(bool using_gradients, bool using_perturb, const string &param_file, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
-        _m(using_gradients, using_perturb)
+    simulation_set(const string& pcfGradientFile, const string& pcfPerturbFile, const string &param_file, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
+        _m(pcfGradientFile, pcfPerturbFile, total_width)
     {
         csvr_param csvrp(param_file);
         // Setup only if param_file actually exists

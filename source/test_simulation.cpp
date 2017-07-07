@@ -12,14 +12,16 @@
 int main(int argc, char *argv[]) {
     arg_parse::init(argc, argv);
     
+    int total_width = arg_parse::get<int>("w", "total-width", 5);
+
     //setting up model
-    model m(arg_parse::get<bool>("G", "gradients", false),
-        arg_parse::get<bool>("P", "perturb", false));
+    model m(arg_parse::get<string>("g", "gradients", ""),
+        arg_parse::get<string>("v", "perturb", ""), total_width);
     
     //setting up param_set
     param_set ps;
 
-    csvr_param csvrp(arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv")); // MAKE SURE THIS IS RIGHT!!!
+    csvr_param csvrp(arg_parse::get<string>("p", "param-sets", "../models/her_model_2014/param_sets.csv")); // MAKE SURE THIS IS RIGHT!!!
     
     if (csvrp.is_open())
     {
@@ -36,7 +38,7 @@ int main(int argc, char *argv[]) {
            { 
              s = new simulation_determ(m, ps,
                 arg_parse::get<int>("c", "cell-total", 10),
-                arg_parse::get<int>("w", "total-width", 5),
+                total_width,
                 arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                 analysis_interval,
                 arg_parse::get<RATETYPE>("t", "sim_time", 6) );
