@@ -39,7 +39,7 @@ void csvr_sim::sim_ct::reset()
 
 
 csvr_sim::csvr_sim(const string& pcfFileName, const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec) :
-    csvr(pcfFileName), iSpecieVec(pcfSpecieVec), iCellTotal(pcfCellTotal)
+    csvr(pcfFileName), icSpecieVec(pcfSpecieVec), icCellTotal(pcfCellTotal)
 {
 }
 
@@ -55,9 +55,8 @@ void csvr_sim::run()
     csvr_sim::sim_ct hSCT;
     RATETYPE hRate;
 
-    // Skip first two columns
-    csvr::get_next();
-    csvr::get_next();
+    // Skip initial columns here if necessary
+    // csvr::get_next();
     
     while (csvr::get_next(&hRate))
     {
@@ -65,16 +64,16 @@ void csvr_sim::run()
         {
             hSCT.iRate.push_back(map<specie_id, RATETYPE>());
         }
-        hSCT.iRate[lCell][iSpecieVec[lSpcVec]] = hRate;
+        hSCT.iRate[lCell][icSpecieVec[lSpcVec]] = hRate;
 
-        if (lSpcVec++ >= iSpecieVec.size())
+        if (++lSpcVec >= icSpecieVec.size())
         {
             lSpcVec = 0;
 
-            // Skip first two columns
-            csvr::get_next();
+            // Skip initial columns here if necessary
+            // csvr::get_next();
 
-            if (++lCell >= iCellTotal)
+            if (++lCell >= icCellTotal)
             {
                 lCell = 0;
                 notify(hSCT);
@@ -82,4 +81,8 @@ void csvr_sim::run()
             }
         }
     }
+
+    // A blank, dummy sim_ct for the sake of finalize()
+    csvr_sim::sim_ct finalizer;
+    notify(finalizer, true);
 }

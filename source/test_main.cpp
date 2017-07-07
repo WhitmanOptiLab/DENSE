@@ -94,7 +94,8 @@ int main(int argc, char *argv[])
                 csvr_sim csvrs(data_import, cell_total, specie_option);
                 
                 // A good csvw debugging test
-                //csvw_sim csvws("data_in_copy_out.csv", specie_option, &csvrs);
+                // csvw_sim csvws("data_in_copy_out.csv",
+                //        anlys_intvl, cell_total, specie_option, &csvrs);
 
                 // Analysis optional
                 if (doAnlys)
