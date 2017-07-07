@@ -16,11 +16,11 @@
  *   p - parameter
  *   r - return
  *   t - temporary holder variable
+ *   l - iterator (looper)
  *   h - push (to a container/array)
  *   c - constant
  *   f - reference
  *   n - pointer
- *   l - iterator (looper)
  *   g - general/other -- only use when NO other prefix applies; never use with another prefix
  * Append prefixes in the order they are listed in.
 */

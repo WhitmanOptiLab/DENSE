@@ -7,7 +7,8 @@ using namespace std;
 
 
 
-csvr::csvr(const std::string& pcfFileName)
+csvr::csvr(const std::string& pcfFileName, const bool& pcfSuppressWarning) :
+    iLine(1)
 {
     // Close any previously open file
     if (iFile.is_open())
@@ -17,7 +18,7 @@ csvr::csvr(const std::string& pcfFileName)
     iFile.open(pcfFileName);
     
     // Check if open successful
-    if (!iFile.is_open())
+    if (!iFile.is_open() && !pcfSuppressWarning)
         cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<
             pcfFileName << "\' not found or open." << color::clear() << endl;
 }
@@ -43,9 +44,6 @@ bool csvr::get_next(RATETYPE* pnRate)
         // tParam data from file to be "pushed" to pfRate
         string tParam;
         
-        // For error reporting
-        unsigned int lLine = 1;
-        
         char c = iFile.get();
         while(iFile.good())
         {
@@ -54,16 +52,18 @@ bool csvr::get_next(RATETYPE* pnRate)
             {
                 // Skip comment line
                 iFile.ignore(unsigned(-1), '\n');
-                lLine++;
+                tParam.clear();
+                iLine++;
             }
             // Parse only if not whitespace except for \n
             else if (c != ' ' && c != '\t')
             {
                 // Ignore non-numeric, non data seperator, non e, -, and + characters
-                if (!((c >= '0' && c <= '9') || c == '.' || c == ',' || c == '\n' ||
-                        c == 'e' || c == '-' || c == '+'))
+                if (!( (c >= '0' && c <= '9') || c == '.' || c == ',' || c == '\n' ||
+                        c == 'e' || c == '-' || c == '+') )
                 {
                     iFile.ignore(unsigned(-1), ',');
+                    tParam.clear();
                 }
                 else
                 {
@@ -74,31 +74,23 @@ bool csvr::get_next(RATETYPE* pnRate)
                         // Only push if tParam contains something
                         if (tParam.length() > 0)
                         {
-                            RATETYPE tRate = FLT_MAX;
+                            char* tInvalidAt;
+                            RATETYPE tRate = strtold(tParam.c_str(), &tInvalidAt);
                             
-                            // catch stold() errors
-                            try
-                            {
-                                tRate = stold(tParam);
-                            }
-                            catch(exception ex)
+                            // If found invalid while parsing
+                            if (*tInvalidAt)
                             {
                                 cout << color::set(color::RED) <<
                                     "CSV parsing failed. Invalid data contained "
-                                    "at line " << lLine << "." <<
+                                    "at line " << iLine << "." <<
                                     color::clear() << endl;
+                                return false;
                             }
-                            
-                            // if no error caught
-                            if (tRate != FLT_MAX)
+                            // Else was success
+                            else
                             {
                                 pnRate != 0 ? *pnRate = tRate : 0;
                                 return true;
-                            }
-                            // else error caught
-                            else
-                            {
-                                return false;
                             }
                         }
                     }
@@ -113,7 +105,7 @@ bool csvr::get_next(RATETYPE* pnRate)
             // Increment line counter
             if (c == '\n')
             {
-                lLine++;
+                iLine++;
             }
             
             // Get next char in file

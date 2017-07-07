@@ -3,6 +3,7 @@
 
 #include "specie.hpp"
 #include "common_utils.hpp"
+#include <string>
 #include <utility>
 
 //#include "simulation.hpp"
@@ -16,6 +17,12 @@ enum reaction_id {
 #include "reactions_list.hpp"
 #undef REACTION
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
+};
+
+const string reaction_str[NUM_REACTIONS] = {
+    #define REACTION(name) #name,
+    #include "reactions_list.hpp"
+    #undef REACTION
 };
 
 enum delay_reaction_id {

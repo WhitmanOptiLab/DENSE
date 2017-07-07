@@ -28,21 +28,23 @@ csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string
         // Write parent documentation
         iFile << "# CSV Specification\n";
         iFile << "#   Ignored by the file readers are:\n";
-        iFile << "#     (1) blank rows and all other whitespace\n";
+        iFile << "#     (1) empty cells / blank rows / whitespace\n";
         iFile << "#     (2) comment rows which always begin with a \'#\'\n";
-        iFile << "#     (3) blank cells such as \"A,B,,C,D\"\n";
-        iFile << "#     (4) any cell that does not begin with a numerical or "
+        iFile << "#     (3) any cell that does not begin with a numerical or "
             "decimal place character*\n";
         iFile << "#   *Such cells act as either column headers or other important "
             "notes. These are provided for the user's convenience and can be "
             "modified if the user sees fit.\n";
-        iFile << "#   Scientific notation in the form of 3.14e-42 is supported.\n";
-        iFile << "#   It is futile to add/remove/modify the column headers with the "
+        iFile << "# None of these comments include commas because it messes with "
+            "the column widths when loaded into Excel-like programs. "
+            "Speaking of that...\n";
+        iFile << "# For best results delete all comments before loading this file "
+            "into any Excel-like program.\n";
+        iFile << "# Scientific notation in the form of 3.14e-41 is supported.\n";
+        iFile << "# It is futile to add/remove/modify the column headers with the "
             "expectation of changing the program's behavior. Data must be entered in "
             "the default order or must match the ordering of a respective command "
             "line argument.\n";
-        iFile << "# For best results, DELETE ALL COMMENTS before loading this file"
-            "into any Excel-like program.\n";
 
         // Write child documentation
         iFile << pcfChildDoc << endl;

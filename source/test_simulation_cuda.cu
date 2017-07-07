@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
     //setting up param_set
     param_set ps;
 
-    csvr_param csvrp(arg_parse::get<string>("p", "param-list", "../models/her_model_2014/param_list.csv"));
+    csvr_param csvrp(arg_parse::get<string>("p", "param-sets", "../models/her_model_2014/param_sets.csv"));
     
     if (csvrp.is_open())
     {

@@ -15,8 +15,9 @@ public:
      *  
      *  parameters
      *      pcfFileName - file name including ".csv" of the desired CSV file
+     *      pcfSuppressWarning - enable/disable message saying file name does not exist
     */
-    csvr(const std::string& pcfFileName);
+    csvr(const std::string& pcfFileName, const bool& pcfSuppressWarning = false);
     virtual ~csvr();
 
     bool is_open() const;    
@@ -43,6 +44,7 @@ public:
 private:
     // Input file of CSV
     std::ifstream iFile;
+    unsigned int iLine;
 };
 
 #endif
