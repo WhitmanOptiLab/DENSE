@@ -3,7 +3,6 @@
 #include "color.hpp"
 #include "csvr_sim.hpp"
 #include "csvw_sim.hpp"
-#include "datalogger.hpp"
 #include "simulation_set.hpp"
 #include "model_impl.hpp"
 #include "context_determ.hpp"
