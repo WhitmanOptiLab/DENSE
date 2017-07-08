@@ -19,7 +19,7 @@ A generic library for simulating networks of ordinary and delay differential equ
 |____ 1.2.2: [Perturbations](#122-perturbations)  
 |____ 1.2.3: [Gradients](#123-gradients)  
 
-This chunck was copied over from sogen_2014 -- replace later keeping in mind that this is a DDE simulator, not a biological simulator
+This chunck was copied over from sogen_2014 -- replace later keeping in mind that this is a DDE simulator, not a biological simulator  
 | 2: Running the Simulation  
 |__ 2.0: Biological and computational description of the simulation  
 |__ 2.1: Setting up a simulation  
@@ -58,87 +58,87 @@ This chunck was copied over from sogen_2014 -- replace later keeping in mind tha
 |____ 3.0.1:  
 | 4: Source Code Overview  
 |__ 4.0: Organization  
-|____ 4.0.-: for each folder in source (see issue #20) describe its purpose
+|____ 4.0.n: for each folder in source (see issue #20) describe its purpose  
 |__ 4.1: Modding  
 |____ 4.1.0: Adding Simulation Algorithms  
 |____ 4.1.1: Adding Different Analyses  
 | 5: Documentation?  
-|__ 5.-: for each folder  
-|____5.-.-: for each file and class  
-|______ 5.-.-.-: for each function and field  
+|__ 5.n: for each folder  
+|____5.n.n: for each file and class  
+|______ 5.n.n.n: for each function and field  
 | 6: License  
 
 ## 0: System Requirements
 
-### 0.0: Operating System
+#### 0.0: Operating System
 
 linux only?
 
 ***
 
-### 0.1: Compilers
+#### 0.1: Compilers
 
 g++, cuda (and which generations of nvidia gpu?)
 
 ## 1: Model Building
 
-### 1.0: Species and Reactions
+#### 1.0: Species and Reactions
 
 ***
 
-### 1.0.0: Declaring Species
+#### 1.0.0: Declaring Species
 
 how to do specie_list.hpp
 
 ***
 
-### 1.0.1: Declaring Reactions
+#### 1.0.1: Declaring Reactions
 
 how to do reactions_list.hpp
 
 ***
 
-### 1.0.2: Defining Reaction Formulas
+#### 1.0.2: Defining Reaction Formulas
 
 how to do model_impl.hpp
 
 ***
 
-### 1.0.3: Defining Reaction Inputs and Outputs
+#### 1.0.3: Defining Reaction Inputs and Outputs
 
 how to do reaction.cpp/.cu -- though this will change a lot depending on how we resulve issue #11
 
 ***
 
-### 1.1: Compiling and Generating Parameter Templates
+#### 1.1: Compiling and Generating Parameter Templates
 
 discuss how to cmake works, csv_gen dependency, and where the generated templates are
 
 ***
 
-### 1.2: Parameters
+#### 1.2: Parameters
 
 ***
 
-### 1.2.0: CSV Parser Specifications
+#### 1.2.0: CSV Parser Specifications
 
 copy from and add extra to what is already in csv headers for each of these sections
 
 ***
 
-### 1.2.1: Parameter Sets
+#### 1.2.1: Parameter Sets
 
 param_sets.csv
 
 ***
 
-### 1.2.2: Perturbations
+#### 1.2.2: Perturbations
 
 param_pert.csv
 
 ***
 
-### 1.2.3: Gradients
+#### 1.2.3: Gradients
 
 param_grad.csv
 
