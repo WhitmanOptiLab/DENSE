@@ -21,10 +21,9 @@ A generic library for simulating networks of ordinary and delay differential equ
 
 This chunck was copied over from sogen_2014 -- replace later keeping in mind that this is a DDE simulator, not a biological simulator  
 | 2: Running the Simulation  
-|__ 2.0: Biological and computational description of the simulation  
-|__ 2.1: Setting up a simulation  
-|__ 2.2: Input and output  
-|____ 2.2.0: Methods of input  
+|__ 2.0: [Description of the Simulation](#20-description-of-the-simulation)  
+|__ 2.1: Input and output  
+|____ 2.1.0: Methods of input  
 |____ 2.2.1: Parameter sets  
 |____ 2.2.2: Perturbations and gradients  
 |____ 2.2.3: Command-line arguments  
@@ -64,7 +63,7 @@ This chunck was copied over from sogen_2014 -- replace later keeping in mind tha
 |____ 4.1.1: Adding Different Analyses  
 | 5: Documentation?  
 |__ 5.n: for each folder  
-|____5.n.n: for each file and class  
+|____ 5.n.n: for each file and class  
 |______ 5.n.n.n: for each function and field  
 | 6: License  
 
@@ -79,6 +78,9 @@ linux only?
 #### 0.1: Compilers
 
 g++, cuda (and which generations of nvidia gpu?)
+
+***
+#### [Return to Top](#delay-differential-equations-simulator)
 
 ## 1: Model Building
 
@@ -141,6 +143,9 @@ param_pert.csv
 #### 1.2.3: Gradients
 
 param_grad.csv
+
+***
+#### [Return to Top](#delay-differential-equations-simulator)
 
 ## 2: Running the Simulation
 
