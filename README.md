@@ -78,7 +78,6 @@ linux only?
 
 g++, cuda (and which generations of nvidia gpu?)
 
-***
 [Back to Top](#delay-differential-equations-simulator)
 
 ## 1: Model Building
@@ -133,7 +132,6 @@ param_pert.csv
 
 param_grad.csv
 
-***
 [Back to Top](#delay-differential-equations-simulator)
 
 ## 2: Running the Simulation
