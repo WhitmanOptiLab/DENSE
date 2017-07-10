@@ -37,12 +37,13 @@ A generic library for simulating networks of ordinary and delay differential equ
 
 #### 0.0: Operating System
 
-linux only?
+linux, mac. windows if-y
 
 ***
 #### 0.1: Compilers
 
-g++, cuda (and which generations of nvidia gpu?)
+a cpp compiler such as g++
+cuda 6+. gpu with "Compute Capability 3.0+"
 
 [Back to Top](#delay-differential-equations-simulator)
 
@@ -118,7 +119,7 @@ mind that this is a differential equations simulator, not just a biology simulat
 ***
 #### 3.1.0: Required Files
 
-such as all in /models/blahblahblah
+param_sets.csv
 
 ***
 #### 3.1.1: Optional Files
