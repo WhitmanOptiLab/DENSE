@@ -16,7 +16,7 @@ endif()
 
 find_package(CUDA 6.0 QUIET)
 if (${CUDA_FOUND})
-  set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-gencode arch=compute_30,code=sm_30 -dc)
+  list(APPEND CUDA_NVCC_FLAGS "-arch=sm_30")
 else (${CUDA_FOUND})
   message("CUDA not found on this system - building CPU-only")
 endif (${CUDA_FOUND})

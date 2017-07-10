@@ -31,7 +31,7 @@ endfunction(SIMULATION localname simdir)
 function(CUDA_SIMULATION localname simdir)
   cuda_add_executable(${localname}
           test_simulation_set_cuda.cu
-          simulation_set_cuda.cpp
+          simulation_set_cuda.cu
           simulation_base.cpp
           simulation_determ.cpp
           simulation_cuda.cu
