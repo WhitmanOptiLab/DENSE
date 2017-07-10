@@ -132,12 +132,30 @@ mind that this is a differential equations simulator, not just a biology simulat
 such as all in /models/blahblahblah
 
 ***
+#### 2.1.1: Optional Files
+
+such as perturb and gradient files
+
+***
+#### 2.1.2: Command Line Arguments
+
+big ol' list of args
+
+***
+#### 2.2: Output
+
+***
+#### 2.2.0: Simulation Log
+
+how is data_out.csv (could be diff name, -e) formatted?
+
+***
 #### 2.2.1: Analysis
 
 ***
 #### 2.2.1.0: Output Destination
 
-as of now in cmd line, but could use " > out.dat" for ex or mod code, see 3.1.5
+as of now in cmd line, but could use " > anlys.txt" for example, or mod code, see 3.1.2.3
 
 ***
 #### 2.2.1.1: Basic Analysis
@@ -195,7 +213,7 @@ go back to section 1. RECOMPILE IS NECESSARY!!! reiterate that each compile is m
 how to add/remove. how they're designed. intended design pattern/usage
 
 ***
-#### 3.1.2.1: Input C++ Files
+#### 3.1.2.1: Input C++ and Header Files
 
 add these to models folder, mention xmacros and suggest resources for learning them
 
