@@ -18,54 +18,37 @@ A generic library for simulating networks of ordinary and delay differential equ
 |____ 1.2.1: [Parameter Sets](#121-parameter-sets)  
 |____ 1.2.2: [Perturbations](#122-perturbations)  
 |____ 1.2.3: [Gradients](#123-gradients)  
-
-This chunck was copied over from sogen_2014 -- replace later keeping in mind that this is a DDE simulator, not a biological simulator  
-| 2: Running the Simulation  
+| 2: [Running the Simulation](#2-running-the-simulation)  
 |__ 2.0: [Description of the Simulation](#20-description-of-the-simulation)  
-|__ 2.1: Input and output  
-|____ 2.1.0: Methods of input  
-|____ 2.2.1: Parameter sets  
-|____ 2.2.2: Perturbations and gradients  
-|____ 2.2.3: Command-line arguments  
-|____ 2.2.4: Input file formats  
-|______ 2.2.4.0: Parameter sets format  
-|______ 2.2.4.1: Perturbations format  
-|______ 2.2.4.2: Gradients format  
-|______ 2.2.4.3: Ranges format  
-|____ 2.2.5: Output file formats  
-|______ 2.2.5.0: Passed sets format  
-|______ 2.2.5.1: Concentrations text format  
-|______ 2.2.5.2: Concentrations binary format  
-|______ 2.2.5.3: Oscillation features format  
-|______ 2.2.5.4: Conditions format  
-|______ 2.2.5.5: Scores format  
-|______ 2.2.5.6: Seeds format  
-|____ 2.2.6: Piping in parameter sets from other applications  
-|____ 2.2.7: Generating random parameter sets  
-|__ 2.3: Modifying the code  
-|____ 2.3.0: Adding command-line arguments  
-|____ 2.3.1: Adding input and output files  
-|______ 2.3.1.0: Input files  
-|______ 2.3.1.1: Output files  
-|____ 2.3.2: Adding mutants  
-|____ 2.3.3: Adding genes  
-|____ 2.3.5: Other modifications  
-
-| 3: Analysis  
-|__ 3.0:  
-|____ 3.0.0:  
-|____ 3.0.1:  
-| 4: Source Code Overview  
-|__ 4.0: Organization  
-|____ 4.0.n: for each folder in source (see issue #20) describe its purpose  
-|__ 4.1: Modding  
-|____ 4.1.0: Adding Simulation Algorithms  
-|____ 4.1.1: Adding Different Analyses  
-| 5: Documentation?  
-|__ 5.n: for each folder  
-|____ 5.n.n: for each file and class  
-|______ 5.n.n.n: for each function and field  
-| 6: License  
+|__ 2.1: Input  
+|____ 2.1.0: Required Files
+|____ 2.1.1: Optional Files
+|____ 2.1.2: Command Line Arguments  
+|__ 2.2: Output  
+|____ 2.2.0: Simulation Log  
+|____ 2.2.1: Analysis  
+|______ 2.2.1.0: Output Destination
+|______ 2.2.1.1: Basic Analysis  
+|______ 2.2.1.2: Oscillation Analysis  
+| 3: Source Code  
+|__ 3.0: Organization  
+|____ 3.0.0: Principle Paradigms  
+|____ 3.0.n: for each folder in source (see issue #20) describe its purpose  
+|__ 3.1: Modding  
+|____ 3.1.0: Algorithms  
+|______ 3.1.0.0: Simulation  
+|______ 3.1.0.1: Analysis  
+|____ 3.1.1: Model  
+|____ 3.1.2: I/O
+|______ 3.1.2.0: Command Line Arguments  
+|______ 3.1.2.1: Input C++ Files  
+|______ 3.1.2.2: Input CSV Files
+|______ 3.1.2.3: Output CSV Files  
+| 4: Documentation?  
+|__ 4.n: for each folder  
+|____ 4.n.n: for each file and class  
+|______ 4.n.n.n: for each function and field  
+| 5: Authorship and License  
 
 ## 0: System Requirements
 
@@ -136,3 +119,104 @@ param_grad.csv
 
 ## 2: Running the Simulation
 
+#### 2.0: Description of the Simulation
+
+mind that this is a differential equations simulator, not just a biology simulator
+
+***
+#### 2.1: Input
+
+***
+#### 2.1.0: Required Files
+
+such as all in /models/blahblahblah
+
+***
+#### 2.2.1: Analysis
+
+***
+#### 2.2.1.0: Output Destination
+
+as of now in cmd line, but could use " > out.dat" for ex or mod code, see 3.1.5
+
+***
+#### 2.2.1.1: Basic Analysis
+
+what does it tell us?
+
+***
+#### 2.2.1.2: Oscillation Analysis
+
+what's its format?
+
+[Back to Top](#delay-differential-equations-simulator)
+
+## 3: Source Code
+
+#### 3.0: Organization
+
+***
+#### 3.0.0: Principle Paradigms
+
+such as observer-observable, inheritance of simulation_base, etc
+
+***
+#### 3.0.n: folder n
+
+describe folder n's purpose
+
+***
+#### 3.1: Modding
+
+***
+#### 3.1.0: Algorithms
+
+***
+#### 3.1.0.0: Simulation
+
+how to add new simulation class + implementation of context
+
+***
+#### 3.1.0.1: Analysis
+
+using observer interface and/or analysis inheritance to do analyses
+
+***
+#### 3.1.1: Model
+
+go back to section 1. RECOMPILE IS NECESSARY!!! reiterate that each compile is model-specific
+
+***
+#### 3.1.2: I/O
+
+***
+#### 3.1.2.0: Command Line Arguments
+
+how to add/remove. how they're designed. intended design pattern/usage
+
+***
+#### 3.1.2.1: Input C++ Files
+
+***
+#### 3.1.2.2: Input CSV Files
+
+***
+#### 3.1.2.3: Output CSV Files
+
+[Back to Top](#delay-differential-equations-simulator)
+
+## 4: Documentation
+
+do we need this section?
+
+## 5: Authorship and License
+
+Copyright (C) John Smith (smithj@example.edu), John Miller (millerj@example.edu), and John Carpenter (carpenterj@example.edu).
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+
+[Back to Top](#delay-differential-equations-simulator)
