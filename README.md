@@ -20,35 +20,35 @@ A generic library for simulating networks of ordinary and delay differential equ
 |____ 1.2.3: [Gradients](#123-gradients)  
 | 2: [Running the Simulation](#2-running-the-simulation)  
 |__ 2.0: [Description of the Simulation](#20-description-of-the-simulation)  
-|__ 2.1: Input  
-|____ 2.1.0: Required Files
-|____ 2.1.1: Optional Files
-|____ 2.1.2: Command Line Arguments  
-|__ 2.2: Output  
-|____ 2.2.0: Simulation Log  
-|____ 2.2.1: Analysis  
-|______ 2.2.1.0: Output Destination
-|______ 2.2.1.1: Basic Analysis  
-|______ 2.2.1.2: Oscillation Analysis  
-| 3: Source Code  
-|__ 3.0: Organization  
-|____ 3.0.0: Principle Paradigms  
+|__ 2.1: [Input](#21-input)  
+|____ 2.1.0: [Required Files](#210-required-files)  
+|____ 2.1.1: [Optional Files](#211-optional-files)  
+|____ 2.1.2: [Command Line Arguments](#212-command-line-arguments)  
+|__ 2.2: [Output](#22-output)  
+|____ 2.2.0: [Simulation Log](#220-simulation-log)  
+|____ 2.2.1: [Analysis](#221-analysis)  
+|______ 2.2.1.0: [Output Destination](#2210-output-destination)  
+|______ 2.2.1.1: [Basic Analysis](#2211-basic-analysis)  
+|______ 2.2.1.2: [Oscillation Analysis](#2212-oscillation-analysis)  
+| 3: [Source Code](#3-source-code)  
+|__ 3.0: [Organization](#30-organization)  
+|____ 3.0.0: [Principle Paradigms](#300-principle-paradigms)  
 |____ 3.0.n: for each folder in source (see issue #20) describe its purpose  
-|__ 3.1: Modding  
-|____ 3.1.0: Algorithms  
-|______ 3.1.0.0: Simulation  
-|______ 3.1.0.1: Analysis  
-|____ 3.1.1: Model  
-|____ 3.1.2: I/O
-|______ 3.1.2.0: Command Line Arguments  
-|______ 3.1.2.1: Input C++ Files  
-|______ 3.1.2.2: Input CSV Files
-|______ 3.1.2.3: Output CSV Files  
-| 4: Documentation?  
+|__ 3.1: [Modding](#31-modding)  
+|____ 3.1.0: [Algorithms](#310-algorithms)  
+|______ 3.1.0.0: [Simulation](#3100-simulation)  
+|______ 3.1.0.1: [Analysis](#3101-analysis)  
+|____ 3.1.1: [Model](#311-model)  
+|____ 3.1.2: [I/O](#312-io)  
+|______ 3.1.2.0: [Command Line Arguments](#3120-command-line-arguments)  
+|______ 3.1.2.1: [Input C++ and Header Files](#3121-input-c-and-header-files)  
+|______ 3.1.2.2: [Input CSV Files](#3122-input-csv-files)  
+|______ 3.1.2.3: [Output CSV Files](#3123-output-csv-files)  
+| 4: [Documentation](#4-documentation) ?  
 |__ 4.n: for each folder  
 |____ 4.n.n: for each file and class  
 |______ 4.n.n.n: for each function and field  
-| 5: Authorship and License  
+| 5: [Authorship and License](#5-authorship-and-license)  
 
 ## 0: System Requirements
 
@@ -197,11 +197,17 @@ how to add/remove. how they're designed. intended design pattern/usage
 ***
 #### 3.1.2.1: Input C++ Files
 
+add these to models folder, mention xmacros and suggest resources for learning them
+
 ***
 #### 3.1.2.2: Input CSV Files
 
+csvr description
+
 ***
 #### 3.1.2.3: Output CSV Files
+
+csvw description
 
 [Back to Top](#delay-differential-equations-simulator)
 
@@ -211,7 +217,7 @@ do we need this section?
 
 ## 5: Authorship and License
 
-Copyright (C) John Smith (smithj@example.edu), John Miller (millerj@example.edu), and John Carpenter (carpenterj@example.edu).
+Copyright (C) 2017 John Smith (smithj@example.edu), John Miller (millerj@example.edu), and John Carpenter (carpenj@example.edu).
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
