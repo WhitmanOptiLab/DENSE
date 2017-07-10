@@ -17,7 +17,6 @@ typedef cell_param<NUM_REACTIONS> Rates;
 typedef cell_param<NUM_DELAY_REACTIONS> Delays;
 typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
 
-
 /* SIMULATION_BASE
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
@@ -46,7 +45,7 @@ class simulation_base : public Observable{
   //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
   //int active_start; // The start of the active portion of the PSM
   //int active_end; // The end of the active portion of the PSM
-  vector<vector<int> > _neighbors;
+  CPUGPU_TempArray<int, 6>* _neighbors;
   
   // PSM section and section-specific times
   //int section; // Posterior or anterior (sec_post or sec_ant)
@@ -63,6 +62,7 @@ class simulation_base : public Observable{
   Rates _rates;
   Delays _delays;
   CritValues _critValues;
+  int *_numNeighbors;
   //Context<double> _contexts;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
@@ -83,8 +83,8 @@ class simulation_base : public Observable{
   */
   simulation_base(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
-    _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), 
-    analysis_gran(analysis_interval), time_total(sim_time) { }
+    _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), _numNeighbors(new int[cells_total]), 
+    _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time) { }
 
   //DECONSTRUCTOR
   virtual ~simulation_base() {}
@@ -104,7 +104,6 @@ class simulation_base : public Observable{
     */
     void calc_neighbor_2d(){
         for (int i = 0; i < _cells_total; i++) {        
-            _neighbors[i].clear();
 	        int adjacents[6];
 
             /* Hexagonal Adjacencies
@@ -141,24 +140,26 @@ class simulation_base : public Observable{
                 adjacents[5] = (i - 1 + _cells_total) % _cells_total;
             }
             
-            _neighbors[i].push_back(i);
             if (i % circumf == 0) {
-                _neighbors[i].push_back(adjacents[0]);
-                _neighbors[i].push_back(adjacents[3]);
-                _neighbors[i].push_back(adjacents[4]);
-		_neighbors[i].push_back(adjacents[5]);
+                _neighbors[i][0] = adjacents[0];
+                _neighbors[i][1] = adjacents[1];
+                _neighbors[i][2] = adjacents[4];
+                _neighbors[i][3] = adjacents[5];
+                _numNeighbors[i] = 4;
     	    }else if ((i+1) % circumf == 0) {
-                _neighbors[i].push_back(adjacents[0]);
-                _neighbors[i].push_back(adjacents[1]);
-                _neighbors[i].push_back(adjacents[2]);
-                _neighbors[i].push_back(adjacents[3]);
+                _neighbors[i][0] = adjacents[0];
+                _neighbors[i][1] = adjacents[1];
+                _neighbors[i][2] = adjacents[2];
+                _neighbors[i][3] = adjacents[3];
+                _numNeighbors[i] = 4;
             } else{
-                _neighbors[i].push_back(adjacents[0]);
-                _neighbors[i].push_back(adjacents[1]);
-                _neighbors[i].push_back(adjacents[2]);
-                _neighbors[i].push_back(adjacents[3]);
-                _neighbors[i].push_back(adjacents[4]);
-                _neighbors[i].push_back(adjacents[5]);
+                _neighbors[i][0] = adjacents[0];
+                _neighbors[i][1] = adjacents[1];
+                _neighbors[i][2] = adjacents[2];
+                _neighbors[i][3] = adjacents[3];
+                _neighbors[i][4] = adjacents[4];
+                _neighbors[i][5] = adjacents[5];
+                _numNeighbors[i] = 6;
             }
         }
     }
