@@ -28,6 +28,30 @@ function(SIMULATION localname simdir)
   target_include_directories(${localname} PUBLIC ${simdir})
 endfunction(SIMULATION localname simdir)
 
+function(CUDA_SIMULATION localname simdir)
+  cuda_add_executable(${localname}
+          test_simulation_set_cuda.cu
+          simulation_set_cuda.cpp
+          simulation_base.cpp
+          simulation_determ.cpp
+          simulation_cuda.cu
+          ${simdir}/reaction.cu
+          cell_param.cpp
+          baby_cl.cpp
+          baby_cl_cuda.cu
+          arg_parse.cpp
+          model.cpp
+          color.cpp
+          observable.cpp
+          csvr.cpp
+          csvr_param.cpp
+          csvr_sim.cpp
+          csvw.cpp
+          csvw_param.cpp
+          csvw_sim.cpp)
+  target_include_directories(${localname} PUBLIC ${simdir})
+endfunction(CUDA_SIMULATION localname simdir)
+
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   set(BUILD_TESTS_ONLY FALSE)
   if (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction.cpp) 
@@ -52,6 +76,9 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   else (${BUILD_TESTS_ONLY})
     CSV_GEN(csv_gen ${PROJECT_BINARY_DIR})
     SIMULATION(simulation ${PROJECT_BINARY_DIR})
+    if (${CUDA_FOUND})
+      CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
+    endif (${CUDA_FOUND})
     # Forces csv_gen to run before all the test_'s are built.
     # This occurs when 'make' is run.
     add_custom_target(csv_gen_run ${PROJECT_BINARY_DIR}/source/csv_gen ../)
