@@ -94,10 +94,10 @@ void OscillationAnalysis :: checkCritPoint(int c){
 	RATETYPE mid_conc = windows[c].getVal(windows[c].getCurrent()); 
 
 	if (mid_conc==*bst[c].rbegin()){
-		addCritPoint(c,true,(time-range_steps/2)*analysis_interval,mid_conc);
+		addCritPoint(c,true,std::max(0.0,(time-range_steps/2)*analysis_interval),mid_conc);
 	}
 	else if (mid_conc==*bst[c].begin()){
-		addCritPoint(c,false,(time-(range_steps/2))*analysis_interval,mid_conc);
+		addCritPoint(c,false,std::max(0.0,(time-(range_steps/2))*analysis_interval),mid_conc);
 	}
 }
 

@@ -160,14 +160,10 @@ void simulation_stoch::fireOrSchedule(int c, reaction_id rid){
 */
 void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
 	const reaction_base& r = _model.getReaction(rid);
-	const specie_id* inputs = r.getInputs();
-    const specie_id* outputs = r.getOutputs();
-	for (int i=0; i<r.getNumInputs(); i++){
-		c->updateCon(inputs[i],-(r.getInputCounts()[i]));
+	const specie_id* specie_deltas = r.getSpecieDeltas();
+	for (int i=0; i<r.getNumDeltas(); i++){
+		c->updateCon(r.getSpecieDeltas()[i], r.getDeltas()[i]);
 	}
-    for (int o=0;o<r.getNumOutputs(); o++){
-        c->updateCon(outputs[o],r.getOutputCounts()[o]);
-    }
 	c->updatePropensities(rid);
 }
 
@@ -256,26 +252,16 @@ void simulation_stoch::initPropensityNetwork(){
         bool interRelated = false; \
         for (int in=0; in<intradeps.size() && !intraRelated; in++){ \
             std::advance(intra, in); \
-            for (int o=0; o<r##name.getNumOutputs() && !intraRelated; o++){ \
-                 if (r##name.getOutputs()[o] == *intra) { \
-                    intraRelated = true; \
-                 } \
-            } \
-            for (int i=0; i<r##name.getNumInputs() && !intraRelated; i++){ \
-                 if (r##name.getInputs()[i] == *intra) { \
+            for (int o=0; o<r##name.getNumDeltas() && !intraRelated; o++){ \
+                 if (r##name.getSpecieDeltas()[o] == *intra) { \
                     intraRelated = true; \
                  } \
             } \
         } \
         for (int in=0; in<interdeps.size() && !interRelated; in++){ \
             std::advance(inter, in); \
-            for (int o=0; o<r##name.getNumOutputs() && !interRelated; o++){ \
-                 if (r##name.getOutputs()[o] == *inter) { \
-                    interRelated = true; \
-                 } \
-            } \
-            for (int i=0; i<r##name.getNumInputs() && !interRelated; i++){ \
-                 if (r##name.getInputs()[i] == *inter) { \
+            for (int o=0; o<r##name.getNumDeltas() && !interRelated; o++){ \
+                 if (r##name.getSpecieDeltas()[o] == *inter) { \
                     interRelated = true; \
                  } \
             } \

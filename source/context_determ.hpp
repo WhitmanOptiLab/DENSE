@@ -15,9 +15,8 @@ using namespace std;
 #define REACTION(name) \
   template<> \
   reaction< name >::reaction() : \
-    reaction_base( num_inputs_##name, num_outputs_##name, \
-    num_factors_##name, in_counts_##name, out_counts_##name, \
-    inputs_##name, outputs_##name, factors_##name){}
+    reaction_base( num_deltas_##name, \
+    deltas_##name, delta_ids_##name){}
 #include "reactions_list.hpp"
 #undef REACTION
 
@@ -59,11 +58,8 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
     #define REACTION(name) \
     const reaction<name>& r##name = _model.reaction_##name; \
-    for (int j = 0; j < r##name.getNumInputs(); j++) { \
-        specie_deltas[inputs_##name[j]] -= reaction_rates[name]*in_counts_##name[j]; \
-    } \
-    for (int j = 0; j < _model.reaction_##name.getNumOutputs(); j++) { \
-        specie_deltas[outputs_##name[j]] += reaction_rates[name]*out_counts_##name[j]; \
+    for (int j = 0; j < r##name.getNumDeltas(); j++) { \
+        specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
     }
     #include "reactions_list.hpp"
     #undef REACTION
