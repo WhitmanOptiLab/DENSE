@@ -74,78 +74,67 @@ This chunck was copied over from sogen_2014 -- replace later keeping in mind tha
 linux only?
 
 ***
-
 #### 0.1: Compilers
 
 g++, cuda (and which generations of nvidia gpu?)
 
 ***
-#### [Return to Top](#delay-differential-equations-simulator)
+[Back to Top](#delay-differential-equations-simulator)
 
 ## 1: Model Building
 
 #### 1.0: Species and Reactions
 
 ***
-
 #### 1.0.0: Declaring Species
 
 how to do specie_list.hpp
 
 ***
-
 #### 1.0.1: Declaring Reactions
 
 how to do reactions_list.hpp
 
 ***
-
 #### 1.0.2: Defining Reaction Formulas
 
 how to do model_impl.hpp
 
 ***
-
 #### 1.0.3: Defining Reaction Inputs and Outputs
 
 how to do reaction.cpp/.cu -- though this will change a lot depending on how we resulve issue #11
 
 ***
-
 #### 1.1: Compiling and Generating Parameter Templates
 
 discuss how to cmake works, csv_gen dependency, and where the generated templates are
 
 ***
-
 #### 1.2: Parameters
 
 ***
-
 #### 1.2.0: CSV Parser Specifications
 
 copy from and add extra to what is already in csv headers for each of these sections
 
 ***
-
 #### 1.2.1: Parameter Sets
 
 param_sets.csv
 
 ***
-
 #### 1.2.2: Perturbations
 
 param_pert.csv
 
 ***
-
 #### 1.2.3: Gradients
 
 param_grad.csv
 
 ***
-#### [Return to Top](#delay-differential-equations-simulator)
+[Back to Top](#delay-differential-equations-simulator)
 
 ## 2: Running the Simulation
 
