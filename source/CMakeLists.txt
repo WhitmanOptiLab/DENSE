@@ -3,6 +3,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 function(CSV_GEN localname simdir) 
   add_executable(${localname} csv_gen.cpp util/color.cpp io/csvw.cpp io/csvw_param.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction(CSV_GEN)
 
 function(SIMULATION localname simdir)
@@ -32,26 +33,27 @@ endfunction(SIMULATION localname simdir)
 
 function(CUDA_SIMULATION localname simdir)
   cuda_add_executable(${localname}
-          test_simulation_set_cuda.cu
-          simulation_set_cuda.cu
-          simulation_base.cpp
-          simulation_determ.cpp
-          simulation_cuda.cu
+          main_cuda.cu
+          sim/set_cuda.cu
+          sim/base.cpp
+          sim/determ/determ.cpp
+          sim/determ_cuda.cu
           ${simdir}/reaction.cu
-          cell_param.cpp
-          baby_cl.cpp
-          baby_cl_cuda.cu
-          arg_parse.cpp
-          model.cpp
-          color.cpp
-          observable.cpp
-          csvr.cpp
-          csvr_param.cpp
-          csvr_sim.cpp
-          csvw.cpp
-          csvw_param.cpp
-          csvw_sim.cpp)
+          sim/cell_param.cpp
+          sim/determ/baby_cl.cpp
+          sim/determ/baby_cl_cuda.cu
+          io/arg_parse.cpp
+          core/model.cpp
+          util/color.cpp
+          core/observable.cpp
+          io/csvr.cpp
+          io/csvr_param.cpp
+          io/csvr_sim.cpp
+          io/csvw.cpp
+          io/csvw_param.cpp
+          io/csvw_sim.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction(CUDA_SIMULATION localname simdir)
 
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
