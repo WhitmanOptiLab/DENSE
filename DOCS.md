@@ -50,8 +50,8 @@ such as observer-observable, inheritance of simulation_base, etc
 ***
 #### 1.3: /sim
 
-no one can access /sim
-/sim can access everyone
+* no one can access /sim
+* /sim can access everyone
 
 ***
 #### 1.4: /util
