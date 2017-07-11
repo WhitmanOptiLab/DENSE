@@ -31,7 +31,7 @@ A generic library for simulating networks of ordinary and delay differential equ
 |______ 3.2.1.0: [Output Destination](#2210-output-destination)  
 |______ 3.2.1.1: [Basic Analysis](#2211-basic-analysis)  
 |______ 3.2.1.2: [Oscillation Analysis](#2212-oscillation-analysis)  
-| 4: [Authorship and License](#5-authorship-and-license)  
+| 4: [Authorship and License](#5-authorship-and-license)  <<< PLACEHOLDER AUTHOR NAMES  
 
 ## 0: System Requirements
 
