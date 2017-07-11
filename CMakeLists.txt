@@ -14,6 +14,13 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
+find_package(CUDA 6.0 QUIET)
+if (${CUDA_FOUND})
+  list(APPEND CUDA_NVCC_FLAGS "-arch=sm_30")
+else (${CUDA_FOUND})
+  message("CUDA not found on this system - building CPU-only")
+endif (${CUDA_FOUND})
+
 enable_testing()
 
 add_subdirectory(source)

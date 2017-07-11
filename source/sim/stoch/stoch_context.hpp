@@ -18,10 +18,10 @@ using namespace std;
 CPUGPU_FUNC
 RATETYPE simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
     RATETYPE sum=0;
-    for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
+    for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation.concs[_simulation._neighbors[_cell][i]][sp];
     }
-    RATETYPE avg = sum/_simulation._neighbors[_cell].size(); 
+    RATETYPE avg = sum/_simulation._numNeighbors[_cell]; 
     return avg;
 }
 
@@ -43,7 +43,7 @@ void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
 \
     for (int r=0; r<_simulation.neighbor_propensity_network[rid].size(); r++) { \
         if (name == _simulation.neighbor_propensity_network[rid][r]) { \
-            for (int n=0; n<_simulation._neighbors[_cell].size(); n++) { \
+            for (int n=0; n<_simulation._numNeighbors[_cell]; n++) { \
                 int n_cell = _simulation._neighbors[_cell][n]; \
                 ContextStoch neighbor(_simulation,n_cell); \
                 _simulation.propensities[n_cell][name] = _model.reaction_##name.active_rate(neighbor); \

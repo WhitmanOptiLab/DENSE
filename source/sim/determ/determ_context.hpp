@@ -33,12 +33,11 @@ RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int dela
 
     RATETYPE sum=0;
     
-    for (int i=0; i<_simulation._neighbors[_cell].size(); i++){
+    for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
     }
-    
-    return sum;
-
+    RATETYPE avg = sum/_simulation._numNeighbors[_cell]; 
+    return avg;
 }
 
 CPUGPU_FUNC
