@@ -38,14 +38,14 @@ such as observer-observable, inheritance of simulation_base, etc
 ***
 #### 1.1: /core
 
-everyone except /util can access /core
-/core can only access /io and /util
+* everyone except /util can access /core
+* /core can only access /io and /util
 
 ***
 #### 1.2: /io
 
-only /anlys and /sim can access /io
-/io can only access /core and /util
+* only /anlys and /sim can access /io
+* /io can only access /core and /util
 
 ***
 #### 1.3: /sim
@@ -56,8 +56,8 @@ no one can access /sim
 ***
 #### 1.4: /util
 
-everyone can access /util
-/util cannot access anyone
+* everyone can access /util
+* /util cannot access anyone
 
 [Back to Top](#delay-differential-equations-simulator-documentation)
 
@@ -78,7 +78,7 @@ using observer interface and/or analysis inheritance to do analyses
 ***
 #### 2.1: Model
 
-go back to section 1. RECOMPILE IS NECESSARY!!! reiterate that each compile is model-specific
+see section 2 of 'README.md'. RECOMPILE IS NECESSARY!!! reiterate that each compile is model-specific
 
 ***
 #### 2.2: I/O
