@@ -1,5 +1,5 @@
-#include "csvw_param.hpp"
-#include "color.hpp"
+#include "io/csvw_param.hpp"
+#include "util/color.hpp"
 
 #include <iostream>
 #include <string>

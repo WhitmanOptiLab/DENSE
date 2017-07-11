@@ -1,11 +1,11 @@
-#include "arg_parse.hpp"
-#include "analysis.hpp"
-#include "color.hpp"
-#include "csvr_sim.hpp"
-#include "csvw_sim.hpp"
-#include "simulation_set.hpp"
+#include "io/arg_parse.hpp"
+#include "anlys/oscillation.hpp"
+#include "util/color.hpp"
+#include "io/csvr_sim.hpp"
+#include "io/csvw_sim.hpp"
+#include "sim/set.hpp"
 #include "model_impl.hpp"
-#include "context_determ.hpp"
+#include "sim/determ/determ_context.hpp"
 #include <ctime>
 #include <iostream>
 
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
                     // If step_size not set, create stochastic simulation
                     RATETYPE step_size =
                         arg_parse::get<RATETYPE>("s", "step-size", 0.0);
-                    int seed = arg_parse::get<int>("r", "rand-seed", time(0)); 
+                    int seed = arg_parse::get<int>("r", "rand-seed", time(0));
 
                     // Warn user that they are not running deterministic sim
                     if (step_size == 0.0)
@@ -159,12 +159,11 @@ int main(int argc, char *argv[])
                    
 
                     // Prepare data output
-                    bool doCSVWS;
                     csvw_sim *csvws[sim_set.getSetCount()];
                     string data_export;
-                    // Not a typo
-                    if ( doCSVWS = arg_parse::get<string>(
-                                "e", "data-export", &data_export, false) )
+                    bool doCSVWS =
+                        arg_parse::get<string>("e", "data-export", &data_export, false);
+                    if (doCSVWS)
                     {
                         for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                         {
