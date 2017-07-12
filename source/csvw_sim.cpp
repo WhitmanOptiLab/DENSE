@@ -7,12 +7,12 @@ using namespace std;
 
 csvw_sim::csvw_sim(const string& pcfFileName, const RATETYPE& pcfTimeInterval,
         const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec,
-        Observable *pnObl) :
+        Observable *pnObl, int min_cell, int max_cell, RATETYPE startT, RATETYPE endT) :
     csvw(pcfFileName, true, "# This file can be used as a template for"
             "user-created/modified inputs in the context of this particular"
             "model for these particular species in the \'-o | "
             "--specie-option\' setting.\n"),
-    Observer(pnObl), oSpecieVec(pcfSpecieVec), iTimeCount(0),
+    Observer(pnObl, min_cell, max_cell, startT, endT), oSpecieVec(pcfSpecieVec), iTimeCount(0),
     icTimeInterval(pcfTimeInterval), icCellTotal(pcfCellTotal)
 {
     csvw::add_div("# Hint: Use the column headers to help derive the appropriate "
@@ -41,7 +41,7 @@ csvw_sim::~csvw_sim()
 }
 
 
-void csvw_sim::finalize(ContextBase& pfStart)
+void csvw_sim::finalize()
 {
 }
 
@@ -55,7 +55,7 @@ void csvw_sim::update(ContextBase& pfStart)
     */
 
 
-    while (pfStart.isValid())
+    for (int c=min; c<max; c++)
     {
         for (const specie_id& lcfID : oSpecieVec)
         {

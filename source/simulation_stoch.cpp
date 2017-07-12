@@ -28,6 +28,11 @@ void simulation_stoch::simulate(){
 		notify(context);
         littleT = 0;
 
+        if (abort_signaled){
+            finalize();
+            return;
+        }
+
 		while (littleT<analysis_gran && (t+littleT)<time_total){
             RATETYPE tau = generateTau();
 			
@@ -42,8 +47,7 @@ void simulation_stoch::simulate(){
         if (a%int(1.0/analysis_gran)==0)
             cout<<"time="<<t<<endl;
 	}
-	ContextStoch context(*this,0);
-	notify(context,true);
+	finalize();
 }
 
 /*

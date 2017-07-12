@@ -31,45 +31,48 @@ int main(int argc, char *argv[]) {
             cout << "loaded param_set " << set_n++ << endl;
             
             //setting up simulation
-            RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.01);
+           RATETYPE analysis_interval = arg_parse::get<RATETYPE>("a","analysis_interval",0.01);
+           int cells_total = arg_parse::get<int>("c","cell-total",10);
+           RATETYPE sim_time = arg_parse::get<RATETYPE>("t","sim_time",60);
    
            simulation_base* s; 
            if (arg_parse::get<bool>("d", "determ", false))
            { 
              s = new simulation_determ(m, ps,
-                arg_parse::get<int>("c", "cell-total", 10),
+                cells_total,
                 total_width,
                 arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                 analysis_interval,
-                arg_parse::get<RATETYPE>("t", "sim_time", 6) );
+                sim_time);
            }
            else
            {
              s = new simulation_stoch(m, ps,
-                arg_parse::get<int>("c", "cell-total", 10),
+                cells_total,
                 arg_parse::get<int>("w", "total-width", 5),
                 analysis_interval,
-                arg_parse::get<RATETYPE>("t", "sim_time", 6),
+                sim_time,
                 arg_parse::get<int>("r","seed",chrono::system_clock::now().time_since_epoch().count())
              );
 
            }
 
            s->initialize();
-          specie_vec specie_option;
-         arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
-         csvw_sim write("outfile",0.01,200,specie_option,s);
-           OscillationAnalysis o(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),mh1);
-            OscillationAnalysis o1(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),mh7);
-            OscillationAnalysis o2(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),md);
-                       BasicAnalysis a(s);
+           specie_vec specie_option;
+           arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
+           csvw_sim write("outfile",0.01,200,specie_option,s,0,cells_total,20,60);
+           OscillationAnalysis o(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),mh7,0,cells_total,30, 40);
+          // OscillationAnalysis o1(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),mh7,0,cells_total,0,sim_time);
+          // OscillationAnalysis o2(s,analysis_interval,arg_parse::get<RATETYPE>("lr","local_range",4),md,0, cells_total,0,sim_time);
+           BasicAnalysis a(s,0,cells_total,10,15);
+          // ConcentrationCheck cc(s,0,cells_total,-1,10,0,sim_time,ph1);
             //run simulation
            s->simulate();
             //s.print_delay()	
-          o1.test();
-          o2.test();
-          o.test();
-          //  a.test();
+          // o1.test();
+          // o2.test();
+           o.test();
+           a.test();
         }
     }
 }
