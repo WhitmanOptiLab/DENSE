@@ -1,6 +1,15 @@
 #Would prefer to make this 3.1, as it makes C++ dialect selection automatic.  
 cmake_minimum_required (VERSION 2.8)
 
+find_package(CUDA 6.0 QUIET)
+if (${CUDA_FOUND})
+  set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+  set(CUDA_NVCC_FLAGS "-std=c++11;-arch=sm_30;--relocatable-device-code=true" )
+  set(CUDA_SEPARABLE_COMPILATION ON)
+else (${CUDA_FOUND})
+  message("CUDA not found on this system - building CPU-only")
+endif (${CUDA_FOUND})
+
 project (DDESimulatorTemplate CXX)
 #Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
 include(CheckCXXCompilerFlag)
@@ -13,14 +22,6 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
-
-find_package(CUDA 6.0 QUIET)
-if (${CUDA_FOUND})
-  set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
-  set(CUDA_NVCC_FLAGS "-std=c++11;-arch=sm_30" )
-else (${CUDA_FOUND})
-  message("CUDA not found on this system - building CPU-only")
-endif (${CUDA_FOUND})
 
 enable_testing()
 

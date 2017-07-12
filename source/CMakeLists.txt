@@ -54,9 +54,9 @@ function(CUDA_SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp)
-  #target_include_directories(${localname} PUBLIC ${simdir})
-  #target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
-  set_property(TARGET ${localname} PROPERTY CUDA_SEPARABLE_COMPILATION ON)
+  target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  target_link_libraries(${localname} ${CUDA_LIBRARIES})
 endfunction(CUDA_SIMULATION localname simdir)
 
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
