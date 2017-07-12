@@ -11,7 +11,7 @@ Notes on the design principles, organization, and modability of the DDE simulati
 |__ 1.3: [/sim](#13-sim)  
 |__ 1.4: [/util](#14-util)  
 | 2: [Modding](#2-modding)  
-|__ 2.1: [Custom Main](#20-custom-main)  
+|__ 2.0: [Custom Main](#20-custom-main)  
 |__ 2.1: [Algorithms](#21-algorithms)  
 |____ 2.1.0: [Simulation](#210-simulation)  
 |____ 2.1.1: [Analysis](#211-analysis)  
@@ -30,7 +30,7 @@ Notes on the design principles, organization, and modability of the DDE simulati
 
 such as observer-observable, inheritance of simulation_base, etc
 
-[Back to Top](#delay-differential-equations-simulator-documentation)
+[Back to Top](#dde-documentation)
 
 ## 1: Organization
 
@@ -68,7 +68,7 @@ such as observer-observable, inheritance of simulation_base, etc
 * everyone can access /util
 * /util cannot access anyone
 
-[Back to Top](#delay-differential-equations-simulator-documentation)
+[Back to Top](#dde-documentation)
 
 ## 2: Modding
 
@@ -117,9 +117,10 @@ csvr description
 
 csvw description
 
-[Back to Top](#delay-differential-equations-simulator-documentation)
+[Back to Top](#dde-documentation)
 
 ## 3: Documentation
 
 do we need this section?
 
+[Back to Top](#dde-documentation)
