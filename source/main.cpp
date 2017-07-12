@@ -66,177 +66,191 @@ int main(int argc, char *argv[])
     }
     else
     {
-        // Nothing can run without cell_total; make sure user has set it
-        int cell_total;
-        RATETYPE anlys_intvl;
-        if (arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
-                arg_parse::get<RATETYPE>("a", "anlys-intvl", &anlys_intvl, true))
+        // Allow for analysis and various configs to be optional
+        // *_end vars can't be determined till later because their default
+        //   values should be sim_time (i.e. total time) and cell_total
+        RATETYPE local_range, anlys_intvl,
+            time_start = arg_parse::get<RATETYPE>("u", "time-start", 0.0),
+            time_end;
+        const bool
+            do_anlys = 
+                arg_parse::get<RATETYPE>("l", "local-range", &local_range, false),
+            do_time_col = arg_parse::get<bool>("z", "time-col", false);
+        int cell_start = arg_parse::get<int>("x", "cell-start", 0),
+            cell_end, cell_total;
+
+        // If there's no -o argument, specie_option will default to all species
+        specie_vec specie_option;
+        arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
+        
+
+        // Figure out whether we're importing or actually simulating
+        string data_import;
+        if (arg_parse::get<string>("i", "data-import", &data_import, false))
         {
-            // Allow for analysis to be optional
-            RATETYPE local_range;
-            const bool doAnlys = 
-                arg_parse::get<RATETYPE>("l", "local-range", &local_range, false);
+            csvr_sim csvrs(data_import, specie_option);
+            time_end = arg_parse::get<RATETYPE>("v", "time-end", 0/*getTimeTotal*/);
+            cell_end = arg_parse::get<int>("y", "cell-end", 0/*getCellTotal*/);
+            anlys_intvl =
+                arg_parse::get<RATETYPE>("a", "anlys-intvl", 0/*getAnlysIntvl*/);
 
-            // If there's no -o argument, specie_option will default to all species
-            specie_vec specie_option;
-            arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
-            
+            // A good csvw debugging test
+            // csvw_sim csvws("data_in_copy_out.csv",
+            //        anlys_intvl, cell_total, specie_option, &csvrs);
 
-            // Figure out whether we're importing or exporting
-            string data_import;
-            if (arg_parse::get<string>("i", "data-import", &data_import, false))
+            // Analysis optional
+            if (do_anlys)
             {
-                csvr_sim csvrs(data_import, cell_total, specie_option);
+                // Prepare analyses
+                //BasicAnalysis ba(&csvrs);
+                OscillationAnalysis *oa[specie_option.size()];
+                for (unsigned int i=0; i<specie_option.size(); i++)
+                {
+                    // TODO have observable getMin and getMax funcs for time and cell
+                    oa[i] = new OscillationAnalysis(&csvrs,
+                            anlys_intvl, local_range, specie_option.at(i));
+                }
+
+                // Emulate a simulation
+                csvrs.run();
                 
-                // A good csvw debugging test
-                // csvw_sim csvws("data_in_copy_out.csv",
-                //        anlys_intvl, cell_total, specie_option, &csvrs);
+                // Print analyses
+                cout << endl << endl;
+                //ba.test();
+                for (unsigned int i=0; i<specie_option.size(); i++)
+                {
+                    cout << specie_str[specie_option.at(i)] << endl;
+                    oa[i]->test();
+                    delete oa[i];
+                }
+            }
+            else
+            {
+                // Warn user about kind of useless case
+                cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the [-l | --local-range] flag?" << color::clear() << endl;
+                
+                // No analysis, simply emulate a simulation
+                // This particular case is pointless at the moment, but having
+                //   analysis be optional is useful under the data_export case.
+                csvr_sim csvrs(data_import, specie_option);
+                csvrs.run();
+            }
+        }
+        else // If not importing data
+        {
+            string param_sets;
+            int total_width;
+            RATETYPE sim_time, anlys_intvl;
+
+            if ( arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
+                    arg_parse::get<int>("w", "total-width", &total_width, true) &&
+                    arg_parse::get<RATETYPE>("t", "time", &sim_time, true) &&
+                    arg_parse::get<RATETYPE>("a", "anlys-intvl", &anlys_intvl, true) &&
+                    arg_parse::get<string>("p", "param-sets", &param_sets, true) )
+            {
+                // Now that we know sim_time
+                time_end = arg_parse::get<RATETYPE>("v", "time-end", sim_time);
+                cell_end = arg_parse::get<int>("y", "cell-end", cell_total);
+                
+                // If step_size not set, create stochastic simulation
+                RATETYPE step_size =
+                    arg_parse::get<RATETYPE>("s", "step-size", 0.0);
+                int seed = arg_parse::get<int>("r", "rand-seed", time(0));
+
+                // Warn user that they are not running deterministic sim
+                if (step_size == 0.0)
+                {
+                    cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << color::clear() << endl;
+                    cout << "Stochastic simulation seed: " << seed << endl;
+                }
+                
+                simulation_set sim_set = simulation_set(
+                        arg_parse::get<string>("g", "gradients", ""),
+                        arg_parse::get<string>("v", "perturb", ""),
+                        param_sets, cell_total, total_width,
+                        step_size, anlys_intvl, sim_time, seed);
+               
+
+                // Prepare data output
+                csvw_sim *csvws[sim_set.getSetCount()];
+                string data_export;
+                bool do_csvws =
+                    arg_parse::get<string>("e", "data-export", &data_export, false);
+                if (do_csvws)
+                {
+                    for (unsigned int i=0; i<sim_set.getSetCount(); i++)
+                    {
+                        string export_name = data_export;
+                        // If multiple sets, set file name to "x_####.y"
+                        if (sim_set.getSetCount() > 1)
+                        {
+                            string data_num = to_string(i);
+                            data_num.insert(data_num.begin(),
+                                4-data_num.size(), '0');
+                            export_name = data_export.substr(0, 
+                                data_export.find_last_of(".")) + "_" + data_num +
+                                data_export.substr(data_export.find_last_of("."));
+                        }
+                        csvws[i] = new csvw_sim(export_name, anlys_intvl,
+                                time_start, time_end, do_time_col,
+                                cell_total, cell_start, cell_end,
+                                specie_option, sim_set._sim_set[i]);
+                    }
+                }
+                
 
                 // Analysis optional
-                if (doAnlys)
+                if (do_anlys)
                 {
                     // Prepare analyses
-                    //BasicAnalysis ba(&csvrs);
-                    OscillationAnalysis *oa[specie_option.size()];
-                    for (unsigned int i=0; i<specie_option.size(); i++)
+                    //BasicAnalysis ba(&sim_set._sim_set[0]);
+                    OscillationAnalysis *oa
+                        [sim_set.getSetCount()][specie_option.size()];
+                    for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                     {
-                        oa[i] = new OscillationAnalysis(&csvrs,
-                                anlys_intvl, local_range, specie_option.at(i));
+                        for (unsigned int j=0; j<specie_option.size(); j++)
+                        {
+                            oa[i][j] = new OscillationAnalysis(
+                                    sim_set._sim_set[i], anlys_intvl, 
+                                    local_range, specie_option.at(j));
+                        }
                     }
 
-                    // Emulate a simulation
-                    csvrs.run();
-                    
+                    // Run the show
+                    sim_set.simulate_sets();
+
                     // Print analyses
                     cout << endl << endl;
                     //ba.test();
-                    for (unsigned int i=0; i<specie_option.size(); i++)
+                    for (unsigned int i=0; i<sim_set.getSetCount(); i++)
                     {
-                        cout << specie_str[specie_option.at(i)] << endl;
-                        oa[i]->test();
-                        delete oa[i];
+                        for (unsigned int j=0; j<specie_option.size(); j++)
+                        {
+                            cout << "set " << i << " for specie " <<
+                                specie_str[specie_option.at(j)] << endl;
+                            oa[i][j]->test();
+                            delete oa[i][j];
+                        }
                     }
                 }
                 else
                 {
                     // Warn user about kind of useless case
-                    cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the [-l | --local-range] flag?" << color::clear() << endl;
-                    
-                    // No analysis, simply emulate a simulation
-                    // This particular case is pointless at the moment, but having
-                    //   analysis be optional is useful under the data_export case.
-                    csvr_sim csvrs(data_import, cell_total, specie_option);
-                    csvrs.run();
+                    if (!do_anlys && !do_csvws)
+                    {
+                        cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the [-l | --local-range] and/or [-e | --data-export] flag(s)?" << color::clear() << endl;
+                    }
+
+                    // No analysis, simply run the simulation and output it to file
+                    sim_set.simulate_sets();
                 }
-            }
-            else // If not importing data
-            {
-                string param_sets;
-                int total_width;
-                RATETYPE sim_time;
-                
-                if ( arg_parse::get<string>("p", "param-sets", &param_sets, true) &&
-                        arg_parse::get<int>("w", "total-width", &total_width, true) &&
-                        arg_parse::get<RATETYPE>("t", "time", &sim_time, true) )
+
+                // Memory clean-up for CSV Writer
+                for (unsigned int i=0; i<sim_set.getSetCount() && do_csvws; i++)
                 {
-                    // If step_size not set, create stochastic simulation
-                    RATETYPE step_size =
-                        arg_parse::get<RATETYPE>("s", "step-size", 0.0);
-                    int seed = arg_parse::get<int>("r", "rand-seed", time(0));
-
-                    // Warn user that they are not running deterministic sim
-                    if (step_size == 0.0)
-                    {
-                        cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << color::clear() << endl;
-                        cout << "Stochastic simulation seed: " << seed << endl;
-                    }
-                    
-                    simulation_set sim_set = simulation_set(
-                            arg_parse::get<string>("g", "gradients", ""),
-                            arg_parse::get<string>("v", "perturb", ""),
-                            param_sets, cell_total, total_width,
-                            step_size, anlys_intvl, sim_time, seed);
-                   
-
-                    // Prepare data output
-                    csvw_sim *csvws[sim_set.getSetCount()];
-                    string data_export;
-                    bool doCSVWS =
-                        arg_parse::get<string>("e", "data-export", &data_export, false);
-                    if (doCSVWS)
-                    {
-                        for (unsigned int i=0; i<sim_set.getSetCount(); i++)
-                        {
-                            string export_name = data_export;
-                            // If multiple sets, set file name to "x_####.y"
-                            if (sim_set.getSetCount() > 1)
-                            {
-                                string data_num = to_string(i);
-                                data_num.insert(data_num.begin(),
-                                    4-data_num.size(), '0');
-                                export_name = data_export.substr(0, 
-                                    data_export.find_last_of(".")) + "_" + data_num +
-                                    data_export.substr(data_export.find_last_of("."));
-                            }
-                            csvws[i] = new csvw_sim(export_name, anlys_intvl,
-                                    cell_total, specie_option, sim_set._sim_set[i]);
-                        }
-                    }
-                    
-
-                    // Analysis optional
-                    if (doAnlys)
-                    {
-                        // Prepare analyses
-                        //BasicAnalysis ba(&sim_set._sim_set[0]);
-                        OscillationAnalysis *oa
-                            [sim_set.getSetCount()][specie_option.size()];
-                        for (unsigned int i=0; i<sim_set.getSetCount(); i++)
-                        {
-                            for (unsigned int j=0; j<specie_option.size(); j++)
-                            {
-                                oa[i][j] = new OscillationAnalysis(
-                                        sim_set._sim_set[i], anlys_intvl, 
-                                        local_range, specie_option.at(j));
-                            }
-                        }
-
-                        // Run the show
-                        sim_set.simulate_sets();
-
-                        // Print analyses
-                        cout << endl << endl;
-                        //ba.test();
-                        for (unsigned int i=0; i<sim_set.getSetCount(); i++)
-                        {
-                            for (unsigned int j=0; j<specie_option.size(); j++)
-                            {
-                                cout << "set " << i << " for specie " <<
-                                    specie_str[specie_option.at(j)] << endl;
-                                oa[i][j]->test();
-                                delete oa[i][j];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Warn user about kind of useless case
-                        if (!doAnlys && !doCSVWS)
-                        {
-                            cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the [-l | --local-range] and/or [-e | --data-export] flag(s)?" << color::clear() << endl;
-                        }
-
-                        // No analysis, simply run the simulation and output it to file
-                        sim_set.simulate_sets();
-                    }
-
-                    // Memory clean-up for CSV Writer
-                    for (unsigned int i=0; i<sim_set.getSetCount() && doCSVWS; i++)
-                    {
-                        delete csvws[i];
-                    }
+                    delete csvws[i];
                 }
-            }
-        }
-    }
+            } // End sim required fields if
+        } // End -i or not
+    } // End -h|blank or not
 }
