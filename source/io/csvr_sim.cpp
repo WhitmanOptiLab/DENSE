@@ -38,9 +38,10 @@ void csvr_sim::sim_ct::reset()
 
 
 
-csvr_sim::csvr_sim(const string& pcfFileName, const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec) :
-    csvr(pcfFileName), icSpecieVec(pcfSpecieVec), icCellTotal(pcfCellTotal)
+csvr_sim::csvr_sim(const string& pcfFileName, const specie_vec& pcfSpecieVec) :
+    csvr(pcfFileName), icSpecieVec(pcfSpecieVec)
 {
+    // csvr::get_next(&blah); to get all configs
 }
 
 
@@ -73,7 +74,7 @@ void csvr_sim::run()
             // Skip initial columns here if necessary
             // csvr::get_next();
 
-            if (++lCell >= icCellTotal)
+            if (++lCell >= /*icCellTotal TODO*/20)
             {
                 lCell = 0;
                 notify(hSCT);

@@ -5,30 +5,56 @@ using namespace std;
 
 
 
-csvw_sim::csvw_sim(const string& pcfFileName, const RATETYPE& pcfTimeInterval,
-        const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec,
-        Observable *pnObl) :
-    csvw(pcfFileName, true, "# This file can be used as a template for"
-            "user-created/modified inputs in the context of this particular"
-            "model for these particular species in the \'-o | "
-            "--specie-option\' setting.\n"),
-    Observer(pnObl), oSpecieVec(pcfSpecieVec), iTimeCount(0),
-    icTimeInterval(pcfTimeInterval), icCellTotal(pcfCellTotal)
+csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterval,
+        const RATETYPE& pcfTimeStart, const RATETYPE& pcfTimeEnd,
+        const bool& pcfTimeColumn, const unsigned int& pcfCellTotal,
+        const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
+        const specie_vec& pcfSpecieOption, Observable *pnObl) :
+    csvw(pcfFileName, true, "# This file can be used as a template for "
+            "user-created/modified analysis inputs in the context of this "
+            "particular model for these particular command-line arguments.\n"),
+    Observer(pnObl), icSpecieOption(pcfSpecieOption), ilTime(0.0), ilCell(0),
+    icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
+    icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd),
+    icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd)
 {
-    csvw::add_div("# Hint: Use the column headers to help derive the appropriate "
-            "\'-o | --specie-option\' setting.\n");
-    csvw::add_div("# A couple more necessary but not comprehensive command "
-            "line arguments:\n");
-    csvw::add_div("--cell-total " + to_string(icCellTotal) +
-            " --anlys-intvl " + to_string(icTimeInterval) + "\n\n");
+    csvw::add_div("# The row after next MUST remain in the file in order for it "
+            "to be parsable by the CSV reader. They indicate the following:\n"
+            "cell-total, anlys-intvl, time-start, time-end, time-col, "
+            "cell-start, cell-end, specie-option\n");
+    csvw::add_data(icCellTotal);
+    csvw::add_data(icTimeInterval);
+    csvw::add_data(icTimeStart);
+    csvw::add_data(icTimeEnd);
+    csvw::add_data(icTimeColumn);
+    csvw::add_data(icCellStart);
+    csvw::add_data(icCellEnd);
+    for (unsigned int i=0; i<NUM_SPECIES; i++)
+    {
+        bool written = false;
+        for (const specie_id& lcfID : icSpecieOption)
+        {
+            if ((specie_id) i == lcfID)
+            {
+                csvw::add_data(lcfID);
+                written = true;
+                break;
+            }
+        }
+
+        if (!written)
+        {
+            csvw::add_data(-1);
+        }
+    }
+    csvw::add_div("\n\n");
 
 
-    // Was used to output averages over all cells.
-    // CAUTION: Such output is not valid for csvr_sim.
-    //csvw::add_div("Time,");
-    
-    
-    for (const specie_id& lcfID : oSpecieVec)
+    if (icTimeColumn)
+    {
+        csvw::add_div("Time,");
+    }
+    for (const specie_id& lcfID : icSpecieOption)
     {
         csvw::add_div(specie_str[lcfID] + ",");
     }
@@ -48,46 +74,36 @@ void csvw_sim::finalize(ContextBase& pfStart)
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    // Was used to output averages over all cells.
-    /*
-    csvw::add_data(icTimeInterval*iTimeCount++);
-    RATETYPE averages[oSpecieVec.size()];
-    */
-
-
-    while (pfStart.isValid())
+    if (ilTime >= icTimeStart && ilTime <= icTimeEnd)
     {
-        for (const specie_id& lcfID : oSpecieVec)
+        while (pfStart.isValid())
         {
-            csvw::add_data(pfStart.getCon(lcfID));
-        }
-        csvw::add_div("\n");
-        pfStart.advance();
+            if (ilCell >= icCellStart && ilCell <= icCellEnd)
+            {
+                if (icTimeColumn)
+                {
+                    csvw::add_data(ilTime);
+                }
 
-        // Was used to output averages over all cells.
-        /*
-        for (int i=0; i<oSpecieVec.size(); i++)
+                for (const specie_id& lcfID : icSpecieOption)
+                {
+                    csvw::add_data(pfStart.getCon(lcfID));
+                }
+                csvw::add_div("\n");
+                pfStart.advance();
+            }
+
+            ilCell++;
+        }
+
+        if (icCellTotal > 1)
         {
-            averages[i] += pfStart.getCon(oSpecieVec[i]);
+            csvw::add_div("\n");
         }
-        pfStart.advance();
-        */
     }
 
-    if (icCellTotal > 1)
-    {
-        csvw::add_div("\n");
-    }
-   
-
-    // Was used to output averages over all cells.
-    /*
-    for (int i=0; i<oSpecieVec.size(); i++)
-    {
-        csvw::add_data(averages[i]/icCellTotal);
-    }
-    csvw::add_div("\n");
-    */
+    ilTime += icTimeInterval;
+    ilCell = 0;
 }
 
 

@@ -35,14 +35,14 @@ public:
 
 
 
-    csvr_sim(const std::string& pcfFileName, const unsigned int& pcfCellTotal, const specie_vec& pcfSpecieVec);
+    csvr_sim(const std::string& pcfFileName, const specie_vec& pcfSpecieVec);
     virtual ~csvr_sim();
 
     void run();
 
 private:
     const specie_vec icSpecieVec;
-    const unsigned int icCellTotal;
+    unsigned int iCellTotal;
 
 };
 
