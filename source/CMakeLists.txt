@@ -3,53 +3,56 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 function(CSV_GEN localname simdir) 
   add_executable(${localname} csv_gen.cpp color.cpp csvw.cpp csvw_param.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 endfunction(CSV_GEN)
 
 function(SIMULATION localname simdir)
   add_executable(${localname}
-          main.cpp
-          simulation_base.cpp
-          simulation_determ.cpp
-          simulation_stoch.cpp
+          ${PROJECT_SOURCE_DIR}/source/main.cpp
+          ${PROJECT_SOURCE_DIR}/source/simulation_base.cpp
+          ${PROJECT_SOURCE_DIR}/source/simulation_determ.cpp
+          ${PROJECT_SOURCE_DIR}/source/simulation_stoch.cpp
           ${simdir}/reaction.cpp
-          cell_param.cpp
-          baby_cl.cpp
-          arg_parse.cpp
-          model.cpp
-          color.cpp
-          observable.cpp
-          analysis.cpp
-          csvr.cpp
-          csvr_param.cpp
-          csvr_sim.cpp
-          csvw.cpp
-          csvw_param.cpp
-          csvw_sim.cpp)
+          ${PROJECT_SOURCE_DIR}/source/cell_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/baby_cl.cpp
+          ${PROJECT_SOURCE_DIR}/source/arg_parse.cpp
+          ${PROJECT_SOURCE_DIR}/source/model.cpp
+          ${PROJECT_SOURCE_DIR}/source/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/observable.cpp
+          ${PROJECT_SOURCE_DIR}/source/analysis.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr_sim.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw_sim.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 endfunction(SIMULATION localname simdir)
 
 function(CUDA_SIMULATION localname simdir)
   cuda_add_executable(${localname}
-          test_simulation_set_cuda.cu
-          simulation_set_cuda.cu
-          simulation_base.cpp
-          simulation_determ.cpp
-          simulation_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/test_simulation_set_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/simulation_set_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/simulation_base.cpp
+          ${PROJECT_SOURCE_DIR}/source/simulation_determ.cpp
+          ${PROJECT_SOURCE_DIR}/source/simulation_cuda.cu
           ${simdir}/reaction.cu
-          cell_param.cpp
-          baby_cl.cpp
-          baby_cl_cuda.cu
-          arg_parse.cpp
-          model.cpp
-          color.cpp
-          observable.cpp
-          csvr.cpp
-          csvr_param.cpp
-          csvr_sim.cpp
-          csvw.cpp
-          csvw_param.cpp
-          csvw_sim.cpp)
+          ${PROJECT_SOURCE_DIR}/source/cell_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/baby_cl.cpp
+          ${PROJECT_SOURCE_DIR}/source/baby_cl_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/arg_parse.cpp
+          ${PROJECT_SOURCE_DIR}/source/model.cpp
+          ${PROJECT_SOURCE_DIR}/source/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/observable.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvr_sim.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/csvw_sim.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 endfunction(CUDA_SIMULATION localname simdir)
 
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
