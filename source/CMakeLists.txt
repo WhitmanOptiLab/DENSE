@@ -1,31 +1,33 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}") 
 
 function(CSV_GEN localname simdir) 
-  add_executable(${localname} csv_gen.cpp color.cpp csvw.cpp csvw_param.cpp)
+  add_executable(${localname} csv_gen.cpp util/color.cpp io/csvw.cpp io/csvw_param.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction(CSV_GEN)
 
 function(SIMULATION localname simdir)
   add_executable(${localname}
           ${PROJECT_SOURCE_DIR}/source/main.cpp
-          ${PROJECT_SOURCE_DIR}/source/simulation_base.cpp
-          ${PROJECT_SOURCE_DIR}/source/simulation_determ.cpp
-          ${PROJECT_SOURCE_DIR}/source/simulation_stoch.cpp
           ${simdir}/reaction.cpp
-          ${PROJECT_SOURCE_DIR}/source/cell_param.cpp
-          ${PROJECT_SOURCE_DIR}/source/baby_cl.cpp
-          ${PROJECT_SOURCE_DIR}/source/arg_parse.cpp
-          ${PROJECT_SOURCE_DIR}/source/model.cpp
-          ${PROJECT_SOURCE_DIR}/source/color.cpp
-          ${PROJECT_SOURCE_DIR}/source/observable.cpp
-          ${PROJECT_SOURCE_DIR}/source/analysis.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvr.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvr_param.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvr_sim.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvw.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvw_param.cpp
-          ${PROJECT_SOURCE_DIR}/source/csvw_sim.cpp)
+          ${PROJECT_SOURCE_DIR}/source/core/model.cpp
+          ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
+          ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
+          ${PROJECT_SOURCE_DIR}/source/anlys/oscillation.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
+          ${PROJECT_SOURCE_DIR}/source/util/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 endfunction(SIMULATION localname simdir)
