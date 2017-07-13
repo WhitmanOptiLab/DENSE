@@ -130,8 +130,6 @@ class simulation_determ : public simulation_base {
   void initialize();
     
     void simulate();
- protected:
-  void calc_max_delays();
 };
 #endif
 
