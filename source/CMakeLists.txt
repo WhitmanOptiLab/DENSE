@@ -16,7 +16,6 @@ function(SIMULATION localname simdir)
           sim/cell_param.cpp
           sim/determ/baby_cl.cpp
           io/arg_parse.cpp
-          core/model.cpp
           util/color.cpp
           core/observable.cpp
           anlys/basic.cpp
@@ -43,7 +42,6 @@ function(CUDA_SIMULATION localname simdir)
           sim/determ/baby_cl.cpp
           sim/determ/baby_cl_cuda.cu
           io/arg_parse.cpp
-          core/model.cpp
           util/color.cpp
           core/observable.cpp
           io/csvr.cpp

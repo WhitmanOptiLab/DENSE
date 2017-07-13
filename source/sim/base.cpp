@@ -44,6 +44,7 @@ void simulation_base::calc_max_delays() {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
   }
+  
   //for each reaction
   //  for each input
   //    accumulate delay into specie
@@ -52,16 +53,26 @@ void simulation_base::calc_max_delays() {
 #define REACTION(name) 
 #define DELAY_REACTION(name) \
   RATETYPE max_gradient_##name = 1.0; \
-  for (int k=0; k<_width_total && _model._has_gradient[name]; k++) { \
-    max_gradient_##name = std::max<RATETYPE>(_model.factors_gradient[ name ][k], max_gradient_##name); \
+  if (factors_gradient) \
+  { \
+    for (int k=0; k<_width_total && factors_gradient[name]; k++) { \
+      max_gradient_##name = std::max<RATETYPE>(factors_gradient[ name ][k], max_gradient_##name); \
+    } \
   } \
+  \
+  RATETYPE pert_##name = 0.0; \
+  if (factors_perturb) \
+  { \
+    pert_##name = factors_perturb[name]; \
+  } \
+  \
   for (int in = 0; in < _model.reaction_##name.getNumInputs(); in++) { \
     RATETYPE& sp_max_delay = max_delays[_model.reaction_##name.getInputs()[in]]; \
-    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + _model.factors_perturb[ name ]) ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   } \
   for (int in = 0; in < _model.reaction_##name.getNumFactors(); in++) { \
     RATETYPE& sp_max_delay = max_delays[_model.reaction_##name.getFactors()[in]]; \
-    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + _model.factors_perturb[ name ]) ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION
