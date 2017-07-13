@@ -3,10 +3,10 @@
 // Make sure that you've first completed reaction_list.h and specie_list.h
 #ifndef MODEL_IMPL_H
 #define MODEL_IMPL_H
-#include "reaction.hpp"
-#include "specie.hpp"
-#include "model.hpp"
-#include "simulation_base.hpp"
+#include "core/reaction.hpp"
+#include "core/specie.hpp"
+#include "core/model.hpp"
+#include "sim/base.hpp"
 //#include "context.hpp"
 #include <cstddef>
 
