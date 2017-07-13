@@ -11,7 +11,6 @@ function(SIMULATION localname simdir)
   add_executable(${localname}
           ${PROJECT_SOURCE_DIR}/source/main.cpp
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
-          ${PROJECT_SOURCE_DIR}/source/core/model.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/oscillation.cpp
@@ -37,7 +36,6 @@ function(CUDA_SIMULATION localname simdir)
   cuda_add_executable(${localname}
           ${PROJECT_SOURCE_DIR}/source/main_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
-          ${PROJECT_SOURCE_DIR}/source/core/model.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/set_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
