@@ -1,5 +1,6 @@
 # Delay Differential Equations Simulator
 A generic library for simulating networks of ordinary and delay differential equations for systems modeling.
+
 Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 ## Table of Contents
@@ -62,7 +63,7 @@ step-by-step instructions on whole process using a simple model
 
 Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two species, `alpha` and `bravo`, and one critical speice, `charlie`.
 
-```C++
+```
 SPECIE(alpha)
 SPECIE(bravo)
 CRITICAL_SPECIE(charlie)
@@ -71,7 +72,13 @@ CRITICAL_SPECIE(charlie)
 ***
 #### 2.0.1: Declaring Reactions
 
-Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists 
+Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists
+
+```
+DELAY_REACTION(alpha_synthesis)
+DELAY_REACTION(bravo_synthesis)
+
+```
 
 ***
 #### 2.0.2: Defining Reaction Rate Formulas

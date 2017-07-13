@@ -9,15 +9,6 @@
 #include <iostream>
 using namespace std;
 
-//declare reaction inits here
-#define REACTION(name) \
-  template<> \
-  reaction< name >::reaction() : \
-    reaction_base( num_deltas_##name, \
-    deltas_##name, delta_ids_##name){}
-#include "reactions_list.hpp"
-#undef REACTION
-
 CPUGPU_FUNC
 RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations
