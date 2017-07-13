@@ -1,9 +1,10 @@
 #ifndef SIM_DETERM_DENSE_CL_HPP
 #define SIM_DETERM_DENSE_CL_HPP
+#include "utils/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 #define WRAP(x, y) ((x) + (y)) % (y)
-#define MAX(x, y) ((x) < (y) ? (y) : (x))
+
 using namespace std;
 
 #include <cstddef>
@@ -12,13 +13,10 @@ class simulation;
 
 
 class dense_cl {
-    //FIXME - want to make this private at some point
   protected:
     const simulation& _sim;
-    //const model& _model;
     int   _length, _width,_total_length;
     RATETYPE *_array;
-//    RATETYPE *_darray;
 
     int _max_delay = 0;
     int _specie_size = 0;
@@ -114,7 +112,6 @@ protected:
     void allocate_array(){
         if (_total_length >0){
             _array= new RATETYPE[_total_length];
-            //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
         else{
             _array= NULL;

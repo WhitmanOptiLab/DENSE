@@ -10,7 +10,7 @@ endfunction(CSV_GEN)
 function(SIMULATION localname simdir)
   add_executable(${localname}
           ${PROJECT_SOURCE_DIR}/source/main.cpp
-          ${simdir}/reaction.cpp
+          ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/model.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
@@ -36,7 +36,7 @@ function(CUDA_SIMULATION localname simdir)
   CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
   cuda_add_executable(${localname}
           ${PROJECT_SOURCE_DIR}/source/main_cuda.cu
-          ${simdir}/reaction.cu
+          ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
           ${PROJECT_SOURCE_DIR}/source/core/model.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/set_cuda.cu

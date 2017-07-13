@@ -1,9 +1,10 @@
 #ifndef SIM_DETERM_BABY_CL_HPP
 #define SIM_DETERM_BABY_CL_HPP
+#include "util/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 #define WRAP(x, y) ((x) + (y)) % (y)
-#define MAX(x, y) ((x) < (y) ? (y) : (x))
+
 using namespace std;
 
 #include <cstddef>
@@ -12,13 +13,10 @@ class simulation_determ;
 
 
 class baby_cl {
-    //FIXME - want to make this private at some point
   protected:
     const simulation_determ& _sim;
-    //const model& _model;
     int   _length, _width,_total_length;
     RATETYPE *_array;
-//    RATETYPE *_darray;
 
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
@@ -132,7 +130,6 @@ protected:
     void allocate_array(){
         if (_total_length >0){
             _array= new RATETYPE[_total_length];
-            //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
         else{
             _array= NULL;

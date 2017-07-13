@@ -2,7 +2,6 @@
 #include "determ_cuda.hpp"
 #include "sim/cell_param.hpp"
 #include "model_impl.hpp"
-#include "determ_context.hpp"
 #include "determ_cuda_context.hpp"
 #include <limits>
 #include <iostream>
