@@ -10,13 +10,15 @@ using namespace std;
 */
 void OscillationAnalysis :: finalize(){
 	
+    int timeTemp = time;
 	for (int c=0; c<max-min; c++){
-        cout<<"c="<<c<<endl;
-		while (windows[c].getSize()>1&&bst[c].size()>0){
+        time = timeTemp;
+		while (windows[c].getSize()>=(range_steps/2)&&bst[c].size()>0){
             RATETYPE removed = windows[c].dequeue();
             bst[c].erase(bst[c].find(removed));
             //cout<<"bst size="<<bst[c].size()<<endl;
 			checkCritPoint(c);
+            time++;
 		}
 		calcAmpsAndPers(c);
 	}
@@ -50,7 +52,7 @@ void OscillationAnalysis :: get_peaks_and_troughs(const ContextBase& start, int 
 */
 void OscillationAnalysis :: checkCritPoint(int c){
 	RATETYPE mid_conc = windows[c].getVal(windows[c].getCurrent());
-	if (mid_conc==*bst[c].rbegin()){
+	if ((mid_conc==*bst[c].rbegin())&&!(mid_conc==*bst[c].begin())){
 		addCritPoint(c,true,std::max(0.0,(time-range_steps/2)*analysis_interval+start_time),mid_conc);
 	}
 	else if (mid_conc==*bst[c].begin()){
