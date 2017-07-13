@@ -12,9 +12,8 @@ class Analysis : public Observer {
 protected:
 	int time;
 public:
-	Analysis(Observable *dLog) : Observer(dLog) {
-		time = 0;
-	}
+	Analysis(Observable *dLog, int mn, int mx, RATETYPE startT, RATETYPE endT) 
+        : Observer(dLog,mn,mx,startT,endT), time(0) {}
 
 };
 

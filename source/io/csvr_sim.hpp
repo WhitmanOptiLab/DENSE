@@ -26,7 +26,7 @@ public:
         CPUGPU_FUNC
         virtual bool isValid() const;
         CPUGPU_FUNC
-        virtual void reset();
+        virtual void set(int c);
     
     private:
         std::vector< std::map<specie_id, RATETYPE> > iRate;

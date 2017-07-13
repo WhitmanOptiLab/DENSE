@@ -34,9 +34,6 @@ private:
 	RATETYPE analysis_interval;
 	specie_id s;
 
-	vector<int> numPeaks,numTroughs,cycles,crit_tracker;
-	vector<RATETYPE> peakSum,troughSum,cycleSum;
-
 	vector<multiset<RATETYPE> > bst;
 
 	vector<RATETYPE> amplitudes;
@@ -55,16 +52,31 @@ public:
 	* range: required local range of a peak or trough in minutes.
 	* specieID: specie to analyze.
 	*/
-	OscillationAnalysis(Observable *dLog, RATETYPE interval, RATETYPE range, specie_id specieID) : Analysis(dLog) {
-		range_steps = range/interval;
-		analysis_interval = interval;
-		s = specieID;
+	OscillationAnalysis(Observable *dLog, RATETYPE interval,
+                        RATETYPE range, specie_id specieID,
+                        int min_cell, int max_cell,
+                        RATETYPE startT, RATETYPE endT) : 
+            Analysis(dLog,min_cell,max_cell,startT,endT), range_steps(range/interval), 
+            analysis_interval(interval), s(specieID){
+        
+            for (int c=min; c<max; c++){ 
+                 Queue q(range_steps);
+		    	vector<crit_point> v;
+		    	multiset<RATETYPE> BST;
+
+    			windows.push_back(q);
+	    		peaksAndTroughs.push_back(v);
+	    		bst.push_back(BST);
+				
+	    		amplitudes.push_back(0);
+	    		periods.push_back(0);
+            }
 	}
 
 	//Test: print output.
 	void test(){
 		/*	
-		for (int c=0; c<200; c++){
+		for (int c=min; c<max; c++){
 			cout<<"CELL "<<c<<endl;
 			cout<<"Amplitude = "<<amplitudes[c]<<"   Period = "<<periods[c]<<"min"<<endl;
 		}
@@ -94,12 +106,13 @@ public:
 
 	//Finalize: called by observable to signal end of data
 	// - generates peaks and troughs in final slice of data.
-	void finalize(ContextBase& start);
+	void finalize();
 };
 
 class CorrelationAnalysis : public Analysis {
 
-	CorrelationAnalysis(Observable *dLog) : Analysis(dLog) {
+	CorrelationAnalysis(Observable *dLog,int mn, int mx, RATETYPE startT, 
+            RATETYPE endT) : Analysis(dLog,mn,mx,startT,endT) {
 	}
 
 	void update(ContextBase& start){

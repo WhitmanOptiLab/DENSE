@@ -11,9 +11,9 @@ using namespace std;
 void BasicAnalysis :: update_averages(const ContextBase& start, int c){
 	
 	for (int s=0; s<NUM_SPECIES; s++){
-		specie_id sid = static_cast<specie_id>(s);
-		averages[s] = (averages[s]*time+start.getCon(sid))/(time+1);
-		avgs_by_context[c][s] = (avgs_by_context[c][s]*time+start.getCon(sid))/(time+1);
+		specie_id sid = (specie_id) s;
+		averages[s] += start.getCon(sid);
+		avgs_by_context[c][s] += start.getCon(sid);
 	}
 }
 
@@ -43,3 +43,14 @@ void BasicAnalysis :: update_minmax(const ContextBase& start, int c){
 	}
 }
 
+void BasicAnalysis :: finalize(){
+    
+    for (int c=0; c<max-min; c++){
+        for (int s=0; s<NUM_SPECIES; s++){
+            if (c==0){
+                averages[s] = averages[s]/time;
+            }
+            avgs_by_context[c][s] = avgs_by_context[c][s] / time;
+        }
+    }
+}

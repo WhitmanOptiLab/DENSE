@@ -7,8 +7,16 @@
 #include "determ.hpp"
 #include "sim/cell_param.hpp"
 #include <iostream>
-
 using namespace std;
+
+//declare reaction inits here
+#define REACTION(name) \
+  template<> \
+  reaction< name >::reaction() : \
+    reaction_base( num_deltas_##name, \
+    deltas_##name, delta_ids_##name){}
+#include "reactions_list.hpp"
+#undef REACTION
 
 CPUGPU_FUNC
 RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
@@ -39,11 +47,8 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
     #define REACTION(name) \
     const reaction<name>& r##name = _model.reaction_##name; \
-    for (int j = 0; j < r##name.getNumInputs(); j++) { \
-        specie_deltas[inputs_##name[j]] -= reaction_rates[name]*in_counts_##name[j]; \
-    } \
-    for (int j = 0; j < _model.reaction_##name.getNumOutputs(); j++) { \
-        specie_deltas[outputs_##name[j]] += reaction_rates[name]*out_counts_##name[j]; \
+    for (int j = 0; j < r##name.getNumDeltas(); j++) { \
+        specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
     }
     #include "reactions_list.hpp"
     #undef REACTION

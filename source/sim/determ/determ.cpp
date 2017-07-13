@@ -13,13 +13,19 @@ void simulation_determ::simulate(){
 	for (int c = 0; c<analysis_chunks;c++){
         Context context(*this,0);
         notify(context);
+
+        if (abort_signaled){
+            cout<<"early abort"<<endl;
+            finalize();
+            return;
+        }
         
         for (int i = 0; i<total_step; i++) {
 			execute();
 		}
+        t+=analysis_gran;
 	}
-	Context context(*this,0);
-	notify(context,true);
+	finalize();
 }
 
 void simulation_determ::execute(){

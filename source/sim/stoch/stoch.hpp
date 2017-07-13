@@ -43,7 +43,7 @@ class simulation_stoch : public simulation_base {
     //"concs" stores current concentration levels for every species in every cell
     vector<vector<int> > concs;
     //"t" is current simulation time
-    long double t, littleT;
+    double littleT;
     //"propensities" stores probability of each rxn firing, calculated from active rates
     vector<vector<RATETYPE> > propensities;
     //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
@@ -119,7 +119,7 @@ class simulation_stoch : public simulation_base {
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
 	    CPUGPU_FUNC
-	    virtual void reset() final {_cell = 0;}
+	    virtual void set(int c) final {_cell = c;}
         CPUGPU_FUNC
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
@@ -136,7 +136,7 @@ class simulation_stoch : public simulation_base {
     simulation_stoch(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE analysis_interval, RATETYPE sim_time, int seed):
         simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
-        generator(default_random_engine(seed)), t(0){}
+        generator(default_random_engine(seed)){}
 
     //Deconstructor
     virtual ~simulation_stoch() {}

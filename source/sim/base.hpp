@@ -84,7 +84,7 @@ class simulation_base : public Observable{
    * arg "sim_time": the total time to simulate for, in minutes
   */
   simulation_base(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
-    _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
+    Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
     _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), _numNeighbors(new int[cells_total]), 
     _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time),
    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad) { }

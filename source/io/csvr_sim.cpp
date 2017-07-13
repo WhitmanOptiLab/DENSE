@@ -30,9 +30,9 @@ bool csvr_sim::sim_ct::isValid() const
 }
 
 
-void csvr_sim::sim_ct::reset()
+void csvr_sim::sim_ct::set(int c)
 {
-    iIter = 0;
+    iIter = c;
 }
 
 
@@ -84,6 +84,5 @@ void csvr_sim::run()
     }
 
     // A blank, dummy sim_ct for the sake of finalize()
-    csvr_sim::sim_ct finalizer;
-    notify(finalizer, true);
+    finalize();
 }

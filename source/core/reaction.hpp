@@ -37,35 +37,19 @@ typedef std::pair<int, int> ReactionTerm;
 class reaction_base{
  public:
   CPUGPU_FUNC
-  reaction_base(int inputs_num, int outputs_num, int factors_num, const int* inCount,
-                const int* outCount, const specie_id* input_species, const specie_id* output_species,
-                const specie_id* factor_species) :
-                num_inputs(inputs_num), num_outputs(outputs_num),num_factors(factors_num),in_counts(inCount),
-                out_counts(outCount), inputs(input_species), outputs(output_species), factors(factor_species){}
+  reaction_base(int specie_delta_num, const int* coeffs, const specie_id* ids) :
+                num_deltas(specie_delta_num), deltas(coeffs), delta_ids(ids) {}
   CPUGPU_FUNC
-  int getNumInputs() const { return num_inputs; }
+  int getNumDeltas() const { return num_deltas; }
   CPUGPU_FUNC
-  int getNumFactors() const { return num_factors; }
+  const specie_id* getSpecieDeltas() const { return delta_ids; }
   CPUGPU_FUNC
-  int getNumOutputs() const { return num_outputs; }
-  CPUGPU_FUNC
-  const specie_id* getInputs() const { return inputs; }
-  CPUGPU_FUNC
-  const specie_id* getFactors() const { return factors; }
-  CPUGPU_FUNC
-  const specie_id* getOutputs() const { return outputs; }
-  CPUGPU_FUNC
-  const int* getInputCounts() const { return in_counts; }
-  CPUGPU_FUNC
-  const int* getOutputCounts() const { return out_counts; }
+  const int* getDeltas() const { return deltas; }
 
  protected:
-  int num_inputs, num_outputs, num_factors;
-  const int* in_counts;
-  const specie_id* inputs;
-  const int* out_counts;
-  const specie_id* outputs;
-  const specie_id* factors;
+  int num_deltas;
+  const int* deltas;
+  const specie_id* delta_ids;
 };
 
 template<reaction_id RID>
@@ -101,17 +85,10 @@ static delay_reaction_id get_delay_reaction_id(reaction_id rid) {
 //And by the way, all of these will be declared at some point
 
 #define REACTION(name) \
-extern STATIC_VAR int num_inputs_##name; \
-extern STATIC_VAR int num_outputs_##name; \
-extern STATIC_VAR int num_factors_##name; \
-extern STATIC_VAR int in_counts_##name[]; \
-extern STATIC_VAR specie_id inputs_##name[]; \
-extern STATIC_VAR int out_counts_##name[]; \
-extern STATIC_VAR specie_id outputs_##name[]; \
-extern STATIC_VAR specie_id factors_##name[];
-
+extern STATIC_VAR int num_deltas_##name; \
+extern STATIC_VAR int deltas_##name[]; \
+extern STATIC_VAR specie_id delta_ids_##name[];
 #include "reactions_list.hpp"
 #undef REACTION
-
 #endif
 

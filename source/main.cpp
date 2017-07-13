@@ -107,7 +107,8 @@ int main(int argc, char *argv[])
                 {
                     // TODO have observable getMin and getMax funcs for time and cell
                     oa[i] = new OscillationAnalysis(&csvrs,
-                            anlys_intvl, local_range, specie_option.at(i));
+                            anlys_intvl, local_range, specie_option.at(i),
+                            cell_start, cell_end, time_start, time_end);
                 }
 
                 // Emulate a simulation
@@ -201,7 +202,7 @@ int main(int argc, char *argv[])
                 if (do_anlys)
                 {
                     // Prepare analyses
-                    //BasicAnalysis ba(&sim_set._sim_set[0]);
+                    //BasicAnalysis ba(&sim_set._sim_set[0],cell_start,cell_end,time_start,time_end);
                     OscillationAnalysis *oa
                         [sim_set.getSetCount()][specie_option.size()];
                     for (unsigned int i=0; i<sim_set.getSetCount(); i++)
@@ -210,7 +211,8 @@ int main(int argc, char *argv[])
                         {
                             oa[i][j] = new OscillationAnalysis(
                                     sim_set._sim_set[i], anlys_intvl, 
-                                    local_range, specie_option.at(j));
+                                    local_range, specie_option.at(j),
+                                    cell_start,cell_end,time_start,time_end);
                         }
                     }
 
