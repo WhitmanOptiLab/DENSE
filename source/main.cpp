@@ -5,7 +5,6 @@
 #include "io/csvw_sim.hpp"
 #include "sim/set.hpp"
 #include "model_impl.hpp"
-#include "sim/determ/determ_context.hpp"
 #include <ctime>
 #include <iostream>
 

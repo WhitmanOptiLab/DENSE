@@ -6,33 +6,14 @@
 #include "util/common_utils.hpp"
 #include "determ.hpp"
 #include "sim/cell_param.hpp"
-//#include "context.hpp"
 #include <iostream>
-#define SQUARE(x) ((x) * (x))
-using namespace std;
 
-//declare reaction inits here
-#define REACTION(name) \
-  template<> \
-  reaction< name >::reaction() : \
-    reaction_base( num_inputs_##name, num_outputs_##name, \
-    num_factors_##name, in_counts_##name, out_counts_##name, \
-    inputs_##name, outputs_##name, factors_##name){}
-#include "reactions_list.hpp"
-#undef REACTION
+using namespace std;
 
 CPUGPU_FUNC
 RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
-    //int NEIGHBORS_2D= _simulation.NEIGHBORS_2D;
-    //memcpy(neighbors[sp.index], _simulation.neighbors[_cell], sizeof(int) * NEIGHBORS_2D);
-    //delay = rs[sp][_cell] / _simulation._step_size;
-    // For each mRNA concentration, average the given cell's neighbors' Delta protein concentrations
-    //int* cells = _simulation._neighbors[_cell];
-    //int time = WRAP(_simulation._j - delay, _simulation._delay_size[sp.index]);
-    // TODO: remove CPDELTA hardcoding
-
+    // Average the given cell's neighbors' concentrations
     RATETYPE sum=0;
-    
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
     }
