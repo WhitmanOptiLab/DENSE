@@ -80,8 +80,8 @@ class simulation_cuda: public simulation_determ {
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
-	CPUGPU_FUNC
-	virtual void reset() final {_cell = 0;}
+        CPUGPU_FUNC
+        virtual void set(int c) final {_cell = c;}
         CPUGPU_FUNC
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
@@ -92,7 +92,6 @@ class simulation_cuda: public simulation_determ {
     int* _old_intDelays;
     RATETYPE* _old_crits;
     void initialize();
-    void calc_max_delays();
 
     CPUGPU_FUNC
     void execute_one(int k) { 
