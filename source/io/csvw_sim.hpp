@@ -17,8 +17,8 @@ public:
             const specie_vec& pcfSpecieOption, Observable *pnObl);
     virtual ~csvw_sim();
     
-    virtual void finalize(ContextBase& pfStart);
-    virtual void update(ContextBase& pfStart);
+    void finalize();
+    void update(ContextBase& pfStart);
 
 private:
     unsigned int ilCell;

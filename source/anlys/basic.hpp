@@ -25,8 +25,24 @@ private:
 	void update_minmax(const ContextBase& start,int c);
 
 public:
-	BasicAnalysis(Observable *dLog) : Analysis(dLog) {
-	}
+	BasicAnalysis(Observable *dLog, int mn, int mx, RATETYPE startT, RATETYPE endT) 
+        : Analysis(dLog,mn,mx,startT,endT) {
+	    for (int c=min; c<max; c++){
+            avgs_by_context.emplace_back();
+		    mins_by_context.emplace_back();
+		    maxs_by_context.emplace_back();
+		    for (int s = 0; s<NUM_SPECIES; s++){
+			    mins_by_context[c].push_back(9999);
+		    	maxs_by_context[c].push_back(0);
+			    avgs_by_context[c].push_back(0);
+			    if (c==0){
+					mins.push_back(9999);
+					maxs.push_back(0);
+				  	averages.push_back(0);
+				}
+            }
+        }
+    }
 
 	/*
 	* Update: repeatedly called by observable to notify that there is more data
@@ -36,22 +52,7 @@ public:
 	* - update is overloaded virtual function of Observer
 	*/
 	void update(ContextBase& start){
-		for (int c = 0; start.isValid(); c++){
-			if (time==0){
-				avgs_by_context.emplace_back();
-				mins_by_context.emplace_back();
-				maxs_by_context.emplace_back();
-				for (int s = 0; s<NUM_SPECIES; s++){
-					mins_by_context[c].push_back(9999);
-					maxs_by_context[c].push_back(0);
-					avgs_by_context[c].push_back(0);
-					if (c==0){
-						mins.push_back(9999);
-						maxs.push_back(0);
-						averages.push_back(0);
-					}
-				}
-			}
+		for (int c = min; c<max; c++){
 			update_averages(start,c);
 			update_minmax(start,c);
 			start.advance();
@@ -69,11 +70,9 @@ public:
 	}
 
 	/* Finalize: overloaded virtual function of observer
-	   - does nothing.
+	   - must be called to produce correct average values
 	*/	
-	void finalize(ContextBase& start){
-	}
-	
+	void finalize();
 };
 
 

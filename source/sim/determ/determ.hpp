@@ -61,7 +61,7 @@ class simulation_determ : public simulation_base {
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
 	CPUGPU_FUNC
-	virtual void reset() final {_cell = 0;}
+	virtual void set(int c) final {_cell = c;}
         CPUGPU_FUNC
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };

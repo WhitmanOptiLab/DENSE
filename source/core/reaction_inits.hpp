@@ -7,9 +7,8 @@
 #define REACTION(name) \
   template<> \
   reaction< name >::reaction() : \
-    reaction_base( num_inputs_##name, num_outputs_##name, \
-    num_factors_##name, in_counts_##name, out_counts_##name, \
-    inputs_##name, outputs_##name, factors_##name){}
+    reaction_base( num_deltas_##name, \
+    deltas_##name, delta_ids_##name){}
 #include "reactions_list.hpp"
 #undef REACTION
 

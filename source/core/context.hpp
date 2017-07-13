@@ -16,7 +16,7 @@ class ContextBase {
   CPUGPU_FUNC
   virtual bool isValid() const = 0;
   CPUGPU_FUNC
-  virtual void reset() = 0;
+  virtual void set(int c) = 0;
 };
 
 #endif // CONTEXT_HPP

@@ -2,22 +2,26 @@
 
 void Observable :: notify(ContextBase& start){
 	for (int i=0; i<observerList.size(); i++){
-		observerList[i]->update(start);
-		start.reset();
+		start.set(observerList[i]->getMin());
+		if (observerList[i]->isInTimeBounds(t)){
+            observerList[i]->update(start);
+        }
 	}
 }
 
-void Observable :: notify(ContextBase& start, bool isFinal){
+void Observable :: finalize(){
 	for (int i = 0; i<observerList.size(); i++){	
-		if (isFinal){observerList[i]->finalize(start);}
-		else{observerList[i]->update(start);}
-		start.reset();
+        observerList[i]->finalize();
 	}
 }		
 
-Observer :: Observer(Observable *oAble){
-	subject = oAble;
-	subject->addObserver(this);
+Observer :: Observer(Observable *oAble, int mn, int mx, 
+                       RATETYPE startT, RATETYPE endT) :
+    min(mn), max(mx), start_time(startT), end_time(endT), subject(oAble) {
+	
+    subject->addObserver(this);
 }
 
-void Observer :: finalize(ContextBase& start){}
+int Observer :: getMin(){
+    return min;
+}

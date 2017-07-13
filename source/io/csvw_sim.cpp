@@ -13,8 +13,8 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
     csvw(pcfFileName, true, "# This file can be used as a template for "
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
-    Observer(pnObl), icSpecieOption(pcfSpecieOption), ilTime(0.0), ilCell(0),
-    icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
+    Observer(pnObl,pcfCellStart,pcfCellEnd,pcfTimeStart,pcfTimeEnd), icSpecieOption(pcfSpecieOption),
+    ilTime(pcfTimeStart), ilCell(pcfCellStart), icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
     icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd),
     icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd)
 {
@@ -67,43 +67,32 @@ csvw_sim::~csvw_sim()
 }
 
 
-void csvw_sim::finalize(ContextBase& pfStart)
+void csvw_sim::finalize()
 {
 }
 
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    if (ilTime >= icTimeStart && ilTime <= icTimeEnd)
-    {
-        while (pfStart.isValid())
+    for (int c=min; c<max; c++){
+        if (icTimeColumn)
         {
-            if (ilCell >= icCellStart && ilCell <= icCellEnd)
-            {
-                if (icTimeColumn)
-                {
-                    csvw::add_data(ilTime);
-                }
-
-                for (const specie_id& lcfID : icSpecieOption)
-                {
-                    csvw::add_data(pfStart.getCon(lcfID));
-                }
-                csvw::add_div("\n");
-                pfStart.advance();
-            }
-
-            ilCell++;
+            csvw::add_data(ilTime);
         }
 
-        if (icCellTotal > 1)
+        for (const specie_id& lcfID : icSpecieOption)
         {
-            csvw::add_div("\n");
+            csvw::add_data(pfStart.getCon(lcfID));
         }
+        csvw::add_div("\n");
+        pfStart.advance();
     }
 
+    if (icCellTotal > 1)
+    {
+        csvw::add_div("\n");
+    }
     ilTime += icTimeInterval;
-    ilCell = 0;
 }
 
 
