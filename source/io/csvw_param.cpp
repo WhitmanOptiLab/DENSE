@@ -45,27 +45,43 @@ csvw_param::csvw_param(const string& pcfFileName, const param_type& pcfType) :
     switch (pcfType)
     {
         case param_type::SETS:
+            csvw::add_div("# This file can contain more than one "
+                    "set (each being on their own line). All sets "
+                    "are initialized and executed in parallel when a file is "
+                    "loaded into the simulation.\n");
+            csvw::add_div("# For more information and examples see README.md "
+                    "section 2.2.1\n\n");
             param_type_str = "sets";
             nPrefix = new string*[2];
             nPrefix[0] = new string("");
             nPrefix[1] = 0;
             break;
         case param_type::PERT:
-            csvw::add_div("# Use \'0\' to indicate that a  "
-                    "reaction should not have perturbations.\n\n");
+            csvw::add_div("# This file should only contain one set of "
+                    "perturbations. Only this one perturbations set is applied "
+                    "to all parameter sets when a simulation set is being run.\n");
+            csvw::add_div("# Use \'0\' to indicate that a "
+                    "reaction should not have perturbations.\n");
+            csvw::add_div("# For more information and examples see README.md "
+                    "section 2.2.2\n\n");
             param_type_str = "perturbations";
             nPrefix = new string*[2];
             nPrefix[0] = new string("pert_");
             nPrefix[1] = 0;
             break;
         case param_type::GRAD:
-            csvw::add_div("# Use \'0\' on all four columns of a reaction "
+            csvw::add_div("# This file should only contain one set of "
+                    "gradients. Only this one gradients setting is applied "
+                    "to all parameter sets when a simulation set is being run.\n");
+            csvw::add_div("# Use \'0\' under all four columns of a reaction "
                     "to indiate that it should not have a gradient.\n"
                     "# Gradient Codes\n"
                     "#   x1 - start column\n"
                     "#   y1 - start multiplier (use \'1.23\' to mean \'123%\')\n"
-                    "#   x2 - end column (inclusive)\n"
-                    "#   y2 - end multiplier\n\n");
+                    "#   x2 - end column\n"
+                    "#   y2 - end multiplier\n");
+            csvw::add_div("# For more information and examples see README.md "
+                    "section 2.2.2\n\n");
             param_type_str = "gradients";
             nPrefix = new string*[5];
             nPrefix[0] = new string("grad_x1_");

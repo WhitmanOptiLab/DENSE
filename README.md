@@ -13,7 +13,7 @@ Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatshe
 |__ 2.0: [Species and Reactions](#20-species-and-reactions)  
 |____ 2.0.0: [Declaring Species](#200-declaring-species)  
 |____ 2.0.1: [Declaring Reactions](#201-declaring-reactions)  
-|____ 2.0.2: [Defining Reaction Formulas](#202-defining-reaction-formulas)  
+|____ 2.0.2: [Defining Reaction Rate Formulas](#202-defining-reaction-rate-formulas)  
 |____ 2.0.3: [Defining Reaction Inputs and Outputs](#203-defining-reaction-inputs-and-outputs)  
 |__ 2.1: [Compiling and Generating Parameter Templates](#21-compiling-and-generating-parameter-templates)  
 |__ 2.2: [Parameters](#22-parameters)  
@@ -86,17 +86,62 @@ REACTION(bravo_degredation)
 ***
 #### 2.0.2: Defining Reaction Rate Formulas
 
-how to do model_impl.hpp
+Define all of reaction rate functions in `model_impl.hpp`.
+For example, if a reaction is enumerated `R_ONE`, it should be declared as a 
+   function like this:
+```
+ RATETYPE reaction<R_ONE>::active_rate(const Ctxt& c) const { return 6.0; }
+```
+ 
+Or, for a more interesting reaction rate, you might do something like:
+ 
+```
+ RATETYPE reaction<R_TWO>::active_rate(const Ctxt& c) const {
+   return c.getRate(R_TWO) * c.getCon(SPECIE_ONE) * c.neighbors.calculateNeighborAvg(SPECIE_TWO);
+ }
+```
+Refer to the Context API in the following section for instructions on how to get delays
+   and critical values for more complex reaction rate functions.
 
 ***
-#### 2.0.3: Defining Reaction Inputs and Outputs
+### 2.0.3: Context API
 
-how to do reaction.cpp/.cu -- though this will change a lot depending on how we resulve issue #11
+Contexts are iterators over the concentration levels of all species in all cells. Use them to get the conc values of specific species that factor into reaction rate equations.
+
+To get the concentration of a specie where `c` is the context object and `SPECIE` is the specie's enumeration:
+`c.getCon(SPECIE)`
+
+To get the delay time of a particular delay reaction that is enumerated as `R_ONE` and is properly identified as a delay reaction in `reactions_list.hpp` (see 2.0.1):
+`RATETYPE delay_time = c.getDelay(dreact_R_ONE);`
+
+To get the past concentration of `SPECIE` where `delay_time`, as specified in the previous example, is the delay time for `R_ONE`:
+`c.getCon(SPECIE, delay_time);`
+
+To get average concentration of SPECIE in that cell and its surrounding cells:
+`c.calculateNeighborAvg(SPECIE)`
+
+To get the past average concentration of SPECIE in that cell and its surround cells:
+`c.calculateNeighborAvg(SPECIE, delay_time)`
+
+***
+#### 2.0.4: Defining Reaction Inputs and Outputs
+
+Define each reaction's reactants and products in `reaction_deltas.hpp`.
+Say a reaction enumerated as `R_ONE` has the following chemical formula:
+
+                           2A + B --> C
+
+The proper way to define that reaction's state change vector is as follows:
+```
+STATIC_VAR int num_deltas_R_ONE = 3;
+STATIC_VAR int deltas_R_ONE[] = {-2, -1, 1};
+STATIC_VAR specie_id delta_ids_R_ONE[] = {A, B, C};
+```
 
 ***
 #### 2.1: Compiling and Generating Parameter Templates
 
-discuss how to cmake works, csv_gen dependency, and where the generated templates are
+Running `make` after having initialized CMake in the desired directory will automatically run `csv_gen` as the simulation is being compiled. `csv_gen` will generate `*_template.csv` files formatted for the directory's particular model. The easiest way to fill these out is with an Excel-like program such as LibreOffice Calc. Remember to always save changes using the original `*.csv` file extension. Changes should also be saved in a file name different from the one automatically generated so that there is no chance `csv_gen` will overwrite your settings.
 
 ***
 #### 2.2: Parameters
@@ -104,30 +149,109 @@ discuss how to cmake works, csv_gen dependency, and where the generated template
 ***
 #### 2.2.0: CSV Parser Specifications
 
-copy from and add extra to what is already in csv headers for each of these sections
+At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser __*DOES NOT*__ parse.
+1. Empty cells, blank rows, and whitespace
 
+   To illustrate, the following two examples are equivalent.  
+   ```
+   3.14, , 2001, -2.18,
+   
+   41,       2.22e-22
+   ```
+   ```
+   3.14,2001,-2.18,41,2.22e-22
+   ```
+
+2. Comments, i.e. rows that begin with a `#`
+
+   ```
+   # I am a comment! Below is the data.
+   9182, 667
+   ```
+
+3. Any cell that contains a character which is not a number, `.`, `+`, `-`, or `e`.
+
+   Only the following scientific notation is supported:
+   ```
+   -0.314e+1, 3.00e+8, 6.63e-34
+   ```
+   These would be considered invalid:
+   ```
+   3.33*10^4, 1.3E-12, 4.4x10^2
+   ```
+   Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by users as they wish.
+   ```
+   flying_pig_synthesis, plutonium_synthesis, cultural_degredation, 
+   21.12021,             33,                  101.123, 
+   ```
+   It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order if it is to be parsed properly.
+  
 ***
 #### 2.2.1: Parameter Sets
 
-param_sets.csv
+The parameter set template is named `param_sets_template.csv` by default. Parameter set files can contain more than one set per file (each being on their own line). When a file is loaded into the simulation, all sets are initialized and executed in parallel.
+
+Below is an example of a parameter sets file that contains three sets:
+```
+alpha_synthesis, alpha_degredation,
+332,             101,
+301,             120,
+9.99e+99,        1.0e-99,
+```
 
 ***
 #### 2.2.2: Perturbations
 
-param_pert.csv
+The perturbations template is named `param_pert_template.csv` by default. Perturbation files should only contain one set of perturbations. Only this one perturbations set is applied to all parameter sets when a simulation set is being run.
+
+Use `0` to indicate that a reaction should not have perturbations. In the example below, `alpha_synthesis` has a perturbation while `alpha_degredation` does not.
+```
+alpha_synthesis, alpha_degredation,
+0.05,            0,
+```
 
 ***
 #### 2.2.3: Gradients
 
-param_grad.csv
+The gradients template is named `param_grad_template.csv` by default. Gradient files should only contain one set of gradients. Only this one gradients set is applied to all parameter sets when a simulation set is being run.
+
+Use `0` under all four columns of a reaction to indicate that it should not have a gradient. In the first example, `alpha_synthesis` does not have a gradient, while in the second example, `alpha_degredation` does.
+```
+alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
+0,                  0,                  0,                  0,
+```
+```
+alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
+2,                  0.8,                5,                  2.52,
+```
+`alpha_degredation`'s gradient is between cell columns 2 and 5, with a multiplier of 0.8 starting at column 2, linearly increasing to 2.52 by column 5.
+
+Gradient Suffixes Chart  
+
+| Suffix | Meaning          |  
+| ------ | ---------------- |  
+| x1     | start column     |  
+| y1     | start multiplier |  
+| x2     | end column       |  
+| y2     | end multiplier   |  
 
 [Back to Top](#delay-differential-equations-simulator)
 
 ## 3: Running the Simulation
 
-#### 3.0: Description of the Simulation
+#### 3.0: Description of Simulation
 
-mind that this is a differential equations simulator, not just a biology simulator
+The application supports simulation of well-stirred chemical systems in a single enclosed environment and in multicellular networks.  The simulation uses delay-differential equations to advance a given model and estimate concentrations for given species updated by given reactions.  The size of *dt* varies depending on which simulation algorithm is run.
+
+***
+### 3.0.0: Deterministic Simulation
+
+The Deterministic Simulation Algorithm uses rate reaction equations to approximate the concentration levels of every specie over a constant, user-specified, time step.  Files concerning this simulation type are found in `source/sim/determ`. The user can turn on deterministic simulation by specifying a time step in the command line (see 3.1.2).
+
+***
+### 3.0.1: Stochastic Simulation
+
+The Stochastic Simulation Algorithm loosely follows Dan Gillespie's tau-leaping process.  The *dt* is calculated from a random variable as the time until the next reaction event occurs.  Molecular populations are treated as whole numbers and results are non-deterministic unless a random seed is provided by the user in the command line (see 3.1.2). The algorithm is much more performance intensive than the deterministic algorithm and is most ideal for smaller tissue sizes and shorter simulation durations.
 
 ***
 #### 3.1: Input
@@ -161,19 +285,24 @@ how is data_out.csv (could be diff name, -e) formatted?
 ***
 #### 3.2.1.0: Output Destination
 
-as of now in cmd line, but could use " > anlys.txt" for example, or mod code, see 3.1.2.3
+TODO LATER... will change next week based on what we do with analysis log
 
 ***
 #### 3.2.1.1: Basic Analysis
 
-what does it tell us?
+Basic Analysis calculates the average concentration level of each specie over a given time interval for each cell of a given set and across all of the selected cells.  The object also calculates minimum and maximum concentration levels for each specie across the set of cells and for each cell.
 
 ***
 #### 3.2.1.2: Oscillation Analysis
 
-what's its format?
+Oscillation Analysis identifies the local extrema of a given local range over a given time interval for a given set of cells.  The object also calculates the average period and amplitude of these oscillations for each cell in the given set.
 
 [Back to Top](#delay-differential-equations-simulator)
+
+***
+### 3.2.1.3: Concentration Check
+
+Concentration Check allows the user to abort simulation prematurely if a concentration level of a given specie (or for all species) escapes the bounds of a given lower and upper value for any given set of cells and time interval.
 
 ## 4: Authorship and License
 

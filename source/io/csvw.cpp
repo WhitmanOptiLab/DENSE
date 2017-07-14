@@ -28,23 +28,21 @@ csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string
         // Write parent documentation
         iFile << "# CSV Specification\n";
         iFile << "#   Ignored by the file readers are:\n";
-        iFile << "#     (1) empty cells / blank rows / whitespace\n";
-        iFile << "#     (2) comment rows which always begin with a \'#\'\n";
-        iFile << "#     (3) any cell that does not begin with a numerical or "
-            "decimal place character*\n";
-        iFile << "#   *Such cells act as either column headers or other important "
-            "notes. These are provided for the user's convenience and can be "
-            "modified if the user sees fit.\n";
+        iFile << "#     (1) Empty cells / Blank rows / Whitespace\n";
+        iFile << "#     (2) Comment whose rows always begin with a \'#\'\n";
+        iFile << "#         For best results delete all comments before loading "
+            "this file into any Excel-like program.\n";
+        iFile << "#     (3) Any cell which does not conform to the scientific "
+            "notation format 3.14e-41 or simple whole numbers and decimals\n";
+        iFile << "#         Often times cells which do not contain numbers are "
+            "intended to be column headers. These are not parsed by the simulation, "
+            "and can technically be modified by the users as they wish.\n";
+        iFile << "#         It is futile to add/remove/modify the column headers "
+            "with the expectation of changing the program's behavior. Data must "
+            "be entered in the default order for it to be parsed correctly.\n";
         iFile << "# None of these comments include commas because it messes with "
-            "the column widths when loaded into Excel-like programs. "
-            "Speaking of that...\n";
-        iFile << "# For best results delete all comments before loading this file "
-            "into any Excel-like program.\n";
-        iFile << "# Scientific notation in the form of 3.14e-41 is supported.\n";
-        iFile << "# It is futile to add/remove/modify the column headers with the "
-            "expectation of changing the program's behavior. Data must be entered in "
-            "the default order or must match the ordering of a respective command "
-            "line argument.\n";
+            "the column widths when loaded into Excel-like programs.\n";
+        iFile << "# For more information and examples see README.md section 2.2.0\n";
 
         // Write child documentation
         iFile << pcfChildDoc << endl;
