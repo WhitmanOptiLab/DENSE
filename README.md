@@ -119,21 +119,28 @@ At its core, CSV files contain numerical values seperated by commas. Below are a
 
 2. Comments, i.e. rows that begin with a `#`
 
-...```
-...# I am a comment! Below is the data.
-...9182, 667
-...```
+   ```
+   # I am a comment! Below is the data.
+   9182, 667
+   ```
 
 3. Any cell that contains a character which is not a number, `.`, `+`, `-`, or `e`.
 
-...Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by the users as they wish.
-...```
-...alpha_synthesis, bravo_synthesis, charlie_synthesis, 
-...21.12021,        33,              101.123, 
-...```
-
-copy from and add extra to what is already in csv headers for each of these sections
-
+   Only the following scientific notation is supported:
+   ```
+   0.314e+1, 3.00e+8, 6.63e-34
+   ```
+   The following would be considered invalid:
+   ```
+   3.33*10^4, 1.3E-12, 4.4x10^2
+   ```
+   Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by the users as they wish.
+   ```
+   alpha_synthesis, bravo_synthesis, charlie_synthesis, 
+   21.12021,        33,              101.123, 
+   ```
+   It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order for it to be parsed correctly.
+  
 ***
 #### 2.2.1: Parameter Sets
 
