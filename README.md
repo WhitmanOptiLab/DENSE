@@ -286,7 +286,7 @@ In order to take advantage of perturbations and gradients, `param_pert_template.
 #### 3.1.2: Command Line Arguments
 
 The table below can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
-Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a field type require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
+Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a field require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
 
 `RATETYPE` is set to `double` (double-precision floating-point) by default and can be changed in `source/util/common_utils.hpp`.
 
@@ -300,7 +300,7 @@ Short and long flags are equivalent; either can be used to get the same program 
 | `b`   | `perturbations`   | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
 | `e`   | `data-export`     | `string`   | Relative file location and name of the output of the logged data `*.csv`. `../data_out.csv`, for example.
 | `i`   | `data-import`     | `string`   | Relative file location and name of `*.csv` data to import into the analyses. `../data_in.csv`, for example. Using this flag runs only analysis.
-| `o`   | `specie-option`   | `string`   | Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. __*IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED*__, enclose the argument in quotation marks and seperate the species using commas. For example, `-o "alpha, bravo, charlie"`. If only one specie is desired, no commas or quotation marks are necessary.
+| `o`   | `specie-option`   | `string`   | Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. __*IF MORE THAN ONE SPECIE, BUT NOT ALL, IS DESIRED*__, enclose the argument in quotation marks and seperate the species using commas. For example, `-o "alpha, bravo, charlie"`. If only one specie is desired, no commas or quotation marks are necessary.
 | `c`   | `cell-total`      | `int`      | Total number of cells to simulate.
 | `w`   | `total-width`     | `int`      | Width of tissue to simulate. Height is inferred by dividing `cell-total` by `total-width`.
 | `s`   | `step-size`       | `RATETYPE` | Time increment by which the deterministic simulation progresses. __*USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC*__.
