@@ -10,18 +10,27 @@
 //#include "context.hpp"
 #include <cstddef>
 
-// Next, define all of your reaction rate functions
-// For example, if you enumerated a reaction R_ONE, you should declare a 
-//   function like this:
-//
-// RATETYPE reaction<R_ONE>::active_rate(const Ctxt c) const { return 6.0; }
-// 
-// Or, for a more interesting reaction rate, you might do something like
-// 
-// RATETYPE reaction<R_TWO>::active_rate(const Ctxt c) const {
-//   return c.rate[R_TWO] * c.concentration[SPECIE_ONE] * 
-//                                   c.neighbors.concentration[SPECIE_TWO];
-// }
+/*
+
+Define all of your reaction rate functions in `model_impl.hpp`.
+For example, if you enumerated a reaction `R_ONE`, you should declare a 
+   function like this:
+
+ RATETYPE reaction<R_ONE>::active_rate(const Ctxt& c) const { return 6.0; }
+
+ 
+Or, for a more interesting reaction rate, you might do something like:
+ 
+
+ RATETYPE reaction<R_TWO>::active_rate(const Ctxt& c) const {
+   return c.getRate(R_TWO) * c.getCon(SPECIE_ONE) * c.neighbors.calculateNeighborAvg(SPECIE_TWO);
+ }
+
+Refer to the Context API (Section ) for instructions on how to get delays
+   and critical values for more complex reaction rate functions.
+
+*/
+
 template<>
 template<class Ctxt>
 RATETYPE reaction<ph1_synthesis>::active_rate(const Ctxt& c) const {
