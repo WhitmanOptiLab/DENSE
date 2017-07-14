@@ -1,5 +1,7 @@
 # DDE Documentation
-Notes on the design principles, organization, and modability of the DDE simulation
+Notes on the design principles, organization, and modability of the DDE simulation.
+
+Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 ## Table of Contents
 
@@ -10,6 +12,7 @@ Notes on the design principles, organization, and modability of the DDE simulati
 |__ 1.2: [/io](#12-io)  
 |__ 1.3: [/sim](#13-sim)  
 |__ 1.4: [/util](#14-util)  
+|__ 1.5: [Feudal Metaphor](#15-feudal-metaphor)  
 | 2: [Modding](#2-modding)  
 |__ 2.0: [Custom Main](#20-custom-main)  
 |__ 2.1: [Algorithms](#21-algorithms)  
@@ -67,6 +70,11 @@ such as observer-observable, inheritance of simulation_base, etc
 * "serfs"
 * everyone can access /util
 * /util cannot access anyone
+
+***
+#### 1.5: Feudal Metaphor
+
+king, queen, nobles, knights, serfs
 
 [Back to Top](#dde-documentation)
 

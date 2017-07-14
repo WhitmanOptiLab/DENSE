@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
             "[-n | --no-color]               " << color::set(color::GREEN) <<
             "Disable color in the terminal." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
+            "[-p | --param-sets]    <string> " << color::set(color::GREEN) <<
+            "Relative file location and name of the parameter sets csv. \"../param_sets.csv\", for example." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-g | --gradients]     <string> " << color::set(color::GREEN) <<
             "Enables gradients and specifies the relative file location and name of the gradients csv. \"../param_grad.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
@@ -31,19 +34,16 @@ int main(int argc, char *argv[])
             "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-b | --perturb]     <RATETYPE> " << color::set(color::GREEN) <<
-            "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-v | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a RATETYPE." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-p | --param-sets]    <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of the parameter sets csv. \"../param_sets.csv\", for example." << color::clear() << endl;
+            "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a RATETYPE." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-e | --data-export]   <string> " << color::set(color::GREEN) <<
             "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-i | --data-import]   <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag skips the simulation." << color::clear() << endl;
+            "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-o | --specie-option] <string> " << color::set(color::GREEN) <<
-            "When -e is enabled, output only these species to file. When -i is enabled, this argument lets the simulation know that the import data file contains only these species. IF MORE THAN ONE SPECIE IS DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
+            "Specify which species to output to file and analyse. IF MORE THAN ONE SPECIE IS DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
