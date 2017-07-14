@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <set>
-#include "reaction.hpp"
+#include "util/common_utils.hpp"
 
 using namespace std;
 

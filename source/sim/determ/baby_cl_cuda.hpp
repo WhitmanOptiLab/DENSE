@@ -1,11 +1,11 @@
 #ifndef SIM_DETERM_BABY_CL_CUDA_HPP
 #define SIM_DETERM_BABY_CL_CUDA_HPP
+#include "util/common_utils.cpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 #include "baby_cl.hpp"
 #include <cuda.h>
-#define WRAP(x, y) ((x) + (y)) % (y)
-#define MAX(x, y) ((x) < (y) ? (y) : (x))
+
 using namespace std;
 
 #include <cstddef>

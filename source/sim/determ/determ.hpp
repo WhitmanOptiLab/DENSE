@@ -97,15 +97,8 @@ class simulation_determ : public simulation_base {
   //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
-  //Context<double> _contexts;
-  //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
-  //int* _delay_size;
-  //int* _time_prev;
   int _j;
-  //double* _sets;
-  //int _NEIGHBORS_2D;
   int _num_history_steps; // how many steps in history are needed for this numerical method
-  //int* _relatedReactions[NUM_SPECIES];
     
   simulation_determ(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, 
                     RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
@@ -113,20 +106,6 @@ class simulation_determ : public simulation_base {
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~simulation_determ() {}
   void execute();
-  //bool any_less_than_0(baby_cl& baby_cl, int* times);
-  //bool concentrations_too_high (baby_cl& baby_cl, int* time, double max_con_thresh);
-#if 0
-#ifdef __CUDACC__
-  __host__ __device__
-#endif
-    void calculate_delay_indices(baby_cl& baby_cl, int* baby_time, int time, int cell_index, Rates& rs, int old_cells_mrna[], int old_cells_protein[]){
-        for (int l = 0; l < NUM_SPECIES; l++) {
-            old_cells_mrna[l] = cell_index;
-            old_cells_protein[l] = cell_index;
-        }
-    }
-#endif
-    
   void initialize();
     
     void simulate();

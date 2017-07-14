@@ -66,22 +66,6 @@ class reaction : public reaction_base {
 #undef REACTION
 
 
-/*
-static delay_reaction_id get_delay_reaction_id(reaction_id rid) {
-  switch (rid) {
-#define REACTION(name)
-#define DELAY_REACTION(name) \
-    case name : return dreact_##name; 
-
-#include "reactions_list.hpp"
-#undef REACTION
-#undef DELAY_REACTION
-    default: return NUM_DELAY_REACTIONS;
-  }
-};
-
-*/
-
 //And by the way, all of these will be declared at some point
 
 #define REACTION(name) \

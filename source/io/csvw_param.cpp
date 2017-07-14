@@ -1,6 +1,7 @@
 #include "csvw_param.hpp"
 #include "util/color.hpp"
 #include "core/specie.hpp"
+#include "core/reaction.hpp"
 
 #include <iostream>
 #include <string>
