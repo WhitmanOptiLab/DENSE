@@ -13,7 +13,7 @@ Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatshe
 |__ 2.0: [Species and Reactions](#20-species-and-reactions)  
 |____ 2.0.0: [Declaring Species](#200-declaring-species)  
 |____ 2.0.1: [Declaring Reactions](#201-declaring-reactions)  
-|____ 2.0.2: [Defining Reaction Formulas](#202-defining-reaction-formulas)  
+|____ 2.0.2: [Defining Reaction Rate Formulas](#202-defining-reaction-rate-formulas)  
 |____ 2.0.3: [Defining Reaction Inputs and Outputs](#203-defining-reaction-inputs-and-outputs)  
 |__ 2.1: [Compiling and Generating Parameter Templates](#21-compiling-and-generating-parameter-templates)  
 |__ 2.2: [Parameters](#22-parameters)  
@@ -105,16 +105,14 @@ Running `make` after having initialized CMake in the desired directory will auto
 At its core, CSV files contain numerical values seperated by commas. Below are a few extra rules that the simulation's CSV parser follows:
 1. Empty cells, blank rows, and whitespace
 
-   To illustrate, the following two examples are equivalent.
-   Example A:
+   To illustrate, the following two examples are equivalent.  
    ```
-   3.14, , 2001, 2.18,
+   3.14, , 2001, -2.18,
    
    41,       2.22e-22
    ```
-   Example B:
    ```
-   3.14,2001,2.18,41,2.22e-22
+   3.14,2001,-2.18,41,2.22e-22
    ```
 
 2. Comments, i.e. rows that begin with a `#`
@@ -128,33 +126,66 @@ At its core, CSV files contain numerical values seperated by commas. Below are a
 
    Only the following scientific notation is supported:
    ```
-   0.314e+1, 3.00e+8, 6.63e-34
+   -0.314e+1, 3.00e+8, 6.63e-34
    ```
-   The following would be considered invalid:
+   These would be considered invalid:
    ```
    3.33*10^4, 1.3E-12, 4.4x10^2
    ```
-   Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by the users as they wish.
+   Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by users as they wish.
    ```
-   alpha_synthesis, bravo_synthesis, charlie_synthesis, 
-   21.12021,        33,              101.123, 
+   flying_pig_synthesis, plutonium_synthesis, cultural_degredation, 
+   21.12021,             33,                  101.123, 
    ```
-   It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order for it to be parsed correctly.
+   It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order if it is to be parsed properly.
   
 ***
 #### 2.2.1: Parameter Sets
 
-param_sets.csv
+The parameter set template is named `param_sets_template.csv` by default. Parameter set files can contain more than one set per file (each being on their own line). When a file is loaded into the simulation, all sets are initialized and executed in parallel.  
+Below is an example of a parameter sets file that contains three sets:
+```
+alpha_synthesis, alpha_degredation,
+332,             101,
+301,             120,
+9.99e+99,        1.0e-99,
+```
 
 ***
 #### 2.2.2: Perturbations
 
-param_pert.csv
+The perturbations template is named `param_pert_template.csv` by default. Perturbation files should only contain one set of perturbations. Only this one perturbations set is applied to all parameter sets when a simulation set is being run.
+
+Use `0` to indicate that a reaction should not have perturbations. In the example below, `alpha_synthesis` has a perturbation while `alpha_degredation` does not.
+```
+alpha_synthesis, alpha_degredation,
+0.05,            0,
+```
 
 ***
 #### 2.2.3: Gradients
 
-param_grad.csv
+The gradients template is named `param_grad_template.csv` by default. Gradient files should only contain one set of gradients. Only this one gradients set is applied to all parameter sets when a simulation set is being run.
+
+Use `0` under all four columns of a reaction to indicate that it should not have a gradient. In the first example, `alpha_synthesis` does not have a gradient, while in the second example, `alpha_degredation does.
+```
+alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
+0,                  0,                  0,                  0,
+```
+```
+alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
+2,                  0.8,                5,                  2.52,
+```
+`alpha_degredation`'s gradient is between cell columns 2 and 5, with a multiplier of 0.8 starting at column 2, linearly increasing to 2.52 by column 5.
+
+Gradient Suffixes Chart
+| Suffix | Meaning          |
+| ------ | ---------------- |
+| x1     | start column     |
+| y1     | start multiplier |
+| x2     | end column       |
+| y2     | end multiplier   |
+
 
 [Back to Top](#delay-differential-equations-simulator)
 
@@ -162,7 +193,7 @@ param_grad.csv
 
 #### 3.0: Description of the Simulation
 
-mind that this is a differential equations simulator, not just a biology simulator
+NIKI
 
 ***
 #### 3.1: Input
