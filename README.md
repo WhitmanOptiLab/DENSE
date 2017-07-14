@@ -67,28 +67,30 @@ step-by-step instructions on whole process using a simple model
 ***
 #### 2.0.0: Declaring Species
 
-Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two species, `alpha` and `bravo`, and one critical speice, `charlie`.
+Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two normal species, `alpha` and `charlie`, and one critical specie, `bravo`.
+
+A critical specie is a specie whose effect on a particular reaction is bounded by a threshhold. Imagine a specie that doesn't have an effect on a reaction rate until it reaches a certain concentration or might stop having a linear relationship with the rate after a certain conc level.  Whether this critical value is an upper or lower bound is decided in the rate equations in `model_impl.hpp` but the value itself is inputted alongside delays and initial rates (see 3.1) in the parameter set. To establish the pairing of this specie and its critical value, it is declared as a critical specie.
 
 [comment]: # What is a critical specie?
 [comment]: # Do the critical species have to come last?  At a high level, what does this declaration do?
 
 ```
 SPECIE(alpha)
-SPECIE(bravo)
-CRITICAL_SPECIE(charlie)
+CRITICAL_SPECIE(bravo)
+SPECIE(charlie)
 ```
 
 ***
 #### 2.0.1: Declaring Reactions
 
-Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_synthesis`, and three normal reactions, `bravo_synthesis`, `alpha_degredation`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
+Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_degredation`, and three normal reactions, `bravo_synthesis`, `alpha_synthesis`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
 
 [comment]: # Do the delay reactions have to come first?  At a high level, what does this declaration do?
 
 ```
-DELAY_REACTION(alpha_synthesis)
+REACTION(alpha_synthesis)
 REACTION(bravo_synthesis)
-REACTION(alpha_degredation)
+DELAY_REACTION(alpha_degredation)
 REACTION(bravo_degredation)
 ```
 
@@ -98,17 +100,17 @@ REACTION(bravo_degredation)
 [comment]: # keep the enumerations consistent, demonstrate that the active rate functions are tied to the previously declared reactions
 
 Define all of reaction rate functions in `model_impl.hpp`.
-For example, if a reaction is enumerated `R_ONE`, it should be declared as a 
+For example, if a reaction is enumerated `alpha_synthesis`, it should be declared as a 
    function like this:
 ```
- RATETYPE reaction<R_ONE>::active_rate(const Ctxt& c) const { return 6.0; }
+ RATETYPE reaction<alpha_synthesis>::active_rate(const Ctxt& c) const { return 6.0; }
 ```
  
 Or, for a more interesting reaction rate, you might do something like:
  
 ```
- RATETYPE reaction<R_TWO>::active_rate(const Ctxt& c) const {
-   return c.getRate(R_TWO) * c.getCon(SPECIE_ONE) * c.neighbors.calculateNeighborAvg(SPECIE_TWO);
+ RATETYPE reaction<bravo_degredation>::active_rate(const Ctxt& c) const {
+   return c.getRate(bravo_degredation) * c.getCon(bravo) * c.neighbors.calculateNeighborAvg(charlie);
  }
 ```
 Refer to the Context API in the following section for instructions on how to get delays
@@ -119,20 +121,24 @@ Refer to the Context API in the following section for instructions on how to get
 
 Contexts are iterators over the concentration levels of all species in all cells. Use them to get the conc values of specific species that factor into reaction rate equations.
 
-To get the concentration of a specie where `c` is the context object and `SPECIE` is the specie's enumeration:
-`c.getCon(SPECIE)`
+To get the concentration of a specie where `c` is the context object and `bravo` is the specie's enumeration:
+```c.getCon(bravo)```
 
-To get the delay time of a particular delay reaction that is enumerated as `R_ONE` and is properly identified as a delay reaction in `reactions_list.hpp` (see [2.0.0: Declaring Species](#200-declaring-species)):
-`RATETYPE delay_time = c.getDelay(dreact_R_ONE);`
+To get the delay time of a particular delay reaction that is enumerated as `alpha_degredation` and is properly identified as a delay reaction in `reactions_list.hpp` (see [2.0.1: Declaring Reactions](#201-declaring-reactions)):
+```RATETYPE delay_time = c.getDelay(dreact_alpha_degredation);```
 
-To get the past concentration of `SPECIE` where `delay_time`, as specified in the previous example, is the delay time for `R_ONE`:
-`c.getCon(SPECIE, delay_time);`
+To get the past concentration of `alpha` where `delay_time`, as specified in the previous example, is the delay time for `R_ONE`:
+```c.getCon(alpha, delay_time);```
 
-To get average concentration of SPECIE in that cell and its surrounding cells:
-`c.calculateNeighborAvg(SPECIE)`
+To get average concentration of charlie in that cell and its surrounding cells:
+```c.calculateNeighborAvg(charlie)```
 
 To get the past average concentration of SPECIE in that cell and its surround cells:
-`c.calculateNeighborAvg(SPECIE, delay_time)`
+```c.calculateNeighborAvg(charlie, delay_time)```
+
+To get the critical value of a critical specie that is enumerated as `bravo` and is properly identified as a critical specie in `specie_list.hpp` (see [2.0.0: Declaring Species]{#200-declaring-species)):
+```c.getCritVal(rcrit_bravo)```
+
 
 ***
 #### 2.0.4: Defining Reaction Inputs and Outputs
@@ -335,11 +341,13 @@ TODO LATER... will change next week based on what we do with analysis log
 
 Basic Analysis calculates the average concentration level of each specie over a given time interval for each cell of a given set and across all of the selected cells.  The object also calculates minimum and maximum concentration levels for each specie across the set of cells and for each cell.
 
+MAKE EDITS DEPENDING ON IMPLEMENTATION OF ANALYSIS LOG
+
 ***
 #### 3.2.1.2: Oscillation Analysis
 
 Oscillation Analysis identifies the local extrema of a given local range over a given time interval for a given set of cells. The object also calculates the average period and amplitude of these oscillations for each cell in the given set.
-
+MAKE EDITS DEPENDING ON IMPLEMENTATION OF ANALYSIS LOG
 ***
 #### 3.2.1.3: Concentration Check
 
