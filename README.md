@@ -41,12 +41,12 @@ Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatshe
 
 ## 0: System Requirements
 
-##### 0.0: Operating System
+#### 0.0: Operating System
 
 linux, mac. windows if-y
 
 ***
-##### 0.1: Compilers
+#### 0.1: Compilers
 
 CMake version 2.8+ required, along with a supported build manager (make is the only tested system currently.)
 A C++ compiler with support for at least the C++11 standard is required. 
@@ -62,10 +62,10 @@ step-by-step instructions on whole process using a simple model
 
 ## 2: Model Building
 
-##### 2.0: Species and Reactions
+#### 2.0: Species and Reactions
 
 ***
-##### 2.0.0: Declaring Species
+#### 2.0.0: Declaring Species
 
 Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two species, `alpha` and `bravo`, and one critical speice, `charlie`.
 
@@ -79,7 +79,7 @@ CRITICAL_SPECIE(charlie)
 ```
 
 ***
-##### 2.0.1: Declaring Reactions
+#### 2.0.1: Declaring Reactions
 
 Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_synthesis`, and three normal reactions, `bravo_synthesis`, `alpha_degredation`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
 
@@ -93,7 +93,7 @@ REACTION(bravo_degredation)
 ```
 
 ***
-##### 2.0.2: Defining Reaction Rate Formulas
+#### 2.0.2: Defining Reaction Rate Formulas
 
 [comment]: # keep the enumerations consistent, demonstrate that the active rate functions are tied to the previously declared reactions
 
@@ -135,7 +135,7 @@ To get the past average concentration of SPECIE in that cell and its surround ce
 `c.calculateNeighborAvg(SPECIE, delay_time)`
 
 ***
-##### 2.0.4: Defining Reaction Inputs and Outputs
+#### 2.0.4: Defining Reaction Inputs and Outputs
 
 Define each reaction's reactants and products in `reaction_deltas.hpp`.
 Say a reaction enumerated as `R_ONE` has the following chemical formula:
@@ -150,17 +150,17 @@ STATIC_VAR specie_id delta_ids_R_ONE[] = {A, B, C};
 ```
 
 ***
-##### 2.1: Compiling and Generating Parameter Templates
+#### 2.1: Compiling and Generating Parameter Templates
 
 Running `make` after having initialized CMake in the desired directory will automatically run `csv_gen` as the simulation is being compiled. `csv_gen` will generate `*_template.csv` files formatted for the directory's particular model. The easiest way to fill these out is with an Excel-like program such as LibreOffice Calc. Remember to always save changes using the original `*.csv` file extension. Changes should also be saved in a file name different from the one automatically generated so that there is no chance `csv_gen` will overwrite your settings.
 
 ***
-##### 2.2: Parameters
+#### 2.2: Parameters
 
 [comment]: # Add something here to talk about how the model declaration informs the parameter sets.  Highlight that all reactions have rate constants, delay reactions have delays, and critical species have critical values.
 
 ***
-##### 2.2.0: CSV Parser Specifications
+#### 2.2.0: CSV Parser Specifications
 
 At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser __*DOES NOT*__ parse.
 1. Empty cells, blank rows, and whitespace
@@ -200,7 +200,7 @@ At its core, CSV files contain numerical values seperated by commas. Listed belo
    It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order if it is to be parsed properly.
   
 ***
-##### 2.2.1: Parameter Sets
+#### 2.2.1: Parameter Sets
 
 The parameter set template is named `param_sets_template.csv` by default. Parameter set files can contain more than one set per file (each being on their own line). When a file is loaded into the simulation, all sets are initialized and executed in parallel.
 
@@ -213,7 +213,7 @@ alpha_synthesis, alpha_degredation,
 ```
 
 ***
-##### 2.2.2: Perturbations
+#### 2.2.2: Perturbations
 
 The perturbations template is named `param_pert_template.csv` by default. Perturbation files should only contain one set of perturbations. Only this one perturbations set is applied to all parameter sets when a simulation set is being run.
 
@@ -224,7 +224,7 @@ alpha_synthesis, alpha_degredation,
 ```
 
 ***
-##### 2.2.3: Gradients
+#### 2.2.3: Gradients
 
 The gradients template is named `param_grad_template.csv` by default. Gradient files should only contain one set of gradients. Only this one gradients set is applied to all parameter sets when a simulation set is being run.
 
@@ -252,7 +252,7 @@ Gradient Suffixes Chart
 
 ## 3: Running the Simulation
 
-##### 3.0: Description of the Simulation
+#### 3.0: Description of the Simulation
 
 ***
 #### 3.0.0: Preamble
@@ -270,20 +270,20 @@ The Deterministic Simulation Algorithm uses rate reaction equations to approxima
 The Stochastic Simulation Algorithm loosely follows Dan Gillespie's tau-leaping process.  The *dt* is calculated from a random variable as the time until the next reaction event occurs.  Molecular populations are treated as whole numbers and results are non-deterministic unless a random seed is provided by the user in the command line (see 3.1.2). The algorithm is much more performance intensive than the deterministic algorithm and is most ideal for smaller tissue sizes and shorter simulation durations.
 
 ***
-##### 3.1: Input
+#### 3.1: Input
 
 ***
-##### 3.1.0: Required Files
+#### 3.1.0: Required Files
 
 After the simulation has been compiled, the only file required to run a deterministic or stochastic simulation is a filled out `param_sets_template.csv`. It is suggested that this file be renamed to `param_sets.csv` upon completion.
 
 ***
-##### 3.1.1: Optional Files
+#### 3.1.1: Optional Files
 
 In order to take advantage of perturbations and gradients, `param_pert_template.csv` and `param_grad_template.csv` need to be filled out. Rename these to `param_pert.csv` and `param_grad.csv` or something similar upon completion.
 
 ***
-##### 3.1.2: Command Line Arguments
+#### 3.1.2: Command Line Arguments
 
 This list can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
 Short form and long form flags are equivalent; either can be used to get the same program behavior. Arguments that have a field type require additional text to proceed the flag itself.  
@@ -303,33 +303,33 @@ Short form and long form flags are equivalent; either can be used to get the sam
 
 
 ***
-##### 3.2: Output
+#### 3.2: Output
 
 ***
-##### 3.2.0: Simulation Log
+#### 3.2.0: Simulation Log
 
 how is data_out.csv (could be diff name, -e) formatted?
 
 ***
-##### 3.2.1: Analysis
+#### 3.2.1: Analysis
 
 ***
-##### 3.2.1.0: Output Destination
+#### 3.2.1.0: Output Destination
 
 TODO LATER... will change next week based on what we do with analysis log
 
 ***
-##### 3.2.1.1: Basic Analysis
+#### 3.2.1.1: Basic Analysis
 
 Basic Analysis calculates the average concentration level of each specie over a given time interval for each cell of a given set and across all of the selected cells.  The object also calculates minimum and maximum concentration levels for each specie across the set of cells and for each cell.
 
 ***
-##### 3.2.1.2: Oscillation Analysis
+#### 3.2.1.2: Oscillation Analysis
 
 Oscillation Analysis identifies the local extrema of a given local range over a given time interval for a given set of cells. The object also calculates the average period and amplitude of these oscillations for each cell in the given set.
 
 ***
-##### 3.2.1.3: Concentration Check
+#### 3.2.1.3: Concentration Check
 
 Concentration Check allows the user to abort simulation prematurely if a concentration level of a given specie (or for all species) escapes the bounds of a given lower and upper value for any given set of cells and time interval.
 
