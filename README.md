@@ -285,21 +285,22 @@ In order to take advantage of perturbations and gradients, `param_pert_template.
 ***
 #### 3.1.2: Command Line Arguments
 
-This list can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
-Short form and long form flags are equivalent; either can be used to get the same program behavior. Arguments that have a field type require additional text to proceed the flag itself.  
-`RATETYPE` is set to `double` by default and can be changed in `source/util/common_utils.hpp`.
+The table below can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
+Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a field type require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
 
-| Short Form | Long Form             | Field Type | Description
-| ---------- | --------------------- | ---------- | -----------
-| `-h`       | `--help` or `--usage` | *none*     | Print information about all command line arguments.
-| `-n`       | `--no-color`          | *none*     | Disable color in the terminal.
-| `-p`       | `--param-sets`        | `string`   | Relative file location and name of the parameter sets `*.csv`. `../param_sets.csv`, for example.
-| `-g`       | `--gradients`         | `string`   | Enables gradients and specifies the relative file location and name of the gradients `*.csv`. `../param_grad.csv`, for example.
-| `-b`       | `--perturb`           | `string`   | Enables perturbations and specifies the relative file location and name of the perturbations `*.csv`. `../param_pert.csv`, for example.
-| `-b`       | `--perturb`           | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
-| `-e`       | `--data-export`       | `string`   | Relative file location and name of the output of the logged data `*.csv`. `../data_out.csv`, for example.
-| `-i`       | `--data-import`       | `string`   | Relative file location and name of `*.csv` data to import into the analyses. `../data_in.csv`, for example. Using this flag runs only analysis.
-| `-o`       | `--specie-option`     | `string`   | 
+`RATETYPE` is set to `double` (double-precision floating-point) by default and can be changed in `source/util/common_utils.hpp`.
+
+| Short | Long              | Field Type | Description
+| ---   | ----------------- | ---------- | -----------
+| `h`   | `help` or `usage` | *none*     | Print information about all command line arguments.
+| `n`   | `no-color`        | *none*     | Disable color in the terminal.
+| `p`   | `param-sets`      | `string`   | Relative file location and name of the parameter sets `*.csv`. `../param_sets.csv`, for example.
+| `g`   | `gradients`       | `string`   | Enables gradients and specifies the relative file location and name of the gradients `*.csv`. `../param_grad.csv`, for example.
+| `b`   | `perturb`         | `string`   | Enables perturbations and specifies the relative file location and name of the perturbations `*.csv`. `../param_pert.csv`, for example.
+| `b`   | `perturb`         | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
+| `e`   | `data-export`     | `string`   | Relative file location and name of the output of the logged data `*.csv`. `../data_out.csv`, for example.
+| `i`   | `data-import`     | `string`   | Relative file location and name of `*.csv` data to import into the analyses. `../data_in.csv`, for example. Using this flag runs only analysis.
+| `o`   | `specie-option`   | `string`   | 
 
 
 ***
