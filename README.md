@@ -86,12 +86,57 @@ REACTION(bravo_degredation)
 ***
 #### 2.0.2: Defining Reaction Rate Formulas
 
-NIKI
+Define all of reaction rate functions in `model_impl.hpp`.
+For example, if a reaction is enumerated `R_ONE`, it should be declared as a 
+   function like this:
+```
+ RATETYPE reaction<R_ONE>::active_rate(const Ctxt& c) const { return 6.0; }
+```
+ 
+Or, for a more interesting reaction rate, you might do something like:
+ 
+```
+ RATETYPE reaction<R_TWO>::active_rate(const Ctxt& c) const {
+   return c.getRate(R_TWO) * c.getCon(SPECIE_ONE) * c.neighbors.calculateNeighborAvg(SPECIE_TWO);
+ }
+```
+Refer to the Context API in the following section for instructions on how to get delays
+   and critical values for more complex reaction rate functions.
 
 ***
-#### 2.0.3: Defining Reaction Inputs and Outputs
+### 2.0.3: Context API
 
-NIKI
+Contexts are iterators over the concentration levels of all species in all cells. Use them to get the conc values of specific species that factor into reaction rate equations.
+
+To get the concentration of a specie where `c` is the context object and `SPECIE` is the specie's enumeration:
+`c.getCon(SPECIE)`
+
+To get the delay time of a particular delay reaction that is enumerated as `R_ONE` and is properly identified as a delay reaction in `reactions_list.hpp` (see 2.0.1):
+`RATETYPE delay_time = c.getDelay(dreact_R_ONE);`
+
+To get the past concentration of `SPECIE` where `delay_time`, as specified in the previous example, is the delay time for `R_ONE`:
+`c.getCon(SPECIE, delay_time);`
+
+To get average concentration of SPECIE in that cell and its surrounding cells:
+`c.calculateNeighborAvg(SPECIE)`
+
+To get the past average concentration of SPECIE in that cell and its surround cells:
+`c.calculateNeighborAvg(SPECIE, delay_time)`
+
+***
+#### 2.0.4: Defining Reaction Inputs and Outputs
+
+Define each reaction's reactants and products in `reaction_deltas.hpp`.
+Say a reaction enumerated as `R_ONE` has the following chemical formula:
+
+                           2A + B --> C
+
+The proper way to define that reaction's state change vector is as follows:
+```
+STATIC_VAR int num_deltas_R_ONE = 3;
+STATIC_VAR int deltas_R_ONE[] = {-2, -1, 1};
+STATIC_VAR specie_id delta_ids_R_ONE[] = {A, B, C};
+```
 
 ***
 #### 2.1: Compiling and Generating Parameter Templates
@@ -194,9 +239,19 @@ Gradient Suffixes Chart
 
 ## 3: Running the Simulation
 
-#### 3.0: Description of the Simulation
+#### 3.0: Description of Simulation
 
-NIKI
+The application supports simulation of well-stirred chemical systems in a single enclosed environment and in multicellular networks.  The simulation uses delay-differential equations to advance a given model and estimate concentrations for given species updated by given reactions.  The size of *dt* varies depending on which simulation algorithm is run.
+
+***
+### 3.0.0: Deterministic Simulation
+
+The Deterministic Simulation Algorithm uses rate reaction equations to approximate the concentration levels of every specie over a constant, user-specified, time step.  Files concerning this simulation type are found in `source/sim/determ`. The user can turn on deterministic simulation by specifying a time step in the command line (see 3.1.2).
+
+***
+### 3.0.1: Stochastic Simulation
+
+The Stochastic Simulation Algorithm loosely follows Dan Gillespie's tau-leaping process.  The *dt* is calculated from a random variable as the time until the next reaction event occurs.  Molecular populations are treated as whole numbers and results are non-deterministic unless a random seed is provided by the user in the command line (see 3.1.2). The algorithm is much more performance intensive than the deterministic algorithm and is most ideal for smaller tissue sizes and shorter simulation durations.
 
 ***
 #### 3.1: Input
@@ -235,14 +290,19 @@ TODO LATER... will change next week based on what we do with analysis log
 ***
 #### 3.2.1.1: Basic Analysis
 
-NIKI
+Basic Analysis calculates the average concentration level of each specie over a given time interval for each cell of a given set and across all of the selected cells.  The object also calculates minimum and maximum concentration levels for each specie across the set of cells and for each cell.
 
 ***
 #### 3.2.1.2: Oscillation Analysis
 
-NIKI
+Oscillation Analysis identifies the local extrema of a given local range over a given time interval for a given set of cells.  The object also calculates the average period and amplitude of these oscillations for each cell in the given set.
 
 [Back to Top](#delay-differential-equations-simulator)
+
+***
+### 3.2.1.3: Concentration Check
+
+Concentration Check allows the user to abort simulation prematurely if a concentration level of a given specie (or for all species) escapes the bounds of a given lower and upper value for any given set of cells and time interval.
 
 ## 4: Authorship and License
 
