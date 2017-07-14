@@ -1,5 +1,7 @@
 # Delay Differential Equations Simulator
-A generic library for simulating networks of ordinary and delay differential equations for systems modeling
+A generic library for simulating networks of ordinary and delay differential equations for systems modeling.
+
+Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 ## Table of Contents
 
@@ -42,9 +44,9 @@ linux, mac. windows if-y
 ***
 #### 0.1: Compilers
 
-cmake version 2.8+ required, and a supported build manager (make is the only tested system currently.)
-a cpp compiler supporting the C++11 standard, such as g++ 
-To enable GPU acceleration, requires cuda 6+ for compilation, and a gpu with "Compute Capability 3.0+" for execution.
+CMake version 2.8+ required, along with a supported build manager (make is the only tested system currently.)
+A C++ compiler with support for at least the C++11 standard is required. 
+In order to compile the CUDA accelerated code, both a CUDA 6.0+ compiler and NVIDIA GPU hardware with "Compute Capability 3.0+" are needed.
 
 [Back to Top](#delay-differential-equations-simulator)
 
@@ -61,15 +63,28 @@ step-by-step instructions on whole process using a simple model
 ***
 #### 2.0.0: Declaring Species
 
-how to do specie_list.hpp
+Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two species, `alpha` and `bravo`, and one critical speice, `charlie`.
+
+```
+SPECIE(alpha)
+SPECIE(bravo)
+CRITICAL_SPECIE(charlie)
+```
 
 ***
 #### 2.0.1: Declaring Reactions
 
-how to do reactions_list.hpp
+Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_synthesis`, and three normal reactions, `bravo_synthesis`, `alpha_degredation`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
+
+```
+DELAY_REACTION(alpha_synthesis)
+REACTION(bravo_synthesis)
+REACTION(alpha_degredation)
+REACTION(bravo_degredation)
+```
 
 ***
-#### 2.0.2: Defining Reaction Formulas
+#### 2.0.2: Defining Reaction Rate Formulas
 
 how to do model_impl.hpp
 

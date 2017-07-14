@@ -87,13 +87,23 @@ void simulation_base::calc_max_delays() {
   delts = rate_terms[name]; \
   iter = delts.begin(); \
   RATETYPE max_gradient_##name = 1.0; \
-  for (int k=0; k<_width_total && _model._has_gradient[name]; k++) { \
-    max_gradient_##name = std::max<RATETYPE>(_model.factors_gradient[ name ][k], max_gradient_##name); \
+  if (factors_gradient) \
+  { \
+    for (int k=0; k<_width_total && factors_gradient[name]; k++) { \
+      max_gradient_##name = std::max<RATETYPE>(factors_gradient[ name ][k], max_gradient_##name); \
+    } \
   } \
+  \
+  RATETYPE pert_##name = 0.0; \
+  if (factors_perturb) \
+  { \
+    pert_##name = factors_perturb[name]; \
+  } \
+  \
   for (int in = 0; in < delts.size(); in++) { \
     std::advance(iter,in); \
     RATETYPE& sp_max_delay = max_delays[*iter]; \
-    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + _model.factors_perturb[ name ]) ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION

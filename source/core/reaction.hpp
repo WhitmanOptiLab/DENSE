@@ -61,6 +61,11 @@ class reaction : public reaction_base {
   RATETYPE active_rate(const Ctxt& c) const;
 };
 
+#define REACTION(name) template<> reaction<name>::reaction();
+#include "reactions_list.hpp"
+#undef REACTION
+
+
 /*
 static delay_reaction_id get_delay_reaction_id(reaction_id rid) {
   switch (rid) {

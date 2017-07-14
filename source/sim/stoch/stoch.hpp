@@ -133,9 +133,9 @@ class simulation_stoch : public simulation_base {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    simulation_stoch(const model& m, const param_set& ps, int cells_total, int width_total,
+    simulation_stoch(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE analysis_interval, RATETYPE sim_time, int seed):
-        simulation_base(m, ps, cells_total, width_total, analysis_interval, sim_time),
+        simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(default_random_engine(seed)){}
 
     //Deconstructor

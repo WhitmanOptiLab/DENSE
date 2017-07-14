@@ -165,10 +165,9 @@ int main(int argc, char *argv[])
                 }
                 
                 simulation_set sim_set = simulation_set(
-                        arg_parse::get<string>("g", "gradients", ""),
-                        arg_parse::get<string>("b", "perturb", ""),
-                        param_sets, cell_total, total_width,
-                        step_size, anlys_intvl, sim_time, seed);
+                        param_sets, arg_parse::get<string>("g", "gradients", ""),
+                        arg_parse::get<string>("b", "perturb", ""), cell_total, 
+                        total_width, step_size, anlys_intvl, sim_time, seed);
                
 
                 // Prepare data output
