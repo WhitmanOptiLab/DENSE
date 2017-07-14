@@ -1,8 +1,8 @@
 #include "arg_parse.hpp"
 #include "util/color.hpp"
+#include "util/common_utils.hpp" // For "typedef float RATETYPE;"
 
 #include "core/specie.hpp" // For specie_vec specialization
-#include "core/reaction.hpp" // For "typedef float RATETYPE;"
 
 #include <algorithm> // For remove
 #include <cfloat> // For FLT_MAX

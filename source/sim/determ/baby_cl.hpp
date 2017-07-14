@@ -3,7 +3,6 @@
 #include "util/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
-#define WRAP(x, y) ((x) + (y)) % (y)
 
 using namespace std;
 

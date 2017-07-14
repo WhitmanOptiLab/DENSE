@@ -25,5 +25,6 @@ class CPUGPU_TempArray {
   const TYPE& operator[](int i) const { return array[i]; }
 };
 
+#define WRAP(x, y) ((x) + (y)) % (y)
 
 #endif

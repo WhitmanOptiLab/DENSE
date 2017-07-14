@@ -7,6 +7,7 @@
 #include "determ.hpp"
 #include "sim/cell_param.hpp"
 #include <iostream>
+
 using namespace std;
 
 CPUGPU_FUNC

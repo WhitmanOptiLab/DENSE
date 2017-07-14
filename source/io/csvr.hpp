@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-#include "core/reaction.hpp" // For "typedef float RATETYPE;"
+#include "util/common_utils.hpp" // For "typedef float RATETYPE;"
 
 
 class csvr
