@@ -84,23 +84,48 @@ REACTION(bravo_degredation)
 ***
 #### 2.0.2: Defining Reaction Rate Formulas
 
-how to do model_impl.hpp
+NIKI
 
 ***
 #### 2.0.3: Defining Reaction Inputs and Outputs
 
-how to do reaction.cpp/.cu -- though this will change a lot depending on how we resulve issue #11
+NIKI
 
 ***
 #### 2.1: Compiling and Generating Parameter Templates
 
-discuss how to cmake works, csv_gen dependency, and where the generated templates are
+Running `make` after having initialized CMake in the desired directory will automatically run `csv_gen` as the simulation is being compiled. `csv_gen` will generate `*_template.csv` files formatted for the directory's particular model. The easiest way to fill these out is with an Excel-like program such as LibreOffice Calc. Remember to always save changes using the original `*.csv` file extension. Changes should also be saved in a file name different from the one automatically generated so that there is no chance `csv_gen` will overwrite your settings.
 
 ***
 #### 2.2: Parameters
 
 ***
 #### 2.2.0: CSV Parser Specifications
+
+At its core, CSV files contain numerical values seperated by commas. Below are a few extra rules that the simulation's CSV parser follows:
+1. Empty cells, blank rows, and whitespace
+...To illustrate, the following two examples are equivalent.
+...Example A:
+...```
+...3.14, , 2001, 2.18,
+...
+...41,       2.22e-22
+...```
+...Example B:
+...```
+...3.14,2001,2.18,41,2.22e-22
+...```
+2. Comments, i.e. rows that begin with a `#`
+...```
+...# I am a comment! Below is the data.
+...9182, 667
+...```
+3. Any cell that contains a character which is not a number, `.`, `+`, `-`, or `e`.
+...Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by the users as they wish.
+...```
+...alpha_synthesis, bravo_synthesis, charlie_synthesis, 
+...21.12021,        33,              101.123, 
+...```
 
 copy from and add extra to what is already in csv headers for each of these sections
 
@@ -159,17 +184,17 @@ how is data_out.csv (could be diff name, -e) formatted?
 ***
 #### 3.2.1.0: Output Destination
 
-as of now in cmd line, but could use " > anlys.txt" for example, or mod code, see 3.1.2.3
+TODO LATER... will change next week based on what we do with analysis log
 
 ***
 #### 3.2.1.1: Basic Analysis
 
-what does it tell us?
+NIKI
 
 ***
 #### 3.2.1.2: Oscillation Analysis
 
-what's its format?
+NIKI
 
 [Back to Top](#delay-differential-equations-simulator)
 
