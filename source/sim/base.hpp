@@ -1,6 +1,7 @@
 #ifndef SIM_BASE_HPP
 #define SIM_BASE_HPP
 
+#include "util/common_utils.hpp"
 #include "core/context.hpp"
 #include "core/observable.hpp"
 #include "core/param_set.hpp"
@@ -95,16 +96,12 @@ class simulation_base : public Observable{
   //Virtual function all subclasses must implement
   virtual void initialize();
 
-#ifdef __CUDACC__
-    __host__ __device__
-#endif
-
-
     /*
      * CALC_NEIGHBOR_2D
      * populates the data structure "_neighbors" with cell indices of neighbors
      * follows hexagonal adjacencies for an unfilled tube
     */
+    CPUGPU_FUNC
     void calc_neighbor_2d(){
         for (int i = 0; i < _cells_total; i++) {        
 	        int adjacents[6];

@@ -16,8 +16,6 @@
 using namespace std;
 
 
-typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
-
 /*
  * STOCHASTIC SIMULATOR:
  * superclasses: simulation_base, Observable
