@@ -122,7 +122,7 @@ Contexts are iterators over the concentration levels of all species in all cells
 To get the concentration of a specie where `c` is the context object and `SPECIE` is the specie's enumeration:
 `c.getCon(SPECIE)`
 
-To get the delay time of a particular delay reaction that is enumerated as `R_ONE` and is properly identified as a delay reaction in `reactions_list.hpp` (see [2.0.0: Declaring Species](#201-declaring-species)):
+To get the delay time of a particular delay reaction that is enumerated as `R_ONE` and is properly identified as a delay reaction in `reactions_list.hpp` (see [2.0.0: Declaring Species](#200-declaring-species)):
 `RATETYPE delay_time = c.getDelay(dreact_R_ONE);`
 
 To get the past concentration of `SPECIE` where `delay_time`, as specified in the previous example, is the delay time for `R_ONE`:
