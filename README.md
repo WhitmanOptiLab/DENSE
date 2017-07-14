@@ -65,6 +65,9 @@ step-by-step instructions on whole process using a simple model
 
 Declare species in `specie_list.hpp`. List the specie names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists two species, `alpha` and `bravo`, and one critical speice, `charlie`.
 
+[comment]: # What is a critical specie?
+[comment]: # Do the critical species have to come last?  At a high level, what does this declaration do?
+
 ```
 SPECIE(alpha)
 SPECIE(bravo)
@@ -76,6 +79,8 @@ CRITICAL_SPECIE(charlie)
 
 Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_synthesis`, and three normal reactions, `bravo_synthesis`, `alpha_degredation`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
 
+[comment]: # Do the delay reactions have to come first?  At a high level, what does this declaration do?
+
 ```
 DELAY_REACTION(alpha_synthesis)
 REACTION(bravo_synthesis)
@@ -85,6 +90,8 @@ REACTION(bravo_degredation)
 
 ***
 #### 2.0.2: Defining Reaction Rate Formulas
+
+[comment]: # keep the enumerations consistent, demonstrate that the active rate functions are tied to the previously declared reactions
 
 Define all of reaction rate functions in `model_impl.hpp`.
 For example, if a reaction is enumerated `R_ONE`, it should be declared as a 
@@ -145,6 +152,8 @@ Running `make` after having initialized CMake in the desired directory will auto
 
 ***
 #### 2.2: Parameters
+
+[comment]: # Add something here to talk about how the model declaration informs the parameter sets.  Highlight that all reactions have rate constants, delay reactions have delays, and critical species have critical values.
 
 ***
 #### 2.2.0: CSV Parser Specifications
