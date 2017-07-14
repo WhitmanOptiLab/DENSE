@@ -102,7 +102,7 @@ Running `make` after having initialized CMake in the desired directory will auto
 ***
 #### 2.2.0: CSV Parser Specifications
 
-At its core, CSV files contain numerical values seperated by commas. Below are a few extra rules that the simulation's CSV parser follows:
+At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser *DOES NOT* parse.
 1. Empty cells, blank rows, and whitespace
 
    To illustrate, the following two examples are equivalent.  
@@ -142,7 +142,8 @@ At its core, CSV files contain numerical values seperated by commas. Below are a
 ***
 #### 2.2.1: Parameter Sets
 
-The parameter set template is named `param_sets_template.csv` by default. Parameter set files can contain more than one set per file (each being on their own line). When a file is loaded into the simulation, all sets are initialized and executed in parallel.  
+The parameter set template is named `param_sets_template.csv` by default. Parameter set files can contain more than one set per file (each being on their own line). When a file is loaded into the simulation, all sets are initialized and executed in parallel.
+
 Below is an example of a parameter sets file that contains three sets:
 ```
 alpha_synthesis, alpha_degredation,
@@ -167,7 +168,7 @@ alpha_synthesis, alpha_degredation,
 
 The gradients template is named `param_grad_template.csv` by default. Gradient files should only contain one set of gradients. Only this one gradients set is applied to all parameter sets when a simulation set is being run.
 
-Use `0` under all four columns of a reaction to indicate that it should not have a gradient. In the first example, `alpha_synthesis` does not have a gradient, while in the second example, `alpha_degredation does.
+Use `0` under all four columns of a reaction to indicate that it should not have a gradient. In the first example, `alpha_synthesis` does not have a gradient, while in the second example, `alpha_degredation` does.
 ```
 alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
 0,                  0,                  0,                  0,
@@ -178,13 +179,13 @@ alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
 ```
 `alpha_degredation`'s gradient is between cell columns 2 and 5, with a multiplier of 0.8 starting at column 2, linearly increasing to 2.52 by column 5.
 
-Gradient Suffixes Chart
-| Suffix | Meaning          |
-| ------ | ---------------- |
-| x1     | start column     |
-| y1     | start multiplier |
-| x2     | end column       |
-| y2     | end multiplier   |
+Gradient Suffixes Chart  
+| Suffix | Meaning          |  
+| ------ | ---------------- |  
+| x1     | start column     |  
+| y1     | start multiplier |  
+| x2     | end column       |  
+| y2     | end multiplier   |  
 
 
 [Back to Top](#delay-differential-equations-simulator)
