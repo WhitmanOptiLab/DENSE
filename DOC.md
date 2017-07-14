@@ -74,7 +74,9 @@ such as observer-observable, inheritance of simulation_base, etc
 
 #### 2.0: Custom Main
 
-how to write your own main.cpp and add it to cmake
+To circumnavigate the argument parsing structure of main.cpp and create a custom main, create a new file with a function `main()`.
+
+HOW TO INCLUDE THE NEW FILE IN CMAKE
 
 ***
 #### 2.1: Algorithms
@@ -82,17 +84,21 @@ how to write your own main.cpp and add it to cmake
 ***
 #### 2.1.0: Simulation
 
-how to add new simulation class + implementation of context
+To add an entirely new simulation class, the user must make sure that the class inherits from `simulation_base` and calls the base constructor in its own constructor.  The simulation class must also define its own context in the header file inside that class that inherits from `ContextBase`.
+
+To notify observers (analysis and file-writing objects) throughout simulation, the class must regularly call `notify(ContextBase& context_name)` in the function `simulate()`, passing it an instanciation of the context defined in the header file. If the class ever calls `notify(ContextBase& context_name)`, then it MUST, before `simulate()` concludes call the function `finalize()`.
 
 ***
 #### 2.1.1: Analysis
 
-using observer interface and/or analysis inheritance to do analyses
+Any object that performs a regular evaluation of concentration levels throughout simulation is considered an analysis. To create a new analysis, make a class in `source/anlys` that inherits from `Analysis` (include `base.hpp`) and calls the base constructor in its own constructor.  Because `Analysis` inherits from `Observer`, it must define the functions `update(ContextBase& context_name)` and `finalize()`.
 
 ***
 #### 2.2: Model
 
-see section 2 of 'README.md'. RECOMPILE IS NECESSARY!!! reiterate that each compile is model-specific
+(see section 2 of 'README.md')
+
+To create a new model make a copy of the directory `template_model`.  In all four files, follow directions to implement the new model.  The system must be RECOMPILED with `cmake ..` and then `make` because each compile is model-specific.
 
 ***
 #### 2.3: I/O
