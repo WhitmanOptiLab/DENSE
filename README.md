@@ -42,8 +42,9 @@ linux, mac. windows if-y
 ***
 #### 0.1: Compilers
 
-a cpp compiler such as g++
-cuda 6+. gpu with "Compute Capability 3.0+"
+cmake version 2.8+ required, and a supported build manager (make is the only tested system currently.)
+a cpp compiler supporting the C++11 standard, such as g++ 
+To enable GPU acceleration, requires cuda 6+ for compilation, and a gpu with "Compute Capability 3.0+" for execution.
 
 [Back to Top](#delay-differential-equations-simulator)
 
@@ -161,12 +162,15 @@ what's its format?
 
 ## 4: Authorship and License
 
-Copyright (C) 2017 John Smith (smithj@example.edu), John Miller (millerj@example.edu), and John Carpenter (carpenj@example.edu).
+Copyright (C) 2016-2017 John Stratton (strattja@whitman.edu), Ahmet Ay (aay@colgate.edu)
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This software was developed with significant contributions from several students over the years:
+Kirk Lange
+Nikhil Lonberg
+Yecheng Yang
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.  
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 [Back to Top](#delay-differential-equations-simulator)
