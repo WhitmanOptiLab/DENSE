@@ -104,7 +104,7 @@ Running `make` after having initialized CMake in the desired directory will auto
 ***
 #### 2.2.0: CSV Parser Specifications
 
-At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser *DOES NOT* parse.
+At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser __*DOES NOT*__ parse.
 1. Empty cells, blank rows, and whitespace
 
    To illustrate, the following two examples are equivalent.  
