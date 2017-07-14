@@ -104,6 +104,7 @@ Running `make` after having initialized CMake in the desired directory will auto
 
 At its core, CSV files contain numerical values seperated by commas. Below are a few extra rules that the simulation's CSV parser follows:
 1. Empty cells, blank rows, and whitespace
+
 ...To illustrate, the following two examples are equivalent.
 ...Example A:
 ...```
@@ -115,12 +116,16 @@ At its core, CSV files contain numerical values seperated by commas. Below are a
 ...```
 ...3.14,2001,2.18,41,2.22e-22
 ...```
+
 2. Comments, i.e. rows that begin with a `#`
+
 ...```
 ...# I am a comment! Below is the data.
 ...9182, 667
 ...```
+
 3. Any cell that contains a character which is not a number, `.`, `+`, `-`, or `e`.
+
 ...Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by the users as they wish.
 ...```
 ...alpha_synthesis, bravo_synthesis, charlie_synthesis, 
