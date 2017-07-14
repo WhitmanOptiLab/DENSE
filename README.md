@@ -182,14 +182,13 @@ alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
 `alpha_degredation`'s gradient is between cell columns 2 and 5, with a multiplier of 0.8 starting at column 2, linearly increasing to 2.52 by column 5.
 
 Gradient Suffixes Chart  
-```
+
 | Suffix | Meaning          |  
 | ------ | ---------------- |  
 | x1     | start column     |  
 | y1     | start multiplier |  
 | x2     | end column       |  
 | y2     | end multiplier   |  
-```
 
 [Back to Top](#delay-differential-equations-simulator)
 
