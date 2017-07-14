@@ -290,18 +290,29 @@ Short and long flags are equivalent; either can be used to get the same program 
 
 `RATETYPE` is set to `double` (double-precision floating-point) by default and can be changed in `source/util/common_utils.hpp`.
 
-| Short | Long              | Field Type | Description
-| ---   | ----------------- | ---------- | -----------
+| Short | Long              | Field      | Description
+| ----- | ----------------- | ---------- | -----------
 | `h`   | `help` or `usage` | *none*     | Print information about all command line arguments.
 | `n`   | `no-color`        | *none*     | Disable color in the terminal.
 | `p`   | `param-sets`      | `string`   | Relative file location and name of the parameter sets `*.csv`. `../param_sets.csv`, for example.
 | `g`   | `gradients`       | `string`   | Enables gradients and specifies the relative file location and name of the gradients `*.csv`. `../param_grad.csv`, for example.
-| `b`   | `perturb`         | `string`   | Enables perturbations and specifies the relative file location and name of the perturbations `*.csv`. `../param_pert.csv`, for example.
-| `b`   | `perturb`         | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
+| `b`   | `perturbations`   | `string`   | Enables perturbations and specifies the relative file location and name of the perturbations `*.csv`. `../param_pert.csv`, for example.
+| `b`   | `perturbations`   | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
 | `e`   | `data-export`     | `string`   | Relative file location and name of the output of the logged data `*.csv`. `../data_out.csv`, for example.
 | `i`   | `data-import`     | `string`   | Relative file location and name of `*.csv` data to import into the analyses. `../data_in.csv`, for example. Using this flag runs only analysis.
-| `o`   | `specie-option`   | `string`   | 
-
+| `o`   | `specie-option`   | `string`   | Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. __*IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED*__, enclose the argument in quotation marks and seperate the species using commas. For example, `-o "alpha, bravo, charlie"`. If only one specie is desired, no commas or quotation marks are necessary.
+| `c`   | `cell-total`      | `int`      | Total number of cells to simulate.
+| `w`   | `total-width`     | `int`      | Width of tissue to simulate. Height is inferred by dividing `cell-total` by `total-width`.
+| `s`   | `step-size`       | `RATETYPE` | Time increment by which the deterministic simulation progresses. __*USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC*__.
+| `a`   | `anlys-intvl`     | `RATETYPE` | Analysis __*AND*__ file writing interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.
+| `l`   | `local-range`     | `RATETYPE` | Range in minutes within which oscillation features are searched for (a.k.a. "window size"). __*USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS*__.
+| `r`   | `rand-seed`       | `int`      | Set the stochastic simulation random number generator seed.
+| `t`   | `time`            | `RATETYPE` | Amount of simulated minutes the simulation should execute.
+| `z`   | `time-col`        | *none*     | Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.
+| `u`   | `time-start`      | `RATETYPE` | Simulation time at which analysis and file writing should start. Not including this argument defaults the start time to the very beginning.
+| `v`   | `time-end`        | `RATETYPE` | Simulation time at which analysis and file writing should end. Not including this argument defaults the end time to the very end.
+| `x`   | `cell-start`      | `int`      | The first column of cells that the analyzer and file writer should start paying attention at.
+| `y`   | `cell-end`        | `int`      | The last column of cells that the analyzer and file writer should bother looking at.
 
 ***
 #### 3.2: Output

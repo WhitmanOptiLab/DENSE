@@ -30,10 +30,10 @@ int main(int argc, char *argv[])
             "[-g | --gradients]     <string> " << color::set(color::GREEN) <<
             "Enables gradients and specifies the relative file location and name of the gradients csv. \"../param_grad.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-b | --perturb]       <string> " << color::set(color::GREEN) <<
+            "[-b | --perturbations] <string> " << color::set(color::GREEN) <<
             "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-b | --perturb]     <RATETYPE> " << color::set(color::GREEN) <<
+            "[-b|--perturbations] <RATETYPE> " << color::set(color::GREEN) <<
             "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a RATETYPE." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-e | --data-export]   <string> " << color::set(color::GREEN) <<
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
             "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-o | --specie-option] <string> " << color::set(color::GREEN) <<
-            "Specify which species to output to file and analyse. IF MORE THAN ONE SPECIE IS DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
+            "Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
@@ -52,16 +52,35 @@ int main(int argc, char *argv[])
             "Width of tissue to simulate. Height is inferred by c/w." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
-            "Increment size in which the simulation progresses through time. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << endl;
+            "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-a | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
-            "Analysis AND file writing interval. How frequently (in units of simulated seconds) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
+            "Analysis AND file writing interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-l | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
             "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-t | --time]             <int> " << color::set(color::GREEN) <<
-            "Amount of time to simulate." << color::clear() << endl;
+            "[-r | --rand-seed]        <int> " << color::set(color::GREEN) <<
+            "Set the stochastic simulation's random number generator seed." << color::clear() << endl;
+        cout << color::set(color::yellow) <<
+            "[-t | --time]             <int> " << color::set(color::green) <<
+            "Amount of simulated minutes the simulation should execute." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-z | --time-col]        <bool> " << color::set(color::GREEN) <<
+            "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs, but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-u | --time-start]  <RATETYPE> " << color::set(color::GREEN) <<
+            "Simulation time at which analysis and file writing should start. Not including this argument defaults the start time to the very beginning." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-v | --time-end]    <RATETYPE> " << color::set(color::GREEN) <<
+            "Simulation time at which analysis and file writing should end. Not including this argument defaults the end time to the very end." << color::clear() << endl;
+        cout << color::set(color::yellow) <<
+            "[-x | --cell-start]             <int> " << color::set(color::green) <<
+            "The first column of cells that the analyzer and file writer should start paying attention at." << color::clear() << endl;
+        cout << color::set(color::yellow) <<
+            "[-y | --cell-end]             <int> " << color::set(color::green) <<
+            "The last column of cells that the analyzer and file writer should bother looking at." << color::clear() << endl;
+
     }
     else
     {
@@ -166,7 +185,7 @@ int main(int argc, char *argv[])
                 
                 simulation_set sim_set = simulation_set(
                         param_sets, arg_parse::get<string>("g", "gradients", ""),
-                        arg_parse::get<string>("b", "perturb", ""), cell_total, 
+                        arg_parse::get<string>("b", "perturbations", ""), cell_total, 
                         total_width, step_size, anlys_intvl, sim_time, seed);
                
 
