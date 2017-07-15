@@ -39,42 +39,50 @@ such as observer-observable, inheritance of simulation_base, etc
 
 #### 1.0: /anlys
 
-* "queen"
+High-level overview of anlys  
 * only /sim can (should) access (by this I mean "#include") /anlys
 * /anlys can access everyone except /sim
 
 ***
 #### 1.1: /core
 
-* "knights"
+High-level overview of core  
 * everyone except /util can access /core
 * /core can only access /util (after we get rid of model.*, the /io outlier will be eliminated)
 
 ***
 #### 1.2: /io
 
-* "nobles"
+High-level overview of io  
 * only /anlys and /sim can access /io
 * /io can only access /core and /util
 
 ***
 #### 1.3: /sim
 
-* "king"
+High-level overview of sim  
 * no one can access /sim
 * /sim can access everyone
 
 ***
 #### 1.4: /util
 
-* "serfs"
+High-level overview of util  
 * everyone can access /util
 * /util cannot access anyone
 
 ***
 #### 1.5: Feudal Metaphor
 
-king, queen, nobles, knights, serfs
+Hopefully this metaphor isn't futile.
+
+`/sim` is the king. An essential component of the kingdom, especially if there is no queen to rule the realm.  
+`/anlys` is the queen. She is the cunning side-kick of the king, but she can also run the show if the king is absent.  
+`/io` is the vassal. He is the eyes and ears of the royal family. Without him, the kingdom *can* operate, though not to its fullest potential.  
+`/core` is the knight. He conducts the bulk of the kingdom's work.  
+`/util` is the peasant. He and his family provides the basic resources for the kingdom.
+
+Each member of this society can access to everyone lower than them, but cannot access anyone higher than them. Breaking these societal rules will not result in death, but may result in you getting shunned by your fellow countrymen.
 
 [Back to Top](#dde-documentation)
 
@@ -82,9 +90,9 @@ king, queen, nobles, knights, serfs
 
 #### 2.0: Custom Main
 
-To circumnavigate the argument parsing structure of main.cpp and create a custom main, create a new file with a function `main()`.
+To circumnavigate the argument parsing structure of main.cpp and create a custom main, create a new file with a function `int main(int argc, char* argv[])` insize the `/source` directory. To take advantage of `arg_parse`, be sure to have `arg_parse::init(argc, argv);` at or near the beginning of `main`.
 
-HOW TO INCLUDE THE NEW FILE IN CMAKE
+In order for CMake to generate an executable using the new `main`, various lines must be added to `/source/CMakeLists.txt`. Copy and paste all the lines between and including `function(SIMULATION localname simdir)` and `endfunction(SIMULATION localname simdir)`. In your new CMake function, replace the two occurances of `SIMULATION` with your own name. Next, create a CMake function call after this line, `SIMULATION(simulation ${PROJECT_BINARY_DIR})`. Copy that line, paste it directly below, then replace `SIMULATION` with the name you gave your function earlier and replace `simulation` with what you want the resulting executable to be named. Optionally, to guarantee that the `*_template.csv` files get generated upon building the new `main`, copy the line, `add_dependencies(simulation csv_gen_run)`, then paste it directly below. Replace `simulation` with the executable name you gave earlier. Now, whenever `make` is run, the new executable will also be built.
 
 ***
 #### 2.1: Algorithms
@@ -104,9 +112,7 @@ Any object that performs a regular evaluation of concentration levels throughout
 ***
 #### 2.2: Model
 
-(see section 2 of 'README.md')
-
-To create a new model make a copy of the directory `template_model`.  In all four files, follow directions to implement the new model.  The system must be RECOMPILED with `cmake ..` and then `make` because each compile is model-specific.
+To create a new model make a copy of the directory `template_model`. In all four files, follow directions in `README.md` section 2 to implement the new model. __*THE SYSTEM MUST BE RECOMPILED*__ with `cmake ..` and then `make`, because each compile is model-specific.
 
 ***
 #### 2.3: I/O

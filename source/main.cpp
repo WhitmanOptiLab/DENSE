@@ -9,7 +9,7 @@
 #include <iostream>
 
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     arg_parse::init(argc, argv);
     color::enable(!arg_parse::get<bool>("n", "no-color", 0, false));
