@@ -37,13 +37,25 @@ public:
 
     csvr_sim(const std::string& pcfFileName, const specie_vec& pcfSpecieVec);
     virtual ~csvr_sim();
+    
+    int getCellTotal();
+    RATETYPE getAnlysIntvl();
+    RATETYPE getTimeStart();
+    RATETYPE getTimeEnd();
+    int getCellStart();
+    int getCellEnd();
 
     void run();
 
 private:
-    const specie_vec icSpecieVec;
-    unsigned int iCellTotal;
-
+    // Required for csvr_sim
+    specie_vec iSpecieVec;
+    int iCellTotal;
+    bool iTimeCol;
+    
+    // For everyone else to get()
+    RATETYPE iAnlysIntvl, iTimeStart, iTimeEnd;
+    int iCellStart, iCellEnd;
 };
 
 #endif

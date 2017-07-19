@@ -10,7 +10,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
         const bool& pcfTimeColumn, const unsigned int& pcfCellTotal,
         const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
         const specie_vec& pcfSpecieOption, Observable *pnObl) :
-    csvw(pcfFileName, true, "# This file can be used as a template for "
+    csvw(pcfFileName, true, "\n# This file can be used as a template for "
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
     Observer(pnObl,pcfCellStart,pcfCellEnd,pcfTimeStart,pcfTimeEnd), icSpecieOption(pcfSpecieOption),
@@ -21,7 +21,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
     csvw::add_div("# The row after next MUST remain in the file in order for it "
             "to be parsable by the CSV reader. They indicate the following:\n"
             "cell-total, anlys-intvl, time-start, time-end, time-col, "
-            "cell-start, cell-end, specie-option\n");
+            "cell-start, cell-end, specie-option,\n");
     csvw::add_data(icCellTotal);
     csvw::add_data(icTimeInterval);
     csvw::add_data(icTimeStart);
@@ -36,7 +36,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
         {
             if ((specie_id) i == lcfID)
             {
-                csvw::add_data(lcfID);
+                csvw::add_data(1);
                 written = true;
                 break;
             }
@@ -44,7 +44,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
 
         if (!written)
         {
-            csvw::add_data(-1);
+            csvw::add_data(0);
         }
     }
     csvw::add_div("\n\n");

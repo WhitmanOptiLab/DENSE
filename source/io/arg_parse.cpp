@@ -42,10 +42,10 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line argument "
-                                "search failed. No argument provided after flag [" <<
-                                pcfFlagShort << " | " << pcfFlagLong << "]." <<
-                                color::clear() << endl;
+                            cout << color::set(color::RED) << "Command line "
+                                "argument search failed. No argument provided "
+                                "after flag [" << pcfFlagShort << " | " <<
+                                pcfFlagLong << "]." << color::clear() << endl;
                         }
                         else
                         {
@@ -72,16 +72,18 @@ namespace arg_parse
         {
             if (!iSuppressObligatory)
             {
-                cout << color::set(color::RED) << "Command line argument search "
-                    "failed. Flag [-" << pcfFlagShort << " | --" <<
+                cout << color::set(color::RED) << "Command line argument "
+                    "search failed. Flag [-" << pcfFlagShort << " | --" <<
                     pcfFlagLong << "] is required in order for all program "
-                    "behaviors to function properly." << color::clear() << endl;
+                    "behaviors to function properly." <<
+                    color::clear() << endl;
             }
         }
         
         
         template<typename T>
-        const T getNotOblig(const string& pcfFlagShort, const string& pcfFlagLong)
+        const T getNotOblig(const string& pcfFlagShort,
+                const string& pcfFlagLong)
         {
             iSuppressObligatory = true;
             const T rval = get<T>(pcfFlagShort, pcfFlagLong);
@@ -110,8 +112,9 @@ namespace arg_parse
     
     
     template<>
-    bool get<string>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            string* pnPushTo, const bool& pcfObligatory)
+    bool get<string>(const std::string& pcfFlagShort,
+            const std::string& pcfFlagLong, string* pnPushTo,
+            const bool& pcfObligatory)
     {
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
@@ -130,8 +133,9 @@ namespace arg_parse
     
     // The default is a vec filled with all specie ids
     template<>
-    bool get<specie_vec>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            specie_vec* pnPushTo, const bool& pcfObligatory)
+    bool get<specie_vec>(const std::string& pcfFlagShort,
+            const std::string& pcfFlagLong, specie_vec* pnPushTo,
+            const bool& pcfObligatory)
     {
         string tArg = get<string>(pcfFlagShort, pcfFlagLong, "");
         tArg = "," + tArg + ",";
@@ -141,7 +145,8 @@ namespace arg_parse
         rVec.reserve(NUM_SPECIES);
         for (unsigned int i=0; i<NUM_SPECIES; i++)
         {
-            if (tArg.find(","+specie_str[i]+",") != string::npos || tArg == ",,")
+            if (tArg.find(","+specie_str[i]+",") != string::npos ||
+                    tArg == ",,")
             {
                 rVec.push_back((specie_id) i);
             }
@@ -175,9 +180,10 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument parsing "
-                    "failed. Argument \"" << iArgVec[index] << "\" cannot be "
-                    "converted to integer." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument "
+                    "parsing failed. Argument \"" << iArgVec[index] <<
+                    "\" cannot be converted to integer." <<
+                    color::clear() << endl;
             }
             else
             {
@@ -208,9 +214,10 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument parsing "
-                    "failed. Argument \"" << iArgVec[index] << "\" cannot be "
-                    "converted to RATETYPE." << color::clear() << endl;
+                cout << color::set(color::RED) << "Command line argument "
+                    "parsing failed. Argument \"" << iArgVec[index] <<
+                    "\" cannot be converted to RATETYPE." <<
+                    color::clear() << endl;
             }
             else
             {

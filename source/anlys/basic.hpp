@@ -25,17 +25,19 @@ private:
 	void update_minmax(const ContextBase& start,int c);
 
 public:
-	BasicAnalysis(Observable *dLog, int mn, int mx, RATETYPE startT, RATETYPE endT) 
-        : Analysis(dLog,mn,mx,startT,endT) {
-	    for (int c=min; c<max; c++){
+	BasicAnalysis(Observable *dLog, const specie_vec& pcfSpecieOption, csvw* pnFileOut,
+            int mn, int mx, RATETYPE startT, RATETYPE endT) 
+        : Analysis(dLog,pcfSpecieOption,pnFileOut,mn,mx,startT,endT)
+    {
+        for (int c=min; c<max; c++){
             avgs_by_context.emplace_back();
 		    mins_by_context.emplace_back();
 		    maxs_by_context.emplace_back();
-		    for (int s = 0; s<NUM_SPECIES; s++){
+		    for (const specie_id& lcfID : ucSpecieOption){
 			    mins_by_context[c].push_back(9999);
 		    	maxs_by_context[c].push_back(0);
 			    avgs_by_context[c].push_back(0);
-			    if (c==0){
+			    if (c==min){
 					mins.push_back(9999);
 					maxs.push_back(0);
 				  	averages.push_back(0);
@@ -60,6 +62,7 @@ public:
 		time++;
 	}
 
+    /*
 	// Test: prints output.
 	void test(){
 		for (int s=0; s<averages.size(); s++){
@@ -68,6 +71,7 @@ public:
 			cout<<"maximum="<<maxs[s]<<endl<<endl;
 		}
 	}
+    */
 
 	/* Finalize: overloaded virtual function of observer
 	   - must be called to produce correct average values

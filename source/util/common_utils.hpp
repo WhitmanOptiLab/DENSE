@@ -13,6 +13,9 @@
 #define STATIC_VAR
 #endif
 
+#include <string>
+using namespace std;
+
 typedef double RATETYPE;
 
 template<class TYPE, int SIZE>
@@ -26,5 +29,13 @@ class CPUGPU_TempArray {
 };
 
 #define WRAP(x, y) ((x) + (y)) % (y)
+
+// char fill, a lot like zfill but with any char
+string cfill(string prFillMe, const char& pcfFillWith, const int& pcfFillLen);
+// adds the "_####" right before file extension of a file name
+string file_add_num(string prFileName, const string& pcfFillPrefix,
+        const char& pcfFillWith, const int& pcfFillMe,
+        const int& pcfFillLen, const string& pcfFillAt);
+
 
 #endif

@@ -9,11 +9,10 @@ using namespace std;
  * updates average concentration levels across all cells and per cell
 */
 void BasicAnalysis :: update_averages(const ContextBase& start, int c){
-	
-	for (int s=0; s<NUM_SPECIES; s++){
-		specie_id sid = (specie_id) s;
-		averages[s] += start.getCon(sid);
-		avgs_by_context[c][s] += start.getCon(sid);
+	for (int i=0; i<ucSpecieOption.size(); i++){
+		specie_id sid = (specie_id) ucSpecieOption[i];
+        averages[i] += start.getCon(sid);
+		avgs_by_context[c][i] += start.getCon(sid);
 	}
 }
 
@@ -25,32 +24,54 @@ void BasicAnalysis :: update_averages(const ContextBase& start, int c){
 */
 void BasicAnalysis :: update_minmax(const ContextBase& start, int c){
 
-	for (int s=0; s<NUM_SPECIES; s++){
-		specie_id sid = static_cast<specie_id>(s);
+	for (int i=0; i<ucSpecieOption.size(); i++){
+		specie_id sid = static_cast<specie_id>(ucSpecieOption[i]);
 		RATETYPE conc = start.getCon(sid);
-		if (conc > maxs[s]){
-			maxs[s] = conc;
+		if (conc > maxs[i]){
+			maxs[i] = conc;
 		}
-		if (conc < mins[s]){
-			mins[s] = conc;
+		if (conc < mins[i]){
+			mins[i] = conc;
 		}
-		if (conc > maxs_by_context[c][s]){
-			maxs_by_context[c][s] = conc;
+		if (conc > maxs_by_context[c][i]){
+			maxs_by_context[c][i] = conc;
 		}
-		if (conc < mins_by_context[c][s]){
-			mins_by_context[c][s] = conc;
+		if (conc < mins_by_context[c][i]){
+			mins_by_context[c][i] = conc;
 		}
 	}
 }
 
 void BasicAnalysis :: finalize(){
-    
+    // for each cell from max to min
     for (int c=0; c<max-min; c++){
-        for (int s=0; s<NUM_SPECIES; s++){
+        for (int s=0; s<ucSpecieOption.size(); s++){
             if (c==0){
-                averages[s] = averages[s]/time;
+                averages[s] = (averages[s]/time)/(max-min);
             }
             avgs_by_context[c][s] = avgs_by_context[c][s] / time;
         }
+    }
+
+    // only output min avg and max for now
+    if (unFileOut)
+    {
+        // column label setup
+        unFileOut->add_div("\n\nall cells,");
+        for (const specie_id& lcfID : ucSpecieOption)
+            unFileOut->add_div(specie_str[lcfID] + ",");
+        
+        // row label and data
+        unFileOut->add_div("\nmin,");
+        for (int s=0; s<ucSpecieOption.size(); s++)
+            unFileOut->add_data(mins[s]);
+        
+        unFileOut->add_div("\navg,");
+        for (int s=0; s<ucSpecieOption.size(); s++)
+            unFileOut->add_data(averages[s]);
+
+        unFileOut->add_div("\nmax,");
+        for (int s=0; s<ucSpecieOption.size(); s++)
+            unFileOut->add_data(maxs[s]);
     }
 }

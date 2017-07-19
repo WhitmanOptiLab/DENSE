@@ -2,6 +2,7 @@
 #include "util/color.hpp"
 
 #include <cfloat> // For FLT_MAX as an internal error code
+#include <cmath> // For round()
 #include <iostream>
 using namespace std;
 
@@ -33,6 +34,32 @@ csvr::~csvr()
 bool csvr::is_open() const
 {
     return iFile.is_open() ? true : false;
+}
+
+
+bool csvr::get_next()
+{
+    RATETYPE tDummy;
+    return csvr::get_next(&tDummy);
+}
+
+
+bool csvr::get_next(int* pnRate)
+{
+    RATETYPE tFloating;
+    if (csvr::get_next(&tFloating))
+    {
+        if (pnRate)
+        {
+            *pnRate = (int) round(tFloating);
+        }
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 

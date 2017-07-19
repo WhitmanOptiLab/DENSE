@@ -35,7 +35,7 @@ csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string
         iFile << "#     (3) Any cell which does not conform to the scientific "
             "notation format 3.14e-41 or simple whole numbers and decimals\n";
         iFile << "#         Often times cells which do not contain numbers are "
-            "intended to be column headers. These are not parsed by the simulation, "
+            "intended to be column headers. These are not parsed by the simulation "
             "and can technically be modified by the users as they wish.\n";
         iFile << "#         It is futile to add/remove/modify the column headers "
             "with the expectation of changing the program's behavior. Data must "
@@ -45,7 +45,7 @@ csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string
         iFile << "# For more information and examples see README.md section 2.2.0\n";
 
         // Write child documentation
-        iFile << pcfChildDoc << endl;
+        iFile << pcfChildDoc;
     }
 }
 

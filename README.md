@@ -71,8 +71,10 @@ Declare species in `specie_list.hpp`. List the specie names between the two sets
 
 A critical specie is a specie whose effect on a particular reaction is bounded by a threshhold. Imagine a specie that doesn't have an effect on a reaction rate until it reaches a certain concentration or might stop having a linear relationship with the rate after a certain conc level.  Whether this critical value is an upper or lower bound is decided in the rate equations in `model_impl.hpp` but the value itself is inputted alongside delays and initial rates (see 3.1) in the parameter set. To establish the pairing of this specie and its critical value, it is declared as a critical specie.
 
+<!---
 [comment]: # What is a critical specie?
 [comment]: # Do the critical species have to come last?  At a high level, what does this declaration do?
+--->
 
 ```
 SPECIE(alpha)
@@ -85,7 +87,9 @@ SPECIE(charlie)
 
 Declare reactions in `reactions_list.hpp`. List the reaction names between the two sets of C++ macros (the lines that begin with `#`) in the same format as below. The following example lists one delay reaction, `alpha_degredation`, and three normal reactions, `bravo_synthesis`, `alpha_synthesis`, and `bravo_degredation`. While this particular reaction naming scheme is not required, it can be helpful.
 
+<!---
 [comment]: # Do the delay reactions have to come first?  At a high level, what does this declaration do?
+--->
 
 ```
 REACTION(alpha_synthesis)
@@ -97,7 +101,9 @@ REACTION(bravo_degredation)
 ***
 #### 2.0.2: Defining Reaction Rate Formulas
 
+<!---
 [comment]: # keep the enumerations consistent, demonstrate that the active rate functions are tied to the previously declared reactions
+--->
 
 Define all of reaction rate functions in `model_impl.hpp`.
 For example, if a reaction is enumerated `alpha_synthesis`, it should be declared as a 
@@ -136,7 +142,7 @@ To get average concentration of charlie in that cell and its surrounding cells:
 To get the past average concentration of SPECIE in that cell and its surround cells:
 ```c.calculateNeighborAvg(charlie, delay_time)```
 
-To get the critical value of a critical specie that is enumerated as `bravo` and is properly identified as a critical specie in `specie_list.hpp` (see [2.0.0: Declaring Species]{#200-declaring-species)):
+To get the critical value of a critical specie that is enumerated as `bravo` and is properly identified as a critical specie in `specie_list.hpp` (see [2.0.0: Declaring Species](#200-declaring-species)):
 ```c.getCritVal(rcrit_bravo)```
 
 
@@ -163,7 +169,9 @@ Running `make` after having initialized CMake in the desired directory will auto
 ***
 #### 2.2: Parameters
 
+<!---
 [comment]: # Add something here to talk about how the model declaration informs the parameter sets.  Highlight that all reactions have rate constants, delay reactions have delays, and critical species have critical values.
+--->
 
 ***
 #### 2.2.0: CSV Parser Specifications

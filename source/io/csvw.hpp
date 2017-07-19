@@ -9,7 +9,7 @@
 
 class csvw
 {
-protected:
+public:
     /**
      *  CSVWriter ctor
      *  

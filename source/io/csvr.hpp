@@ -38,7 +38,9 @@ public:
      *      true - if there is a next cell and pfRate was successfully set to it
      *      false - if reached end of file or a parsing error
     */
-    bool get_next(RATETYPE* pnRate = 0);
+    bool get_next(RATETYPE* pnRate);
+    bool get_next(int* pnRate);
+    bool get_next();
     
     
 private:

@@ -27,6 +27,13 @@ namespace color
     
     const std::string clear()
     {
-        return "\x1b[0m";
+        if (iEnableColor)
+        {
+            return "\x1b[0m";
+        }
+        else
+        {
+            return "";
+        }
     }
 };

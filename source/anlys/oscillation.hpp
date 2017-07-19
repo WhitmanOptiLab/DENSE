@@ -6,8 +6,8 @@
 #include <set>
 #include <string>
 #include "core/queue.hpp"
-
 using namespace std;
+
 
 /*
 * OscillationAnalysis: Subclass of Analysis superclass
@@ -26,23 +26,25 @@ private:
 
 	bool vectors_assigned;
 
-	vector<Queue> windows;
+    // Outer-most vector is "for each specie in ucSpecieOption"
 
-	vector<vector<crit_point> > peaksAndTroughs;
+	vector<  vector<Queue>  > windows;
+
+	vector<  vector<vector<crit_point> >  > peaksAndTroughs;
 
 	int range_steps;
 	RATETYPE analysis_interval;
-	specie_id s;
 
-	vector<multiset<RATETYPE> > bst;
+	vector<  vector<multiset<RATETYPE> >  > bst;
 
-	vector<RATETYPE> amplitudes;
-	vector<RATETYPE> periods;
+	vector<  vector<RATETYPE>  > amplitudes;
+	vector<  vector<RATETYPE>  > periods;
 
-	void addCritPoint(int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
+    // s: specie_vec index
+	void addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
 	void get_peaks_and_troughs(const ContextBase& start,int c);
-	void calcAmpsAndPers(int c);
-	void checkCritPoint(int c);
+	void calcAmpsAndPers(int s, int c);
+	void checkCritPoint(int s, int c);
 
 public:	
 	/*
@@ -53,34 +55,37 @@ public:
 	* specieID: specie to analyze.
 	*/
 	OscillationAnalysis(Observable *dLog, RATETYPE interval,
-                        RATETYPE range, specie_id specieID,
-                        int min_cell, int max_cell,
+                        RATETYPE range, const specie_vec& pcfSpecieOption,
+                        csvw* pnFileOut, int min_cell, int max_cell,
                         RATETYPE startT, RATETYPE endT) : 
-            Analysis(dLog,min_cell,max_cell,startT,endT), range_steps(range/interval), 
-            analysis_interval(interval), s(specieID){
-        
+            Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,startT,endT),
+            range_steps(range/interval), analysis_interval(interval)
+    {
+        for (int i=0; i<ucSpecieOption.size(); i++)
+        {
+            windows.emplace_back();
+            peaksAndTroughs.emplace_back();
+            bst.emplace_back();
+            amplitudes.emplace_back();
+            periods.emplace_back();
             for (int c=min; c<max; c++){ 
-                 Queue q(range_steps);
-		    	vector<crit_point> v;
-		    	multiset<RATETYPE> BST;
+                Queue q(range_steps);
+                vector<crit_point> v;
+                multiset<RATETYPE> BST;
 
-    			windows.push_back(q);
-	    		peaksAndTroughs.push_back(v);
-	    		bst.push_back(BST);
-				
-	    		amplitudes.push_back(0);
-	    		periods.push_back(0);
+                windows[i].push_back(q);
+                peaksAndTroughs[i].push_back(v);
+                bst[i].push_back(BST);
+                
+                amplitudes[i].push_back(0);
+                periods[i].push_back(0);
             }
+        }
 	}
 
+    /*
 	//Test: print output.
 	void test(){
-		/*	
-		for (int c=min; c<max; c++){
-			cout<<"CELL "<<c<<endl;
-			cout<<"Amplitude = "<<amplitudes[c]<<"   Period = "<<periods[c]<<"min"<<endl;
-		}
-		*/
 		for (int p=0; p<peaksAndTroughs[0].size();p++){
 			crit_point cp = peaksAndTroughs[0][p];
 			string text;
@@ -94,6 +99,7 @@ public:
 		cout<<"Amplitude = "<<amplitudes[0]<<"   Period = "<<periods[0]<<"min"<<endl;
 		cout<<endl<<endl;
 	}
+    */
 
 	/*
 	* Update: repeatedly called by observable to notify that there is more data
@@ -111,8 +117,9 @@ public:
 
 class CorrelationAnalysis : public Analysis {
 
-	CorrelationAnalysis(Observable *dLog,int mn, int mx, RATETYPE startT, 
-            RATETYPE endT) : Analysis(dLog,mn,mx,startT,endT) {
+	CorrelationAnalysis(Observable *dLog,const specie_vec& pcfSpecieOption,
+            int mn, int mx, RATETYPE startT, RATETYPE endT) :
+        Analysis(dLog,pcfSpecieOption, 0, mn,mx,startT,endT) {
 	}
 
 	void update(ContextBase& start){

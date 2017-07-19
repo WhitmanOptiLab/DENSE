@@ -39,14 +39,77 @@ void csvr_sim::sim_ct::set(int c)
 
 
 csvr_sim::csvr_sim(const string& pcfFileName, const specie_vec& pcfSpecieVec) :
-    csvr(pcfFileName), icSpecieVec(pcfSpecieVec)
+    csvr(pcfFileName)
 {
-    // csvr::get_next(&blah); to get all configs
+    csvr::get_next(&iCellTotal);
+    csvr::get_next(&iAnlysIntvl);
+    csvr::get_next(&iTimeStart);
+    csvr::get_next(&iTimeEnd);
+    {
+        int tTimeCol;
+        csvr::get_next(&tTimeCol);
+        iTimeCol = (tTimeCol > 0);
+    }
+    csvr::get_next(&iCellStart);
+    csvr::get_next(&iCellEnd);
+
+    // like a bitwise & of pcfSpecieVec and what exists in the file
+    for (int i=0, t; i<NUM_SPECIES; i++)
+    {
+        csvr::get_next(&t);
+        if (t > 0)
+        {
+            for (int j=0; j<pcfSpecieVec.size(); j++)
+            {
+                if (pcfSpecieVec[j] == (specie_id) i)
+                {
+                    iSpecieVec.push_back((specie_id) i);
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
 csvr_sim::~csvr_sim()
 {
+}
+
+
+int csvr_sim::getCellTotal()
+{
+    return iCellTotal;
+}
+
+
+RATETYPE csvr_sim::getAnlysIntvl()
+{
+    return iAnlysIntvl;
+}
+
+
+RATETYPE csvr_sim::getTimeStart()
+{
+    return iTimeStart;
+}
+
+
+RATETYPE csvr_sim::getTimeEnd()
+{
+    return iTimeEnd;
+}
+
+
+int csvr_sim::getCellStart()
+{
+    return iCellStart;
+}
+
+
+int csvr_sim::getCellEnd()
+{
+    return iCellEnd;
 }
 
 
@@ -56,25 +119,28 @@ void csvr_sim::run()
     csvr_sim::sim_ct hSCT;
     RATETYPE hRate;
 
-    // Skip initial columns here if necessary
-    // csvr::get_next();
+    // Skip first column
+    if (iTimeCol) csvr::get_next();
     
     while (csvr::get_next(&hRate))
     {
+        // Parse cells and push back maps of rows
         if (lCell >= hSCT.iRate.size())
         {
             hSCT.iRate.push_back(map<specie_id, RATETYPE>());
         }
-        hSCT.iRate[lCell][icSpecieVec[lSpcVec]] = hRate;
+        hSCT.iRate[lCell][iSpecieVec[lSpcVec]] = hRate;
 
-        if (++lSpcVec >= icSpecieVec.size())
+        // Finished parsing row
+        if (++lSpcVec >= iSpecieVec.size())
         {
             lSpcVec = 0;
 
-            // Skip initial columns here if necessary
-            // csvr::get_next();
+            // Skip first column
+            if (iTimeCol) csvr::get_next();
 
-            if (++lCell >= /*icCellTotal TODO*/20)
+            // Finished parsing one time step
+            if (++lCell >= iCellTotal)
             {
                 lCell = 0;
                 notify(hSCT);
@@ -83,6 +149,5 @@ void csvr_sim::run()
         }
     }
 
-    // A blank, dummy sim_ct for the sake of finalize()
     finalize();
 }

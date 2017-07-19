@@ -2,6 +2,8 @@
 #define ANLYS_BASE_HPP
 
 #include "core/observable.hpp"
+#include "core/specie.hpp"
+#include "io/csvw.hpp"
 
 /*
 * Superclass for Analysis Objects
@@ -11,9 +13,14 @@
 class Analysis : public Observer {
 protected:
 	int time;
+    const specie_vec ucSpecieOption;
+    csvw* unFileOut;
+
 public:
-	Analysis(Observable *dLog, int mn, int mx, RATETYPE startT, RATETYPE endT) 
-        : Observer(dLog,mn,mx,startT,endT), time(0) {}
+	Analysis(Observable *dLog, const specie_vec& pcfSpecieOption, csvw* pnFileOut,
+            int mn, int mx, RATETYPE startT, RATETYPE endT) 
+        : Observer(dLog,mn,mx,startT,endT), time(0), ucSpecieOption(pcfSpecieOption),
+   unFileOut(pnFileOut) {}
 
 };
 

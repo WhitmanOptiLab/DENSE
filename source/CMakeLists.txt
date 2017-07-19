@@ -19,6 +19,7 @@ function(SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
+          ${PROJECT_SOURCE_DIR}/source/util/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/util/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
@@ -26,7 +27,8 @@ function(SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp)
+          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 endfunction(SIMULATION localname simdir)
@@ -45,13 +47,15 @@ function(CUDA_SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
+          ${PROJECT_SOURCE_DIR}/source/util/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/util/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp)
+          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
+          ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   target_link_libraries(${localname} ${CUDA_LIBRARIES})
