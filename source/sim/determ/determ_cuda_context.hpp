@@ -13,7 +13,7 @@ RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay)
     // Average the given cell's neighbors' concentrations
     RATETYPE sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
-        sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
+        sum+=_simulation._baby_cl_cuda[sp][-delay][_simulation._neighbors[_cell][i]];
     }
     RATETYPE avg = sum/_simulation._numNeighbors[_cell]; 
     return avg;
@@ -25,6 +25,7 @@ const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateR
     
     //Step 1: for each reaction, compute reaction rate
     CPUGPU_TempArray<RATETYPE, NUM_REACTIONS> reaction_rates;
+    for (int i = 0; i < NUM_REACTIONS; i++) { reaction_rates[i] = 1.0f; }
     #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION

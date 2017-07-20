@@ -9,6 +9,7 @@
 #include "stoch/stoch.hpp"
 #include "determ/determ.hpp"
 #include "io/csvr_param.hpp"
+#include "util/color.hpp"
 #include <vector>
 #include <array>
 using namespace std;

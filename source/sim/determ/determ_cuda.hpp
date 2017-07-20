@@ -53,7 +53,7 @@ class simulation_cuda: public simulation_determ {
         CPUGPU_FUNC
         Context(simulation_cuda& sim, int cell) : _simulation(sim),_cell(cell) { }
         CPUGPU_FUNC
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 1) const;
         CPUGPU_FUNC
         void updateCon(const SpecieRates& rates);
         CPUGPU_FUNC
@@ -88,6 +88,7 @@ class simulation_cuda: public simulation_determ {
 
     baby_cl_cuda _baby_cl_cuda;
     CPUGPU_TempArray<int, 6>* _old_neighbors;
+    int* _old_numNeighbors;
     RATETYPE* _old_rates;
     int* _old_intDelays;
     RATETYPE* _old_crits;
@@ -113,9 +114,11 @@ class simulation_cuda: public simulation_determ {
     
     void simulate_cuda();
     simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
-        simulation_determ(m,ps,cells_total,width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
+        simulation_determ(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
           check(cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total));
+          _old_numNeighbors = _numNeighbors;
+          check(cudaMallocManaged(&_numNeighbors, sizeof(int)*_cells_total));
           _old_rates = _rates._array;
           check(cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS));
           _old_intDelays = _intDelays._array;
@@ -132,6 +135,8 @@ class simulation_cuda: public simulation_determ {
       _critValues._array = _old_crits;
       cudaFree(_neighbors);
       _neighbors = _old_neighbors;
+      cudaFree(_numNeighbors);
+      _numNeighbors = _old_numNeighbors;
     }
 };
 #endif

@@ -14,8 +14,8 @@ int main() {
         10.6427,9.15516,0,11.2572,1.72161,1.93494,0.805212,11.3695,
         713.625,740.349,201.173};
     
-    RATETYPE analysis_interval = 10;
+    RATETYPE analysis_interval = 100;
     RATETYPE sim_time = 600;
-    simulation_set_cuda sim_set(20, false, false, param_set, 200, 50, 0.01,analysis_interval,sim_time);
+    simulation_set_cuda sim_set(400, false, false, param_set, 200, 50, 0.01,analysis_interval,sim_time);
     sim_set.simulate_sets();
 }

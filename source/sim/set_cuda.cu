@@ -30,7 +30,7 @@ void simulation_set_cuda::simulate_sets() {
 //        cout<< endl;
 
         executeAll<<<dimGrid, dimBlock>>>(_sim_set);
-        cudaDeviceSynchronize(); //Required to be able to access managed 
+        //cudaDeviceSynchronize(); //Required to be able to access managed 
                                  // GPU data
     }
 

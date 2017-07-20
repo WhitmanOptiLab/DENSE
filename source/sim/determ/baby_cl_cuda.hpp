@@ -1,6 +1,6 @@
 #ifndef SIM_DETERM_BABY_CL_CUDA_HPP
 #define SIM_DETERM_BABY_CL_CUDA_HPP
-#include "util/common_utils.cpp"
+#include "util/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 #include "baby_cl.hpp"

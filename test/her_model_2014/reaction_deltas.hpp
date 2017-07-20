@@ -1,3 +1,4 @@
+#include "util/common_utils.hpp"
 #include "core/reaction.hpp"
 
 #include <cstddef>
