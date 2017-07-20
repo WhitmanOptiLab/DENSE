@@ -82,6 +82,8 @@ public:
             }
         }
 	}
+	
+	virtual ~OscillationAnalysis() {}
 
     /*
 	//Test: print output.

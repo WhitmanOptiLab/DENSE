@@ -1,0 +1,20 @@
+<analyses>
+    <anlys type="basic">
+        <species></species>
+        <cell-start></cell-start>
+        <cell-end></cell-end>
+        <time-start></time-start>
+        <time-end></time-end>
+        <out-file></out-file>
+    </anlys>
+    <anlys type="oscillation">
+        <species></species>
+        <anlys-intvl></anlys-intvl>
+        <win-range></win-range>
+        <cell-start></cell-start>
+        <cell-end></cell-end>
+        <time-start></time-start>
+        <time-end></time-end>
+        <out-file></out-file>
+    </anlys>
+</analyses>

@@ -27,6 +27,8 @@ class Observable{
 
     //Called by Observer in update
     void abort(){abort_signaled = true;}
+    
+    virtual void run() = 0;
 
     //"abort_signaled" condition checked
 	void notify(ContextBase& start);
@@ -45,6 +47,7 @@ class Observer{
 
 	public:
 	Observer(Observable *oAble, int mn, int mx, RATETYPE startT, RATETYPE endT);
+	virtual ~Observer() {}
     int getMin();
     bool isInTimeBounds(double t){
         return t>= start_time && t<end_time;

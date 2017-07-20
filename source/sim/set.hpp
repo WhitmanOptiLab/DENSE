@@ -162,7 +162,6 @@ class simulation_set{
             // For each set, load data to _ps and _sim_set
             for (unsigned int i=0; i<iSetCount; i++)
             {
-                cout << "Initializing Set " << i << endl;
                 _ps.push_back(csvrp.get_next());
                 
                 // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
@@ -188,7 +187,6 @@ class simulation_set{
     
     void simulate_sets(){
         for (int i=0; i<_sim_set.size(); i++){
-            cout << "Simulating Set " << i << endl;
             _sim_set[i]->simulate();
         }
     }

@@ -1,10 +1,9 @@
 #include "arg_parse.hpp"
 #include "util/color.hpp"
-#include "util/common_utils.hpp" // For "typedef float RATETYPE;"
+#include "util/common_utils.hpp"
 
-#include "core/specie.hpp" // For specie_vec specialization
+#include "core/specie.hpp"
 
-#include <algorithm> // For remove
 #include <cfloat> // For FLT_MAX
 #include <climits> // For INT_MAX
 #include <cstring> // For strcpy in init
@@ -137,20 +136,8 @@ namespace arg_parse
             const std::string& pcfFlagLong, specie_vec* pnPushTo,
             const bool& pcfObligatory)
     {
-        string tArg = get<string>(pcfFlagShort, pcfFlagLong, "");
-        tArg = "," + tArg + ",";
-        tArg.erase(remove(tArg.begin(), tArg.end(), ' '), tArg.end());
-
-        specie_vec rVec;
-        rVec.reserve(NUM_SPECIES);
-        for (unsigned int i=0; i<NUM_SPECIES; i++)
-        {
-            if (tArg.find(","+specie_str[i]+",") != string::npos ||
-                    tArg == ",,")
-            {
-                rVec.push_back((specie_id) i);
-            }
-        }
+        specie_vec rVec = str_to_species(
+                get<string>(pcfFlagShort, pcfFlagLong, ""));
 
         if (rVec.size() > 0)
         {

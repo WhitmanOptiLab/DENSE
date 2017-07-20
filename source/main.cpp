@@ -7,7 +7,9 @@
 #include "io/csvw_sim.hpp"
 #include "sim/set.hpp"
 #include "model_impl.hpp"
+#include "io/ezxml/ezxml.h"
 #include <ctime>
+#include <exception>
 #include <iostream>
 
 
@@ -41,139 +43,71 @@ int main(int argc, char* argv[])
             "[-e | --data-export]   <string> " << color::set(color::GREEN) <<
             "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
+            "[-o | --specie-option] <string> " << color::set(color::GREEN) <<
+            "Specify which species the logged data csv should output. This argument is only useful if [-e | --data-export] is being used. Not including this argument makes the program by default output/analyze all species. IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"alpha, bravo, charlie\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
             "[-i | --data-import]   <string> " << color::set(color::GREEN) <<
             "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-o | --specie-option] <string> " << color::set(color::GREEN) <<
-            "Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"ph13, mh1, ph113\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << color::clear() << endl;
+            "[-a | --analysis]      <string> " << color::set(color::GREEN) <<
+            "Relative file location and name of the analysis config xml file. \"../analyses.xml\", for example. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-c | --cell-total]       <int> " << color::set(color::GREEN) <<
             "Total number of cells to simulate." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-w | --total-width]      <int> " << color::set(color::GREEN) <<
+            "[-w | --tissue-width]      <int> " << color::set(color::GREEN) <<
             "Width of tissue to simulate. Height is inferred by c/w." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
-            "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-a | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
-            "Analysis AND file writing interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-z | --anlys-out]     <string> " << color::set(color::GREEN) <<
-            "Relative file location and name of the output of the analysis csv-formatted data." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-l | --local-range] <RATETYPE> " << color::set(color::GREEN) <<
-            "Range in which oscillation features are searched for. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
             "[-r | --rand-seed]        <int> " << color::set(color::GREEN) <<
             "Set the stochastic simulation's random number generator seed." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-t | --time]             <int> " << color::set(color::GREEN) <<
+            "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
+            "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-t | --time-total]       <int> " << color::set(color::GREEN) <<
             "Amount of simulated minutes the simulation should execute." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-z | --time-col]        <bool> " << color::set(color::GREEN) <<
-            "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs, but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << color::clear() << endl;
+            "[-u | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
+            "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << color::clear() << endl;
         cout << color::set(color::YELLOW) <<
-            "[-u | --time-start]  <RATETYPE> " << color::set(color::GREEN) <<
-            "Simulation time at which analysis and file writing should start. Not including this argument defaults the start time to the very beginning." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-v | --time-end]    <RATETYPE> " << color::set(color::GREEN) <<
-            "Simulation time at which analysis and file writing should end. Not including this argument defaults the end time to the very end." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-x | --cell-start]       <int> " << color::set(color::GREEN) <<
-            "The first column of cells that the analyzer and file writer should start paying attention at." << color::clear() << endl;
-        cout << color::set(color::YELLOW) <<
-            "[-y | --cell-end]         <int> " << color::set(color::GREEN) <<
-            "The last column of cells that the analyzer and file writer should bother looking at." << color::clear() << endl;
-
+            "[-v | --time-col]        <bool> " << color::set(color::GREEN) <<
+            "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << color::clear() << endl;
     }
     else
     {
-        // Allow for analysis and various configs to be optional
-        // *_end vars can't be determined till later because their default
-        //   values should be sim_time (i.e. total time) and cell_total
-        RATETYPE local_range, anlys_intvl,
-            time_start = arg_parse::get<RATETYPE>("u", "time-start", 0.0),
-            time_end;
-        const bool
-            do_anlys = 
-                arg_parse::get<RATETYPE>("l", "local-range", &local_range, false),
-            time_col = arg_parse::get<bool>("z", "time-col", false);
-        int cell_start = arg_parse::get<int>("x", "cell-start", 0),
-            cell_end, cell_total;
-
-
-        // If there's no -o argument, specie_option will default to all species
+        // Ambiguous "simulators" will either be a real simulations or input file
+        vector<Observable*> simsAmbig;
+        // Ambiguous "analyzers" will either be analyses or output file logs
+        vector<Observer*> anlysAmbig;
+        // We might do a sim_set, this is here just in case
+        simulation_set *simSet;
+        
+        // These fields are somewhat universal
         specie_vec specie_option;
-        arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
-
-
-        // Figure out whether we're importing or actually simulating
-        string data_import;
-        if (arg_parse::get<string>("i", "data-import", &data_import, false))
+        RATETYPE anlys_intvl, time_total;
+        int cell_total;
+        
+        // ========================== FILL SIMSAMBIG ==========================
+        // See if importing
+        // string is for either sim data import or export
+        string data_ioe = "";
+        if (arg_parse::get<string>("i", "data-import", &data_ioe, false))
         {
-            csvr_sim csvrs(data_import, specie_option);
-            time_start = csvrs.getTimeStart();
-            time_end = arg_parse::get<RATETYPE>("v", "time-end", csvrs.getTimeEnd());
-            cell_start = csvrs.getCellStart();
-            cell_end = arg_parse::get<int>("y", "cell-end", csvrs.getCellEnd());
-            anlys_intvl =
-                arg_parse::get<RATETYPE>("a", "anlys-intvl", csvrs.getAnlysIntvl());
-
-            // A good csvw debugging test
-            // csvw_sim csvws("data_in_copy_out.csv",
-            //        anlys_intvl, cell_total, specie_option, &csvrs);
-
-            // Analysis optional
-            if (do_anlys)
-            {
-                string anlys_data_file;
-                if (arg_parse::get<string>("z", "anlys-out",
-                            &anlys_data_file, true))
-                {
-                    // Prepare analyses
-                    csvw *csvwa = new csvw(anlys_data_file);
-                    BasicAnalysis ba(&csvrs, specie_option, csvwa,
-                            cell_start, cell_end, time_start, time_end);
-                    // TODO have observable getMin, getMax funcs for time and cell
-                    OscillationAnalysis oa(&csvrs, anlys_intvl,
-                            local_range, specie_option, csvwa,
-                            cell_start, cell_end, time_start, time_end);
-
-                    // Emulate a simulation
-                    csvrs.run();
-
-                    // Close csvw
-                    delete csvwa;
-                }
-            }
-            else
-            {
-                // Warn user about kind of useless case
-                cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to include the [-l | --local-range] flag?" << color::clear() << endl;
-                
-                // No analysis, simply emulate a simulation
-                // This particular case is pointless at the moment, but having
-                //   analysis be optional is useful under the data_export case.
-                csvrs.run();
-            }
+            arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
+            simsAmbig.push_back(new csvr_sim(data_ioe, specie_option));
         }
-        else // If not importing data
+        else // Not importing, do a real simulation
         {
             string param_sets;
-            int total_width;
-            RATETYPE sim_time, anlys_intvl;
+            int tissue_width;
 
+            // Required simulation fields
             if ( arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
-                    arg_parse::get<int>("w", "total-width", &total_width, true) &&
-                    arg_parse::get<RATETYPE>("t", "time", &sim_time, true) &&
-                    arg_parse::get<RATETYPE>("a", "anlys-intvl", &anlys_intvl, true) &&
+                    arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
+                    arg_parse::get<RATETYPE>("t", "time-total", &time_total, true) &&
+                    arg_parse::get<RATETYPE>("u", "anlys-intvl", &anlys_intvl, true) &&
                     arg_parse::get<string>("p", "param-sets", &param_sets, true) )
             {
-                // Now that we know sim_time
-                time_end = arg_parse::get<RATETYPE>("v", "time-end", sim_time);
-                cell_end = arg_parse::get<int>("y", "cell-end", cell_total);
-                
                 // If step_size not set, create stochastic simulation
                 RATETYPE step_size =
                     arg_parse::get<RATETYPE>("s", "step-size", 0.0);
@@ -186,93 +120,154 @@ int main(int argc, char* argv[])
                     cout << "Stochastic simulation seed: " << seed << endl;
                 }
                 
-                simulation_set sim_set = simulation_set(param_sets,
+                simSet = new simulation_set(param_sets,
                         arg_parse::get<string>("g", "gradients", ""),
                         arg_parse::get<string>("b", "perturbations", ""),
-                        cell_total, total_width, step_size,
-                        anlys_intvl, sim_time, seed);
-               
-
-                // Prepare data output
-                csvw_sim *csvws[sim_set.getSetCount()];
-                string data_export;
-                bool do_csvws = arg_parse::get<string>("e",
-                        "data-export", &data_export, false);
-                if (do_csvws)
-                {
-                    for (unsigned int i=0; i<sim_set.getSetCount(); i++)
-                    {
-                        // If multiple sets, set file name to "x_####.y"
-                        csvws[i] = new csvw_sim(
-                                (sim_set.getSetCount()==1 ?
-                                    data_export :
-                                    file_add_num(data_export,
-                                        "_", '0', i, 4, ".")),
-                                anlys_intvl, time_start, time_end, time_col,
-                                cell_total, cell_start, cell_end,
-                                specie_option, sim_set._sim_set[i]);
-                    }
-                }
+                        cell_total, tissue_width, step_size,
+                        anlys_intvl, time_total, seed);
                 
-
-                // Analysis optional
-                if (do_anlys)
+                for (int i=0; i<simSet->getSetCount(); i++)
                 {
-                    string anlys_data_file;
-                    if (arg_parse::get<string>("z", "anlys-out",
-                                &anlys_data_file, true))
+                    simsAmbig.push_back(simSet->_sim_set[i]);
+                }
+            }
+        }
+        
+        
+        // ========================== FILL ANLYSAMBIG =========================
+        // Must have at least one observable
+        if (simsAmbig.size() > 0)
+        {
+            // Data export aka file log
+            // Can't do it if already using data-import
+            if (arg_parse::get<string>("e", "data-export", &data_ioe, false) &&
+                    data_ioe == "")
+            {
+                for (unsigned int i=0; i<simsAmbig.size(); i++)
+                {
+                    // If multiple sets, set file name to "x_####.y"
+                    csvw_sim *csvws = new csvw_sim(
+                            (simsAmbig.size()==1 ?
+                                data_ioe :
+                                file_add_num(data_ioe,
+                                    "_", '0', i, 4, ".")),
+                            anlys_intvl, 0 /*time_start*/,
+                            time_total /*time_end*/,
+                            arg_parse::get<string>("v", "time-col", 0, false),
+                            cell_total, 0 /*cell_start*/,
+                            cell_total /*cell_end*/,
+                            specie_option, simsAmbig[i] );
+                    
+                    anlysAmbig.push_back(csvws);
+                }
+            }
+            
+            // Analyses each with own file writer
+            string config_file;
+            if (arg_parse::get<string>("a", "analysis", &config_file, false))
+            {
+                // Prepare analyses and writers
+                ezxml_t config = ezxml_parse_file(config_file.c_str());
+
+                for (ezxml_t anlys = ezxml_child(config, "anlys");
+                        anlys; anlys = anlys->next)
+                {
+                    string type = ezxml_attr(anlys, "type");
+                    for (int i=0; i<simsAmbig.size(); i++)
                     {
-                        // Prepare analyses
-                        csvw *csvwa[sim_set.getSetCount()];
-                        BasicAnalysis *ba[sim_set.getSetCount()];
-                        OscillationAnalysis *oa[sim_set.getSetCount()];
-                        for (unsigned int i=0; i<sim_set.getSetCount(); i++)
+                        RATETYPE
+                            cell_start = strtol(ezxml_child(anlys,
+                                    "cell-start")->txt, 0, 0),
+                            cell_end = strtol(ezxml_child(anlys,
+                                    "cell-end")->txt, 0, 0),
+                            time_start = strtol(ezxml_child(anlys,
+                                    "time-start")->txt, 0, 0),
+                            time_end = strtol(ezxml_child(anlys,
+                                    "time-end")->txt, 0, 0);
+                        specie_option = str_to_species(ezxml_child(anlys,
+                                "species")->txt);
+
+                        if (type == "basic")
                         {
-                            // If multiple sets, set file name to "x_####.y"
-                            csvwa[i] = new csvw( sim_set.getSetCount()==1 ?
-                                        anlys_data_file :
-                                        file_add_num(anlys_data_file, "_",
-                                            '0', i, 4, "."));
+                            string out_file =
+                                ezxml_child(anlys, "out-file")->txt;
+
+                            // If multiple sets, set file name
+                            //   to "x_####.y"
+                            csvw *csvwa = new csvw(
+                                    simsAmbig.size()==1 ?
+                                        out_file :
+                                        file_add_num(out_file,
+                                            "_", '0', i, 4, "."));
                             
-                            ba[i] = new BasicAnalysis(sim_set._sim_set[i],
-                                    specie_option, csvwa[i], cell_start,
-                                    cell_end, time_start, time_end);
-
-                            oa[i] = new OscillationAnalysis(
-                                    sim_set._sim_set[i], anlys_intvl,
-                                    local_range, specie_option, csvwa[i],
-                                    cell_start, cell_end,
-                                    time_start, time_end);
+                            anlysAmbig.push_back(new BasicAnalysis(
+                                        simsAmbig[i], specie_option, csvwa,
+                                        cell_start, cell_end,
+                                        time_start, time_end));
                         }
-
-                        // Run the show
-                        sim_set.simulate_sets();
-
-                        // Output analyses
-                        for (unsigned int i=0; i<sim_set.getSetCount(); i++)
+                        else if (type == "oscillation")
                         {
-                            delete csvwa[i];
+                            RATETYPE win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
+                            anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
+                            string out_file = ezxml_child(anlys, "out-file")->txt;
+                            
+                            // If multiple sets, set file name
+                            //   to "x_####.y"
+                            csvw *csvwa = new csvw(
+                                    simsAmbig.size()==1 ?
+                                        out_file :
+                                        file_add_num(out_file,
+                                            "_", '0', i, 4, "."));
+                                            
+                            anlysAmbig.push_back(new OscillationAnalysis(
+                                        simsAmbig[i], anlys_intvl, win_range,
+                                        specie_option, csvwa,
+                                        cell_start, cell_end,
+                                        time_start, time_end));
+                        }
+                        else
+                        {
+                            cout << color::set(color::YELLOW) << "Warning: No analysis type \"" << type << "\" found." << color::clear() << endl;
                         }
                     }
                 }
-                else
+            } // End analysis flag
+            // End all observer preparation
+            
+            
+            // ========================= RUN THE SHOW =========================
+            // Only bother if there are outputs
+            if (anlysAmbig.size() > 0)
+            {
+                for (int i=0; i<simsAmbig.size(); i++)
                 {
-                    // Warn user about kind of useless case
-                    if (!do_anlys && !do_csvws)
-                    {
-                        cout << color::set(color::YELLOW) << "Warning: Your current set of command line arguments produces a somewhat useless state. (No outputs are being generated.) Did you mean to use the [-l | --local-range] and/or [-e | --data-export] flag(s)?" << color::clear() << endl;
-                    }
-
-                    // No analysis, simply run the sim and output it to file
-                    sim_set.simulate_sets();
+                    simsAmbig[i]->run();
                 }
-
-                // Memory clean-up for CSV Writer
-                for (unsigned int i=0; i<sim_set.getSetCount() && do_csvws; i++)
-                {
-                    delete csvws[i];
-                }
-            } // End sim required fields if
-        } // End -i or not
+            }
+            else
+            {
+                cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No outputs are being generated.) Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)?" << color::clear() << endl;
+            }
+        }
+        else // Error: no inputs
+        {
+            cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << color::clear() << endl;
+        } // End fill analyses and run
+        
+        // delete/write analyses
+        for (auto anlys : anlysAmbig)
+        {
+            if (anlys) { delete anlys; }
+        }
+        
+        // delete/write simulations
+        for (auto sim : simsAmbig)
+        {
+            // Sometimes causes "munmap_chunck(): invalid pointer"
+            // Honestly, this delete is not particularly important
+            //if (sim) delete sim;
+        }
+        
+        if (simSet) delete simSet;
     } // End -h|blank or not
 }

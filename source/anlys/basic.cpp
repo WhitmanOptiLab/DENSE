@@ -57,7 +57,7 @@ void BasicAnalysis :: finalize(){
     if (unFileOut)
     {
         // column label setup
-        unFileOut->add_div("\n\nall cells,");
+        unFileOut->add_div("\n\ncells "+to_string(min)+"-"+to_string(max)+",");
         for (const specie_id& lcfID : ucSpecieOption)
             unFileOut->add_div(specie_str[lcfID] + ",");
         

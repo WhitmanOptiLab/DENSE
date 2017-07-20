@@ -13,6 +13,7 @@
 #define STATIC_VAR
 #endif
 
+#include "core/specie.hpp"
 #include <string>
 using namespace std;
 
@@ -36,6 +37,9 @@ string cfill(string prFillMe, const char& pcfFillWith, const int& pcfFillLen);
 string file_add_num(string prFileName, const string& pcfFillPrefix,
         const char& pcfFillWith, const int& pcfFillMe,
         const int& pcfFillLen, const string& pcfFillAt);
+
+// converts comma seperated list of specie names to specie_vec
+specie_vec str_to_species(string pcfSpecies);
 
 
 #endif

@@ -166,6 +166,11 @@ class simulation_base : public Observable{
   
     //Virtual function all subclasses must implement  
     virtual void simulate() = 0;
+    
+    void run() final
+    {
+        simulate();
+    }
 
   protected:
     void calc_max_delays();

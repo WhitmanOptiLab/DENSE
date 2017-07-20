@@ -77,6 +77,8 @@ public:
 	   - must be called to produce correct average values
 	*/	
 	void finalize();
+	
+	virtual ~BasicAnalysis() {}
 };
 
 

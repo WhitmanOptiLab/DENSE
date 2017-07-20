@@ -21,6 +21,7 @@ Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatshe
 |____ 2.2.1: [Parameter Sets](#221-parameter-sets)  
 |____ 2.2.2: [Perturbations](#222-perturbations)  
 |____ 2.2.3: [Gradients](#223-gradients)  
+|____ 2.2.4: [Analyses XML](#224-analyses-xml)  
 | 3: [Running the Simulation](#3-running-the-simulation)  
 |__ 3.0: [Description of the Simulation](#30-description-of-the-simulation)  
 |____ 3.0.0: [Preamble](#300-preamble)  
@@ -262,6 +263,11 @@ Gradient Suffixes Chart
 | x2     | end column       |  
 | y2     | end multiplier   |  
 
+***
+#### 2.2.4: Analyses XML
+
+add instructions here on `analyses.xml`
+
 [Back to Top](#delay-differential-equations-simulator)
 
 ## 3: Running the Simulation
@@ -296,15 +302,17 @@ After the simulation has been compiled, the only file required to run a determin
 
 In order to take advantage of perturbations and gradients, `param_pert_template.csv` and `param_grad_template.csv` need to be filled out. Rename these to `param_pert.csv` and `param_grad.csv` or something similar upon completion.
 
+Similarly, analyses must also be configured in a seperate file. A blank `analyses.xml` should be included in the `/template_model` directory.
+
 ***
 #### 3.1.2: Command Line Arguments
 
 The table below can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
-Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a field require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
+Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a parameter require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
 
 `RATETYPE` is set to `double` (double-precision floating-point) by default and can be changed in `source/util/common_utils.hpp`.
 
-| Short | Long              | Field      | Description
+| Short | Long              | Parameter  | Description
 | ----- | ----------------- | ---------- | -----------
 | `h`   | `help` or `usage` | *none*     | Print information about all command line arguments.
 | `n`   | `no-color`        | *none*     | Disable color in the terminal.
@@ -313,20 +321,16 @@ Short and long flags are equivalent; either can be used to get the same program 
 | `b`   | `perturbations`   | `string`   | Enables perturbations and specifies the relative file location and name of the perturbations `*.csv`. `../param_pert.csv`, for example.
 | `b`   | `perturbations`   | `RATETYPE` | Enables perturbations and specifices a global perturbation factor to be applied to ALL reactions. The `-b | --perturb` flag itself is identical to the `string` version; the simulation automatically detects whether it is in the format of a file or `RATETYPE`.
 | `e`   | `data-export`     | `string`   | Relative file location and name of the output of the logged data `*.csv`. `../data_out.csv`, for example.
+| `o`   | `specie-option`   | `string`   | Specify which species the logged data csv should output. This argument is only useful if `-e | --data-export` is being used. Not including this argument, or entering `all` for the parameter, makes the program by default output/analyze all species. __*IF MORE THAN ONE SPECIE, BUT NOT ALL, IS DESIRED*__, enclose the argument in quotation marks and seperate the species using commas. For example, `-o "alpha, bravo, charlie"`. If only one specie is desired, no commas or quotation marks are necessary.
 | `i`   | `data-import`     | `string`   | Relative file location and name of `*.csv` data to import into the analyses. `../data_in.csv`, for example. Using this flag runs only analysis.
-| `o`   | `specie-option`   | `string`   | Specify which species to output to file and analyze. Not including this argument makes the program by default output/analyze all species. __*IF MORE THAN ONE SPECIE, BUT NOT ALL, IS DESIRED*__, enclose the argument in quotation marks and seperate the species using commas. For example, `-o "alpha, bravo, charlie"`. If only one specie is desired, no commas or quotation marks are necessary.
+| `a`   | `analysis`     | `string`   | Relative file location and name of the analysis config `*.xml` file. `../analyses.xml`, for example. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS.
 | `c`   | `cell-total`      | `int`      | Total number of cells to simulate.
 | `w`   | `total-width`     | `int`      | Width of tissue to simulate. Height is inferred by dividing `cell-total` by `total-width`.
-| `s`   | `step-size`       | `RATETYPE` | Time increment by which the deterministic simulation progresses. __*USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC*__.
-| `a`   | `anlys-intvl`     | `RATETYPE` | Analysis __*AND*__ file writing interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.
-| `l`   | `local-range`     | `RATETYPE` | Range in minutes within which oscillation features are searched for (a.k.a. "window size"). __*USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS*__.
 | `r`   | `rand-seed`       | `int`      | Set the stochastic simulation random number generator seed.
-| `t`   | `time`            | `RATETYPE` | Amount of simulated minutes the simulation should execute.
-| `z`   | `time-col`        | *none*     | Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.
-| `u`   | `time-start`      | `RATETYPE` | Simulation time at which analysis and file writing should start. Not including this argument defaults the start time to the very beginning.
-| `v`   | `time-end`        | `RATETYPE` | Simulation time at which analysis and file writing should end. Not including this argument defaults the end time to the very end.
-| `x`   | `cell-start`      | `int`      | The first column of cells that the analyzer and file writer should start paying attention at.
-| `y`   | `cell-end`        | `int`      | The last column of cells that the analyzer and file writer should bother looking at.
+| `s`   | `step-size`       | `RATETYPE` | Time increment by which the deterministic simulation progresses. __*USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC*__.
+| `t`   | `time-total`      | `RATETYPE` | Amount of simulated minutes the simulation should execute.
+| `u`   | `anlys-intvl`     | `RATETYPE` | Analysis __*AND*__ file writing interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.
+| `v`   | `time-col`        | *none*     | Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.
 
 ***
 #### 3.2: Output

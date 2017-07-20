@@ -1,4 +1,5 @@
 #include "common_utils.hpp"
+#include <algorithm> // For remove
 
 string file_add_num(string prFileName, const string& pcfFillPrefix,
         const char& pcfFillWith, const int& pcfFillMe,
@@ -21,3 +22,24 @@ string cfill(string prFileName, const char& pcfFillWith, const int& pcfFillLen)
     return prFileName;
 }
 
+
+specie_vec str_to_species(string pSpecies)
+{
+    pSpecies = "," + pSpecies + ",";
+    pSpecies.erase(
+            remove(pSpecies.begin(), pSpecies.end(), ' '),
+            pSpecies.end() );
+
+    specie_vec rVec;
+    rVec.reserve(NUM_SPECIES);
+    for (unsigned int i=0; i<NUM_SPECIES; i++)
+    {
+        if (pSpecies.find(","+specie_str[i]+",") != string::npos ||
+                pSpecies == ",," || pSpecies == ",all,")
+        {
+            rVec.push_back((specie_id) i);
+        }
+    }
+
+    return rVec;
+}

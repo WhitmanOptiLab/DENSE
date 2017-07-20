@@ -45,7 +45,7 @@ public:
     int getCellStart();
     int getCellEnd();
 
-    void run();
+    void run() final;
 
 private:
     // Required for csvr_sim
