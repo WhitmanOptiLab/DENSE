@@ -1,6 +1,7 @@
 #ifndef SIM_SET_HPP
 #define SIM_SET_HPP
 
+#include "util/common_utils.hpp"
 #include "core/param_set.hpp"
 #include "core/model.hpp"
 #include "cell_param.hpp"
@@ -126,8 +127,8 @@ class simulation_set{
                                         tGradM = (tGradY2 - tGradY1) /
                                             (tGradX2 - tGradX1);
 
-                                        for (int j=round(tGradX1);
-                                                j<=round(tGradX2); j++)
+                                        for (int j=std::round(tGradX1);
+                                                j<=std::round(tGradX2); j++)
                                         {
                                             factors_grad[i][j] = tGradY1;
                                             tGradY1 += tGradM;

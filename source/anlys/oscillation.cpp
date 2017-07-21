@@ -99,10 +99,10 @@ void OscillationAnalysis :: get_peaks_and_troughs(const ContextBase& start, int 
 void OscillationAnalysis :: checkCritPoint(int s, int c){
 	RATETYPE mid_conc = windows[s][c].getVal(windows[s][c].getCurrent());
 	if ((mid_conc==*bst[s][c].rbegin())&&!(mid_conc==*bst[s][c].begin())){
-		addCritPoint(s,c,true,std::max(0.0,(time-range_steps/2)*analysis_interval+start_time),mid_conc);
+		addCritPoint(s,c,true,std::max<RATETYPE>(0.0,(time-range_steps/2)*analysis_interval+start_time),mid_conc);
 	}
 	else if (mid_conc==*bst[s][c].begin()){
-		addCritPoint(s,c,false,std::max(0.0,(time-(range_steps/2))*analysis_interval+start_time),mid_conc);
+		addCritPoint(s,c,false,std::max<RATETYPE>(0.0,(time-(range_steps/2))*analysis_interval+start_time),mid_conc);
 	}
 }
 
