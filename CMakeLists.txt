@@ -1,6 +1,13 @@
 #Would prefer to make this 3.1, as it makes C++ dialect selection automatic.  
 cmake_minimum_required (VERSION 2.8)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING
+      "Choose the type of build, options are: Debug Release
+RelWithDebInfo MinSizeRel."
+      FORCE)
+endif(NOT CMAKE_BUILD_TYPE)
+
 project (DDESimulatorTemplate CXX C)
 #Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
 include(CheckCXXCompilerFlag)
