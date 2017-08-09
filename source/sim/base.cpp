@@ -54,15 +54,18 @@ void simulation_base::calc_max_delays() {
             deps(deps_to_fill) {};
         RATETYPE getCon(specie_id sp, int delay=0) const {
             deps.insert(sp);
+            return 0.0;
         };
         RATETYPE getCon(specie_id sp){
             deps.insert(sp);
+            return 0.0;
         };
         RATETYPE getRate(reaction_id rid) const { return 0.0; };
         RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
         RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
         RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const { 
             deps.insert(sp);
+            return 0.0;
         };
       private:
         set<specie_id>& deps;
