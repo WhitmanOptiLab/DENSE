@@ -72,6 +72,9 @@ int main(int argc, char* argv[])
         cout << color::set(color::YELLOW) <<
             "[-v | --time-col]        <bool> " << color::set(color::GREEN) <<
             "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << color::clear() << endl;
+        cout << color::set(color::YELLOW) <<
+            "[-N | --test-run]        <bool> " << color::set(color::GREEN) <<
+            "Enables running a simulation without output for performance testing." << color::clear() << endl;
     }
     else
     {
@@ -83,18 +86,18 @@ int main(int argc, char* argv[])
         simulation_set *simSet;
         
         // These fields are somewhat universal
-        specie_vec specie_option;
+        specie_vec default_specie_option;
         RATETYPE anlys_intvl, time_total;
         int cell_total;
         
+        arg_parse::get<specie_vec>("o", "specie-option", &default_specie_option, false);
         // ========================== FILL SIMSAMBIG ==========================
         // See if importing
         // string is for either sim data import or export
         string data_ioe = "";
         if (arg_parse::get<string>("i", "data-import", &data_ioe, false))
         {
-            arg_parse::get<specie_vec>("o", "specie-option", &specie_option, false);
-            simsAmbig.push_back(new csvr_sim(data_ioe, specie_option));
+            simsAmbig.push_back(new csvr_sim(data_ioe, default_specie_option));
         }
         else // Not importing, do a real simulation
         {
@@ -138,30 +141,6 @@ int main(int argc, char* argv[])
         // Must have at least one observable
         if (simsAmbig.size() > 0)
         {
-            // Data export aka file log
-            // Can't do it if already using data-import
-            if (arg_parse::get<string>("e", "data-export", &data_ioe, false) &&
-                    data_ioe == "")
-            {
-                for (unsigned int i=0; i<simsAmbig.size(); i++)
-                {
-                    // If multiple sets, set file name to "x_####.y"
-                    csvw_sim *csvws = new csvw_sim(
-                            (simsAmbig.size()==1 ?
-                                data_ioe :
-                                file_add_num(data_ioe,
-                                    "_", '0', i, 4, ".")),
-                            anlys_intvl, 0 /*time_start*/,
-                            time_total /*time_end*/,
-                            arg_parse::get<string>("v", "time-col", 0, false),
-                            cell_total, 0 /*cell_start*/,
-                            cell_total /*cell_end*/,
-                            specie_option, simsAmbig[i] );
-                    
-                    anlysAmbig.push_back(csvws);
-                }
-            }
-            
             // Analyses each with own file writer
             string config_file;
             if (arg_parse::get<string>("a", "analysis", &config_file, false))
@@ -184,7 +163,7 @@ int main(int argc, char* argv[])
                                     "time-start")->txt, 0, 0),
                             time_end = strtol(ezxml_child(anlys,
                                     "time-end")->txt, 0, 0);
-                        specie_option = str_to_species(ezxml_child(anlys,
+                        specie_vec specie_option = str_to_species(ezxml_child(anlys,
                                 "species")->txt);
 
                         if (type == "basic")
@@ -231,22 +210,52 @@ int main(int argc, char* argv[])
                         }
                     }
                 }
-            } // End analysis flag
-            // End all observer preparation
-            
-            
-            // ========================= RUN THE SHOW =========================
-            // Only bother if there are outputs
-            if (anlysAmbig.size() > 0)
-            {
-                for (int i=0; i<simsAmbig.size(); i++)
+            } else {// End analysis flag
+                // Data export aka file log
+                // Can't do it if already using data-import
+                if (arg_parse::get<string>("e", "data-export", &data_ioe, false) &&
+                                data_ioe != "")
                 {
-                    simsAmbig[i]->run();
+                    for (unsigned int i=0; i<simsAmbig.size(); i++)
+                    {
+                        // If multiple sets, set file name to "x_####.y"
+                        csvw_sim *csvws = new csvw_sim(
+                                        (simsAmbig.size()==1 ?
+                                         data_ioe :
+                                         file_add_num(data_ioe,
+                                                 "_", '0', i, 4, ".")),
+                                        anlys_intvl, 0 /*time_start*/,
+                                        time_total /*time_end*/,
+                                        arg_parse::get<string>("v", "time-col", 0, false),
+                                        cell_total, 0 /*cell_start*/,
+                                        cell_total /*cell_end*/,
+                                        default_specie_option, simsAmbig[i] );
+
+                        anlysAmbig.push_back(csvws);
+                    }
                 }
             }
-            else
+            // End all observer preparation
+
+
+            // ========================= RUN THE SHOW =========================
+            // Only bother if there are outputs
+            if (anlysAmbig.size() == 0)
             {
-                cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No outputs are being generated.) Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)?" << color::clear() << endl;
+                if (!arg_parse::get<bool>("N", "test-run", 0, false)) {
+                    cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << endl;
+                    for (int i=0; i<simsAmbig.size(); i++) {
+                        anlysAmbig.push_back(new BasicAnalysis(
+                                            simsAmbig[i], default_specie_option, NULL,
+                                            0, cell_total,
+                                            0, time_total));
+                    }
+                }
+            }
+
+            for (int i=0; i<simsAmbig.size(); i++)
+            {
+                simsAmbig[i]->run();
             }
         }
         else // Error: no inputs

@@ -73,5 +73,12 @@ void BasicAnalysis :: finalize(){
         unFileOut->add_div("\nmax,");
         for (int s=0; s<ucSpecieOption.size(); s++)
             unFileOut->add_data(maxs[s]);
+    } else {
+        for (int i = min; i < max; i++) {
+            std::cout << "Cell " << i << "(min, avg, max)" << std::endl;
+            for (int s = 0; s < ucSpecieOption.size(); s++) {
+               std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ',' << averages[s] << ',' << maxs[s] << ')' << std::endl;
+            }
+        }
     }
 }
