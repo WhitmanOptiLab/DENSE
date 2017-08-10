@@ -14,10 +14,6 @@ using namespace std;
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
-typedef cell_param<NUM_REACTIONS> Rates;
-typedef cell_param<NUM_DELAY_REACTIONS> Delays;
-typedef cell_param<NUM_CRITICAL_SPECIES> CritValues;
-
 /* SIMULATION_BASE
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
@@ -62,11 +58,8 @@ class simulation_base : public Observable{
   const model& _model;
   RATETYPE* factors_perturb;
   RATETYPE** factors_gradient;
-  Rates _rates;
-  Delays _delays;
-  CritValues _critValues;
+  cell_param<NUM_REACTIONS+NUM_DELAY_REACTIONS+NUM_CRITICAL_SPECIES> _cellParams;
   int *_numNeighbors;
-  //Context<double> _contexts;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
@@ -86,7 +79,7 @@ class simulation_base : public Observable{
   */
   simulation_base(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
-    _rates(*this, cells_total), _delays(*this, cells_total), _critValues(*this, cells_total), _numNeighbors(new int[cells_total]), 
+    _cellParams(*this, cells_total), _numNeighbors(new int[cells_total]), 
     _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time),
    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad) { }
 

@@ -84,7 +84,7 @@ void simulation_determ::initialize(){
     //Copy and normalize _delays into _intDelays
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
       for (int j = 0; j < _cells_total; j++) {
-        _intDelays[i][j] = _delays[i][j] / _step_size;
+        _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
       }
     }
 }

@@ -36,9 +36,7 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 void simulation_base::initialize(){
     calc_max_delays();
     calc_neighbor_2d();
-    _delays.update_rates(_parameter_set._delay_sets);
-    _rates.update_rates(_parameter_set._rates_base);
-    _critValues.update_rates(_parameter_set._critical_values);
+    _cellParams.initialize_params(_parameter_set);
 }
     
 void simulation_base::calc_max_delays() {
@@ -106,7 +104,7 @@ void simulation_base::calc_max_delays() {
   for (int in = 0; in < delts.size(); in++) { \
     std::advance(iter,in); \
     RATETYPE& sp_max_delay = max_delays[*iter]; \
-    sp_max_delay = std::max<RATETYPE>((_parameter_set._delay_sets[ dreact_##name ] * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
+    sp_max_delay = std::max<RATETYPE>((_parameter_set.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION

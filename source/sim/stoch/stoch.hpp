@@ -104,15 +104,15 @@ class simulation_stoch : public simulation_base {
 	    }
         CPUGPU_FUNC
         RATETYPE getCritVal(critspecie_id rcritsp) const {
-            return _simulation._critValues[rcritsp][_cell];
+            return _simulation._cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][_cell];
         }
         CPUGPU_FUNC
         RATETYPE getRate(reaction_id reaction) const {
-            return _simulation._rates[reaction][_cell];
+            return _simulation._cellParams[reaction][_cell];
         }
         CPUGPU_FUNC
         RATETYPE getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._delays[delay_reaction][_cell];
+            return _simulation._cellParams[NUM_REACTIONS+delay_reaction][_cell];
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }

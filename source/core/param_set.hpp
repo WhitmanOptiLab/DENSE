@@ -4,13 +4,11 @@
 #include <string>
 #include <utility>
 
-#include "core/reaction.hpp"
-
-#define NUM_SECTIONS 2
-#define MAX_CONDS_ANY 2
+#include "specie.hpp"
+#include "reaction.hpp"
 
 class param_set{
-public:
+ private:
     //From the old code - not in use
     //char* print_name; // The mutant's name for printing output
     //char* dir_name; // The mutant's name for making its directory
@@ -30,22 +28,27 @@ public:
     //bool only_post; //indicating if only the posterior is simulated
     
     // currently in use
-    RATETYPE _critical_values[NUM_CRITICAL_SPECIES];
-    RATETYPE _delay_sets[NUM_DELAY_REACTIONS];
-    RATETYPE _rates_base[NUM_REACTIONS];
-    
-    void printall() const
-    {
-        for (unsigned int i=0; i<NUM_CRITICAL_SPECIES; i++)
-            printf("%f, ", _critical_values[i]);
-        printf("\n");
-        for (unsigned int i=0; i<NUM_DELAY_REACTIONS; i++)
-            printf("%f, ", _delay_sets[i]);
-        printf("\n");
-        for (unsigned int i=0; i<NUM_REACTIONS; i++)
-            printf("%f, ", _rates_base[i]);
-        printf("\n");
-    }
+  RATETYPE _parameters[NUM_CRITICAL_SPECIES + NUM_DELAY_REACTIONS + NUM_REACTIONS];
+
+ public:
+  RATETYPE getCriticalValue(critspecie_id i) const { return _parameters[NUM_REACTIONS + NUM_DELAY_REACTIONS + i]; }
+  RATETYPE getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }
+  RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
+  RATETYPE* getArray() { return _parameters; }
+  const RATETYPE* getArray() const { return _parameters; }
+  
+  void printall() const
+  {
+    for (unsigned int i=0; i<NUM_CRITICAL_SPECIES; i++)
+      printf("%f, ", getReactionRate(reaction_id(i)));
+    printf("\n");
+    for (unsigned int i=0; i<NUM_DELAY_REACTIONS; i++)
+      printf("%f, ", getDelay(delay_reaction_id(i)));
+    printf("\n");
+    for (unsigned int i=0; i<NUM_REACTIONS; i++)
+      printf("%f, ", getCriticalValue(critspecie_id(i)));
+    printf("\n");
+  }
 };
 
 

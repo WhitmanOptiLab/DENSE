@@ -17,7 +17,7 @@
 #include <string>
 using namespace std;
 
-typedef double RATETYPE;
+typedef float RATETYPE;
 
 template<class TYPE, int SIZE>
 class CPUGPU_TempArray {

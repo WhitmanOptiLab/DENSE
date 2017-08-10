@@ -48,15 +48,15 @@ class simulation_determ : public simulation_base {
         }
         CPUGPU_FUNC
         RATETYPE getCritVal(critspecie_id rcritsp) const {
-            return _simulation._critValues[rcritsp][_cell];
+            return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
         }
         CPUGPU_FUNC
         RATETYPE getRate(reaction_id reaction) const {
-            return _simulation._rates[reaction][_cell];
+            return _simulation._cellParams[reaction][_cell];
         }
         CPUGPU_FUNC
         int getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._intDelays[delay_reaction][_cell];
+            return _simulation._cellParams[delay_reaction + NUM_REACTIONS][_cell];
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
