@@ -7,9 +7,9 @@ function(CSV_GEN localname simdir)
   target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 endfunction(CSV_GEN)
 
-function(SIMULATION localname simdir)
-  add_executable(${localname}
-          ${PROJECT_SOURCE_DIR}/source/main.cpp
+function(SIMCORELIB localname simdir)
+  if (NOT TARGET ${localname})
+    add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
@@ -29,13 +29,31 @@ function(SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
+  
+    target_include_directories(${localname} PUBLIC ${simdir})
+    target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  endif (NOT TARGET ${localname})
+endfunction(SIMCORELIB localname simdir)
+
+function(SIMULATION localname simdir)
+  SIMCORELIB(${localname}_lib ${simdir})
+  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/main.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  target_link_libraries(${localname} PUBLIC ${localname}_lib)
 endfunction(SIMULATION localname simdir)
 
-function(CUDA_SIMULATION localname simdir)
-  CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
-  cuda_add_executable(${localname}
+#sources = ['source/main.cpp', 'source/init.cpp', 'source/memory.cpp', 'source/sres.cpp', 'source/io.cpp']
+#if ARGUMENTS.get('mpi', 0):
+	#sources += ['libsres-mpi/ESES.cpp', 'libsres-mpi/ESSRSort.cpp', 'libsres-mpi/sharefunc.cpp']
+#else:
+	#sources += ['libsres/ESES.cpp', 'libsres/ESSRSort.cpp', 'libsres/sharefunc.cpp']
+#env.Program(target='sres', source=sources)
+
+function(CUDASIMCORELIB localname simdir)
+  if (NOT TARGET ${localname})
+    CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
+    cuda_add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/main_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
@@ -56,9 +74,19 @@ function(CUDA_SIMULATION localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
+    target_include_directories(${localname} PUBLIC ${simdir})
+    target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+    target_link_libraries(${localname} ${CUDA_LIBRARIES})
+  endif (NOT TARGET ${localname})
+endfunction(CUDASIMCORELIB localname simdir)
+
+function(CUDA_SIMULATION localname simdir)
+  CUDASIMCORELIB(${localname}_lib ${simdir})
+  cuda_add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/main_cuda.cu)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   target_link_libraries(${localname} ${CUDA_LIBRARIES})
+  target_link_libraries(${localname} ${localname}_lib)
 endfunction(CUDA_SIMULATION localname simdir)
 
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
@@ -98,6 +126,7 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   endif (${BUILD_TESTS_ONLY})
 #add_test(ctest_simulation main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 0.1 -r 10 -t 60 -e ../data_out.csv)
 endif(${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
+
 
 
 
