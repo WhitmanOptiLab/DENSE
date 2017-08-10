@@ -31,21 +31,15 @@ class simulation_set{
     RATETYPE total_time;
     RATETYPE* factors_pert;
     RATETYPE** factors_grad;
-    vector<param_set> _ps;
+    const vector<param_set>& _ps;
     vector<simulation_base*> _sim_set;
     
     
-    simulation_set(const string &param_file, const string& pcfGradFileName, const string& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
-        factors_pert(0), factors_grad(0)
+    simulation_set(const vector<param_set>& params, const string& pcfGradFileName, const string& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
+        _ps(params), factors_pert(0), factors_grad(0)
     {
-        csvr_param csvrp(param_file);
-        // Setup only if param_file actually exists
         
-        if (csvrp.is_open())
-        {
-            // Allocate space based on amount of sets in file
-            iSetCount = csvrp.get_total();
-            _ps.reserve(iSetCount);
+            iSetCount = _ps.size();
             _sim_set.reserve(iSetCount);
             
             
@@ -162,10 +156,8 @@ class simulation_set{
             
             
             // For each set, load data to _ps and _sim_set
-            for (unsigned int i=0; i<iSetCount; i++)
+            for (unsigned int i=0; i<_ps.size(); i++)
             {
-                _ps.push_back(csvrp.get_next());
-                
                 // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
                 if (step_size == 0.0)
                 {
@@ -184,7 +176,6 @@ class simulation_set{
 
                 _sim_set[i]->initialize();
             }
-        }
     }
     
     void simulate_sets(){

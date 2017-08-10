@@ -122,8 +122,18 @@ int main(int argc, char* argv[])
                     cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << color::clear() << endl;
                     cout << "Stochastic simulation seed: " << seed << endl;
                 }
+
+                std::vector<param_set> params;
+
+                //Load parameter sets to run
+                csvr_param csvrp(param_sets);
+                for (unsigned int i=0; i<csvrp.get_total(); i++)
+                {
+                  params.push_back(csvrp.get_next());
+                }
                 
-                simSet = new simulation_set(param_sets,
+                //Create simulation set
+                simSet = new simulation_set(params,
                         arg_parse::get<string>("g", "gradients", ""),
                         arg_parse::get<string>("b", "perturbations", ""),
                         cell_total, tissue_width, step_size,
