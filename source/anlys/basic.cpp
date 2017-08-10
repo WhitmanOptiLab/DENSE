@@ -79,6 +79,7 @@ void BasicAnalysis :: finalize(){
             for (int s = 0; s < ucSpecieOption.size(); s++) {
                std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ',' << averages[s] << ',' << maxs[s] << ')' << std::endl;
             }
+            std::cout << std::endl;
         }
     }
 }
