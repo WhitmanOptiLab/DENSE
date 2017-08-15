@@ -75,6 +75,7 @@ endfunction(CUDASIMCORELIB localname simdir)
 
 function(CUDA_SIMULATION localname simdir)
   CUDASIMCORELIB(${localname}_lib ${simdir})
+  CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
   cuda_add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/main_cuda.cu)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
