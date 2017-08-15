@@ -43,13 +43,6 @@ function(SIMULATION localname simdir)
   target_link_libraries(${localname} PUBLIC ${localname}_lib)
 endfunction(SIMULATION localname simdir)
 
-#sources = ['source/main.cpp', 'source/init.cpp', 'source/memory.cpp', 'source/sres.cpp', 'source/io.cpp']
-#if ARGUMENTS.get('mpi', 0):
-	#sources += ['libsres-mpi/ESES.cpp', 'libsres-mpi/ESSRSort.cpp', 'libsres-mpi/sharefunc.cpp']
-#else:
-	#sources += ['libsres/ESES.cpp', 'libsres/ESSRSort.cpp', 'libsres/sharefunc.cpp']
-#env.Program(target='sres', source=sources)
-
 function(CUDASIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
     CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
@@ -89,6 +82,19 @@ function(CUDA_SIMULATION localname simdir)
   target_link_libraries(${localname} ${localname}_lib)
 endfunction(CUDA_SIMULATION localname simdir)
 
+function(PARAM_SEARCH_LIB localname simdir)
+  if (NOT TARGET ${localname})
+    add_library(${localname}
+                   ${PROJECT_SOURCE_DIR}/source/search/libsres/ESES.cpp
+                   ${PROJECT_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
+                   ${PROJECT_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
+                   ${PROJECT_SOURCE_DIR}/source/search/sres.cpp)
+    target_include_directories(${localname} PUBLIC ${simdir})
+    target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  endif (NOT TARGET ${localname})
+endfunction(PARAM_SEARCH_LIB localname simdir)
+
+
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   set(BUILD_TESTS_ONLY FALSE)
   if (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction_deltas.hpp) 
@@ -123,6 +129,12 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     add_custom_target(csv_gen_run ${PROJECT_BINARY_DIR}/source/csv_gen ${PROJECT_BINARY_DIR}/ )
     add_dependencies(csv_gen_run csv_gen)
     add_dependencies(simulation csv_gen_run)
+
+    if (EXISTS ${PROJECT_BINARY_DIR}/param_search_main.cpp)
+      PARAM_SEARCH(paramsearch_lib ${PROJECT_BINARY_DIR})
+      add_executible(paramsearch ${PROJECT_BINARY_DIR}/param_search_main.cpp)
+      target_link_libraries(paramsearch paramsearch_lib simulation_lib)
+    endif (EXISTS ${PROJECT_BINARY_DIR}/param_search_main.cpp)
   endif (${BUILD_TESTS_ONLY})
 #add_test(ctest_simulation main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 0.1 -r 10 -t 60 -e ../data_out.csv)
 endif(${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
