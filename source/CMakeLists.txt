@@ -47,7 +47,6 @@ function(CUDASIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
     CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
     cuda_add_library(${localname}
-          ${PROJECT_SOURCE_DIR}/source/main_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/set_cuda.cu
@@ -67,6 +66,7 @@ function(CUDASIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
+
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
     target_link_libraries(${localname} ${CUDA_LIBRARIES})

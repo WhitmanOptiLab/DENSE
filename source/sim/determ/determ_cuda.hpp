@@ -68,15 +68,15 @@ class simulation_cuda: public simulation_determ {
         }
         CPUGPU_FUNC
         RATETYPE getCritVal(critspecie_id rcritsp) const {
-            return _simulation._critValues[rcritsp][_cell];
+            return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
         }
         CPUGPU_FUNC
         RATETYPE getRate(reaction_id reaction) const {
-            return _simulation._rates[reaction][_cell];
+            return _simulation._cellParams[reaction][_cell];
         }
         CPUGPU_FUNC
         int getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._intDelays[delay_reaction][_cell];
+            return _simulation._cellParams[delay_reaction + NUM_REACTIONS][_cell];
         }
         CPUGPU_FUNC
         virtual void advance() final { ++_cell; }
@@ -89,7 +89,7 @@ class simulation_cuda: public simulation_determ {
     baby_cl_cuda _baby_cl_cuda;
     CPUGPU_TempArray<int, 6>* _old_neighbors;
     int* _old_numNeighbors;
-    RATETYPE* _old_rates;
+    RATETYPE* _old_cellParams;
     int* _old_intDelays;
     RATETYPE* _old_crits;
     void initialize();
@@ -119,20 +119,16 @@ class simulation_cuda: public simulation_determ {
           check(cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total));
           _old_numNeighbors = _numNeighbors;
           check(cudaMallocManaged(&_numNeighbors, sizeof(int)*_cells_total));
-          _old_rates = _rates._array;
-          check(cudaMallocManaged(&(_rates._array), sizeof(RATETYPE)*_cells_total*NUM_REACTIONS));
+          _old_cellParams = _cellParams._array;
+          check(cudaMallocManaged(&(_cellParams._array), sizeof(RATETYPE)*_cells_total*NUM_PARAMS));
           _old_intDelays = _intDelays._array;
           check(cudaMallocManaged(&(_intDelays._array), sizeof(RATETYPE)*_cells_total*NUM_DELAY_REACTIONS));
-          _old_crits = _critValues._array;
-          check(cudaMallocManaged(&(_critValues._array), sizeof(RATETYPE)*_cells_total*NUM_CRITICAL_SPECIES));
         }
     ~simulation_cuda() {
       cudaFree(_intDelays._array);
       _intDelays._array = _old_intDelays;
-      cudaFree(_rates._array);
-      _rates._array = _old_rates;
-      cudaFree(_critValues._array);
-      _critValues._array = _old_crits;
+      cudaFree(_cellParams._array);
+      _cellParams._array = _old_cellParams;
       cudaFree(_neighbors);
       _neighbors = _old_neighbors;
       cudaFree(_numNeighbors);
