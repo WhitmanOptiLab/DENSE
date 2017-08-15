@@ -101,9 +101,8 @@ void simulation_base::calc_max_delays() {
     pert_##name = factors_perturb[name]; \
   } \
   \
-  for (int in = 0; in < delts.size(); in++) { \
-    std::advance(iter,in); \
-    RATETYPE& sp_max_delay = max_delays[*iter]; \
+  for (auto factor : delts) { \
+    RATETYPE& sp_max_delay = max_delays[factor]; \
     sp_max_delay = std::max<RATETYPE>((_parameter_set.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"

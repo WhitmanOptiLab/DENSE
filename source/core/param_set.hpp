@@ -7,6 +7,8 @@
 #include "specie.hpp"
 #include "reaction.hpp"
 
+enum { NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS };
+
 class param_set{
  private:
     //From the old code - not in use
@@ -28,9 +30,11 @@ class param_set{
     //bool only_post; //indicating if only the posterior is simulated
     
     // currently in use
-  RATETYPE _parameters[NUM_CRITICAL_SPECIES + NUM_DELAY_REACTIONS + NUM_REACTIONS];
+  RATETYPE _parameters[NUM_PARAMS];
 
  public:
+  param_set() {};
+
   RATETYPE getCriticalValue(critspecie_id i) const { return _parameters[NUM_REACTIONS + NUM_DELAY_REACTIONS + i]; }
   RATETYPE getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }
   RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
@@ -50,6 +54,7 @@ class param_set{
     printf("\n");
   }
 };
+
 
 
 #endif
