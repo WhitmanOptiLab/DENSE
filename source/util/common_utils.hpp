@@ -30,8 +30,8 @@ class CPUGPU_TempArray {
 };
 
 
-// char fill, a lot like zfill but with any char
-string cfill(string prFillMe, const char& pcfFillWith, const int& pcfFillLen);
+std::string left_pad (std::string string, std::size_t min_size, char padding = ' ');
+
 // adds the "_####" right before file extension of a file name
 string file_add_num(string prFileName, const string& pcfFillPrefix,
         const char& pcfFillWith, const int& pcfFillMe,
