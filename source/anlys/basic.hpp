@@ -50,15 +50,6 @@ public:
 	}
 
     /*
-	// Test: prints output.
-	void test(){
-		for (int s=0; s<averages.size(); s++){
-			cout<<"Specie "<<s<<endl<<"average="<<averages[s]<<endl;
-			cout<<"minimum="<<mins[s]<<endl;
-			cout<<"maximum="<<maxs[s]<<endl<<endl;
-		}
-	}
-    */
 
 	/* Finalize: overloaded virtual function of observer
 	   - must be called to produce correct average values
