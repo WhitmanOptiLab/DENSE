@@ -37,6 +37,12 @@ public:
     void add_data(const RATETYPE& pcfRate);
     void add_div(const std::string& pcfDiv);
 
+    template <typename T>
+    csvw & operator<< (T const& value) {
+      iFile << value;
+      return *this;
+    }
+
 private:
     // Output file of CSV
     std::ofstream iFile;
