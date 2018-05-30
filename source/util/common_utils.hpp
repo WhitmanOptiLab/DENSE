@@ -17,7 +17,8 @@
 #include <string>
 using namespace std;
 
-typedef float RATETYPE;
+using Real = float;
+using RATETYPE = Real;
 
 template <typename ValueT, std::size_t Size>
 class CPUGPU_TempArray {
