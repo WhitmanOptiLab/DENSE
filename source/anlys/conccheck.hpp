@@ -10,11 +10,17 @@ class ConcentrationCheck : public Analysis {
     specie_id target_specie;
 
   public:
-    ConcentrationCheck(Observable *data_source, int min, int max, 
-                        RATETYPE lowerB, RATETYPE upperB, RATETYPE startT, RATETYPE
-                        endT, specie_id t_specie=(specie_id)-1) :
-                        Analysis(data_source, min, max, startT, endT), target_specie(t_specie),
-                        lower_bound(lowerB), upper_bound(upperB){}
+    ConcentrationCheck (
+      Observable *data_source,
+      int min, int max,
+      Real lowerB, Real upperB,
+      Real startT, Real endT,
+      specie_id t_specie = static_cast<specie_id>(-1)
+    ) :
+      Analysis(data_source, min, max, startT, endT),
+      target_specie(t_specie),
+      lower_bound(lowerB), upper_bound(upperB) {
+    };
 
     void update(ContextBase& start) {
 
