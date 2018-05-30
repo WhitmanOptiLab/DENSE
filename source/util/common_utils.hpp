@@ -19,14 +19,14 @@ using namespace std;
 
 typedef float RATETYPE;
 
-template<class TYPE, int SIZE>
+template <typename ValueT, std::size_t Size>
 class CPUGPU_TempArray {
-  TYPE array[SIZE];
+ ValueT array[Size];
  public:
   CPUGPU_FUNC
-  TYPE& operator[](int i) { return array[i]; }
+  ValueT & operator[] (std::size_t i) { return array[i]; };
   CPUGPU_FUNC
-  const TYPE& operator[](int i) const { return array[i]; }
+  ValueT const& operator[] (std::size_t i) const { return array[i]; };
 };
 
 
