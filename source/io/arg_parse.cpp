@@ -81,8 +81,8 @@ namespace arg_parse
         
         
         template<typename T>
-        const T getNotOblig(const string& pcfFlagShort,
-                const string& pcfFlagLong)
+        const T getNotOblig(const std::string& pcfFlagShort,
+                const std::string& pcfFlagLong)
         {
             iSuppressObligatory = true;
             const T rval = get<T>(pcfFlagShort, pcfFlagLong);
@@ -154,7 +154,7 @@ namespace arg_parse
     }
     
     template<>
-    bool get<int>(const string& pcfFlagShort, const string& pcfFlagLong,
+    bool get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
             int* pnPushTo, const bool& pcfObligatory)
     {
         bool success = true;
@@ -188,7 +188,7 @@ namespace arg_parse
     }
     
     template<>
-    bool get<RATETYPE>(const string& pcfFlagShort, const string& pcfFlagLong,
+    bool get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
             RATETYPE* pnPushTo, const bool& pcfObligatory)
     {
         bool success = true;
@@ -222,7 +222,7 @@ namespace arg_parse
     }
     
     template<>
-    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong,
+    bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
             bool* pnPushTo, const bool& pcfObligatory)
     {
         // true if found, false if not
@@ -237,7 +237,7 @@ namespace arg_parse
     
     /*
     template<>
-    bool get<bool>(const string& pcfFlagShort, const string& pcfFlagLong,
+    bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
             const bool& pcfDefault)
     {
         if (getIndex(pcfFlagShort, pcfFlagLong, 0, false)) // If found

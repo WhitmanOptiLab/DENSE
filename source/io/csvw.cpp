@@ -7,7 +7,7 @@ using namespace std;
 
 
 
-csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const string& pcfChildDoc)
+csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const std::string& pcfChildDoc)
 {
     // Close any previously open file
     if (iFile.is_open())
@@ -56,7 +56,7 @@ csvw::~csvw()
 }
 
 
-void csvw::add_div(const string& pcfDiv)
+void csvw::add_div(const std::string& pcfDiv)
 {
     iFile << pcfDiv;
 }

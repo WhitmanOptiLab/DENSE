@@ -5,7 +5,7 @@
 using namespace std;
 
 
-csvr_param::csvr_param(const string& pcfFileName) :
+csvr_param::csvr_param(const std::string& pcfFileName) :
     csvr(pcfFileName), iCount(0), iRemain(0)
 {
     csvr tCopy(pcfFileName);
