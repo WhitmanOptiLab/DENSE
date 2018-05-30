@@ -39,7 +39,6 @@ string file_add_num(string prFileName, const string& pcfFillPrefix,
         const int& pcfFillLen, const string& pcfFillAt);
 
 // converts comma seperated list of specie names to specie_vec
-specie_vec str_to_species(string pcfSpecies);
-
+specie_vec str_to_species(std::string pcfSpecies);
 
 #endif
