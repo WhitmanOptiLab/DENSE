@@ -83,7 +83,7 @@ public:
     void allocate_array(){
         if (_width*_height >0){
             _array= new T[_height*_width];
-            //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
+            //if (_array == NULL){std::cout<<"ERROR"<<'\n'; exit(EXIT_MEMORY_ERROR);}
         }
         else{
             _array= NULL;

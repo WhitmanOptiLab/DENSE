@@ -80,7 +80,7 @@ class simulation_set{
                                         "CSV perturbations parsing failed. Ran out "
                                         "of cells to read upon reaching reaction \""
                                         << reaction_str[i] << "\"." <<
-                                        color::clear() << endl;
+                                        color::clear() << '\n';
                                 }
                             }        
                         }
@@ -137,7 +137,7 @@ class simulation_set{
                                         "Invalid grad_x1 and/or grad_x2 "
                                         "setting(s) for reaction \"" <<
                                         reaction_str[i] << "\"." <<
-                                        color::clear() << endl;
+                                        color::clear() << '\n';
                                 }
                             }
                             else
@@ -147,7 +147,7 @@ class simulation_set{
                                     "CSV gradients parsing failed. "
                                     "Ran out of cells to read upon "
                                     "reaching reaction \"" << reaction_str[i] <<
-                                    "\"." << color::clear() << endl;
+                                    "\"." << color::clear() << '\n';
                             }
                         }
                     }

@@ -90,7 +90,7 @@ public:
 		for (int i=1; i<size; i++){
 			std::cout<<","<<contents[i];
 		}
-		std::cout<<"]"<<endl;
+		std::cout<<"]"<<'\n';
 	}
 };
 

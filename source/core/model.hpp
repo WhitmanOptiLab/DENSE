@@ -31,7 +31,7 @@ public:
             case name: return reaction_##name;
             #include "reactions_list.hpp"
             #undef REACTION
-            default: std::cout<<"exiting"<<endl; exit (-1);
+            default: std::cout<<"exiting"<<'\n'; exit (-1);
         }
     }
     
