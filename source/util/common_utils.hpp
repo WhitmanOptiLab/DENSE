@@ -33,9 +33,13 @@ class CPUGPU_TempArray {
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ');
 
 // adds the "_####" right before file extension of a file name
-string file_add_num(string prFileName, const string& pcfFillPrefix,
-        const char& pcfFillWith, const int& pcfFillMe,
-        const int& pcfFillLen, const string& pcfFillAt);
+std::string file_add_num (
+  std::string file_name,
+  std::string const& prefix,
+  char padding, unsigned file_no,
+  std::size_t padded_size,
+  std::string const& extension_sep
+);
 
 // converts comma seperated list of specie names to specie_vec
 specie_vec str_to_species(std::string pcfSpecies);
