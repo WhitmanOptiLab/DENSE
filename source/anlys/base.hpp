@@ -1,9 +1,12 @@
 #ifndef ANLYS_BASE_HPP
 #define ANLYS_BASE_HPP
+#pragma once
 
 #include "core/observable.hpp"
 #include "core/specie.hpp"
 #include "io/csvw.hpp"
+
+#include <memory>
 
 /*
 * Superclass for Analysis Objects
@@ -11,21 +14,26 @@
 * - does not implement any analysis
 */
 class Analysis : public Observer {
-protected:
-	int time;
-    const specie_vec ucSpecieOption;
-    csvw* unFileOut;
 
-public:
-	Analysis(Observable *dLog, const specie_vec& pcfSpecieOption, csvw* pnFileOut,
-            int mn, int mx, RATETYPE startT, RATETYPE endT) 
-        : Observer(dLog,mn,mx,startT,endT), time(0), ucSpecieOption(pcfSpecieOption),
-    unFileOut(pnFileOut) {}
-    
-    virtual ~Analysis()
-    {
-        if (unFileOut) { delete unFileOut; }
-    }
+  public:
+
+    Analysis (
+      Observable * log,
+      specie_vec const& species_vector,
+      csvw * csv_out,
+      int min, int max,
+      Real start_time, Real end_time
+    );
+
+    virtual void show () {};
+
+  protected:
+
+    int time;
+
+    specie_vec const ucSpecieOption;
+
+    std::unique_ptr<csvw> csv_out;
 
 };
 

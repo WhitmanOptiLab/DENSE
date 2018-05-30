@@ -1,6 +1,6 @@
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}") 
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-function(CSV_GEN localname simdir) 
+function(CSV_GEN localname simdir)
   add_executable(${localname} csv_gen.cpp util/color.cpp io/csvw.cpp io/csvw_param.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
@@ -12,6 +12,7 @@ function(SIMCORELIB localname simdir)
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
+          ${PROJECT_SOURCE_DIR}/source/anlys/base.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
           ${PROJECT_SOURCE_DIR}/source/anlys/oscillation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
@@ -29,7 +30,7 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
-  
+
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   endif (NOT TARGET ${localname})
@@ -98,22 +99,22 @@ endfunction(PARAM_SEARCH_LIB localname simdir)
 
 if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   set(BUILD_TESTS_ONLY FALSE)
-  if (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction_deltas.hpp) 
+  if (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction_deltas.hpp)
     message("No reaction_deltas.cpp found in build directory")
     set(BUILD_TESTS_ONLY TRUE)
-  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction_deltas.hpp) 
-  if (NOT EXISTS ${PROJECT_BINARY_DIR}/model_impl.hpp) 
+  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/reaction_deltas.hpp)
+  if (NOT EXISTS ${PROJECT_BINARY_DIR}/model_impl.hpp)
     message("No model_impl.hpp found in build directory")
     set(BUILD_TESTS_ONLY TRUE)
-  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/model_impl.hpp) 
-  if (NOT EXISTS ${PROJECT_BINARY_DIR}/reactions_list.hpp) 
+  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/model_impl.hpp)
+  if (NOT EXISTS ${PROJECT_BINARY_DIR}/reactions_list.hpp)
     message("No reactions_list.hpp found in build directory")
     set(BUILD_TESTS_ONLY TRUE)
-  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/reactions_list.hpp) 
-  if (NOT EXISTS ${PROJECT_BINARY_DIR}/specie_list.hpp) 
+  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/reactions_list.hpp)
+  if (NOT EXISTS ${PROJECT_BINARY_DIR}/specie_list.hpp)
     message("No specie_list.hpp found in build directory")
     set(BUILD_TESTS_ONLY TRUE)
-  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/specie_list.hpp) 
+  endif (NOT EXISTS ${PROJECT_BINARY_DIR}/specie_list.hpp)
 
   if (${BUILD_TESTS_ONLY})
     message(WARNING "No or incomplete model implementation found - building test cases only")
@@ -139,11 +140,3 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   endif (${BUILD_TESTS_ONLY})
 #add_test(ctest_simulation main -p ../param_list.csv -c 200 -w 50 -s 0.01 -a 0.1 -r 10 -t 60 -e ../data_out.csv)
 endif(${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
-
-
-
-
-
-
-
-
