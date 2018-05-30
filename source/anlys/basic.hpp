@@ -21,8 +21,6 @@ private:
 	vector<vector<RATETYPE> > mins_by_context;
 	vector<vector<RATETYPE> > maxs_by_context;
 
-	void update_averages(const ContextBase& start,int c);
-	void update_minmax(const ContextBase& start,int c);
 
 public:
     BasicAnalysis (
@@ -33,23 +31,14 @@ public:
       Real start_time, Real end_time
     );
 
-	/*
-	* Update: repeatedly called by observable to notify that there is more data
-	* - arg ContextBase& start: reference to iterator over concentrations
-	* - precondition: start.isValid() is true.
-	* - postcondition: start.isValid() is false.
-	* - update is overloaded virtual function of Observer
-	*/
-	void update(ContextBase& start){
-		for (int c = min; c<max; c++){
-			update_averages(start,c);
-			update_minmax(start,c);
-			start.advance();
-		}
-		time++;
-	}
-
     /*
+     * Update: repeatedly called by observable to notify that there is more data
+     * - arg ContextBase& start: reference to iterator over concentrations
+     * - precondition: start.isValid() is true.
+     * - postcondition: start.isValid() is false.
+     * - update is overloaded virtual function of Observer
+     */
+    void update (ContextBase & begin) override;
 
 	
 };

@@ -1,20 +1,10 @@
 #include "basic.hpp"
 
 using namespace std;
+#include <limits>
+#include <algorithm>
+#include <iostream>
 
-/*
- * UPDATE_AVERAGES
- * arg "start": context iterator to access newest conc level with
- * arg "c": the cell the context inhabits
- * updates average concentration levels across all cells and per cell
-*/
-void BasicAnalysis :: update_averages(const ContextBase& start, int c){
-	for (int i=0; i<ucSpecieOption.size(); i++){
-		specie_id sid = (specie_id) ucSpecieOption[i];
-        averages[i] += start.getCon(sid);
-		avgs_by_context[c][i] += start.getCon(sid);
-	}
-}
 BasicAnalysis::BasicAnalysis (
   Observable * log,
   specie_vec const& species_vector,
@@ -31,31 +21,22 @@ BasicAnalysis::BasicAnalysis (
   means_by_context(max - min, means) {
 };
 
-/*
- * UPDATE_MINMAX
- * arg "start": context iterator to access newest conc level with
- * arg "c": the cell the context inhabits
- * updates min and max conc levels across all cells and per cell
-*/
-void BasicAnalysis :: update_minmax(const ContextBase& start, int c){
+void BasicAnalysis::update (ContextBase & begin) {
+  for (unsigned cell_no = min; cell_no < max; ++cell_no) {
+    for (std::size_t i = 0; i < ucSpecieOption.size(); ++i) {
+  		Real concentration = begin.getCon(ucSpecieOption[i]);
+      mins[i] = std::min(concentration, mins[i]);
+      maxs[i] = std::max(concentration, maxs[i]);
+      means[i] += concentration;
+      mins_by_context[cell_no][i] = std::min(concentration, mins_by_context[cell_no][i]);
+      maxs_by_context[cell_no][i] = std::max(concentration, maxs_by_context[cell_no][i]);
+  		means_by_context[cell_no][i] += concentration;
+  	}
+    begin.advance();
+  }
+  ++time;
+};
 
-	for (int i=0; i<ucSpecieOption.size(); i++){
-		specie_id sid = static_cast<specie_id>(ucSpecieOption[i]);
-		RATETYPE conc = start.getCon(sid);
-		if (conc > maxs[i]){
-			maxs[i] = conc;
-		}
-		if (conc < mins[i]){
-			mins[i] = conc;
-		}
-		if (conc > maxs_by_context[c][i]){
-			maxs_by_context[c][i] = conc;
-		}
-		if (conc < mins_by_context[c][i]){
-			mins_by_context[c][i] = conc;
-		}
-	}
-}
 
 void BasicAnalysis :: finalize(){
     // for each cell from max to min
