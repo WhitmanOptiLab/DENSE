@@ -22,19 +22,16 @@ class ConcentrationCheck : public Analysis {
       lower_bound(lowerB), upper_bound(upperB) {
     };
 
-    void update(ContextBase& start) {
-
-        RATETYPE con;
-
-        for (int c=min; c<max; c++){
-            if (target_specie > -1){
-                con = start.getCon(target_specie);
-                if (con<lower_bound || con>upper_bound) {
+    void update (ContextBase & start) override {
+        for (int c = min; c < max; ++c) {
+            if (target_specie > -1) {
+                Real concentration = start.getCon(target_specie);
+                if (con < lower_bound || con > upper_bound) {
                     subject->abort();
                 }
-            }else{
+            } else {
                 for (int s=0; s<NUM_SPECIES; s++){
-                    RATETYPE con = start.getCon((specie_id) s);
+                    Real con = start.getCon((specie_id) s);
                     if (con<lower_bound || con>upper_bound) {
                         subject->abort();
                     }
