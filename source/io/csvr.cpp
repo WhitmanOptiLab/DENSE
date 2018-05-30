@@ -20,7 +20,7 @@ csvr::csvr(std::string const& pcfFileName, bool const& pcfSuppressWarning) :
     
     // Check if open successful
     if (!iFile.is_open() && !pcfSuppressWarning)
-        cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<
+        std::cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<
             pcfFileName << "\' not found or open." << color::clear() << endl;
 }
 
@@ -107,7 +107,7 @@ bool csvr::get_next(RATETYPE* pnRate)
                             // If found invalid while parsing
                             if (*tInvalidAt)
                             {
-                                cout << color::set(color::RED) <<
+                                std::cout << color::set(color::RED) <<
                                     "CSV parsing failed. Invalid data contained "
                                     "at line " << iLine << "." <<
                                     color::clear() << endl;
@@ -145,7 +145,7 @@ bool csvr::get_next(RATETYPE* pnRate)
     // If failed to open current_ifstream
     else
     {
-        cout << color::set(color::RED) << "CSV parsing failed. "
+        std::cout << color::set(color::RED) << "CSV parsing failed. "
             "No CSV file found/open." << color::clear() << endl;
         return false;
     }

@@ -19,7 +19,7 @@ csvw::csvw(std::string const& pcfFileName, bool const& pcfWriteDoc, std::string 
     // Check if open successful
     if (!iFile.is_open())
     {
-        cout << color::set(color::RED) << "CSV file output failed. CSV file \'" <<
+        std::cout << color::set(color::RED) << "CSV file output failed. CSV file \'" <<
             pcfFileName << "\' unable to be written to." << color::clear() << endl;
     }
 
