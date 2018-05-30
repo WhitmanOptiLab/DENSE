@@ -98,6 +98,8 @@ public:
 	//Finalize: called by observable to signal end of data
 	// - generates peaks and troughs in final slice of data.
 	void finalize();
+
+  void show () override;
 };
 
 class CorrelationAnalysis : public Analysis {
