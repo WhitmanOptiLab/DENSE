@@ -51,12 +51,12 @@ public:
 
     /*
 
-	/* Finalize: overloaded virtual function of observer
-	   - must be called to produce correct average values
-	*/	
-	void finalize();
 	
 };
+    /* Finalize: overloaded virtual function of observer
+       - must be called to produce correct average values
+     */
+    void finalize () override;
 
 
 #endif
