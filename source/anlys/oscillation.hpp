@@ -85,23 +85,6 @@ public:
 	
 	virtual ~OscillationAnalysis() {}
 
-    /*
-	//Test: print output.
-	void test(){
-		for (int p=0; p<peaksAndTroughs[0].size();p++){
-			crit_point cp = peaksAndTroughs[0][p];
-			string text;
-			if (cp.is_peak){
-				text = "Peak: ";
-			}else{
-				text = "Trough: ";
-			}
-			cout<<text<<cp.conc<<" at "<<cp.time<<"min"<<endl;
-		}
-		cout<<"Amplitude = "<<amplitudes[0]<<"   Period = "<<periods[0]<<"min"<<endl;
-		cout<<endl<<endl;
-	}
-    */
 
 	/*
 	* Update: repeatedly called by observable to notify that there is more data
