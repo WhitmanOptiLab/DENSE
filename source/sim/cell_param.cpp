@@ -7,7 +7,7 @@
 using namespace std;
 
 template<int N, class T>
-void cell_param<N,T>::initialize_params(const param_set& ps, const RATETYPE normfactor){
+void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE normfactor){
 //    initialize();
     if (_sim.factors_perturb){
         for (int i = 0; i < N; i++) {

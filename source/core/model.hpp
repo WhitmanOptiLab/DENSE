@@ -25,7 +25,7 @@ public:
         }
     }
 
-    const reaction_base& getReaction(reaction_id rid) const {
+    reaction_base const& getReaction(reaction_id rid) const {
         switch (rid) {
             #define REACTION(name) \
             case name: return reaction_##name;

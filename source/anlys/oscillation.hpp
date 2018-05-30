@@ -42,7 +42,7 @@ private:
 
     // s: specie_vec index
 	void addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
-	void get_peaks_and_troughs(const ContextBase& start,int c);
+	void get_peaks_and_troughs(ContextBase const& start,int c);
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
 
@@ -55,7 +55,7 @@ public:
 	* specieID: specie to analyze.
 	*/
 	OscillationAnalysis(Observable *dLog, RATETYPE interval,
-                        RATETYPE range, const specie_vec& pcfSpecieOption,
+                        RATETYPE range, specie_vec const& pcfSpecieOption,
                         csvw* pnFileOut, int min_cell, int max_cell,
                         RATETYPE startT, RATETYPE endT) : 
             Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,startT,endT),
@@ -104,7 +104,7 @@ public:
 
 class CorrelationAnalysis : public Analysis {
 
-	CorrelationAnalysis(Observable *dLog,const specie_vec& pcfSpecieOption,
+	CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
             int mn, int mx, RATETYPE startT, RATETYPE endT) :
         Analysis(dLog,pcfSpecieOption, 0, mn,mx,startT,endT) {
 	}

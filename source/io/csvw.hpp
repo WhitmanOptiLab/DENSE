@@ -17,7 +17,7 @@ public:
      *      pcfFileName - file name including ".csv" of the desired CSV file
      *      
     */
-    csvw(const std::string& pcfFileName, const bool& pcfWriteDoc = true, const std::string& pcfChildDoc = "");
+    csvw(std::string const& pcfFileName, bool const& pcfWriteDoc = true, std::string const& pcfChildDoc = "");
     virtual ~csvw();
     
     /**
@@ -34,8 +34,8 @@ public:
      *        for seperating sections of data
      *      
     */
-    void add_data(const RATETYPE& pcfRate);
-    void add_div(const std::string& pcfDiv);
+    void add_data(RATETYPE const& pcfRate);
+    void add_div(std::string const& pcfDiv);
 
     template <typename T>
     csvw & operator<< (T const& value) {

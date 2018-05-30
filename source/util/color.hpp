@@ -20,7 +20,7 @@ namespace color
         WHITE
     };
     
-    void enable(const bool& pcfEnable);
+    void enable(bool const& pcfEnable);
     const std::string set(const unsigned int& pcfSetColor);
     const std::string clear();
 };

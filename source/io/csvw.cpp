@@ -7,7 +7,7 @@ using namespace std;
 
 
 
-csvw::csvw(const std::string& pcfFileName, const bool& pcfWriteDoc, const std::string& pcfChildDoc)
+csvw::csvw(std::string const& pcfFileName, bool const& pcfWriteDoc, std::string const& pcfChildDoc)
 {
     // Close any previously open file
     if (iFile.is_open())
@@ -56,13 +56,13 @@ csvw::~csvw()
 }
 
 
-void csvw::add_div(const std::string& pcfDiv)
+void csvw::add_div(std::string const& pcfDiv)
 {
     iFile << pcfDiv;
 }
 
 
-void csvw::add_data(const RATETYPE& pcfRate)
+void csvw::add_data(RATETYPE const& pcfRate)
 {
     iFile << pcfRate;
     add_div(",");

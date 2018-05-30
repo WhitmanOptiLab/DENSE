@@ -40,7 +40,7 @@ namespace arg_parse
      *      pcArgc - argc of "int main(int argc, char *argv[])"
      *      pcArgv - argv of "int main(int argc, char *argv[])"
     */
-    void init(const int& pcfArgc, char* pcfArgv[]);
+    void init(int const& pcfArgc, char* pcfArgv[]);
     
     
     /**
@@ -70,9 +70,9 @@ namespace arg_parse
      *      get(...) without pcfDefault DOES NOT EXIST FOR GOOD REASON. It is optimal to use the first version of get<>() because one can control the flow of the program when it encounters missing required arguments, preventing pesky crashes and infinite loops.
     */
     template<typename T>
-    bool get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, T* pnPushTo, const bool& pcfObligatory);
+    bool get(std::string const& pcfFlagShort, std::string const& pcfFlagLong, T* pnPushTo, bool const& pcfObligatory);
     template<typename T>
-    T get(const std::string& pcfFlagShort, const std::string& pcfFlagLong, const T& pcfDefault)
+    T get(std::string const& pcfFlagShort, std::string const& pcfFlagLong, T const& pcfDefault)
     {
         T rVar = pcfDefault;
         // Not obligatory, explained in "notes"

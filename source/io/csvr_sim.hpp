@@ -35,7 +35,7 @@ public:
 
 
 
-    csvr_sim(const std::string& pcfFileName, const specie_vec& pcfSpecieVec);
+    csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVec);
     virtual ~csvr_sim();
     
     int getCellTotal();

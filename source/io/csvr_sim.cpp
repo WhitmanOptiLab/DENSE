@@ -38,7 +38,7 @@ void csvr_sim::sim_ct::set(int c)
 
 
 
-csvr_sim::csvr_sim(const std::string& pcfFileName, const specie_vec& pcfSpecieVec) :
+csvr_sim::csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVec) :
     csvr(pcfFileName)
 {
     csvr::get_next(&iCellTotal);

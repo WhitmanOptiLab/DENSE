@@ -5,11 +5,11 @@ using namespace std;
 
 
 
-csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterval,
-        const RATETYPE& pcfTimeStart, const RATETYPE& pcfTimeEnd,
-        const bool& pcfTimeColumn, const unsigned int& pcfCellTotal,
+csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
+        RATETYPE const& pcfTimeStart, RATETYPE const& pcfTimeEnd,
+        bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
         const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
-        const specie_vec& pcfSpecieOption, Observable *pnObl) :
+        specie_vec const& pcfSpecieOption, Observable *pnObl) :
     csvw(pcfFileName, true, "\n# This file can be used as a template for "
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
@@ -32,7 +32,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
     for (unsigned int i=0; i<NUM_SPECIES; i++)
     {
         bool written = false;
-        for (const specie_id& lcfID : icSpecieOption)
+        for (specie_id const& lcfID : icSpecieOption)
         {
             if ((specie_id) i == lcfID)
             {
@@ -54,7 +54,7 @@ csvw_sim::csvw_sim(const std::string& pcfFileName, const RATETYPE& pcfTimeInterv
     {
         csvw::add_div("Time,");
     }
-    for (const specie_id& lcfID : icSpecieOption)
+    for (specie_id const& lcfID : icSpecieOption)
     {
         csvw::add_div(specie_str[lcfID] + ",");
     }
@@ -80,7 +80,7 @@ void csvw_sim::update(ContextBase& pfStart)
             csvw::add_data(ilTime);
         }
 
-        for (const specie_id& lcfID : icSpecieOption)
+        for (specie_id const& lcfID : icSpecieOption)
         {
             csvw::add_data(pfStart.getCon(lcfID));
         }

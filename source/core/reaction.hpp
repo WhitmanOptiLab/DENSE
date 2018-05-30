@@ -37,19 +37,19 @@ typedef std::pair<int, int> ReactionTerm;
 class reaction_base{
  public:
   CPUGPU_FUNC
-  reaction_base(int specie_delta_num, const int* coeffs, const specie_id* ids) :
+  reaction_base(int specie_delta_num, int const* coeffs, specie_id const* ids) :
                 num_deltas(specie_delta_num), deltas(coeffs), delta_ids(ids) {}
   CPUGPU_FUNC
   int getNumDeltas() const { return num_deltas; }
   CPUGPU_FUNC
-  const specie_id* getSpecieDeltas() const { return delta_ids; }
+  specie_id const* getSpecieDeltas() const { return delta_ids; }
   CPUGPU_FUNC
-  const int* getDeltas() const { return deltas; }
+  int const* getDeltas() const { return deltas; }
 
  protected:
   int num_deltas;
-  const int* deltas;
-  const specie_id* delta_ids;
+  int const* deltas;
+  specie_id const* delta_ids;
 };
 
 template<reaction_id RID>
@@ -58,7 +58,7 @@ class reaction : public reaction_base {
   reaction();
   template<class Ctxt>
   CPUGPU_FUNC
-  RATETYPE active_rate(const Ctxt& c) const;
+  RATETYPE active_rate(Ctxt const& c) const;
 };
 
 #define REACTION(name) template<> reaction<name>::reaction();
