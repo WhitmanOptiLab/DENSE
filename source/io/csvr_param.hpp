@@ -8,7 +8,7 @@ class csvr_param : public csvr
 {
 public:
     csvr_param();
-    csvr_param(const std::string& pcfFileName);
+    csvr_param(std::string const& pcfFileName);
     virtual ~csvr_param();
     
     /**

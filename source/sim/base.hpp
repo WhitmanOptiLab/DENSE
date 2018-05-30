@@ -54,8 +54,8 @@ class simulation_base : public Observable{
   //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
-  const param_set& _parameter_set;
-  const model& _model;
+  param_set const& _parameter_set;
+  model const& _model;
   RATETYPE* factors_perturb;
   RATETYPE** factors_gradient;
   cell_param<NUM_REACTIONS+NUM_DELAY_REACTIONS+NUM_CRITICAL_SPECIES> _cellParams;
@@ -77,7 +77,7 @@ class simulation_base : public Observable{
    * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
    * arg "sim_time": the total time to simulate for, in minutes
   */
-  simulation_base(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
+  simulation_base(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
     _cellParams(*this, cells_total), _numNeighbors(new int[cells_total]), 
     _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time),

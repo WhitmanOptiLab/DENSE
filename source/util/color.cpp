@@ -8,7 +8,7 @@ namespace color
         bool iEnableColor = true;
     }
     
-    void enable(const bool& pcfEnable)
+    void enable(bool const& pcfEnable)
     {
         iEnableColor = pcfEnable;
     }

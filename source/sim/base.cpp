@@ -71,7 +71,7 @@ void simulation_base::calc_max_delays() {
 
 
     #define REACTION(name) \
-    const reaction<name>& r##name = _model.reaction_##name; \
+    reaction<name> const& r##name = _model.reaction_##name; \
     r##name.active_rate( DummyContext (rate_terms[name]));
     #include "reactions_list.hpp"
     #undef REACTION

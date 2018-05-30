@@ -8,7 +8,7 @@ using namespace std;
 
 
 
-csvr::csvr(const std::string& pcfFileName, const bool& pcfSuppressWarning) :
+csvr::csvr(std::string const& pcfFileName, bool const& pcfSuppressWarning) :
     iLine(1)
 {
     // Close any previously open file

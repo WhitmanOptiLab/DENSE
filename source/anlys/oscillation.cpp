@@ -76,7 +76,7 @@ void OscillationAnalysis::show () {
  * arg "start": context iterator to access conc levels with
  * arg "c": the cell the context inhabits
 */ 
-void OscillationAnalysis :: get_peaks_and_troughs(const ContextBase& start, int c){
+void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int c){
 
     for (int i=0; i<ucSpecieOption.size(); i++)
     {

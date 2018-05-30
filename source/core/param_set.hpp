@@ -39,7 +39,7 @@ class param_set{
   RATETYPE getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }
   RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
   RATETYPE* getArray() { return _parameters; }
-  const RATETYPE* getArray() const { return _parameters; }
+  RATETYPE const* getArray() const { return _parameters; }
   
   void printall() const
   {

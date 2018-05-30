@@ -28,7 +28,7 @@ namespace arg_parse
         // Get index of (or index after) pcFlag if it exists in iArgVec.
         // Return false if not found.
         const bool getIndex(string pcfFlagShort, string pcfFlagLong,
-                int* pnIndex, const bool& pcfNext)
+                int* pnIndex, bool const& pcfNext)
         {
             pcfFlagShort = "-" + pcfFlagShort;
             pcfFlagLong = "--" + pcfFlagLong;
@@ -81,8 +81,8 @@ namespace arg_parse
         
         
         template<typename T>
-        const T getNotOblig(const std::string& pcfFlagShort,
-                const std::string& pcfFlagLong)
+        const T getNotOblig(std::string const& pcfFlagShort,
+                std::string const& pcfFlagLong)
         {
             iSuppressObligatory = true;
             const T rval = get<T>(pcfFlagShort, pcfFlagLong);
@@ -96,7 +96,7 @@ namespace arg_parse
 
     
     // See usage documentation in header
-    void init(const int& pcfArgc, char* pcfArgv[])
+    void init(int const& pcfArgc, char* pcfArgv[])
     {
         // Skip argv[0] because that's just the file name
         for ( int i=1; i<pcfArgc; i++)
@@ -111,9 +111,9 @@ namespace arg_parse
     
     
     template<>
-    bool get<string>(const std::string& pcfFlagShort,
-            const std::string& pcfFlagLong, string* pnPushTo,
-            const bool& pcfObligatory)
+    bool get<string>(std::string const& pcfFlagShort,
+            std::string const& pcfFlagLong, string* pnPushTo,
+            bool const& pcfObligatory)
     {
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
@@ -132,9 +132,9 @@ namespace arg_parse
     
     // The default is a vec filled with all specie ids
     template<>
-    bool get<specie_vec>(const std::string& pcfFlagShort,
-            const std::string& pcfFlagLong, specie_vec* pnPushTo,
-            const bool& pcfObligatory)
+    bool get<specie_vec>(std::string const& pcfFlagShort,
+            std::string const& pcfFlagLong, specie_vec* pnPushTo,
+            bool const& pcfObligatory)
     {
         specie_vec rVec = str_to_species(
                 get<string>(pcfFlagShort, pcfFlagLong, ""));
@@ -154,8 +154,8 @@ namespace arg_parse
     }
     
     template<>
-    bool get<int>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            int* pnPushTo, const bool& pcfObligatory)
+    bool get<int>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
+            int* pnPushTo, bool const& pcfObligatory)
     {
         bool success = true;
         int index;
@@ -188,8 +188,8 @@ namespace arg_parse
     }
     
     template<>
-    bool get<RATETYPE>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            RATETYPE* pnPushTo, const bool& pcfObligatory)
+    bool get<RATETYPE>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
+            RATETYPE* pnPushTo, bool const& pcfObligatory)
     {
         bool success = true;
         int index;
@@ -222,8 +222,8 @@ namespace arg_parse
     }
     
     template<>
-    bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            bool* pnPushTo, const bool& pcfObligatory)
+    bool get<bool>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
+            bool* pnPushTo, bool const& pcfObligatory)
     {
         // true if found, false if not
         bool found = getIndex(pcfFlagShort, pcfFlagLong, 0, false);
@@ -237,8 +237,8 @@ namespace arg_parse
     
     /*
     template<>
-    bool get<bool>(const std::string& pcfFlagShort, const std::string& pcfFlagLong,
-            const bool& pcfDefault)
+    bool get<bool>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
+            bool const& pcfDefault)
     {
         if (getIndex(pcfFlagShort, pcfFlagLong, 0, false)) // If found
             return !pcfDefault;

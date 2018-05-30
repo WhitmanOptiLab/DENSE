@@ -15,7 +15,7 @@ enum param_type
 class csvw_param : public csvw
 {
 public:
-    csvw_param(const std::string& pcfFileName, const param_type& pcfType);
+    csvw_param(std::string const& pcfFileName, param_type const& pcfType);
     virtual ~csvw_param();
 };
 

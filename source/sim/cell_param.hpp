@@ -22,7 +22,7 @@ public:
     int   _height, _width;
     bool _cuda;
     T *_array;
-    const simulation_base& _sim;
+    simulation_base const& _sim;
     
     
     class cell{
@@ -34,14 +34,14 @@ public:
             return _array[k];
         }
         CPUGPU_FUNC
-        const T& operator[](int k) const {
+        T const& operator[](int k) const {
             return _array[k];
         }
         T *_array;
     };
     
     CPUGPU_FUNC
-    cell_param(const simulation_base& sim, int ncells)
+    cell_param(simulation_base const& sim, int ncells)
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
     }
@@ -60,7 +60,7 @@ public:
         return cell(_array+_width*i);
     }
     
-    void initialize_params(const param_set& ps, RATETYPE normfactor = 1.0);
+    void initialize_params(param_set const& ps, RATETYPE normfactor = 1.0);
     int height() const {return _height;}
     int width() const {return _width;}
     inline T random_perturbation (T perturb) {
