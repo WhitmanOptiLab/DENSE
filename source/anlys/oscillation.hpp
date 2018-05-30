@@ -28,17 +28,17 @@ private:
 
     // Outer-most vector is "for each specie in ucSpecieOption"
 
-	vector<  vector<Queue>  > windows;
+	std::vector<  std::vector<Queue>  > windows;
 
-	vector<  vector<vector<crit_point> >  > peaksAndTroughs;
+	std::vector<  std::vector<vector<crit_point> >  > peaksAndTroughs;
 
 	int range_steps;
 	RATETYPE analysis_interval;
 
-	vector<  vector<multiset<RATETYPE> >  > bst;
+	std::vector<  std::vector<multiset<RATETYPE> >  > bst;
 
-	vector<  vector<RATETYPE>  > amplitudes;
-	vector<  vector<RATETYPE>  > periods;
+	std::vector<  std::vector<RATETYPE>  > amplitudes;
+	std::vector<  std::vector<RATETYPE>  > periods;
 
     // s: specie_vec index
 	void addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
@@ -70,8 +70,8 @@ public:
             periods.emplace_back();
             for (int c=min; c<max; c++){ 
                 Queue q(range_steps);
-                vector<crit_point> v;
-                multiset<RATETYPE> BST;
+                std::vector<crit_point> v;
+                std::multiset<RATETYPE> BST;
 
                 windows[i].push_back(q);
                 peaksAndTroughs[i].push_back(v);

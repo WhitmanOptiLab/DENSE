@@ -11,7 +11,7 @@ using namespace std;
 class Queue {
 
 private:
-	vector<RATETYPE> contents;
+	std::vector<RATETYPE> contents;
 	int start,end,current,size;
 	
 public:

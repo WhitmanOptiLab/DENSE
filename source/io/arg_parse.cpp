@@ -19,7 +19,7 @@ namespace arg_parse
     namespace
     {
         // For storing a copy of *argv[]
-        vector<string> iArgVec;
+        std::vector<string> iArgVec;
         
         // Stops obligatory message
         bool iSuppressObligatory = false;
