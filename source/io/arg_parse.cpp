@@ -41,7 +41,7 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            cout << color::set(color::RED) << "Command line "
+                            std::cout << color::set(color::RED) << "Command line "
                                 "argument search failed. No argument provided "
                                 "after flag [" << pcfFlagShort << " | " <<
                                 pcfFlagLong << "]." << color::clear() << endl;
@@ -71,7 +71,7 @@ namespace arg_parse
         {
             if (!iSuppressObligatory)
             {
-                cout << color::set(color::RED) << "Command line argument "
+                std::cout << color::set(color::RED) << "Command line argument "
                     "search failed. Flag [-" << pcfFlagShort << " | --" <<
                     pcfFlagLong << "] is required in order for all program "
                     "behaviors to function properly." <<
@@ -167,7 +167,7 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument "
+                std::cout << color::set(color::RED) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to integer." <<
                     color::clear() << endl;
@@ -201,7 +201,7 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                cout << color::set(color::RED) << "Command line argument "
+                std::cout << color::set(color::RED) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to RATETYPE." <<
                     color::clear() << endl;

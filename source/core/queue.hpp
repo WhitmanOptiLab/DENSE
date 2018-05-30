@@ -86,11 +86,11 @@ public:
 	}
 
 	void print(){
-		cout<<"["<<contents[0];
+		std::cout<<"["<<contents[0];
 		for (int i=1; i<size; i++){
-			cout<<","<<contents[i];
+			std::cout<<","<<contents[i];
 		}
-		cout<<"]"<<endl;
+		std::cout<<"]"<<endl;
 	}
 };
 
