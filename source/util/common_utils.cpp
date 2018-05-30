@@ -1,15 +1,14 @@
 #include "common_utils.hpp"
 
 std::string file_add_num (
-  std::string prFileName, std::string const& pcfFillPrefix,
-  char pcfFillWith, unsigned pcfFillMe,
-  std::size_t pcfFillLen, std::string const& pcfFillAt)
+  std::string file_name, std::string const& prefix,
+  char padding, unsigned file_no,
+  std::size_t padded_size, std::string const& extension_sep)
 {
-    prFileName = prFileName.substr(0,
-        prFileName.find_last_of(pcfFillAt)) + pcfFillPrefix +
-        left_pad(std::to_string(pcfFillMe), pcfFillWith, pcfFillLen) +
-        prFileName.substr(prFileName.find_last_of(pcfFillAt));
-    return prFileName;
+  auto padded_file_no = left_pad(std::to_string(file_no), padded_size, padding);
+  auto before_extension_sep = std::min(file_name.find_last_of(extension_sep), file_name.size());
+  file_name.insert(before_extension_sep, prefix + padded_file_no);
+  return file_name;
 };
 
 std::string left_pad (std::string string, std::size_t min_size, char padding) {
