@@ -4,7 +4,7 @@
 #include <iostream>
 
 
-using namespace std;
+
 
 template<int N, class T>
 void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE normfactor){

@@ -4,7 +4,7 @@
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <cmath> // For round()
 #include <iostream>
-using namespace std;
+
 
 
 
@@ -69,7 +69,7 @@ bool csvr::get_next(RATETYPE* pnRate)
     if (iFile.is_open())
     {
         // tParam data from file to be "pushed" to pfRate
-        string tParam;
+        std::string tParam;
         
         char c = iFile.get();
         while(iFile.good())

@@ -3,7 +3,7 @@
 
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <iostream>
-using namespace std;
+
 
 
 

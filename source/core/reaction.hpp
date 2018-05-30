@@ -6,17 +6,17 @@
 #include <string>
 #include <utility>
 
-using namespace std;
+
 
 
 enum reaction_id {
-#define REACTION(name) name, 
+#define REACTION(name) name,
 #include "reactions_list.hpp"
 #undef REACTION
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
 };
 
-const string reaction_str[NUM_REACTIONS] = {
+const std::string reaction_str[NUM_REACTIONS] = {
     #define REACTION(name) #name,
     #include "reactions_list.hpp"
     #undef REACTION
@@ -75,4 +75,3 @@ extern STATIC_VAR specie_id delta_ids_##name[];
 #include "reactions_list.hpp"
 #undef REACTION
 #endif
-

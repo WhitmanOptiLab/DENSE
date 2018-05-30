@@ -1,6 +1,6 @@
 #include "oscillation.hpp"
 
-using namespace std;
+
 
 
 /*
@@ -51,7 +51,7 @@ void OscillationAnalysis::show () {
               if (peak_count > 0) avg_peak[s] /= peak_count;
           }
 
-          csv_out->add_div("\n\ncell " + to_string(c) + ",");
+          csv_out->add_div("\n\ncell " + std::to_string(c) + ",");
           for (specie_id const& lcfID : ucSpecieOption)
               csv_out->add_div(specie_str[lcfID] + ",");
 

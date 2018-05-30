@@ -10,7 +10,7 @@
 #include "cell_param.hpp"
 #include "core/reaction.hpp"
 #include <vector>
-using namespace std;
+
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
