@@ -5,7 +5,7 @@
 #include <vector>
 #include "context.hpp"
 
-using namespace std;
+
 class Observer;
 
 /**

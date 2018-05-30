@@ -9,7 +9,7 @@
 #include <cstring> // For strcpy in init
 #include <iostream>
 #include <vector>
-using namespace std;
+
 
 
 
@@ -19,7 +19,7 @@ namespace arg_parse
     namespace
     {
         // For storing a copy of *argv[]
-        std::vector<string> iArgVec;
+        std::vector<std::string> iArgVec;
         
         // Stops obligatory message
         bool iSuppressObligatory = false;
@@ -27,7 +27,7 @@ namespace arg_parse
         
         // Get index of (or index after) pcFlag if it exists in iArgVec.
         // Return false if not found.
-        const bool getIndex(string pcfFlagShort, string pcfFlagLong,
+        const bool getIndex(std::string pcfFlagShort, std::string pcfFlagLong,
                 int* pnIndex, bool const& pcfNext)
         {
             pcfFlagShort = "-" + pcfFlagShort;
@@ -67,7 +67,7 @@ namespace arg_parse
         
         
         // Prints message warning that flag is required
-        void warnObligatory(string pcfFlagShort, string pcfFlagLong)
+        void warnObligatory(std::string pcfFlagShort, std::string pcfFlagLong)
         {
             if (!iSuppressObligatory)
             {
@@ -103,7 +103,7 @@ namespace arg_parse
         {
             char hStr[strlen(pcfArgv[i])];
             strcpy(hStr, pcfArgv[i]);
-            iArgVec.push_back(string(hStr));
+            iArgVec.push_back(std::string(hStr));
         }
     }
     
@@ -111,8 +111,8 @@ namespace arg_parse
     
     
     template<>
-    bool get<string>(std::string const& pcfFlagShort,
-            std::string const& pcfFlagLong, string* pnPushTo,
+    bool get<std::string>(std::string const& pcfFlagShort,
+            std::string const& pcfFlagLong, std::string *  pnPushTo,
             bool const& pcfObligatory)
     {
         int index;
@@ -137,7 +137,7 @@ namespace arg_parse
             bool const& pcfObligatory)
     {
         specie_vec rVec = str_to_species(
-                get<string>(pcfFlagShort, pcfFlagLong, ""));
+                get<std::string>(pcfFlagShort, pcfFlagLong, ""));
 
         if (rVec.size() > 0)
         {

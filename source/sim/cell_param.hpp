@@ -12,7 +12,7 @@
 #include "core/specie.hpp"
 #include "core/param_set.hpp"
 
-using namespace std;
+
 class simulation_base;
 
 template<int N, class T=RATETYPE>
@@ -64,9 +64,9 @@ public:
     int height() const {return _height;}
     int width() const {return _width;}
     inline T random_perturbation (T perturb) {
-        return random_rate(pair<T, T>(1 - perturb, 1 + perturb));
+        return random_rate(std::pair<T, T>(1 - perturb, 1 + perturb));
     }
-    T random_rate(pair<T, T> range) {
+    T random_rate(std::pair<T, T> range) {
         return range.first + (range.second - range.first) * rand() / (RAND_MAX + 1.0);
     }
     void initialize();

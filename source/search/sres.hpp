@@ -26,7 +26,7 @@ sres.hpp contains function declarations for sres.cpp.
 #include "core/param_set.hpp"
 
 #if defined(MPI)
-	#include "libsres-mpi/ESES.hpp" 
+	#include "libsres-mpi/ESES.hpp"
   #include "libsres-mpi/sharefunc.hpp"
 #else
 	#include "libsres/ESES.hpp"
@@ -37,7 +37,7 @@ sres.hpp contains function declarations for sres.cpp.
 
 class SRES {
  public:
-  typedef vector<double> (*SRES_Scorer) (const vector<param_set>&);
+  typedef std::vector<double> (*SRES_Scorer) (const std::vector<param_set>&);
 
  private:
   //SRES interface members
@@ -54,11 +54,11 @@ class SRES {
   //DDESim interface members
   SRES_Scorer score_fcn;
  public:
-	SRES (int population_size, int num_parents, int num_generations, 
+	SRES (int population_size, int num_parents, int num_generations,
 	      const param_set& lBounds, const param_set& uBounds, SRES_Scorer scorer,
-	      int seed = 0) : 
-	    param(NULL), population(NULL), stats(NULL), pf(0),  
-	    lowerBounds(lBounds), upperBounds(uBounds), popsize(population_size), 
+	      int seed = 0) :
+	    param(NULL), population(NULL), stats(NULL), pf(0),
+	    lowerBounds(lBounds), upperBounds(uBounds), popsize(population_size),
 	    parentsize(num_parents), ngenerations(num_generations), score_fcn(scorer)
 	{
     assert(popsize > parentsize && "ERROR: sres parent size must be smaller than the population size.");
@@ -100,4 +100,3 @@ class SRES {
 };
 
 #endif
-

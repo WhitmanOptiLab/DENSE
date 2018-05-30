@@ -14,7 +14,7 @@
 
 #include "core/specie.hpp"
 #include <string>
-using namespace std;
+
 
 using Real = float;
 using RATETYPE = Real;

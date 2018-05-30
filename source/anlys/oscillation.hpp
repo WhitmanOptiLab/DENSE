@@ -6,7 +6,7 @@
 #include <set>
 #include <string>
 #include "core/queue.hpp"
-using namespace std;
+
 
 
 /*
@@ -28,17 +28,17 @@ private:
 
     // Outer-most vector is "for each specie in ucSpecieOption"
 
-	std::vector<  std::vector<Queue>  > windows;
+	std::vector<std::vector<Queue>> windows;
 
-	std::vector<  std::vector<vector<crit_point> >  > peaksAndTroughs;
+	std::vector<std::vector<std::vector<crit_point>>> peaksAndTroughs;
 
 	int range_steps;
 	RATETYPE analysis_interval;
 
-	std::vector<  std::vector<multiset<RATETYPE> >  > bst;
+	std::vector<std::vector<std::multiset<RATETYPE>>> bst;
 
-	std::vector<  std::vector<RATETYPE>  > amplitudes;
-	std::vector<  std::vector<RATETYPE>  > periods;
+	std::vector<std::vector<RATETYPE>> amplitudes;
+	std::vector<std::vector<RATETYPE>> periods;
 
     // s: specie_vec index
 	void addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration);

@@ -7,7 +7,7 @@
 #include "reaction.hpp"
 #include "specie.hpp"
 
-using namespace std;
+
 
 class model{
 public:

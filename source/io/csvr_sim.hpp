@@ -29,7 +29,7 @@ public:
         virtual void set(int c);
     
     private:
-        std::vector< std::map<specie_id, RATETYPE> > iRate;
+        std::vector<std::map<specie_id, RATETYPE>> iRate;
         int iIter;
     };
 

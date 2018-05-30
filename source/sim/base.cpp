@@ -7,7 +7,7 @@
 #include <set>
 
 typedef std::numeric_limits<double> dbl;
-using namespace std;
+
 
 /*
 bool simulation_base::any_less_than_0 (baby_cl& baby_cl, int* times) {

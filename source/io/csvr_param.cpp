@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-using namespace std;
+
 
 
 csvr_param::csvr_param(std::string const& pcfFileName) :

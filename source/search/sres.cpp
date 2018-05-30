@@ -59,7 +59,7 @@ int get_rank () {
 }
 
 void SRES::simulate_population(int popc, double** population, double* scores) {
-  vector<param_set> sets;
+  std::vector<param_set> sets;
 
   //Convert population parameters to a vector of parameter sets
   for (int i = 0; i < popc; ++i) {
@@ -71,7 +71,7 @@ void SRES::simulate_population(int popc, double** population, double* scores) {
   }
 
   //Invoke callback to score the population
-  vector<double> results = score_fcn(sets);
+  std::vector<double> results = score_fcn(sets);
   
   //Convert analysis features to scores
   for (int i = 0; i < popc; ++i) {
