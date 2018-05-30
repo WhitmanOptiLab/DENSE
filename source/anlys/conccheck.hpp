@@ -37,6 +37,6 @@ class ConcentrationCheck : public Analysis {
         }
     }
 
-    void finalize(){} 
+    void finalize() override {};
 };
 #endif

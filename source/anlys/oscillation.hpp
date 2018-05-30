@@ -93,11 +93,11 @@ public:
 	* - postcondition: start.isValid() is false.
 	* - update is overloaded virtual function of Observer
 	*/
-	void update(ContextBase& start);
+	void update (ContextBase &) override;
 
 	//Finalize: called by observable to signal end of data
 	// - generates peaks and troughs in final slice of data.
-	void finalize();
+	void finalize () override;
 
   void show () override;
 };
