@@ -1,6 +1,13 @@
 #ifndef UTIL_COMMON_UTILS_HPP
 #define UTIL_COMMON_UTILS_HPP
 
+
+#ifdef __CUDACC__
+#define IF_CUDA(X) X
+#else
+#define IF_CUDA(X)
+#endif
+
 #ifdef __CUDACC__
 #define CPUGPU_FUNC __host__ __device__
 #else
