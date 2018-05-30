@@ -44,17 +44,17 @@ class dense_cl {
     public:
         CPUGPU_FUNC
         timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
-        
+
         CPUGPU_FUNC
         cell operator[](int j) {
-            j = WRAP(j, _pos);
+            j = (j + _pos) % _pos;
             cell temp(_array+_width*j);
             return temp;
         }
-        
+
         CPUGPU_FUNC
         const cell operator[](int j) const{
-            j = WRAP(j, _pos);
+            j = (j + _pos) % _pos;
             cell temp(_array+_width*j);
             return temp;
         }
