@@ -24,47 +24,50 @@ void OscillationAnalysis :: finalize(){
             calcAmpsAndPers(s, c);
         }
     }
+    show();
+}
 
-    if (unFileOut)
-    {
-        for (int c=min; c<max; c++)
-        {
-            RATETYPE avg_peak[ucSpecieOption.size()];
-            for (int s=0; s<ucSpecieOption.size(); s++)
-            {
-                RATETYPE peak_count = 0;
-                avg_peak[s] = 0.0;
+void OscillationAnalysis::show () {
+  if (csv_out)
+  {
+      for (int c=min; c<max; c++)
+      {
+          RATETYPE avg_peak[ucSpecieOption.size()];
+          for (int s=0; s<ucSpecieOption.size(); s++)
+          {
+              RATETYPE peak_count = 0;
+              avg_peak[s] = 0.0;
 
-                for (int pt=0; pt<peaksAndTroughs[s][c].size(); pt++)
-                {
-                    crit_point cp = peaksAndTroughs[s][c][pt];
-                    if (cp.is_peak)
-                    {
-                        avg_peak[s] += cp.conc;
-                        peak_count++;
-                    }
-                }
+              for (int pt=0; pt<peaksAndTroughs[s][c].size(); pt++)
+              {
+                  crit_point cp = peaksAndTroughs[s][c][pt];
+                  if (cp.is_peak)
+                  {
+                      avg_peak[s] += cp.conc;
+                      peak_count++;
+                  }
+              }
 
-                if (peak_count > 0) avg_peak[s] /= peak_count;
-            }
+              if (peak_count > 0) avg_peak[s] /= peak_count;
+          }
 
-            unFileOut->add_div("\n\ncell " + to_string(c) + ",");
-            for (const specie_id& lcfID : ucSpecieOption)
-                unFileOut->add_div(specie_str[lcfID] + ",");
-            
-            unFileOut->add_div("\navg peak,");
-            for (int s=0; s<ucSpecieOption.size(); s++)
-                unFileOut->add_data(avg_peak[s]);
+          csv_out->add_div("\n\ncell " + to_string(c) + ",");
+          for (specie_id const& lcfID : ucSpecieOption)
+              csv_out->add_div(specie_str[lcfID] + ",");
 
-            unFileOut->add_div("\navg amp,");
-            for (int s=0; s<ucSpecieOption.size(); s++)
-                unFileOut->add_data(amplitudes[s][c]);
-            
-            unFileOut->add_div("\navg per,");
-            for (int s=0; s<ucSpecieOption.size(); s++)
-                unFileOut->add_data(periods[s][c]);
-        }
-    }
+          csv_out->add_div("\navg peak,");
+          for (int s=0; s<ucSpecieOption.size(); s++)
+              csv_out->add_data(avg_peak[s]);
+
+          csv_out->add_div("\navg amp,");
+          for (int s=0; s<ucSpecieOption.size(); s++)
+              csv_out->add_data(amplitudes[s][c]);
+
+          csv_out->add_div("\navg per,");
+          for (int s=0; s<ucSpecieOption.size(); s++)
+              csv_out->add_data(periods[s][c]);
+      }
+  }
 }
 
 /*
