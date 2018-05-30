@@ -44,7 +44,7 @@ namespace arg_parse
                             std::cout << color::set(color::RED) << "Command line "
                                 "argument search failed. No argument provided "
                                 "after flag [" << pcfFlagShort << " | " <<
-                                pcfFlagLong << "]." << color::clear() << endl;
+                                pcfFlagLong << "]." << color::clear() << '\n';
                         }
                         else
                         {
@@ -75,7 +75,7 @@ namespace arg_parse
                     "search failed. Flag [-" << pcfFlagShort << " | --" <<
                     pcfFlagLong << "] is required in order for all program "
                     "behaviors to function properly." <<
-                    color::clear() << endl;
+                    color::clear() << '\n';
             }
         }
         
@@ -170,7 +170,7 @@ namespace arg_parse
                 std::cout << color::set(color::RED) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to integer." <<
-                    color::clear() << endl;
+                    color::clear() << '\n';
             }
             else
             {
@@ -204,7 +204,7 @@ namespace arg_parse
                 std::cout << color::set(color::RED) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to RATETYPE." <<
-                    color::clear() << endl;
+                    color::clear() << '\n';
             }
             else
             {

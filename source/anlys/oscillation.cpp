@@ -17,7 +17,7 @@ void OscillationAnalysis :: finalize(){
             while (windows[s][c].getSize()>=(range_steps/2)&&bst[s][c].size()>0){
                 RATETYPE removed = windows[s][c].dequeue();
                 bst[s][c].erase(bst[s][c].find(removed));
-                //std::cout<<"bst size="<<bst[s][c].size()<<endl;
+                //std::cout<<"bst size="<<bst[s][c].size()<<'\n';
                 checkCritPoint(s, c);
                 time++;
             }
