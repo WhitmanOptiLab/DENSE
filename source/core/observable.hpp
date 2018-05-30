@@ -14,7 +14,7 @@ Superclass for Simulation
 class Observable{
     
     protected:
-	vector<Observer*> observerList;
+	std::vector<Observer*> observerList;
     bool abort_signaled;
     double t;
 

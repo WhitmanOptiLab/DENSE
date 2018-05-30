@@ -160,7 +160,7 @@ void OscillationAnalysis :: update(ContextBase& start){
  * arg "c": the cell to analysis amplitudes and periods from
 */
 void OscillationAnalysis :: calcAmpsAndPers(int s, int c){
-	vector<crit_point> crits = peaksAndTroughs[s][c];
+	std::vector<crit_point> crits = peaksAndTroughs[s][c];
     RATETYPE peakSum = 0.0, troughSum = 0.0, cycleSum = 0.0;
     int numPeaks = 0, numTroughs = 0, cycles = 0;
 	for (int i=0; i<crits.size(); i++){

@@ -127,7 +127,7 @@ void csvr_sim::run()
         // Parse cells and push back maps of rows
         if (lCell >= hSCT.iRate.size())
         {
-            hSCT.iRate.push_back(map<specie_id, RATETYPE>());
+            hSCT.iRate.push_back(std::map<specie_id, RATETYPE>());
         }
         hSCT.iRate[lCell][iSpecieVec[lSpcVec]] = hRate;
 

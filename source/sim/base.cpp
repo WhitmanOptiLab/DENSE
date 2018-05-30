@@ -44,11 +44,11 @@ void simulation_base::calc_max_delays() {
     max_delays[s] = 0.0;
   }
    
-  set<specie_id> rate_terms[NUM_REACTIONS];
+  std::set<specie_id> rate_terms[NUM_REACTIONS];
 
   class DummyContext {
       public:
-        DummyContext(set<specie_id>& deps_to_fill) : 
+        DummyContext(std::set<specie_id>& deps_to_fill) : 
             deps(deps_to_fill) {};
         RATETYPE getCon(specie_id sp, int delay=0) const {
             deps.insert(sp);
@@ -66,7 +66,7 @@ void simulation_base::calc_max_delays() {
             return 0.0;
         };
       private:
-        set<specie_id>& deps;
+        std::set<specie_id>& deps;
   };
 
 
@@ -81,7 +81,7 @@ void simulation_base::calc_max_delays() {
   //    accumulate delay into specie
   //  for each factor
   //    accumulate delay into specie
- set<specie_id> delts;
+ std::set<specie_id> delts;
  std::set<specie_id>::iterator iter;
 #define REACTION(name) 
 #define DELAY_REACTION(name) \
