@@ -8,17 +8,9 @@
 #define IF_CUDA(X)
 #endif
 
-#ifdef __CUDACC__
-#define CPUGPU_FUNC __host__ __device__
-#else
-#define CPUGPU_FUNC
-#endif
+#define CPUGPU_FUNC IF_CUDA(__host__ __device__)
 
-#ifdef __CUDACC__
-#define STATIC_VAR __managed__
-#else
-#define STATIC_VAR
-#endif
+#define STATIC_VAR IF_CUDA(__managed__)
 
 #include "core/specie.hpp"
 #include <string>
