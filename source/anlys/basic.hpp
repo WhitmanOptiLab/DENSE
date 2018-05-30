@@ -13,13 +13,6 @@
 */
 class BasicAnalysis : public Analysis {
 
-private:
-	vector<RATETYPE> averages;
-	vector<RATETYPE> mins;
-	vector<RATETYPE> maxs;
-	vector<vector<RATETYPE> > avgs_by_context;
-	vector<vector<RATETYPE> > mins_by_context;
-	vector<vector<RATETYPE> > maxs_by_context;
 
 
 public:
@@ -40,12 +33,17 @@ public:
      */
     void update (ContextBase & begin) override;
 
-	
-};
     /* Finalize: overloaded virtual function of observer
        - must be called to produce correct average values
      */
     void finalize () override;
 
+  private:
+
+    std::vector<Real> mins, maxs, means;
+
+    std::vector<std::vector<Real>> mins_by_context, maxs_by_context, means_by_context;
+
+};
 
 #endif
