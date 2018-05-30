@@ -29,7 +29,6 @@ class CPUGPU_TempArray {
   const TYPE& operator[](int i) const { return array[i]; }
 };
 
-#define WRAP(x, y) ((x) + (y)) % (y)
 
 // char fill, a lot like zfill but with any char
 string cfill(string prFillMe, const char& pcfFillWith, const int& pcfFillLen);

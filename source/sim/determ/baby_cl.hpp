@@ -40,8 +40,12 @@ class baby_cl {
         }
         RATETYPE *_array;
     };
-    
-    
+
+    template <typename NumericT>
+    static NumericT wrap (NumericT x, NumericT y) {
+      return (x + y) % y;
+    };
+
     class timespan{
     public:
         CPUGPU_FUNC
@@ -49,14 +53,14 @@ class baby_cl {
         
         CPUGPU_FUNC
         cell operator[](int j) {
-            j = (j == 0) ? _pos : WRAP(_pos + j, _hist_len);
+            j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
         
         CPUGPU_FUNC
         const cell operator[](int j) const{
-            j = (j == 0) ? _pos : WRAP(_pos + j, _hist_len);
+            j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
@@ -106,7 +110,7 @@ class baby_cl {
     CPUGPU_FUNC
     void advance() { 
       for (int i = 0; i < NUM_SPECIES; i++) {
-        _j[i] = WRAP(_j[i]+1, _specie_size[i]);
+        _j[i] = wrap(_j[i]+1, _specie_size[i]);
       }
     }
     
