@@ -1,0 +1,28 @@
+<analyses>
+    <anlys type="basic">
+        <species>ph1, ph7</species>
+        <cell-start>0</cell-start>
+        <cell-end>9</cell-end>
+        <time-start>0</time-start>
+        <time-end>15</time-end>
+        <out-file>anlys_basic_a.csv</out-file>
+    </anlys>
+    <anlys type="basic">
+        <species>ph1, mh1, mh13</species>
+        <cell-start>0</cell-start>
+        <cell-end>19</cell-end>
+        <time-start>0</time-start>
+        <time-end>30</time-end>
+        <out-file>anlys_basic_b.csv</out-file>
+    </anlys>
+    <anlys type="oscillation">
+        <species>ph1, mh1, md</species>
+        <anlys-intvl>0.01</anlys-intvl>
+        <win-range>4.0</win-range>
+        <cell-start>0</cell-start>
+        <cell-end>5</cell-end>
+        <time-start>0</time-start>
+        <time-end>60</time-end>
+        <out-file>anlys_oscil.csv</out-file>
+    </anlys>
+</analyses>

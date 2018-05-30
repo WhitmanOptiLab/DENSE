@@ -1,0 +1,15 @@
+# CSV Specification
+#   Ignored by the file readers are:
+#     (1) empty cells / blank rows / whitespace
+#     (2) comment rows which always begin with a '#'
+#     (3) any cell that does not begin with a numerical or decimal place character*
+#   *Such cells act as either column headers or other important notes. These are provided for the user's convenience and can be modified if the user sees fit.
+# None of these comments include commas because it messes with the column widths when loaded into Excel-like programs. Speaking of that...
+# For best results delete all comments before loading this file into any Excel-like program.
+# Scientific notation in the form of 3.14e-41 is supported.
+# It is futile to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order or must match the ordering of a respective command line argument.
+# Rename this file by removing the "_template" from the file name (or just change the name entirely) once the data has been entered!
+
+mh1_synthesis, mh7_synthesis, mh13_synthesis, md_synthesis, mh1_degradation, mh7_degradation, mh13_degradation, md_degradation, ph1_synthesis, ph7_synthesis, ph13_synthesis, pd_synthesis, ph1_degradation, ph7_degradation, ph13_degradation, pd_degradation, ph11_association, ph17_association, ph113_association, ph77_association, ph713_association, ph1313_association, ph11_dissociation, ph17_dissociation, ph113_dissociation, ph77_dissociation, ph713_dissociation, ph1313_dissociation, ph11_degradation, ph17_degradation, ph113_degradation, ph77_degradation, ph713_degradation, ph1313_degradation, , dreact_mh1_synthesis, dreact_mh7_synthesis, dreact_mh13_synthesis, dreact_md_synthesis, dreact_ph1_synthesis, dreact_ph7_synthesis, dreact_ph13_synthesis, dreact_pd_synthesis, , rcrit_pd, rcrit_ph11, rcrit_ph713, 
+45.282, 45.8188, 34.856, 25.3622, 0, 0, 0, 0, 15.8443, 30.6742, 25.8334, 44.2915, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, , 100, 100, 100, 
+55.282, 55.8188, 44.856, 35.3622, 0.215387, 0.37152, 0.10447, 0.453508, 25.8443, 40.6742, 35.8334, 54.2915, 0.210157, 0.269844, 0.335617, 0.282566, 0.020873, 0.002822, 0.027891, 0.027807, 0.017196, 0.020549, 0.280481, 0.256498, 0.030745, 0.296646, 0.067092, 0.195206, 0.296753, 0.324761, 0.144681, 0.253744, 0.240119, 0.205776, , 10.6427, 9.15516, 0, 11.2572, 1.72161, 1.93494, 0.805212, 11.3695, , 201.173, 713.625, 740.349, 
