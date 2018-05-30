@@ -13,9 +13,8 @@
 */
 class BasicAnalysis : public Analysis {
 
+  public:
 
-
-public:
     BasicAnalysis (
       Observable * log,
       specie_vec const& species_vector,
@@ -37,6 +36,8 @@ public:
        - must be called to produce correct average values
      */
     void finalize () override;
+
+    void show () override;
 
   private:
 

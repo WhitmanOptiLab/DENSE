@@ -1,6 +1,5 @@
 #include "basic.hpp"
 
-using namespace std;
 #include <limits>
 #include <algorithm>
 #include <iostream>
@@ -37,45 +36,46 @@ void BasicAnalysis::update (ContextBase & begin) {
   ++time;
 };
 
+void BasicAnalysis::finalize () {
+  for (auto & mean : means) {
+    mean /= time * (max - min);
+  }
+  for (auto & cell_means : means_by_context) {
+    for (auto & mean : cell_means) {
+      mean /= time;
+    }
+  }
+  show();
+};
 
-void BasicAnalysis :: finalize(){
-    // for each cell from max to min
-    for (int c=0; c<max-min; c++){
-        for (int s=0; s<ucSpecieOption.size(); s++){
-            if (c==0){
-                averages[s] = (averages[s]/time)/(max-min);
-            }
-            avgs_by_context[c][s] = avgs_by_context[c][s] / time;
-        }
+void BasicAnalysis::show () {
+  if (csv_out) {
+    *csv_out << "\n\ncells " << min << '-' << max << ',';
+    for (specie_id species : ucSpecieOption) {
+      *csv_out << specie_str[species] << ",";
     }
 
-    // only output min avg and max for now
-    if (unFileOut)
-    {
-        // column label setup
-        unFileOut->add_div("\n\ncells "+to_string(min)+"-"+to_string(max)+",");
-        for (const specie_id& lcfID : ucSpecieOption)
-            unFileOut->add_div(specie_str[lcfID] + ",");
-        
-        // row label and data
-        unFileOut->add_div("\nmin,");
-        for (int s=0; s<ucSpecieOption.size(); s++)
-            unFileOut->add_data(mins[s]);
-        
-        unFileOut->add_div("\navg,");
-        for (int s=0; s<ucSpecieOption.size(); s++)
-            unFileOut->add_data(averages[s]);
-
-        unFileOut->add_div("\nmax,");
-        for (int s=0; s<ucSpecieOption.size(); s++)
-            unFileOut->add_data(maxs[s]);
-    } else {
-        for (int i = min; i < max; i++) {
-            std::cout << "Cell " << i << "(min, avg, max)" << std::endl;
-            for (int s = 0; s < ucSpecieOption.size(); s++) {
-               std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ',' << averages[s] << ',' << maxs[s] << ')' << std::endl;
-            }
-            std::cout << std::endl;
-        }
+    csv_out->add_div("\nmin,");
+    for (auto min : mins) {
+      csv_out->add_data(min);
     }
-}
+
+    csv_out->add_div("\navg,");
+    for (auto mean : means) {
+      csv_out->add_data(mean);
+    }
+
+    csv_out->add_div("\nmax,");
+    for (auto max : maxs) {
+      csv_out->add_data(max);
+    }
+  } else {
+    for (int i = min; i < max; ++i) {
+      std::cout << "Cell " << i << " (min, avg, max)\n";
+      for (int s = 0; s < ucSpecieOption.size(); s++) {
+        std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ", " << means[s] << ", " << maxs[s] << ")\n";
+      }
+      std::cout << '\n';
+    }
+  }
+};
