@@ -35,7 +35,7 @@ class simulation_set{
     vector<simulation_base*> _sim_set;
     
     
-    simulation_set(const vector<param_set>& params, const string& pcfGradFileName, const string& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
+    simulation_set(const vector<param_set>& params, const std::string& pcfGradFileName, const std::string& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
         _ps(params), factors_pert(0), factors_grad(0)
     {
         
