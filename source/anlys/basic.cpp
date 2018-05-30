@@ -15,6 +15,21 @@ void BasicAnalysis :: update_averages(const ContextBase& start, int c){
 		avgs_by_context[c][i] += start.getCon(sid);
 	}
 }
+BasicAnalysis::BasicAnalysis (
+  Observable * log,
+  specie_vec const& species_vector,
+  csvw * csv_writer,
+  int min, int max,
+  Real start_time, Real end_time
+) :
+  Analysis(log, species_vector, csv_writer, min, max, start_time, end_time),
+  mins(ucSpecieOption.size(), std::numeric_limits<Real>::infinity()),
+  maxs(ucSpecieOption.size(), Real{0}),
+  means(ucSpecieOption.size(), Real{0}),
+  mins_by_context(max - min, mins),
+  maxs_by_context(max - min, maxs),
+  means_by_context(max - min, means) {
+};
 
 /*
  * UPDATE_MINMAX

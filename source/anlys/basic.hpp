@@ -25,26 +25,13 @@ private:
 	void update_minmax(const ContextBase& start,int c);
 
 public:
-	BasicAnalysis(Observable *dLog, const specie_vec& pcfSpecieOption, csvw* pnFileOut,
-            int mn, int mx, RATETYPE startT, RATETYPE endT) 
-        : Analysis(dLog,pcfSpecieOption,pnFileOut,mn,mx,startT,endT)
-    {
-        for (int c=min; c<max; c++){
-            avgs_by_context.emplace_back();
-		    mins_by_context.emplace_back();
-		    maxs_by_context.emplace_back();
-		    for (const specie_id& lcfID : ucSpecieOption){
-			    mins_by_context[c].push_back(9999);
-		    	maxs_by_context[c].push_back(0);
-			    avgs_by_context[c].push_back(0);
-			    if (c==min){
-					mins.push_back(9999);
-					maxs.push_back(0);
-				  	averages.push_back(0);
-				}
-            }
-        }
-    }
+    BasicAnalysis (
+      Observable * log,
+      specie_vec const& species_vector,
+      csvw * csv_writer,
+      int min, int max,
+      Real start_time, Real end_time
+    );
 
 	/*
 	* Update: repeatedly called by observable to notify that there is more data
