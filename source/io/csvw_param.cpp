@@ -97,7 +97,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
 
     // Write column headers
     std::string zeros_line = "\n";
-    for (unsigned int i=0; i<NUM_REACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_REACTIONS; i++)
     {
         do
         {
@@ -117,7 +117,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
     csvw::add_div(", ");
     zeros_line += ", ";
 
-    for (unsigned int i=0; i<NUM_DELAY_REACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_DELAY_REACTIONS; i++)
     {
         do
         {
@@ -136,7 +136,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
     csvw::add_div(", ");
     zeros_line += ", ";
 
-    for (unsigned int i=0; i<NUM_CRITICAL_SPECIES; i++)
+    for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; i++)
     {
         do
         {

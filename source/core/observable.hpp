@@ -50,7 +50,7 @@ class Observer{
 	virtual ~Observer() {}
     int getMin();
     bool isInTimeBounds(double t){
-        return t>= start_time && t<end_time;
+        return t >= start_time && t < end_time;
     }
 
 	virtual void finalize() = 0;

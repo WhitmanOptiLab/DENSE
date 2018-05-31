@@ -60,7 +60,7 @@ class simulation_set{
                         
                         // pert factor to be added to array
                         RATETYPE tPert = 0.0;
-                        for (int i=0; i<NUM_REACTIONS; i++)
+                        for (int i = 0; i < NUM_REACTIONS; i++)
                         {
                             // Perturb default (0.0 if argument was not a RATETYPE)
                             // Prevents crashes in case perturbation parsing fails
@@ -110,7 +110,7 @@ class simulation_set{
                                 gradientFile.get_next(&tGradX2) &&
                                 gradientFile.get_next(&tGradY2) )
                             {
-                                if (tGradX1>=0 && tGradX2<=total_width)
+                                if (tGradX1 >= 0 && tGradX2 <= total_width)
                                 {
                                     // If equal, more than likely, user does not
                                     //   want to enable gradients for this specie
@@ -121,8 +121,8 @@ class simulation_set{
                                         tGradM = (tGradY2 - tGradY1) /
                                             (tGradX2 - tGradX1);
 
-                                        for (int j=std::round(tGradX1);
-                                                j<=std::round(tGradX2); j++)
+                                        for (int j = std::round(tGradX1);
+                                                j <= std::round(tGradX2); j++)
                                         {
                                             factors_grad[i][j] = tGradY1;
                                             tGradY1 += tGradM;
@@ -156,7 +156,7 @@ class simulation_set{
             
             
             // For each set, load data to _ps and _sim_set
-            for (unsigned int i=0; i<_ps.size(); i++)
+            for (unsigned int i = 0; i < _ps.size(); i++)
             {
                 // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
                 if (step_size == 0.0)
@@ -179,7 +179,7 @@ class simulation_set{
     }
     
     void simulate_sets(){
-        for (int i=0; i<_sim_set.size(); i++){
+        for (int i = 0; i < _sim_set.size(); i++){
             _sim_set[i]->simulate();
         }
     }

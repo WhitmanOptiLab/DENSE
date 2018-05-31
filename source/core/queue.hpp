@@ -18,8 +18,8 @@ public:
 //	Queue();
 	
 	Queue(int length){
-		contents.resize(length+1);
-		size = length+1;
+		contents.resize(length + 1);
+		size = length + 1;
 		start = 0;
 		current = -1;
 		end = -1;
@@ -28,7 +28,7 @@ public:
 	void populate(RATETYPE transferArray[]){
 		
 		if (isEmpty()){
-			for (int i=0; i<size/2; i++){
+			for (int i = 0; i < size/2; i++){
 				contents[i] = transferArray[i];
 			}
 			start = 0;
@@ -45,9 +45,9 @@ public:
 
 	void enqueue(RATETYPE entry){
 		if (end == (size-1)){
-			end=0;
+			end = 0;
 		}
-		else{
+		else {
 			end++;
 		}
 		contents[end] = entry;
@@ -65,7 +65,7 @@ public:
 		if (start == (size-1)){
 			start = 0;
 		}
-		else{
+		else {
 			start++;
 		}		
 		if (getSize() <= size/2) {
@@ -87,7 +87,7 @@ public:
 
 	void print(){
 		std::cout<<"["<<contents[0];
-		for (int i=1; i<size; i++){
+		for (int i = 1; i < size; i++){
 			std::cout<<","<<contents[i];
 		}
 		std::cout<<"]"<<'\n';

@@ -13,7 +13,7 @@ csvr_param::csvr_param(std::string const& pcfFileName) :
     {
         iCount++;
     }
-    iCount /= (NUM_CRITICAL_SPECIES+NUM_DELAY_REACTIONS+NUM_REACTIONS);
+    iCount /= (NUM_CRITICAL_SPECIES + NUM_DELAY_REACTIONS + NUM_REACTIONS);
     iRemain = iCount;
 }
 

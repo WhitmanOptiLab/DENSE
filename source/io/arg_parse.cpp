@@ -33,7 +33,7 @@ namespace arg_parse
             pcfFlagShort = "-" + pcfFlagShort;
             pcfFlagLong = "--" + pcfFlagLong;
 
-            for (int i=0; i<iArgVec.size(); i++)
+            for (int i = 0; i < iArgVec.size(); i++)
             {
                 if (iArgVec[i] == pcfFlagShort || iArgVec[i] == pcfFlagLong)
                 {
@@ -99,7 +99,7 @@ namespace arg_parse
     void init(int const& pcfArgc, char* pcfArgv[])
     {
         // Skip argv[0] because that's just the file name
-        for ( int i=1; i<pcfArgc; i++)
+        for ( int i = 1; i < pcfArgc; i++)
         {
             char hStr[strlen(pcfArgv[i])];
             strcpy(hStr, pcfArgv[i]);

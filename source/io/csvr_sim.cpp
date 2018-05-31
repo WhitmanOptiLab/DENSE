@@ -54,12 +54,12 @@ csvr_sim::csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVe
     csvr::get_next(&iCellEnd);
 
     // like a bitwise & of pcfSpecieVec and what exists in the file
-    for (int i=0, t; i<NUM_SPECIES; i++)
+    for (int i = 0, t; i < NUM_SPECIES; i++)
     {
         csvr::get_next(&t);
         if (t > 0)
         {
-            for (int j=0; j<pcfSpecieVec.size(); j++)
+            for (int j = 0; j < pcfSpecieVec.size(); j++)
             {
                 if (pcfSpecieVec[j] == (specie_id) i)
                 {

@@ -29,7 +29,7 @@ csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterv
     csvw::add_data(icTimeColumn);
     csvw::add_data(icCellStart);
     csvw::add_data(icCellEnd);
-    for (unsigned int i=0; i<NUM_SPECIES; i++)
+    for (unsigned int i = 0; i < NUM_SPECIES; i++)
     {
         bool written = false;
         for (specie_id const& lcfID : icSpecieOption)
@@ -74,7 +74,7 @@ void csvw_sim::finalize()
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    for (int c=min; c<max; c++){
+    for (int c = min; c < max; c++){
         if (icTimeColumn)
         {
             csvw::add_data(ilTime);
