@@ -164,7 +164,11 @@ int main(int argc, char* argv[])
 
   // ========================== FILL ANLYSAMBIG =========================
   // Must have at least one observable
-  if (simsAmbig.size() > 0)
+  if (simsAmbig.empty()) {
+    std::cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << color::clear() << '\n';
+    return EXIT_FAILURE;
+  }
+
   {
       // Analyses each with own file writer
       std::string config_file;
@@ -283,11 +287,6 @@ int main(int argc, char* argv[])
           simsAmbig[i]->run();
       }
   }
-  else // Error: no inputs
-  {
-      std::cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << color::clear() << '\n';
-      return EXIT_FAILURE;
-  } // End fill analyses and run
 
   // delete/write analyses
   for (auto anlys : anlysAmbig)
