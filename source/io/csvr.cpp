@@ -21,9 +21,8 @@ csvr::~csvr()
 }
 
 
-bool csvr::is_open() const
-{
-    return iFile.is_open() ? true : false;
+bool csvr::is_open() const {
+    return iFile.is_open();
 }
 
 
