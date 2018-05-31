@@ -19,13 +19,13 @@ public:
     public:
         sim_ct();
 
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual RATETYPE getCon(specie_id sp) const;
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual void advance();
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual bool isValid() const;
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual void set(int c);
     
     private:

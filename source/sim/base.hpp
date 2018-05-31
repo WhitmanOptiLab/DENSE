@@ -94,7 +94,7 @@ class simulation_base : public Observable{
      * populates the data structure "_neighbors" with cell indices of neighbors
      * follows hexagonal adjacencies for an unfilled tube
     */
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     void calc_neighbor_2d(){
         for (int i = 0; i < _cells_total; i++) {        
 	        int adjacents[6];

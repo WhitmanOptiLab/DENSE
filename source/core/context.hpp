@@ -9,13 +9,13 @@
 class ContextBase {
   //FIXME - want to make this private at some point
  public:
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   virtual RATETYPE getCon(specie_id sp) const = 0;
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   virtual void advance() = 0;
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   virtual bool isValid() const = 0;
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   virtual void set(int c) = 0;
 };
 

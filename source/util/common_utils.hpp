@@ -8,8 +8,6 @@
 #define IF_CUDA(X)
 #endif
 
-#define CPUGPU_FUNC IF_CUDA(__host__ __device__)
-
 #define STATIC_VAR IF_CUDA(__managed__)
 
 #include "core/specie.hpp"
@@ -23,9 +21,9 @@ template <typename ValueT, std::size_t Size>
 class CPUGPU_TempArray {
  ValueT array[Size];
  public:
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   ValueT & operator[] (std::size_t i) { return array[i]; };
-  CPUGPU_FUNC
+  IF_CUDA(__host__ __device__)
   ValueT const& operator[] (std::size_t i) const { return array[i]; };
 };
 
