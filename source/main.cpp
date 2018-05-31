@@ -109,14 +109,14 @@ int main(int argc, char* argv[])
   // ========================== FILL SIMSAMBIG ==========================
   // See if importing
   // string is for either sim data import or export
-  string data_ioe = "";
-  if (arg_parse::get<string>("i", "data-import", &data_ioe, false))
+  std::string data_ioe;
+  if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false))
   {
       simsAmbig.push_back(new csvr_sim(data_ioe, default_specie_option));
   }
   else // Not importing, do a real simulation
   {
-      string param_sets;
+      std::string param_sets;
       int tissue_width;
 
       // Required simulation fields
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
               arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
               arg_parse::get<RATETYPE>("t", "time-total", &time_total, true) &&
               arg_parse::get<RATETYPE>("u", "anlys-intvl", &anlys_intvl, true) &&
-              arg_parse::get<string>("p", "param-sets", &param_sets, true) )
+              arg_parse::get<std::string>("p", "param-sets", &param_sets, true) )
       {
           // If step_size not set, create stochastic simulation
           RATETYPE step_size =
@@ -149,8 +149,8 @@ int main(int argc, char* argv[])
 
           //Create simulation set
           simSet = new simulation_set(params,
-                  arg_parse::get<string>("g", "gradients", ""),
-                  arg_parse::get<string>("b", "perturbations", ""),
+                  arg_parse::get<std::string>("g", "gradients", ""),
+                  arg_parse::get<std::string>("b", "perturbations", ""),
                   cell_total, tissue_width, step_size,
                   anlys_intvl, time_total, seed);
 
@@ -167,8 +167,8 @@ int main(int argc, char* argv[])
   if (simsAmbig.size() > 0)
   {
       // Analyses each with own file writer
-      string config_file;
-      if (arg_parse::get<string>("a", "analysis", &config_file, false))
+      std::string config_file;
+      if (arg_parse::get<std::string>("a", "analysis", &config_file, false))
       {
           // Prepare analyses and writers
           ezxml_t config = ezxml_parse_file(config_file.c_str());
@@ -176,7 +176,7 @@ int main(int argc, char* argv[])
           for (ezxml_t anlys = ezxml_child(config, "anlys");
                   anlys; anlys = anlys->next)
           {
-              string type = ezxml_attr(anlys, "type");
+              std::string type = ezxml_attr(anlys, "type");
               for (int i=0; i<simsAmbig.size(); i++)
               {
                   RATETYPE
@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
 
                   if (type == "basic")
                   {
-                      string out_file =
+                      std::string out_file =
                           ezxml_child(anlys, "out-file")->txt;
 
                       // If multiple sets, set file name
@@ -213,7 +213,7 @@ int main(int argc, char* argv[])
                   {
                       RATETYPE win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
                       anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
-                      string out_file = ezxml_child(anlys, "out-file")->txt;
+                      std::string out_file = ezxml_child(anlys, "out-file")->txt;
 
                       // If multiple sets, set file name
                       //   to "x_####.y"
@@ -238,7 +238,7 @@ int main(int argc, char* argv[])
       } else {// End analysis flag
           // Data export aka file log
           // Can't do it if already using data-import
-          if (arg_parse::get<string>("e", "data-export", &data_ioe, false) &&
+          if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) &&
                           data_ioe != "")
           {
               for (unsigned int i=0; i<simsAmbig.size(); i++)
@@ -251,7 +251,7 @@ int main(int argc, char* argv[])
                                            "_", '0', i, 4, ".")),
                                   anlys_intvl, 0 /*time_start*/,
                                   time_total /*time_end*/,
-                                  arg_parse::get<string>("v", "time-col", 0, false),
+                                  arg_parse::get<std::string>("v", "time-col", 0, false),
                                   cell_total, 0 /*cell_start*/,
                                   cell_total /*cell_end*/,
                                   default_specie_option, simsAmbig[i] );
