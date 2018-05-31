@@ -2,7 +2,7 @@
 #include "util/color.hpp"
 
 #include <cfloat> // For FLT_MAX as an internal error code
-#include <cmath> // For round()
+#include <cmath>
 #include <iostream>
 
 
@@ -22,34 +22,20 @@ bool csvr::get_next() {
     return csvr::get_next(static_cast<RATETYPE *>(nullptr));
 }
 
-
-bool csvr::get_next(int* pnRate)
-{
-    RATETYPE tFloating;
-    if (csvr::get_next(&tFloating))
-    {
-        if (pnRate)
-        {
-            *pnRate = (int) round(tFloating);
-        }
-
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+bool csvr::get_next(int* rate) {
+  RATETYPE result;
+  bool success = get_next(&result);
+  if (success && rate) *rate = std::round(result);
+  return success;
 }
 
-
-bool csvr::get_next(RATETYPE* pnRate)
-{
+bool csvr::get_next(RATETYPE* pnRate) {
     // Only bother if open
     if (iFile.is_open())
     {
         // tParam data from file to be "pushed" to pfRate
         std::string tParam;
-        
+
         char c = iFile.get();
         while(iFile.good())
         {
@@ -82,7 +68,7 @@ bool csvr::get_next(RATETYPE* pnRate)
                         {
                             char* tInvalidAt;
                             RATETYPE tRate = strtold(tParam.c_str(), &tInvalidAt);
-                            
+
                             // If found invalid while parsing
                             if (*tInvalidAt)
                             {
@@ -107,17 +93,17 @@ bool csvr::get_next(RATETYPE* pnRate)
                     }
                 }
             }
-            
+
             // Increment line counter
             if (c == '\n')
             {
                 iLine++;
             }
-            
+
             // Get next char in file
             c = iFile.get();
         }
-        
+
         // End of file
         return false;
     }
