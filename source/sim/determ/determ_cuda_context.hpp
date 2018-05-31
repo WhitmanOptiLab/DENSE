@@ -8,7 +8,7 @@
 #include <iostream>
 using namespace std;
 
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations
     RATETYPE sum=0;
@@ -19,7 +19,7 @@ RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay)
     return avg;
 }
 
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
     
@@ -47,7 +47,7 @@ const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateR
     return specie_deltas;
 }
 
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 void simulation_cuda::Context::updateCon(const simulation_cuda::Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
     

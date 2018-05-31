@@ -15,7 +15,7 @@ using namespace std;
  * arg "delay": unused, but used in deterministic context. Kept for polymorphism
  * returns "avg": average concentration of specie in current and neighboring cells
 */
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 RATETYPE simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
     RATETYPE sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
@@ -30,7 +30,7 @@ RATETYPE simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int 
  * recalculates the propensities of reactions affected by the firing of "rid"
  * arg "rid": the reaction that fired
 */
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
     const model& _model = _simulation._model;
 
@@ -60,7 +60,7 @@ void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
  * called by "generateTau" in simulation_stoch.cpp
  * return "sum": the propensity sum
 */
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 RATETYPE simulation_stoch::ContextStoch::getTotalPropensity(){
     RATETYPE sum = 0;
     for (int c=0; c<_simulation._cells_total; c++){
@@ -77,7 +77,7 @@ RATETYPE simulation_stoch::ContextStoch::getTotalPropensity(){
  * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
  * return "j": the index of the reaction chosen.
 */ 
-CPUGPU_FUNC
+IF_CUDA(__host__ __device__)
 int simulation_stoch::ContextStoch::chooseReaction(RATETYPE propensity_portion){
     RATETYPE sum=0;
     int c,s;
