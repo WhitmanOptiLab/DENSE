@@ -6,22 +6,12 @@
 #include <iostream>
 
 
-
-
-csvr::csvr(std::string const& pcfFileName, bool const& pcfSuppressWarning) :
-    iLine(1)
+csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
+    iLine(1), iFile(file_name)
 {
-    // Close any previously open file
-    if (iFile.is_open())
-        iFile.close();
-    
-    // Open new file
-    iFile.open(pcfFileName);
-    
-    // Check if open successful
-    if (!iFile.is_open() && !pcfSuppressWarning)
+    if (!iFile.is_open() && !suppress_file_not_found)
         std::cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<
-            pcfFileName << "\' not found or open." << color::clear() << '\n';
+            file_name << "\' not found or open." << color::clear() << '\n';
 }
 
 
