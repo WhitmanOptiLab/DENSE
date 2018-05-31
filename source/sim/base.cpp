@@ -50,7 +50,7 @@ void simulation_base::calc_max_delays() {
       public:
         DummyContext(std::set<specie_id>& deps_to_fill) : 
             deps(deps_to_fill) {};
-        RATETYPE getCon(specie_id sp, int delay=0) const {
+        RATETYPE getCon(specie_id sp, int delay = 0) const {
             deps.insert(sp);
             return 0.0;
         };
@@ -61,7 +61,7 @@ void simulation_base::calc_max_delays() {
         RATETYPE getRate(reaction_id rid) const { return 0.0; };
         RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
         RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const { 
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const { 
             deps.insert(sp);
             return 0.0;
         };
@@ -90,7 +90,7 @@ void simulation_base::calc_max_delays() {
   RATETYPE max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \
-    for (int k=0; k<_width_total && factors_gradient[name]; k++) { \
+    for (int k = 0; k < _width_total && factors_gradient[name]; k++) { \
       max_gradient_##name = std::max<RATETYPE>(factors_gradient[ name ][k], max_gradient_##name); \
     } \
   } \

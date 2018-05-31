@@ -14,19 +14,19 @@ void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE norm
             if (_sim.factors_perturb[i] == 0) { // If the current rate has no perturbation factor then set every cell's rate to the base rate
                 for (int j = 0; j < _sim._cells_total; j++) {
                     //double rnum;
-                    //rnum=0.082;
-                    _array[_width*i+j] = ps.getArray()[i]/normfactor;
+                    //rnum = 0.082;
+                    _array[_width * i + j] = ps.getArray()[i]/normfactor;
                 }
             } else { // If the current rate has a perturbation factor then set every cell's rate to a randomly perturbed positive or negative variation of the base with a maximum perturbation up to the rate's perturbation factor
                 for (int j = 0; j < _sim._cells_total; j++) {
-                    _array[_width*i+j] = ps.getArray()[i] * random_perturbation(_sim.factors_perturb[i]) / normfactor;
+                    _array[_width * i + j] = ps.getArray()[i] * random_perturbation(_sim.factors_perturb[i]) / normfactor;
                 }
             }
         }
     } else {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < _sim._cells_total; j++) {
-                _array[_width*i+j] = ps.getArray()[i] / normfactor;
+                _array[_width * i + j] = ps.getArray()[i] / normfactor;
             }
         }
     }
@@ -45,7 +45,7 @@ void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE norm
                     //}
                     
                     // Set the cell's active rate to its perturbed rate modified by its position's gradient factor
-                    _array[_width*i+k] *= _sim.factors_gradient[i][gradient_index];
+                    _array[_width * i + k] *= _sim.factors_gradient[i][gradient_index];
                 }
             }
         }
@@ -54,7 +54,7 @@ void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE norm
 
 //Dummy function to force generation of update_params for all the simulation types
 void __genUpdateRates(simulation_base& s) {
-  cell_param<NUM_REACTIONS+NUM_DELAY_REACTIONS+NUM_CRITICAL_SPECIES, RATETYPE> r(s, 1);
+  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES, RATETYPE> r(s, 1);
   param_set ps;
   r.initialize_params(ps);
 }

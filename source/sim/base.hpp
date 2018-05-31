@@ -58,7 +58,7 @@ class simulation_base : public Observable{
   model const& _model;
   RATETYPE* factors_perturb;
   RATETYPE** factors_gradient;
-  cell_param<NUM_REACTIONS+NUM_DELAY_REACTIONS+NUM_CRITICAL_SPECIES> _cellParams;
+  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
   int *_numNeighbors;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
@@ -139,13 +139,13 @@ class simulation_base : public Observable{
                 _neighbors[i][2] = adjacents[4];
                 _neighbors[i][3] = adjacents[5];
                 _numNeighbors[i] = 4;
-    	    }else if ((i+1) % circumf == 0) {
+    	    } else if ((i + 1) % circumf == 0) {
                 _neighbors[i][0] = adjacents[0];
                 _neighbors[i][1] = adjacents[1];
                 _neighbors[i][2] = adjacents[2];
                 _neighbors[i][3] = adjacents[3];
                 _numNeighbors[i] = 4;
-            } else{
+            } else {
                 _neighbors[i][0] = adjacents[0];
                 _neighbors[i][1] = adjacents[1];
                 _neighbors[i][2] = adjacents[2];

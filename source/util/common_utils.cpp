@@ -11,7 +11,7 @@ specie_vec str_to_species(std::string pSpecies)
 
     specie_vec rVec;
     rVec.reserve(NUM_SPECIES);
-    for (unsigned int i=0; i<NUM_SPECIES; i++)
+    for (unsigned int i = 0; i < NUM_SPECIES; i++)
     {
         if (pSpecies.find(","+specie_str[i]+",") != std::string::npos ||
                 pSpecies == ",," || pSpecies == ",all,")

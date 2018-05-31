@@ -15,7 +15,7 @@
 
 class simulation_base;
 
-template<int N, class T=RATETYPE>
+template<int N, class T = RATETYPE>
 class cell_param {
     //FIXME - want to make this private at some point
 public:
@@ -52,12 +52,12 @@ public:
     
     CPUGPU_FUNC
     cell operator[](int i){
-        return cell(_array+_width*i);
+        return cell(_array + _width * i);
     }
     
     CPUGPU_FUNC
     const cell operator[](int i) const{
-        return cell(_array+_width*i);
+        return cell(_array + _width * i);
     }
     
     void initialize_params(param_set const& ps, RATETYPE normfactor = 1.0);
@@ -81,11 +81,11 @@ public:
     
     CPUGPU_FUNC
     void allocate_array(){
-        if (_width*_height >0){
-            _array= new T[_height*_width];
+        if (_width * _height >0){
+            _array= new T[_height * _width];
             //if (_array == NULL){std::cout<<"ERROR"<<'\n'; exit(EXIT_MEMORY_ERROR);}
         }
-        else{
+        else {
             _array= NULL;
         }
     }

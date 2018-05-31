@@ -10,9 +10,9 @@
 */
 void OscillationAnalysis :: finalize(){
     int timeTemp = time;
-    for (int s=0; s<ucSpecieOption.size(); s++)
+    for (int s = 0; s < ucSpecieOption.size(); s++)
     {
-        for (int c=0; c<max-min; c++){
+        for (int c = 0; c < max-min; c++){
             time = timeTemp;
             while (windows[s][c].getSize()>=(range_steps/2)&&bst[s][c].size()>0){
                 RATETYPE removed = windows[s][c].dequeue();
@@ -30,15 +30,15 @@ void OscillationAnalysis :: finalize(){
 void OscillationAnalysis::show () {
   if (csv_out)
   {
-      for (int c=min; c<max; c++)
+      for (int c = min; c < max; c++)
       {
           RATETYPE avg_peak[ucSpecieOption.size()];
-          for (int s=0; s<ucSpecieOption.size(); s++)
+          for (int s = 0; s < ucSpecieOption.size(); s++)
           {
               RATETYPE peak_count = 0;
               avg_peak[s] = 0.0;
 
-              for (int pt=0; pt<peaksAndTroughs[s][c].size(); pt++)
+              for (int pt = 0; pt < peaksAndTroughs[s][c].size(); pt++)
               {
                   crit_point cp = peaksAndTroughs[s][c][pt];
                   if (cp.is_peak)
@@ -56,15 +56,15 @@ void OscillationAnalysis::show () {
               csv_out->add_div(specie_str[lcfID] + ",");
 
           csv_out->add_div("\navg peak,");
-          for (int s=0; s<ucSpecieOption.size(); s++)
+          for (int s = 0; s < ucSpecieOption.size(); s++)
               csv_out->add_data(avg_peak[s]);
 
           csv_out->add_div("\navg amp,");
-          for (int s=0; s<ucSpecieOption.size(); s++)
+          for (int s = 0; s < ucSpecieOption.size(); s++)
               csv_out->add_data(amplitudes[s][c]);
 
           csv_out->add_div("\navg per,");
-          for (int s=0; s<ucSpecieOption.size(); s++)
+          for (int s = 0; s < ucSpecieOption.size(); s++)
               csv_out->add_data(periods[s][c]);
       }
   }
@@ -78,7 +78,7 @@ void OscillationAnalysis::show () {
 */ 
 void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int c){
 
-    for (int i=0; i<ucSpecieOption.size(); i++)
+    for (int i = 0; i < ucSpecieOption.size(); i++)
     {
         RATETYPE added = start.getCon(ucSpecieOption[i]);
         windows[i][c].enqueue(added);
@@ -102,10 +102,10 @@ void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int 
 void OscillationAnalysis :: checkCritPoint(int s, int c){
 	RATETYPE mid_conc = windows[s][c].getVal(windows[s][c].getCurrent());
 	if ((mid_conc==*bst[s][c].rbegin())&&!(mid_conc==*bst[s][c].begin())){
-		addCritPoint(s,c,true,std::max<RATETYPE>(0.0,(time-range_steps/2)*analysis_interval+start_time),mid_conc);
+		addCritPoint(s,c,true,std::max<RATETYPE>(0.0,(time-range_steps/2)*analysis_interval + start_time),mid_conc);
 	}
 	else if (mid_conc==*bst[s][c].begin()){
-		addCritPoint(s,c,false,std::max<RATETYPE>(0.0,(time-(range_steps/2))*analysis_interval+start_time),mid_conc);
+		addCritPoint(s,c,false,std::max<RATETYPE>(0.0,(time-(range_steps/2))*analysis_interval + start_time),mid_conc);
 	}
 }
 
@@ -126,14 +126,14 @@ void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, RATETY
 	if (peaksAndTroughs[s][context].size() > 0){
 		crit_point prev_crit = peaksAndTroughs[s][context].back();
 		if (prev_crit.is_peak == crit.is_peak){
-			if ((crit.is_peak && crit.conc>=prev_crit.conc)||(!crit.is_peak&&crit.conc<=prev_crit.conc)){
+			if ((crit.is_peak && crit.conc >= prev_crit.conc)||(!crit.is_peak && crit.conc <= prev_crit.conc)){
 				peaksAndTroughs[s][context].back() = crit;
 			}
 		}
-		else{
+		else {
 			peaksAndTroughs[s][context].push_back(crit);
 		}
-	}else{
+	} else {
 		peaksAndTroughs[s][context].push_back(crit);
 	}
 }
@@ -147,7 +147,7 @@ void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, RATETY
  * postcondtion: "start" inhabits an invalid cell
 */
 void OscillationAnalysis :: update(ContextBase& start){
-	for (int c=min; c<max && start.isValid(); c++){
+	for (int c = min; c < max && start.isValid(); c++){
 		get_peaks_and_troughs(start,c-min);
 		start.advance();
 	}
@@ -163,16 +163,16 @@ void OscillationAnalysis :: calcAmpsAndPers(int s, int c){
 	std::vector<crit_point> crits = peaksAndTroughs[s][c];
     RATETYPE peakSum = 0.0, troughSum = 0.0, cycleSum = 0.0;
     int numPeaks = 0, numTroughs = 0, cycles = 0;
-	for (int i=0; i<crits.size(); i++){
+	for (int i = 0; i < crits.size(); i++){
 		if (crits[i].is_peak){
 			peakSum+=crits[i].conc;
 			numPeaks++;
 		}
-		else{
+		else {
 			troughSum+=crits[i].conc;
 			numTroughs++;
 		}
-		if (i<2){
+		if (i < 2){
 			continue;
 		}
 		cycles++;
