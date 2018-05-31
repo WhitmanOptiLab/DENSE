@@ -3,8 +3,6 @@
 #include <string>
 
 
-
-
 csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
         RATETYPE const& pcfTimeStart, RATETYPE const& pcfTimeEnd,
         bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
@@ -94,5 +92,3 @@ void csvw_sim::update(ContextBase& pfStart)
     }
     ilTime += icTimeInterval;
 }
-
-

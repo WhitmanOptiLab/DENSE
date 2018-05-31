@@ -1,11 +1,12 @@
 #ifndef CORE_PARAM_SET_HPP
 #define CORE_PARAM_SET_HPP
 
+#include "specie.hpp"
+#include "reaction.hpp"
+
 #include <string>
 #include <utility>
 
-#include "specie.hpp"
-#include "reaction.hpp"
 
 enum { NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS };
 
@@ -28,7 +29,7 @@ class param_set{
     //feature feat; // The oscillation features this mutant produced when run
     //int print_con; // The index of the concentration that should be printed (usually mh1)
     //bool only_post; //indicating if only the posterior is simulated
-    
+
     // currently in use
   RATETYPE _parameters[NUM_PARAMS];
 
@@ -40,7 +41,7 @@ class param_set{
   RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
   RATETYPE* getArray() { return _parameters; }
   RATETYPE const* getArray() const { return _parameters; }
-  
+
   void printall() const
   {
     for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; i++)
@@ -58,4 +59,3 @@ class param_set{
 
 
 #endif
-

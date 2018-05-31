@@ -13,7 +13,7 @@ using namespace std;
 class baby_cl_cuda : public baby_cl {
   public:
     baby_cl_cuda(simulation_determ& sim) : baby_cl(sim) { }
-    
+
     baby_cl_cuda(int length, int width, simulation_determ& sim) : baby_cl(length,width,sim) {}
 
     ~baby_cl_cuda() {
@@ -21,14 +21,14 @@ class baby_cl_cuda : public baby_cl {
     }
 
     void initialize();
-    
-    
+
+
 protected:
     void dealloc_array(){
         (cudaFree(_array));
         _array = NULL;
     }
-    
+
     void allocate_array(){
         if (_total_length >0){
             int size = _total_length * sizeof(RATETYPE);
@@ -40,9 +40,8 @@ protected:
             _array= NULL;
         }
     }
-    
+
 };
 
 
 #endif
-

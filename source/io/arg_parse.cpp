@@ -1,7 +1,6 @@
 #include "arg_parse.hpp"
 #include "util/color.hpp"
 #include "util/common_utils.hpp"
-
 #include "core/specie.hpp"
 
 #include <cfloat> // For FLT_MAX
@@ -20,11 +19,11 @@ namespace arg_parse
     {
         // For storing a copy of *argv[]
         std::vector<std::string> iArgVec;
-        
+
         // Stops obligatory message
         bool iSuppressObligatory = false;
-        
-        
+
+
         // Get index of (or index after) pcFlag if it exists in iArgVec.
         // Return false if not found.
         const bool getIndex(std::string pcfFlagShort, std::string pcfFlagLong,
@@ -61,11 +60,11 @@ namespace arg_parse
                     }
                 }
             }
-            
+
             return false;
         }
-        
-        
+
+
         // Prints message warning that flag is required
         void warnObligatory(std::string pcfFlagShort, std::string pcfFlagLong)
         {
@@ -78,8 +77,8 @@ namespace arg_parse
                     color::clear() << '\n';
             }
         }
-        
-        
+
+
         template<typename T>
         const T getNotOblig(std::string const& pcfFlagShort,
                 std::string const& pcfFlagLong)
@@ -89,12 +88,12 @@ namespace arg_parse
             iSuppressObligatory = false;
             return rval;
         }
-        
+
     }; // end anonymous namespace
 
 
 
-    
+
     // See usage documentation in header
     void init(int const& pcfArgc, char* pcfArgv[])
     {
@@ -106,10 +105,10 @@ namespace arg_parse
             iArgVec.push_back(std::string(hStr));
         }
     }
-    
-    
-    
-    
+
+
+
+
     template<>
     bool get<std::string>(std::string const& pcfFlagShort,
             std::string const& pcfFlagLong, std::string *  pnPushTo,
@@ -129,7 +128,7 @@ namespace arg_parse
             return false;
         }
     }
-    
+
     // The default is a vec filled with all specie ids
     template<>
     bool get<specie_vec>(std::string const& pcfFlagShort,
@@ -152,7 +151,7 @@ namespace arg_parse
             return false;
         }
     }
-    
+
     template<>
     bool get<int>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
             int* pnPushTo, bool const& pcfObligatory)
@@ -183,10 +182,10 @@ namespace arg_parse
                 warnObligatory(pcfFlagShort, pcfFlagLong);
             success = false;
         }
-        
+
         return success;
     }
-    
+
     template<>
     bool get<RATETYPE>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
             RATETYPE* pnPushTo, bool const& pcfObligatory)
@@ -217,24 +216,24 @@ namespace arg_parse
                 warnObligatory(pcfFlagShort, pcfFlagLong);
             success = false;
         }
-        
+
         return success;
     }
-    
+
     template<>
     bool get<bool>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
             bool* pnPushTo, bool const& pcfObligatory)
     {
         // true if found, false if not
         bool found = getIndex(pcfFlagShort, pcfFlagLong, 0, false);
-        
+
         if (pnPushTo)
             *pnPushTo = found;
         return found;
     }
-    
-    
-    
+
+
+
     /*
     template<>
     bool get<bool>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,

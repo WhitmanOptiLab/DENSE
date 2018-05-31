@@ -5,17 +5,15 @@
 #include <iostream>
 
 
-
-
 csvw::csvw(std::string const& pcfFileName, bool const& pcfWriteDoc, std::string const& pcfChildDoc)
 {
     // Close any previously open file
     if (iFile.is_open())
         iFile.close();
-    
+
     // Open new file
     iFile.open(pcfFileName);
-    
+
     // Check if open successful
     if (!iFile.is_open())
     {

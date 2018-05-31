@@ -1,8 +1,5 @@
 #include "oscillation.hpp"
 
-
-
-
 /*
  * FINALIZE
  * finds peaks and troughs in final half-window of simulation data
@@ -75,7 +72,7 @@ void OscillationAnalysis::show () {
  * advances the local range window and identifies critical points
  * arg "start": context iterator to access conc levels with
  * arg "c": the cell the context inhabits
-*/ 
+*/
 void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int c){
 
     for (int i = 0; i < ucSpecieOption.size(); i++)
@@ -122,7 +119,7 @@ void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, RATETY
 	crit.is_peak = isPeak;
 	crit.time = minute;
 	crit.conc = concentration;
-	
+
 	if (peaksAndTroughs[s][context].size() > 0){
 		crit_point prev_crit = peaksAndTroughs[s][context].back();
 		if (prev_crit.is_peak == crit.is_peak){

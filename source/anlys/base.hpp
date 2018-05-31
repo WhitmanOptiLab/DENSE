@@ -1,6 +1,5 @@
 #ifndef ANLYS_BASE_HPP
 #define ANLYS_BASE_HPP
-#pragma once
 
 #include "core/observable.hpp"
 #include "core/specie.hpp"

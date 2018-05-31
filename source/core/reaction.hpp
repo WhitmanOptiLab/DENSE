@@ -3,10 +3,9 @@
 
 #include "specie.hpp"
 #include "util/common_utils.hpp"
+
 #include <string>
 #include <utility>
-
-
 
 
 enum reaction_id {
