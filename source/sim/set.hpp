@@ -11,6 +11,7 @@
 #include "determ/determ.hpp"
 #include "io/csvr_param.hpp"
 #include "util/color.hpp"
+
 #include <vector>
 #include <array>
 
@@ -23,7 +24,7 @@
 
 
 class simulation_set{
-    
+
  public:
     //setting up model
     model _m;
@@ -33,22 +34,22 @@ class simulation_set{
     RATETYPE** factors_grad;
     std::vector<param_set> const& _ps;
     std::vector<simulation_base*> _sim_set;
-    
-    
+
+
     simulation_set(std::vector<param_set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
         _ps(params), factors_pert(0), factors_grad(0)
     {
-        
+
             iSetCount = _ps.size();
             _sim_set.reserve(iSetCount);
-            
-            
-            
+
+
+
             // PREPARE PERT AND GRAD FILES
             {
                 RATETYPE do_global_pert_val = strtold(pcfPertFileName.c_str(), 0);
                 bool do_global_pert = (do_global_pert_val != 0.0);
-                
+
                 if (pcfPertFileName.size() > 0)
                 {
                     // Try loading file, suppress warning if string can be
@@ -57,7 +58,7 @@ class simulation_set{
                     if (perturbFile.is_open() || do_global_pert)
                     {
                         factors_pert = new RATETYPE[NUM_REACTIONS];
-                        
+
                         // pert factor to be added to array
                         RATETYPE tPert = 0.0;
                         for (int i = 0; i < NUM_REACTIONS; i++)
@@ -82,7 +83,7 @@ class simulation_set{
                                         << reaction_str[i] << "\"." <<
                                         color::clear() << '\n';
                                 }
-                            }        
+                            }
                         }
                     }
                 }
@@ -153,8 +154,8 @@ class simulation_set{
                     }
                 }
             } // End prepare pert and grad files
-            
-            
+
+
             // For each set, load data to _ps and _sim_set
             for (unsigned int i = 0; i < _ps.size(); i++)
             {
@@ -177,16 +178,16 @@ class simulation_set{
                 _sim_set[i]->initialize();
             }
     }
-    
+
     void simulate_sets(){
         for (int i = 0; i < _sim_set.size(); i++){
             _sim_set[i]->simulate();
         }
     }
-    
+
     ~simulation_set()
     {
-        
+
     }
 
     const unsigned int& getSetCount() const
@@ -198,4 +199,3 @@ private:
     unsigned int iSetCount;
 };
 #endif
-
