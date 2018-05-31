@@ -14,7 +14,7 @@
 #include <string>
 
 
-using Real = float;
+using Real = double;
 using RATETYPE = Real;
 
 template <typename ValueT, std::size_t Size>
