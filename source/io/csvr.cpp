@@ -18,11 +18,8 @@ bool csvr::is_open() const {
     return iFile.is_open();
 }
 
-
-bool csvr::get_next()
-{
-    RATETYPE tDummy;
-    return csvr::get_next(&tDummy);
+bool csvr::get_next() {
+    return csvr::get_next(static_cast<RATETYPE *>(nullptr));
 }
 
 
