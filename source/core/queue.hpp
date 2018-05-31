@@ -1,11 +1,10 @@
 #ifndef CORE_QUEUE_HPP
 #define CORE_QUEUE_HPP
 
-#include <vector>
-#include <set>
 #include "util/common_utils.hpp"
 
-
+#include <iostream>
+#include <vector>
 
 
 class Queue {
@@ -13,10 +12,10 @@ class Queue {
 private:
 	std::vector<RATETYPE> contents;
 	int start,end,current,size;
-	
+
 public:
 //	Queue();
-	
+
 	Queue(int length){
 		contents.resize(length + 1);
 		size = length + 1;
@@ -26,7 +25,7 @@ public:
 	}
 /*
 	void populate(RATETYPE transferArray[]){
-		
+
 		if (isEmpty()){
 			for (int i = 0; i < size/2; i++){
 				contents[i] = transferArray[i];
@@ -67,7 +66,7 @@ public:
 		}
 		else {
 			start++;
-		}		
+		}
 		if (getSize() <= size/2) {
 			current++;
 			if (current == size) {
@@ -76,10 +75,10 @@ public:
 		}
 		return popped;
 	}
-	
+
 	RATETYPE getVal(int index){
 		return contents[index];
-	}	
+	}
 
 	RATETYPE getCurrent(){
 		return current;

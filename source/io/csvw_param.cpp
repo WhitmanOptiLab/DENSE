@@ -7,8 +7,6 @@
 #include <string>
 
 
-
-
 csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType) :
     csvw::csvw(pcfFileName, true, "\n# Rename this file by removing the "
             "\"_template\" from the file name (or just change the name "

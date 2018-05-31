@@ -27,7 +27,7 @@ public:
         virtual bool isValid() const;
         IF_CUDA(__host__ __device__)
         virtual void set(int c);
-    
+
     private:
         std::vector<std::map<specie_id, RATETYPE>> iRate;
         int iIter;
@@ -37,7 +37,7 @@ public:
 
     csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVec);
     virtual ~csvr_sim();
-    
+
     int getCellTotal();
     RATETYPE getAnlysIntvl();
     RATETYPE getTimeStart();
@@ -52,7 +52,7 @@ private:
     specie_vec iSpecieVec;
     int iCellTotal;
     bool iTimeCol;
-    
+
     // For everyone else to get()
     RATETYPE iAnlysIntvl, iTimeStart, iTimeEnd;
     int iCellStart, iCellEnd;

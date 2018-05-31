@@ -1,5 +1,6 @@
 #ifndef IO_CSVR_PARAM_HPP
 #define IO_CSVR_PARAM_HPP
+
 #include "csvr.hpp"
 #include "core/param_set.hpp"
 
@@ -10,7 +11,7 @@ public:
     csvr_param();
     csvr_param(std::string const& pcfFileName);
     virtual ~csvr_param();
-    
+
     /**
      *  Get Total/Remaining Counts of Data Sets
      *

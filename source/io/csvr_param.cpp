@@ -4,7 +4,6 @@
 #include <string>
 
 
-
 csvr_param::csvr_param(std::string const& pcfFileName) :
     csvr(pcfFileName), iCount(0), iRemain(0)
 {
@@ -41,14 +40,14 @@ param_set csvr_param::get_next()
 bool csvr_param::get_next(param_set& pfLoadTo)
 {
     bool rLoadSuccess = false;
-    
+
     RATETYPE hRate;
     unsigned int lParamIndex = 0;
-    
+
     while (csvr::get_next(&hRate))
     {
         RATETYPE *nToArray = pfLoadTo.getArray();
-        
+
         // If nToArray is set to something, try adding data to nToArray
         if (nToArray != nullptr)
         {
@@ -62,10 +61,10 @@ bool csvr_param::get_next(param_set& pfLoadTo)
             break;
         }
     }
-    
+
     // Decrement isRemaining if successful
     rLoadSuccess ? iRemain-- : 0;
-    
+
     return rLoadSuccess;
 }
 

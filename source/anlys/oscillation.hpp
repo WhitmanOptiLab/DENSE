@@ -2,12 +2,11 @@
 #define ANLYS_OSCILLATION_HPP
 
 #include "base.hpp"
+
 #include <vector>
 #include <set>
 #include <string>
 #include "core/queue.hpp"
-
-
 
 /*
 * OscillationAnalysis: Subclass of Analysis superclass
@@ -46,7 +45,7 @@ private:
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
 
-public:	
+public:
 	/*
 	* Constructor: creates an oscillation analysis for a specific specie
 	* arg *dLog: observable to collected data from
@@ -57,7 +56,7 @@ public:
 	OscillationAnalysis(Observable *dLog, RATETYPE interval,
                         RATETYPE range, specie_vec const& pcfSpecieOption,
                         csvw* pnFileOut, int min_cell, int max_cell,
-                        RATETYPE startT, RATETYPE endT) : 
+                        RATETYPE startT, RATETYPE endT) :
             Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,startT,endT),
             range_steps(range/interval), analysis_interval(interval)
     {
@@ -68,7 +67,7 @@ public:
             bst.emplace_back();
             amplitudes.emplace_back();
             periods.emplace_back();
-            for (int c = min; c < max; c++){ 
+            for (int c = min; c < max; c++){
                 Queue q(range_steps);
                 std::vector<crit_point> v;
                 std::multiset<RATETYPE> BST;
@@ -76,13 +75,13 @@ public:
                 windows[i].push_back(q);
                 peaksAndTroughs[i].push_back(v);
                 bst[i].push_back(BST);
-                
+
                 amplitudes[i].push_back(0);
                 periods[i].push_back(0);
             }
         }
 	}
-	
+
 	virtual ~OscillationAnalysis() {}
 
 

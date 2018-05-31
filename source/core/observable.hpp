@@ -1,8 +1,8 @@
 #ifndef CORE_OBSERVER_HPP
 #define CORE_OBSERVER_HPP
 
-#include <iostream>
 #include <vector>
+
 #include "context.hpp"
 
 
@@ -12,7 +12,7 @@ class Observer;
 Superclass for Simulation
 */
 class Observable{
-    
+
     protected:
 	std::vector<Observer*> observerList;
     bool abort_signaled;
@@ -27,7 +27,7 @@ class Observable{
 
     //Called by Observer in update
     void abort(){abort_signaled = true;}
-    
+
     virtual void run() = 0;
 
     //"abort_signaled" condition checked
@@ -40,7 +40,7 @@ Superclass for CSV Writer and Analysis
 */
 class Observer{
 
-	protected:			
+	protected:
 	Observable *subject;
     int min, max;
     RATETYPE start_time, end_time;

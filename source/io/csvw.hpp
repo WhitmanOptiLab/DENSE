@@ -1,10 +1,10 @@
 #ifndef IO_CSVW_HPP
 #define IO_CSVW_HPP
 
+#include "util/common_utils.hpp" // For "using RATETYPE = float;"
+
 #include <fstream>
 #include <string>
-
-#include "util/common_utils.hpp" // For "using RATETYPE = float;"
 
 
 class csvw
@@ -12,14 +12,14 @@ class csvw
 public:
     /**
      *  CSVWriter ctor
-     *  
+     *
      *  parameters
      *      pcfFileName - file name including ".csv" of the desired CSV file
-     *      
+     *
     */
     csvw(std::string const& pcfFileName, bool const& pcfWriteDoc = true, std::string const& pcfChildDoc = "");
     virtual ~csvw();
-    
+
     /**
      *  Add Data
      *  Add Data Divider (Seperator)
@@ -27,12 +27,12 @@ public:
      *  usage
      *      For adding RATETYPE data and custom data seperators to file
      *      add_data() automatically adds a "," between individual pieces of data
-     *  
+     *
      *  parameters
      *      pcfRate - the RATETYPE value to be written to file
      *      pcfDiv - the string to be written to file, probably
      *        for seperating sections of data
-     *      
+     *
     */
     void add_data(RATETYPE const& pcfRate);
     void add_div(std::string const& pcfDiv);
