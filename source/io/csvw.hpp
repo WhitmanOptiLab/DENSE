@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 
-#include "util/common_utils.hpp" // For "typedef float RATETYPE;"
+#include "util/common_utils.hpp" // For "using RATETYPE = float;"
 
 
 class csvw
