@@ -27,20 +27,20 @@ public:
     
     class cell{
     public:
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         cell(T *row): _array(row) {}
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         T& operator[](int k){
             return _array[k];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         T const& operator[](int k) const {
             return _array[k];
         }
         T *_array;
     };
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     cell_param(simulation_base const& sim, int ncells)
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
         allocate_array();
@@ -50,12 +50,12 @@ public:
       dealloc_array();
     }
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     cell operator[](int i){
         return cell(_array + _width * i);
     }
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     const cell operator[](int i) const{
         return cell(_array + _width * i);
     }
@@ -71,7 +71,7 @@ public:
     }
     void initialize();
 //protected:
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     void dealloc_array(){
         if (_array){
             delete[] _array;
@@ -79,7 +79,7 @@ public:
         _array= NULL;
     }
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     void allocate_array(){
         if (_width * _height >0){
             _array= new T[_height * _width];
