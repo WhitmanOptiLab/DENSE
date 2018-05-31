@@ -17,7 +17,6 @@ public:
      *      pcfFileName - file name including ".csv" of the desired CSV file
      *      pcfSuppressWarning - enable/disable message saying file name does not exist
     */
-    virtual ~csvr();
     csvr(std::string const& file_name, bool suppress_file_not_found = false);
 
     bool is_open() const;

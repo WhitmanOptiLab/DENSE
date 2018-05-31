@@ -14,13 +14,6 @@ csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
             file_name << "\' not found or open." << color::clear() << '\n';
 }
 
-
-csvr::~csvr()
-{
-    iFile.close();
-}
-
-
 bool csvr::is_open() const {
     return iFile.is_open();
 }
