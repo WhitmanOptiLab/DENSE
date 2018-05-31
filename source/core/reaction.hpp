@@ -31,7 +31,7 @@ enum delay_reaction_id {
   NUM_DELAY_REACTIONS
 };
 
-typedef std::pair<int, int> ReactionTerm;
+using ReactionTerm = std::pair<int, int>;
 
 
 class reaction_base{

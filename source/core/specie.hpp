@@ -27,7 +27,7 @@ const std::string specie_str[NUM_SPECIES] = {
     #undef SPECIE
 };
 
-typedef std::vector<specie_id> specie_vec;
+using specie_vec = std::vector<specie_id>;
 
 #endif
 

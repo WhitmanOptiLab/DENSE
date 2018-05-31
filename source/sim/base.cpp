@@ -6,7 +6,7 @@
 #include <iostream>
 #include <set>
 
-typedef std::numeric_limits<double> dbl;
+using dbl = std::numeric_limits<double>;
 
 
 /*
