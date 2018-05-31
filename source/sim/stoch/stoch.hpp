@@ -76,11 +76,11 @@ class simulation_stoch : public simulation_base {
 
       public:
         typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;	
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim),_cell(cell) { }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE calculateNeighborAvg(specie_id sp, int delay) const;
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         void updateCon(specie_id sid,int delta){
 	      if (_simulation.concs[_cell][sid]+delta < 0){
               _simulation.concs[_cell][sid] = 0;
@@ -89,36 +89,36 @@ class simulation_stoch : public simulation_base {
               _simulation.concs[_cell][sid]+=delta;
           }
 	    }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         void updatePropensities(reaction_id rid);
-	    CPUGPU_FUNC
+	    IF_CUDA(__host__ __device__)
 	    RATETYPE getTotalPropensity();
-	    CPUGPU_FUNC
+	    IF_CUDA(__host__ __device__)
 	    int chooseReaction(RATETYPE propensity_portion);
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual RATETYPE getCon(specie_id sp) const final {
           return _simulation.concs[_cell][sp];
         }
 	    RATETYPE getCon(specie_id sp, int delay) const {
 	      return getCon(sp);
 	    }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getCritVal(critspecie_id rcritsp) const {
             return _simulation._cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getRate(reaction_id reaction) const {
             return _simulation._cellParams[reaction][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getDelay(delay_reaction_id delay_reaction) const{
             return _simulation._cellParams[NUM_REACTIONS+delay_reaction][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual void advance() final { ++_cell; }
-	    CPUGPU_FUNC
+	    IF_CUDA(__host__ __device__)
 	    virtual void set(int c) final {_cell = c;}
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
 

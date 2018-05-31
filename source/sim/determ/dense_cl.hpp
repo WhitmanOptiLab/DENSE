@@ -24,15 +24,15 @@ class dense_cl {
     class cell{
     public:
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         cell(RATETYPE *row): _array(row) {}
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE& operator[](int k){
             return _array[k];
         }
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         const RATETYPE& operator[](int k) const {
             return _array[k];
         }
@@ -42,17 +42,17 @@ class dense_cl {
     
     class timespan{
     public:
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
 
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         cell operator[](int j) {
             j = (j + _pos) % _pos;
             cell temp(_array+_width*j);
             return temp;
         }
 
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         const cell operator[](int j) const{
             j = (j + _pos) % _pos;
             cell temp(_array+_width*j);
@@ -81,12 +81,12 @@ class dense_cl {
     }
     
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     timespan operator[](int i) {
         return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
     }
 
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     const timespan operator[](int i) const {
         return timespan(_array+(i*_sim._cells_total), _width, _max_delay);
     }

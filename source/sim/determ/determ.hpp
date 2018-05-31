@@ -30,39 +30,39 @@ class simulation_determ : public simulation_base {
 
       public:
         typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         Context(simulation_determ& sim, int cell) : _simulation(sim),_cell(cell) { }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         void updateCon(const SpecieRates& rates);
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         const SpecieRates calculateRatesOfChange();
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual RATETYPE getCon(specie_id sp) const final {
           return getCon(sp, 1);
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getCon(specie_id sp, int delay) const {
             return _simulation._baby_cl[sp][1 - delay][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getCritVal(critspecie_id rcritsp) const {
             return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE getRate(reaction_id reaction) const {
             return _simulation._cellParams[reaction][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         int getDelay(delay_reaction_id delay_reaction) const{
             return _simulation._cellParams[delay_reaction + NUM_REACTIONS][_cell];
         }
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual void advance() final { ++_cell; }
-	CPUGPU_FUNC
+	IF_CUDA(__host__ __device__)
 	virtual void set(int c) final {_cell = c;}
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)

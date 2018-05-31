@@ -26,15 +26,15 @@ class baby_cl {
     class cell{
     public:
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         cell(RATETYPE *row): _array(row) {}
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         RATETYPE& operator[](int k){
             return _array[k];
         }
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         const RATETYPE& operator[](int k) const {
             return _array[k];
         }
@@ -48,17 +48,17 @@ class baby_cl {
 
     class timespan{
     public:
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         timespan(RATETYPE *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         cell operator[](int j) {
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
         
-        CPUGPU_FUNC
+        IF_CUDA(__host__ __device__)
         const cell operator[](int j) const{
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
@@ -97,17 +97,17 @@ class baby_cl {
     }
     
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     timespan operator[](int i) {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     const timespan operator[](int i) const {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
     
-    CPUGPU_FUNC
+    IF_CUDA(__host__ __device__)
     void advance() { 
       for (int i = 0; i < NUM_SPECIES; i++) {
         _j[i] = wrap(_j[i]+1, _specie_size[i]);
