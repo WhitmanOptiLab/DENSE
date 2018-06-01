@@ -54,8 +54,8 @@ int main(int argc, char* argv[])
       "[-b | --perturbations] <string> " << color::set(color::GREEN) <<
       "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
-      "[-b|--perturbations] <RATETYPE> " << color::set(color::GREEN) <<
-      "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a RATETYPE." << color::clear() << '\n';
+      "[-b|--perturbations]     <Real> " << color::set(color::GREEN) <<
+      "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a Real." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
       "[-e | --data-export]   <string> " << color::set(color::GREEN) <<
       "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << color::clear() << '\n';
@@ -78,13 +78,13 @@ int main(int argc, char* argv[])
       "[-r | --rand-seed]        <int> " << color::set(color::GREEN) <<
       "Set the stochastic simulation's random number generator seed." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
-      "[-s | --step-size]   <RATETYPE> " << color::set(color::GREEN) <<
+      "[-s | --step-size]       <Real> " << color::set(color::GREEN) <<
       "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
       "[-t | --time-total]       <int> " << color::set(color::GREEN) <<
       "Amount of simulated minutes the simulation should execute." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
-      "[-u | --anlys-intvl] <RATETYPE> " << color::set(color::GREEN) <<
+      "[-u | --anlys-intvl]     <Real> " << color::set(color::GREEN) <<
       "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << color::clear() << '\n';
     std::cout << color::set(color::YELLOW) <<
       "[-v | --time-col]        <bool> " << color::set(color::GREEN) <<
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
-  RATETYPE anlys_intvl, time_total;
+  Real anlys_intvl, time_total;
   int cell_total;
 
   arg_parse::get<specie_vec>("o", "specie-option", &default_specie_option, false);
@@ -119,18 +119,16 @@ int main(int argc, char* argv[])
       // Required simulation fields
       if ( arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
               arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
-              arg_parse::get<RATETYPE>("t", "time-total", &time_total, true) &&
-              arg_parse::get<RATETYPE>("u", "anlys-intvl", &anlys_intvl, true) &&
+              arg_parse::get<Real>("t", "time-total", &time_total, true) &&
+              arg_parse::get<Real>("u", "anlys-intvl", &anlys_intvl, true) &&
               arg_parse::get<std::string>("p", "param-sets", &param_sets, true) )
       {
           // If step_size not set, create stochastic simulation
-          RATETYPE step_size =
-              arg_parse::get<RATETYPE>("s", "step-size", 0.0);
+          Real step_size = arg_parse::get<Real>("s", "step-size", 0.0);
           int seed = arg_parse::get<int>("r", "rand-seed", time(0));
 
           // Warn user that they are not running deterministic sim
-          if (step_size == 0.0)
-          {
+          if (step_size == 0.0) {
               std::cout << color::set(color::YELLOW) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << color::clear() << '\n';
               std::cout << "Stochastic simulation seed: " << seed << '\n';
           }
@@ -184,7 +182,7 @@ int main(int argc, char* argv[])
           std::string type = ezxml_attr(anlys, "type");
           for (int i=0; i<simsAmbig.size(); i++)
           {
-              RATETYPE
+              Real
                   cell_start = strtol(ezxml_child(anlys,
                           "cell-start")->txt, 0, 0),
                   cell_end = strtol(ezxml_child(anlys,
@@ -216,7 +214,7 @@ int main(int argc, char* argv[])
               }
               else if (type == "oscillation")
               {
-                  RATETYPE win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
+                  Real win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
                   anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
                   std::string out_file = ezxml_child(anlys, "out-file")->txt;
 
@@ -234,9 +232,8 @@ int main(int argc, char* argv[])
                               cell_start, cell_end,
                               time_start, time_end));
               }
-              else
-              {
-                  std::cout << color::set(color::YELLOW) << "Warning: No analysis type \"" << type << "\" found." << color::clear() << '\n';
+              else {
+                std::cout << color::set(color::YELLOW) << "Warning: No analysis type \"" << type << "\" found." << color::clear() << '\n';
               }
           }
       }
