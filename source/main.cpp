@@ -289,9 +289,8 @@ int main(int argc, char* argv[])
   }
 
   // delete/write analyses
-  for (auto anlys : anlysAmbig)
-  {
-      if (anlys) { delete anlys; }
+  for (auto anlys : anlysAmbig) {
+      delete anlys;
   }
 
   // delete/write simulations
@@ -302,6 +301,6 @@ int main(int argc, char* argv[])
       //if (sim) delete sim;
   }
 
-  if (simSet) delete simSet;
+  delete simSet;
   return EXIT_SUCCESS;
 }
