@@ -282,9 +282,8 @@ int main(int argc, char* argv[])
           }
       }
 
-      for (int i=0; i<simsAmbig.size(); i++)
-      {
-          simsAmbig[i]->run();
+      for (auto simulation : simsAmbig) {
+        simulation->run();
       }
   }
 
