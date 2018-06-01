@@ -139,9 +139,9 @@ int main(int argc, char* argv[])
 
           //Load parameter sets to run
           csvr_param csvrp(param_sets);
-          for (unsigned int i=0; i<csvrp.get_total(); i++)
-          {
-            params.push_back(csvrp.get_next());
+          param_set next_set;
+          while (csvrp.get_next(next_set)) {
+            params.push_back(next_set);
           }
 
           // Create simulation set
@@ -171,127 +171,124 @@ int main(int argc, char* argv[])
   // Ambiguous "analyzers" will either be analyses or output file logs
   vector<Observer*> anlysAmbig;
 
+  // Analyses each with own file writer
+  std::string config_file;
+  if (arg_parse::get<std::string>("a", "analysis", &config_file, false))
   {
-      // Analyses each with own file writer
-      std::string config_file;
-      if (arg_parse::get<std::string>("a", "analysis", &config_file, false))
+      // Prepare analyses and writers
+      ezxml_t config = ezxml_parse_file(config_file.c_str());
+
+      for (ezxml_t anlys = ezxml_child(config, "anlys");
+              anlys; anlys = anlys->next)
       {
-          // Prepare analyses and writers
-          ezxml_t config = ezxml_parse_file(config_file.c_str());
-
-          for (ezxml_t anlys = ezxml_child(config, "anlys");
-                  anlys; anlys = anlys->next)
+          std::string type = ezxml_attr(anlys, "type");
+          for (int i=0; i<simsAmbig.size(); i++)
           {
-              std::string type = ezxml_attr(anlys, "type");
-              for (int i=0; i<simsAmbig.size(); i++)
+              RATETYPE
+                  cell_start = strtol(ezxml_child(anlys,
+                          "cell-start")->txt, 0, 0),
+                  cell_end = strtol(ezxml_child(anlys,
+                          "cell-end")->txt, 0, 0),
+                  time_start = strtol(ezxml_child(anlys,
+                          "time-start")->txt, 0, 0),
+                  time_end = strtol(ezxml_child(anlys,
+                          "time-end")->txt, 0, 0);
+              specie_vec specie_option = str_to_species(ezxml_child(anlys,
+                      "species")->txt);
+
+              if (type == "basic")
               {
-                  RATETYPE
-                      cell_start = strtol(ezxml_child(anlys,
-                              "cell-start")->txt, 0, 0),
-                      cell_end = strtol(ezxml_child(anlys,
-                              "cell-end")->txt, 0, 0),
-                      time_start = strtol(ezxml_child(anlys,
-                              "time-start")->txt, 0, 0),
-                      time_end = strtol(ezxml_child(anlys,
-                              "time-end")->txt, 0, 0);
-                  specie_vec specie_option = str_to_species(ezxml_child(anlys,
-                          "species")->txt);
+                  std::string out_file =
+                      ezxml_child(anlys, "out-file")->txt;
 
-                  if (type == "basic")
-                  {
-                      std::string out_file =
-                          ezxml_child(anlys, "out-file")->txt;
+                  // If multiple sets, set file name
+                  //   to "x_####.y"
+                  csvw *csvwa = new csvw(
+                          simsAmbig.size()==1 ?
+                              out_file :
+                              file_add_num(out_file,
+                                  "_", '0', i, 4, "."));
 
-                      // If multiple sets, set file name
-                      //   to "x_####.y"
-                      csvw *csvwa = new csvw(
-                              simsAmbig.size()==1 ?
-                                  out_file :
-                                  file_add_num(out_file,
-                                      "_", '0', i, 4, "."));
-
-                      anlysAmbig.push_back(new BasicAnalysis(
-                                  simsAmbig[i].get(), specie_option, csvwa,
-                                  cell_start, cell_end,
-                                  time_start, time_end));
-                  }
-                  else if (type == "oscillation")
-                  {
-                      RATETYPE win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
-                      anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
-                      std::string out_file = ezxml_child(anlys, "out-file")->txt;
-
-                      // If multiple sets, set file name
-                      //   to "x_####.y"
-                      csvw *csvwa = new csvw(
-                              simsAmbig.size()==1 ?
-                                  out_file :
-                                  file_add_num(out_file,
-                                      "_", '0', i, 4, "."));
-
-                      anlysAmbig.push_back(new OscillationAnalysis(
-                                  simsAmbig[i].get(), anlys_intvl, win_range,
-                                  specie_option, csvwa,
-                                  cell_start, cell_end,
-                                  time_start, time_end));
-                  }
-                  else
-                  {
-                      std::cout << color::set(color::YELLOW) << "Warning: No analysis type \"" << type << "\" found." << color::clear() << '\n';
-                  }
-              }
-          }
-      } else {// End analysis flag
-          // Data export aka file log
-          // Can't do it if already using data-import
-          if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) &&
-                          data_ioe != "")
-          {
-              for (unsigned int i=0; i<simsAmbig.size(); i++)
-              {
-                  // If multiple sets, set file name to "x_####.y"
-                  csvw_sim *csvws = new csvw_sim(
-                                  (simsAmbig.size()==1 ?
-                                   data_ioe :
-                                   file_add_num(data_ioe,
-                                           "_", '0', i, 4, ".")),
-                                  anlys_intvl, 0 /*time_start*/,
-                                  time_total /*time_end*/,
-                                  arg_parse::get<std::string>("v", "time-col", 0, false),
-                                  cell_total, 0 /*cell_start*/,
-                                  cell_total /*cell_end*/,
-                                  default_specie_option, simsAmbig[i].get() );
-
-                  anlysAmbig.push_back(csvws);
-              }
-          }
-      }
-      // End all observer preparation
-
-
-      // ========================= RUN THE SHOW =========================
-      // Only bother if there are outputs
-      if (anlysAmbig.size() == 0)
-      {
-          if (!arg_parse::get<bool>("N", "test-run", 0, false)) {
-              std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
-              for (int i=0; i<simsAmbig.size(); i++) {
                   anlysAmbig.push_back(new BasicAnalysis(
-                                      simsAmbig[i].get(), default_specie_option, NULL,
-                                      0, cell_total,
-                                      0, time_total));
+                              simsAmbig[i].get(), specie_option, csvwa,
+                              cell_start, cell_end,
+                              time_start, time_end));
+              }
+              else if (type == "oscillation")
+              {
+                  RATETYPE win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
+                  anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
+                  std::string out_file = ezxml_child(anlys, "out-file")->txt;
+
+                  // If multiple sets, set file name
+                  //   to "x_####.y"
+                  csvw *csvwa = new csvw(
+                          simsAmbig.size()==1 ?
+                              out_file :
+                              file_add_num(out_file,
+                                  "_", '0', i, 4, "."));
+
+                  anlysAmbig.push_back(new OscillationAnalysis(
+                              simsAmbig[i].get(), anlys_intvl, win_range,
+                              specie_option, csvwa,
+                              cell_start, cell_end,
+                              time_start, time_end));
+              }
+              else
+              {
+                  std::cout << color::set(color::YELLOW) << "Warning: No analysis type \"" << type << "\" found." << color::clear() << '\n';
               }
           }
       }
+  } else {// End analysis flag
+    // Data export aka file log
+    // Can't do it if already using data-import
+    if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "")
+    {
+      for (unsigned int i=0; i<simsAmbig.size(); i++)
+      {
+        // If multiple sets, set file name to "x_####.y"
+        csvw_sim *csvws = new csvw_sim(
+                        (simsAmbig.size()==1 ?
+                         data_ioe :
+                         file_add_num(data_ioe,
+                                 "_", '0', i, 4, ".")),
+                        anlys_intvl, 0 /*time_start*/,
+                        time_total /*time_end*/,
+                        arg_parse::get<std::string>("v", "time-col", 0, false),
+                        cell_total, 0 /*cell_start*/,
+                        cell_total /*cell_end*/,
+                        default_specie_option, simsAmbig[i].get() );
 
-      for (auto & simulation : simsAmbig) {
-        simulation->run();
+        anlysAmbig.push_back(csvws);
       }
+    }
+  }
+  // End all observer preparation
+
+
+  // ========================= RUN THE SHOW =========================
+  // Only bother if there are outputs
+  if (anlysAmbig.size() == 0)
+  {
+    if (!arg_parse::get<bool>("N", "test-run", 0, false)) {
+      std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
+      for (int i=0; i<simsAmbig.size(); i++) {
+        anlysAmbig.push_back(new BasicAnalysis(
+          simsAmbig[i].get(), default_specie_option, NULL,
+          0, cell_total, 0, time_total
+        ));
+      }
+    }
+  }
+
+  for (auto & simulation : simsAmbig) {
+    simulation->run();
   }
 
   // delete/write analyses
   for (auto anlys : anlysAmbig) {
-      delete anlys;
+    delete anlys;
   }
 
   return EXIT_SUCCESS;
