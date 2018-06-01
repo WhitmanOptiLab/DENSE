@@ -95,8 +95,6 @@ int main(int argc, char* argv[])
   }
   // Ambiguous "simulators" will either be a real simulations or input file
   vector<Observable*> simsAmbig;
-  // Ambiguous "analyzers" will either be analyses or output file logs
-  vector<Observer*> anlysAmbig;
   // We might do a sim_set, this is here just in case
   simulation_set *simSet;
 
@@ -168,6 +166,9 @@ int main(int argc, char* argv[])
     std::cout << color::set(color::RED) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << color::clear() << '\n';
     return EXIT_FAILURE;
   }
+
+  // Ambiguous "analyzers" will either be analyses or output file logs
+  vector<Observer*> anlysAmbig;
 
   {
       // Analyses each with own file writer
