@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     return EXIT_SUCCESS;
   }
   // Ambiguous "simulators" will either be a real simulations or input file
-  vector<Observable*> simsAmbig;
+  std::vector<std::unique_ptr<Observable>> simsAmbig;
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
   std::string data_ioe;
   if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false))
   {
-      simsAmbig.push_back(new csvr_sim(data_ioe, default_specie_option));
+      simsAmbig.emplace_back(new csvr_sim(data_ioe, default_specie_option));
   }
   else // Not importing, do a real simulation
   {
@@ -153,8 +153,10 @@ int main(int argc, char* argv[])
             anlys_intvl, time_total, seed
           );
 
-          auto & sim_vec = sim_set._sim_set;
-          simsAmbig.insert(simsAmbig.end(), sim_vec.begin(), sim_vec.end());
+          simsAmbig.reserve(simsAmbig.size() + sim_set.getSetCount());
+          for (auto & sim : sim_set._sim_set) {
+            simsAmbig.emplace_back(sim);
+          }
       }
   }
 
@@ -209,7 +211,7 @@ int main(int argc, char* argv[])
                                       "_", '0', i, 4, "."));
 
                       anlysAmbig.push_back(new BasicAnalysis(
-                                  simsAmbig[i], specie_option, csvwa,
+                                  simsAmbig[i].get(), specie_option, csvwa,
                                   cell_start, cell_end,
                                   time_start, time_end));
                   }
@@ -228,7 +230,7 @@ int main(int argc, char* argv[])
                                       "_", '0', i, 4, "."));
 
                       anlysAmbig.push_back(new OscillationAnalysis(
-                                  simsAmbig[i], anlys_intvl, win_range,
+                                  simsAmbig[i].get(), anlys_intvl, win_range,
                                   specie_option, csvwa,
                                   cell_start, cell_end,
                                   time_start, time_end));
@@ -258,7 +260,7 @@ int main(int argc, char* argv[])
                                   arg_parse::get<std::string>("v", "time-col", 0, false),
                                   cell_total, 0 /*cell_start*/,
                                   cell_total /*cell_end*/,
-                                  default_specie_option, simsAmbig[i] );
+                                  default_specie_option, simsAmbig[i].get() );
 
                   anlysAmbig.push_back(csvws);
               }
@@ -275,14 +277,14 @@ int main(int argc, char* argv[])
               std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
               for (int i=0; i<simsAmbig.size(); i++) {
                   anlysAmbig.push_back(new BasicAnalysis(
-                                      simsAmbig[i], default_specie_option, NULL,
+                                      simsAmbig[i].get(), default_specie_option, NULL,
                                       0, cell_total,
                                       0, time_total));
               }
           }
       }
 
-      for (auto simulation : simsAmbig) {
+      for (auto & simulation : simsAmbig) {
         simulation->run();
       }
   }
@@ -290,14 +292,6 @@ int main(int argc, char* argv[])
   // delete/write analyses
   for (auto anlys : anlysAmbig) {
       delete anlys;
-  }
-
-  // delete/write simulations
-  for (auto sim : simsAmbig)
-  {
-      // Sometimes causes "munmap_chunck(): invalid pointer"
-      // Honestly, this delete is not particularly important
-      //if (sim) delete sim;
   }
 
   return EXIT_SUCCESS;
