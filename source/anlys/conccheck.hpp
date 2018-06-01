@@ -30,7 +30,7 @@ class ConcentrationCheck : public Analysis {
                     subject->abort();
                 }
             } else {
-                for (int s = 0; s < NUM_SPECIES; s++){
+                for (int s = 0; s < NUM_SPECIES; ++s){
                     Real con = start.getCon((specie_id) s);
                     if (con<lower_bound || con>upper_bound) {
                         subject->abort();

@@ -44,13 +44,13 @@ class param_set{
 
   void printall() const
   {
-    for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; i++)
+    for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; ++i)
       printf("%f, ", getReactionRate(reaction_id(i)));
     printf("\n");
-    for (unsigned int i = 0; i < NUM_DELAY_REACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_DELAY_REACTIONS; ++i)
       printf("%f, ", getDelay(delay_reaction_id(i)));
     printf("\n");
-    for (unsigned int i = 0; i < NUM_REACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_REACTIONS; ++i)
       printf("%f, ", getCriticalValue(critspecie_id(i)));
     printf("\n");
   }

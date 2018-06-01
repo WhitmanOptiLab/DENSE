@@ -60,14 +60,14 @@ public:
             Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,startT,endT),
             range_steps(range/interval), analysis_interval(interval)
     {
-        for (int i = 0; i < ucSpecieOption.size(); i++)
+        for (int i = 0; i < ucSpecieOption.size(); ++i)
         {
             windows.emplace_back();
             peaksAndTroughs.emplace_back();
             bst.emplace_back();
             amplitudes.emplace_back();
             periods.emplace_back();
-            for (int c = min; c < max; c++){
+            for (int c = min; c < max; ++c){
                 Queue q(range_steps);
                 std::vector<crit_point> v;
                 std::multiset<RATETYPE> BST;
