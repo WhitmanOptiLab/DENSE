@@ -242,22 +242,15 @@ int main(int argc, char* argv[])
     // Can't do it if already using data-import
     if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "")
     {
-      for (unsigned int i = 0; i < simsAmbig.size(); ++i)
-      {
-        // If multiple sets, set file name to "x_####.y"
-        csvw_sim *csvws = new csvw_sim(
-                        (simsAmbig.size()==1 ?
-                         data_ioe :
-                         file_add_num(data_ioe,
-                                 "_", '0', i, 4, ".")),
-                        anlys_intvl, 0 /*time_start*/,
-                        time_total /*time_end*/,
-                        arg_parse::get<std::string>("v", "time-col", 0, false),
-                        cell_total, 0 /*cell_start*/,
-                        cell_total /*cell_end*/,
-                        default_specie_option, simsAmbig[i].get() );
-
-        anlysAmbig.emplace_back(csvws);
+      for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
+        anlysAmbig.emplace_back(new csvw_sim(
+          (simsAmbig.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
+          anlys_intvl, 0 /*time_start*/,
+          time_total /*time_end*/,
+          arg_parse::get<std::string>("v", "time-col", 0, false),
+          cell_total, 0 /*cell_start*/,
+          cell_total /*cell_end*/,
+          default_specie_option, simsAmbig[i].get() ));
       }
     }
   }
