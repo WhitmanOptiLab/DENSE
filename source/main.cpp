@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
   }
 
   // Ambiguous "analyzers" will either be analyses or output file logs
-  vector<Observer*> anlysAmbig;
+  vector<std::unique_ptr<Observer>> anlysAmbig;
 
   // Analyses each with own file writer
   std::string config_file;
@@ -209,7 +209,7 @@ int main(int argc, char* argv[])
                               file_add_num(out_file,
                                   "_", '0', i, 4, "."));
 
-                  anlysAmbig.push_back(new BasicAnalysis(
+                  anlysAmbig.emplace_back(new BasicAnalysis(
                               simsAmbig[i].get(), specie_option, csvwa,
                               cell_start, cell_end,
                               time_start, time_end));
@@ -228,7 +228,7 @@ int main(int argc, char* argv[])
                               file_add_num(out_file,
                                   "_", '0', i, 4, "."));
 
-                  anlysAmbig.push_back(new OscillationAnalysis(
+                  anlysAmbig.emplace_back(new OscillationAnalysis(
                               simsAmbig[i].get(), anlys_intvl, win_range,
                               specie_option, csvwa,
                               cell_start, cell_end,
@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
                         cell_total /*cell_end*/,
                         default_specie_option, simsAmbig[i].get() );
 
-        anlysAmbig.push_back(csvws);
+        anlysAmbig.emplace_back(csvws);
       }
     }
   }
@@ -272,7 +272,7 @@ int main(int argc, char* argv[])
   if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", 0, false)) {
     std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
     for (int i = 0; i < simsAmbig.size(); ++i) {
-      anlysAmbig.push_back(new BasicAnalysis(
+      anlysAmbig.emplace_back(new BasicAnalysis(
         simsAmbig[i].get(), default_specie_option, NULL,
         0, cell_total, 0, time_total
       ));
@@ -281,11 +281,6 @@ int main(int argc, char* argv[])
 
   for (auto & simulation : simsAmbig) {
     simulation->run();
-  }
-
-  // delete/write analyses
-  for (auto anlys : anlysAmbig) {
-    delete anlys;
   }
 
   return EXIT_SUCCESS;
