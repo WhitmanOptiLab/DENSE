@@ -27,7 +27,7 @@ public:
 	void populate(RATETYPE transferArray[]){
 
 		if (isEmpty()){
-			for (int i = 0; i < size/2; i++){
+			for (int i = 0; i < size/2; ++i){
 				contents[i] = transferArray[i];
 			}
 			start = 0;
@@ -47,12 +47,12 @@ public:
 			end = 0;
 		}
 		else {
-			end++;
+			++end;
 		}
 		contents[end] = entry;
 
 		if (getSize() >= size/2) {
-			current++;
+			++current;
 			if (current == size) {
 				current = 0;
 			}
@@ -65,10 +65,10 @@ public:
 			start = 0;
 		}
 		else {
-			start++;
+			++start;
 		}
 		if (getSize() <= size/2) {
-			current++;
+			++current;
 			if (current == size) {
 				current = 0;
 			}
@@ -86,7 +86,7 @@ public:
 
 	void print(){
 		std::cout<<"["<<contents[0];
-		for (int i = 1; i < size; i++){
+		for (int i = 1; i < size; ++i){
 			std::cout<<","<<contents[i];
 		}
 		std::cout<<"]"<<'\n';

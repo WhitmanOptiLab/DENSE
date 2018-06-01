@@ -242,7 +242,7 @@ int main(int argc, char* argv[])
     // Can't do it if already using data-import
     if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "")
     {
-      for (unsigned int i=0; i<simsAmbig.size(); i++)
+      for (unsigned int i = 0; i < simsAmbig.size(); ++i)
       {
         // If multiple sets, set file name to "x_####.y"
         csvw_sim *csvws = new csvw_sim(
