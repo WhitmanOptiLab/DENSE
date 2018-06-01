@@ -271,9 +271,9 @@ int main(int argc, char* argv[])
   // Only bother if there are outputs
   if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", 0, false)) {
     std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
-    for (int i = 0; i < simsAmbig.size(); ++i) {
+    for (auto & simulation : simsAmbig) {
       anlysAmbig.emplace_back(new BasicAnalysis(
-        simsAmbig[i].get(), default_specie_option, NULL,
+        simulation.get(), default_specie_option, NULL,
         0, cell_total, 0, time_total
       ));
     }
