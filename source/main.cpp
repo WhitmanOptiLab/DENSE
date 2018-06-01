@@ -96,8 +96,6 @@ int main(int argc, char* argv[])
   }
   // Ambiguous "simulators" will either be a real simulations or input file
   vector<Observable*> simsAmbig;
-  // We might do a sim_set, this is here just in case
-  std::unique_ptr<simulation_set> simSet;
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
@@ -147,18 +145,16 @@ int main(int argc, char* argv[])
           }
 
           // Create simulation set
-          simSet = std::unique_ptr<simulation_set>(new simulation_set(
+          simulation_set sim_set(
             params,
             arg_parse::get<std::string>("g", "gradients", ""),
             arg_parse::get<std::string>("b", "perturbations", ""),
             cell_total, tissue_width, step_size,
             anlys_intvl, time_total, seed
-          ));
+          );
 
-          for (int i=0; i<simSet->getSetCount(); i++)
-          {
-              simsAmbig.push_back(simSet->_sim_set[i]);
-          }
+          auto & sim_vec = sim_set._sim_set;
+          simsAmbig.insert(simsAmbig.end(), sim_vec.begin(), sim_vec.end());
       }
   }
 
