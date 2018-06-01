@@ -11,6 +11,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <memory>
 #include <exception>
 #include <iostream>
 
@@ -96,7 +97,7 @@ int main(int argc, char* argv[])
   // Ambiguous "simulators" will either be a real simulations or input file
   vector<Observable*> simsAmbig;
   // We might do a sim_set, this is here just in case
-  simulation_set *simSet;
+  std::unique_ptr<simulation_set> simSet;
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
@@ -145,12 +146,14 @@ int main(int argc, char* argv[])
             params.push_back(csvrp.get_next());
           }
 
-          //Create simulation set
-          simSet = new simulation_set(params,
-                  arg_parse::get<std::string>("g", "gradients", ""),
-                  arg_parse::get<std::string>("b", "perturbations", ""),
-                  cell_total, tissue_width, step_size,
-                  anlys_intvl, time_total, seed);
+          // Create simulation set
+          simSet = std::unique_ptr<simulation_set>(new simulation_set(
+            params,
+            arg_parse::get<std::string>("g", "gradients", ""),
+            arg_parse::get<std::string>("b", "perturbations", ""),
+            cell_total, tissue_width, step_size,
+            anlys_intvl, time_total, seed
+          ));
 
           for (int i=0; i<simSet->getSetCount(); i++)
           {
@@ -301,6 +304,5 @@ int main(int argc, char* argv[])
       //if (sim) delete sim;
   }
 
-  delete simSet;
   return EXIT_SUCCESS;
 }
