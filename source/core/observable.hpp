@@ -50,11 +50,11 @@ class Observer {
 
     virtual ~Observer() = default;
 
-    int getMin();
+    int getMin() const;
 
-    bool isInTimeBounds(double t) {
+    bool isInTimeBounds(double t) const {
         return t >= start_time && t < end_time;
-    }
+    };
 
     virtual void finalize() = 0;
 
