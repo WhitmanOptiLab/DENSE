@@ -33,9 +33,9 @@ class Observable {
 
     std::vector<Observer*> observerList;
 
-    bool abort_signaled;
-
     double t;
+
+    bool abort_signaled;
 
 };
 
@@ -60,13 +60,13 @@ class Observer {
 
     virtual void update(ContextBase& start) = 0;
 
-    protected:
+  protected:
 
-      Observable *subject;
+    Observable * subject;
 
-      int min, max;
+    RATETYPE start_time, end_time;
 
-      RATETYPE start_time, end_time;
+    int min, max;
 
 };
 
