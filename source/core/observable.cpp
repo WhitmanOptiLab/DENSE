@@ -10,18 +10,18 @@ void Observable :: notify(ContextBase& start){
 }
 
 void Observable :: finalize(){
-	for (int i = 0; i < observerList.size(); ++i){	
+	for (int i = 0; i < observerList.size(); ++i){
         observerList[i]->finalize();
 	}
-}		
+}
 
-Observer :: Observer(Observable *oAble, int mn, int mx, 
+Observer :: Observer(Observable *oAble, int mn, int mx,
                        RATETYPE startT, RATETYPE endT) :
     min(mn), max(mx), start_time(startT), end_time(endT), subject(oAble) {
-	
+
     subject->addObserver(this);
 }
 
-int Observer :: getMin(){
+int Observer :: getMin() const {
     return min;
 }
