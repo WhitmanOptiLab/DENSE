@@ -48,7 +48,7 @@ class Observer {
 
     Observer(Observable * oAble, int mn, int mx, RATETYPE startT, RATETYPE endT);
 
-    virtual ~Observer() {}
+    virtual ~Observer() = default;
 
     int getMin();
 
@@ -59,7 +59,7 @@ class Observer {
     virtual void finalize() = 0;
 
     virtual void update(ContextBase& start) = 0;
-    
+
     protected:
 
       Observable *subject;
