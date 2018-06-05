@@ -65,12 +65,6 @@ class Observer {
 
     int min, max;
 
-  private:
-
-    int getMin() const;
-
-    bool accepts_updates_at_time(double t) const;
-
 };
 
 #endif
