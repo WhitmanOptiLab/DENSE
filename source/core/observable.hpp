@@ -18,7 +18,7 @@ class Observable {
 
     Observable() = default;
 
-    void addObserver(Observer *);
+    void addObserver(Observer &);
 
     // Called by Observer in update
     void abort() { abort_signaled = true; }
@@ -59,7 +59,7 @@ class Observer {
 
   protected:
 
-    Observable * subject;
+    Observable & subject;
 
     RATETYPE start_time, end_time;
 
