@@ -1,18 +1,18 @@
 #include "observable.hpp"
 
-void Observable :: notify(ContextBase& start){
-	for (int i = 0; i < observerList.size(); ++i){
-		start.set(observerList[i]->getMin());
-		if (observerList[i]->isInTimeBounds(t)){
-            observerList[i]->update(start);
-        }
-	}
+void Observable::notify(ContextBase& start) {
+  for (auto & observer : observerList) {
+    start.set(observer->getMin());
+    if (observer->isInTimeBounds(t)) {
+      observer->update(start);
+    }
+  }
 }
 
-void Observable :: finalize(){
-	for (int i = 0; i < observerList.size(); ++i){
-        observerList[i]->finalize();
-	}
+void Observable::finalize() {
+  for (auto & observer : observerList) {
+    observer->finalize();
+  }
 }
 
 Observer :: Observer(Observable *oAble, int mn, int mx,
@@ -22,6 +22,6 @@ Observer :: Observer(Observable *oAble, int mn, int mx,
     subject->addObserver(this);
 }
 
-int Observer :: getMin() const {
-    return min;
+int Observer::getMin() const {
+  return min;
 }
