@@ -1,21 +1,22 @@
 #include "observable.hpp"
 
 void Observable::addObserver(Observer * observer) {
-  observers_.push_back(observer);
+  if (observer == nullptr) return;
+  observers_.emplace_back(*observer);
 }
 
 void Observable::notify(ContextBase& start) {
-  for (auto & observer : observers_) {
-    start.set(observer->getMin());
-    if (observer->isInTimeBounds(t)) {
-      observer->update(start);
+  for (Observer & observer : observers_) {
+    start.set(observer.getMin());
+    if (observer.isInTimeBounds(t)) {
+      observer.update(start);
     }
   }
 }
 
 void Observable::finalize() {
-  for (auto & observer : observers_) {
-    observer->finalize();
+  for (Observer & observer : observers_) {
+    observer.finalize();
   }
 }
 

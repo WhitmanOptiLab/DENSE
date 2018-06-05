@@ -1,6 +1,7 @@
 #ifndef CORE_OBSERVABLE_HPP_INCLUDED
 #define CORE_OBSERVABLE_HPP_INCLUDED
 
+#include <functional>
 #include <vector>
 
 #include "context.hpp"
@@ -31,7 +32,7 @@ class Observable {
 
   protected:
 
-    std::vector<Observer*> observers_;
+    std::vector<std::reference_wrapper<Observer>> observers_;
 
     double t = 0.0;
 
