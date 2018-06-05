@@ -55,6 +55,8 @@ class Observer {
 
     bool accepts_updates_at_time(double t) const;
 
+    void try_update(double t, ContextBase &);
+
     virtual void finalize() = 0;
 
     virtual void update(ContextBase& start) = 0;
