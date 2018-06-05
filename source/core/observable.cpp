@@ -28,7 +28,12 @@ Observer::Observer(
   end_time{end_time},
   subject(*observable)
 {
-  subject.addObserver(*this);
+  subscribe_to(subject);
+}
+
+void Observer::subscribe_to(Observable & observable) {
+  subject = observable;
+  observable.addObserver(*this);
 }
 
 void Observer::try_update(double t, ContextBase & begin) {
