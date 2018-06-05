@@ -15,7 +15,7 @@ class Observable {
 
   public:
 
-    Observable() : t(0.0), abort_signaled(false) {}
+    Observable() = default;
 
     void addObserver(Observer *o) { observerList.push_back(o); }
 
@@ -33,9 +33,9 @@ class Observable {
 
     std::vector<Observer*> observerList;
 
-    double t;
+    double t = 0.0;
 
-    bool abort_signaled;
+    bool abort_signaled = false;
 
 };
 
