@@ -14,6 +14,8 @@ Superclass for Simulation
 */
 class Observable {
 
+  friend Observer;
+
   public:
 
     Observable() = default;
