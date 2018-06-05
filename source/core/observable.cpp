@@ -27,6 +27,10 @@ Observer :: Observer(Observable *oAble, int mn, int mx,
     subject->addObserver(this);
 }
 
+bool Observer::isInTimeBounds(double t) const {
+    return t >= start_time && t < end_time;
+}
+
 int Observer::getMin() const {
   return min;
 }
