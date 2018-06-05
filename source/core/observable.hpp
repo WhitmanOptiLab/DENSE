@@ -17,7 +17,7 @@ class Observable {
 
     Observable() = default;
 
-    void addObserver(Observer *o) { observerList.push_back(o); }
+    void addObserver(Observer *);
 
     // Called by Observer in update
     void abort() { abort_signaled = true; }
