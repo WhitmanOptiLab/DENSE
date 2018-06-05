@@ -31,7 +31,7 @@ class Observable {
 
   protected:
 
-    std::vector<Observer*> observerList;
+    std::vector<Observer*> observers_;
 
     double t = 0.0;
 
