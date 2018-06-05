@@ -20,11 +20,6 @@ class Observable {
 
     Observable() = default;
 
-    void addObserver(Observer &);
-
-    // Called by Observer in update
-    void abort() { abort_signaled = true; }
-
     virtual void run() = 0;
 
     //"abort_signaled" condition checked
@@ -39,6 +34,13 @@ class Observable {
     double t = 0.0;
 
     bool abort_signaled = false;
+
+  private:
+
+    // Called by Observer in update
+    void abort() { abort_signaled = true; }
+
+    void addObserver(Observer &);
 
 };
 
