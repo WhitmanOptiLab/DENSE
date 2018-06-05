@@ -51,10 +51,6 @@ class Observer {
 
     virtual ~Observer() = default;
 
-    int getMin() const;
-
-    bool accepts_updates_at_time(double t) const;
-
     void try_update(double t, ContextBase &);
 
     virtual void finalize() = 0;
@@ -68,6 +64,12 @@ class Observer {
     RATETYPE start_time, end_time;
 
     int min, max;
+
+  private:
+
+    int getMin() const;
+
+    bool accepts_updates_at_time(double t) const;
 
 };
 
