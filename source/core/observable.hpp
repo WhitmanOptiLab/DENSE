@@ -53,7 +53,7 @@ class Observer {
 
     int getMin() const;
 
-    bool isInTimeBounds(double t) const;
+    bool accepts_updates_at_time(double t) const;
 
     virtual void finalize() = 0;
 

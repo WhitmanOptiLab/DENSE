@@ -8,7 +8,7 @@ void Observable::addObserver(Observer * observer) {
 void Observable::notify(ContextBase& start) {
   for (Observer & observer : observers_) {
     start.set(observer.getMin());
-    if (observer.isInTimeBounds(t)) {
+    if (observer.accepts_updates_at_time(t)) {
       observer.update(start);
     }
   }
@@ -27,7 +27,7 @@ Observer :: Observer(Observable *oAble, int mn, int mx,
     subject->addObserver(this);
 }
 
-bool Observer::isInTimeBounds(double t) const {
+bool Observer::accepts_updates_at_time(double t) const {
     return t >= start_time && t < end_time;
 }
 
