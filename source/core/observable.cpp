@@ -7,10 +7,7 @@ void Observable::addObserver(Observer * observer) {
 
 void Observable::notify(ContextBase& start) {
   for (Observer & observer : observers_) {
-    start.set(observer.getMin());
-    if (observer.accepts_updates_at_time(t)) {
-      observer.update(start);
-    }
+    observer.try_update(t, start);
   }
 }
 
@@ -33,4 +30,10 @@ bool Observer::accepts_updates_at_time(double t) const {
 
 int Observer::getMin() const {
   return min;
+}
+
+void Observer::try_update(double t, ContextBase & begin) {
+  if (!accepts_updates_at_time(t)) return;
+  begin.set(getMin());
+  update(begin);
 }
