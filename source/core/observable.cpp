@@ -22,14 +22,13 @@ Observer::Observer(
   min{min},
   max{max},
   start_time{start_time},
-  end_time{end_time},
-  subject(*observable)
+  end_time{end_time}
 {
-  subscribe_to(subject);
+  subscribe_to(*observable);
 }
 
 void Observer::subscribe_to(Observable & observable) {
-  subject = observable;
+  subscriptions_.emplace_back(observable);
   observable.subscribers_.emplace_back(*this);
 }
 
