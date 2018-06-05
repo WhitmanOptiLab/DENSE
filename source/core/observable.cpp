@@ -2,14 +2,14 @@
 
 
 void Observable::notify(ContextBase& start) {
-  for (Observer & observer : observers_) {
-    observer.try_update(t, start);
+  for (Observer & subscriber : subscribers()) {
+    subscriber.try_update(t, start);
   }
 }
 
 void Observable::finalize() {
-  for (Observer & observer : observers_) {
-    observer.finalize();
+  for (Observer & subscriber : subscribers()) {
+    subscriber.finalize();
   }
 }
 
@@ -30,7 +30,7 @@ Observer::Observer(
 
 void Observer::subscribe_to(Observable & observable) {
   subject = observable;
-  observable.observers_.emplace_back(*this);
+  observable.subscribers_.emplace_back(*this);
 }
 
 void Observer::try_update(double t, ContextBase & begin) {
