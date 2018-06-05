@@ -16,11 +16,19 @@ void Observable::finalize() {
   }
 }
 
-Observer :: Observer(Observable *oAble, int mn, int mx,
-                       RATETYPE startT, RATETYPE endT) :
-    min(mn), max(mx), start_time(startT), end_time(endT), subject(*oAble) {
-
-    subject.addObserver(*this);
+Observer::Observer(
+  Observable *observable,
+  int min, int max,
+  RATETYPE start_time,
+  RATETYPE end_time
+) :
+  min{min},
+  max{max},
+  start_time{start_time},
+  end_time{end_time},
+  subject(*observable)
+{
+  subject.addObserver(*this);
 }
 
 void Observer::try_update(double t, ContextBase & begin) {
