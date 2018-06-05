@@ -24,16 +24,8 @@ Observer :: Observer(Observable *oAble, int mn, int mx,
     subject->addObserver(this);
 }
 
-bool Observer::accepts_updates_at_time(double t) const {
-    return t >= start_time && t < end_time;
-}
-
-int Observer::getMin() const {
-  return min;
-}
-
 void Observer::try_update(double t, ContextBase & begin) {
-  if (!accepts_updates_at_time(t)) return;
-  begin.set(getMin());
+  if (t < start_time || t >= end_time) return;
+  begin.set(min);
   update(begin);
 }
