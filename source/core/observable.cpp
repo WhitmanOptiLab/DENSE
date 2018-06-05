@@ -1,8 +1,5 @@
 #include "observable.hpp"
 
-void Observable::addObserver(Observer & observer) {
-  observers_.emplace_back(observer);
-}
 
 void Observable::notify(ContextBase& start) {
   for (Observer & observer : observers_) {
@@ -33,7 +30,7 @@ Observer::Observer(
 
 void Observer::subscribe_to(Observable & observable) {
   subject = observable;
-  observable.addObserver(*this);
+  observable.observers_.emplace_back(*this);
 }
 
 void Observer::try_update(double t, ContextBase & begin) {
