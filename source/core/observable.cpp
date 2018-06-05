@@ -1,11 +1,11 @@
 #include "observable.hpp"
 
 void Observable::addObserver(Observer * observer) {
-  observerList.push_back(observer);
+  observers_.push_back(observer);
 }
 
 void Observable::notify(ContextBase& start) {
-  for (auto & observer : observerList) {
+  for (auto & observer : observers_) {
     start.set(observer->getMin());
     if (observer->isInTimeBounds(t)) {
       observer->update(start);
@@ -14,7 +14,7 @@ void Observable::notify(ContextBase& start) {
 }
 
 void Observable::finalize() {
-  for (auto & observer : observerList) {
+  for (auto & observer : observers_) {
     observer->finalize();
   }
 }
