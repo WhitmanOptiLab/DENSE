@@ -53,9 +53,7 @@ class Observer {
 
     int getMin() const;
 
-    bool isInTimeBounds(double t) const {
-        return t >= start_time && t < end_time;
-    };
+    bool isInTimeBounds(double t) const;
 
     virtual void finalize() = 0;
 
