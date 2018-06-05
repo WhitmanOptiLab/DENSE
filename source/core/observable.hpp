@@ -29,8 +29,8 @@ class Observable {
 
   protected:
 
-    std::vector<std::reference_wrapper<Observer>> const& observers() const {
-      return observers_;
+    std::vector<std::reference_wrapper<Observer>> const& subscribers() const {
+      return subscribers_;
     }
 
     double t = 0.0;
@@ -42,7 +42,7 @@ class Observable {
     // Called by Observer in update
     void abort() { abort_signaled = true; }
 
-    std::vector<std::reference_wrapper<Observer>> observers_;
+    std::vector<std::reference_wrapper<Observer>> subscribers_;
 
 };
 
