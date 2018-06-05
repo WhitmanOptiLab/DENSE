@@ -67,7 +67,7 @@ class Observer {
 
   protected:
 
-    Observable & subject;
+    std::vector<std::reference_wrapper<Observable>> subscriptions_;
 
     RATETYPE start_time, end_time;
 
