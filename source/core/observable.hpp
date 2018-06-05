@@ -57,6 +57,8 @@ class Observer {
 
     void try_update(double t, ContextBase &);
 
+    void subscribe_to(Observable &);
+
     virtual void finalize() = 0;
 
     virtual void update(ContextBase& start) = 0;
