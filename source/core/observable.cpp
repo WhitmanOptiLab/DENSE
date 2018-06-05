@@ -1,5 +1,9 @@
 #include "observable.hpp"
 
+void Observable::addObserver(Observer * observer) {
+  observerList.push_back(observer);
+}
+
 void Observable::notify(ContextBase& start) {
   for (auto & observer : observerList) {
     start.set(observer->getMin());
