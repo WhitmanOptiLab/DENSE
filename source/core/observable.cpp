@@ -1,8 +1,7 @@
 #include "observable.hpp"
 
-void Observable::addObserver(Observer * observer) {
-  if (observer == nullptr) return;
-  observers_.emplace_back(*observer);
+void Observable::addObserver(Observer & observer) {
+  observers_.emplace_back(observer);
 }
 
 void Observable::notify(ContextBase& start) {
@@ -19,9 +18,9 @@ void Observable::finalize() {
 
 Observer :: Observer(Observable *oAble, int mn, int mx,
                        RATETYPE startT, RATETYPE endT) :
-    min(mn), max(mx), start_time(startT), end_time(endT), subject(oAble) {
+    min(mn), max(mx), start_time(startT), end_time(endT), subject(*oAble) {
 
-    subject->addObserver(this);
+    subject.addObserver(*this);
 }
 
 void Observer::try_update(double t, ContextBase & begin) {
