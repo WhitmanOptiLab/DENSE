@@ -40,8 +40,6 @@ class Observable {
     // Called by Observer in update
     void abort() { abort_signaled = true; }
 
-    void addObserver(Observer &);
-
 };
 
 /**
