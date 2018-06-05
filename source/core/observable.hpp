@@ -47,7 +47,7 @@ class Observer {
 
   public:
 
-    Observer(Observable * oAble, int mn, int mx, RATETYPE startT, RATETYPE endT);
+    Observer(Observable * observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
     virtual ~Observer() = default;
 
