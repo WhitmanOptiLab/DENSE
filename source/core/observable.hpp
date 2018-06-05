@@ -22,7 +22,6 @@ class Observable {
 
     virtual void run() = 0;
 
-    //"abort_signaled" condition checked
     void notify(ContextBase& start);
 
     void finalize();
@@ -35,12 +34,7 @@ class Observable {
 
     double t = 0.0;
 
-    bool abort_signaled = false;
-
   private:
-
-    // Called by Observer in update
-    void abort() { abort_signaled = true; }
 
     std::vector<std::reference_wrapper<Observer>> subscribers_;
 

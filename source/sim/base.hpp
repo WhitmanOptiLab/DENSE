@@ -19,7 +19,7 @@
  * inherits from Observable, can be observed by Observer object
 */
 class simulation_base : public Observable{
-  
+
   public:
   // Sizes
   int _width_total; // The maximum width in cells of the PSM
@@ -43,7 +43,7 @@ class simulation_base : public Observable{
   //int active_start; // The start of the active portion of the PSM
   //int active_end; // The end of the active portion of the PSM
   CPUGPU_TempArray<int, 6>* _neighbors;
-  
+
   // PSM section and section-specific times
   //int section; // Posterior or anterior (sec_post or sec_ant)
   //int time_start; // The start time (in time steps) of the current simulation
@@ -66,7 +66,7 @@ class simulation_base : public Observable{
   //double* _sets;
   //int _NEIGHBORS_2D;
   RATETYPE max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
-    
+
 
   /*
    * CONSTRUCTOR
@@ -78,14 +78,14 @@ class simulation_base : public Observable{
    * arg "sim_time": the total time to simulate for, in minutes
   */
   simulation_base(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
-    Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m), 
-    _cellParams(*this, cells_total), _numNeighbors(new int[cells_total]), 
+    Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m),
+    _cellParams(*this, cells_total), _numNeighbors(new int[cells_total]),
     _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time),
    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad) { }
 
   //DECONSTRUCTOR
   virtual ~simulation_base() {}
-    
+
   //Virtual function all subclasses must implement
   virtual void initialize();
 
@@ -96,7 +96,7 @@ class simulation_base : public Observable{
     */
     IF_CUDA(__host__ __device__)
     void calc_neighbor_2d(){
-        for (int i = 0; i < _cells_total; i++) {        
+        for (int i = 0; i < _cells_total; i++) {
 	        int adjacents[6];
 
             /* Hexagonal Adjacencies
@@ -112,7 +112,7 @@ class simulation_base : public Observable{
                 adjacents[1] = (i - circumf + 1 + _cells_total) % _cells_total;
                 adjacents[2] = (i + 1) % _cells_total;
                 adjacents[3] = (i + circumf) % _cells_total;
-                if (i % circumf == 0) {	
+                if (i % circumf == 0) {
                     adjacents[4] = i + circumf - 1;
                     adjacents[5] = (i - 1 + _cells_total) % _cells_total;
                 } else {
@@ -132,7 +132,7 @@ class simulation_base : public Observable{
                 adjacents[4] = (i + circumf - 1) % _cells_total;
                 adjacents[5] = (i - 1 + _cells_total) % _cells_total;
             }
-            
+
             if (i % circumf == 0) {
                 _neighbors[i][0] = adjacents[0];
                 _neighbors[i][1] = adjacents[1];
@@ -156,17 +156,23 @@ class simulation_base : public Observable{
             }
         }
     }
-  
-    //Virtual function all subclasses must implement  
+
+    //Virtual function all subclasses must implement
     virtual void simulate() = 0;
-    
+
     void run() final
     {
         simulate();
     }
 
   protected:
+
     void calc_max_delays();
+
+    bool abort_signaled = false;
+
+    // Called by Observer in update
+    void abort() { abort_signaled = true; }
+
 };
 #endif
-
