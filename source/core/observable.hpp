@@ -46,20 +46,22 @@ Superclass for CSV Writer and Analysis
 class Observer {
 
   public:
+  friend Observable;
 
     Observer(Observable * observable);
 
     virtual ~Observer() = default;
 
-    virtual void try_update(double t, ContextBase &);
-
     void subscribe_to(Observable &);
+
+  protected:
+
+    virtual void try_update(double t, ContextBase &);
 
     virtual void finalize() = 0;
 
     virtual void update(ContextBase& start) = 0;
 
-  protected:
 
     std::vector<std::reference_wrapper<Observable>> subscriptions_;
 
