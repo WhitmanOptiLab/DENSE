@@ -55,7 +55,11 @@ class Observer {
 
   protected:
 
+    virtual void when_subscribed_to(Observable &) {};
+
     virtual void when_updated_by(Observable &);
+
+    virtual void when_unsubscribed_from(Observable &) {};
 
     virtual void finalize() = 0;
 
