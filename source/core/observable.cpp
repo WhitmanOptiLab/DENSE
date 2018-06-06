@@ -32,6 +32,7 @@ PickyObserver::PickyObserver(
 void Observer::subscribe_to(Observable & observable) {
   subscriptions_.emplace_back(observable);
   observable.subscribers_.emplace_back(*this);
+  when_subscribed_to(observable);
 }
 
 void Observer::when_updated_by(Observable & observable) {
