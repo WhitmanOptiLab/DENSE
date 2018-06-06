@@ -35,6 +35,12 @@ void Observer::subscribe_to(Observable & observable) {
   when_subscribed_to(observable);
 }
 
+void Observer::unsubscribe_from_all() {
+  for (Observable & subscription : subscriptions()) {
+    unsubscribe_from(subscription);
+  }
+}
+
 void Observer::unsubscribe_from(Observable & observable) {
   when_unsubscribed_from(observable);
 }
