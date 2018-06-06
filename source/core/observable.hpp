@@ -24,13 +24,15 @@ class Observable {
 
     void finalize();
 
+    double t = 0.0;
+
+    ContextBase * context = nullptr;
+
   protected:
 
     std::vector<std::reference_wrapper<Observer>> const& subscribers() const {
       return subscribers_;
     }
-
-    double t = 0.0;
 
   private:
 
@@ -53,11 +55,9 @@ class Observer {
 
   protected:
 
-    virtual void try_update(double t, ContextBase &);
+    virtual void try_update(Observable &);
 
     virtual void finalize() = 0;
-
-    virtual void update(ContextBase& start) = 0;
 
   private:
 
@@ -75,7 +75,9 @@ class PickyObserver : public Observer {
 
     PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
-    void try_update(double t, ContextBase &) override;
+    void try_update(Observable &) override;
+
+    virtual void update(ContextBase& start) = 0;
 
   protected:
 

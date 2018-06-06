@@ -2,9 +2,11 @@
 
 
 void Observable::notify(ContextBase& start) {
+  context = &start;
   for (Observer & subscriber : subscribers()) {
-    subscriber.try_update(t, start);
+    subscriber.try_update(*this);
   }
+  context = nullptr;
 }
 
 void Observable::finalize() {
@@ -32,12 +34,12 @@ void Observer::subscribe_to(Observable & observable) {
   observable.subscribers_.emplace_back(*this);
 }
 
-void Observer::try_update(double t, ContextBase & begin) {
-  update(begin);
+void Observer::try_update(Observable & observable) {
 }
 
-void PickyObserver::try_update(double t, ContextBase & begin) {
-  if (t < start_time || t >= end_time) return;
+void PickyObserver::try_update(Observable & observable) {
+  if (observable.t < start_time || observable.t >= end_time) return;
+  ContextBase & begin = *observable.context;
   begin.set(min);
-  Observer::try_update(t, begin);
+  update(begin);
 }
