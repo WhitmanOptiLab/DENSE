@@ -62,6 +62,7 @@ class Observer {
 
     virtual void update(ContextBase& start) = 0;
 
+  private:
 
     std::vector<std::reference_wrapper<Observable>> subscriptions_;
 
