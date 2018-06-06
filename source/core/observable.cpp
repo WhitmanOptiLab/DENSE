@@ -13,21 +13,18 @@ void Observable::finalize() {
   }
 }
 
-Observer::Observer(Observable *observable) {
-  subscribe_to(*observable);
-}
-
 PickyObserver::PickyObserver(
   Observable *observable,
   int min, int max,
   RATETYPE start_time,
   RATETYPE end_time
-) : Observer(observable),
+) :
   min{min},
   max{max},
   start_time{start_time},
   end_time{end_time}
 {
+  subscribe_to(*observable);
 }
 
 void Observer::subscribe_to(Observable & observable) {
