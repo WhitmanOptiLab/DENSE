@@ -11,7 +11,7 @@ csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterv
     csvw(pcfFileName, true, "\n# This file can be used as a template for "
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
-    Observer(pnObl,pcfCellStart,pcfCellEnd,pcfTimeStart,pcfTimeEnd), icSpecieOption(pcfSpecieOption),
+    PickyObserver(pnObl,pcfCellStart,pcfCellEnd,pcfTimeStart,pcfTimeEnd), icSpecieOption(pcfSpecieOption),
     ilTime(pcfTimeStart), ilCell(pcfCellStart), icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
     icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd),
     icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd)
