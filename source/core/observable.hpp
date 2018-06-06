@@ -45,10 +45,9 @@ Superclass for CSV Writer and Analysis
 */
 class Observer {
 
-  public:
   friend Observable;
 
-    Observer(Observable * observable);
+  public:
 
     virtual ~Observer() = default;
 
