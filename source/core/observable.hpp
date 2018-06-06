@@ -54,6 +54,9 @@ class Observer {
     void subscribe_to(Observable &);
 
     void unsubscribe_from(Observable &);
+
+    std::vector<std::reference_wrapper<Observable>> const& subscriptions();
+
   protected:
 
     virtual void when_subscribed_to(Observable &) {};

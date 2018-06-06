@@ -39,6 +39,10 @@ void Observer::unsubscribe_from(Observable & observable) {
   when_unsubscribed_from(observable);
 }
 
+std::vector<std::reference_wrapper<Observable>> const& Observer::subscriptions() {
+  return subscriptions_;
+}
+
 void Observer::when_updated_by(Observable & observable) {
 }
 
