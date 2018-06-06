@@ -49,6 +49,12 @@ class Observer {
 
   public:
 
+    Observer() = default;
+
+    Observer(Observer const&) = delete;
+
+    Observer & operator=(Observer const&) = delete;
+
     virtual ~Observer() = default;
 
     void subscribe_to(Observable &);
