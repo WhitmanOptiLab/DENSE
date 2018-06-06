@@ -55,7 +55,7 @@ class Observer {
 
     Observer & operator=(Observer const&) = delete;
 
-    virtual ~Observer() = default;
+    virtual ~Observer() { unsubscribe_from_all() };
 
     void subscribe_to(Observable &);
 
