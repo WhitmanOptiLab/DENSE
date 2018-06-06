@@ -73,7 +73,7 @@ class PickyObserver : public Observer {
 
   public:
 
-    PickyObserver(Observable * observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
+    PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
     void try_update(double t, ContextBase &) override;
 
