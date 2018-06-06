@@ -61,6 +61,8 @@ class Observer {
 
     void unsubscribe_from(Observable &);
 
+    void unsubscribe_from_all();
+
     std::vector<std::reference_wrapper<Observable>> const& subscriptions();
 
   protected:
