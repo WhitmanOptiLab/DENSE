@@ -7,7 +7,7 @@
 #include "core/specie.hpp"
 
 
-class csvw_sim : public csvw, public Observer
+class csvw_sim : public csvw, public PickyObserver
 {
 public:
     csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
@@ -16,7 +16,7 @@ public:
             const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
             specie_vec const& pcfSpecieOption, Observable *pnObl);
     virtual ~csvw_sim();
-    
+
     void finalize();
     void update(ContextBase& pfStart);
 

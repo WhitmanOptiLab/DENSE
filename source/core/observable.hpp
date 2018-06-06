@@ -47,11 +47,11 @@ class Observer {
 
   public:
 
-    Observer(Observable * observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
+    Observer(Observable * observable);
 
     virtual ~Observer() = default;
 
-    void try_update(double t, ContextBase &);
+    virtual void try_update(double t, ContextBase &);
 
     void subscribe_to(Observable &);
 
@@ -63,7 +63,23 @@ class Observer {
 
     std::vector<std::reference_wrapper<Observable>> subscriptions_;
 
-    RATETYPE start_time, end_time;
+};
+
+/*
+  Observer that restricts updates to a specific range of cells and times
+  Used as a stepping-stone to refactoring the Observer/Observable interface
+*/
+class PickyObserver : public Observer {
+
+  public:
+
+    PickyObserver(Observable * observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
+
+    void try_update(double t, ContextBase &) override;
+
+  protected:
+
+    Real start_time, end_time;
 
     int min, max;
 

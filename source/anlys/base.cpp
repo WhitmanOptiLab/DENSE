@@ -7,7 +7,7 @@ Analysis::Analysis (
   int min, int max,
   Real start_time, Real end_time
 ) :
-  Observer(log, min, max, start_time, end_time),
+  PickyObserver(log, min, max, start_time, end_time),
   time{0},
   ucSpecieOption(species_vector),
   csv_out(csv_out) {

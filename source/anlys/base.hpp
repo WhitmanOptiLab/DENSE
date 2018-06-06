@@ -12,7 +12,7 @@
 * - observes passed "Observable"
 * - does not implement any analysis
 */
-class Analysis : public Observer {
+class Analysis : public PickyObserver {
 
   public:
 
