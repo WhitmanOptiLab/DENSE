@@ -18,8 +18,6 @@ class Observable {
 
   public:
 
-    Observable() = default;
-
     virtual void run() = 0;
 
     void notify(ContextBase& start);
