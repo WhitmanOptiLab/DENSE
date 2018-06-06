@@ -11,7 +11,7 @@ void Observable::notify(ContextBase& start) {
 
 void Observable::finalize() {
   for (Observer & subscriber : subscribers()) {
-    subscriber.finalize();
+    subscriber.unsubscribe_from(*this);
   }
 }
 
@@ -35,6 +35,10 @@ void Observer::subscribe_to(Observable & observable) {
   when_subscribed_to(observable);
 }
 
+void Observer::unsubscribe_from(Observable & observable) {
+  when_unsubscribed_from(observable);
+}
+
 void Observer::when_updated_by(Observable & observable) {
 }
 
@@ -43,4 +47,8 @@ void PickyObserver::when_updated_by(Observable & observable) {
   ContextBase & begin = *observable.context;
   begin.set(min);
   update(begin);
+}
+
+void PickyObserver::when_unsubscribed_from(Observable & observable) {
+  finalize();
 }

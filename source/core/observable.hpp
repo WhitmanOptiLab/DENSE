@@ -53,6 +53,7 @@ class Observer {
 
     void subscribe_to(Observable &);
 
+    void unsubscribe_from(Observable &);
   protected:
 
     virtual void when_subscribed_to(Observable &) {};
@@ -60,8 +61,6 @@ class Observer {
     virtual void when_updated_by(Observable &);
 
     virtual void when_unsubscribed_from(Observable &) {};
-
-    virtual void finalize() = 0;
 
   private:
 
@@ -81,7 +80,11 @@ class PickyObserver : public Observer {
 
     void when_updated_by(Observable &) override;
 
+    void when_unsubscribed_from(Observable &) override;
+
     virtual void update(ContextBase& start) = 0;
+
+    virtual void finalize() = 0;
 
   protected:
 
