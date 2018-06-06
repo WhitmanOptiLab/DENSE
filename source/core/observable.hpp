@@ -55,7 +55,7 @@ class Observer {
 
   protected:
 
-    virtual void try_update(Observable &);
+    virtual void when_updated_by(Observable &);
 
     virtual void finalize() = 0;
 
@@ -75,7 +75,7 @@ class PickyObserver : public Observer {
 
     PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
-    void try_update(Observable &) override;
+    void when_updated_by(Observable &) override;
 
     virtual void update(ContextBase& start) = 0;
 

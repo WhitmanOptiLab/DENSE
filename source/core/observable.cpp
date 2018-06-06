@@ -4,7 +4,7 @@
 void Observable::notify(ContextBase& start) {
   context = &start;
   for (Observer & subscriber : subscribers()) {
-    subscriber.try_update(*this);
+    subscriber.when_updated_by(*this);
   }
   context = nullptr;
 }
@@ -34,10 +34,10 @@ void Observer::subscribe_to(Observable & observable) {
   observable.subscribers_.emplace_back(*this);
 }
 
-void Observer::try_update(Observable & observable) {
+void Observer::when_updated_by(Observable & observable) {
 }
 
-void PickyObserver::try_update(Observable & observable) {
+void PickyObserver::when_updated_by(Observable & observable) {
   if (observable.t < start_time || observable.t >= end_time) return;
   ContextBase & begin = *observable.context;
   begin.set(min);
