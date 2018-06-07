@@ -42,6 +42,7 @@ class baby_cl {
     };
 
     template <typename NumericT>
+    IF_CUDA(__host__ __device__)
     static NumericT wrap (NumericT x, NumericT y) {
       return (x + y) % y;
     }
