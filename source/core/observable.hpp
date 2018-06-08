@@ -61,20 +61,20 @@ class Observer {
     /// \warning Deleted.
     Observer & operator= (Observer const&) = delete;
 
-    /// Destruct an observer, unsubscribing it from all subscriptions.
+    /// Destruct an observer, unsubscribing it from all of its subscriptions.
     /// \complexity Linear in the number of subscriptions.
-    virtual ~Observer () { unsubscribe_from_all() };
+    virtual ~Observer () { unsubscribe_from_all(); };
 
     /// Subscribe an observer to an observable.
     /// \post `(*subscriptions().rbegin()).get() == observable`
-    void subscribe_to (Observable &);
+    void subscribe_to (Observable & observable);
 
     /// Unsubscribe an observer from an observable.
     /// \complexity Constant if \c observable is the most recent subscription;
     ///             linear in the number of subscriptions otherwise.
-    void unsubscribe_from (Observable &);
+    void unsubscribe_from (Observable & observable);
 
-    /// Unsubscribe an observer from all subscriptions.
+    /// Unsubscribe an observer from all of its subscriptions.
     /// \complexity Linear in the number of subscriptions.
     void unsubscribe_from_all ();
 
