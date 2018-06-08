@@ -27,7 +27,7 @@ PickyObserver::PickyObserver(
   subscribe_to(observable);
 }
 
-void PickyObserver::when_updated_by(Observable & observable) {
+void Analysis::when_updated_by(Observable & observable) {
   if (observable.t < start_time || observable.t >= end_time) return;
   ContextBase & begin = *observable.context;
   begin.set(min);
