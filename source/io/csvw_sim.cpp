@@ -11,11 +11,12 @@ csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterv
     csvw(pcfFileName, true, "\n# This file can be used as a template for "
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
-    PickyObserver(*pnObl,pcfCellStart,pcfCellEnd,pcfTimeStart,pcfTimeEnd), icSpecieOption(pcfSpecieOption),
+    Observer(), icSpecieOption(pcfSpecieOption),
     ilTime(pcfTimeStart), ilCell(pcfCellStart), icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
     icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd),
     icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd)
 {
+    subscribe_to(*pnObl);
     csvw::add_div("# The row after next MUST remain in the file in order for it "
             "to be parsable by the CSV reader. They indicate the following:\n"
             "cell-total, anlys-intvl, time-start, time-end, time-col, "
@@ -69,10 +70,20 @@ void csvw_sim::finalize()
 {
 }
 
+void csvw_sim::when_updated_by(Observable & observable) {
+  if (observable.t < icTimeStart || observable.t >= icTimeEnd) return;
+  ContextBase & begin = *observable.context;
+  begin.set(icCellStart);
+  update(begin);
+}
+
+void csvw_sim::when_unsubscribed_from(Observable & observable) {
+  finalize();
+}
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    for (int c = min; c < max; c++){
+    for (int c = icCellStart; c < icCellEnd; ++c) {
         if (icTimeColumn)
         {
             csvw::add_data(ilTime);

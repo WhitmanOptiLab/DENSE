@@ -7,7 +7,7 @@
 #include "core/specie.hpp"
 
 
-class csvw_sim : public csvw, public PickyObserver
+class csvw_sim : public csvw, public Observer
 {
 public:
     csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
@@ -19,6 +19,10 @@ public:
 
     void finalize();
     void update(ContextBase& pfStart);
+    
+  protected:
+    void when_updated_by(Observable & observable) override;
+    void when_unsubscribed_from(Observable & observable) override;
 
 private:
     unsigned int ilCell;
