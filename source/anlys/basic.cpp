@@ -11,13 +11,14 @@ BasicAnalysis::BasicAnalysis (
   unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
 ) :
-  Analysis(observable, species_vector, csv_writer, min_cell, max_cell, start_time, end_time),
+  Analysis(species_vector, csv_writer, min_cell, max_cell, start_time, end_time),
   mins(observed_species_.size(), std::numeric_limits<Real>::infinity()),
   maxs(observed_species_.size(), Real{0}),
   means(observed_species_.size(), Real{0}),
   mins_by_context(max - min, mins),
   maxs_by_context(max - min, maxs),
   means_by_context(max - min, means) {
+  subscribe_to(observable);
 };
 
 void BasicAnalysis::update (ContextBase & begin) {

@@ -57,9 +57,10 @@ public:
                         RATETYPE range, specie_vec const& pcfSpecieOption,
                         csvw* pnFileOut, unsigned min_cell, unsigned max_cell,
                         RATETYPE start_time, RATETYPE end_time) :
-            Analysis(*dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
+            Analysis(pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
+      subscribe_to(*dLog);
         for (std::size_t i = 0; i < observed_species_.size(); ++i)
         {
             windows.emplace_back();
@@ -105,7 +106,9 @@ class CorrelationAnalysis : public Analysis {
 
 	CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
             unsigned min_cell, unsigned max_cell, Real start_time, Real end_time) :
-        Analysis(*dLog,pcfSpecieOption, 0, min_cell, max_cell, start_time, end_time) {
+        Analysis(pcfSpecieOption, 0, min_cell, max_cell, start_time, end_time)
+  {
+    subscribe_to(*dLog);
 	}
 
 	void update(ContextBase& start) {
