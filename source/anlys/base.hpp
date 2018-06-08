@@ -18,11 +18,7 @@ class PickyObserver : public Observer {
 
     void when_updated_by(Observable &) override;
 
-    void when_unsubscribed_from(Observable &) override;
-
     virtual void update(ContextBase& start) = 0;
-
-    virtual void finalize() = 0;
 
   protected:
 
@@ -49,6 +45,10 @@ class Analysis : public PickyObserver {
     );
 
     virtual void show () {};
+
+    virtual void finalize() = 0;
+
+    void when_unsubscribed_from(Observable &) override;
 
   protected:
 
