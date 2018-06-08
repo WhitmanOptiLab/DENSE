@@ -1,7 +1,7 @@
 #include "base.hpp"
 
 Analysis::Analysis (
-  Observable * log,
+  Observable & observable,
   specie_vec const& species_vector,
   csvw * csv_out,
   unsigned min_cell, unsigned max_cell,
@@ -12,8 +12,9 @@ Analysis::Analysis (
   start_time{start_time},
   end_time{end_time},
   observed_species_{species_vector},
-  csv_out(csv_out) {
-  subscribe_to(*log);
+  csv_out(csv_out)
+{
+  subscribe_to(observable);
 };
 
 void Analysis::when_updated_by(Observable & observable) {

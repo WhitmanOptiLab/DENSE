@@ -17,7 +17,7 @@ class ConcentrationCheck : public Analysis {
       Real start_time, Real end_time,
       specie_id t_specie = static_cast<specie_id>(-1)
     ) :
-      Analysis(data_source, min_cell, max_cell, start_time, end_time),
+      Analysis(*data_source, min_cell, max_cell, start_time, end_time),
       target_specie(t_specie),
       lower_bound(lowerB), upper_bound(upperB) {
     };
