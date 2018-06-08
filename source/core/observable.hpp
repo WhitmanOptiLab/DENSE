@@ -51,44 +51,44 @@ class Observer {
 
     /// Construct an observer with no subscriptions.
     /// \complexity Constant.
-    Observer() = default;
+    Observer () = default;
 
     /// Forbid copy-constructing an observer.
     /// \warning Deleted.
-    Observer(Observer const&) = delete;
+    Observer (Observer const&) = delete;
 
     /// Forbid copy-assigning to an observer.
     /// \warning Deleted.
-    Observer & operator=(Observer const&) = delete;
+    Observer & operator= (Observer const&) = delete;
 
     /// Destruct an observer, unsubscribing it from all subscriptions.
     /// \complexity Linear in the number of subscriptions.
-    virtual ~Observer() { unsubscribe_from_all() };
+    virtual ~Observer () { unsubscribe_from_all() };
 
     /// Subscribe an observer to an observable.
     /// \post `(*subscriptions().rbegin()).get() == observable`
-    void subscribe_to(Observable &);
+    void subscribe_to (Observable &);
 
     /// Unsubscribe an observer from an observable.
     /// \complexity Constant if \c observable is the most recent subscription;
     ///             linear in the number of subscriptions otherwise.
-    void unsubscribe_from(Observable &);
+    void unsubscribe_from (Observable &);
 
     /// Unsubscribe an observer from all subscriptions.
     /// \complexity Linear in the number of subscriptions.
-    void unsubscribe_from_all();
+    void unsubscribe_from_all ();
 
     /// View an observer's subscriptions as a ContiguousContainer.
     /// \complexity Constant.
-    std::vector<std::reference_wrapper<Observable>> const& subscriptions();
+    std::vector<std::reference_wrapper<Observable>> const& subscriptions ();
 
   protected:
 
-    virtual void when_subscribed_to(Observable &) {};
+    virtual void when_subscribed_to (Observable &) {};
 
-    virtual void when_updated_by(Observable &);
+    virtual void when_updated_by (Observable &);
 
-    virtual void when_unsubscribed_from(Observable &) {};
+    virtual void when_unsubscribed_from (Observable &) {};
 
   private:
 
