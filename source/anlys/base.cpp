@@ -11,7 +11,6 @@ Analysis::Analysis (
   max{max_cell},
   start_time{start_time},
   end_time{end_time},
-  time{0},
   observed_species_{species_vector},
   csv_out(csv_out) {
   subscribe_to(*log);

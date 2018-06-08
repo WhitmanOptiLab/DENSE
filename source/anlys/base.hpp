@@ -38,7 +38,7 @@ class Analysis : public Observer {
 
     unsigned min, max;
 
-    int time;
+    unsigned time = 0;
 
     specie_vec const observed_species_;
 
