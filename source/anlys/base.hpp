@@ -12,10 +12,6 @@
 /// Used as a stepping-stone to refactoring the Observer/Observable interface
 class PickyObserver : public Observer {
 
-  public:
-
-    PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
-
 };
 
 

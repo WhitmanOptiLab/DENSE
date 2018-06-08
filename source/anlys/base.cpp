@@ -7,7 +7,6 @@ Analysis::Analysis (
   int min, int max,
   Real start_time, Real end_time
 ) :
-  PickyObserver(*log, min, max, start_time, end_time),
   min{min},
   max{max},
   start_time{start_time},
@@ -15,17 +14,8 @@ Analysis::Analysis (
   time{0},
   ucSpecieOption(species_vector),
   csv_out(csv_out) {
+  subscribe_to(*log);
 };
-
-PickyObserver::PickyObserver(
-  Observable & observable,
-  int min, int max,
-  RATETYPE start_time,
-  RATETYPE end_time
-)
-{
-  subscribe_to(observable);
-}
 
 void Analysis::when_updated_by(Observable & observable) {
   if (observable.t < start_time || observable.t >= end_time) return;
