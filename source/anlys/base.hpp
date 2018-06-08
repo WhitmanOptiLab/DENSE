@@ -15,7 +15,7 @@ class Analysis : public Observer {
   public:
 
     Analysis (
-      Observable * log,
+      Observable & observable,
       specie_vec const& species_vector,
       csvw * csv_out,
       unsigned min_cell, unsigned max_cell,
