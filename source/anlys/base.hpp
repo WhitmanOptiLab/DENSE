@@ -16,10 +16,6 @@ class PickyObserver : public Observer {
 
     PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
-    void when_updated_by(Observable &) override;
-
-    virtual void update(ContextBase& start) = 0;
-
   protected:
 
     Real start_time, end_time;
@@ -46,7 +42,11 @@ class Analysis : public PickyObserver {
 
     virtual void show () {};
 
+    virtual void update(ContextBase& start) = 0;
+
     virtual void finalize() = 0;
+
+    void when_updated_by(Observable &) override;
 
     void when_unsubscribed_from(Observable &) override;
 
