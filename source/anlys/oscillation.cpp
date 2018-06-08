@@ -7,7 +7,7 @@
 */
 void OscillationAnalysis :: finalize(){
     int timeTemp = time;
-    for (std::size_t s = 0; s < ucSpecieOption.size(); ++s)
+    for (std::size_t s = 0; s < observed_species_.size(); ++s)
     {
         for (unsigned c = 0; c < max-min; ++c){
             time = timeTemp;
@@ -29,8 +29,8 @@ void OscillationAnalysis::show () {
   {
       for (unsigned c = min; c < max; ++c)
       {
-          RATETYPE avg_peak[ucSpecieOption.size()];
-          for (std::size_t s = 0; s < ucSpecieOption.size(); ++s)
+          RATETYPE avg_peak[observed_species_.size()];
+          for (std::size_t s = 0; s < observed_species_.size(); ++s)
           {
               RATETYPE peak_count = 0;
               avg_peak[s] = 0.0;
@@ -49,19 +49,19 @@ void OscillationAnalysis::show () {
           }
 
           csv_out->add_div("\n\ncell " + std::to_string(c) + ",");
-          for (specie_id const& lcfID : ucSpecieOption)
+          for (specie_id const& lcfID : observed_species_)
               csv_out->add_div(specie_str[lcfID] + ",");
 
           csv_out->add_div("\navg peak,");
-          for (int s = 0; s < ucSpecieOption.size(); ++s)
+          for (int s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(avg_peak[s]);
 
           csv_out->add_div("\navg amp,");
-          for (int s = 0; s < ucSpecieOption.size(); ++s)
+          for (int s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(amplitudes[s][c]);
 
           csv_out->add_div("\navg per,");
-          for (int s = 0; s < ucSpecieOption.size(); ++s)
+          for (int s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(periods[s][c]);
       }
   }
@@ -75,9 +75,9 @@ void OscillationAnalysis::show () {
 */
 void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int c){
 
-    for (std::size_t i = 0; i < ucSpecieOption.size(); ++i)
+    for (std::size_t i = 0; i < observed_species_.size(); ++i)
     {
-        RATETYPE added = start.getCon(ucSpecieOption[i]);
+        RATETYPE added = start.getCon(observed_species_[i]);
         windows[i][c].enqueue(added);
         bst[i][c].insert(added);
         if ( windows[i][c].getSize() == range_steps + 1) {

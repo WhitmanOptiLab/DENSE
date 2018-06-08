@@ -25,7 +25,7 @@ private:
 
 	bool vectors_assigned;
 
-    // Outer-most vector is "for each specie in ucSpecieOption"
+    // Outer-most vector is "for each specie in observed_species_"
 
 	std::vector<std::vector<Queue>> windows;
 
@@ -60,7 +60,7 @@ public:
             Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
-        for (std::size_t i = 0; i < ucSpecieOption.size(); ++i)
+        for (std::size_t i = 0; i < observed_species_.size(); ++i)
         {
             windows.emplace_back();
             peaksAndTroughs.emplace_back();

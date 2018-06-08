@@ -29,11 +29,11 @@ class BasicAnalysis : public Analysis {
      * - arg ContextBase& start: reference to iterator over concentrations
      * - precondition: start.isValid() is true.
      * - postcondition: start.isValid() is false.
-     * - update is overloaded virtual function of Observer
+     * - update is overloaded virtual function of Analysis
      */
     void update (ContextBase & begin) override;
 
-    /* Finalize: overloaded virtual function of observer
+    /* Finalize: overloaded virtual function of Analysis
        - must be called to produce correct average values
      */
     void finalize () override;

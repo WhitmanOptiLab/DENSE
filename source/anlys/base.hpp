@@ -40,7 +40,7 @@ class Analysis : public Observer {
 
     int time;
 
-    specie_vec const ucSpecieOption;
+    specie_vec const observed_species_;
 
     std::unique_ptr<csvw> csv_out;
 
