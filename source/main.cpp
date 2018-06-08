@@ -208,7 +208,7 @@ int main(int argc, char* argv[])
                                   "_", '0', i, 4, "."));
 
                   anlysAmbig.emplace_back(new BasicAnalysis(
-                              simsAmbig[i].get(), specie_option, csvwa,
+                              *simsAmbig[i], specie_option, csvwa,
                               cell_start, cell_end,
                               time_start, time_end));
               }
@@ -263,7 +263,7 @@ int main(int argc, char* argv[])
     std::cout << color::set(color::YELLOW) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << color::clear() << '\n';
     for (auto & simulation : simsAmbig) {
       anlysAmbig.emplace_back(new BasicAnalysis(
-        simulation.get(), default_specie_option, nullptr,
+        *simulation, default_specie_option, nullptr,
         0, cell_total, 0, time_total
       ));
     }
