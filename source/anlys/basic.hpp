@@ -17,7 +17,7 @@ class BasicAnalysis : public Analysis {
   public:
 
     BasicAnalysis (
-      Observable * log,
+      Observable & observable,
       specie_vec const& species_vector,
       csvw * csv_writer,
       unsigned min_cell, unsigned max_cell,
