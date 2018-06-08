@@ -16,12 +16,6 @@ class PickyObserver : public Observer {
 
     PickyObserver(Observable & observable, int min, int max, RATETYPE start_time, RATETYPE end_time);
 
-  protected:
-
-    Real start_time, end_time;
-
-    int min, max;
-
 };
 
 
@@ -51,6 +45,10 @@ class Analysis : public PickyObserver {
     void when_unsubscribed_from(Observable &) override;
 
   protected:
+
+    Real start_time, end_time;
+
+    int min, max;
 
     int time;
 
