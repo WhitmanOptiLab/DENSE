@@ -20,7 +20,7 @@ class BasicAnalysis : public Analysis {
       Observable * log,
       specie_vec const& species_vector,
       csvw * csv_writer,
-      int min, int max,
+      unsigned min_cell, unsigned max_cell,
       Real start_time, Real end_time
     );
 

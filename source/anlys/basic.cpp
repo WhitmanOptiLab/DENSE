@@ -8,10 +8,10 @@ BasicAnalysis::BasicAnalysis (
   Observable * log,
   specie_vec const& species_vector,
   csvw * csv_writer,
-  int min, int max,
+  unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
 ) :
-  Analysis(log, species_vector, csv_writer, min, max, start_time, end_time),
+  Analysis(log, species_vector, csv_writer, min_cell, max_cell, start_time, end_time),
   mins(ucSpecieOption.size(), std::numeric_limits<Real>::infinity()),
   maxs(ucSpecieOption.size(), Real{0}),
   means(ucSpecieOption.size(), Real{0}),
@@ -70,9 +70,9 @@ void BasicAnalysis::show () {
       csv_out->add_data(max);
     }
   } else {
-    for (int i = min; i < max; ++i) {
+    for (unsigned i = min; i < max; ++i) {
       std::cout << "Cell " << i << " (min, avg, max)\n";
-      for (int s = 0; s < ucSpecieOption.size(); ++s) {
+      for (std::size_t s = 0; s < ucSpecieOption.size(); ++s) {
         std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ", " << means[s] << ", " << maxs[s] << ")\n";
       }
       std::cout << '\n';

@@ -18,7 +18,7 @@ class Analysis : public Observer {
       Observable * log,
       specie_vec const& species_vector,
       csvw * csv_out,
-      int min, int max,
+      unsigned min_cell, unsigned max_cell,
       Real start_time, Real end_time
     );
 
@@ -36,7 +36,7 @@ class Analysis : public Observer {
 
     Real start_time, end_time;
 
-    int min, max;
+    unsigned min, max;
 
     int time;
 

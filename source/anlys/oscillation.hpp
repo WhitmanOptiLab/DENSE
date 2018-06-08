@@ -55,19 +55,19 @@ public:
 	*/
 	OscillationAnalysis(Observable *dLog, RATETYPE interval,
                         RATETYPE range, specie_vec const& pcfSpecieOption,
-                        csvw* pnFileOut, int min_cell, int max_cell,
-                        RATETYPE startT, RATETYPE endT) :
-            Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,startT,endT),
+                        csvw* pnFileOut, unsigned min_cell, unsigned max_cell,
+                        RATETYPE start_time, RATETYPE end_time) :
+            Analysis(dLog,pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
-        for (int i = 0; i < ucSpecieOption.size(); ++i)
+        for (std::size_t i = 0; i < ucSpecieOption.size(); ++i)
         {
             windows.emplace_back();
             peaksAndTroughs.emplace_back();
             bst.emplace_back();
             amplitudes.emplace_back();
             periods.emplace_back();
-            for (int c = min; c < max; ++c){
+            for (unsigned c = min; c < max; ++c){
                 Queue q(range_steps);
                 std::vector<crit_point> v;
                 std::multiset<RATETYPE> BST;
@@ -104,11 +104,11 @@ public:
 class CorrelationAnalysis : public Analysis {
 
 	CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
-            int mn, int mx, RATETYPE startT, RATETYPE endT) :
-        Analysis(dLog,pcfSpecieOption, 0, mn,mx,startT,endT) {
+            unsigned min_cell, unsigned max_cell, Real start_time, Real end_time) :
+        Analysis(dLog,pcfSpecieOption, 0, min_cell, max_cell, start_time, end_time) {
 	}
 
-	void update(ContextBase& start){
+	void update(ContextBase& start) {
 	}
 
 	bool pearsonCorrelate();

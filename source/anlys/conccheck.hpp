@@ -12,25 +12,25 @@ class ConcentrationCheck : public Analysis {
   public:
     ConcentrationCheck (
       Observable *data_source,
-      int min, int max,
+      unsigned min_cell, unsigned max_cell,
       Real lowerB, Real upperB,
-      Real startT, Real endT,
+      Real start_time, Real end_time,
       specie_id t_specie = static_cast<specie_id>(-1)
     ) :
-      Analysis(data_source, min, max, startT, endT),
+      Analysis(data_source, min_cell, max_cell, start_time, end_time),
       target_specie(t_specie),
       lower_bound(lowerB), upper_bound(upperB) {
     };
 
     void update (ContextBase & start) override {
-        for (int c = min; c < max; ++c) {
+        for (unsigned c = min; c < max; ++c) {
             if (target_specie > -1) {
                 Real concentration = start.getCon(target_specie);
                 if (con < lower_bound || con > upper_bound) {
                     subject->abort();
                 }
             } else {
-                for (int s = 0; s < NUM_SPECIES; ++s){
+                for (unsigned s = 0; s < NUM_SPECIES; ++s){
                     Real con = start.getCon((specie_id) s);
                     if (con<lower_bound || con>upper_bound) {
                         subject->abort();

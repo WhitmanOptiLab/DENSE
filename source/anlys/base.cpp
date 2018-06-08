@@ -4,11 +4,11 @@ Analysis::Analysis (
   Observable * log,
   specie_vec const& species_vector,
   csvw * csv_out,
-  int min, int max,
+  unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
 ) :
-  min{min},
-  max{max},
+  min{min_cell},
+  max{max_cell},
   start_time{start_time},
   end_time{end_time},
   time{0},
