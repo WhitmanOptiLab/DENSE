@@ -12,9 +12,9 @@ BasicAnalysis::BasicAnalysis (
   Real start_time, Real end_time
 ) :
   Analysis(log, species_vector, csv_writer, min_cell, max_cell, start_time, end_time),
-  mins(ucSpecieOption.size(), std::numeric_limits<Real>::infinity()),
-  maxs(ucSpecieOption.size(), Real{0}),
-  means(ucSpecieOption.size(), Real{0}),
+  mins(observed_species_.size(), std::numeric_limits<Real>::infinity()),
+  maxs(observed_species_.size(), Real{0}),
+  means(observed_species_.size(), Real{0}),
   mins_by_context(max - min, mins),
   maxs_by_context(max - min, maxs),
   means_by_context(max - min, means) {
@@ -22,8 +22,8 @@ BasicAnalysis::BasicAnalysis (
 
 void BasicAnalysis::update (ContextBase & begin) {
   for (unsigned cell_no = min; cell_no < max; ++cell_no) {
-    for (std::size_t i = 0; i < ucSpecieOption.size(); ++i) {
-  		Real concentration = begin.getCon(ucSpecieOption[i]);
+    for (std::size_t i = 0; i < observed_species_.size(); ++i) {
+  		Real concentration = begin.getCon(observed_species_[i]);
       mins[i] = std::min(concentration, mins[i]);
       maxs[i] = std::max(concentration, maxs[i]);
       means[i] += concentration;
@@ -51,7 +51,7 @@ void BasicAnalysis::finalize () {
 void BasicAnalysis::show () {
   if (csv_out) {
     *csv_out << "\n\ncells " << min << '-' << max << ',';
-    for (specie_id species : ucSpecieOption) {
+    for (specie_id species : observed_species_) {
       *csv_out << specie_str[species] << ",";
     }
 
@@ -72,8 +72,8 @@ void BasicAnalysis::show () {
   } else {
     for (unsigned i = min; i < max; ++i) {
       std::cout << "Cell " << i << " (min, avg, max)\n";
-      for (std::size_t s = 0; s < ucSpecieOption.size(); ++s) {
-        std::cout << specie_str[ucSpecieOption[s]] << ": (" << mins[s] << ", " << means[s] << ", " << maxs[s] << ")\n";
+      for (std::size_t s = 0; s < observed_species_.size(); ++s) {
+        std::cout << specie_str[observed_species_[s]] << ": (" << mins[s] << ", " << means[s] << ", " << maxs[s] << ")\n";
       }
       std::cout << '\n';
     }

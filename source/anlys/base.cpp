@@ -12,7 +12,7 @@ Analysis::Analysis (
   start_time{start_time},
   end_time{end_time},
   time{0},
-  ucSpecieOption(species_vector),
+  observed_species_{species_vector},
   csv_out(csv_out) {
   subscribe_to(*log);
 };
