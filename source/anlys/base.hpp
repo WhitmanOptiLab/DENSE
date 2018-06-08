@@ -7,18 +7,10 @@
 
 #include <memory>
 
-
-/// Observer that restricts updates to a specific range of cells and times
-/// Used as a stepping-stone to refactoring the Observer/Observable interface
-class PickyObserver : public Observer {
-
-};
-
-
 /// Superclass for Analysis Objects
 /// - observes passed "Observable"
 /// - does not implement any analysis
-class Analysis : public PickyObserver {
+class Analysis : public Observer {
 
   public:
 
