@@ -23,6 +23,7 @@ endif()
 
 find_package(CUDA 6.0 QUIET)
 if (${CUDA_FOUND})
+  SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
   set(CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
   set(CUDA_NVCC_FLAGS "-arch=sm_30;--relocatable-device-code=true" )
   if (CMAKE_VERSION VERSION_LESS 3.0.2)
