@@ -34,6 +34,6 @@ void PickyObserver::when_updated_by(Observable & observable) {
   update(begin);
 }
 
-void PickyObserver::when_unsubscribed_from(Observable & observable) {
+void Analysis::when_unsubscribed_from(Observable & observable) {
   finalize();
 }
