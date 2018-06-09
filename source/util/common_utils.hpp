@@ -14,8 +14,7 @@
 // converts comma seperated list of specie names to specie_vec
 specie_vec str_to_species(std::string pcfSpecies);
 
-using Real = double;
-using RATETYPE = Real;
+#include "Real.hpp"
 
 template <typename ValueT, std::size_t Size>
 class CPUGPU_TempArray {
