@@ -35,7 +35,7 @@ class Analysis : public Observer {
 
     Real start_time, end_time;
 
-    unsigned min, max;
+    unsigned const min, max;
 
     unsigned time = 0;
 
