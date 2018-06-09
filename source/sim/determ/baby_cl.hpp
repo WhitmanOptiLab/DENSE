@@ -1,12 +1,11 @@
 #ifndef SIM_DETERM_BABY_CL_HPP
 #define SIM_DETERM_BABY_CL_HPP
+
 #include "util/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 
 using namespace std;
-
-#include <cstddef>
 
 class simulation_determ;
 
@@ -128,15 +127,15 @@ protected:
         if (_array){
             delete[] _array;
         }
-        _array= NULL;
+        _array = nullptr;
     }
 
     void allocate_array(){
         if (_total_length >0){
-            _array= new RATETYPE[_total_length];
+            _array = new RATETYPE[_total_length];
         }
         else{
-            _array= NULL;
+            _array = nullptr;
         }
     }
 
