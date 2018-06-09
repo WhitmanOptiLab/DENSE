@@ -82,6 +82,18 @@ class Observer {
     /// \complexity Constant.
     std::vector<std::reference_wrapper<Observable>> const& subscriptions ();
 
+    bool operator==(Observer & other) const noexcept {
+      return this == &other;
+    }
+
+    bool operator!=(Observer & other) const noexcept {
+      return !operator==(other);
+    }
+
+    bool operator<(Observer & other) const noexcept {
+      return this < &other;
+    }
+
   protected:
 
     virtual void when_subscribed_to (Observable &) {};
