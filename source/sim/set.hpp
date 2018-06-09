@@ -157,7 +157,7 @@ class simulation_set{
 
 
             // For each set, load data to _ps and _sim_set
-            for (unsigned int i = 0; i < _ps.size(); i++)
+            for (std::size_t i = 0; i < _ps.size(); i++)
             {
                 // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
                 if (step_size == 0.0)
