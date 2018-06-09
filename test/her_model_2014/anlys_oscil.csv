@@ -1,0 +1,36 @@
+# CSV Specification
+#   Ignored by the file readers are:
+#     (1) Empty cells / Blank rows / Whitespace
+#     (2) Comment whose rows always begin with a '#'
+#         For best results delete all comments before loading this file into any Excel-like program.
+#     (3) Any cell which does not conform to the scientific notation format 3.14e-41 or simple whole numbers and decimals
+#         Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation and can technically be modified by the users as they wish.
+#         It is futile to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order for it to be parsed correctly.
+# None of these comments include commas because it messes with the column widths when loaded into Excel-like programs.
+# For more information and examples see README.md section 2.2.0
+
+
+cell 0,ph1,mh1,md,
+avg peak,156.177,75.2641,11.3275,
+avg amp,63.5295,9.5659,4.34581,
+avg per,24.31,21.5775,21.9667,
+
+cell 1,ph1,mh1,md,
+avg peak,156.177,75.2641,11.3275,
+avg amp,63.5295,9.5659,4.34581,
+avg per,24.31,21.5775,21.9667,
+
+cell 2,ph1,mh1,md,
+avg peak,156.177,75.2641,11.3275,
+avg amp,63.5295,9.5659,4.34581,
+avg per,24.31,21.5775,21.9667,
+
+cell 3,ph1,mh1,md,
+avg peak,156.177,75.2641,11.3275,
+avg amp,63.5295,9.5659,4.34581,
+avg per,24.31,21.5775,21.9667,
+
+cell 4,ph1,mh1,md,
+avg peak,156.177,75.2641,11.3275,
+avg amp,63.5295,9.5659,4.34581,
+avg per,24.31,21.5775,21.9667,
