@@ -1,8 +1,7 @@
 #ifndef CORE_MODEL_HPP
 #define CORE_MODEL_HPP
 
-#include <cstdlib>
-#include <iostream>
+#include <stdexcept>
 
 #include "reaction.hpp"
 #include "specie.hpp"
@@ -30,7 +29,7 @@ public:
             case name: return reaction_##name;
             #include "reactions_list.hpp"
             #undef REACTION
-            default: std::cout<<"exiting"<<'\n'; std::exit(-1);
+            default: throw std::out_of_range("Invalid reaction ID: " + std::to_string(rid));
         }
     }
 
