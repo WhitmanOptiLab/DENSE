@@ -6,7 +6,6 @@
 #include "determ_cuda.hpp"
 #include "sim/cell_param.hpp"
 #include <iostream>
-using namespace std;
 
 IF_CUDA(__host__ __device__)
 RATETYPE simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay) const{
