@@ -11,8 +11,8 @@
 #define STATIC_VAR IF_CUDA(__managed__)
 
 #include "core/specie.hpp"
-#include <string>
-
+// converts comma seperated list of specie names to specie_vec
+specie_vec str_to_species(std::string pcfSpecies);
 
 using Real = double;
 using RATETYPE = Real;
@@ -26,8 +26,5 @@ class CPUGPU_TempArray {
   IF_CUDA(__host__ __device__)
   ValueT const& operator[] (std::size_t i) const { return array[i]; };
 };
-
-// converts comma seperated list of specie names to specie_vec
-specie_vec str_to_species(std::string pcfSpecies);
 
 #endif
