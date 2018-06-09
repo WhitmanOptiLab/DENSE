@@ -4,8 +4,8 @@
 #include <functional>
 #include <vector>
 
-#include "context.hpp"
 
+class ContextBase;
 
 class Observer;
 

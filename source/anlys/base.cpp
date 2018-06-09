@@ -1,4 +1,5 @@
 #include "base.hpp"
+#include "core/context.hpp"
 
 Analysis::Analysis (
   specie_vec const& species_vector,
