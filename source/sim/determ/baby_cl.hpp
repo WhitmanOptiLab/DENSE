@@ -5,10 +5,7 @@
 #include "core/specie.hpp"
 #include "core/model.hpp"
 
-using namespace std;
-
 class simulation_determ;
-
 
 class baby_cl {
   protected:
