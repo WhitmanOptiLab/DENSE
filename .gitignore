@@ -25,6 +25,8 @@ build/source/
 
 build/test/
 
+build/Testing/
+
 build/CMakeCache\.txt
 
 build/Makefile
@@ -38,3 +40,6 @@ build/param_pert_template\.csv
 build/param_sets_template\.csv
 
 my-build/
+
+
+docs/
