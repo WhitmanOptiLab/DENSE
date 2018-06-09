@@ -227,7 +227,7 @@ int main(int argc, char* argv[])
                                   "_", '0', i, 4, "."));
 
                   anlysAmbig.emplace_back(new OscillationAnalysis(
-                              simsAmbig[i].get(), anlys_intvl, win_range,
+                              *simsAmbig[i], anlys_intvl, win_range,
                               specie_option, csvwa,
                               cell_start, cell_end,
                               time_start, time_end));
@@ -250,7 +250,7 @@ int main(int argc, char* argv[])
           arg_parse::get<std::string>("v", "time-col", 0, false),
           cell_total, 0 /*cell_start*/,
           cell_total /*cell_end*/,
-          default_specie_option, simsAmbig[i].get() ));
+          default_specie_option, *simsAmbig[i] ));
       }
     }
   }
