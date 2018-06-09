@@ -13,4 +13,7 @@ add_executable(her2014_param_search search_main.cpp)
 
 target_link_libraries(her2014_param_search her2014_param_search_lib her2014_simulation_lib)
 
+enable_testing()
 
+add_test(her_test her2014_param_search)
+set_test_properties(her_test PROPERTIES PASS_REGULAR_EXPRESSION "")
