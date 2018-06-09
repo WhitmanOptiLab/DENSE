@@ -1,7 +1,7 @@
 #ifndef IO_CSVW_HPP
 #define IO_CSVW_HPP
 
-#include "util/common_utils.hpp" // For "using RATETYPE = float;"
+#include "util/Real.hpp"
 
 #include <fstream>
 #include <string>
