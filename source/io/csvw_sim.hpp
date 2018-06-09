@@ -16,13 +16,10 @@ public:
             const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
             specie_vec const& pcfSpecieOption, Observable *pnObl);
     virtual ~csvw_sim();
-
-    void finalize();
     void update(ContextBase& pfStart);
     
   protected:
     void when_updated_by(Observable & observable) override;
-    void when_unsubscribed_from(Observable & observable) override;
 
 private:
     unsigned int ilCell;

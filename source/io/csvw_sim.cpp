@@ -65,20 +65,11 @@ csvw_sim::~csvw_sim()
 {
 }
 
-
-void csvw_sim::finalize()
-{
-}
-
 void csvw_sim::when_updated_by(Observable & observable) {
   if (observable.t < icTimeStart || observable.t >= icTimeEnd) return;
   ContextBase & begin = *observable.context;
   begin.set(icCellStart);
   update(begin);
-}
-
-void csvw_sim::when_unsubscribed_from(Observable & observable) {
-  finalize();
 }
 
 void csvw_sim::update(ContextBase& pfStart)
