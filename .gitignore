@@ -43,3 +43,5 @@ my-build/
 
 
 docs/
+
+build/cuda_simulation
