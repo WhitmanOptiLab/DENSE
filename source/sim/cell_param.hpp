@@ -3,7 +3,6 @@
 
 //#include <cuda_runtime_api.h>
 //#include <cuda.h>
-#include <iostream>
 //#include "simulation.hpp"
 #include "util/common_utils.hpp"
 #include "core/reaction.hpp"
