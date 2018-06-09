@@ -1,7 +1,6 @@
 #ifndef REACTION_INITS_HPP
 #define REACTION_INITS_HPP
 
-#include "util/common_utils.hpp"
 #include "core/model.hpp"
 
 #define REACTION(name) \
