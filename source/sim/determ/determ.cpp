@@ -5,7 +5,6 @@
 #include <iostream>
 
 typedef std::numeric_limits<double> dbl;
-using namespace std;
 
 void simulation_determ::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
@@ -15,15 +14,15 @@ void simulation_determ::simulate(){
         notify(context);
 
         if (abort_signaled){
-            cout<<"early abort"<<endl;
+            std::cout << "early abort\n";
             finalize();
             return;
         }
-        
-        for (int i = 0; i<total_step; i++) {
+
+        for (int i = 0; i < total_step; i++) {
 			execute();
 		}
-        t+=analysis_gran;
+        t += analysis_gran;
 	}
 	finalize();
 }
@@ -33,12 +32,12 @@ void simulation_determ::execute(){
     //Rates rates;
     //int steps_elapsed = steps_split; // Used to determine when to split a column of cells
     //update_rates(rs, active_start); // Update the active rates based on the base rates, perturbations, and gradients
-    
+
     //int j;
     //bool past_induction = false; // Whether we've passed the point of induction of knockouts or overexpression
     //bool past_recovery = false; // Whether we've recovered from the knockouts or overexpression
-        
-    
+
+
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
     //cout.precision(dbl::max_digits10);
@@ -65,17 +64,17 @@ void simulation_determ::execute(){
         exit(0);
     }
      */
-    
+
     // Update the active record data and split counter
     //steps_elapsed++;
     //baby_cl.active_start_record[baby_j] = active_start;
     //baby_cl.active_end_record[baby_j] = active_end;
-    
+
     _j++;
     //Advance the current timestep
     _baby_cl.advance();
     //print the concentration level of mh1 for cell 1
-   
+
 }
 
 void simulation_determ::initialize(){

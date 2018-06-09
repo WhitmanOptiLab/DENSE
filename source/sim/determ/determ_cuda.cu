@@ -6,9 +6,6 @@
 #include <limits>
 #include <iostream>
 
-typedef std::numeric_limits<double> dbl;
-using namespace std;
-
 void simulation_cuda::initialize(){
     simulation_determ::initialize();
     _baby_cl_cuda.initialize();
@@ -34,13 +31,13 @@ void simulation_cuda::simulate_cuda(){
 
     //cudaDeviceSetLimit(cudaLimitStackSize, 65536);
     //Run kernel
-    cout.precision(dbl::max_digits10);
+    std::cout.precision(std::numeric_limits<Real>::max_digits10);
     for (int c=0; c<analysis_chunks; c++){
     	for (int i=0;i<total_step;i++){
-        	cout<< _j<< " "<<_baby_cl_cuda[ph11][0][0]<<endl;
+        	std::cout << _j << " " << _baby_cl_cuda[ph11][0][0] << '\n';
         	cudasim_execute<<<dimGrid, dimBlock>>>(*this);
 
-        	cudaDeviceSynchronize(); //Required to be able to access managed 
+        	cudaDeviceSynchronize(); //Required to be able to access managed
                 	                 // GPU data
     	}
     }
@@ -48,9 +45,8 @@ void simulation_cuda::simulate_cuda(){
     check(cudaDeviceSynchronize());
     //convert back to CPU
     if (cudaPeekAtLastError() != cudaSuccess) {
-        cout << "Kernel launch error: " << cudaPeekAtLastError() << "\n";
+        std::cout << "Kernel launch error: " << cudaPeekAtLastError() << '\n';
     }
 
     cudaDeviceSynchronize();
 }
-
