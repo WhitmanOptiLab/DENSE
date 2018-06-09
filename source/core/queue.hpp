@@ -84,12 +84,12 @@ public:
 		return current;
 	}
 
-	void print(){
-		std::cout<<"["<<contents[0];
-		for (int i = 1; i < size; ++i){
-			std::cout<<","<<contents[i];
+	friend std::ostream & operator << (std::ostream & out, Queue & queue) {
+		out << '[' << queue.contents[0];
+		for (int i = 1; i < queue.size; ++i) {
+			out << ',' << queue.contents[i];
 		}
-		std::cout<<"]"<<'\n';
+		out << "]\n";
 	}
 };
 
