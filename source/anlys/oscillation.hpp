@@ -53,14 +53,14 @@ public:
 	* range: required local range of a peak or trough in minutes.
 	* specieID: specie to analyze.
 	*/
-	OscillationAnalysis(Observable *dLog, RATETYPE interval,
+	OscillationAnalysis(Observable & observable, RATETYPE interval,
                         RATETYPE range, specie_vec const& pcfSpecieOption,
                         csvw* pnFileOut, unsigned min_cell, unsigned max_cell,
                         RATETYPE start_time, RATETYPE end_time) :
             Analysis(pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
-      subscribe_to(*dLog);
+      subscribe_to(observable);
         for (std::size_t i = 0; i < observed_species_.size(); ++i)
         {
             windows.emplace_back();
