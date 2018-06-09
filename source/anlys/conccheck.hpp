@@ -2,6 +2,7 @@
 #define ANLYS_CONCCHECK_HPP
 
 #include "base.hpp"
+#include "core/context.hpp"
 
 class ConcentrationCheck : public Analysis {
 

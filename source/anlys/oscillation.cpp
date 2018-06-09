@@ -1,4 +1,5 @@
 #include "oscillation.hpp"
+#include "core/context.hpp"
 
 /*
  * FINALIZE
