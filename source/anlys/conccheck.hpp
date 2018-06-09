@@ -11,7 +11,7 @@ class ConcentrationCheck : public Analysis {
 
   public:
     ConcentrationCheck (
-      Observable *data_source,
+      Observable & observable,
       unsigned min_cell, unsigned max_cell,
       Real lowerB, Real upperB,
       Real start_time, Real end_time,
@@ -20,7 +20,7 @@ class ConcentrationCheck : public Analysis {
       Analysis(min_cell, max_cell, start_time, end_time),
       target_specie(t_specie),
       lower_bound(lowerB), upper_bound(upperB) {
-      subscribe_to(*data_source);
+      subscribe_to(observable);
     };
 
     void update (ContextBase & start) override {
