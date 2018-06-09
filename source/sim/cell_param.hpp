@@ -1,8 +1,6 @@
 #ifndef SIM_CELL_PARAM_HPP
 #define SIM_CELL_PARAM_HPP
 
-
-#include <stdlib.h>
 //#include <cuda_runtime_api.h>
 //#include <cuda.h>
 #include <iostream>
@@ -23,8 +21,8 @@ public:
     bool _cuda;
     T *_array;
     simulation_base const& _sim;
-    
-    
+
+
     class cell{
     public:
         IF_CUDA(__host__ __device__)
@@ -39,7 +37,7 @@ public:
         }
         T *_array;
     };
-    
+
     IF_CUDA(__host__ __device__)
     cell_param(simulation_base const& sim, int ncells)
     :_height(N),_width(ncells),_sim(sim),_cuda(false){
@@ -49,17 +47,17 @@ public:
     ~cell_param() {
       dealloc_array();
     }
-    
+
     IF_CUDA(__host__ __device__)
     cell operator[](int i){
         return cell(_array + _width * i);
     }
-    
+
     IF_CUDA(__host__ __device__)
     const cell operator[](int i) const{
         return cell(_array + _width * i);
     }
-    
+
     void initialize_params(param_set const& ps, RATETYPE normfactor = 1.0);
     int height() const {return _height;}
     int width() const {return _width;}
@@ -76,17 +74,17 @@ public:
         if (_array){
             delete[] _array;
         }
-        _array= NULL;
+        _array = nullptr;
     }
-    
+
     IF_CUDA(__host__ __device__)
     void allocate_array(){
         if (_width * _height >0){
-            _array= new T[_height * _width];
-            //if (_array == NULL){std::cout<<"ERROR"<<'\n'; exit(EXIT_MEMORY_ERROR);}
+            _array = new T[_height * _width];
+            //if (_array == nullptr){std::cout<<"ERROR"<<'\n'; exit(EXIT_MEMORY_ERROR);}
         }
         else {
-            _array= NULL;
+            _array = nullptr;
         }
     }
 
