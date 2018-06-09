@@ -5,7 +5,6 @@
 #include "reaction.hpp"
 
 #include <string>
-#include <utility>
 
 
 enum { NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS };
