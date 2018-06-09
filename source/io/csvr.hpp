@@ -1,7 +1,7 @@
 #ifndef IO_CSVR_H
 #define IO_CSVR_H
 
-#include "util/common_utils.hpp" // For "using RATETYPE = float;"
+#include "util/Real.hpp"
 
 #include <fstream>
 #include <string>
