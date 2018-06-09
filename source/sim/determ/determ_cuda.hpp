@@ -9,7 +9,6 @@
 #include "determ.hpp"
 #include <vector>
 #include <array>
-using namespace std;
 
 #define check(RESULT) do {                      \
       check(RESULT, __FILE__, __LINE__);          \
@@ -95,7 +94,7 @@ class simulation_cuda: public simulation_determ {
     void initialize();
 
     IF_CUDA(__host__ __device__)
-    void execute_one(int k) { 
+    void execute_one(int k) {
         // Iterate through each extant cell or context
         //if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
             // Calculate the cell indices at the start of each mRNA and protein's dela
@@ -111,7 +110,7 @@ class simulation_cuda: public simulation_determ {
             _baby_cl_cuda.advance();
         }
     }
-    
+
     void simulate_cuda();
     simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
         simulation_determ(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
@@ -136,4 +135,3 @@ class simulation_cuda: public simulation_determ {
     }
 };
 #endif
-

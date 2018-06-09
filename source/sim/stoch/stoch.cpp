@@ -11,7 +11,6 @@
 #include <set>
 
 typedef std::numeric_limits<double> dbl;
-using namespace std;
 
 /*
  * SIMULATE
@@ -22,7 +21,7 @@ using namespace std;
 */
 void simulation_stoch::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
-	
+
 	for (int a=1; a<=analysis_chunks; a++){
 		ContextStoch context(*this,0);
 		notify(context);
@@ -35,7 +34,7 @@ void simulation_stoch::simulate(){
 
 		while (littleT<analysis_gran && (t+littleT)<time_total){
             RATETYPE tau = generateTau();
-			
+
             if ((t+littleT+tau>getSoonestDelay())&&NUM_DELAY_REACTIONS>0){
                 executeDelayRXN();
 			}
@@ -44,8 +43,8 @@ void simulation_stoch::simulate(){
 			}
 		}
         t += littleT;
-        if (a%int(1.0/analysis_gran)==0)
-            cout<<"time="<<t<<endl;
+        if (a % int(1.0/analysis_gran) == 0)
+            std::cout << "time=" << t << '\n';
 	}
 	finalize();
 }
@@ -57,8 +56,8 @@ void simulation_stoch::simulate(){
 RATETYPE simulation_stoch::generateTau(){
 	ContextStoch c(*this, 0);
 	RATETYPE propensity_sum = c.getTotalPropensity();
-	RATETYPE u = getRandVariable();	
-	RATETYPE tau = -(log(u))/propensity_sum;
+	RATETYPE u = getRandVariable();
+	RATETYPE tau = -(std::log(u))/propensity_sum;
 
 	return tau;
 }
@@ -75,7 +74,7 @@ RATETYPE simulation_stoch::getSoonestDelay(){
         dTime = e.time;
     }
     else{
-        dTime = FLT_MAX;
+        dTime = std::numeric_limits<Real>::max();
     }
 	return dTime;
 }
@@ -88,12 +87,12 @@ RATETYPE simulation_stoch::getSoonestDelay(){
 */
 void simulation_stoch::executeDelayRXN(){
 	event delay_rxn = *event_schedule.begin();
-	
+
     ContextStoch c(*this, delay_rxn.cell);
 	fireReaction(&c,delay_rxn.rxn);
-    
+
     littleT = delay_rxn.time - t;
-	
+
     event_schedule.erase(delay_rxn);
 }
 
@@ -102,7 +101,7 @@ void simulation_stoch::executeDelayRXN(){
  * return "u": a random variable between 0.0 and 1.0
 */
 RATETYPE simulation_stoch::getRandVariable(){
-	uniform_real_distribution<RATETYPE> distribution(0.0,1.0);
+	std::uniform_real_distribution<RATETYPE> distribution(0.0,1.0);
 	RATETYPE u = distribution(generator);
 	return u;
 }
@@ -113,7 +112,7 @@ RATETYPE simulation_stoch::getRandVariable(){
  * arg "tau": timestep to leap forward by
 */
 void simulation_stoch::tauLeap(RATETYPE tau){
-	
+
 	RATETYPE u = getRandVariable();
 
 	ContextStoch context(*this, 0);
@@ -143,7 +142,7 @@ void simulation_stoch::fireOrSchedule(int c, reaction_id rid){
 
 	if (dri!=NUM_DELAY_REACTIONS){
 		RATETYPE delay = x.getDelay(dri);
-		
+
 		event futureRXN;
 		futureRXN.time = t + littleT + delay;
 		futureRXN.rxn = rid;
@@ -178,21 +177,21 @@ void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
  * precondition: propensities and concs are empty vectors
 */
 void simulation_stoch::initialize(){
-	
+
     simulation_base::initialize();
 
     initPropensityNetwork();
 
     for (int c = 0; c < _cells_total; c++) {
-      vector<int> species;
-      vector<RATETYPE> props;
+      std::vector<int> species;
+      std::vector<RATETYPE> props;
       concs.push_back(species);
       propensities.push_back(props);
       for (int s = 0; s < NUM_SPECIES; s++) {
         concs[c].push_back(0);
       }
     }
-    initPropensities(); 
+    initPropensities();
 }
 
 /*
@@ -215,13 +214,13 @@ void simulation_stoch::initPropensities(){
  * finds inter- and intracellular reactions that have rates affected by the firing of each rxn
 */
 void simulation_stoch::initPropensityNetwork(){
-   
-    set<specie_id> neighbor_dependencies[NUM_REACTIONS];
-    set<specie_id> dependencies[NUM_REACTIONS];
-    
+
+    std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
+    std::set<specie_id> dependencies[NUM_REACTIONS];
+
     class DependanceContext {
       public:
-        DependanceContext(set<specie_id>& neighbordeps_tofill,set<specie_id>& deps_tofill) : 
+        DependanceContext(std::set<specie_id>& neighbordeps_tofill,std::set<specie_id>& deps_tofill) :
             interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
         RATETYPE getCon(specie_id sp, int delay=0) const {
             intradeps_tofill.insert(sp);
@@ -234,13 +233,13 @@ void simulation_stoch::initPropensityNetwork(){
         RATETYPE getRate(reaction_id rid) const { return 0.0; };
         RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
         RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const { 
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const {
             interdeps_tofill.insert(sp);
             return 0.0;
         };
       private:
-        set<specie_id>& interdeps_tofill;
-        set<specie_id>& intradeps_tofill;
+        std::set<specie_id>& interdeps_tofill;
+        std::set<specie_id>& intradeps_tofill;
     };
 
     #define REACTION(name) \
@@ -251,8 +250,8 @@ void simulation_stoch::initPropensityNetwork(){
 
     #define REACTION(name) \
     for (int n=0; n<NUM_REACTIONS; n++) { \
-        const set<specie_id>& intradeps = dependencies[n]; \
-        const set<specie_id>& interdeps = neighbor_dependencies[n]; \
+        const std::set<specie_id>& intradeps = dependencies[n]; \
+        const std::set<specie_id>& interdeps = neighbor_dependencies[n]; \
         std::set<specie_id>::iterator intra = intradeps.begin(); \
         std::set<specie_id>::iterator inter = interdeps.begin(); \
         bool intraRelated = false; \
@@ -283,4 +282,3 @@ void simulation_stoch::initPropensityNetwork(){
     #include "reactions_list.hpp"
     #undef REACTION
 }
-

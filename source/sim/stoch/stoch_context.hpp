@@ -1,4 +1,4 @@
-// A context defines a locale in which reactions take place and species 
+// A context defines a locale in which reactions take place and species
 //   reside
 #ifndef SIM_STOCH_STOCH_CONTEXT_HPP
 #define SIM_STOCH_STOCH_CONTEXT_HPP
@@ -7,7 +7,6 @@
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
 #include <iostream>
-using namespace std;
 
 /*
  * CALCULATENEIGHBORAVG
@@ -21,7 +20,7 @@ RATETYPE simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int 
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation.concs[_simulation._neighbors[_cell][i]][sp];
     }
-    RATETYPE avg = sum/_simulation._numNeighbors[_cell]; 
+    RATETYPE avg = sum/_simulation._numNeighbors[_cell];
     return avg;
 }
 
@@ -76,7 +75,7 @@ RATETYPE simulation_stoch::ContextStoch::getTotalPropensity(){
  * randomly chooses a reaction biased by their propensities
  * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
  * return "j": the index of the reaction chosen.
-*/ 
+*/
 IF_CUDA(__host__ __device__)
 int simulation_stoch::ContextStoch::chooseReaction(RATETYPE propensity_portion){
     RATETYPE sum=0;
@@ -84,14 +83,14 @@ int simulation_stoch::ContextStoch::chooseReaction(RATETYPE propensity_portion){
     for (c=0; c<_simulation._cells_total; c++){
       for (s=0; s<NUM_REACTIONS; s++){
         sum+=_simulation.propensities[c][s];
-	    
+
         if (sum>propensity_portion){
             int j = (c*NUM_REACTIONS)+s;
             return j;
 	    }
       }
     }
-    int j = ((c-1)*NUM_REACTIONS)+(s-1); 
+    int j = ((c-1)*NUM_REACTIONS)+(s-1);
     return j;
 }
 

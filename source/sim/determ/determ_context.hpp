@@ -8,8 +8,6 @@
 #include "sim/cell_param.hpp"
 #include <iostream>
 
-using namespace std;
-
 IF_CUDA(__host__ __device__)
 RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations

@@ -11,15 +11,13 @@
 #include "core/reaction.hpp"
 #include "baby_cl.hpp"
 
-using namespace std;
-
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
 
 typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
 class simulation_determ : public simulation_base {
-  
+
  public:
     class Context : public ContextBase {
         //FIXME - want to make this private at some point
@@ -99,16 +97,15 @@ class simulation_determ : public simulation_base {
 
   int _j;
   int _num_history_steps; // how many steps in history are needed for this numerical method
-    
-  simulation_determ(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, 
+
+  simulation_determ(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
     simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~simulation_determ() {}
   void execute();
   void initialize();
-    
+
     void simulate();
 };
 #endif
-

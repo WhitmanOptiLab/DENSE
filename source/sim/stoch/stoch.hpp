@@ -13,9 +13,6 @@
 #include <set>
 #include <random>
 
-using namespace std;
-
-
 /*
  * STOCHASTIC SIMULATOR:
  * superclasses: simulation_base, Observable
@@ -36,20 +33,20 @@ class simulation_stoch : public simulation_base {
     };
 
     //"event_schedule" is a set ordered by time of delay reactions that will fire
-    multiset<event> event_schedule;
+    std::multiset<event> event_schedule;
 
     //"concs" stores current concentration levels for every species in every cell
-    vector<vector<int> > concs;
+    std::vector<std::vector<int> > concs;
     //"t" is current simulation time
     double littleT;
     //"propensities" stores probability of each rxn firing, calculated from active rates
-    vector<vector<RATETYPE> > propensities;
+    std::vector<std::vector<RATETYPE> > propensities;
     //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
-    vector<reaction_id> propensity_network[NUM_REACTIONS];
+    std::vector<reaction_id> propensity_network[NUM_REACTIONS];
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
-    vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
+    std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
     //random number generator
-    default_random_engine generator;
+    std::default_random_engine generator;
 
     RATETYPE generateTau();
     RATETYPE getSoonestDelay();
@@ -75,7 +72,7 @@ class simulation_stoch : public simulation_base {
         double _avg;
 
       public:
-        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;	
+        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
@@ -134,7 +131,7 @@ class simulation_stoch : public simulation_base {
     simulation_stoch(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE analysis_interval, RATETYPE sim_time, int seed):
         simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
-        generator(default_random_engine(seed)){}
+        generator(std::default_random_engine(seed)){}
 
     //Deconstructor
     virtual ~simulation_stoch() {}

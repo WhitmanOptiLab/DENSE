@@ -167,7 +167,7 @@ int main(int argc, char* argv[])
   }
 
   // Ambiguous "analyzers" will either be analyses or output file logs
-  vector<std::unique_ptr<Observer>> anlysAmbig;
+  std::vector<std::unique_ptr<Observer>> anlysAmbig;
 
   // Analyses each with own file writer
   std::string config_file;

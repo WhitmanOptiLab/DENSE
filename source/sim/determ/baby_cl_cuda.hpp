@@ -6,8 +6,6 @@
 #include "baby_cl.hpp"
 #include <cuda.h>
 
-using namespace std;
-
 #include <cstddef>
 
 class baby_cl_cuda : public baby_cl {
