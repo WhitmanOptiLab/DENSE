@@ -41,7 +41,9 @@ void csvr_sim::sim_ct::set(int c)
 csvr_sim::csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVec) :
     csvr(pcfFileName)
 {
-    csvr::get_next(&iCellTotal);
+    int total;
+    csvr::get_next(&total);
+    iCellTotal = total;
     csvr::get_next(&iAnlysIntvl);
     csvr::get_next(&iTimeStart);
     csvr::get_next(&iTimeEnd);
@@ -54,12 +56,13 @@ csvr_sim::csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVe
     csvr::get_next(&iCellEnd);
 
     // like a bitwise & of pcfSpecieVec and what exists in the file
-    for (int i = 0, t; i < NUM_SPECIES; i++)
+    for (unsigned i = 0; i < NUM_SPECIES; i++)
     {
+        int t;
         csvr::get_next(&t);
         if (t > 0)
         {
-            for (int j = 0; j < pcfSpecieVec.size(); j++)
+            for (std::size_t j = 0; j < pcfSpecieVec.size(); j++)
             {
                 if (pcfSpecieVec[j] == (specie_id) i)
                 {
@@ -115,13 +118,13 @@ int csvr_sim::getCellEnd()
 
 void csvr_sim::run()
 {
-    int lCell = 0, lSpcVec = 0;
+    unsigned lCell = 0, lSpcVec = 0;
     csvr_sim::sim_ct hSCT;
     RATETYPE hRate;
 
     // Skip first column
     if (iTimeCol) csvr::get_next();
-    
+
     while (csvr::get_next(&hRate))
     {
         // Parse cells and push back maps of rows

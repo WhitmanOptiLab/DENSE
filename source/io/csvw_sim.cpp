@@ -74,7 +74,7 @@ void csvw_sim::when_updated_by(Observable & observable) {
 
 void csvw_sim::update(ContextBase& pfStart)
 {
-    for (int c = icCellStart; c < icCellEnd; ++c) {
+    for (unsigned c = icCellStart; c < icCellEnd; ++c) {
         if (icTimeColumn)
         {
             csvw::add_data(ilTime);

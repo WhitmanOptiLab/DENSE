@@ -99,7 +99,7 @@ class simulation_set{
                         //   gradient slope
                         RATETYPE tGradX1 = 0.0, tGradX2 = 0.0,
                                  tGradY1 = 0.0, tGradY2 = 0.0, tGradM = 0.0;
-                        for (int i = 0; i < NUM_REACTIONS; i++)
+                        for (std::size_t i = 0; i < NUM_REACTIONS; i++)
                         {
                             // Gradient defaults
                             // Helps prevent crashes in case gradient parsing fails
@@ -180,8 +180,8 @@ class simulation_set{
     }
 
     void simulate_sets(){
-        for (int i = 0; i < _sim_set.size(); i++){
-            _sim_set[i]->simulate();
+        for (auto & set : _sim_set) {
+            set->simulate();
         }
     }
 

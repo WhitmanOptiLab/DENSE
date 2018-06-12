@@ -180,7 +180,7 @@ int main(int argc, char* argv[])
               anlys; anlys = anlys->next)
       {
           std::string type = ezxml_attr(anlys, "type");
-          for (int i = 0; i < simsAmbig.size(); ++i)
+          for (std::size_t i = 0; i < simsAmbig.size(); ++i)
           {
               Real
                   cell_start = strtol(ezxml_child(anlys,

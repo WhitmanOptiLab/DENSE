@@ -32,7 +32,7 @@ namespace arg_parse
             pcfFlagShort = "-" + pcfFlagShort;
             pcfFlagLong = "--" + pcfFlagLong;
 
-            for (int i = 0; i < iArgVec.size(); i++)
+            for (std::size_t i = 0; i < iArgVec.size(); i++)
             {
                 if (iArgVec[i] == pcfFlagShort || iArgVec[i] == pcfFlagLong)
                 {
