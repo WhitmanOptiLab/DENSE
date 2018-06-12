@@ -32,36 +32,36 @@ namespace arg_parse
 {
     /**
      *  Initialize arg_parse
-     *  
+     *
      *  usage
      *      Must be called, ideally early in "int main(...)", before using "const T get(...)"
-     *  
+     *
      *  parameters
      *      pcArgc - argc of "int main(int argc, char *argv[])"
      *      pcArgv - argv of "int main(int argc, char *argv[])"
     */
     void init(int const& pcfArgc, char* pcfArgv[]);
-    
-    
+
+
     /**
      *  Get Command Line flag Value or Return Default Value
-     *  
+     *
      *  usage
      *      Anywhere in your program after init(...) is called, return the value proceeding "-pcFlagShort" or "--pcFlagLong"
      *      IMPORTANT!!! typename T must be either std::string, bool, int, RATETYPE, or specie_vec
      *      Second version of get<>() does not work with specie_vec typename
-     *  
+     *
      *  parameters
      *      pcFlagShort - short version of command line flag, do not include "-" at beginning
      *      pcFlagLong - long version of command line flag, do not include "--" at beginning
      *      pnPushTo - pointer to a variable whose value you want set to that of the argument
      *      pcfObligatory - if set to true and the flags aren't found, will output warning message saying that those flags are required
      *      pcDefault - default value to return if either pcFlagShort or pcFlagLong is not found
-     *  
+     *
      *  returns
      *      Value from command line in type T proceeding flag
      *      If typename is not of std::string, bool, int, or RATETYPE, prints an error to the command line and returns nullptr
-     *  
+     *
      *  notes
      *      BEFORE CALLING THIS FUNCTION, PLEASE CALL "arg_parse::init(...)"
      *      Flag Standards
@@ -80,6 +80,6 @@ namespace arg_parse
         return rVar;
     }
 
-};
+}
 
 #endif // ARG_PARSE_HPP

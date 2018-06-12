@@ -19,10 +19,10 @@ namespace color
         CYAN,
         WHITE
     };
-    
+
     void enable(bool const& pcfEnable);
     const std::string set(const unsigned int& pcfSetColor);
     const std::string clear();
-};
+}
 
 #endif // COLOR_HPP

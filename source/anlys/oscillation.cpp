@@ -30,7 +30,7 @@ void OscillationAnalysis::show () {
   {
       for (unsigned c = min; c < max; ++c)
       {
-          RATETYPE avg_peak[observed_species_.size()];
+          std::vector<RATETYPE> avg_peak(observed_species_.size());
           for (std::size_t s = 0; s < observed_species_.size(); ++s)
           {
               RATETYPE peak_count = 0;

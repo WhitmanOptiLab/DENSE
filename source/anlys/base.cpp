@@ -14,7 +14,7 @@ Analysis::Analysis (
   observed_species_{species_vector},
   csv_out(csv_out)
 {
-};
+}
 
 void Analysis::when_updated_by(Observable & observable) {
   if (observable.t < start_time || observable.t >= end_time) return;
