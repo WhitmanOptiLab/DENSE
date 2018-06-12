@@ -54,15 +54,15 @@ void OscillationAnalysis::show () {
               csv_out->add_div(specie_str[lcfID] + ",");
 
           csv_out->add_div("\navg peak,");
-          for (int s = 0; s < observed_species_.size(); ++s)
+          for (std::size_t s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(avg_peak[s]);
 
           csv_out->add_div("\navg amp,");
-          for (int s = 0; s < observed_species_.size(); ++s)
+          for (std::size_t s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(amplitudes[s][c]);
 
           csv_out->add_div("\navg per,");
-          for (int s = 0; s < observed_species_.size(); ++s)
+          for (std::size_t s = 0; s < observed_species_.size(); ++s)
               csv_out->add_data(periods[s][c]);
       }
   }

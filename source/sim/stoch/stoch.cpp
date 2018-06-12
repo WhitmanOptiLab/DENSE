@@ -249,14 +249,14 @@ void simulation_stoch::initPropensityNetwork(){
     #undef REACTION
 
     #define REACTION(name) \
-    for (int n=0; n<NUM_REACTIONS; n++) { \
+    for (unsigned n=0; n<NUM_REACTIONS; n++) { \
         const std::set<specie_id>& intradeps = dependencies[n]; \
         const std::set<specie_id>& interdeps = neighbor_dependencies[n]; \
         std::set<specie_id>::iterator intra = intradeps.begin(); \
         std::set<specie_id>::iterator inter = interdeps.begin(); \
         bool intraRelated = false; \
         bool interRelated = false; \
-        for (int in=0; in<intradeps.size() && !intraRelated; in++){ \
+        for (std::size_t in=0; in<intradeps.size() && !intraRelated; in++){ \
             std::advance(intra, in); \
             for (int o=0; o<r##name.getNumDeltas() && !intraRelated; o++){ \
                  if (r##name.getSpecieDeltas()[o] == *intra) { \
@@ -264,7 +264,7 @@ void simulation_stoch::initPropensityNetwork(){
                  } \
             } \
         } \
-        for (int in=0; in<interdeps.size() && !interRelated; in++){ \
+        for (std::size_t in=0; in<interdeps.size() && !interRelated; in++){ \
             std::advance(inter, in); \
             for (int o=0; o<r##name.getNumDeltas() && !interRelated; o++){ \
                  if (r##name.getSpecieDeltas()[o] == *inter) { \

@@ -34,13 +34,13 @@ void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
     const model& _model = _simulation._model;
 
     #define REACTION(name) \
-    for (int i=0; i<_simulation.propensity_network[rid].size(); i++) { \
+    for (std::size_t i=0; i<_simulation.propensity_network[rid].size(); i++) { \
         if ( name == _simulation.propensity_network[rid][i] ) { \
             _simulation.propensities[_cell][name] = _model.reaction_##name.active_rate(*this); \
         } \
     } \
 \
-    for (int r=0; r<_simulation.neighbor_propensity_network[rid].size(); r++) { \
+    for (std::size_t r=0; r<_simulation.neighbor_propensity_network[rid].size(); r++) { \
         if (name == _simulation.neighbor_propensity_network[rid][r]) { \
             for (int n=0; n<_simulation._numNeighbors[_cell]; n++) { \
                 int n_cell = _simulation._neighbors[_cell][n]; \

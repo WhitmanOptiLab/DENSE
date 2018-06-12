@@ -30,7 +30,7 @@ public:
 
     private:
         std::vector<std::map<specie_id, RATETYPE>> iRate;
-        int iIter;
+        unsigned iIter;
     };
 
 
@@ -50,7 +50,7 @@ public:
 private:
     // Required for csvr_sim
     specie_vec iSpecieVec;
-    int iCellTotal;
+    unsigned iCellTotal;
     bool iTimeCol;
 
     // For everyone else to get()
