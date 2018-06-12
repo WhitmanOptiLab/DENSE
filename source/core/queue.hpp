@@ -89,7 +89,7 @@ public:
 		for (int i = 1; i < queue.size; ++i) {
 			out << ',' << queue.contents[i];
 		}
-		out << "]\n";
+		return out << "]\n";
 	}
 };
 

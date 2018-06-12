@@ -4,6 +4,7 @@
 #include "core/reaction.hpp"
 
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 
@@ -88,6 +89,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
             nPrefix[3] = new std::string("grad_y2_");
             nPrefix[4] = 0;
             break;
+        default: throw std::out_of_range("Invalid param_type: " + pcfType);
     }
     std::string ** lnPrefix = nPrefix;
 

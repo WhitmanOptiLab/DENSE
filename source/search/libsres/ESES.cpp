@@ -31,7 +31,7 @@
  **      Transactions on Systems, Man and Cybernetics -- Part C:    **
  **      Applications and Reviews. 35(2):233-234.                   **
  *********************************************************************/
- 
+
 #include <math.h>
 #include <time.h>
 #include <stdio.h>
@@ -443,10 +443,10 @@ void ESInitialStat(ESStatistics **stats, ESPopulation *population,   \
   time(&((*stats)->nowtime));
 
   ESInitialIndividual(&((*stats)->bestindvdl), param);
-  ESInitialIndividual(&((*stats)->thisbestindvdl), param); 
+  ESInitialIndividual(&((*stats)->thisbestindvdl), param);
 
 /*********************************************************************
- ** dont do stat when initializing                                  ** 
+ ** dont do stat when initializing                                  **
  ** ESDoStat((*stats), population, param);                          **
  *********************************************************************/
 
@@ -519,7 +519,7 @@ void ESDoStat(ESStatistics *stats, ESPopulation *population,   \
 
 void ESPrintStat(ESStatistics *stats, ESParameter *param)
 {
-  
+
   printf("current generation: %d, best generation: %d, best fitness: %f\nbest individual: ",  \
           stats->curgen,stats->bestgen,stats->bestindvdl->f);
   ESPrintOp(stats->bestindvdl, param);
@@ -629,7 +629,7 @@ void ESSelectPopulation(ESPopulation *population, ESParameter *param)
 }
 
 void ESScorePopulation(ESPopulation * population, ESParameter *param, int lambda) {
-  int dim = param->dim;
+  // int dim = param->dim;
   int i;
   ESIndividual *indvdl;
 
@@ -680,13 +680,13 @@ void ESScorePopulation(ESPopulation * population, ESParameter *param, int lambda
  ** if still not in bound then op = op_                             **
  ** exponential smoothing                                           **
  ** sp(miu->lambda): sp = sp_ + alpha * (sp - sp_)                  **
- ** 
+ **
  ** re-calculate f/g/phi                                            **
  *********************************************************************/
 void ESMutate(ESPopulation * population, ESParameter *param)
 {
   int i, j, k;
-  int miu, dim,lambda, constraint;
+  int miu, dim,lambda; //, constraint;
   double gamma, alpha;
   double tau, tau_;
   int retry;
@@ -697,14 +697,14 @@ void ESMutate(ESPopulation * population, ESParameter *param)
   double **sp_, **op_;
   double tmp;
   ESfcnFG fg;
-  
+
   randvec = NULL;
   sp_ = NULL;
   op_ = NULL;
 
   miu = param->miu;
   lambda = param->lambda;
-  constraint = param->constraint;
+  //constraint = param->constraint;
   gamma = param->gamma;
   alpha = param->alpha;
   tau = param->tau;
@@ -783,7 +783,7 @@ void ESMutate(ESPopulation * population, ESParameter *param)
     for(j=0; j<dim; j++)
       indvdl->sp[j] = sp_[i][j] + alpha *(indvdl->sp[j] - sp_[i][j]);
   }
-  
+
   ESScorePopulation(population, param, lambda);
 
   for(i=0; i<lambda; i++) {
@@ -802,4 +802,3 @@ void ESMutate(ESPopulation * population, ESParameter *param)
 
   return;
 }
-

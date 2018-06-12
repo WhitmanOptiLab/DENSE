@@ -165,7 +165,7 @@ void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
 	const reaction_base& r = _model.getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
 	for (int i=0; i<r.getNumDeltas(); i++){
-		c->updateCon(r.getSpecieDeltas()[i], r.getDeltas()[i]);
+		c->updateCon(specie_deltas[i], r.getDeltas()[i]);
 	}
 	c->updatePropensities(rid);
 }
