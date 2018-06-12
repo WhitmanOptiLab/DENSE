@@ -19,8 +19,8 @@ class ConcentrationCheck : public Analysis {
       specie_id t_specie = static_cast<specie_id>(-1)
     ) :
       Analysis(min_cell, max_cell, start_time, end_time),
-      target_specie(t_specie),
-      lower_bound(lowerB), upper_bound(upperB) {
+      lower_bound(lowerB), upper_bound(upperB),
+      target_specie(t_specie) {
       subscribe_to(observable);
     };
 

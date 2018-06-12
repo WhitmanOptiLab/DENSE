@@ -16,10 +16,10 @@ template<int N, class T = RATETYPE>
 class cell_param {
     //FIXME - want to make this private at some point
 public:
-    int   _height, _width;
-    bool _cuda;
-    T *_array;
     simulation_base const& _sim;
+    int   _height, _width;
+    T *_array;
+    bool _cuda;
 
 
     class cell{
@@ -39,7 +39,7 @@ public:
 
     IF_CUDA(__host__ __device__)
     cell_param(simulation_base const& sim, int ncells)
-    :_height(N),_width(ncells),_sim(sim),_cuda(false){
+    :_sim(sim),_height(N),_width(ncells),_cuda(false){
         allocate_array();
     }
 
