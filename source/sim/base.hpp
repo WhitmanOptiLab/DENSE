@@ -78,10 +78,11 @@ class simulation_base : public Observable{
    * arg "sim_time": the total time to simulate for, in minutes
   */
   simulation_base(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
-    Observable(), _cells_total(cells_total),_width_total(width_total), circumf(width_total), _parameter_set(ps), _model(m),
-    _cellParams(*this, cells_total), _numNeighbors(new int[cells_total]),
-    _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), analysis_gran(analysis_interval), time_total(sim_time),
-   factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad) { }
+    Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
+    time_total(sim_time),  analysis_gran(analysis_interval),
+    _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), _parameter_set(ps), _model(m),
+    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new int[cells_total])
+    { }
 
   //DECONSTRUCTOR
   virtual ~simulation_base() {}

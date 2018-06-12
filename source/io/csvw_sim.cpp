@@ -12,9 +12,9 @@ csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterv
             "user-created/modified analysis inputs in the context of this "
             "particular model for these particular command-line arguments.\n"),
     Observer(), icSpecieOption(pcfSpecieOption),
-    ilTime(pcfTimeStart), ilCell(pcfCellStart), icTimeInterval(pcfTimeInterval), icTimeColumn(pcfTimeColumn),
-    icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd),
-    icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd)
+    icTimeInterval(pcfTimeInterval), icTimeStart(pcfTimeStart), icTimeEnd(pcfTimeEnd), ilTime(pcfTimeStart),
+    icCellTotal(pcfCellTotal), icCellStart(pcfCellStart), icCellEnd(pcfCellEnd), ilCell(pcfCellStart),
+    icTimeColumn(pcfTimeColumn)
 {
     subscribe_to(observable);
     csvw::add_div("# The row after next MUST remain in the file in order for it "

@@ -18,9 +18,9 @@ class OscillationAnalysis : public Analysis {
 
 private:
 	struct crit_point {
-		bool is_peak;
 		RATETYPE time;
 		RATETYPE conc;
+		bool is_peak;
 	};
 
 	bool vectors_assigned;

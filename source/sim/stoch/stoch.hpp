@@ -25,11 +25,11 @@ class simulation_stoch : public simulation_base {
 
     //"event" represents a delayed reaction scheduled to fire later
     struct event{
-        RATETYPE time;
-	    RATETYPE getTime() const{return time;}
+      RATETYPE time;
 	    int cell;
-        reaction_id rxn;
-	    bool operator<(event const &b) const {return getTime() < b.getTime();}
+      reaction_id rxn;
+	    RATETYPE getTime() const{return time;}
+	    bool operator<(event const &b) const {return time < b.time;}
     };
 
     //"event_schedule" is a set ordered by time of delay reactions that will fire
@@ -67,14 +67,14 @@ class simulation_stoch : public simulation_base {
     class ContextStoch : public ContextBase {
         //FIXME - want to make this private at some point
       private:
-        int _cell;
         simulation_stoch& _simulation;
         double _avg;
+        int _cell;
 
       public:
         typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
-        ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim),_cell(cell) { }
+        ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim), _cell(cell) { }
         IF_CUDA(__host__ __device__)
         RATETYPE calculateNeighborAvg(specie_id sp, int delay) const;
         IF_CUDA(__host__ __device__)

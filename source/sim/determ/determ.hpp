@@ -22,9 +22,9 @@ class simulation_determ : public simulation_base {
     class Context : public ContextBase {
         //FIXME - want to make this private at some point
       protected:
-        int _cell;
         simulation_determ& _simulation;
         double _avg;
+        int _cell;
 
       public:
         typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;

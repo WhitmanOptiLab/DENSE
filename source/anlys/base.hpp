@@ -33,13 +33,13 @@ class Analysis : public Observer {
 
   protected:
 
+    specie_vec const observed_species_;
+
     Real start_time, end_time;
 
     unsigned const min, max;
 
     unsigned time = 0;
-
-    specie_vec const observed_species_;
 
     std::unique_ptr<csvw> csv_out;
 

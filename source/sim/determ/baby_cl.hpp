@@ -9,14 +9,13 @@ class simulation_determ;
 
 class baby_cl {
   protected:
-    const simulation_determ& _sim;
-    int   _length, _width,_total_length;
-    RATETYPE *_array;
-
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
-
     int _j[NUM_SPECIES];
+    simulation_determ const& _sim;
+    int _length, _width, _total_length;
+    RATETYPE *_array;
+
 
   public:
     class cell{
@@ -68,7 +67,7 @@ class baby_cl {
     };
 
     baby_cl(simulation_determ& sim)
-    :_width(0), _total_length(0),_sim(sim){
+    :_sim(sim), _width(0), _total_length(0) {
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {
           _j[i] = 0;
@@ -76,7 +75,7 @@ class baby_cl {
     }
 
     baby_cl(int length, int width, simulation_determ& sim)
-    :_width(width),_total_length(0),_sim(sim){
+    : _sim(sim), _width(width), _total_length(0) {
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {
           _j[i] = 0;

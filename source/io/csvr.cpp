@@ -8,7 +8,7 @@
 
 
 csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
-    iLine(1), iFile(file_name)
+    iFile(file_name), iLine(1)
 {
     if (!iFile.is_open() && !suppress_file_not_found)
         std::cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<

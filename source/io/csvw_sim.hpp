@@ -22,12 +22,12 @@ public:
     void when_updated_by(Observable & observable) override;
 
 private:
-    unsigned int ilCell;
+    specie_vec const icSpecieOption;
+    RATETYPE const icTimeInterval, icTimeStart, icTimeEnd;
     RATETYPE ilTime;
-    const bool icTimeColumn;
-    const RATETYPE icTimeInterval, icTimeStart, icTimeEnd;
-    const specie_vec icSpecieOption;
-    const unsigned int icCellTotal, icCellStart, icCellEnd;
+    unsigned const icCellTotal, icCellStart, icCellEnd;
+    unsigned ilCell;
+    bool const icTimeColumn;
 };
 
 #endif
