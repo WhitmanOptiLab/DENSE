@@ -18,7 +18,7 @@
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ') {
   string.insert(string.begin(), min_size - std::min(min_size, string.size()), padding);
   return string;
-};
+}
 
 std::string file_add_num (
   std::string file_name, std::string const& prefix,
@@ -29,7 +29,7 @@ std::string file_add_num (
   auto before_extension_sep = std::min(file_name.find_last_of(extension_sep), file_name.size());
   file_name.insert(before_extension_sep, prefix + padded_file_no);
   return file_name;
-};
+}
 
 int main(int argc, char* argv[])
 {

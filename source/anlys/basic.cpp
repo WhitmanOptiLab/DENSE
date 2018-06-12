@@ -20,7 +20,7 @@ BasicAnalysis::BasicAnalysis (
   maxs_by_context(max - min, maxs),
   means_by_context(max - min, means) {
   subscribe_to(observable);
-};
+}
 
 void BasicAnalysis::update (ContextBase & begin) {
   for (unsigned cell_no = min; cell_no < max; ++cell_no) {
@@ -36,7 +36,7 @@ void BasicAnalysis::update (ContextBase & begin) {
     begin.advance();
   }
   ++time;
-};
+}
 
 void BasicAnalysis::finalize () {
   for (auto & mean : means) {
@@ -48,7 +48,7 @@ void BasicAnalysis::finalize () {
     }
   }
   show();
-};
+}
 
 void BasicAnalysis::show () {
   if (csv_out) {
@@ -80,4 +80,4 @@ void BasicAnalysis::show () {
       std::cout << '\n';
     }
   }
-};
+}

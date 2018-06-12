@@ -7,12 +7,12 @@ namespace color
     {
         bool iEnableColor = true;
     }
-    
+
     void enable(bool const& pcfEnable)
     {
         iEnableColor = pcfEnable;
     }
-    
+
     const std::string set(const unsigned int& pcfSetColor)
     {
         if (iEnableColor)
@@ -24,7 +24,7 @@ namespace color
             return "";
         }
     }
-    
+
     const std::string clear()
     {
         if (iEnableColor)
@@ -36,4 +36,4 @@ namespace color
             return "";
         }
     }
-};
+}

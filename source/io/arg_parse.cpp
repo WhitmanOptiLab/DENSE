@@ -89,7 +89,7 @@ namespace arg_parse
             return rval;
         }
 
-    }; // end anonymous namespace
+    } // end anonymous namespace
 
 
 
@@ -100,9 +100,7 @@ namespace arg_parse
         // Skip argv[0] because that's just the file name
         for ( int i = 1; i < pcfArgc; i++)
         {
-            char hStr[strlen(pcfArgv[i])];
-            strcpy(hStr, pcfArgv[i]);
-            iArgVec.push_back(std::string(hStr));
+            iArgVec.push_back(std::string(pcfArgv[i]));
         }
     }
 
