@@ -26,7 +26,7 @@ namespace arg_parse
 
         // Get index of (or index after) pcFlag if it exists in iArgVec.
         // Return false if not found.
-        const bool getIndex(std::string pcfFlagShort, std::string pcfFlagLong,
+        bool getIndex(std::string pcfFlagShort, std::string pcfFlagLong,
                 int* pnIndex, bool const& pcfNext)
         {
             pcfFlagShort = "-" + pcfFlagShort;
