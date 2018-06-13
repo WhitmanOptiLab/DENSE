@@ -29,7 +29,7 @@ public:
             case name: return reaction_##name;
             #include "reactions_list.hpp"
             #undef REACTION
-            default: throw std::out_of_range("Invalid reaction ID: " + std::to_string(rid));
+            default: throw std::out_of_range("Invalid reaction ID: " + std::to_string(static_cast<unsigned>(rid)));
         }
     }
 

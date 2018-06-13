@@ -13,7 +13,7 @@ RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int dela
     // Average the given cell's neighbors' concentrations
     RATETYPE sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
-        sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][i]];
+        sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][static_cast<unsigned>(i)]];
     }
     RATETYPE avg = sum/_simulation._numNeighbors[_cell];
     return avg;

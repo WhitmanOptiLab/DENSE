@@ -11,12 +11,13 @@ class Queue {
 
 private:
 	std::vector<RATETYPE> contents;
-	int start,end,current,size;
+	int start,end,current;
+  int size;
 
 public:
 //	Queue();
 
-	Queue(int length){
+	Queue(unsigned length){
 		contents.resize(length + 1);
 		size = length + 1;
 		start = 0;
@@ -40,7 +41,7 @@ public:
 		return (midpoint == -1);
 	}
 */
-	int getSize() { return (end + size - start) % size + 1; }
+	int getSize() { return (size + end - start) % size + 1; }
 
 	void enqueue(RATETYPE entry){
 		if (end == (size-1)){
@@ -51,7 +52,7 @@ public:
 		}
 		contents[end] = entry;
 
-		if (getSize() >= size/2) {
+		if (2*getSize() >= size) {
 			++current;
 			if (current == size) {
 				current = 0;
@@ -67,7 +68,7 @@ public:
 		else {
 			++start;
 		}
-		if (getSize() <= size/2) {
+		if (2*getSize() <= size) {
 			++current;
 			if (current == size) {
 				current = 0;
