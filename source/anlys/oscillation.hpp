@@ -104,17 +104,19 @@ public:
 
 class CorrelationAnalysis : public Analysis {
 
-	CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
+  public:
+
+    CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
             unsigned min_cell, unsigned max_cell, Real start_time, Real end_time) :
         Analysis(pcfSpecieOption, 0, min_cell, max_cell, start_time, end_time)
-  {
-    subscribe_to(*dLog);
-	}
+    {
+      subscribe_to(*dLog);
+    }
 
-	void update(ContextBase& start) {
-	}
+    void update(ContextBase& start) {
+    }
 
-	bool pearsonCorrelate();
+    bool pearsonCorrelate();
 };
 
 #endif
