@@ -15,7 +15,7 @@ namespace style {
 
   void disable();
 
-  std::string set (Color c);
+  std::string apply (Color c);
 
   std::string reset();
 
