@@ -4,8 +4,6 @@
 #include <limits>
 #include <iostream>
 
-typedef std::numeric_limits<double> dbl;
-
 void simulation_determ::simulate(){
 	RATETYPE analysis_chunks = time_total/analysis_gran;
  	RATETYPE total_step = analysis_gran/_step_size;
