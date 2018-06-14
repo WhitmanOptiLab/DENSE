@@ -10,7 +10,7 @@
 #include "stoch/stoch.hpp"
 #include "determ/determ.hpp"
 #include "io/csvr_param.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 
 #include <vector>
 #include <array>
@@ -77,11 +77,11 @@ class simulation_set{
                                 else
                                 {
                                     // Error: Invalid number of filled cells
-                                    std::cout << color::set(color::RED) <<
+                                    std::cout << style::set(Color::red) <<
                                         "CSV perturbations parsing failed. Ran out "
                                         "of cells to read upon reaching reaction \""
                                         << reaction_str[i] << "\"." <<
-                                        color::clear() << '\n';
+                                        style::reset() << '\n';
                                 }
                             }
                         }
@@ -133,22 +133,22 @@ class simulation_set{
                                 else
                                 {
                                     // Error: Invalid numbers in cells
-                                    std::cout << color::set(color::RED) <<
+                                    std::cout << style::set(Color::red) <<
                                         "CSV gradients parsing failed. "
                                         "Invalid grad_x1 and/or grad_x2 "
                                         "setting(s) for reaction \"" <<
                                         reaction_str[i] << "\"." <<
-                                        color::clear() << '\n';
+                                        style::reset() << '\n';
                                 }
                             }
                             else
                             {
                                 // Error: Invalid number of filled cells
-                                std::cout << color::set(color::RED) <<
+                                std::cout << style::set(Color::red) <<
                                     "CSV gradients parsing failed. "
                                     "Ran out of cells to read upon "
                                     "reaching reaction \"" << reaction_str[i] <<
-                                    "\"." << color::clear() << '\n';
+                                    "\"." << style::reset() << '\n';
                             }
                         }
                     }

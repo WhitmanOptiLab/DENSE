@@ -1,11 +1,8 @@
 #include "arg_parse.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 #include "util/common_utils.hpp"
 #include "core/specie.hpp"
 
-#include <cfloat> // For FLT_MAX
-#include <climits> // For INT_MAX
-#include <cstring> // For strcpy in init
 #include <iostream>
 #include <vector>
 
@@ -40,10 +37,10 @@ namespace arg_parse
                     {
                         if (i + 1 >= iArgVec.size())
                         {
-                            std::cout << color::set(color::RED) << "Command line "
+                            std::cout << style::set(Color::red) << "Command line "
                                 "argument search failed. No argument provided "
                                 "after flag [" << pcfFlagShort << " | " <<
-                                pcfFlagLong << "]." << color::clear() << '\n';
+                                pcfFlagLong << "]." << style::reset() << '\n';
                         }
                         else
                         {
@@ -70,11 +67,11 @@ namespace arg_parse
         {
             if (!iSuppressObligatory)
             {
-                std::cout << color::set(color::RED) << "Command line argument "
+                std::cout << style::set(Color::red) << "Command line argument "
                     "search failed. Flag [-" << pcfFlagShort << " | --" <<
                     pcfFlagLong << "] is required in order for all program "
                     "behaviors to function properly." <<
-                    color::clear() << '\n';
+                    style::reset() << '\n';
             }
         }
 
@@ -95,13 +92,9 @@ namespace arg_parse
 
 
     // See usage documentation in header
-    void init(int const& pcfArgc, char* pcfArgv[])
-    {
-        // Skip argv[0] because that's just the file name
-        for ( int i = 1; i < pcfArgc; i++)
-        {
-            iArgVec.push_back(std::string(pcfArgv[i]));
-        }
+    void init(int const& argc, char* argv[]) {
+      // file_name = argv[0]
+      iArgVec.assign(argv + 1, argv + argc);
     }
 
 
@@ -136,7 +129,7 @@ namespace arg_parse
         specie_vec rVec = str_to_species(
                 get<std::string>(pcfFlagShort, pcfFlagLong, ""));
 
-        if (rVec.size() > 0)
+        if (!rVec.empty())
         {
             if (pnPushTo)
                 *pnPushTo = rVec;
@@ -164,10 +157,10 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                std::cout << color::set(color::RED) << "Command line argument "
+                std::cout << style::set(Color::red) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to integer." <<
-                    color::clear() << '\n';
+                    style::reset() << '\n';
             }
             else
             {
@@ -198,10 +191,10 @@ namespace arg_parse
             if (*tInvalidAt)
             {
                 success = false;
-                std::cout << color::set(color::RED) << "Command line argument "
+                std::cout << style::set(Color::red) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
                     "\" cannot be converted to RATETYPE." <<
-                    color::clear() << '\n';
+                    style::reset() << '\n';
             }
             else
             {
