@@ -4,19 +4,13 @@
 #include "csvw.hpp"
 
 
-enum param_type
-{
-    SETS,
-    PERT,
-    GRAD
+enum class param_type {
+  SETS, PERT, GRAD
 };
 
-
-class csvw_param : public csvw
-{
-public:
+class csvw_param : public csvw {
+  public:
     csvw_param(std::string const& pcfFileName, param_type const& pcfType);
-    virtual ~csvw_param();
 };
 
 #endif
