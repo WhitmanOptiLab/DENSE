@@ -47,13 +47,6 @@ csvw::csvw(std::string const& pcfFileName, bool const& pcfWriteDoc, std::string 
     }
 }
 
-
-csvw::~csvw()
-{
-    iFile.close();
-}
-
-
 void csvw::add_div(std::string const& pcfDiv)
 {
     iFile << pcfDiv;
