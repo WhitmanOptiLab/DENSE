@@ -9,7 +9,7 @@
 #include "base.hpp"
 #include "stoch/stoch.hpp"
 #include "determ/determ.hpp"
-#include "io/csvr_param.hpp"
+#include "io/csvr.hpp"
 #include "util/style.hpp"
 
 #include <vector>

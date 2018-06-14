@@ -3,6 +3,7 @@
 
 #include "specie.hpp"
 #include "reaction.hpp"
+#include "io/csvr.hpp"
 
 #include <string>
 
@@ -43,6 +44,13 @@ class param_set{
 
   Real* begin() { return _parameters + 0; }
   Real* end() { return _parameters + NUM_PARAMS; }
+
+  bool import_from (csvr & in) {
+    for (auto & parameter : *this) {
+      if (!in.get_next(&parameter)) return false;
+    }
+    return true;
+  }
 
   void printall() const
   {
