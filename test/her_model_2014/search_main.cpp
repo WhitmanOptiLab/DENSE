@@ -30,13 +30,13 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 
 #if 0
 #include "main.hpp" // Function declarations
-#endif 
+#endif
 
 #include "search/sres.hpp"
 #include "io/arg_parse.hpp"
 #include "io/csvr_param.hpp"
 #include "util/common_utils.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 #include "sim/set.hpp"
 #include "sim/set.hpp"
 
@@ -50,9 +50,9 @@ std::vector<double> her2014_scorer (const vector<param_set>& population) {
   //Create mutants
 
   //Create simulations
-  simulation_set(population,  
+  simulation_set(population,
                  "", "",
-                 arg_parse::get<int>("c", "cell-total", 200), 
+                 arg_parse::get<int>("c", "cell-total", 200),
                  arg_parse::get<int>("w", "tissue_width", 50),
                  arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                  arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01),
@@ -61,7 +61,7 @@ std::vector<double> her2014_scorer (const vector<param_set>& population) {
                 );
 
   //Create analyses
-  
+
   //Run simulation
   std::cout << "Running simulations!" << endl;
 
@@ -90,28 +90,28 @@ int main (int argc, char** argv) {
   arg_parse::init(argc, argv);
 
   if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1) {
-    cout << color::set(color::YELLOW) << 
-      "[-h | --help | --usage]         " << color::set(color::GREEN) << 
-      "Print information about program's various command line arguments." 
-      << color::clear() << endl;
-    cout << color::set(color::YELLOW) << 
-      "[-b | --param-bounds]   <string>" << color::set(color::GREEN) << 
-      "Path to file for lower and upper bounds" 
-      << color::clear() << endl;
-    cout << color::set(color::YELLOW) << 
-      "[-p | --population]        <int>" << color::set(color::GREEN) << 
+    cout << style::apply(Color::yellow) <<
+      "[-h | --help | --usage]         " << style::apply(Color::green) <<
+      "Print information about program's various command line arguments."
+      << style::reset() << endl;
+    cout << style::apply(Color::yellow) <<
+      "[-b | --param-bounds]   <string>" << style::apply(Color::green) <<
+      "Path to file for lower and upper bounds"
+      << style::reset() << endl;
+    cout << style::apply(Color::yellow) <<
+      "[-p | --population]        <int>" << style::apply(Color::green) <<
       "Size of a population"
-      << color::clear() << endl;
-    cout << color::set(color::YELLOW) << 
-      "[-m | --miu | --parents] <int>" << color::set(color::GREEN) << 
+      << style::reset() << endl;
+    cout << style::apply(Color::yellow) <<
+      "[-m | --miu | --parents] <int>" << style::apply(Color::green) <<
       "Size of the parent set between generations"
-      << color::clear() << endl;
-    cout << color::set(color::YELLOW) << 
-      "[-n | --num-generations]   <int>" << color::set(color::GREEN) << 
+      << style::reset() << endl;
+    cout << style::apply(Color::yellow) <<
+      "[-n | --num-generations]   <int>" << style::apply(Color::green) <<
       "Number of generations"
-      << color::clear() << endl;
+      << style::reset() << endl;
     return 0;
-  } 
+  }
   int popc = arg_parse::get<int>("p", "population", 400);
 
   int miu = arg_parse::get<int>("m", "parents", NUM_PARAMS);
@@ -126,7 +126,7 @@ int main (int argc, char** argv) {
   csvr_param csvrp(boundsfile);
 
   if (csvrp.get_total() != 2) {
-    cout << color::RED << "ERROR, parameter bounds file does not contain precisely two sets" << color::clear() << endl;
+    cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets" << style::reset() << endl;
     return -1;
   }
 
@@ -139,7 +139,7 @@ int main (int argc, char** argv) {
   for (int n = 1; n < arg_parse::get<int>("n", "num-generations", 100); ++n) {
       sres_driver.nextGeneration();
   }
-	
+
 	return 0;
 }
 
