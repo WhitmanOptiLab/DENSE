@@ -10,8 +10,6 @@
 #include <cfloat>
 #include <set>
 
-typedef std::numeric_limits<double> dbl;
-
 /*
  * SIMULATE
  * main simulation loop

@@ -6,9 +6,6 @@
 #include <iostream>
 #include <set>
 
-using dbl = std::numeric_limits<double>;
-
-
 /*
 bool simulation_base::any_less_than_0 (baby_cl& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
@@ -38,17 +35,17 @@ void simulation_base::initialize(){
     calc_neighbor_2d();
     _cellParams.initialize_params(_parameter_set);
 }
-    
+
 void simulation_base::calc_max_delays() {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
   }
-   
+
   std::set<specie_id> rate_terms[NUM_REACTIONS];
 
   class DummyContext {
       public:
-        DummyContext(std::set<specie_id>& deps_to_fill) : 
+        DummyContext(std::set<specie_id>& deps_to_fill) :
             deps(deps_to_fill) {};
         RATETYPE getCon(specie_id sp, int delay = 0) const {
             deps.insert(sp);
@@ -61,7 +58,7 @@ void simulation_base::calc_max_delays() {
         RATETYPE getRate(reaction_id rid) const { return 0.0; };
         RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
         RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const { 
+        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const {
             deps.insert(sp);
             return 0.0;
         };
@@ -83,7 +80,7 @@ void simulation_base::calc_max_delays() {
   //    accumulate delay into specie
  std::set<specie_id> delts;
  std::set<specie_id>::iterator iter;
-#define REACTION(name) 
+#define REACTION(name)
 #define DELAY_REACTION(name) \
   delts = rate_terms[name]; \
   iter = delts.begin(); \
