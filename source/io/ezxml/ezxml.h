@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <fcntl.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +53,14 @@ struct ezxml {
     ezxml_t parent;  // parent tag, NULL if current tag is root tag
     short flags;     // additional information
 };
+
+// https://bytes.com/topic/c/answers/220941-strdup
+/*
+Returns a pointer to a new string
+which is a duplicate of the string s,
+or NULL if malloc() failed.
+*/
+char* str_dup (const char *s);
 
 // Given a string of xml data and its length, parses it and creates an ezxml
 // structure. For efficiency, modifies the data by adding null terminators
@@ -78,17 +87,17 @@ ezxml_t ezxml_child(ezxml_t xml, const char *name);
 
 // returns the next tag of the same name in the same section and depth or NULL
 // if not found
-ezxml_t ezxml_next(ezxml_t xml) { return xml ? xml->next : NULL; };
+ezxml_t ezxml_next(ezxml_t xml);
 
 // Returns the Nth tag with the same name in the same section at the same depth
 // or NULL if not found. An index of 0 returns the tag given.
 ezxml_t ezxml_idx(ezxml_t xml, int idx);
 
 // returns the name of the given tag
-ezxml_t ezxml_name(ezxml_t xml) { return xml ? xml->name : NULL; };
+const char *ezxml_name(ezxml_t xml);
 
 // returns the given tag's character content or empty string if none
-ezxml_t ezxml_txt(ezxml_t xml) { return xml ? xml->txt : ""; };
+const char *ezxml_txt(ezxml_t xml);
 
 // returns the value of the requested tag attribute, or NULL if not found
 const char *ezxml_attr(ezxml_t xml, const char *attr);
@@ -122,35 +131,27 @@ ezxml_t ezxml_new(const char *name);
 ezxml_t ezxml_set_flag(ezxml_t xml, short flag);
 
 // wrapper for ezxml_new() that strdup()s name
-ezxml_t ezxml_new_d(const char *name) {
-  return ezxml_set_flag(ezxml_new(strdup(name)), EZXML_NAMEM);
-}
+ezxml_t ezxml_new_d(const char *name);
 
 // Adds a child tag. off is the offset of the child tag relative to the start
 // of the parent tag's character content. Returns the child tag.
 ezxml_t ezxml_add_child(ezxml_t xml, const char *name, size_t off);
 
 // wrapper for ezxml_add_child() that strdup()s name
-ezxml_t ezxml_add_child_d(ezxml_t xml, const char *name, size_t off) {
-  return ezxml_set_flag(ezxml_add_child(xml, strdup(name), off), EZXML_NAMEM);
-}
+ezxml_t ezxml_add_child_d(ezxml_t xml, const char *name, size_t off);
 
 // sets the character content for the given tag and returns the tag
 ezxml_t ezxml_set_txt(ezxml_t xml, const char *txt);
 
 // wrapper for ezxml_set_txt() that strdup()s txt
-ezxml_t ezxml_set_txt_d(ezxml_t xml, const char *txt) {
-  return ezxml_set_flag(ezxml_set_txt(xml, strdup(txt)), EZXML_TXTM);
-}
+ezxml_t ezxml_set_txt_d(ezxml_t xml, const char *txt);
 
 // Sets the given tag attribute or adds a new attribute if not found. A value
 // of NULL will remove the specified attribute. Returns the tag given.
 ezxml_t ezxml_set_attr(ezxml_t xml, const char *name, const char *value);
 
 // Wrapper for ezxml_set_attr() that strdup()s name/value. Value cannot be NULL
-ezxml_t ezxml_set_attr_d(ezxml_t xml, const char *name, const char *value) {
-  return ezxml_set_attr(ezxml_set_flag(xml, EZXML_DUP), strdup(name), strdup(value));
-}
+ezxml_t ezxml_set_attr_d(ezxml_t xml, const char *name, const char *value);
 
 // removes a tag along with its subtags without freeing its memory
 ezxml_t ezxml_cut(ezxml_t xml);
@@ -160,14 +161,10 @@ ezxml_t ezxml_insert(ezxml_t xml, ezxml_t dest, size_t off);
 
 // Moves an existing tag to become a subtag of dest at the given offset from
 // the start of dest's character content. Returns the moved tag.
-ezxml_t ezxml_move(ezxml_t xml, ezxml_t dest, size_t off) {
-  return ezxml_insert(ezxml_cut(xml), dest, off);
-}
+ezxml_t ezxml_move(ezxml_t xml, ezxml_t dest, size_t off);
 
 // removes a tag along with all its subtags
-ezxml_t ezxml_remove(ezxml_t xml) {
-  return ezxml_free(ezxml_cut(xml));
-}
+void ezxml_remove(ezxml_t xml);
 
 #ifdef __cplusplus
 }
