@@ -116,7 +116,7 @@ int main (int argc, char** argv) {
 
   int miu = arg_parse::get<int>("m", "parents", NUM_PARAMS);
 
-  string boundsfile;
+  std::string boundsfile;
 
   if (!arg_parse::get<string>("b", "param-bounds", &boundsfile, true)) {
     return -1;
@@ -125,13 +125,11 @@ int main (int argc, char** argv) {
 
   csvr_param csvrp(boundsfile);
 
-  if (csvrp.get_total() != 2) {
-    cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets" << style::reset() << endl;
-    return -1;
-  }
+  param_set lBounds, uBounds;
 
-  param_set lBounds = csvrp.get_next();
-  param_set uBounds = csvrp.get_next();
+  if (!csvrp.get_next(lBounds) || !csvrp.get_next(uBounds)) {
+    std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
+  }
 
   SRES sres_driver(popc, miu, arg_parse::get<int>("n", "num-generations", 100), lBounds, uBounds, her2014_scorer);
 
