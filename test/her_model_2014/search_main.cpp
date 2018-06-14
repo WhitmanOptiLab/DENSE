@@ -34,7 +34,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 
 #include "search/sres.hpp"
 #include "io/arg_parse.hpp"
-#include "io/csvr_param.hpp"
+#include "io/csvr.hpp"
 #include "util/common_utils.hpp"
 #include "util/style.hpp"
 #include "sim/set.hpp"
@@ -123,11 +123,11 @@ int main (int argc, char** argv) {
   }
   std::cout << boundsfile << endl;
 
-  csvr_param csvrp(boundsfile);
+  csvr csv_in(boundsfile);
 
   param_set lBounds, uBounds;
 
-  if (!csvrp.get_next(lBounds) || !csvrp.get_next(uBounds)) {
+  if (!lBounds.import_from(csv_in) || !uBounds.import_from(csv_in)) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
   }
 

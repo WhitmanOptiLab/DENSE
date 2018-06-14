@@ -136,9 +136,9 @@ int main(int argc, char* argv[])
           std::vector<param_set> params;
 
           //Load parameter sets to run
-          csvr_param csvrp(param_sets);
+          csvr csv_in(param_sets);
           param_set next_set;
-          while (csvrp.get_next(next_set)) {
+          while (next_set.import_from(csv_in)) {
             params.push_back(next_set);
           }
 

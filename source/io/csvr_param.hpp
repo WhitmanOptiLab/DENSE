@@ -5,9 +5,8 @@
 #include "core/param_set.hpp"
 
 
-class csvr_param : private csvr {
+class csvr_param {
 public:
-    csvr_param();
     csvr_param(std::string const& pcfFileName);
 
     /**
@@ -27,8 +26,10 @@ public:
      *      If no sets exist and/or the end of the file has been reached, will return false
      *      Secondary version of function instead returns a copy of a param_set with the data loaded onto it
     */
-    bool get_next(param_set& pfLoadTo);
-    param_set get_next();
+
+  private:
+
+    csvr in;
 
 };
 
