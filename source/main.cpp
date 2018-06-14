@@ -38,59 +38,59 @@ int main(int argc, char* argv[])
 
   if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1) {
     // # Display all possible command line arguments with descriptions
-    std::cout << style::set(Color::yellow) <<
-      "[-h | --help | --usage]         " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-h | --help | --usage]         " << style::apply(Color::green) <<
       "Print information about program's various command line arguments." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-n | --no-color]               " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-n | --no-color]               " << style::apply(Color::green) <<
       "Disable color in the terminal." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-p | --param-sets]    <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-p | --param-sets]    <string> " << style::apply(Color::green) <<
       "Relative file location and name of the parameter sets csv. \"../param_sets.csv\", for example." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-g | --gradients]     <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-g | --gradients]     <string> " << style::apply(Color::green) <<
       "Enables gradients and specifies the relative file location and name of the gradients csv. \"../param_grad.csv\", for example." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-b | --perturbations] <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-b | --perturbations] <string> " << style::apply(Color::green) <<
       "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-b|--perturbations]     <Real> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-b|--perturbations]     <Real> " << style::apply(Color::green) <<
       "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a Real." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-e | --data-export]   <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-e | --data-export]   <string> " << style::apply(Color::green) <<
       "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-o | --specie-option] <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-o | --specie-option] <string> " << style::apply(Color::green) <<
       "Specify which species the logged data csv should output. This argument is only useful if [-e | --data-export] is being used. Not including this argument makes the program by default output/analyze all species. IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"alpha, bravo, charlie\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-i | --data-import]   <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-i | --data-import]   <string> " << style::apply(Color::green) <<
       "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-a | --analysis]      <string> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-a | --analysis]      <string> " << style::apply(Color::green) <<
       "Relative file location and name of the analysis config xml file. \"../analyses.xml\", for example. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-c | --cell-total]       <int> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-c | --cell-total]       <int> " << style::apply(Color::green) <<
       "Total number of cells to simulate." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-w | --tissue-width]      <int> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-w | --tissue-width]      <int> " << style::apply(Color::green) <<
       "Width of tissue to simulate. Height is inferred by c/w." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-r | --rand-seed]        <int> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-r | --rand-seed]        <int> " << style::apply(Color::green) <<
       "Set the stochastic simulation's random number generator seed." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-s | --step-size]       <Real> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-s | --step-size]       <Real> " << style::apply(Color::green) <<
       "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-t | --time-total]       <int> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-t | --time-total]       <int> " << style::apply(Color::green) <<
       "Amount of simulated minutes the simulation should execute." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-u | --anlys-intvl]     <Real> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-u | --anlys-intvl]     <Real> " << style::apply(Color::green) <<
       "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-v | --time-col]        <bool> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-v | --time-col]        <bool> " << style::apply(Color::green) <<
       "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << style::reset() << '\n';
-    std::cout << style::set(Color::yellow) <<
-      "[-N | --test-run]        <bool> " << style::set(Color::green) <<
+    std::cout << style::apply(Color::yellow) <<
+      "[-N | --test-run]        <bool> " << style::apply(Color::green) <<
       "Enables running a simulation without output for performance testing." << style::reset() << '\n';
     return EXIT_SUCCESS;
   }
@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 
           // Warn user that they are not running deterministic sim
           if (step_size == 0.0) {
-              std::cout << style::set(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
+              std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
               std::cout << "Stochastic simulation seed: " << seed << '\n';
           }
 
@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
   // ========================== FILL ANLYSAMBIG =========================
   // Must have at least one observable
   if (simsAmbig.empty()) {
-    std::cout << style::set(Color::red) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << style::reset() << '\n';
+    std::cout << style::apply(Color::red) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << style::reset() << '\n';
     return EXIT_FAILURE;
   }
 
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
                               time_start, time_end));
               }
               else {
-                std::cout << style::set(Color::yellow) << "Warning: No analysis type \"" << type << "\" found." << style::reset() << '\n';
+                std::cout << style::apply(Color::yellow) << "Warning: No analysis type \"" << type << "\" found." << style::reset() << '\n';
               }
           }
       }
@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
   // ========================= RUN THE SHOW =========================
   // Only bother if there are outputs
   if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", 0, false)) {
-    std::cout << style::set(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
+    std::cout << style::apply(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
     for (auto & simulation : simsAmbig) {
       anlysAmbig.emplace_back(new BasicAnalysis(
         *simulation, default_specie_option, nullptr,

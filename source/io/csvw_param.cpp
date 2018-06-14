@@ -160,7 +160,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
 
 
     // Victory message
-    std::cout << style::set(Color::green) << "CSV parameter " << param_type_str <<
+    std::cout << style::apply(Color::green) << "CSV parameter " << param_type_str <<
         " column header generation successful. See \'" << pcfFileName << "\'."
         << style::reset() << '\n';
 }

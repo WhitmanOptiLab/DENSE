@@ -7,7 +7,7 @@
 
 int main (int argc, char* argv[]) {
   if (argc < 2) {
-    std::cout << style::set(Color::red) <<
+    std::cout << style::apply(Color::red) <<
       "CSV parameter list column header generation failed. Missing required command line argument:\n\t(1) Relative directory containing desired model files, such as \"../models/her_model_2014/\", not including quotation marks. Spaces not allowed in file/directory names. For indicating the current directory, use \"./\".\n" <<
       style::reset();
     return EXIT_FAILURE;

@@ -11,7 +11,7 @@ csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
     iFile(file_name), iLine(1)
 {
     if (!iFile.is_open() && !suppress_file_not_found)
-        std::cout << style::set(Color::red) << "CSV file input failed. CSV file \'" <<
+        std::cout << style::apply(Color::red) << "CSV file input failed. CSV file \'" <<
             file_name << "\' not found or open." << style::reset() << '\n';
 }
 
@@ -33,7 +33,7 @@ bool csvr::get_next(int* rate) {
 bool csvr::get_next(RATETYPE* pnRate) {
   // Only bother if open
   if (!iFile.is_open()) {
-      std::cout << style::set(Color::red) << "CSV parsing failed. "
+      std::cout << style::apply(Color::red) << "CSV parsing failed. "
           "No CSV file found/open." << style::reset() << '\n';
       return false;
   }
@@ -70,7 +70,7 @@ bool csvr::get_next(RATETYPE* pnRate) {
           // If found invalid while parsing
           if (*tInvalidAt)
           {
-              std::cout << style::set(Color::red) <<
+              std::cout << style::apply(Color::red) <<
                   "CSV parsing failed. Invalid data contained "
                   "at line " << iLine << "." <<
                   style::reset() << '\n';
