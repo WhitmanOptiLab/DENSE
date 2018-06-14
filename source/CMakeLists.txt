@@ -24,7 +24,6 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/util/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
