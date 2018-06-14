@@ -89,7 +89,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
             nPrefix[3] = new std::string("grad_y2_");
             nPrefix[4] = 0;
             break;
-        default: throw std::out_of_range("Invalid param_type: " + pcfType);
+        default: throw std::out_of_range("Invalid param_type: " + static_cast<int>(pcfType));
     }
     std::string ** lnPrefix = nPrefix;
 
@@ -163,9 +163,4 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
     std::cout << style::apply(Color::green) << "CSV parameter " << param_type_str <<
         " column header generation successful. See \'" << pcfFileName << "\'."
         << style::reset() << '\n';
-}
-
-
-csvw_param::~csvw_param()
-{
 }
