@@ -5,8 +5,7 @@
 #include "core/param_set.hpp"
 
 
-class csvr_param : public csvr
-{
+class csvr_param : private csvr {
 public:
     csvr_param();
     csvr_param(std::string const& pcfFileName);
