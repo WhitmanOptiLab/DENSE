@@ -10,22 +10,6 @@ class csvr_param : public csvr
 public:
     csvr_param();
     csvr_param(std::string const& pcfFileName);
-    virtual ~csvr_param();
-
-    /**
-     *  Get Total/Remaining Counts of Data Sets
-     *
-     *  usage
-     *      For getting the total/remaining number of sets of data in the opened ifstream
-     *      For total, does not matter if you have already started using load_next_set()
-     *
-     *  returns
-     *      Total/Remaining number of data sets in ifstream
-     *      Returns 0 if no file has been loaded or if there is indeed no data in ifstream
-    */
-    const unsigned int& get_total() const;
-    const unsigned int& get_remain() const;
-
 
     /**
      *  Get/Return Next Set
@@ -47,9 +31,6 @@ public:
     bool get_next(param_set& pfLoadTo);
     param_set get_next();
 
-private:
-    unsigned int iCount;
-    unsigned int iRemain;
 };
 
 #endif

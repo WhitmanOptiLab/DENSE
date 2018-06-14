@@ -30,7 +30,7 @@ class param_set{
     //bool only_post; //indicating if only the posterior is simulated
 
     // currently in use
-  RATETYPE _parameters[NUM_PARAMS];
+  RATETYPE _parameters[NUM_PARAMS + 1];
 
  public:
   param_set() {};
@@ -40,6 +40,9 @@ class param_set{
   RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
   RATETYPE* getArray() { return _parameters; }
   RATETYPE const* getArray() const { return _parameters; }
+
+  Real* begin() { return _parameters + 0; }
+  Real* end() { return _parameters + NUM_PARAMS; }
 
   void printall() const
   {
