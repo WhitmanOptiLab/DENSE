@@ -8,7 +8,7 @@
 #include <string>
 
 
-enum { NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS };
+constexpr auto NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS;
 
 class param_set{
  private:
@@ -65,7 +65,5 @@ class param_set{
     printf("\n");
   }
 };
-
-
 
 #endif
