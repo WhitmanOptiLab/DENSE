@@ -7,7 +7,7 @@
 #include "core/specie.hpp"
 
 
-class csvw_sim : public csvw, public Observer
+class csvw_sim : private csvw, public Observer
 {
 public:
     csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
