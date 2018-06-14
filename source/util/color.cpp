@@ -15,7 +15,7 @@ namespace style {
     enable(false);
   }
 
-  std::string set (Color c) {
+  std::string apply (Color c) {
     return is_enabled ? std::string("\x1b[3") + static_cast<char>(c) + 'm' : "";
   }
 
