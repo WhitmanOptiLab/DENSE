@@ -1,5 +1,5 @@
 #include "csvw_param.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 #include "core/specie.hpp"
 #include "core/reaction.hpp"
 
@@ -160,9 +160,9 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
 
 
     // Victory message
-    std::cout << color::set(color::GREEN) << "CSV parameter " << param_type_str <<
+    std::cout << style::set(Color::green) << "CSV parameter " << param_type_str <<
         " column header generation successful. See \'" << pcfFileName << "\'."
-        << color::clear() << '\n';
+        << style::reset() << '\n';
 }
 
 

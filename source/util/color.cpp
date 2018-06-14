@@ -1,39 +1,25 @@
-#include "color.hpp"
+#include "style.hpp"
 
 
-namespace color
-{
-    namespace
-    {
-        bool iEnableColor = true;
-    }
+namespace style {
 
-    void enable(bool const& pcfEnable)
-    {
-        iEnableColor = pcfEnable;
-    }
+  namespace {
+    bool is_enabled = true;
+  }
 
-    const std::string set(const unsigned int& pcfSetColor)
-    {
-        if (iEnableColor)
-        {
-            return "\x1b[3" + std::to_string(pcfSetColor) + "m";
-        }
-        else
-        {
-            return "";
-        }
-    }
+  void enable (bool value) {
+    is_enabled = value;
+  }
 
-    const std::string clear()
-    {
-        if (iEnableColor)
-        {
-            return "\x1b[0m";
-        }
-        else
-        {
-            return "";
-        }
-    }
+  void disable () {
+    enable(false);
+  }
+
+  std::string set (Color c) {
+    return is_enabled ? std::string("\x1b[3") + static_cast<char>(c) + 'm' : "";
+  }
+
+  std::string reset () {
+    return is_enabled ? "\x1b[0m" : "";
+  }
 }

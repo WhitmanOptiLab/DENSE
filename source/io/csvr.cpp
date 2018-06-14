@@ -1,5 +1,5 @@
 #include "csvr.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <cmath>
@@ -11,8 +11,8 @@ csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
     iFile(file_name), iLine(1)
 {
     if (!iFile.is_open() && !suppress_file_not_found)
-        std::cout << color::set(color::RED) << "CSV file input failed. CSV file \'" <<
-            file_name << "\' not found or open." << color::clear() << '\n';
+        std::cout << style::set(Color::red) << "CSV file input failed. CSV file \'" <<
+            file_name << "\' not found or open." << style::reset() << '\n';
 }
 
 bool csvr::is_open() const {
@@ -33,8 +33,8 @@ bool csvr::get_next(int* rate) {
 bool csvr::get_next(RATETYPE* pnRate) {
   // Only bother if open
   if (!iFile.is_open()) {
-      std::cout << color::set(color::RED) << "CSV parsing failed. "
-          "No CSV file found/open." << color::clear() << '\n';
+      std::cout << style::set(Color::red) << "CSV parsing failed. "
+          "No CSV file found/open." << style::reset() << '\n';
       return false;
   }
   // tParam data from file to be "pushed" to pfRate
@@ -70,10 +70,10 @@ bool csvr::get_next(RATETYPE* pnRate) {
           // If found invalid while parsing
           if (*tInvalidAt)
           {
-              std::cout << color::set(color::RED) <<
+              std::cout << style::set(Color::red) <<
                   "CSV parsing failed. Invalid data contained "
                   "at line " << iLine << "." <<
-                  color::clear() << '\n';
+                  style::reset() << '\n';
               return false;
           }
           // Else was success

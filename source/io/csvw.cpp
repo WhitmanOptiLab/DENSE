@@ -1,5 +1,5 @@
 #include "csvw.hpp"
-#include "util/color.hpp"
+#include "util/style.hpp"
 
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <iostream>
@@ -17,8 +17,8 @@ csvw::csvw(std::string const& pcfFileName, bool const& pcfWriteDoc, std::string 
     // Check if open successful
     if (!iFile.is_open())
     {
-        std::cout << color::set(color::RED) << "CSV file output failed. CSV file \'" <<
-            pcfFileName << "\' unable to be written to." << color::clear() << '\n';
+        std::cout << style::set(Color::red) << "CSV file output failed. CSV file \'" <<
+            pcfFileName << "\' unable to be written to." << style::reset() << '\n';
     }
 
     if (pcfWriteDoc)
