@@ -176,7 +176,7 @@ void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
 */
 void simulation_stoch::initialize(){
 
-    simulation_base::initialize();
+    Simulation::initialize();
 
     initPropensityNetwork();
 

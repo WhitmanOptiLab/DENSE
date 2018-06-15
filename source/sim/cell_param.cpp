@@ -43,7 +43,7 @@ void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE norm
                     //} else {
                     //    gradient_index = active_start + rs.width - col;
                     //}
-                    
+
                     // Set the cell's active rate to its perturbed rate modified by its position's gradient factor
                     _array[_width * i + k] *= _sim.factors_gradient[i][gradient_index];
                 }
@@ -53,7 +53,7 @@ void cell_param<N,T>::initialize_params(param_set const& ps, const RATETYPE norm
 }
 
 //Dummy function to force generation of update_params for all the simulation types
-void __genUpdateRates(simulation_base& s) {
+void __genUpdateRates(Simulation& s) {
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES, RATETYPE> r(s, 1);
   param_set ps;
   r.initialize_params(ps);
