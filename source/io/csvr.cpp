@@ -20,17 +20,17 @@ bool csvr::is_open() const {
 }
 
 bool csvr::get_next() {
-    return csvr::get_next(static_cast<RATETYPE *>(nullptr));
+    return csvr::get_next(static_cast<Real *>(nullptr));
 }
 
 bool csvr::get_next(int* rate) {
-  RATETYPE result;
+  Real result;
   bool success = get_next(&result);
   if (success && rate) *rate = std::round(result);
   return success;
 }
 
-bool csvr::get_next(RATETYPE* pnRate) {
+bool csvr::get_next(Real* pnRate) {
   // Only bother if open
   if (!iFile.is_open()) {
       std::cout << style::apply(Color::red) << "CSV parsing failed. "
@@ -65,7 +65,7 @@ bool csvr::get_next(RATETYPE* pnRate) {
         }
         else if (!tParam.empty()) {
           char* tInvalidAt;
-          RATETYPE tRate = strtold(tParam.c_str(), &tInvalidAt);
+          Real tRate = strtold(tParam.c_str(), &tInvalidAt);
 
           // If found invalid while parsing
           if (*tInvalidAt)

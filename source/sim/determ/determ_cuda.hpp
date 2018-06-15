@@ -48,29 +48,29 @@ class simulation_cuda: public simulation_determ {
         double _avg;
 
       public:
-        typedef CUDA_Array<RATETYPE, NUM_SPECIES> SpecieRates;
+        typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         Context(simulation_cuda& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 1) const;
+        Real calculateNeighborAvg(specie_id sp, int delay = 1) const;
         IF_CUDA(__host__ __device__)
         void updateCon(const SpecieRates& rates);
         IF_CUDA(__host__ __device__)
         const SpecieRates calculateRatesOfChange();
         IF_CUDA(__host__ __device__)
-        virtual RATETYPE getCon(specie_id sp) const final {
+        virtual Real getCon(specie_id sp) const final {
           return getCon(sp, 1);
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getCon(specie_id sp, int delay) const {
+        Real getCon(specie_id sp, int delay) const {
             return _simulation._baby_cl_cuda[sp][1 - delay][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getCritVal(critspecie_id rcritsp) const {
+        Real getCritVal(critspecie_id rcritsp) const {
             return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getRate(reaction_id reaction) const {
+        Real getRate(reaction_id reaction) const {
             return _simulation._cellParams[reaction][_cell];
         }
         IF_CUDA(__host__ __device__)
@@ -88,9 +88,9 @@ class simulation_cuda: public simulation_determ {
     baby_cl_cuda _baby_cl_cuda;
     CUDA_Array<int, 6>* _old_neighbors;
     int* _old_numNeighbors;
-    RATETYPE* _old_cellParams;
+    Real* _old_cellParams;
     int* _old_intDelays;
-    RATETYPE* _old_crits;
+    Real* _old_crits;
     void initialize();
 
     IF_CUDA(__host__ __device__)
@@ -112,16 +112,16 @@ class simulation_cuda: public simulation_determ {
     }
 
     void simulate_cuda();
-    simulation_cuda(const model& m, const Parameter_Set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+    simulation_cuda(const model& m, const Parameter_Set& ps, int cells_total, int width_total, Real step_size, Real analysis_interval, Real sim_time) :
         simulation_determ(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
           check(cudaMallocManaged(&_neighbors, sizeof(CUDA_Array<int, 6>)*_cells_total));
           _old_numNeighbors = _numNeighbors;
           check(cudaMallocManaged(&_numNeighbors, sizeof(int)*_cells_total));
           _old_cellParams = _cellParams._array;
-          check(cudaMallocManaged(&(_cellParams._array), sizeof(RATETYPE)*_cells_total*NUM_PARAMS));
+          check(cudaMallocManaged(&(_cellParams._array), sizeof(Real)*_cells_total*NUM_PARAMS));
           _old_intDelays = _intDelays._array;
-          check(cudaMallocManaged(&(_intDelays._array), sizeof(RATETYPE)*_cells_total*NUM_DELAY_REACTIONS));
+          check(cudaMallocManaged(&(_intDelays._array), sizeof(Real)*_cells_total*NUM_DELAY_REACTIONS));
         }
     ~simulation_cuda() {
       cudaFree(_intDelays._array);

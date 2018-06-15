@@ -27,29 +27,29 @@ class simulation_determ : public Simulation {
         int _cell;
 
       public:
-        typedef CUDA_Array<RATETYPE, NUM_SPECIES> SpecieRates;
+        typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         Context(simulation_determ& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const;
+        Real calculateNeighborAvg(specie_id sp, int delay = 0) const;
         IF_CUDA(__host__ __device__)
         void updateCon(const SpecieRates& rates);
         IF_CUDA(__host__ __device__)
         const SpecieRates calculateRatesOfChange();
         IF_CUDA(__host__ __device__)
-        virtual RATETYPE getCon(specie_id sp) const final {
+        virtual Real getCon(specie_id sp) const final {
           return getCon(sp, 1);
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getCon(specie_id sp, int delay) const {
+        Real getCon(specie_id sp, int delay) const {
             return _simulation._baby_cl[sp][1 - delay][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getCritVal(critspecie_id rcritsp) const {
+        Real getCritVal(critspecie_id rcritsp) const {
             return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getRate(reaction_id reaction) const {
+        Real getRate(reaction_id reaction) const {
             return _simulation._cellParams[reaction][_cell];
         }
         IF_CUDA(__host__ __device__)
@@ -69,7 +69,7 @@ class simulation_determ : public Simulation {
   baby_cl _baby_cl;
 
   // Sizes
-  RATETYPE _step_size; // The step size in minutes
+  Real _step_size; // The step size in minutes
   //int steps_total; // The number of time steps to simulate (total time / step size)
   //int steps_split; // The number of time steps it takes for cells to split
   //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
@@ -98,8 +98,8 @@ class simulation_determ : public Simulation {
   int _j;
   int _num_history_steps; // how many steps in history are needed for this numerical method
 
-  simulation_determ(const model& m, const Parameter_Set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
-                    RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+  simulation_determ(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+                    Real step_size, Real analysis_interval, Real sim_time) :
     Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~simulation_determ() {}

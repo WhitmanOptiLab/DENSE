@@ -13,7 +13,7 @@ void OscillationAnalysis :: finalize(){
         for (unsigned c = 0; c < max-min; ++c){
             time = timeTemp;
             while (windows[s][c].getSize()>=(range_steps/2)&&bst[s][c].size()>0){
-                RATETYPE removed = windows[s][c].dequeue();
+                Real removed = windows[s][c].dequeue();
                 bst[s][c].erase(bst[s][c].find(removed));
                 //std::cout<<"bst size="<<bst[s][c].size()<<'\n';
                 checkCritPoint(s, c);
@@ -30,10 +30,10 @@ void OscillationAnalysis::show () {
   {
       for (unsigned c = min; c < max; ++c)
       {
-          std::vector<RATETYPE> avg_peak(observed_species_.size());
+          std::vector<Real> avg_peak(observed_species_.size());
           for (std::size_t s = 0; s < observed_species_.size(); ++s)
           {
-              RATETYPE peak_count = 0;
+              Real peak_count = 0;
               avg_peak[s] = 0.0;
 
               for (std::size_t pt = 0; pt < peaksAndTroughs[s][c].size(); ++pt)
@@ -78,11 +78,11 @@ void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int 
 
     for (std::size_t i = 0; i < observed_species_.size(); ++i)
     {
-        RATETYPE added = start.getCon(observed_species_[i]);
+        Real added = start.getCon(observed_species_[i]);
         windows[i][c].enqueue(added);
         bst[i][c].insert(added);
         if ( windows[i][c].getSize() == range_steps + 1) {
-            RATETYPE removed = windows[i][c].dequeue();
+            Real removed = windows[i][c].dequeue();
             bst[i][c].erase(bst[i][c].find(removed));
         }
         if ( windows[i][c].getSize() < range_steps/2) {
@@ -98,12 +98,12 @@ void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int 
  * arg "c": the cell this concentration level is found in
 */
 void OscillationAnalysis :: checkCritPoint(int s, int c){
-	RATETYPE mid_conc = windows[s][c].getVal(windows[s][c].getCurrent());
+	Real mid_conc = windows[s][c].getVal(windows[s][c].getCurrent());
 	if ((mid_conc==*bst[s][c].rbegin())&&!(mid_conc==*bst[s][c].begin())){
-		addCritPoint(s,c,true,std::max<RATETYPE>(0.0,(time-range_steps/2)*analysis_interval + start_time),mid_conc);
+		addCritPoint(s,c,true,std::max<Real>(0.0,(time-range_steps/2)*analysis_interval + start_time),mid_conc);
 	}
 	else if (mid_conc==*bst[s][c].begin()){
-		addCritPoint(s,c,false,std::max<RATETYPE>(0.0,(time-(range_steps/2))*analysis_interval + start_time),mid_conc);
+		addCritPoint(s,c,false,std::max<Real>(0.0,(time-(range_steps/2))*analysis_interval + start_time),mid_conc);
 	}
 }
 
@@ -115,7 +115,7 @@ void OscillationAnalysis :: checkCritPoint(int s, int c){
  * arg "minute": time, in minutes, that the critical point occurs
  * arg "concentration": the concentration level of the critical point
 */
-void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration){
+void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, Real minute, Real concentration){
 	crit_point crit;
 	crit.is_peak = isPeak;
 	crit.time = minute;
@@ -159,7 +159,7 @@ void OscillationAnalysis :: update(ContextBase& start){
 */
 void OscillationAnalysis :: calcAmpsAndPers(int s, int c){
 	std::vector<crit_point> crits = peaksAndTroughs[s][c];
-    RATETYPE peakSum = 0.0, troughSum = 0.0, cycleSum = 0.0;
+    Real peakSum = 0.0, troughSum = 0.0, cycleSum = 0.0;
     int numPeaks = 0, numTroughs = 0, cycles = 0;
 	for (std::size_t i = 0; i < crits.size(); ++i){
 		if (crits[i].is_peak){

@@ -7,7 +7,7 @@
 
 
 template<int N, class T>
-void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const RATETYPE normfactor){
+void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor){
 //    initialize();
     if (_sim.factors_perturb){
         for (int i = 0; i < N; i++) {
@@ -54,7 +54,7 @@ void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const RATETYPE 
 
 //Dummy function to force generation of update_params for all the simulation types
 void __genUpdateRates(Simulation& s) {
-  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES, RATETYPE> r(s, 1);
+  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES, Real> r(s, 1);
   Parameter_Set ps;
   r.initialize_params(ps);
 }

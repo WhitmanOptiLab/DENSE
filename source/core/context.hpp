@@ -1,4 +1,4 @@
-// A context defines a locale in which reactions take place and species 
+// A context defines a locale in which reactions take place and species
 //   reside
 #ifndef CORE_CONTEXT_HPP
 #define CORE_CONTEXT_HPP
@@ -10,7 +10,7 @@ class ContextBase {
   //FIXME - want to make this private at some point
  public:
   IF_CUDA(__host__ __device__)
-  virtual RATETYPE getCon(specie_id sp) const = 0;
+  virtual Real getCon(specie_id sp) const = 0;
   IF_CUDA(__host__ __device__)
   virtual void advance() = 0;
   IF_CUDA(__host__ __device__)

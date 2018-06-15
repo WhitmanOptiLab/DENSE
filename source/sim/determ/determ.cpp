@@ -5,8 +5,8 @@
 #include <iostream>
 
 void simulation_determ::simulate(){
-	RATETYPE analysis_chunks = time_total/analysis_gran;
- 	RATETYPE total_step = analysis_gran/_step_size;
+	Real analysis_chunks = time_total/analysis_gran;
+ 	Real total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
         Context context(*this,0);
         notify(context);

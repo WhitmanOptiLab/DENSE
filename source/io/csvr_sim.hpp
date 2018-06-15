@@ -20,7 +20,7 @@ public:
         sim_ct();
 
         IF_CUDA(__host__ __device__)
-        virtual RATETYPE getCon(specie_id sp) const;
+        virtual Real getCon(specie_id sp) const;
         IF_CUDA(__host__ __device__)
         virtual void advance();
         IF_CUDA(__host__ __device__)
@@ -29,7 +29,7 @@ public:
         virtual void set(int c);
 
     private:
-        std::vector<std::map<specie_id, RATETYPE>> iRate;
+        std::vector<std::map<specie_id, Real>> iRate;
         unsigned iIter;
     };
 
@@ -39,9 +39,9 @@ public:
     virtual ~csvr_sim();
 
     int getCellTotal();
-    RATETYPE getAnlysIntvl();
-    RATETYPE getTimeStart();
-    RATETYPE getTimeEnd();
+    Real getAnlysIntvl();
+    Real getTimeStart();
+    Real getTimeEnd();
     int getCellStart();
     int getCellEnd();
 
@@ -54,7 +54,7 @@ private:
     bool iTimeCol;
 
     // For everyone else to get()
-    RATETYPE iAnlysIntvl, iTimeStart, iTimeEnd;
+    Real iAnlysIntvl, iTimeStart, iTimeEnd;
     int iCellStart, iCellEnd;
 };
 

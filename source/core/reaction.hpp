@@ -57,7 +57,7 @@ class reaction : public reaction_base {
   reaction();
   template<class Ctxt>
   IF_CUDA(__host__ __device__)
-  RATETYPE active_rate(Ctxt const& c) const;
+  Real active_rate(Ctxt const& c) const;
 };
 
 #define REACTION(name) template<> reaction<name>::reaction();

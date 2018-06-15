@@ -3,8 +3,8 @@
 #include <string>
 
 
-csvw_sim::csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
-        RATETYPE const& pcfTimeStart, RATETYPE const& pcfTimeEnd,
+csvw_sim::csvw_sim(std::string const& pcfFileName, Real const& pcfTimeInterval,
+        Real const& pcfTimeStart, Real const& pcfTimeEnd,
         bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
         const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
         specie_vec const& pcfSpecieOption, Observable & observable) :

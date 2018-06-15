@@ -25,10 +25,10 @@ class simulation_stoch : public Simulation {
 
     //"event" represents a delayed reaction scheduled to fire later
     struct event{
-      RATETYPE time;
+      Real time;
 	    int cell;
       reaction_id rxn;
-	    RATETYPE getTime() const{return time;}
+	    Real getTime() const{return time;}
 	    bool operator<(event const &b) const {return time < b.time;}
     };
 
@@ -40,7 +40,7 @@ class simulation_stoch : public Simulation {
     //"t" is current simulation time
     double littleT;
     //"propensities" stores probability of each rxn firing, calculated from active rates
-    std::vector<std::vector<RATETYPE> > propensities;
+    std::vector<std::vector<Real> > propensities;
     //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> propensity_network[NUM_REACTIONS];
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
@@ -48,13 +48,13 @@ class simulation_stoch : public Simulation {
     //random number generator
     std::default_random_engine generator;
 
-    RATETYPE generateTau();
-    RATETYPE getSoonestDelay();
+    Real generateTau();
+    Real getSoonestDelay();
     void executeDelayRXN();
-    RATETYPE getRandVariable();
-    void tauLeap(RATETYPE tau);
+    Real getRandVariable();
+    void tauLeap(Real tau);
     void initPropensityNetwork();
-    void generateRXNTaus(RATETYPE tau);
+    void generateRXNTaus(Real tau);
     void fireOrSchedule(int c, reaction_id rid);
     void initPropensities();
 
@@ -72,11 +72,11 @@ class simulation_stoch : public Simulation {
         int _cell;
 
       public:
-        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
+        typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim), _cell(cell) { }
         IF_CUDA(__host__ __device__)
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay) const;
+        Real calculateNeighborAvg(specie_id sp, int delay) const;
         IF_CUDA(__host__ __device__)
         void updateCon(specie_id sid,int delta){
 	      if (_simulation.concs[_cell][sid]+delta < 0){
@@ -89,26 +89,26 @@ class simulation_stoch : public Simulation {
         IF_CUDA(__host__ __device__)
         void updatePropensities(reaction_id rid);
 	    IF_CUDA(__host__ __device__)
-	    RATETYPE getTotalPropensity();
+	    Real getTotalPropensity();
 	    IF_CUDA(__host__ __device__)
-	    int chooseReaction(RATETYPE propensity_portion);
+	    int chooseReaction(Real propensity_portion);
         IF_CUDA(__host__ __device__)
-        virtual RATETYPE getCon(specie_id sp) const final {
+        virtual Real getCon(specie_id sp) const final {
           return _simulation.concs[_cell][sp];
         }
-	    RATETYPE getCon(specie_id sp, int delay) const {
+	    Real getCon(specie_id sp, int delay) const {
 	      return getCon(sp);
 	    }
         IF_CUDA(__host__ __device__)
-        RATETYPE getCritVal(critspecie_id rcritsp) const {
+        Real getCritVal(critspecie_id rcritsp) const {
             return _simulation._cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getRate(reaction_id reaction) const {
+        Real getRate(reaction_id reaction) const {
             return _simulation._cellParams[reaction][_cell];
         }
         IF_CUDA(__host__ __device__)
-        RATETYPE getDelay(delay_reaction_id delay_reaction) const{
+        Real getDelay(delay_reaction_id delay_reaction) const{
             return _simulation._cellParams[NUM_REACTIONS+delay_reaction][_cell];
         }
         IF_CUDA(__host__ __device__)
@@ -128,8 +128,8 @@ class simulation_stoch : public Simulation {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    simulation_stoch(const model& m, const Parameter_Set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
-                    RATETYPE analysis_interval, RATETYPE sim_time, int seed):
+    simulation_stoch(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+                    Real analysis_interval, Real sim_time, int seed):
         Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(std::default_random_engine(seed)){}
 

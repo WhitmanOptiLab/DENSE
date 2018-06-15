@@ -18,7 +18,7 @@
  * postcondition: ti>=time_total
 */
 void simulation_stoch::simulate(){
-	RATETYPE analysis_chunks = time_total/analysis_gran;
+	Real analysis_chunks = time_total/analysis_gran;
 
 	for (int a=1; a<=analysis_chunks; a++){
 		ContextStoch context(*this,0);
@@ -31,7 +31,7 @@ void simulation_stoch::simulate(){
         }
 
 		while (littleT<analysis_gran && (t+littleT)<time_total){
-            RATETYPE tau = generateTau();
+            Real tau = generateTau();
 
             if ((t+littleT+tau>getSoonestDelay())&&NUM_DELAY_REACTIONS>0){
                 executeDelayRXN();
@@ -51,11 +51,11 @@ void simulation_stoch::simulate(){
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-RATETYPE simulation_stoch::generateTau(){
+Real simulation_stoch::generateTau(){
 	ContextStoch c(*this, 0);
-	RATETYPE propensity_sum = c.getTotalPropensity();
-	RATETYPE u = getRandVariable();
-	RATETYPE tau = -(std::log(u))/propensity_sum;
+	Real propensity_sum = c.getTotalPropensity();
+	Real u = getRandVariable();
+	Real tau = -(std::log(u))/propensity_sum;
 
 	return tau;
 }
@@ -65,8 +65,8 @@ RATETYPE simulation_stoch::generateTau(){
  * return "dTime": the time that the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
-RATETYPE simulation_stoch::getSoonestDelay(){
-    RATETYPE dTime;
+Real simulation_stoch::getSoonestDelay(){
+    Real dTime;
     if (event_schedule.size()>0){
 	    event e = *event_schedule.begin();
         dTime = e.time;
@@ -98,9 +98,9 @@ void simulation_stoch::executeDelayRXN(){
  * GETRANDVARIABLE
  * return "u": a random variable between 0.0 and 1.0
 */
-RATETYPE simulation_stoch::getRandVariable(){
-	std::uniform_real_distribution<RATETYPE> distribution(0.0,1.0);
-	RATETYPE u = distribution(generator);
+Real simulation_stoch::getRandVariable(){
+	std::uniform_real_distribution<Real> distribution(0.0,1.0);
+	Real u = distribution(generator);
 	return u;
 }
 
@@ -109,13 +109,13 @@ RATETYPE simulation_stoch::getRandVariable(){
  * chooses a reaction to fire or schedule and moves forward in time
  * arg "tau": timestep to leap forward by
 */
-void simulation_stoch::tauLeap(RATETYPE tau){
+void simulation_stoch::tauLeap(Real tau){
 
-	RATETYPE u = getRandVariable();
+	Real u = getRandVariable();
 
 	ContextStoch context(*this, 0);
 
-	RATETYPE propensity_portion = u * context.getTotalPropensity();
+	Real propensity_portion = u * context.getTotalPropensity();
 
 	int j = context.chooseReaction(propensity_portion);
 	int r = j%NUM_REACTIONS;
@@ -139,7 +139,7 @@ void simulation_stoch::fireOrSchedule(int c, reaction_id rid){
 	ContextStoch x(*this,c);
 
 	if (dri!=NUM_DELAY_REACTIONS){
-		RATETYPE delay = x.getDelay(dri);
+		Real delay = x.getDelay(dri);
 
 		event futureRXN;
 		futureRXN.time = t + littleT + delay;
@@ -182,7 +182,7 @@ void simulation_stoch::initialize(){
 
     for (int c = 0; c < _cells_total; c++) {
       std::vector<int> species;
-      std::vector<RATETYPE> props;
+      std::vector<Real> props;
       concs.push_back(species);
       propensities.push_back(props);
       for (int s = 0; s < NUM_SPECIES; s++) {
@@ -220,18 +220,18 @@ void simulation_stoch::initPropensityNetwork(){
       public:
         DependanceContext(std::set<specie_id>& neighbordeps_tofill,std::set<specie_id>& deps_tofill) :
             interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
-        RATETYPE getCon(specie_id sp, int delay=0) const {
+        Real getCon(specie_id sp, int delay=0) const {
             intradeps_tofill.insert(sp);
             return 0.0;
         };
-        RATETYPE getCon(specie_id sp){
+        Real getCon(specie_id sp){
             intradeps_tofill.insert(sp);
             return 0.0;
         };
-        RATETYPE getRate(reaction_id rid) const { return 0.0; };
-        RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
-        RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay=0) const {
+        Real getRate(reaction_id rid) const { return 0.0; };
+        Real getDelay(delay_reaction_id rid) const { return 0.0; };
+        Real getCritVal(critspecie_id crit) const { return 0.0; };
+        Real calculateNeighborAvg(specie_id sp, int delay=0) const {
             interdeps_tofill.insert(sp);
             return 0.0;
         };

@@ -48,7 +48,7 @@ namespace arg_parse
      *
      *  usage
      *      Anywhere in your program after init(...) is called, return the value proceeding "-pcFlagShort" or "--pcFlagLong"
-     *      IMPORTANT!!! typename T must be either std::string, bool, int, RATETYPE, or specie_vec
+     *      IMPORTANT!!! typename T must be either std::string, bool, int, Real, or specie_vec
      *      Second version of get<>() does not work with specie_vec typename
      *
      *  parameters
@@ -60,7 +60,7 @@ namespace arg_parse
      *
      *  returns
      *      Value from command line in type T proceeding flag
-     *      If typename is not of std::string, bool, int, or RATETYPE, prints an error to the command line and returns nullptr
+     *      If typename is not of std::string, bool, int, or Real, prints an error to the command line and returns nullptr
      *
      *  notes
      *      BEFORE CALLING THIS FUNCTION, PLEASE CALL "arg_parse::init(...)"

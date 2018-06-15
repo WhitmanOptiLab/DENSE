@@ -14,7 +14,7 @@ class baby_cl {
     int _j[NUM_SPECIES];
     simulation_determ const& _sim;
     int _length, _width, _total_length;
-    RATETYPE *_array;
+    Real *_array;
 
 
   public:
@@ -22,18 +22,18 @@ class baby_cl {
     public:
 
         IF_CUDA(__host__ __device__)
-        cell(RATETYPE *row): _array(row) {}
+        cell(Real *row): _array(row) {}
 
         IF_CUDA(__host__ __device__)
-        RATETYPE& operator[](int k){
+        Real& operator[](int k){
             return _array[k];
         }
 
         IF_CUDA(__host__ __device__)
-        const RATETYPE& operator[](int k) const {
+        const Real& operator[](int k) const {
             return _array[k];
         }
-        RATETYPE *_array;
+        Real *_array;
     };
 
     template <typename NumericT>
@@ -45,7 +45,7 @@ class baby_cl {
     class timespan{
     public:
         IF_CUDA(__host__ __device__)
-        timespan(RATETYPE *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
+        timespan(Real *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
 
         IF_CUDA(__host__ __device__)
         cell operator[](int j) {
@@ -60,7 +60,7 @@ class baby_cl {
             cell temp(_array+_width*j);
             return temp;
         }
-        RATETYPE *_array;
+        Real *_array;
         int _width;
         int _pos;
         int _hist_len;
@@ -128,7 +128,7 @@ protected:
 
     void allocate_array(){
         if (_total_length >0){
-            _array = new RATETYPE[_total_length];
+            _array = new Real[_total_length];
         }
         else{
             _array = nullptr;

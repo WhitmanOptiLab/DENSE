@@ -18,8 +18,8 @@ class OscillationAnalysis : public Analysis {
 
 private:
 	struct crit_point {
-		RATETYPE time;
-		RATETYPE conc;
+		Real time;
+		Real conc;
 		bool is_peak;
 	};
 
@@ -32,15 +32,15 @@ private:
 	std::vector<std::vector<std::vector<crit_point>>> peaksAndTroughs;
 
 	int range_steps;
-	RATETYPE analysis_interval;
+	Real analysis_interval;
 
-	std::vector<std::vector<std::multiset<RATETYPE>>> bst;
+	std::vector<std::vector<std::multiset<Real>>> bst;
 
-	std::vector<std::vector<RATETYPE>> amplitudes;
-	std::vector<std::vector<RATETYPE>> periods;
+	std::vector<std::vector<Real>> amplitudes;
+	std::vector<std::vector<Real>> periods;
 
     // s: specie_vec index
-	void addCritPoint(int s, int context, bool isPeak, RATETYPE minute, RATETYPE concentration);
+	void addCritPoint(int s, int context, bool isPeak, Real minute, Real concentration);
 	void get_peaks_and_troughs(ContextBase const& start,int c);
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
@@ -53,10 +53,10 @@ public:
 	* range: required local range of a peak or trough in minutes.
 	* specieID: specie to analyze.
 	*/
-	OscillationAnalysis(Observable & observable, RATETYPE interval,
-                        RATETYPE range, specie_vec const& pcfSpecieOption,
+	OscillationAnalysis(Observable & observable, Real interval,
+                        Real range, specie_vec const& pcfSpecieOption,
                         csvw* pnFileOut, unsigned min_cell, unsigned max_cell,
-                        RATETYPE start_time, RATETYPE end_time) :
+                        Real start_time, Real end_time) :
             Analysis(pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
@@ -71,7 +71,7 @@ public:
             for (unsigned c = min; c < max; ++c){
                 Queue q(range_steps);
                 std::vector<crit_point> v;
-                std::multiset<RATETYPE> BST;
+                std::multiset<Real> BST;
 
                 windows[i].push_back(q);
                 peaksAndTroughs[i].push_back(v);

@@ -29,9 +29,9 @@ protected:
 
     void allocate_array(){
         if (_total_length >0){
-            int size = _total_length * sizeof(RATETYPE);
+            int size = _total_length * sizeof(Real);
             (cudaMallocManaged((void**)&_array, size));
-            //_array= new RATETYPE[_total_length];
+            //_array= new Real[_total_length];
             //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
         else{
