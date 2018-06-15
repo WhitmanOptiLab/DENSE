@@ -24,7 +24,7 @@
  */
 
 
-class simulation_set{
+class Simulation_Set {
 
   public:
     std::vector<Parameter_Set> const& _ps;
@@ -36,7 +36,7 @@ class simulation_set{
     Real** factors_grad;
 
 
-    simulation_set(std::vector<Parameter_Set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, Real step_size, Real analysis_interval, Real sim_time, int seed) :
+    Simulation_Set(std::vector<Parameter_Set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, Real step_size, Real analysis_interval, Real sim_time, int seed) :
         _ps(params), factors_pert(nullptr), factors_grad(nullptr)
     {
 
@@ -185,7 +185,7 @@ class simulation_set{
         }
     }
 
-    ~simulation_set()
+    ~Simulation_Set()
     {
 
     }
