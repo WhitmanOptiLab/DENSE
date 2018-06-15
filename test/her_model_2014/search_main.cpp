@@ -50,7 +50,7 @@ std::vector<double> her2014_scorer (const vector<Parameter_Set>& population) {
   //Create mutants
 
   //Create simulations
-  simulation_set(population,
+  Simulation_Set(population,
                  "", "",
                  arg_parse::get<int>("c", "cell-total", 200),
                  arg_parse::get<int>("w", "tissue_width", 50),

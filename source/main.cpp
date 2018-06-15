@@ -143,7 +143,7 @@ int main(int argc, char* argv[])
           }
 
           // Create simulation set
-          simulation_set sim_set(
+          Simulation_Set sim_set(
             params,
             arg_parse::get<std::string>("g", "gradients", ""),
             arg_parse::get<std::string>("b", "perturbations", ""),
