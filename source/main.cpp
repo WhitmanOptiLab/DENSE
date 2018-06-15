@@ -1,6 +1,6 @@
 #include "io/arg_parse.hpp"
-#include "anlys/oscillation.hpp"
-#include "anlys/basic.hpp"
+#include "analysis/oscillation.hpp"
+#include "analysis/basic.hpp"
 #include "util/style.hpp"
 #include "util/common_utils.hpp"
 #include "io/csvr_sim.hpp"

@@ -12,9 +12,9 @@ function(SIMCORELIB localname simdir)
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
-          ${PROJECT_SOURCE_DIR}/source/anlys/base.cpp
-          ${PROJECT_SOURCE_DIR}/source/anlys/basic.cpp
-          ${PROJECT_SOURCE_DIR}/source/anlys/oscillation.cpp
+          ${PROJECT_SOURCE_DIR}/source/analysis/base.cpp
+          ${PROJECT_SOURCE_DIR}/source/analysis/basic.cpp
+          ${PROJECT_SOURCE_DIR}/source/analysis/oscillation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
