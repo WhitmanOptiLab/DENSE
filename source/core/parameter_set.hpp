@@ -10,7 +10,7 @@
 
 constexpr auto NUM_PARAMS = NUM_CRITICAL_SPECIES + NUM_REACTIONS + NUM_DELAY_REACTIONS;
 
-class param_set{
+class Parameter_Set {
  private:
     //From the old code - not in use
     //char* print_name; // The mutant's name for printing output
@@ -34,7 +34,7 @@ class param_set{
   RATETYPE _parameters[NUM_PARAMS + 1];
 
  public:
-  param_set() {};
+  Parameter_Set() {};
 
   RATETYPE getCriticalValue(critspecie_id i) const { return _parameters[NUM_REACTIONS + NUM_DELAY_REACTIONS + i]; }
   RATETYPE getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }

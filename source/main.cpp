@@ -133,11 +133,11 @@ int main(int argc, char* argv[])
               std::cout << "Stochastic simulation seed: " << seed << '\n';
           }
 
-          std::vector<param_set> params;
+          std::vector<Parameter_Set> params;
 
           //Load parameter sets to run
           csvr csv_in(param_sets);
-          param_set next_set;
+          Parameter_Set next_set;
           while (next_set.import_from(csv_in)) {
             params.push_back(next_set);
           }

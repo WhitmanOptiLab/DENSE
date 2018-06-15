@@ -78,7 +78,7 @@ class simulation_set_cuda {
 
 
     simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) : _num_sets(num_param) {
-        cudaMallocManaged(&_ps, sizeof(param_set));
+        cudaMallocManaged(&_ps, sizeof(Parameter_Set));
         cudaMallocManaged(&_m, sizeof(model));
         new(_m) model();
 	time_total = sim_time;
@@ -103,7 +103,7 @@ class simulation_set_cuda {
  private:
     //setting up model
     model* _m;
-    param_set* _ps;
+    Parameter_Set* _ps;
     simulation_cuda* _sim_set;
     int _num_sets;
 };

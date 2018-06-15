@@ -4,7 +4,7 @@
 #include "sim/base.hpp"
 #include "core/observable.hpp"
 #include "core/context.hpp"
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
@@ -128,7 +128,7 @@ class simulation_stoch : public Simulation {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    simulation_stoch(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
+    simulation_stoch(const model& m, const Parameter_Set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE analysis_interval, RATETYPE sim_time, int seed):
         Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(std::default_random_engine(seed)){}

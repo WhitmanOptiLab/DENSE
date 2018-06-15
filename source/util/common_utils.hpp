@@ -17,7 +17,7 @@ specie_vec str_to_species(std::string pcfSpecies);
 #include "Real.hpp"
 
 template <typename ValueT, std::size_t Size>
-class CPUGPU_TempArray {
+class CUDA_Array {
  ValueT array[Size];
  public:
   IF_CUDA(__host__ __device__)

@@ -1,7 +1,7 @@
 #ifndef SIM_DETERM_DETERM_CUDA_HPP
 #define SIM_DETERM_DETERM_CUDA_HPP
 
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
@@ -48,7 +48,7 @@ class simulation_cuda: public simulation_determ {
         double _avg;
 
       public:
-        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
+        typedef CUDA_Array<RATETYPE, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         Context(simulation_cuda& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
@@ -86,7 +86,7 @@ class simulation_cuda: public simulation_determ {
     };
 
     baby_cl_cuda _baby_cl_cuda;
-    CPUGPU_TempArray<int, 6>* _old_neighbors;
+    CUDA_Array<int, 6>* _old_neighbors;
     int* _old_numNeighbors;
     RATETYPE* _old_cellParams;
     int* _old_intDelays;
@@ -112,10 +112,10 @@ class simulation_cuda: public simulation_determ {
     }
 
     void simulate_cuda();
-    simulation_cuda(const model& m, const param_set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
+    simulation_cuda(const model& m, const Parameter_Set& ps, int cells_total, int width_total, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
         simulation_determ(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
-          check(cudaMallocManaged(&_neighbors, sizeof(CPUGPU_TempArray<int, 6>)*_cells_total));
+          check(cudaMallocManaged(&_neighbors, sizeof(CUDA_Array<int, 6>)*_cells_total));
           _old_numNeighbors = _numNeighbors;
           check(cudaMallocManaged(&_numNeighbors, sizeof(int)*_cells_total));
           _old_cellParams = _cellParams._array;

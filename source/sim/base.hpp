@@ -4,13 +4,12 @@
 #include "util/common_utils.hpp"
 #include "core/context.hpp"
 #include "core/observable.hpp"
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"
 #include "cell_param.hpp"
 #include "core/reaction.hpp"
 #include <vector>
-
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
@@ -42,7 +41,7 @@ class Simulation : public Observable {
   //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
   //int active_start; // The start of the active portion of the PSM
   //int active_end; // The end of the active portion of the PSM
-  CPUGPU_TempArray<int, 6>* _neighbors;
+  CUDA_Array<int, 6>* _neighbors;
 
   // PSM section and section-specific times
   //int section; // Posterior or anterior (sec_post or sec_ant)
@@ -54,7 +53,7 @@ class Simulation : public Observable {
   //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
-  param_set const& _parameter_set;
+  Parameter_Set const& _parameter_set;
   model const& _model;
   RATETYPE* factors_perturb;
   RATETYPE** factors_gradient;
@@ -77,10 +76,10 @@ class Simulation : public Observable {
    * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
    * arg "sim_time": the total time to simulate for, in minutes
   */
-  Simulation(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
+  Simulation(model const& m, Parameter_Set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
     time_total(sim_time),  analysis_gran(analysis_interval),
-    _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), _parameter_set(ps), _model(m),
+    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(ps), _model(m),
     factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new int[cells_total])
     { }
 
