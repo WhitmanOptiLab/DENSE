@@ -10,8 +10,8 @@
 class csvw_sim : private csvw, public Observer
 {
 public:
-    csvw_sim(std::string const& pcfFileName, RATETYPE const& pcfTimeInterval,
-            RATETYPE const& pcfTimeStart, RATETYPE const& pcfTimeEnd,
+    csvw_sim(std::string const& pcfFileName, Real const& pcfTimeInterval,
+            Real const& pcfTimeStart, Real const& pcfTimeEnd,
             bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
             const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
             specie_vec const& pcfSpecieOption, Observable & observable);
@@ -23,8 +23,8 @@ public:
 
 private:
     specie_vec const icSpecieOption;
-    RATETYPE const icTimeInterval, icTimeStart, icTimeEnd;
-    RATETYPE ilTime;
+    Real const icTimeInterval, icTimeStart, icTimeEnd;
+    Real ilTime;
     unsigned const icCellTotal, icCellStart, icCellEnd;
     unsigned ilCell;
     bool const icTimeColumn;

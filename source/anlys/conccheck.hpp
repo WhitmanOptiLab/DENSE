@@ -7,7 +7,7 @@
 class ConcentrationCheck : public Analysis {
 
   private:
-    RATETYPE lower_bound, upper_bound;
+    Real lower_bound, upper_bound;
     specie_id target_specie;
 
   public:

@@ -13,7 +13,7 @@ class dense_cl {
   protected:
     const simulation& _sim;
     int   _length, _width,_total_length;
-    RATETYPE *_array;
+    Real *_array;
 
     int _max_delay = 0;
     int _specie_size = 0;
@@ -23,25 +23,25 @@ class dense_cl {
     public:
 
         IF_CUDA(__host__ __device__)
-        cell(RATETYPE *row): _array(row) {}
+        cell(Real *row): _array(row) {}
 
         IF_CUDA(__host__ __device__)
-        RATETYPE& operator[](int k){
+        Real& operator[](int k){
             return _array[k];
         }
 
         IF_CUDA(__host__ __device__)
-        const RATETYPE& operator[](int k) const {
+        const Real& operator[](int k) const {
             return _array[k];
         }
-        RATETYPE *_array;
+        Real *_array;
     };
 
 
     class timespan{
     public:
         IF_CUDA(__host__ __device__)
-        timespan(RATETYPE *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
+        timespan(Real *plane,int width, int pos): _array(plane), _width(width),_pos(pos) {};
 
         IF_CUDA(__host__ __device__)
         cell operator[](int j) {
@@ -56,7 +56,7 @@ class dense_cl {
             cell temp(_array+_width*j);
             return temp;
         }
-        RATETYPE *_array;
+        Real *_array;
         int _width;
         int _pos;
     };
@@ -108,7 +108,7 @@ protected:
 
     void allocate_array(){
         if (_total_length >0){
-            _array= new RATETYPE[_total_length];
+            _array= new Real[_total_length];
         }
         else{
             _array= NULL;

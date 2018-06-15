@@ -53,7 +53,7 @@ void csvw::add_div(std::string const& pcfDiv)
 }
 
 
-void csvw::add_data(RATETYPE const& pcfRate)
+void csvw::add_data(Real const& pcfRate)
 {
     iFile << pcfRate;
     add_div(",");

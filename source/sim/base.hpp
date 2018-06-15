@@ -30,8 +30,8 @@ class Simulation : public Observable {
   int _cells_total; // The total number of cells of the PSM (total width * total height)
 
   // Times and timing
-  RATETYPE time_total;
-  RATETYPE analysis_gran;
+  Real time_total;
+  Real analysis_gran;
   //int steps_total; // The number of time steps to simulate (total time / step size)
   //int steps_split; // The number of time steps it takes for cells to split
   //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
@@ -55,8 +55,8 @@ class Simulation : public Observable {
 
   Parameter_Set const& _parameter_set;
   model const& _model;
-  RATETYPE* factors_perturb;
-  RATETYPE** factors_gradient;
+  Real* factors_perturb;
+  Real** factors_gradient;
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
   int *_numNeighbors;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
@@ -64,7 +64,7 @@ class Simulation : public Observable {
   //int* _time_prev;
   //double* _sets;
   //int _NEIGHBORS_2D;
-  RATETYPE max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
+  Real max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
 
 
   /*
@@ -76,7 +76,7 @@ class Simulation : public Observable {
    * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
    * arg "sim_time": the total time to simulate for, in minutes
   */
-  Simulation(model const& m, Parameter_Set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
+  Simulation(model const& m, Parameter_Set const& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, Real analysis_interval, Real sim_time) :
     Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
     time_total(sim_time),  analysis_gran(analysis_interval),
     _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(ps), _model(m),

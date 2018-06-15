@@ -178,22 +178,22 @@ namespace arg_parse
     }
 
     template<>
-    bool get<RATETYPE>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
-            RATETYPE* pnPushTo, bool const& pcfObligatory)
+    bool get<Real>(std::string const& pcfFlagShort, std::string const& pcfFlagLong,
+            Real* pnPushTo, bool const& pcfObligatory)
     {
         bool success = true;
         int index;
         if (getIndex(pcfFlagShort, pcfFlagLong, &index, true))
         {
             char* tInvalidAt;
-            RATETYPE tPushTo = strtold(iArgVec[index].c_str(), &tInvalidAt);
+            Real tPushTo = strtold(iArgVec[index].c_str(), &tInvalidAt);
 
             if (*tInvalidAt)
             {
                 success = false;
                 std::cout << style::apply(Color::red) << "Command line argument "
                     "parsing failed. Argument \"" << iArgVec[index] <<
-                    "\" cannot be converted to RATETYPE." <<
+                    "\" cannot be converted to Real." <<
                     style::reset() << '\n';
             }
             else

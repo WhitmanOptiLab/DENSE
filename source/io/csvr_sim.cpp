@@ -12,7 +12,7 @@ csvr_sim::sim_ct::sim_ct() :
 }
 
 
-RATETYPE csvr_sim::sim_ct::getCon(specie_id sp) const
+Real csvr_sim::sim_ct::getCon(specie_id sp) const
 {
     return iRate[iIter].at(sp);
 }
@@ -86,19 +86,19 @@ int csvr_sim::getCellTotal()
 }
 
 
-RATETYPE csvr_sim::getAnlysIntvl()
+Real csvr_sim::getAnlysIntvl()
 {
     return iAnlysIntvl;
 }
 
 
-RATETYPE csvr_sim::getTimeStart()
+Real csvr_sim::getTimeStart()
 {
     return iTimeStart;
 }
 
 
-RATETYPE csvr_sim::getTimeEnd()
+Real csvr_sim::getTimeEnd()
 {
     return iTimeEnd;
 }
@@ -120,7 +120,7 @@ void csvr_sim::run()
 {
     unsigned lCell = 0, lSpcVec = 0;
     csvr_sim::sim_ct hSCT;
-    RATETYPE hRate;
+    Real hRate;
 
     // Skip first column
     if (iTimeCol) csvr::get_next();
@@ -130,7 +130,7 @@ void csvr_sim::run()
         // Parse cells and push back maps of rows
         if (lCell >= hSCT.iRate.size())
         {
-            hSCT.iRate.push_back(std::map<specie_id, RATETYPE>());
+            hSCT.iRate.push_back(std::map<specie_id, Real>());
         }
         hSCT.iRate[lCell][iSpecieVec[lSpcVec]] = hRate;
 

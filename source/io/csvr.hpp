@@ -31,13 +31,13 @@ public:
      *        and datalogger
      *
      *  parameters
-     *      pnRate - RATETYPE pointer you want the next data cell to be stored in
+     *      pnRate - Real pointer you want the next data cell to be stored in
      *
      *  returns
      *      true - if there is a next cell and pfRate was successfully set to it
      *      false - if reached end of file or a parsing error
     */
-    bool get_next(RATETYPE* pnRate);
+    bool get_next(Real* pnRate);
     bool get_next(int* pnRate);
     bool get_next();
 

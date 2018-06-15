@@ -10,7 +10,7 @@
 class Queue {
 
 private:
-	std::vector<RATETYPE> contents;
+	std::vector<Real> contents;
 	int start,end,current;
   int size;
 
@@ -25,7 +25,7 @@ public:
 		end = -1;
 	}
 /*
-	void populate(RATETYPE transferArray[]){
+	void populate(Real transferArray[]){
 
 		if (isEmpty()){
 			for (int i = 0; i < size/2; ++i){
@@ -43,7 +43,7 @@ public:
 */
 	int getSize() { return (size + end - start) % size + 1; }
 
-	void enqueue(RATETYPE entry){
+	void enqueue(Real entry){
 		if (end == (size-1)){
 			end = 0;
 		}
@@ -60,8 +60,8 @@ public:
 		}
 	}
 
-	RATETYPE dequeue(){
-		RATETYPE popped = contents[start];
+	Real dequeue(){
+		Real popped = contents[start];
 		if (start == (size-1)){
 			start = 0;
 		}
@@ -77,11 +77,11 @@ public:
 		return popped;
 	}
 
-	RATETYPE getVal(int index){
+	Real getVal(int index){
 		return contents[index];
 	}
 
-	RATETYPE getCurrent(){
+	Real getCurrent(){
 		return current;
 	}
 

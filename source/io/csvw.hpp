@@ -25,16 +25,16 @@ public:
      *  Add Data Divider (Seperator)
      *
      *  usage
-     *      For adding RATETYPE data and custom data seperators to file
+     *      For adding Real data and custom data seperators to file
      *      add_data() automatically adds a "," between individual pieces of data
      *
      *  parameters
-     *      pcfRate - the RATETYPE value to be written to file
+     *      pcfRate - the Real value to be written to file
      *      pcfDiv - the string to be written to file, probably
      *        for seperating sections of data
      *
     */
-    void add_data(RATETYPE const& pcfRate);
+    void add_data(Real const& pcfRate);
     void add_div(std::string const& pcfDiv);
 
     template <typename T>

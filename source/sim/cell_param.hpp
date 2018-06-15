@@ -12,7 +12,7 @@
 
 class Simulation;
 
-template<int N, class T = RATETYPE>
+template<int N, class T = Real>
 class cell_param {
     //FIXME - want to make this private at some point
 public:
@@ -57,7 +57,7 @@ public:
         return cell(_array + _width * i);
     }
 
-    void initialize_params(Parameter_Set const& ps, RATETYPE normfactor = 1.0);
+    void initialize_params(Parameter_Set const& ps, Real normfactor = 1.0);
     int height() const {return _height;}
     int width() const {return _width;}
     inline T random_perturbation (T perturb) {

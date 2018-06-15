@@ -47,18 +47,18 @@ void Simulation::calc_max_delays() {
       public:
         DummyContext(std::set<specie_id>& deps_to_fill) :
             deps(deps_to_fill) {};
-        RATETYPE getCon(specie_id sp, int delay = 0) const {
+        Real getCon(specie_id sp, int delay = 0) const {
             deps.insert(sp);
             return 0.0;
         };
-        RATETYPE getCon(specie_id sp){
+        Real getCon(specie_id sp){
             deps.insert(sp);
             return 0.0;
         };
-        RATETYPE getRate(reaction_id rid) const { return 0.0; };
-        RATETYPE getDelay(delay_reaction_id rid) const { return 0.0; };
-        RATETYPE getCritVal(critspecie_id crit) const { return 0.0; };
-        RATETYPE calculateNeighborAvg(specie_id sp, int delay = 0) const {
+        Real getRate(reaction_id rid) const { return 0.0; };
+        Real getDelay(delay_reaction_id rid) const { return 0.0; };
+        Real getCritVal(critspecie_id crit) const { return 0.0; };
+        Real calculateNeighborAvg(specie_id sp, int delay = 0) const {
             deps.insert(sp);
             return 0.0;
         };
@@ -84,23 +84,23 @@ void Simulation::calc_max_delays() {
 #define DELAY_REACTION(name) \
   delts = rate_terms[name]; \
   iter = delts.begin(); \
-  RATETYPE max_gradient_##name = 1.0; \
+  Real max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \
     for (int k = 0; k < _width_total && factors_gradient[name]; k++) { \
-      max_gradient_##name = std::max<RATETYPE>(factors_gradient[ name ][k], max_gradient_##name); \
+      max_gradient_##name = std::max<Real>(factors_gradient[ name ][k], max_gradient_##name); \
     } \
   } \
   \
-  RATETYPE pert_##name = 0.0; \
+  Real pert_##name = 0.0; \
   if (factors_perturb) \
   { \
     pert_##name = factors_perturb[name]; \
   } \
   \
   for (auto factor : delts) { \
-    RATETYPE& sp_max_delay = max_delays[factor]; \
-    sp_max_delay = std::max<RATETYPE>((_parameter_set.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
+    Real& sp_max_delay = max_delays[factor]; \
+    sp_max_delay = std::max<Real>((_parameter_set.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION

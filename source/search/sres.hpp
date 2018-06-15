@@ -62,7 +62,7 @@ class SRES {
 	    parentsize(num_parents), ngenerations(num_generations), score_fcn(scorer)
 	{
     assert(popsize > parentsize && "ERROR: sres parent size must be smaller than the population size.");
-	  //Create array of double-precision parameters from the RATETYPE parameter sets
+	  //Create array of double-precision parameters from the Real parameter sets
     for (int i = 0; i < NUM_PARAMS; ++i) {
       lb[i] = lowerBounds.getArray()[i];
       ub[i] = upperBounds.getArray()[i];

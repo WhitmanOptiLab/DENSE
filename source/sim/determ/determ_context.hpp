@@ -9,13 +9,13 @@
 #include <iostream>
 
 IF_CUDA(__host__ __device__)
-RATETYPE simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
+Real simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations
-    RATETYPE sum=0;
+    Real sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][static_cast<unsigned>(i)]];
     }
-    RATETYPE avg = sum/_simulation._numNeighbors[_cell];
+    Real avg = sum/_simulation._numNeighbors[_cell];
     return avg;
 }
 
@@ -24,7 +24,7 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
-    CUDA_Array<RATETYPE, NUM_REACTIONS> reaction_rates;
+    CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION

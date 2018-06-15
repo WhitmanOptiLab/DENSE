@@ -31,16 +31,16 @@ class Parameter_Set {
     //bool only_post; //indicating if only the posterior is simulated
 
     // currently in use
-  RATETYPE _parameters[NUM_PARAMS + 1];
+  Real _parameters[NUM_PARAMS + 1];
 
  public:
   Parameter_Set() {};
 
-  RATETYPE getCriticalValue(critspecie_id i) const { return _parameters[NUM_REACTIONS + NUM_DELAY_REACTIONS + i]; }
-  RATETYPE getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }
-  RATETYPE getReactionRate(reaction_id i) const { return _parameters[i]; }
-  RATETYPE* getArray() { return _parameters; }
-  RATETYPE const* getArray() const { return _parameters; }
+  Real getCriticalValue(critspecie_id i) const { return _parameters[NUM_REACTIONS + NUM_DELAY_REACTIONS + i]; }
+  Real getDelay(delay_reaction_id i) const { return _parameters[NUM_REACTIONS + i]; }
+  Real getReactionRate(reaction_id i) const { return _parameters[i]; }
+  Real* getArray() { return _parameters; }
+  Real const* getArray() const { return _parameters; }
 
   Real* begin() { return _parameters + 0; }
   Real* end() { return _parameters + NUM_PARAMS; }

@@ -17,9 +17,9 @@ class simulation_set_cuda {
 
  public:
 
-    RATETYPE time_total;
+    Real time_total;
 
-    void param_set_init(RATETYPE* paramset){
+    void param_set_init(Real* paramset){
         _ps->getArray()[rcrit_pd + NUM_REACTIONS + NUM_DELAY_REACTIONS] = paramset[44];
         _ps->getArray()[rcrit_ph11 + NUM_REACTIONS + NUM_DELAY_REACTIONS] = paramset[42];
         _ps->getArray()[rcrit_ph713 + NUM_REACTIONS + NUM_DELAY_REACTIONS] = paramset[43];
@@ -77,7 +77,7 @@ class simulation_set_cuda {
 
 
 
-    simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, RATETYPE* paramset, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) : _num_sets(num_param) {
+    simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, Real* paramset, int cell_total, int total_width, Real step_size, Real analysis_interval, Real sim_time) : _num_sets(num_param) {
         cudaMallocManaged(&_ps, sizeof(Parameter_Set));
         cudaMallocManaged(&_m, sizeof(model));
         new(_m) model();

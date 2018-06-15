@@ -31,12 +31,12 @@ class simulation_set{
     std::vector<Simulation*> _sim_set;
     //setting up model
     model _m;
-    RATETYPE total_time;
-    RATETYPE* factors_pert;
-    RATETYPE** factors_grad;
+    Real total_time;
+    Real* factors_pert;
+    Real** factors_grad;
 
 
-    simulation_set(std::vector<Parameter_Set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
+    simulation_set(std::vector<Parameter_Set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, Real step_size, Real analysis_interval, Real sim_time, int seed) :
         _ps(params), factors_pert(nullptr), factors_grad(nullptr)
     {
 
@@ -47,23 +47,23 @@ class simulation_set{
 
             // PREPARE PERT AND GRAD FILES
             {
-                RATETYPE do_global_pert_val = strtold(pcfPertFileName.c_str(), 0);
+                Real do_global_pert_val = strtold(pcfPertFileName.c_str(), 0);
                 bool do_global_pert = (do_global_pert_val != 0.0);
 
                 if (pcfPertFileName.size() > 0)
                 {
                     // Try loading file, suppress warning if string can be
-                    //   read as RATETYPE
+                    //   read as Real
                     csvr perturbFile(pcfPertFileName, do_global_pert);
                     if (perturbFile.is_open() || do_global_pert)
                     {
-                        factors_pert = new RATETYPE[NUM_REACTIONS];
+                        factors_pert = new Real[NUM_REACTIONS];
 
                         // pert factor to be added to array
-                        RATETYPE tPert = 0.0;
+                        Real tPert = 0.0;
                         for (int i = 0; i < NUM_REACTIONS; i++)
                         {
-                            // Perturb default (0.0 if argument was not a RATETYPE)
+                            // Perturb default (0.0 if argument was not a Real)
                             // Prevents crashes in case perturbation parsing fails
                             factors_pert[i] = do_global_pert_val;
 
@@ -93,11 +93,11 @@ class simulation_set{
                     csvr gradientFile(pcfGradFileName);
                     if (gradientFile.is_open())
                     {
-                        factors_grad = new RATETYPE*[NUM_REACTIONS];
+                        factors_grad = new Real*[NUM_REACTIONS];
                         // gradient width index start, gradient width index end,
                         //   gradient low bound, gradient high bound,
                         //   gradient slope
-                        RATETYPE tGradX1 = 0.0, tGradX2 = 0.0,
+                        Real tGradX1 = 0.0, tGradX2 = 0.0,
                                  tGradY1 = 0.0, tGradY2 = 0.0, tGradM = 0.0;
                         for (std::size_t i = 0; i < NUM_REACTIONS; i++)
                         {
@@ -118,7 +118,7 @@ class simulation_set{
                                     if (tGradX1!=tGradX2)
                                     {
                                         factors_grad[i] =
-                                            new RATETYPE[total_width];
+                                            new Real[total_width];
                                         tGradM = (tGradY2 - tGradY1) /
                                             (tGradX2 - tGradX1);
 
