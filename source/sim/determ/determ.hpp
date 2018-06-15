@@ -4,7 +4,7 @@
 #include "sim/base.hpp"
 #include "core/observable.hpp"
 #include "core/context.hpp"
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
@@ -27,7 +27,7 @@ class simulation_determ : public Simulation {
         int _cell;
 
       public:
-        typedef CPUGPU_TempArray<RATETYPE, NUM_SPECIES> SpecieRates;
+        typedef CUDA_Array<RATETYPE, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
         Context(simulation_determ& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
@@ -98,7 +98,7 @@ class simulation_determ : public Simulation {
   int _j;
   int _num_history_steps; // how many steps in history are needed for this numerical method
 
-  simulation_determ(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
+  simulation_determ(const model& m, const Parameter_Set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
     Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }

@@ -23,7 +23,7 @@ sres.hpp contains function declarations for sres.cpp.
 #ifndef SRES_HPP
 #define SRES_HPP
 
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 
 #if defined(MPI)
 	#include "libsres-mpi/ESES.hpp"
@@ -37,7 +37,7 @@ sres.hpp contains function declarations for sres.cpp.
 
 class SRES {
  public:
-  typedef std::vector<double> (*SRES_Scorer) (const std::vector<param_set>&);
+  typedef std::vector<double> (*SRES_Scorer) (const std::vector<Parameter_Set>&);
 
  private:
   //SRES interface members
@@ -45,8 +45,8 @@ class SRES {
 	ESPopulation* population;
 	ESStatistics* stats;
 	double pf;
-	const param_set& lowerBounds;
-  const param_set& upperBounds;
+	const Parameter_Set& lowerBounds;
+  const Parameter_Set& upperBounds;
   int popsize, parentsize, ngenerations;
   double lb[NUM_PARAMS];
   double ub[NUM_PARAMS];
@@ -55,7 +55,7 @@ class SRES {
   SRES_Scorer score_fcn;
  public:
 	SRES (int population_size, int num_parents, int num_generations,
-	      const param_set& lBounds, const param_set& uBounds, SRES_Scorer scorer,
+	      const Parameter_Set& lBounds, const Parameter_Set& uBounds, SRES_Scorer scorer,
 	      int seed = 0) :
 	    param(NULL), population(NULL), stats(NULL), pf(0),
 	    lowerBounds(lBounds), upperBounds(uBounds), popsize(population_size),

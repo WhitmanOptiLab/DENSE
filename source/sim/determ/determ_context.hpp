@@ -24,7 +24,7 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
-    CPUGPU_TempArray<RATETYPE, NUM_REACTIONS> reaction_rates;
+    CUDA_Array<RATETYPE, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION

@@ -59,11 +59,11 @@ int get_rank () {
 }
 
 void SRES::simulate_population(int popc, double** population, double* scores) {
-  std::vector<param_set> sets;
+  std::vector<Parameter_Set> sets;
 
   //Convert population parameters to a vector of parameter sets
   for (int i = 0; i < popc; ++i) {
-    param_set ps;
+    Parameter_Set ps;
     for (int p = 0; p < NUM_PARAMS; ++p) {
       ps.getArray()[p] = population[i][p];
     }
@@ -72,7 +72,7 @@ void SRES::simulate_population(int popc, double** population, double* scores) {
 
   //Invoke callback to score the population
   std::vector<double> results = score_fcn(sets);
-  
+
   //Convert analysis features to scores
   for (int i = 0; i < popc; ++i) {
     scores[i] = results[i];
@@ -109,7 +109,7 @@ void init_sres (input_params& ip, sres_params& sp) {
 	double varphi = esDefVarphi;
 	int retry = 0;
 	sp.pf = essrDefPf;
-	
+
 	// Call libSRES's initialize function
 	int rank = get_rank();
 	ostream& v = term->verbose();

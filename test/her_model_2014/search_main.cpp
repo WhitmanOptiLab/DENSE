@@ -46,7 +46,7 @@ using namespace std;
 
 int printing_precision = 6;
 
-std::vector<double> her2014_scorer (const vector<param_set>& population) {
+std::vector<double> her2014_scorer (const vector<Parameter_Set>& population) {
   //Create mutants
 
   //Create simulations
@@ -125,7 +125,7 @@ int main (int argc, char** argv) {
 
   csvr csv_in(boundsfile);
 
-  param_set lBounds, uBounds;
+  Parameter_Set lBounds, uBounds;
 
   if (!lBounds.import_from(csv_in) || !uBounds.import_from(csv_in)) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();

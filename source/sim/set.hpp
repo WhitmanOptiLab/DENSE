@@ -2,7 +2,7 @@
 #define SIM_SET_HPP
 
 #include "util/common_utils.hpp"
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "cell_param.hpp"
 #include "core/reaction.hpp"
@@ -27,7 +27,7 @@
 class simulation_set{
 
   public:
-    std::vector<param_set> const& _ps;
+    std::vector<Parameter_Set> const& _ps;
     std::vector<Simulation*> _sim_set;
     //setting up model
     model _m;
@@ -36,7 +36,7 @@ class simulation_set{
     RATETYPE** factors_grad;
 
 
-    simulation_set(std::vector<param_set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
+    simulation_set(std::vector<Parameter_Set> const& params, std::string const& pcfGradFileName, std::string const& pcfPertFileName, int cell_total, int total_width, RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time, int seed) :
         _ps(params), factors_pert(nullptr), factors_grad(nullptr)
     {
 

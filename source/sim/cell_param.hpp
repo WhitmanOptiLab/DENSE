@@ -7,7 +7,7 @@
 #include "util/common_utils.hpp"
 #include "core/reaction.hpp"
 #include "core/specie.hpp"
-#include "core/param_set.hpp"
+#include "core/parameter_set.hpp"
 
 
 class Simulation;
@@ -57,7 +57,7 @@ public:
         return cell(_array + _width * i);
     }
 
-    void initialize_params(param_set const& ps, RATETYPE normfactor = 1.0);
+    void initialize_params(Parameter_Set const& ps, RATETYPE normfactor = 1.0);
     int height() const {return _height;}
     int width() const {return _width;}
     inline T random_perturbation (T perturb) {
