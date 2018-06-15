@@ -28,7 +28,7 @@ class simulation_set{
 
   public:
     std::vector<param_set> const& _ps;
-    std::vector<simulation_base*> _sim_set;
+    std::vector<Simulation*> _sim_set;
     //setting up model
     model _m;
     RATETYPE total_time;

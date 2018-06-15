@@ -16,7 +16,7 @@
 
 typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
-class simulation_determ : public simulation_base {
+class simulation_determ : public Simulation {
 
  public:
     class Context : public ContextBase {
@@ -100,7 +100,7 @@ class simulation_determ : public simulation_base {
 
   simulation_determ(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE step_size, RATETYPE analysis_interval, RATETYPE sim_time) :
-    simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
+    Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~simulation_determ() {}
   void execute();

@@ -19,7 +19,7 @@
  * uses Gillespie's tau leaping algorithm
  * uses Barrio's delay SSA
 */
-class simulation_stoch : public simulation_base {
+class simulation_stoch : public Simulation {
 
  private:
 
@@ -130,7 +130,7 @@ class simulation_stoch : public simulation_base {
     */
     simulation_stoch(const model& m, const param_set& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total,
                     RATETYPE analysis_interval, RATETYPE sim_time, int seed):
-        simulation_base(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
+        Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(std::default_random_engine(seed)){}
 
     //Deconstructor

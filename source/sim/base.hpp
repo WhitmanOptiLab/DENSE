@@ -18,7 +18,7 @@
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
 */
-class simulation_base : public Observable{
+class Simulation : public Observable {
 
   public:
   // Sizes
@@ -77,7 +77,7 @@ class simulation_base : public Observable{
    * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
    * arg "sim_time": the total time to simulate for, in minutes
   */
-  simulation_base(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
+  Simulation(model const& m, param_set const& ps, RATETYPE* pnFactorsPert, RATETYPE** pnFactorsGrad, int cells_total, int width_total, RATETYPE analysis_interval, RATETYPE sim_time) :
     Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
     time_total(sim_time),  analysis_gran(analysis_interval),
     _neighbors(new CPUGPU_TempArray<int, 6>[cells_total]), _parameter_set(ps), _model(m),
@@ -85,7 +85,7 @@ class simulation_base : public Observable{
     { }
 
   //DECONSTRUCTOR
-  virtual ~simulation_base() {}
+  virtual ~Simulation() {}
 
   //Virtual function all subclasses must implement
   virtual void initialize();

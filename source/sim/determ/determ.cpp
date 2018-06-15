@@ -76,7 +76,7 @@ void simulation_determ::execute(){
 }
 
 void simulation_determ::initialize(){
-    simulation_base::initialize();
+    Simulation::initialize();
     _baby_cl.initialize();
     //Copy and normalize _delays into _intDelays
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {

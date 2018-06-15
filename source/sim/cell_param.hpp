@@ -10,13 +10,13 @@
 #include "core/param_set.hpp"
 
 
-class simulation_base;
+class Simulation;
 
 template<int N, class T = RATETYPE>
 class cell_param {
     //FIXME - want to make this private at some point
 public:
-    simulation_base const& _sim;
+    Simulation const& _sim;
     int   _height, _width;
     T *_array;
     bool _cuda;
@@ -38,7 +38,7 @@ public:
     };
 
     IF_CUDA(__host__ __device__)
-    cell_param(simulation_base const& sim, int ncells)
+    cell_param(Simulation const& sim, int ncells)
     :_sim(sim),_height(N),_width(ncells),_cuda(false){
         allocate_array();
     }

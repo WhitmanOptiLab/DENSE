@@ -30,13 +30,13 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 }
 */
 
-void simulation_base::initialize(){
+void Simulation::initialize(){
     calc_max_delays();
     calc_neighbor_2d();
     _cellParams.initialize_params(_parameter_set);
 }
 
-void simulation_base::calc_max_delays() {
+void Simulation::calc_max_delays() {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
   }
