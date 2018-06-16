@@ -1,7 +1,7 @@
 #ifndef SIM_BASE_HPP
 #define SIM_BASE_HPP
 
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 #include "core/context.hpp"
 #include "core/observable.hpp"
 #include "core/parameter_set.hpp"

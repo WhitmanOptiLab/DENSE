@@ -3,7 +3,7 @@
 #ifndef SIM_DETERM_DETERM_CONTEXT_HPP
 #define SIM_DETERM_DETERM_CONTEXT_HPP
 
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 #include "determ.hpp"
 #include "sim/cell_param.hpp"
 #include <iostream>

@@ -35,8 +35,8 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include "search/sres.hpp"
 #include "io/arg_parse.hpp"
 #include "io/csvr.hpp"
-#include "util/common_utils.hpp"
-#include "util/style.hpp"
+#include "utility/common_utils.hpp"
+#include "utility/style.hpp"
 #include "sim/set.hpp"
 #include "sim/set.hpp"
 

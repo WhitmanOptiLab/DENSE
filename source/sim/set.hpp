@@ -1,7 +1,7 @@
 #ifndef SIM_SET_HPP
 #define SIM_SET_HPP
 
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "cell_param.hpp"
@@ -10,7 +10,7 @@
 #include "stoch/stoch.hpp"
 #include "determ/determ.hpp"
 #include "io/csvr.hpp"
-#include "util/style.hpp"
+#include "utility/style.hpp"
 
 #include <vector>
 #include <array>
