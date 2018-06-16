@@ -1,5 +1,5 @@
 #include "io/csvw_param.hpp"
-#include "util/style.hpp"
+#include "utility/style.hpp"
 
 #include <cstdlib>
 #include <iostream>

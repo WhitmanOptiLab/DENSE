@@ -4,7 +4,7 @@
 #define CORE_CONTEXT_HPP
 
 #include "specie.hpp"
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 
 class ContextBase {
   //FIXME - want to make this private at some point

@@ -1,6 +1,6 @@
 #include "arg_parse.hpp"
-#include "util/style.hpp"
-#include "util/common_utils.hpp"
+#include "utility/style.hpp"
+#include "utility/common_utils.hpp"
 #include "core/specie.hpp"
 
 #include <iostream>

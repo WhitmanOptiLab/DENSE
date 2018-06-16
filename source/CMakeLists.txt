@@ -1,7 +1,7 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 function(CSV_GEN localname simdir)
-  add_executable(${localname} csv_gen.cpp util/color.cpp io/csvw.cpp io/csvw_param.cpp)
+  add_executable(${localname} csv_gen.cpp utility/color.cpp io/csvw.cpp io/csvw_param.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -20,8 +20,8 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
-          ${PROJECT_SOURCE_DIR}/source/util/common_utils.cpp
-          ${PROJECT_SOURCE_DIR}/source/util/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
@@ -57,8 +57,8 @@ function(CUDASIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
-          ${PROJECT_SOURCE_DIR}/source/util/common_utils.cpp
-          ${PROJECT_SOURCE_DIR}/source/util/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp

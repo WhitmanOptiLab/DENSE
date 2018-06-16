@@ -2,7 +2,7 @@
 #define CORE_REACTION_HPP
 
 #include "specie.hpp"
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 
 #include <string>
 #include <utility>

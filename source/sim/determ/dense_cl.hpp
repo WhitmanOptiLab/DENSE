@@ -1,6 +1,6 @@
 #ifndef SIM_DETERM_DENSE_CL_HPP
 #define SIM_DETERM_DENSE_CL_HPP
-#include "util/common_utils.hpp"
+#include "utility/common_utils.hpp"
 #include "core/specie.hpp"
 #include "core/model.hpp"
 
