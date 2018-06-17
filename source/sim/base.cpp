@@ -4,7 +4,7 @@
 #include "model_impl.hpp"
 #include <limits>
 #include <iostream>
-#include <set>
+#include <bitset>
 
 /*
 bool simulation_base::any_less_than_0 (baby_cl& baby_cl, int* times) {
@@ -41,29 +41,41 @@ void Simulation::calc_max_delays() {
     max_delays[s] = 0.0;
   }
 
-  std::set<specie_id> rate_terms[NUM_REACTIONS];
+  std::vector<specie_id> rate_terms[NUM_REACTIONS];
 
   class DummyContext {
       public:
-        DummyContext(std::set<specie_id>& deps_to_fill) :
+        DummyContext(std::vector<specie_id>& deps_to_fill) :
             deps(deps_to_fill) {};
-        Real getCon(specie_id sp, int delay = 0) const {
-            deps.insert(sp);
+        Real getCon(specie_id species, int delay = 0) const {
+            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            deps_bitset.set(sp);
             return 0.0;
         };
-        Real getCon(specie_id sp){
-            deps.insert(sp);
+        Real getCon(specie_id species){
+            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            deps_bitset.set(sp);
             return 0.0;
         };
         Real getRate(reaction_id rid) const { return 0.0; };
         Real getDelay(delay_reaction_id rid) const { return 0.0; };
         Real getCritVal(critspecie_id crit) const { return 0.0; };
-        Real calculateNeighborAvg(specie_id sp, int delay = 0) const {
-            deps.insert(sp);
+        Real calculateNeighborAvg(specie_id species, int delay = 0) const {
+            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            deps_bitset.set(sp);
             return 0.0;
         };
+
+        ~DummyContext () {
+          for (std::size_t i = 0; i < deps_bitset.size() && deps.size() < deps_bitset.count(); ++i) {
+            if (deps_bitset.test(i)) {
+              deps.push_back(static_cast<Species>(i));
+            }
+          }
+        }
       private:
-        std::set<specie_id>& deps;
+        std::vector<specie_id>& deps;
+        mutable std::bitset<Species::size> deps_bitset{};
   };
 
 
@@ -78,12 +90,10 @@ void Simulation::calc_max_delays() {
   //    accumulate delay into specie
   //  for each factor
   //    accumulate delay into specie
- std::set<specie_id> delts;
- std::set<specie_id>::iterator iter;
+ std::vector<specie_id> delts;
 #define REACTION(name)
 #define DELAY_REACTION(name) \
   delts = rate_terms[name]; \
-  iter = delts.begin(); \
   Real max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \

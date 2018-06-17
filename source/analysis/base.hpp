@@ -23,7 +23,7 @@ class Analysis : public Observer {
 
     virtual void show () {};
 
-    virtual void update(ContextBase& start) = 0;
+    virtual void update(dense::Context & start) = 0;
 
     virtual void finalize() = 0;
 

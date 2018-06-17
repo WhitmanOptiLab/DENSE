@@ -4,7 +4,7 @@
 #include <limits>
 #include <iostream>
 
-void simulation_determ::simulate(){
+void Deterministic_Simulation::simulate(){
 	Real analysis_chunks = time_total/analysis_gran;
  	Real total_step = analysis_gran/_step_size;
 	for (int c = 0; c<analysis_chunks;c++){
@@ -25,7 +25,7 @@ void simulation_determ::simulate(){
 	finalize();
 }
 
-void simulation_determ::execute(){
+void Deterministic_Simulation::execute(){
     //concentration cl;
     //Rates rates;
     //int steps_elapsed = steps_split; // Used to determine when to split a column of cells
@@ -75,7 +75,7 @@ void simulation_determ::execute(){
 
 }
 
-void simulation_determ::initialize(){
+void Deterministic_Simulation::initialize(){
     Simulation::initialize();
     _baby_cl.initialize();
     //Copy and normalize _delays into _intDelays

@@ -2,7 +2,7 @@
 #define IO_CSVW_SIM_HPP
 
 #include "csvw.hpp"
-#include "core/context.hpp"
+#include "sim/base.hpp"
 #include "core/observable.hpp"
 #include "core/specie.hpp"
 
@@ -16,7 +16,7 @@ public:
             const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
             specie_vec const& pcfSpecieOption, Observable & observable);
     virtual ~csvw_sim();
-    void update(ContextBase& pfStart);
+    void update(dense::Context & pfStart);
 
   protected:
     void when_updated_by(Observable & observable) override;

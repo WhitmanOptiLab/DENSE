@@ -41,7 +41,7 @@ private:
 
     // s: specie_vec index
 	void addCritPoint(int s, int context, bool isPeak, Real minute, Real concentration);
-	void get_peaks_and_troughs(ContextBase const& start,int c);
+	void get_peaks_and_troughs(dense::Context const& start, int c);
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
 
@@ -88,12 +88,12 @@ public:
 
 	/*
 	* Update: repeatedly called by observable to notify that there is more data
-	* - arg ContextBase& start: reference to iterator over concentrations
+	* - arg Context& start: reference to iterator over concentrations
 	* - precondition: start.isValid() is true.
 	* - postcondition: start.isValid() is false.
 	* - update is overloaded virtual function of Observer
 	*/
-	void update (ContextBase &) override;
+	void update (dense::Context &) override;
 
 	//Finalize: called by observable to signal end of data
 	// - generates peaks and troughs in final slice of data.
@@ -113,7 +113,7 @@ class CorrelationAnalysis : public Analysis {
       subscribe_to(*dLog);
     }
 
-    void update(ContextBase& start) {
+    void update(dense::Context & start) {
     }
 
     bool pearsonCorrelate();

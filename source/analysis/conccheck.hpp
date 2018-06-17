@@ -24,7 +24,7 @@ class ConcentrationCheck : public Analysis {
       subscribe_to(observable);
     };
 
-    void update (ContextBase & start) override {
+    void update (dense::Context & start) override {
         for (unsigned c = min; c < max; ++c) {
             if (target_specie > -1) {
                 Real concentration = start.getCon(target_specie);

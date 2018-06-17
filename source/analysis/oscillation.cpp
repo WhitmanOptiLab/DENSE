@@ -1,5 +1,5 @@
 #include "oscillation.hpp"
-#include "core/context.hpp"
+#include "sim/base.hpp"
 
 /*
  * FINALIZE
@@ -74,7 +74,7 @@ void OscillationAnalysis::show () {
  * arg "start": context iterator to access conc levels with
  * arg "c": the cell the context inhabits
 */
-void OscillationAnalysis :: get_peaks_and_troughs(ContextBase const& start, int c){
+void OscillationAnalysis :: get_peaks_and_troughs(dense::Context const& start, int c){
 
     for (std::size_t i = 0; i < observed_species_.size(); ++i)
     {
@@ -144,7 +144,7 @@ void OscillationAnalysis :: addCritPoint(int s, int context, bool isPeak, Real m
  * precondition: "start" inhabits cell 0
  * postcondtion: "start" inhabits an invalid cell
 */
-void OscillationAnalysis :: update(ContextBase& start){
+void OscillationAnalysis::update (dense::Context & start) {
 	for (unsigned c = min; c < max && start.isValid(); ++c) {
 		get_peaks_and_troughs(start,c-min);
 		start.advance();

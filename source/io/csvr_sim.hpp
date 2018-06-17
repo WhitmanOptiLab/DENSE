@@ -2,7 +2,7 @@
 #define IO_CSVR_SIM_HPP
 
 #include "csvr.hpp"
-#include "core/context.hpp"
+#include "sim/base.hpp"
 #include "core/observable.hpp"
 #include "core/specie.hpp"
 
@@ -13,7 +13,7 @@
 class csvr_sim : public csvr, public Observable
 {
 public:
-    class sim_ct : public ContextBase
+    class sim_ct : public dense::Context
     {
         friend class csvr_sim;
     public:

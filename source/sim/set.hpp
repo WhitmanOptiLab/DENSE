@@ -163,14 +163,14 @@ class Simulation_Set {
                 if (step_size == 0.0)
                 {
                     _sim_set.push_back(
-                            new simulation_stoch(_m, _ps[i], factors_pert,
+                            new Stochastic_Simulation(_m, _ps[i], factors_pert,
                                 factors_grad, cell_total, total_width,
                                 analysis_interval, sim_time, seed));
                 }
                 else
                 {
                     _sim_set.push_back(
-                            new simulation_determ(_m, _ps[i], factors_pert,
+                            new Deterministic_Simulation(_m, _ps[i], factors_pert,
                                 factors_grad, cell_total, total_width,
                                 step_size, analysis_interval, sim_time));
                 }

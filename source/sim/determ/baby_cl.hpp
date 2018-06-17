@@ -5,14 +5,14 @@
 #include "core/specie.hpp"
 #include "core/model.hpp"
 
-class simulation_determ;
+class Deterministic_Simulation;
 
 class baby_cl {
   protected:
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
     int _j[NUM_SPECIES];
-    simulation_determ const& _sim;
+    Deterministic_Simulation const& _sim;
     int _length, _width, _total_length;
     Real *_array;
 
@@ -66,7 +66,7 @@ class baby_cl {
         int _hist_len;
     };
 
-    baby_cl(simulation_determ& sim)
+    baby_cl(Deterministic_Simulation& sim)
     :_sim(sim), _width(0), _total_length(0) {
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {
@@ -74,7 +74,7 @@ class baby_cl {
         }
     }
 
-    baby_cl(int length, int width, simulation_determ& sim)
+    baby_cl(int length, int width, Deterministic_Simulation& sim)
     : _sim(sim), _width(width), _total_length(0) {
         allocate_array();
         for (int i = 0; i < NUM_SPECIES; i++) {

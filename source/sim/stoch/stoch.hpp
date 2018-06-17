@@ -19,7 +19,7 @@
  * uses Gillespie's tau leaping algorithm
  * uses Barrio's delay SSA
 */
-class simulation_stoch : public Simulation {
+class Stochastic_Simulation : public Simulation {
 
  private:
 
@@ -64,17 +64,17 @@ class simulation_stoch : public Simulation {
      * ContextStoch:
      * iterator for observers to access conc levels with
     */
-    class ContextStoch : public ContextBase {
+    class ContextStoch : public dense::Context {
         //FIXME - want to make this private at some point
       private:
-        simulation_stoch& _simulation;
+        Stochastic_Simulation& _simulation;
         double _avg;
         int _cell;
 
       public:
         typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
-        ContextStoch(simulation_stoch& sim, int cell) : _simulation(sim), _cell(cell) { }
+        ContextStoch(Stochastic_Simulation& sim, int cell) : _simulation(sim), _cell(cell) { }
         IF_CUDA(__host__ __device__)
         Real calculateNeighborAvg(specie_id sp, int delay) const;
         IF_CUDA(__host__ __device__)
@@ -128,13 +128,13 @@ class simulation_stoch : public Simulation {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    simulation_stoch(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+    Stochastic_Simulation(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real analysis_interval, Real sim_time, int seed):
         Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(std::default_random_engine(seed)){}
 
     //Deconstructor
-    virtual ~simulation_stoch() {}
+    virtual ~Stochastic_Simulation() {}
 
     void initialize();
     void simulate();

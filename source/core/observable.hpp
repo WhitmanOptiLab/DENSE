@@ -4,8 +4,12 @@
 #include <functional>
 #include <vector>
 
+namespace dense {
 
-class ContextBase;
+  class Context;
+
+}
+
 
 class Observer;
 
@@ -20,13 +24,13 @@ class Observable {
 
     virtual void run() = 0;
 
-    void notify(ContextBase& start);
+    void notify (dense::Context & start);
 
     void finalize();
 
     double t = 0.0;
 
-    ContextBase * context = nullptr;
+    dense::Context * context = nullptr;
 
   protected:
 

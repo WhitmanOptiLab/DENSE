@@ -26,12 +26,12 @@ class BasicAnalysis : public Analysis {
 
     /*
      * Update: repeatedly called by observable to notify that there is more data
-     * - arg ContextBase& start: reference to iterator over concentrations
+     * - arg Context& start: reference to iterator over concentrations
      * - precondition: start.isValid() is true.
      * - postcondition: start.isValid() is false.
      * - update is overloaded virtual function of Analysis
      */
-    void update (ContextBase & begin) override;
+    void update (dense::Context & begin) override;
 
     /* Finalize: overloaded virtual function of Analysis
        - must be called to produce correct average values
