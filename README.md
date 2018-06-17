@@ -1,4 +1,4 @@
-# DENSE: a Differential Equation Network Simulation Engine
+# DENSE: <sub>a Differential Equation Network Simulation Engine</sub>
 A generic library for simulating networks of ordinary and delay differential equations for systems modeling.
 
 Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
