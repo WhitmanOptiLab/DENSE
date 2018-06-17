@@ -77,21 +77,23 @@ Real simulation_stoch::ContextStoch::getTotalPropensity(){
  * return "j": the index of the reaction chosen.
 */
 IF_CUDA(__host__ __device__)
-int simulation_stoch::ContextStoch::chooseReaction(Real propensity_portion){
-    Real sum=0;
-    int c,s;
-    for (c=0; c<_simulation._cells_total; c++){
-      for (s=0; s<NUM_REACTIONS; s++){
-        sum+=_simulation.propensities[c][s];
+int simulation_stoch::ContextStoch::chooseReaction(Real propensity_portion) {
+  Real sum = 0;
+  int c, s;
 
-        if (sum>propensity_portion){
-            int j = (c*NUM_REACTIONS)+s;
-            return j;
-	    }
+  for (c = 0; c < _simulation._cells_total; c++) {
+    for (s = 0; s < NUM_REACTIONS; s++) {
+      sum += _simulation.propensities[c][s];
+
+      if (sum > propensity_portion) {
+        int j = (c * NUM_REACTIONS) + s;
+        return j;
       }
     }
-    int j = ((c-1)*NUM_REACTIONS)+(s-1);
-    return j;
+  }
+
+  int j = ((c - 1) * NUM_REACTIONS) + (s - 1);
+  return j;
 }
 
 
