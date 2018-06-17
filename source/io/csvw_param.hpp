@@ -8,9 +8,8 @@ enum class param_type {
   SETS, PERT, GRAD
 };
 
-class csvw_param : public csvw {
-  public:
-    csvw_param(std::string const& pcfFileName, param_type const& pcfType);
+struct csvw_param : private csvw {
+  csvw_param(std::string const& pcfFileName, param_type const& pcfType);
 };
 
 #endif
