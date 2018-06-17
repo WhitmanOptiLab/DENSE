@@ -16,20 +16,20 @@
 
 typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
-class simulation_determ : public Simulation {
+class Deterministic_Simulation : public Simulation {
 
  public:
-    class Context : public ContextBase {
+    class Context : public dense::Context {
         //FIXME - want to make this private at some point
       protected:
-        simulation_determ& _simulation;
+        Deterministic_Simulation& _simulation;
         double _avg;
         int _cell;
 
       public:
         typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
         IF_CUDA(__host__ __device__)
-        Context(simulation_determ& sim, int cell) : _simulation(sim),_cell(cell) { }
+        Context(Deterministic_Simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
         IF_CUDA(__host__ __device__)
         Real calculateNeighborAvg(specie_id sp, int delay = 0) const;
         IF_CUDA(__host__ __device__)
@@ -98,11 +98,11 @@ class simulation_determ : public Simulation {
   int _j;
   int _num_history_steps; // how many steps in history are needed for this numerical method
 
-  simulation_determ(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+  Deterministic_Simulation(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real step_size, Real analysis_interval, Real sim_time) :
     Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
-  virtual ~simulation_determ() {}
+  virtual ~Deterministic_Simulation() {}
   void execute();
   void initialize();
 

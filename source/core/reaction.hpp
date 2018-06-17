@@ -8,12 +8,14 @@
 #include <utility>
 
 
-enum reaction_id {
+enum Reaction_ID {
 #define REACTION(name) name,
 #include "reactions_list.hpp"
 #undef REACTION
   NUM_REACTIONS  //And a terminal marker so that we know how many there are
 };
+
+using reaction_id = Reaction_ID;
 
 const std::string reaction_str[NUM_REACTIONS] = {
     #define REACTION(name) #name,

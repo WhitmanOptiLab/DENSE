@@ -17,7 +17,7 @@
  * precondition: t=0
  * postcondition: ti>=time_total
 */
-void simulation_stoch::simulate(){
+void Stochastic_Simulation::simulate(){
 	Real analysis_chunks = time_total/analysis_gran;
 
 	for (int a=1; a<=analysis_chunks; a++){
@@ -51,7 +51,7 @@ void simulation_stoch::simulate(){
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-Real simulation_stoch::generateTau(){
+Real Stochastic_Simulation::generateTau(){
 	ContextStoch c(*this, 0);
 	Real propensity_sum = c.getTotalPropensity();
 	Real u = getRandVariable();
@@ -65,7 +65,7 @@ Real simulation_stoch::generateTau(){
  * return "dTime": the time that the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
-Real simulation_stoch::getSoonestDelay(){
+Real Stochastic_Simulation::getSoonestDelay(){
     Real dTime;
     if (event_schedule.size()>0){
 	    event e = *event_schedule.begin();
@@ -83,7 +83,7 @@ Real simulation_stoch::getSoonestDelay(){
  * precondition: a delay reaction is scheduled
  * postcondition: the soonest scheduled delay reaction is removed from the schedule
 */
-void simulation_stoch::executeDelayRXN(){
+void Stochastic_Simulation::executeDelayRXN(){
 	event delay_rxn = *event_schedule.begin();
 
     ContextStoch c(*this, delay_rxn.cell);
@@ -98,7 +98,7 @@ void simulation_stoch::executeDelayRXN(){
  * GETRANDVARIABLE
  * return "u": a random variable between 0.0 and 1.0
 */
-Real simulation_stoch::getRandVariable(){
+Real Stochastic_Simulation::getRandVariable(){
 	std::uniform_real_distribution<Real> distribution(0.0,1.0);
 	Real u = distribution(generator);
 	return u;
@@ -109,7 +109,7 @@ Real simulation_stoch::getRandVariable(){
  * chooses a reaction to fire or schedule and moves forward in time
  * arg "tau": timestep to leap forward by
 */
-void simulation_stoch::tauLeap(Real tau){
+void Stochastic_Simulation::tauLeap(Real tau){
 
 	Real u = getRandVariable();
 
@@ -132,7 +132,7 @@ void simulation_stoch::tauLeap(Real tau){
  * arg "c": the cell that the reaction takes place in
  * arg "rid": the reaction to fire or schedule
 */
-void simulation_stoch::fireOrSchedule(int c, reaction_id rid){
+void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
 
 	delay_reaction_id dri = model::getDelayReactionId(rid);
 
@@ -159,7 +159,7 @@ void simulation_stoch::fireOrSchedule(int c, reaction_id rid){
  * arg "*c": pointer to a context of the cell to fire the reaction in
  * arg "rid": reaction to fire
 */
-void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
+void Stochastic_Simulation::fireReaction(ContextStoch *c, reaction_id rid){
 	const reaction_base& r = _model.getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
 	for (int i=0; i<r.getNumDeltas(); i++){
@@ -174,7 +174,7 @@ void simulation_stoch::fireReaction(ContextStoch *c, reaction_id rid){
  * populates main data structures "concs", "propensities"
  * precondition: propensities and concs are empty vectors
 */
-void simulation_stoch::initialize(){
+void Stochastic_Simulation::initialize(){
 
     Simulation::initialize();
 
@@ -196,7 +196,7 @@ void simulation_stoch::initialize(){
  * INITPROPENSITIES
  * sets the propensities of each reaction in each cell to its respective active
 */
-void simulation_stoch::initPropensities(){
+void Stochastic_Simulation::initPropensities(){
     for (int c=0; c<_cells_total; c++){
         ContextStoch ctxt(*this,c);
         #define REACTION(name) \
@@ -211,7 +211,7 @@ void simulation_stoch::initPropensities(){
  * populates the "propensity_network" and "neighbor_propensity_network" data structures
  * finds inter- and intracellular reactions that have rates affected by the firing of each rxn
 */
-void simulation_stoch::initPropensityNetwork(){
+void Stochastic_Simulation::initPropensityNetwork(){
 
     std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
     std::set<specie_id> dependencies[NUM_REACTIONS];

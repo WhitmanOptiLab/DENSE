@@ -67,12 +67,12 @@ csvw_sim::~csvw_sim()
 
 void csvw_sim::when_updated_by(Observable & observable) {
   if (observable.t < icTimeStart || observable.t >= icTimeEnd) return;
-  ContextBase & begin = *observable.context;
+  auto & begin = *observable.context;
   begin.set(icCellStart);
   update(begin);
 }
 
-void csvw_sim::update(ContextBase& pfStart)
+void csvw_sim::update(dense::Context & pfStart)
 {
     for (unsigned c = icCellStart; c < icCellEnd; ++c) {
         if (icTimeColumn)

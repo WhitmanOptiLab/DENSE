@@ -38,9 +38,9 @@ namespace {
     }
 }
 
-class simulation_cuda: public simulation_determ {
+class simulation_cuda: public Deterministic_Simulation {
   public:
-    class Context : public ContextBase {
+    class Context : public dense::Context {
         //FIXME - want to make this private at some point
       protected:
         int _cell;
@@ -113,7 +113,7 @@ class simulation_cuda: public simulation_determ {
 
     void simulate_cuda();
     simulation_cuda(const model& m, const Parameter_Set& ps, int cells_total, int width_total, Real step_size, Real analysis_interval, Real sim_time) :
-        simulation_determ(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
+        Deterministic_Simulation(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
           check(cudaMallocManaged(&_neighbors, sizeof(CUDA_Array<int, 6>)*_cells_total));
           _old_numNeighbors = _numNeighbors;

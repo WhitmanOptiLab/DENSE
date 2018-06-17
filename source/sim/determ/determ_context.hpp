@@ -9,7 +9,7 @@
 #include <iostream>
 
 IF_CUDA(__host__ __device__)
-Real simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) const{
+Real Deterministic_Simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations
     Real sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
@@ -20,7 +20,7 @@ Real simulation_determ::Context::calculateNeighborAvg(specie_id sp, int delay) c
 }
 
 IF_CUDA(__host__ __device__)
-const simulation_determ::Context::SpecieRates simulation_determ::Context::calculateRatesOfChange(){
+const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::Context::calculateRatesOfChange(){
     const model& _model = _simulation._model;
 
     //Step 1: for each reaction, compute reaction rate
@@ -47,7 +47,7 @@ const simulation_determ::Context::SpecieRates simulation_determ::Context::calcul
 }
 
 IF_CUDA(__host__ __device__)
-void simulation_determ::Context::updateCon(const simulation_determ::Context::SpecieRates& rates){
+void Deterministic_Simulation::Context::updateCon(const Deterministic_Simulation::Context::SpecieRates& rates){
     //double step_size= _simulation.step_size;
 
     double curr_rate=0;

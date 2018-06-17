@@ -11,6 +11,23 @@
 #include "core/reaction.hpp"
 #include <vector>
 
+namespace dense {
+
+  class Context {
+    //FIXME - want to make this private at some point
+   public:
+    IF_CUDA(__host__ __device__)
+    virtual Real getCon(specie_id sp) const = 0;
+    IF_CUDA(__host__ __device__)
+    virtual void advance() = 0;
+    IF_CUDA(__host__ __device__)
+    virtual bool isValid() const = 0;
+    IF_CUDA(__host__ __device__)
+    virtual void set(int c) = 0;
+  };
+
+}
+
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
 /* SIMULATION_BASE
@@ -20,6 +37,9 @@
 class Simulation : public Observable {
 
   public:
+
+    using Context = dense::Context;
+
   // Sizes
   int _width_total; // The maximum width in cells of the PSM
   int circumf; // The current width in cells
@@ -64,7 +84,7 @@ class Simulation : public Observable {
   //int* _time_prev;
   //double* _sets;
   //int _NEIGHBORS_2D;
-  Real max_delays[NUM_SPECIES];  // The maximum number of time steps that each specie might be accessed in the past
+  Real max_delays[NUM_SPECIES]{};  // The maximum number of time steps that each specie might be accessed in the past
 
 
   /*

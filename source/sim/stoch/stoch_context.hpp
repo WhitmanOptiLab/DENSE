@@ -15,7 +15,7 @@
  * returns "avg": average concentration of specie in current and neighboring cells
 */
 IF_CUDA(__host__ __device__)
-Real simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
+Real Stochastic_Simulation::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
     Real sum=0;
     for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
         sum+=_simulation.concs[_simulation._neighbors[_cell][i]][sp];
@@ -30,7 +30,7 @@ Real simulation_stoch::ContextStoch::calculateNeighborAvg(specie_id sp, int dela
  * arg "rid": the reaction that fired
 */
 IF_CUDA(__host__ __device__)
-void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
+void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid){
     const model& _model = _simulation._model;
 
     #define REACTION(name) \
@@ -60,7 +60,7 @@ void simulation_stoch::ContextStoch::updatePropensities(reaction_id rid){
  * return "sum": the propensity sum
 */
 IF_CUDA(__host__ __device__)
-Real simulation_stoch::ContextStoch::getTotalPropensity(){
+Real Stochastic_Simulation::ContextStoch::getTotalPropensity(){
     Real sum = 0;
     for (int c=0; c<_simulation._cells_total; c++){
       for (int r=0; r<NUM_REACTIONS; r++){
@@ -77,7 +77,7 @@ Real simulation_stoch::ContextStoch::getTotalPropensity(){
  * return "j": the index of the reaction chosen.
 */
 IF_CUDA(__host__ __device__)
-int simulation_stoch::ContextStoch::chooseReaction(Real propensity_portion) {
+int Stochastic_Simulation::ContextStoch::chooseReaction(Real propensity_portion) {
   Real sum = 0;
   int c, s;
 

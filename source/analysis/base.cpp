@@ -1,5 +1,5 @@
 #include "base.hpp"
-#include "core/context.hpp"
+#include "sim/base.hpp"
 
 Analysis::Analysis (
   specie_vec const& species_vector,
@@ -18,7 +18,7 @@ Analysis::Analysis (
 
 void Analysis::when_updated_by(Observable & observable) {
   if (observable.t < start_time || observable.t >= end_time) return;
-  ContextBase & begin = *observable.context;
+  auto & begin = *observable.context;
   begin.set(min);
   update(begin);
 }

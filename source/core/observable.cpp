@@ -1,7 +1,7 @@
 #include "observable.hpp"
 
 
-void Observable::notify(ContextBase& start) {
+void Observable::notify (dense::Context & start) {
   context = &start;
   for (Observer & subscriber : subscribers()) {
     subscriber.when_updated_by(*this);
