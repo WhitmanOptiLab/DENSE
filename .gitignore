@@ -18,6 +18,9 @@ test_simulation_set_cuda
 *.swn
 
 *.cmake
+*.cbp
+*.layout
+*.workspace
 
 build/CMakeFiles/
 
@@ -39,9 +42,6 @@ build/param_pert_template\.csv
 
 build/param_sets_template\.csv
 
-my-build/
-
-
-docs/
+api/
 
 build/cuda_simulation
