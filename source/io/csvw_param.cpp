@@ -1,5 +1,5 @@
 #include "csvw_param.hpp"
-#include "util/style.hpp"
+#include "utility/style.hpp"
 #include "core/specie.hpp"
 #include "core/reaction.hpp"
 
@@ -7,12 +7,8 @@
 #include <stdexcept>
 #include <string>
 
+namespace {
 
-csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType) :
-    csvw::csvw(pcfFileName, true, "\n# Rename this file by removing the "
-            "\"_template\" from the file name (or just change the name "
-            "entirely) once the data has been entered!\n")
-{
     const std::string cReaction[] = {
         #define REACTION(name) #name,
         #define DELAY_REACTION(name) #name,
@@ -23,7 +19,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
 
     const std::string cDelay[] = {
         #define REACTION(name)
-        #define DELAY_REACTION(name) #name,
+        #define DELAY_REACTION(name) "dreact_" #name,
         #include "reactions_list.hpp"
         #undef REACTION
         #undef DELAY_REACTION
@@ -31,136 +27,119 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
 
     const std::string cCritical[] = {
         #define SPECIE(name)
-        #define CRITICAL_SPECIE(name) #name,
+        #define CRITICAL_SPECIE(name) "rcrit_" #name,
         #include "specie_list.hpp"
         #undef SPECIE
         #undef CRITICAL_SPECIE
     };
 
+}
+
+csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType) :
+    csvw::csvw(pcfFileName, true, "\n# Rename this file by removing the "
+            "\"_template\" from the file name (or just change the name "
+            "entirely) once the data has been entered!\n")
+{
+
+    csvw & out = *this;
 
     // param_type string prefix
-    std::string ** nPrefix;
+    std::vector<std::string> nPrefix;
     std::string param_type_str;
     switch (pcfType)
     {
         case param_type::SETS:
-            csvw::add_div("# This file can contain more than one "
+            out << ("# This file can contain more than one "
                     "set (each being on their own line). All sets "
                     "are initialized and executed in parallel when a file is "
                     "loaded into the simulation.\n");
-            csvw::add_div("# For more information and examples see README.md "
+            out << ("# For more information and examples see README.md "
                     "section 2.2.1\n\n");
             param_type_str = "sets";
-            nPrefix = new std::string * [2];
-            nPrefix[0] = new std::string("");
-            nPrefix[1] = 0;
+            nPrefix = { "" };
             break;
         case param_type::PERT:
-            csvw::add_div("# This file should only contain one set of "
+            out << ("# This file should only contain one set of "
                     "perturbations. Only this one perturbations set is applied "
                     "to all parameter sets when a simulation set is being run.\n");
-            csvw::add_div("# Use \'0\' to indicate that a "
+            out << ("# Use \'0\' to indicate that a "
                     "reaction should not have perturbations.\n");
-            csvw::add_div("# For more information and examples see README.md "
+            out << ("# For more information and examples see README.md "
                     "section 2.2.2\n\n");
             param_type_str = "perturbations";
-            nPrefix = new std::string * [2];
-            nPrefix[0] = new std::string("pert_");
-            nPrefix[1] = 0;
+            nPrefix = { "pert_" };
             break;
         case param_type::GRAD:
-            csvw::add_div("# This file should only contain one set of "
+            out << ("# This file should only contain one set of "
                     "gradients. Only this one gradients setting is applied "
                     "to all parameter sets when a simulation set is being run.\n");
-            csvw::add_div("# Use \'0\' under all four columns of a reaction "
+            out << ("# Use \'0\' under all four columns of a reaction "
                     "to indiate that it should not have a gradient.\n"
                     "# Gradient Codes\n"
                     "#   x1 - start column\n"
                     "#   y1 - start multiplier (use \'1.23\' to mean \'123%\')\n"
                     "#   x2 - end column\n"
                     "#   y2 - end multiplier\n");
-            csvw::add_div("# For more information and examples see README.md "
+            out << ("# For more information and examples see README.md "
                     "section 2.2.2\n\n");
             param_type_str = "gradients";
-            nPrefix = new std::string * [5];
-            nPrefix[0] = new std::string("grad_x1_");
-            nPrefix[1] = new std::string("grad_y1_");
-            nPrefix[2] = new std::string("grad_x2_");
-            nPrefix[3] = new std::string("grad_y2_");
-            nPrefix[4] = 0;
+            nPrefix = { "grad_x1_", "grad_y1_", "grad_x2_", "grad_y2_" };
             break;
         default: throw std::out_of_range("Invalid param_type: " + static_cast<int>(pcfType));
     }
-    std::string ** lnPrefix = nPrefix;
-
-
 
     // Write column headers
     std::string zeros_line = "\n";
-    for (unsigned int i = 0; i < NUM_REACTIONS; i++)
-    {
-        do
-        {
-            csvw::add_div(**lnPrefix + cReaction[i] + ", ");
+    for (unsigned int i = 0; i < NUM_REACTIONS; ++i) {
+        for (auto & prefix : nPrefix) {
+            out << prefix << cReaction[i] << ", ";
             zeros_line += "0, ";
-        } while (*(++lnPrefix)); // Iterate over prefixes
-        lnPrefix = nPrefix; // Reset prefix pointer to beginning
-
+        }
         // Add extra comma between gradient params for readability
-        if (pcfType == param_type::GRAD)
-        {
-            csvw::add_div(", ");
+        if (pcfType == param_type::GRAD) {
+            out << ", ";
             zeros_line += ", ";
         }
     }
 
-    csvw::add_div(", ");
+    out << ", ";
     zeros_line += ", ";
 
-    for (unsigned int i = 0; i < NUM_DELAY_REACTIONS; i++)
+    for (unsigned int i = 0; i < NUM_DELAY_REACTIONS; ++i)
     {
-        do
-        {
-            csvw::add_div(**lnPrefix + "dreact_" + cDelay[i] + ", ");
+        for (auto & prefix : nPrefix) {
+            out << prefix << cDelay[i] << ", ";
             zeros_line += "0, ";
-        } while (*(++lnPrefix));
-        lnPrefix = nPrefix;
+        }
 
-        if (pcfType == param_type::GRAD)
-        {
-            csvw::add_div(", ");
+        if (pcfType == param_type::GRAD) {
+            out << ", ";
             zeros_line += ", ";
         }
     }
 
-    csvw::add_div(", ");
+    out << ", ";
     zeros_line += ", ";
 
-    for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; i++)
-    {
-        do
-        {
-            csvw::add_div(**lnPrefix + "rcrit_" + cCritical[i] + ", ");
+    for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; i++) {
+        for (auto & prefix : nPrefix) {
+            out << prefix << "rcrit_" << cCritical[i] << ", ";
             zeros_line += "0, ";
-        } while (*(++lnPrefix));
-        lnPrefix = nPrefix;
+        }
 
-        if (pcfType == param_type::GRAD)
-        {
-            csvw::add_div(", ");
+        if (pcfType == param_type::GRAD) {
+            out << ", ";
             zeros_line += ", ";
         }
     }
 
 
-    if (pcfType == param_type::PERT || pcfType == param_type::GRAD)
-    {
-        csvw::add_div(zeros_line);
+    if (pcfType == param_type::PERT || pcfType == param_type::GRAD) {
+      out << (zeros_line);
     }
 
-
-    // Victory message
-    std::cout << style::apply(Color::green) << "CSV parameter " << param_type_str <<
-        " column header generation successful. See \'" << pcfFileName << "\'."
-        << style::reset() << '\n';
+    std::cout << style::apply(Color::green) <<
+      "CSV parameter " << param_type_str <<
+      " column header generation successful. " <<
+      "See \'" << pcfFileName << "\'.\n" << style::reset();
 }
