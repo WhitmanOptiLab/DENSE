@@ -1,44 +1,44 @@
-# Delay Differential Equations Simulator
+# DENSE: a Differential Equation Network Simulation Engine
 A generic library for simulating networks of ordinary and delay differential equations for systems modeling.
 
 Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
 
 ## Table of Contents
 
-| 0: [System Requirements](#0-system-requirements)  
-|__ 0.0: [Operating System](#00-operating-system)  
-|__ 0.1: [Compilers](#01-compilers)  
-| 1: [Tutorial with Simple Model](#1-tutorial-with-simple-model)  
-| 2: [Compilation and Model Building](#2-model-building)  
-|__ 2.0: [Species and Reactions](#20-species-and-reactions)  
-|____ 2.0.0: [Declaring Species](#200-declaring-species)  
-|____ 2.0.1: [Declaring Reactions](#201-declaring-reactions)  
-|____ 2.0.2: [Defining Reaction Rate Formulas](#202-defining-reaction-rate-formulas)  
-|____ 2.0.3: [Defining Reaction Inputs and Outputs](#203-defining-reaction-inputs-and-outputs)  
-|__ 2.1: [Compiling and Generating Parameter Templates](#21-compiling-and-generating-parameter-templates)  
-|__ 2.2: [Parameters](#22-parameters)  
-|____ 2.2.0: [CSV Parser Specifications](#220-csv-parser-specifications)  
-|____ 2.2.1: [Parameter Sets](#221-parameter-sets)  
-|____ 2.2.2: [Perturbations](#222-perturbations)  
-|____ 2.2.3: [Gradients](#223-gradients)  
-|____ 2.2.4: [Analyses XML](#224-analyses-xml)  
-| 3: [Running the Simulation](#3-running-the-simulation)  
-|__ 3.0: [Description of the Simulation](#30-description-of-the-simulation)  
-|____ 3.0.0: [Preamble](#300-preamble)  
-|____ 3.0.1: [Deterministic](#301-deterministic)  
-|____ 3.0.2: [Stochastic](#302-stochastic)  
-|__ 3.1: [Input](#31-input)  
-|____ 3.1.0: [Required Files](#310-required-files)  
-|____ 3.1.1: [Optional Files](#311-optional-files)  
-|____ 3.1.2: [Command Line Arguments](#312-command-line-arguments)  
-|__ 3.2: [Output](#32-output)  
-|____ 3.2.0: [Simulation Log](#320-simulation-log)  
-|____ 3.2.1: [Analysis](#321-analysis)  
-|______ 3.2.1.0: [Output Destination](#3210-output-destination)  
-|______ 3.2.1.1: [Basic Analysis](#3211-basic-analysis)  
-|______ 3.2.1.2: [Oscillation Analysis](#3212-oscillation-analysis)  
-|______ 3.2.1.3: [Concentration Check](#3213-concentration-check)  
-| 4: [Authorship and License](#4-authorship-and-license)  
+| 0: [System Requirements](#0-system-requirements)
+|__ 0.0: [Operating System](#00-operating-system)
+|__ 0.1: [Compilers](#01-compilers)
+| 1: [Tutorial with Simple Model](#1-tutorial-with-simple-model)
+| 2: [Compilation and Model Building](#2-model-building)
+|__ 2.0: [Species and Reactions](#20-species-and-reactions)
+|____ 2.0.0: [Declaring Species](#200-declaring-species)
+|____ 2.0.1: [Declaring Reactions](#201-declaring-reactions)
+|____ 2.0.2: [Defining Reaction Rate Formulas](#202-defining-reaction-rate-formulas)
+|____ 2.0.3: [Defining Reaction Inputs and Outputs](#203-defining-reaction-inputs-and-outputs)
+|__ 2.1: [Compiling and Generating Parameter Templates](#21-compiling-and-generating-parameter-templates)
+|__ 2.2: [Parameters](#22-parameters)
+|____ 2.2.0: [CSV Parser Specifications](#220-csv-parser-specifications)
+|____ 2.2.1: [Parameter Sets](#221-parameter-sets)
+|____ 2.2.2: [Perturbations](#222-perturbations)
+|____ 2.2.3: [Gradients](#223-gradients)
+|____ 2.2.4: [Analyses XML](#224-analyses-xml)
+| 3: [Running the Simulation](#3-running-the-simulation)
+|__ 3.0: [Description of the Simulation](#30-description-of-the-simulation)
+|____ 3.0.0: [Preamble](#300-preamble)
+|____ 3.0.1: [Deterministic](#301-deterministic)
+|____ 3.0.2: [Stochastic](#302-stochastic)
+|__ 3.1: [Input](#31-input)
+|____ 3.1.0: [Required Files](#310-required-files)
+|____ 3.1.1: [Optional Files](#311-optional-files)
+|____ 3.1.2: [Command Line Arguments](#312-command-line-arguments)
+|__ 3.2: [Output](#32-output)
+|____ 3.2.0: [Simulation Log](#320-simulation-log)
+|____ 3.2.1: [Analysis](#321-analysis)
+|______ 3.2.1.0: [Output Destination](#3210-output-destination)
+|______ 3.2.1.1: [Basic Analysis](#3211-basic-analysis)
+|______ 3.2.1.2: [Oscillation Analysis](#3212-oscillation-analysis)
+|______ 3.2.1.3: [Concentration Check](#3213-concentration-check)
+| 4: [Authorship and License](#4-authorship-and-license)
 
 ## 0: System Requirements
 
@@ -50,7 +50,7 @@ linux, mac. windows if-y
 #### 0.1: Compilers
 
 CMake version 2.8+ required, along with a supported build manager (make is the only tested system currently.)
-A C++ compiler with support for at least the C++11 standard is required. 
+A C++ compiler with support for at least the C++11 standard is required.
 In order to compile the CUDA accelerated code, both a CUDA 6.0+ compiler and NVIDIA GPU hardware with "Compute Capability 3.0+" are needed.
 
 [Back to Top](#delay-differential-equations-simulator)
@@ -107,14 +107,14 @@ REACTION(bravo_degredation)
 --->
 
 Define all of reaction rate functions in `model_impl.hpp`.
-For example, if a reaction is enumerated `alpha_synthesis`, it should be declared as a 
+For example, if a reaction is enumerated `alpha_synthesis`, it should be declared as a
    function like this:
 ```
  RATETYPE reaction<alpha_synthesis>::active_rate(const Ctxt& c) const { return 6.0; }
 ```
- 
+
 Or, for a more interesting reaction rate, you might do something like:
- 
+
 ```
  RATETYPE reaction<bravo_degredation>::active_rate(const Ctxt& c) const {
    return c.getRate(bravo_degredation) * c.getCon(bravo) * c.neighbors.calculateNeighborAvg(charlie);
@@ -180,10 +180,10 @@ Running `make` after having initialized CMake in the desired directory will auto
 At its core, CSV files contain numerical values seperated by commas. Listed below are three categories of characters/strings that the simulation's CSV parser __*DOES NOT*__ parse.
 1. Empty cells, blank rows, and whitespace
 
-   To illustrate, the following two examples are equivalent.  
+   To illustrate, the following two examples are equivalent.
    ```
    3.14, , 2001, -2.18,
-   
+
    41,       2.22e-22
    ```
    ```
@@ -209,11 +209,11 @@ At its core, CSV files contain numerical values seperated by commas. Listed belo
    ```
    Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation, and can technically be modified by users as they wish.
    ```
-   flying_pig_synthesis, plutonium_synthesis, cultural_degredation, 
-   21.12021,             33,                  101.123, 
+   flying_pig_synthesis, plutonium_synthesis, cultural_degredation,
+   21.12021,             33,                  101.123,
    ```
    It is futile, however, to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order if it is to be parsed properly.
-  
+
 ***
 #### 2.2.1: Parameter Sets
 
@@ -254,14 +254,14 @@ alpha_synthesis_x1, alpha_synthesis_y1, alpha_synthesis_x2, alpha_synthesis_y2,
 ```
 `alpha_degredation`'s gradient is between cell columns 2 and 5, with a multiplier of 0.8 starting at column 2, linearly increasing to 2.52 by column 5.
 
-Gradient Suffixes Chart  
+Gradient Suffixes Chart
 
-| Suffix | Meaning          |  
-| ------ | ---------------- |  
-| x1     | start column     |  
-| y1     | start multiplier |  
-| x2     | end column       |  
-| y2     | end multiplier   |  
+| Suffix | Meaning          |
+| ------ | ---------------- |
+| x1     | start column     |
+| y1     | start multiplier |
+| x2     | end column       |
+| y2     | end multiplier   |
 
 ***
 #### 2.2.4: Analyses XML
@@ -307,7 +307,7 @@ Similarly, analyses must also be configured in a seperate file. A blank `analyse
 ***
 #### 3.1.2: Command Line Arguments
 
-The table below can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.  
+The table below can also be accessed by running `simulation` either without any command line arguments or with any of the following flags: `-h`, `--help`, `--usage`.
 Short and long flags are equivalent; either can be used to get the same program behavior. Short flags must be preceeded by `-` while long flags must be preceeded by `--`. As examples: `-h` and `--help`. Arguments that have a parameter require additional text to proceed the flag itself like so: `-p ../param_sets.csv`, `-b 0.05`, and `-o "alpha, bravo"`.
 
 `RATETYPE` is set to `double` (double-precision floating-point) by default and can be changed in `source/util/common_utils.hpp`.
@@ -373,7 +373,7 @@ Copyright (C) 2016-2017 John Stratton (strattja@whitman.edu), Ahmet Ay (aay@colg
 
 This software was developed with significant contributions from several students over the years: Yecheng Yang, Nikhil Lonberg, and Kirk Lange.
 
-Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.  
+Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 [Back to Top](#delay-differential-equations-simulator)
