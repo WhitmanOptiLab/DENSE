@@ -4,15 +4,30 @@
 #include <string>
 #include <vector>
 
-enum specie_id {
-#define SPECIE(name) name, 
-#include "specie_list.hpp"
-#undef SPECIE
-  NUM_SPECIES  //And a terminal marker so that we know how many there are
+// Try to ensure that enum values are assigned in the range [0, size)
+// and not user-determined as in SPECIE(example = 10)
+
+
+enum Species {
+  #define SPECIE(name) name,
+  #define CRITICAL_SPECIE(name) name,
+  #include "specie_list.hpp"
+  #undef CRITICAL_SPECIE
+  #undef SPECIE
+  size
 };
 
-enum critspecie_id {
-#define SPECIE(name) 
+const std::string specie_str[Species::size] = {
+  #define SPECIE(name) #name,
+  #include "specie_list.hpp"
+  #undef SPECIE
+};
+
+constexpr auto NUM_SPECIES = Species::size;
+using specie_id = Species;
+
+enum Critical_Species_ID {
+#define SPECIE(name)
 #define CRITICAL_SPECIE(name) rcrit_##name,
 #include "specie_list.hpp"
 #undef SPECIE
@@ -20,14 +35,9 @@ enum critspecie_id {
   NUM_CRITICAL_SPECIES  //And a terminal marker so that we know how many there are
 };
 
+using critspecie_id = Critical_Species_ID;
 
-const std::string specie_str[NUM_SPECIES] = {
-    #define SPECIE(name) #name,
-    #include "specie_list.hpp"
-    #undef SPECIE
-};
-
-using specie_vec = std::vector<specie_id>;
+using specie_vec = std::vector<Species>;
 
 #endif
 
