@@ -1,7 +1,7 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 function(CSV_GEN localname simdir)
-  add_executable(${localname} csv_gen.cpp utility/color.cpp io/csvw.cpp io/csvw_param.cpp)
+  add_executable(${localname} csv_gen.cpp utility/color.cpp io/csvw.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   target_include_directories(${localname} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -26,7 +26,6 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
 
@@ -63,7 +62,6 @@ function(CUDASIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvw_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
 
