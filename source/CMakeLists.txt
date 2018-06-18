@@ -120,10 +120,10 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   else (${BUILD_TESTS_ONLY})
     CSV_GEN(csv_gen ${PROJECT_BINARY_DIR})
     SIMULATION(simulation ${PROJECT_BINARY_DIR})
-    set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+    set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/binary")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
-      set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+      set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/binary")
     endif (${CUDA_FOUND})
     # Forces csv_gen to run before all the test_'s are built.
     # This occurs when 'make' is run.
