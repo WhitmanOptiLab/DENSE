@@ -10,32 +10,15 @@
 #include <vector>
 #include <array>
 
-#define check(RESULT) do {                      \
-      check(RESULT, __FILE__, __LINE__);          \
-    } while(0)
+#define check(RESULT) do {\
+  check(RESULT, __FILE__, __LINE__);\
+} while(0)
 
-namespace { const char *strerrno(int) { return strerror(errno); } }
-
-template<class T, T Success, const char *(ErrorStr)(T t)>
-struct ErrorInfoBase {
-    static constexpr bool isSuccess(T t) { return t == Success; }
-      static const char *getErrorStr(T t) { return ErrorStr(t); }
-};
-template<class T> struct ErrorInfo;
-template <> struct ErrorInfo<cudaError_t> :
-  ErrorInfoBase<cudaError_t, cudaSuccess, cudaGetErrorString> {};
-template <> struct ErrorInfo<int> :
-  ErrorInfoBase<int, 0, strerrno> {};
-
-namespace {
-  template<class T>
-    static void (check)(T result, const char *file, unsigned line) {
-        if (ErrorInfo<T>::isSuccess(result)) return;
-          std::cerr << file << ":"
-                        << line << ": "
-                                    << ErrorInfo<T>::getErrorStr(result) << "\n";
-            exit(-1);
-    }
+void (check)(cudaError code, const char *file, unsigned line) {
+  if (!code) {
+    std::cerr << file << ':' << line << ": " << cudaGetErrorString(code) << '\n';
+    exit(-1);
+  }
 }
 
 class simulation_cuda: public Deterministic_Simulation {
