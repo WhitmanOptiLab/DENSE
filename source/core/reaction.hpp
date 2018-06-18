@@ -2,18 +2,21 @@
 #define CORE_REACTION_HPP
 
 #include "specie.hpp"
-#include "utility/common_utils.hpp"
+#include "utility/cuda.hpp"
+#include "utility/Real.hpp"
 
 #include <string>
 #include <utility>
 
 
 enum Reaction_ID {
-#define REACTION(name) name,
-#include "reactions_list.hpp"
-#undef REACTION
-  NUM_REACTIONS  //And a terminal marker so that we know how many there are
+  #define REACTION(name) name,
+  #include "reactions_list.hpp"
+  #undef REACTION
+  Reaction_ID_size
 };
+
+constexpr auto NUM_REACTIONS = Reaction_ID_size;
 
 using reaction_id = Reaction_ID;
 
