@@ -5,6 +5,7 @@
 
 #ifdef __CUDACC__
 #define IF_CUDA(X) X
+#define USING_CUDA
 #else
 #define IF_CUDA(X)
 #endif
@@ -21,7 +22,7 @@ class CUDA_Array {
   ValueT const& operator[] (std::size_t i) const { return array[i]; };
 };
 
-#ifdef __CUDACC__
+#ifdef USING_CUDA
 
 namespace {
 
