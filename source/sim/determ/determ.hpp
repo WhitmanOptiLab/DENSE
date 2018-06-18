@@ -3,7 +3,6 @@
 
 #include "sim/base.hpp"
 #include "core/observable.hpp"
-#include "core/context.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"
