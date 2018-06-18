@@ -20,7 +20,6 @@ test_simulation_set_cuda
 *.cmake
 *.cbp
 *.layout
-*.workspace
 
 build/CMakeFiles/
 
@@ -34,14 +33,11 @@ build/CMakeCache\.txt
 
 build/Makefile
 
-build/simulation
+binary/*
+!binary/\.keep
 
 build/param_grad_template\.csv
 
 build/param_pert_template\.csv
 
 build/param_sets_template\.csv
-
-api/
-
-build/cuda_simulation
