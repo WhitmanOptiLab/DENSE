@@ -7,7 +7,7 @@
 #include <iostream>
 
 void simulation_cuda::initialize(){
-    simulation_determ::initialize();
+    Deterministic_Simulation::initialize();
     _baby_cl_cuda.initialize();
 }
 

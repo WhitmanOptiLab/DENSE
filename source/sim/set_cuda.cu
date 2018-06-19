@@ -30,14 +30,14 @@ void simulation_set_cuda::simulate_sets() {
 //        cout<< endl;
 
         executeAll<<<dimGrid, dimBlock>>>(_sim_set);
-        //cudaDeviceSynchronize(); //Required to be able to access managed 
+        //cudaDeviceSynchronize(); //Required to be able to access managed
                                  // GPU data
     }
 
     cudaDeviceSynchronize();
     //convert back to CPU
     if (cudaPeekAtLastError() != cudaSuccess) {
-        cout << "Kernel launch error: " << cudaPeekAtLastError() << "\n";
+        std::cout << "Kernel launch error: " << cudaPeekAtLastError() << "\n";
     }
 
     cudaDeviceSynchronize();

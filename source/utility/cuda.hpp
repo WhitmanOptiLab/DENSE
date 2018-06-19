@@ -1,3 +1,5 @@
+#ifndef DENSE_UTILITY_CUDA_HPP
+#define DENSE_UTILITY_CUDA_HPP
 
 #include <system_error>
 #include <type_traits>
@@ -22,23 +24,8 @@ class CUDA_Array {
   ValueT const& operator[] (std::size_t i) const { return array[i]; };
 };
 
-#ifdef USING_CUDA
+#ifdef USING_CUDA_NOPE
 
-namespace {
-
-  class Error_Category : public std::error_category {
-
-    public:
-
-      char const* name() const noexcept override { return "cuda"; }
-
-      std::string message(int value) const override {
-        return cudaGetErrorString(static_cast<cuda::Error_Code>(value));
-      }
-
-  };
-
-}
 
 namespace cuda {
 
@@ -48,6 +35,22 @@ namespace cuda {
   ///   -->TYPES.html#group__CUDART__TYPES_1g3f51e3575c2178246db0a94a430e0038)
   using Error_Code = cudaError;
 
+  namespace {
+
+    class Error_Category : public std::error_category {
+
+      public:
+
+        char const* name() const noexcept override { return "cuda"; }
+
+        std::string message(int value) const override {
+          return cudaGetErrorString(static_cast<cuda::Error_Code>(value));
+        }
+
+    };
+
+  }
+
   /// Get a reference to the CUDA error category singleton.
   ///  `std::error_category::name()` is overridden to return `"cuda"`.
   ///  `std::error_category::message(int)` is overridden to return a CUDA-specific
@@ -55,7 +58,7 @@ namespace cuda {
   /// \see [\c cudaGetErrorString(cudaError)]
   ///   (https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__<!--
   ///   -->ERROR.html#group__CUDART__ERROR_1g4bc9e35a618dfd0877c29c8ee45148f1)
-  std::error_category const& error_category() override {
+  std::error_category const& error_category() {
     static cuda::Error_Category error_category;
     return error_category;
   }
@@ -67,7 +70,7 @@ namespace std {
   /// Template specialization marking cuda::Error_Code eligible for conversion
   /// to `std::error_code`.
   template <>
-  struct is_error_code_enum<cuda::Error_Code> : std::true_type {}
+  struct is_error_code_enum<cuda::Error_Code> : std::true_type {};
 
 }
 
@@ -77,5 +80,7 @@ namespace std {
 std::error_code make_error_code(cuda::Error_Code code) noexcept {
   return { static_cast<int>(code), cuda::error_category() };
 }
+
+#endif
 
 #endif
