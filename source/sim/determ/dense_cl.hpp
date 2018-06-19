@@ -67,7 +67,7 @@ class dense_cl {
     }
 
     dense_cl(int length, int width, simulation& sim)
-    :_width(width),_total_length(0),_sim(sim){
+    :_width(width),_total_length(0),_sim(sim) {
         allocate_array();
     }
 
@@ -98,21 +98,15 @@ class dense_cl {
     }
 
 
-protected:
-    void dealloc_array(){
-        if (_array){
-            delete[] _array;
-        }
-        _array= NULL;
+  protected:
+
+    void dealloc_array() {
+      delete[] _array;
+      _array = nullptr;
     }
 
-    void allocate_array(){
-        if (_total_length >0){
-            _array= new Real[_total_length];
-        }
-        else{
-            _array= NULL;
-        }
+    void allocate_array() {
+      _array = _total_length > 0 ? new Real[_total_length] : nullptr;
     }
 
 };

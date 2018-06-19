@@ -9,13 +9,14 @@
 #include "determ.hpp"
 #include <vector>
 #include <array>
+#include <iostream>
 
 #define check(RESULT) do {\
   check(RESULT, __FILE__, __LINE__);\
 } while(0)
 
-void (check)(cudaError code, const char *file, unsigned line) {
-  if (!code) {
+inline void (check)(cudaError code, const char *file, unsigned line) {
+  if (code != cudaError{}) {
     std::cerr << file << ':' << line << ": " << cudaGetErrorString(code) << '\n';
     exit(-1);
   }

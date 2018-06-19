@@ -5,6 +5,7 @@
 #include "determ/determ_cuda.hpp"
 #include <vector>
 #include <array>
+#include <iostream>
 
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
