@@ -1,6 +1,6 @@
 #include "io/arg_parse.hpp"
-#include "analysis/oscillation.hpp"
-#include "analysis/basic.hpp"
+#include "measurement/oscillation.hpp"
+#include "measurement/basic.hpp"
 #include "utility/style.hpp"
 #include "utility/common_utils.hpp"
 #include "io/csvr_sim.hpp"

@@ -12,9 +12,9 @@ function(SIMCORELIB localname simdir)
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
-          ${PROJECT_SOURCE_DIR}/source/analysis/base.cpp
-          ${PROJECT_SOURCE_DIR}/source/analysis/basic.cpp
-          ${PROJECT_SOURCE_DIR}/source/analysis/oscillation.cpp
+          ${PROJECT_SOURCE_DIR}/source/measurement/base.cpp
+          ${PROJECT_SOURCE_DIR}/source/measurement/basic.cpp
+          ${PROJECT_SOURCE_DIR}/source/measurement/oscillation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
@@ -47,19 +47,18 @@ function(CUDASIMCORELIB localname simdir)
     CUDA_INCLUDE_DIRECTORIES(${simdir} ${PROJECT_SOURCE_DIR}/source)
     cuda_add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
-          ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/set_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl_cuda.cu
+          ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
-          ${PROJECT_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
-          ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvr_param.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
