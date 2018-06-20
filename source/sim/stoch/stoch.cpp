@@ -160,7 +160,7 @@ void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
  * arg "rid": reaction to fire
 */
 void Stochastic_Simulation::fireReaction(ContextStoch *c, reaction_id rid){
-	const reaction_base& r = _model.getReaction(rid);
+	const reaction_base& r = model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
 	for (int i=0; i<r.getNumDeltas(); i++){
 		c->updateCon(specie_deltas[i], r.getDeltas()[i]);
@@ -200,7 +200,7 @@ void Stochastic_Simulation::initPropensities(){
     for (int c=0; c<_cells_total; c++){
         ContextStoch ctxt(*this,c);
         #define REACTION(name) \
-        propensities[c].push_back(_model.reaction_##name.active_rate(ctxt));
+        propensities[c].push_back(model::reaction_##name.active_rate(ctxt));
         #include "reactions_list.hpp"
         #undef REACTION
     }
@@ -241,7 +241,7 @@ void Stochastic_Simulation::initPropensityNetwork(){
     };
 
     #define REACTION(name) \
-    const reaction<name>& r##name = _model.reaction_##name; \
+    const reaction<name>& r##name = model::reaction_##name; \
     r##name.active_rate( DependanceContext (neighbor_dependencies[name],dependencies[name]));
     #include "reactions_list.hpp"
     #undef REACTION

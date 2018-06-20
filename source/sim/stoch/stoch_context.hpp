@@ -30,13 +30,11 @@ Real Stochastic_Simulation::ContextStoch::calculateNeighborAvg(specie_id sp, int
  * arg "rid": the reaction that fired
 */
 IF_CUDA(__host__ __device__)
-void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid){
-    const model& _model = _simulation._model;
-
+void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid) {
     #define REACTION(name) \
     for (std::size_t i=0; i<_simulation.propensity_network[rid].size(); i++) { \
         if ( name == _simulation.propensity_network[rid][i] ) { \
-            _simulation.propensities[_cell][name] = _model.reaction_##name.active_rate(*this); \
+            _simulation.propensities[_cell][name] = model::reaction_##name.active_rate(*this); \
         } \
     } \
 \
@@ -45,7 +43,7 @@ void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid){
             for (int n=0; n<_simulation._numNeighbors[_cell]; n++) { \
                 int n_cell = _simulation._neighbors[_cell][n]; \
                 ContextStoch neighbor(_simulation,n_cell); \
-                _simulation.propensities[n_cell][name] = _model.reaction_##name.active_rate(neighbor); \
+                _simulation.propensities[n_cell][name] = model::reaction_##name.active_rate(neighbor); \
             } \
         } \
     }

@@ -97,9 +97,9 @@ class Deterministic_Simulation : public Simulation {
   int _j;
   int _num_history_steps; // how many steps in history are needed for this numerical method
 
-  Deterministic_Simulation(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+  Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real step_size, Real analysis_interval, Real sim_time) :
-    Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
+    Simulation(ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~Deterministic_Simulation() {}
   void execute();

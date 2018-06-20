@@ -21,11 +21,9 @@ Real Deterministic_Simulation::Context::calculateNeighborAvg(specie_id sp, int d
 
 IF_CUDA(__host__ __device__)
 const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::Context::calculateRatesOfChange(){
-    const model& _model = _simulation._model;
-
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
-    #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
+    #define REACTION(name) reaction_rates[name] = model::reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION
 
@@ -36,7 +34,7 @@ const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::C
 
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
     #define REACTION(name) \
-    const reaction<name>& r##name = _model.reaction_##name; \
+    const reaction<name>& r##name = model::reaction_##name; \
     for (int j = 0; j < r##name.getNumDeltas(); j++) { \
         specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
     }
@@ -47,12 +45,9 @@ const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::C
 }
 
 IF_CUDA(__host__ __device__)
-void Deterministic_Simulation::Context::updateCon(const Deterministic_Simulation::Context::SpecieRates& rates){
-    //double step_size= _simulation.step_size;
-
-    double curr_rate=0;
+void Deterministic_Simulation::Context::updateCon(const Deterministic_Simulation::Context::SpecieRates& rates) {
     for (int i=0; i< NUM_SPECIES; i++){
-        curr_rate= rates[i];
+        auto curr_rate = rates[i];
         _simulation._baby_cl[i][1][_cell]=_simulation._baby_cl[i][0][_cell]+ _simulation._step_size* curr_rate;
     }
 }

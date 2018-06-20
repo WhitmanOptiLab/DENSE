@@ -9,7 +9,7 @@
 
 class model{
 public:
-    model() {}
+    model() = delete;
 
     static delay_reaction_id getDelayReactionId(reaction_id rid) {
         switch (rid) {
@@ -23,7 +23,7 @@ public:
         }
     }
 
-    reaction_base const& getReaction(reaction_id rid) const {
+    static reaction_base const& getReaction(reaction_id rid) {
         switch (rid) {
             #define REACTION(name) \
             case name: return reaction_##name;
@@ -33,7 +33,7 @@ public:
         }
     }
 
-    #define REACTION(name) reaction<name> reaction_##name;
+    #define REACTION(name) static reaction<name> reaction_##name;
     #include "reactions_list.hpp"
     #undef REACTION
 };

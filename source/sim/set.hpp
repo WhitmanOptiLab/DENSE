@@ -29,8 +29,6 @@ class Simulation_Set {
   public:
     std::vector<Parameter_Set> const& _ps;
     std::vector<Simulation*> _sim_set;
-    //setting up model
-    model _m;
     Real total_time;
     Real* factors_pert;
     Real** factors_grad;
@@ -157,25 +155,25 @@ class Simulation_Set {
 
 
             // For each set, load data to _ps and _sim_set
-            for (std::size_t i = 0; i < _ps.size(); i++)
+            for (Parameter_Set const& parameter_set : _ps)
             {
                 // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
                 if (step_size == 0.0)
                 {
                     _sim_set.push_back(
-                            new Stochastic_Simulation(_m, _ps[i], factors_pert,
+                            new Stochastic_Simulation(parameter_set, factors_pert,
                                 factors_grad, cell_total, total_width,
                                 analysis_interval, sim_time, seed));
                 }
                 else
                 {
                     _sim_set.push_back(
-                            new Deterministic_Simulation(_m, _ps[i], factors_pert,
+                            new Deterministic_Simulation(parameter_set, factors_pert,
                                 factors_grad, cell_total, total_width,
                                 step_size, analysis_interval, sim_time));
                 }
 
-                _sim_set[i]->initialize();
+                _sim_set.back()->initialize();
             }
     }
 

@@ -18,13 +18,11 @@ Real simulation_cuda::Context::calculateNeighborAvg(specie_id sp, int delay) con
 }
 
 IF_CUDA(__host__ __device__)
-const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateRatesOfChange(){
-    const model& _model = _simulation._model;
-
+const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateRatesOfChange() {
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
     for (int i = 0; i < NUM_REACTIONS; i++) { reaction_rates[i] = 1.0f; }
-    #define REACTION(name) reaction_rates[name] = _model.reaction_##name.active_rate(*this);
+    #define REACTION(name) reaction_rates[name] = model::reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION
 
@@ -35,7 +33,7 @@ const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateR
 
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
     #define REACTION(name) \
-    const reaction<name>& r##name = _model.reaction_##name; \
+    const reaction<name>& r##name = model::reaction_##name; \
     for (int j = 0; j < r##name.getNumDeltas(); j++) { \
         specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
     }

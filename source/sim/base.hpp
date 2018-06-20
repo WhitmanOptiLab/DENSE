@@ -73,7 +73,6 @@ class Simulation : public Observable {
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
   Parameter_Set const& _parameter_set;
-  model const& _model;
   Real* factors_perturb;
   Real** factors_gradient;
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
@@ -95,10 +94,10 @@ class Simulation : public Observable {
    * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
    * arg "sim_time": the total time to simulate for, in minutes
   */
-  Simulation(model const& m, Parameter_Set const& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, Real analysis_interval, Real sim_time) :
+  Simulation(Parameter_Set const& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, Real analysis_interval, Real sim_time) :
     Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
     time_total(sim_time),  analysis_gran(analysis_interval),
-    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(ps), _model(m),
+    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(ps),
     factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new int[cells_total])
     { }
 
