@@ -37,7 +37,6 @@ enum delay_reaction_id {
 
 using ReactionTerm = std::pair<int, int>;
 
-
 class reaction_base{
  public:
   IF_CUDA(__host__ __device__)
@@ -50,7 +49,7 @@ class reaction_base{
   IF_CUDA(__host__ __device__)
   int const* getDeltas() const { return deltas; }
 
- protected:
+ private:
   int num_deltas;
   int const* deltas;
   specie_id const* delta_ids;
@@ -62,7 +61,7 @@ class reaction : public reaction_base {
   reaction();
   template<class Ctxt>
   IF_CUDA(__host__ __device__)
-  Real active_rate(Ctxt const& c) const;
+  static Real active_rate(Ctxt const& c);
 };
 
 #define REACTION(name) template<> reaction<name>::reaction();

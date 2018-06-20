@@ -80,8 +80,7 @@ void Simulation::calc_max_delays() {
 
 
     #define REACTION(name) \
-    reaction<name> const& r##name = _model.reaction_##name; \
-    r##name.active_rate( DummyContext (rate_terms[name]));
+    model::reaction_##name.active_rate( DummyContext (rate_terms[name]));
     #include "reactions_list.hpp"
     #undef REACTION
 
@@ -97,7 +96,7 @@ void Simulation::calc_max_delays() {
   Real max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \
-    for (int k = 0; k < _width_total && factors_gradient[name]; k++) { \
+    for (unsigned k = 0; k < _width_total && factors_gradient[name]; k++) { \
       max_gradient_##name = std::max<Real>(factors_gradient[ name ][k], max_gradient_##name); \
     } \
   } \

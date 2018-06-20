@@ -127,9 +127,9 @@ class Stochastic_Simulation : public Simulation {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const model& m, const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real analysis_interval, Real sim_time, int seed):
-        Simulation(m, ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
+        Simulation(ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
         generator(std::default_random_engine(seed)){}
 
     //Deconstructor
