@@ -180,7 +180,7 @@ void Stochastic_Simulation::initialize(){
 
     initPropensityNetwork();
 
-    for (int c = 0; c < _cells_total; c++) {
+    for (unsigned c = 0; c < _cells_total; ++c) {
       std::vector<int> species;
       std::vector<Real> props;
       concs.push_back(species);
@@ -197,7 +197,7 @@ void Stochastic_Simulation::initialize(){
  * sets the propensities of each reaction in each cell to its respective active
 */
 void Stochastic_Simulation::initPropensities(){
-    for (int c=0; c<_cells_total; c++){
+    for (unsigned c = 0; c < _cells_total; ++c) {
         ContextStoch ctxt(*this,c);
         #define REACTION(name) \
         propensities[c].push_back(model::reaction_##name.active_rate(ctxt));

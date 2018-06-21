@@ -41,7 +41,7 @@ void Deterministic_Simulation::execute(){
     //cout.precision(dbl::max_digits10);
     //cout<< _j<< " "<<_baby_cl[ph1][_j][0]<<endl;
     // Iterate through each extant cell or context
-    for (int k = 0; k < _cells_total; k++) {
+    for (unsigned k = 0; k < _cells_total; k++) {
         //if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             Context c(*this, k);
@@ -80,7 +80,7 @@ void Deterministic_Simulation::initialize(){
     _baby_cl.initialize();
     //Copy and normalize _delays into _intDelays
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
-      for (int j = 0; j < _cells_total; j++) {
+      for (unsigned j = 0; j < _cells_total; ++j) {
         _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
       }
     }
