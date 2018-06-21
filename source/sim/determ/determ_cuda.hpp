@@ -96,7 +96,7 @@ class simulation_cuda: public Deterministic_Simulation {
     }
 
     void simulate_cuda();
-    simulation_cuda(const model& m, const Parameter_Set& ps, int cells_total, int width_total, Real step_size, Real analysis_interval, Real sim_time) :
+    simulation_cuda(const dense::model& m, const Parameter_Set& ps, int cells_total, int width_total, Real step_size, Real analysis_interval, Real sim_time) :
         Deterministic_Simulation(m,ps,NULL,NULL, cells_total, width_total,step_size, analysis_interval, sim_time), _baby_cl_cuda(*this) {
           _old_neighbors = _neighbors;
           check(cudaMallocManaged(&_neighbors, sizeof(CUDA_Array<int, 6>)*_cells_total));

@@ -6,6 +6,7 @@
 #include "reaction.hpp"
 #include "specie.hpp"
 
+namespace dense {
 
 class model{
 public:
@@ -37,5 +38,7 @@ public:
     #include "reactions_list.hpp"
     #undef REACTION
 };
+
+}
 
 #endif

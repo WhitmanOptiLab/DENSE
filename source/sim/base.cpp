@@ -80,7 +80,7 @@ void Simulation::calc_max_delays() {
 
 
     #define REACTION(name) \
-    model::reaction_##name.active_rate( DummyContext (rate_terms[name]));
+    dense::model::reaction_##name.active_rate( DummyContext (rate_terms[name]));
     #include "reactions_list.hpp"
     #undef REACTION
 

@@ -11,7 +11,7 @@
 #undef REACTION
 
 #define REACTION(name) \
-  reaction<name> model::reaction_##name{};
+  reaction<name> dense::model::reaction_##name{};
 #include "reactions_list.hpp"
 #undef REACTION
 

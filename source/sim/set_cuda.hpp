@@ -80,8 +80,8 @@ class simulation_set_cuda {
 
     simulation_set_cuda(int num_param, bool using_gradients, bool using_perturb, Real* paramset, int cell_total, int total_width, Real step_size, Real analysis_interval, Real sim_time) : _num_sets(num_param) {
         cudaMallocManaged(&_ps, sizeof(Parameter_Set));
-        cudaMallocManaged(&_m, sizeof(model));
-        new(_m) model();
+        cudaMallocManaged(&_m, sizeof(dense::model));
+        new(_m) dense::model();
 	time_total = sim_time;
         cudaMallocManaged(&_sim_set, sizeof(simulation_cuda)*_num_sets);
         param_set_init(paramset);
@@ -103,7 +103,7 @@ class simulation_set_cuda {
     }
  private:
     //setting up model
-    model* _m;
+    dense::model* _m;
     Parameter_Set* _ps;
     simulation_cuda* _sim_set;
     int _num_sets;
