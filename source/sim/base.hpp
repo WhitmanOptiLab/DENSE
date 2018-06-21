@@ -40,13 +40,13 @@ class Simulation : public Observable {
     using Context = dense::Context;
 
   // Sizes
-  int _width_total; // The maximum width in cells of the PSM
-  int circumf; // The current width in cells
+  unsigned _width_total; // The maximum width in cells of the PSM
+  unsigned circumf; // The current width in cells
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
   //int height; // The height in cells of the PSM
   //int cells; // The number of cells in the simulation
-  int _cells_total; // The total number of cells of the PSM (total width * total height)
+  unsigned _cells_total; // The total number of cells of the PSM (total width * total height)
 
   // Times and timing
   Real time_total;
@@ -76,7 +76,7 @@ class Simulation : public Observable {
   Real* factors_perturb;
   Real** factors_gradient;
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
-  int *_numNeighbors;
+  unsigned *_numNeighbors;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
@@ -87,7 +87,6 @@ class Simulation : public Observable {
 
   /*
    * CONSTRUCTOR
-   * arg "m": assiged to "_model", used to access user-inputted active rate functions
    * arg "ps": assiged to "_parameter_set", used to access user-inputted rate constants, delay times, and crit values
    * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
    * arg "width_total": the circumference of the tube, in cells
@@ -98,7 +97,7 @@ class Simulation : public Observable {
     Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
     time_total(sim_time),  analysis_gran(analysis_interval),
     _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(ps),
-    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new int[cells_total])
+    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new unsigned[cells_total])
     { }
 
   //DECONSTRUCTOR
@@ -114,7 +113,7 @@ class Simulation : public Observable {
     */
     IF_CUDA(__host__ __device__)
     void calc_neighbor_2d(){
-        for (int i = 0; i < _cells_total; i++) {
+        for (unsigned i = 0; i < _cells_total; i++) {
 	        int adjacents[6];
 
             /* Hexagonal Adjacencies
@@ -126,29 +125,29 @@ class Simulation : public Observable {
             5: BOTTOM-LEFT
             */
             if (i % 2 == 0) {
-                adjacents[0] = (i - circumf + _cells_total) % _cells_total;
-                adjacents[1] = (i - circumf + 1 + _cells_total) % _cells_total;
+                adjacents[0] = (_cells_total + i - circumf) % _cells_total;
+                adjacents[1] = (_cells_total + i - circumf + 1) % _cells_total;
                 adjacents[2] = (i + 1) % _cells_total;
                 adjacents[3] = (i + circumf) % _cells_total;
                 if (i % circumf == 0) {
                     adjacents[4] = i + circumf - 1;
-                    adjacents[5] = (i - 1 + _cells_total) % _cells_total;
+                    adjacents[5] = (_cells_total + i - 1) % _cells_total;
                 } else {
                     adjacents[4] = i - 1;
-                    adjacents[5] = (i - circumf - 1 + _cells_total) % _cells_total;
+                    adjacents[5] = (_cells_total + i - circumf - 1) % _cells_total;
                 }
             } else {
-                adjacents[0] = (i - circumf + _cells_total) % _cells_total;
+                adjacents[0] = (_cells_total + i - circumf) % _cells_total;
                 if (i % circumf == circumf - 1) {
                     adjacents[1] = i - circumf + 1;
                     adjacents[2] = (i + 1) % _cells_total;
                 } else {
                     adjacents[1] = i + 1;
-                    adjacents[2] = (i + circumf + 1 + _cells_total) % _cells_total;
+                    adjacents[2] = (_cells_total + i + circumf + 1) % _cells_total;
                 }
                 adjacents[3] = (i + circumf) % _cells_total;
                 adjacents[4] = (i + circumf - 1) % _cells_total;
-                adjacents[5] = (i - 1 + _cells_total) % _cells_total;
+                adjacents[5] = (_cells_total + i - 1) % _cells_total;
             }
 
             if (i % circumf == 0) {

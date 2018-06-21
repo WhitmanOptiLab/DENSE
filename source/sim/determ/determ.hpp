@@ -23,7 +23,7 @@ class Deterministic_Simulation : public Simulation {
       protected:
         Deterministic_Simulation& _simulation;
         double _avg;
-        int _cell;
+        unsigned _cell;
 
       public:
         typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
@@ -60,7 +60,7 @@ class Deterministic_Simulation : public Simulation {
 	IF_CUDA(__host__ __device__)
 	virtual void set(int c) final {_cell = c;}
         IF_CUDA(__host__ __device__)
-        virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
+        virtual bool isValid() const final { return _cell < _simulation._cells_total; }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
   IntDelays _intDelays;
@@ -95,7 +95,7 @@ class Deterministic_Simulation : public Simulation {
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
   int _j;
-  int _num_history_steps; // how many steps in history are needed for this numerical method
+  unsigned _num_history_steps; // how many steps in history are needed for this numerical method
 
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real step_size, Real analysis_interval, Real sim_time) :

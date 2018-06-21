@@ -13,7 +13,8 @@ class baby_cl {
     int _specie_size[NUM_SPECIES];
     int _j[NUM_SPECIES];
     Deterministic_Simulation const& _sim;
-    int _length, _width, _total_length;
+    int _length, _width;
+    unsigned _total_length;
     Real *_array;
 
 
@@ -84,7 +85,7 @@ class baby_cl {
 
     void initialize();
     void reset(){
-        for (int i = 0; i < _total_length; i++) {
+        for (unsigned i = 0; i < _total_length; i++) {
             _array[i] = 0.0; // Initialize every concentration level at every time step for every cell to 0
         }
         for (int i = 0; i < NUM_SPECIES; i++) {

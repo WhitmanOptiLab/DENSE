@@ -12,7 +12,7 @@ IF_CUDA(__host__ __device__)
 Real Deterministic_Simulation::Context::calculateNeighborAvg(specie_id sp, int delay) const{
     // Average the given cell's neighbors' concentrations
     Real sum=0;
-    for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
+    for (unsigned i = 0; i<_simulation._numNeighbors[_cell]; i++) {
         sum+=_simulation._baby_cl[sp][-delay][_simulation._neighbors[_cell][static_cast<unsigned>(i)]];
     }
     Real avg = sum/_simulation._numNeighbors[_cell];

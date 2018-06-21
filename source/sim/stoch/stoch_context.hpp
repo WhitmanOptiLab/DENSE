@@ -17,7 +17,7 @@
 IF_CUDA(__host__ __device__)
 Real Stochastic_Simulation::ContextStoch::calculateNeighborAvg(specie_id sp, int delay) const{
     Real sum=0;
-    for (int i=0; i<_simulation._numNeighbors[_cell]; i++){
+    for (unsigned i = 0; i < _simulation._numNeighbors[_cell]; ++i) {
         sum+=_simulation.concs[_simulation._neighbors[_cell][i]][sp];
     }
     Real avg = sum/_simulation._numNeighbors[_cell];
@@ -40,7 +40,7 @@ void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid) {
 \
     for (std::size_t r=0; r<_simulation.neighbor_propensity_network[rid].size(); r++) { \
         if (name == _simulation.neighbor_propensity_network[rid][r]) { \
-            for (int n=0; n<_simulation._numNeighbors[_cell]; n++) { \
+            for (unsigned n=0; n<_simulation._numNeighbors[_cell]; n++) { \
                 int n_cell = _simulation._neighbors[_cell][n]; \
                 ContextStoch neighbor(_simulation,n_cell); \
                 _simulation.propensities[n_cell][name] = model::reaction_##name.active_rate(neighbor); \
@@ -60,7 +60,7 @@ void Stochastic_Simulation::ContextStoch::updatePropensities(reaction_id rid) {
 IF_CUDA(__host__ __device__)
 Real Stochastic_Simulation::ContextStoch::getTotalPropensity(){
     Real sum = 0;
-    for (int c=0; c<_simulation._cells_total; c++){
+    for (unsigned c = 0; c < _simulation._cells_total; ++c) {
       for (int r=0; r<NUM_REACTIONS; r++){
         sum+=_simulation.propensities[c][r];
       }
@@ -77,7 +77,8 @@ Real Stochastic_Simulation::ContextStoch::getTotalPropensity(){
 IF_CUDA(__host__ __device__)
 int Stochastic_Simulation::ContextStoch::chooseReaction(Real propensity_portion) {
   Real sum = 0;
-  int c, s;
+  unsigned c;
+  int s;
 
   for (c = 0; c < _simulation._cells_total; c++) {
     for (s = 0; s < NUM_REACTIONS; s++) {

@@ -68,7 +68,7 @@ class Stochastic_Simulation : public Simulation {
       private:
         Stochastic_Simulation& _simulation;
         double _avg;
-        int _cell;
+        unsigned _cell;
 
       public:
         typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
@@ -115,7 +115,7 @@ class Stochastic_Simulation : public Simulation {
 	    IF_CUDA(__host__ __device__)
 	    virtual void set(int c) final {_cell = c;}
         IF_CUDA(__host__ __device__)
-        virtual bool isValid() const final { return _cell >= 0 && _cell < _simulation._cells_total; }
+        virtual bool isValid() const final { return _cell < _simulation._cells_total; }
     };
 
   private:
