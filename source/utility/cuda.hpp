@@ -14,14 +14,37 @@
 
 #define STATIC_VAR IF_CUDA(__managed__)
 
-template <typename ValueT, std::size_t Size>
+template <typename T, std::size_t size>
 class CUDA_Array {
- ValueT array[Size];
+
  public:
+
   IF_CUDA(__host__ __device__)
-  ValueT & operator[] (std::size_t i) { return array[i]; };
+  T* begin() { return data_; }
+
   IF_CUDA(__host__ __device__)
-  ValueT const& operator[] (std::size_t i) const { return array[i]; };
+  T const* begin() const { return data_; }
+
+  IF_CUDA(__host__ __device__)
+  T* end() { return data_ + size; }
+
+  IF_CUDA(__host__ __device__)
+  T const* end() const { return data_ + size; }
+
+  IF_CUDA(__host__ __device__)
+  T & operator[] (std::size_t i) {
+    return data_[i];
+  };
+
+  IF_CUDA(__host__ __device__)
+  T const& operator[] (std::size_t i) const {
+    return data_[i];
+  };
+
+  private:
+
+    T data_[size];
+
 };
 
 #ifdef USING_CUDA_NOPE
