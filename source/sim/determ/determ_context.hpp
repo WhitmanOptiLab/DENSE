@@ -23,7 +23,7 @@ IF_CUDA(__host__ __device__)
 const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::Context::calculateRatesOfChange(){
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
-    #define REACTION(name) reaction_rates[name] = model::reaction_##name.active_rate(*this);
+    #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(*this);
         #include "reactions_list.hpp"
     #undef REACTION
 
@@ -34,7 +34,7 @@ const Deterministic_Simulation::Context::SpecieRates Deterministic_Simulation::C
 
     //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
     #define REACTION(name) \
-    const reaction<name>& r##name = model::reaction_##name; \
+    const reaction<name>& r##name = dense::model::reaction_##name; \
     for (int j = 0; j < r##name.getNumDeltas(); j++) { \
         specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
     }
