@@ -24,7 +24,7 @@ class baby_cl_cuda : public baby_cl {
 protected:
     void dealloc_array(){
         (cudaFree(_array));
-        _array = NULL;
+        _array = nullptr;
     }
 
     void allocate_array(){
@@ -32,10 +32,10 @@ protected:
             int size = _total_length * sizeof(Real);
             (cudaMallocManaged((void**)&_array, size));
             //_array= new Real[_total_length];
-            //if (_array == NULL){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
+            //if (_array == nullptr){std::cout<<"ERROR"<<std::endl; exit(EXIT_MEMORY_ERROR);}
         }
         else{
-            _array= NULL;
+            _array= nullptr;
         }
     }
 

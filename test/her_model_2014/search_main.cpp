@@ -41,6 +41,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include "sim/set.hpp"
 
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ std::vector<double> her2014_scorer (const vector<Parameter_Set>& population) {
                  arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                  arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01),
                  arg_parse::get<int>("t", "time-total", 600),
-                 arg_parse::get<int>("r", "rand-seed", time(0))
+                 arg_parse::get<int>("r", "rand-seed", std::time(nullptr))
                 );
 
   //Create analyses

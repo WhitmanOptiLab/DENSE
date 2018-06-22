@@ -57,7 +57,7 @@ class SRES {
 	SRES (int population_size, int num_parents, int num_generations,
 	      const Parameter_Set& lBounds, const Parameter_Set& uBounds, SRES_Scorer scorer,
 	      int seed = 0) :
-	    param(NULL), population(NULL), stats(NULL), pf(0),
+	    param(nullptr), population(nullptr), stats(nullptr), pf(0),
 	    lowerBounds(lBounds), upperBounds(uBounds), popsize(population_size),
 	    parentsize(num_parents), ngenerations(num_generations), score_fcn(scorer)
 	{
@@ -70,7 +70,7 @@ class SRES {
 
     ESInitial(seed, //random seed
         &param, //Parameter set to be filled
-        NULL, //Optional transform function
+        nullptr, //Optional transform function
         [this](double** pop, double* scores, double** constr, int popc) {
           simulate_population(popc, pop, scores);
         }, //Fitness evaluation callback
