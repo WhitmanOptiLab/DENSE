@@ -116,7 +116,7 @@ double ShareNormalRand(double mean, double dev)
     Z = V2 * fac;
   else
   {
-    do 
+    do
     {
       U1 = (double)rand() / RAND_MAX;
       U2 = (double)rand() / RAND_MAX;
@@ -156,8 +156,8 @@ void ShareNormalRandVec(double *s, int n, double mean, double dev)
  *********************************************************************/
 char * ShareMallocM1c(int size)
 {
-  char *s = NULL;
-  if( (s=(char*)malloc(size * sizeof(char))) == NULL )
+  char *s = nullptr;
+  if( (s=(char*)malloc(size * sizeof(char))) == nullptr )
   {
     printf("char * malloc error!\n");
     exit(1);
@@ -166,12 +166,12 @@ char * ShareMallocM1c(int size)
 }
 char * ShareReallocM1c(char *s, int size)
 {
-  if( !s ) 
+  if( !s )
   {
     s = ShareMallocM1c(size);
     return s;
   }
-  if( (s = (char *)realloc(s, size*sizeof(char))) == NULL )
+  if( (s = (char *)realloc(s, size*sizeof(char))) == nullptr )
   {
     printf("char * realloc error!");
     exit(1);
@@ -197,14 +197,14 @@ void ShareFreeM1c(char *s)
 char ** ShareMallocM2c(int size1, int size2)
 {
   int i;
-  char **s = NULL;
+  char **s = nullptr;
 
-  if( (s = (char **)calloc(size1,sizeof(char *))) == NULL )
+  if( (s = (char **)calloc(size1,sizeof(char *))) == nullptr )
   {
     printf("char ** malloc error!\n");
     exit(1);
   }
-  if( size2 > 0 ) 
+  if( size2 > 0 )
   {
     for( i=0; i<size1; i++ )
       s[i] = ShareMallocM1c(size2);
@@ -215,13 +215,13 @@ char ** ShareMallocM2c(int size1, int size2)
 char ** ShareReallocM2c(char **s, int size1, int size2)
 {
   int i;
-                                                                                
-  if( (s = (char **)realloc(s, size1*sizeof(char *))) == NULL )
+
+  if( (s = (char **)realloc(s, size1*sizeof(char *))) == nullptr )
   {
     printf("char ** realloc error!");
     exit(1);
   }
-  if( size2 > 0 ) 
+  if( size2 > 0 )
   {
     for( i=0; i<size1; i++ )
       s[i] = ShareReallocM1c(s[i], size2);
@@ -248,8 +248,8 @@ void ShareFreeM2c(char **s, int size)
  *********************************************************************/
 int * ShareMallocM1i(int size)
 {
-  int *s = NULL;
-  if( (s=(int*)calloc(size, sizeof(int))) == NULL )
+  int *s = nullptr;
+  if( (s=(int*)calloc(size, sizeof(int))) == nullptr )
   {
     printf("int * malloc error!\n");
     exit(1);
@@ -274,8 +274,8 @@ void ShareFreeM1i(int *s)
  *********************************************************************/
 double * ShareMallocM1d(int size)
 {
-  double *s = NULL;
-  if( (s=(double*)calloc(size, sizeof(double))) == NULL )
+  double *s = nullptr;
+  if( (s=(double*)calloc(size, sizeof(double))) == nullptr )
   {
     printf("double * malloc error!\n");
     exit(1);
@@ -304,9 +304,9 @@ void ShareFreeM1d(double *s)
 double **ShareMallocM2d(int size1, int size2)
 {
   int i;
-  double **s = NULL;
+  double **s = nullptr;
 
-  if( (s=(double **)calloc(size1, sizeof(double *))) == NULL)
+  if( (s=(double **)calloc(size1, sizeof(double *))) == nullptr)
   {
     printf("double ** malloc error!\n");
     exit(1);
@@ -316,7 +316,7 @@ double **ShareMallocM2d(int size1, int size2)
     for(i=0; i<size1; i++)
       s[i] = ShareMallocM1d(size2);
   }
- 
+
   return s;
 }
 
@@ -328,7 +328,7 @@ void ShareFreeM2d(double **s, int size)
     return;
   for(i=0; i<size; i++)
     ShareFreeM1d(s[i]);
-  free((void *)s); 
+  free((void *)s);
 
   return;
 }
@@ -343,9 +343,9 @@ void ShareFreeM2d(double **s, int size)
 double ***ShareMallocM3d(int size1, int size2, int size3)
 {
   int i;
-  double ***s = NULL;
+  double ***s = nullptr;
 
-  if( (s=(double ***)calloc(size1, sizeof(double **))) == NULL)
+  if( (s=(double ***)calloc(size1, sizeof(double **))) == nullptr)
   {
     printf("double *** malloc error!\n");
     exit(1);
@@ -355,7 +355,7 @@ double ***ShareMallocM3d(int size1, int size2, int size3)
     for(i=0; i<size1; i++)
       s[i] = ShareMallocM2d(size2, size3);
   }
- 
+
   return s;
 }
 
@@ -367,7 +367,7 @@ void ShareFreeM3d(double ***s, int size1, int size2)
     return;
   for(i=0; i<size1; i++)
     ShareFreeM2d(s[i], size2);
-  free((void *)s); 
+  free((void *)s);
 
   return;
 }
@@ -402,8 +402,8 @@ char ** ShareSplitStr(const char *buf0, const char *sepa, int *len, int flag)
   char buf[shareDefMaxLine];
   char *str0, *str1, *str2;
   int num=0;
-  char *s=NULL;
-  char **strarr=NULL;
+  char *s=nullptr;
+  char **strarr=nullptr;
   int n;
 
   n=(strlen(buf0)+1>shareDefMaxLine)?shareDefMaxLine-1:strlen(buf0);
@@ -411,19 +411,19 @@ char ** ShareSplitStr(const char *buf0, const char *sepa, int *len, int flag)
   buf[n] = 0;
   str0 = str1 = buf;
   str2 = buf + strlen(buf);
-    
+
   strarr = ShareMallocM2c(1, 0);
-  
+
   while( str0 <= str2 ) {
     str1 = strstr(str0, sepa);
-    if(str1 == NULL)
+    if(str1 == nullptr)
       str1 = str2;
-    
+
     if( ((str1>=str0)&&(flag==shareDefNullYes))   \
            || ((str1>str0)&&(flag==shareDefNullNo)) ) {
       strarr = ShareReallocM2c(strarr,num+1,0);
       s = ShareMallocM1c(str1-str0+1);
-      
+
       strncpy(s, str0, str1-str0);
       s[str1-str0] = 0;
       strarr[num] = s;
@@ -445,7 +445,7 @@ void ShareChop(char *source)
   int nLen;
 
   nLen = strlen(source);
-  
+
   if ( source[nLen-1] == 10 || source[nLen-1] == 13 )
     source[nLen-1] = 0;
   if ( source[nLen-2] == 10 || source[nLen-2] == 13 )

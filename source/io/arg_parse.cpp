@@ -216,7 +216,7 @@ namespace arg_parse
             bool* pnPushTo, bool const& pcfObligatory)
     {
         // true if found, false if not
-        bool found = getIndex(pcfFlagShort, pcfFlagLong, 0, false);
+        bool found = getIndex(pcfFlagShort, pcfFlagLong, nullptr, false);
 
         if (pnPushTo)
             *pnPushTo = found;

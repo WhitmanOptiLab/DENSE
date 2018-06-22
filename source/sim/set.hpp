@@ -45,7 +45,7 @@ class Simulation_Set {
 
             // PREPARE PERT AND GRAD FILES
             {
-                Real do_global_pert_val = strtold(pcfPertFileName.c_str(), 0);
+                Real do_global_pert_val = strtold(pcfPertFileName.c_str(), nullptr);
                 bool do_global_pert = (do_global_pert_val != 0.0);
 
                 if (pcfPertFileName.size() > 0)
@@ -101,7 +101,7 @@ class Simulation_Set {
                         {
                             // Gradient defaults
                             // Helps prevent crashes in case gradient parsing fails
-                            factors_grad[i] = 0;
+                            factors_grad[i] = nullptr;
 
                             // Read all tGrad--s
                             if (gradientFile.get_next(&tGradX1) &&

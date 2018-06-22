@@ -34,7 +34,7 @@ std::string file_add_num (
 int main(int argc, char* argv[])
 {
   arg_parse::init(argc, argv);
-  style::enable(!arg_parse::get<bool>("n", "no-color", 0, false));
+  style::enable(!arg_parse::get<bool>("n", "no-color", nullptr, false));
 
   if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1) {
     // # Display all possible command line arguments with descriptions
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
       {
           // If step_size not set, create stochastic simulation
           Real step_size = arg_parse::get<Real>("s", "step-size", 0.0);
-          int seed = arg_parse::get<int>("r", "rand-seed", time(0));
+          int seed = arg_parse::get<int>("r", "rand-seed", std::time(nullptr));
 
           // Warn user that they are not running deterministic sim
           if (step_size == 0.0) {
@@ -184,13 +184,13 @@ int main(int argc, char* argv[])
           {
               Real
                   cell_start = strtol(ezxml_child(anlys,
-                          "cell-start")->txt, 0, 0),
+                          "cell-start")->txt, nullptr, 0),
                   cell_end = strtol(ezxml_child(anlys,
-                          "cell-end")->txt, 0, 0),
+                          "cell-end")->txt, nullptr, 0),
                   time_start = strtol(ezxml_child(anlys,
-                          "time-start")->txt, 0, 0),
+                          "time-start")->txt, nullptr, 0),
                   time_end = strtol(ezxml_child(anlys,
-                          "time-end")->txt, 0, 0);
+                          "time-end")->txt, nullptr, 0);
               specie_vec specie_option = str_to_species(ezxml_child(anlys,
                       "species")->txt);
 
@@ -214,8 +214,8 @@ int main(int argc, char* argv[])
               }
               else if (type == "oscillation")
               {
-                  Real win_range = strtol(ezxml_child(anlys, "win-range")->txt, 0, 0);
-                  anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, 0);
+                  Real win_range = strtol(ezxml_child(anlys, "win-range")->txt, nullptr, 0);
+                  anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, nullptr);
                   std::string out_file = ezxml_child(anlys, "out-file")->txt;
 
                   // If multiple sets, set file name
@@ -247,7 +247,7 @@ int main(int argc, char* argv[])
           (simsAmbig.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
           anlys_intvl, 0 /*time_start*/,
           time_total /*time_end*/,
-          arg_parse::get<std::string>("v", "time-col", 0, false),
+          arg_parse::get<std::string>("v", "time-col", nullptr, false),
           cell_total, 0 /*cell_start*/,
           cell_total /*cell_end*/,
           default_specie_option, *simsAmbig[i] ));
@@ -259,7 +259,7 @@ int main(int argc, char* argv[])
 
   // ========================= RUN THE SHOW =========================
   // Only bother if there are outputs
-  if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", 0, false)) {
+  if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", nullptr, false)) {
     std::cout << style::apply(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
     for (auto & simulation : simsAmbig) {
       anlysAmbig.emplace_back(new BasicAnalysis(
