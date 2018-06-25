@@ -11,9 +11,9 @@ namespace style {
     black = '0', red, green, yellow, blue, magenta, cyan, white, initial = '9'
   };
 
-  void enable (bool value = true);
+  void enable (bool value = true) noexcept;
 
-  void disable();
+  void disable() noexcept;
 
   std::string apply (Color c);
 

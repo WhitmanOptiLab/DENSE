@@ -7,11 +7,11 @@ namespace style {
     bool is_enabled = true;
   }
 
-  void enable (bool value) {
+  void enable (bool value) noexcept {
     is_enabled = value;
   }
 
-  void disable () {
+  void disable () noexcept {
     enable(false);
   }
 
