@@ -36,7 +36,7 @@ class Deterministic_Simulation : public Simulation {
         IF_CUDA(__host__ __device__)
         const SpecieRates calculateRatesOfChange();
         IF_CUDA(__host__ __device__)
-        virtual Real getCon(specie_id sp) const final {
+        Real getCon(specie_id sp) const override final {
           return getCon(sp, 1);
         }
         IF_CUDA(__host__ __device__)
@@ -56,11 +56,11 @@ class Deterministic_Simulation : public Simulation {
             return _simulation._cellParams[delay_reaction + NUM_REACTIONS][_cell];
         }
         IF_CUDA(__host__ __device__)
-        virtual void advance() final { ++_cell; }
+        void advance() override final { ++_cell; }
 	IF_CUDA(__host__ __device__)
-	virtual void set(int c) final {_cell = c;}
+        void set(int c) override final {_cell = c;}
         IF_CUDA(__host__ __device__)
-        virtual bool isValid() const final { return _cell < _simulation._cells_total; }
+        bool isValid() const override final { return _cell < _simulation._cells_total; }
     };
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
   IntDelays _intDelays;
@@ -103,8 +103,10 @@ class Deterministic_Simulation : public Simulation {
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
   virtual ~Deterministic_Simulation() {}
   void execute();
-  void initialize();
+  void initialize() override;
 
-    void simulate();
+  void simulate() override;
+
+  void simulate_for (Real duration);
 };
 #endif

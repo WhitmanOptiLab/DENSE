@@ -20,13 +20,13 @@ public:
         sim_ct();
 
         IF_CUDA(__host__ __device__)
-        virtual Real getCon(specie_id sp) const;
+        Real getCon(specie_id sp) const override;
         IF_CUDA(__host__ __device__)
-        virtual void advance();
+        void advance() override;
         IF_CUDA(__host__ __device__)
-        virtual bool isValid() const;
+        bool isValid() const override;
         IF_CUDA(__host__ __device__)
-        virtual void set(int c);
+        void set(int c) override;
 
     private:
         std::vector<std::map<specie_id, Real>> iRate;
@@ -45,7 +45,7 @@ public:
     int getCellStart();
     int getCellEnd();
 
-    void run() final;
+    void run() override final;
 
 private:
     // Required for csvr_sim

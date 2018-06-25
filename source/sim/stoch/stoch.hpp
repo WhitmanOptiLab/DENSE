@@ -91,10 +91,10 @@ class Stochastic_Simulation : public Simulation {
 	    Real getTotalPropensity();
 	    IF_CUDA(__host__ __device__)
 	    int chooseReaction(Real propensity_portion);
-        IF_CUDA(__host__ __device__)
-        virtual Real getCon(specie_id sp) const final {
-          return _simulation.concs[_cell][sp];
-        }
+      IF_CUDA(__host__ __device__)
+      Real getCon(specie_id sp) const override final {
+        return _simulation.concs[_cell][sp];
+      }
 	    Real getCon(specie_id sp, int delay) const {
 	      return getCon(sp);
 	    }
@@ -111,11 +111,11 @@ class Stochastic_Simulation : public Simulation {
             return _simulation._cellParams[NUM_REACTIONS+delay_reaction][_cell];
         }
         IF_CUDA(__host__ __device__)
-        virtual void advance() final { ++_cell; }
-	    IF_CUDA(__host__ __device__)
-	    virtual void set(int c) final {_cell = c;}
+        void advance() override final { ++_cell; }
+	      IF_CUDA(__host__ __device__)
+	      void set(int c) override final {_cell = c;}
         IF_CUDA(__host__ __device__)
-        virtual bool isValid() const final { return _cell < _simulation._cells_total; }
+        bool isValid() const override final { return _cell < _simulation._cells_total; }
     };
 
   private:
@@ -135,7 +135,7 @@ class Stochastic_Simulation : public Simulation {
     //Deconstructor
     virtual ~Stochastic_Simulation() {}
 
-    void initialize();
-    void simulate();
+    void initialize() override;
+    void simulate() override;
 };
 #endif
