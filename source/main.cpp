@@ -167,7 +167,8 @@ int main(int argc, char* argv[])
   }
 
   // Ambiguous "analyzers" will either be analyses or output file logs
-  std::vector<std::unique_ptr<Observer>> anlysAmbig;
+  std::vector<std::unique_ptr<Analysis>> anlysAmbig;
+  std::vector<std::unique_ptr<csvw>> csv_writers;
 
   // Analyses each with own file writer
   std::string config_file;
@@ -201,14 +202,13 @@ int main(int argc, char* argv[])
 
                   // If multiple sets, set file name
                   //   to "x_####.y"
-                  csvw *csvwa = new csvw(
-                          simsAmbig.size()==1 ?
+                  csv_writers.emplace_back(new csvw(simsAmbig.size()==1 ?
                               out_file :
                               file_add_num(out_file,
-                                  "_", '0', i, 4, "."));
+                                  "_", '0', i, 4, ".")));
 
                   anlysAmbig.emplace_back(new BasicAnalysis(
-                              *simsAmbig[i], specie_option, csvwa,
+                              *simsAmbig[i], specie_option,
                               cell_start, cell_end,
                               time_start, time_end));
               }
@@ -220,15 +220,14 @@ int main(int argc, char* argv[])
 
                   // If multiple sets, set file name
                   //   to "x_####.y"
-                  csvw *csvwa = new csvw(
-                          simsAmbig.size()==1 ?
+                  csv_writers.emplace_back(new csvw(simsAmbig.size()==1 ?
                               out_file :
                               file_add_num(out_file,
-                                  "_", '0', i, 4, "."));
+                                  "_", '0', i, 4, ".")));
 
                   anlysAmbig.emplace_back(new OscillationAnalysis(
                               *simsAmbig[i], anlys_intvl, win_range,
-                              specie_option, csvwa,
+                              specie_option,
                               cell_start, cell_end,
                               time_start, time_end));
               }
@@ -243,14 +242,14 @@ int main(int argc, char* argv[])
     if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "")
     {
       for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
-        anlysAmbig.emplace_back(new csvw_sim(
+        new csvw_sim(
           (simsAmbig.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
           anlys_intvl, 0 /*time_start*/,
           time_total /*time_end*/,
           arg_parse::get<std::string>("v", "time-col", nullptr, false),
           cell_total, 0 /*cell_start*/,
           cell_total /*cell_end*/,
-          default_specie_option, *simsAmbig[i] ));
+          default_specie_option, *simsAmbig[i] );
       }
     }
   }
@@ -263,7 +262,7 @@ int main(int argc, char* argv[])
     std::cout << style::apply(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
     for (auto & simulation : simsAmbig) {
       anlysAmbig.emplace_back(new BasicAnalysis(
-        *simulation, default_specie_option, nullptr,
+        *simulation, default_specie_option,
         0, cell_total, 0, time_total
       ));
     }
@@ -271,6 +270,10 @@ int main(int argc, char* argv[])
 
   for (auto & simulation : simsAmbig) {
     simulation->run();
+  }
+
+  for (auto & out : csv_writers) {
+    anlysAmbig[std::distance(&out, csv_writers.data())]->show(out.get());
   }
 
   return EXIT_SUCCESS;

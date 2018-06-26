@@ -22,10 +22,9 @@ void OscillationAnalysis :: finalize(){
             calcAmpsAndPers(s, c);
         }
     }
-    show();
 }
 
-void OscillationAnalysis::show () {
+void OscillationAnalysis::show (csvw * csv_out) {
   if (csv_out)
   {
       for (unsigned c = min; c < max; ++c)
