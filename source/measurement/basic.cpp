@@ -8,11 +8,10 @@
 BasicAnalysis::BasicAnalysis (
   Observable & observable,
   specie_vec const& species_vector,
-  csvw * csv_writer,
   unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
 ) :
-  Analysis(species_vector, csv_writer, min_cell, max_cell, start_time, end_time),
+  Analysis(species_vector, min_cell, max_cell, start_time, end_time),
   mins(observed_species_.size(), std::numeric_limits<Real>::infinity()),
   maxs(observed_species_.size(), Real{0}),
   means(observed_species_.size(), Real{0}),
@@ -47,29 +46,29 @@ void BasicAnalysis::finalize () {
       mean /= time;
     }
   }
-  show();
 }
 
-void BasicAnalysis::show () {
+void BasicAnalysis::show (csvw * csv_out) {
   if (csv_out) {
-    *csv_out << "\n\ncells " << min << '-' << max << ',';
+    auto & out = *csv_out;
+    out << "\n\ncells " << min << '-' << max << ',';
     for (specie_id species : observed_species_) {
-      *csv_out << specie_str[species] << ",";
+      out << specie_str[species] << ", ";
     }
 
-    csv_out->add_div("\nmin,");
+    out << "\nmin,";
     for (auto min : mins) {
-      csv_out->add_data(min);
+      out.add_data(min);
     }
 
-    csv_out->add_div("\navg,");
+    out << "\navg,";
     for (auto mean : means) {
-      csv_out->add_data(mean);
+      out.add_data(mean);
     }
 
-    csv_out->add_div("\nmax,");
+    out << "\nmax,";
     for (auto max : maxs) {
-      csv_out->add_data(max);
+      out.add_data(max);
     }
   } else {
     for (unsigned i = min; i < max; ++i) {

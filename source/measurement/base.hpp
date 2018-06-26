@@ -17,12 +17,11 @@ class Analysis : public Observer {
 
     Analysis (
       specie_vec const& species_vector,
-      csvw * csv_out,
       unsigned min_cell, unsigned max_cell,
       Real start_time, Real end_time
     );
 
-    virtual void show () {};
+    virtual void show (csvw * = nullptr) {};
 
     virtual void update(dense::Context & start) = 0;
 
@@ -41,8 +40,6 @@ class Analysis : public Observer {
     unsigned const min, max;
 
     unsigned time = 0;
-
-    std::unique_ptr<csvw> csv_out;
 
 };
 

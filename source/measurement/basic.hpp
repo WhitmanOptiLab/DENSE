@@ -19,7 +19,6 @@ class BasicAnalysis : public Analysis {
     BasicAnalysis (
       Observable & observable,
       specie_vec const& species_vector,
-      csvw * csv_writer,
       unsigned min_cell, unsigned max_cell,
       Real start_time, Real end_time
     );
@@ -38,7 +37,7 @@ class BasicAnalysis : public Analysis {
      */
     void finalize () override;
 
-    void show () override;
+    void show (csvw * = nullptr) override;
 
   private:
 

@@ -55,9 +55,9 @@ public:
 	*/
 	OscillationAnalysis(Observable & observable, Real interval,
                         Real range, specie_vec const& pcfSpecieOption,
-                        csvw* pnFileOut, unsigned min_cell, unsigned max_cell,
+                        unsigned min_cell, unsigned max_cell,
                         Real start_time, Real end_time) :
-            Analysis(pcfSpecieOption,pnFileOut,min_cell,max_cell,start_time,end_time),
+            Analysis(pcfSpecieOption,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
       subscribe_to(observable);
@@ -99,7 +99,7 @@ public:
 	// - generates peaks and troughs in final slice of data.
 	void finalize () override;
 
-  void show () override;
+  void show (csvw * = nullptr) override;
 };
 
 class CorrelationAnalysis : public Analysis {
@@ -108,12 +108,12 @@ class CorrelationAnalysis : public Analysis {
 
     CorrelationAnalysis(Observable *dLog,specie_vec const& pcfSpecieOption,
             unsigned min_cell, unsigned max_cell, Real start_time, Real end_time) :
-        Analysis(pcfSpecieOption, 0, min_cell, max_cell, start_time, end_time)
+        Analysis(pcfSpecieOption, min_cell, max_cell, start_time, end_time)
     {
       subscribe_to(*dLog);
     }
 
-    void update(dense::Context & start) {
+    void update(dense::Context & start) override {
     }
 
     bool pearsonCorrelate();

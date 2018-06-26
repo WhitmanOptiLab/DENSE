@@ -3,7 +3,6 @@
 
 Analysis::Analysis (
   specie_vec const& species_vector,
-  csvw * csv_out,
   unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
 ) :
@@ -11,8 +10,7 @@ Analysis::Analysis (
   start_time{start_time},
   end_time{end_time},
   min{min_cell},
-  max{max_cell},
-  csv_out(csv_out)
+  max{max_cell}
 {
 }
 
