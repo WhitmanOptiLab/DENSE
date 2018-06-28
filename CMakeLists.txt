@@ -22,6 +22,9 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
+set(Real "double" CACHE STRING "dense::Real")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDENSE_CONFIGURABLE_Real=\"${Real}\"")
+
 find_package(CUDA 6.0 QUIET)
 if (${CUDA_FOUND})
   SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
