@@ -1,7 +1,7 @@
 #ifndef CORE_QUEUE_HPP
 #define CORE_QUEUE_HPP
 
-#include "utility/Real.hpp"
+#include "utility/numerics.hpp"
 
 #include <iostream>
 #include <vector>
