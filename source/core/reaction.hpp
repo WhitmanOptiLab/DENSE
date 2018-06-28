@@ -3,7 +3,7 @@
 
 #include "specie.hpp"
 #include "utility/cuda.hpp"
-#include "utility/Real.hpp"
+#include "utility/numerics.hpp"
 
 #include <string>
 #include <utility>

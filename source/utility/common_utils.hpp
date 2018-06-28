@@ -5,6 +5,6 @@
 // converts comma seperated list of specie names to specie_vec
 specie_vec str_to_species(std::string pcfSpecies);
 
-#include "Real.hpp"
+#include "utility/numerics.hpp"
 
 #endif
