@@ -6,38 +6,53 @@
 
 
 #ifdef __CUDACC__
-#define IF_CUDA(X) X
+#define CUDA_QUALIFY(Q) Q
 #define USING_CUDA
 #else
-#define IF_CUDA(X)
+#define CUDA_QUALIFY(Q)
 #endif
 
-#define STATIC_VAR IF_CUDA(__managed__)
+#define IF_CUDA(X) CUDA_QUALIFY(X)
+#define CUDA_HOST CUDA_QUALIFY(__host__)
+#define CUDA_DEVICE CUDA_QUALIFY(__device__)
+#define CUDA_KERNEL CUDA_QUALIFY(__global__)
+#define CUDA_MANAGED CUDA_QUALIFY(__managed__)
+#define STATIC_VAR CUDA_MANAGED
 
-template <typename T, std::size_t size>
+template <typename T, std::ptrdiff_t size>
 class CUDA_Array {
 
  public:
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
+  CUDA_Array() : data_{} {}
+
+  CUDA_HOST CUDA_DEVICE
+  CUDA_Array(T const& value) {
+    for (auto& x : data_) {
+      x = value;
+    }
+  }
+
+  CUDA_HOST CUDA_DEVICE
   T* begin() { return data_; }
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
   T const* begin() const { return data_; }
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
   T* end() { return data_ + size; }
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
   T const* end() const { return data_ + size; }
 
-  IF_CUDA(__host__ __device__)
-  T & operator[] (std::size_t i) {
+  CUDA_HOST CUDA_DEVICE
+  T & operator[] (std::ptrdiff_t i) {
     return data_[i];
   };
 
-  IF_CUDA(__host__ __device__)
-  T const& operator[] (std::size_t i) const {
+  CUDA_HOST CUDA_DEVICE
+  T const& operator[] (std::ptrdiff_t i) const {
     return data_[i];
   };
 
@@ -47,7 +62,7 @@ class CUDA_Array {
 
 };
 
-#ifdef USING_CUDA_NOPE
+#ifdef USING_CUDA
 
 
 namespace cuda {
