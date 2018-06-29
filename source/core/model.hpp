@@ -34,7 +34,7 @@ public:
         }
     }
 
-    #define REACTION(name) static reaction<name> reaction_##name;
+    #define REACTION(name) static CUDA_MANAGED reaction<name> reaction_##name;
     #include "reactions_list.hpp"
     #undef REACTION
 };
