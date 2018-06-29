@@ -27,7 +27,7 @@ private:
 
     // Outer-most vector is "for each specie in observed_species_"
 
-	std::vector<std::vector<Queue>> windows;
+	std::vector<std::vector<Queue<Real>>> windows;
 
 	std::vector<std::vector<std::vector<crit_point>>> peaksAndTroughs;
 
@@ -69,7 +69,7 @@ public:
             amplitudes.emplace_back();
             periods.emplace_back();
             for (unsigned c = min; c < max; ++c){
-                Queue q(range_steps);
+                Queue<Real> q(range_steps);
                 std::vector<crit_point> v;
                 std::multiset<Real> BST;
 
