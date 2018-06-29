@@ -52,7 +52,7 @@ std::vector<double> her2014_scorer (const vector<Parameter_Set>& population) {
 
   //Create simulations
   Simulation_Set(population,
-                 "", "",
+                 parse_gradients("", 0), parse_perturbations(""),
                  arg_parse::get<int>("c", "cell-total", 200),
                  arg_parse::get<int>("w", "tissue_width", 50),
                  arg_parse::get<RATETYPE>("s", "step-size", 0.01),

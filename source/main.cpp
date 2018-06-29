@@ -142,11 +142,17 @@ int main(int argc, char* argv[])
             params.push_back(next_set);
           }
 
+          Real* perturbation_factors = parse_perturbations(
+            arg_parse::get<std::string>("b", "perturbations", ""));
+
+          Real** gradient_factors = parse_gradients(
+            arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
+
           // Create simulation set
           Simulation_Set sim_set(
-            params,
-            arg_parse::get<std::string>("g", "gradients", ""),
-            arg_parse::get<std::string>("b", "perturbations", ""),
+            std::move(params),
+            gradient_factors,
+            perturbation_factors,
             cell_total, tissue_width, step_size,
             anlys_intvl, time_total, seed
           );
