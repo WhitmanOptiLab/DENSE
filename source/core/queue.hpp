@@ -6,20 +6,29 @@
 #include <iostream>
 #include <vector>
 
-
+template <typename T>
 class Queue {
 
+  using value_type = T;
+  using index_type = std::ptrdiff_t;
+  using size_type = index_type;
+  using reference = T&;
+  using const_reference = T const&;
+  using iterator = T*;
+  using const_iterator = T const*;
+
 private:
-	std::vector<Real> contents;
-	int start,end,current;
-  int size;
+	std::vector<T> contents;
+	index_type start,end,current;
+  index_type size;
+  index_type capacity;
 
 public:
 //	Queue();
 
-	Queue(unsigned length){
+	Queue(index_type length) {
 		contents.resize(length + 1);
-		size = length + 1;
+		size = capacity = length + 1;
 		start = 0;
 		current = -1;
 		end = -1;
@@ -28,7 +37,7 @@ public:
 	void populate(Real transferArray[]){
 
 		if (isEmpty()){
-			for (int i = 0; i < size/2; ++i){
+			for (dense::Natural i = 0; i < size/2; ++i){
 				contents[i] = transferArray[i];
 			}
 			start = 0;
@@ -41,9 +50,10 @@ public:
 		return (midpoint == -1);
 	}
 */
-	int getSize() { return (size + end - start) % size + 1; }
 
-	void enqueue(Real entry){
+	size_type getSize() { return (size + end - start) % size + 1; }
+
+	void enqueue(value_type entry){
 		if (end == (size-1)){
 			end = 0;
 		}
@@ -60,8 +70,8 @@ public:
 		}
 	}
 
-	Real dequeue(){
-		Real popped = contents[start];
+	value_type dequeue(){
+		auto popped = contents[start];
 		if (start == (size-1)){
 			start = 0;
 		}
@@ -77,17 +87,17 @@ public:
 		return popped;
 	}
 
-	Real getVal(int index){
+	value_type getVal(dense::Natural index){
 		return contents[index];
 	}
 
-	Real getCurrent(){
+	index_type getCurrent() {
 		return current;
 	}
 
-	friend std::ostream & operator << (std::ostream & out, Queue & queue) {
+	friend std::ostream & operator << (std::ostream & out, Queue<T> & queue) {
 		out << '[' << queue.contents[0];
-		for (int i = 1; i < queue.size; ++i) {
+		for (Queue<T>::size_type i = 1; i < queue.size; ++i) {
 			out << ',' << queue.contents[i];
 		}
 		return out << "]\n";
