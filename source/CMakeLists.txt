@@ -22,6 +22,7 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/preprocessor.cpp
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
@@ -59,6 +60,7 @@ function(CUDASIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/arg_parse.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
+          ${PROJECT_SOURCE_DIR}/source/utility/preprocessor.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
