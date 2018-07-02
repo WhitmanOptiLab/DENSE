@@ -58,19 +58,25 @@ class Deterministic_Simulation : public Simulation {
   dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
 
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Real step_size, Real analysis_interval, Real sim_time) :
-    Simulation(ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
-    _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
+                    Real step_size) :
+    Simulation(ps, cells_total, width_total, pnFactorsPert, pnFactorsGrad), _intDelays(*this, cells_total),
+    _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) {
+      _baby_cl.initialize();
+      //Copy and normalize _delays into _intDelays
+      for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
+        for (dense::Natural j = 0; j < _cells_total; ++j) {
+          _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
+        }
+      }
+    }
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);
 
-  IF_CUDA(__host__ __device__)
+  CUDA_HOST CUDA_DEVICE
   SpecieRates calculate_concentrations(dense::Natural cell);
 
   void step();
-
-  void initialize() override;
 
   Real get_concentration(dense::Natural cell, specie_id species) const override final {
     return get_concentration(cell, species, 1);

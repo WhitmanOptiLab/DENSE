@@ -27,7 +27,7 @@ class Simulation_Set {
   public:
     std::vector<Parameter_Set> const _ps;
     std::vector<Simulation*> _sim_set;
-    Real total_time;
+    Real total_time, analysis_interval;
     Real* factors_pert;
     Real** factors_grad;
 
@@ -38,12 +38,12 @@ class Simulation_Set {
       Real step_size, Real analysis_interval,
       Real sim_time, int seed) :
         _ps(params),
+        total_time{sim_time},
+        analysis_interval{analysis_interval},
         factors_pert{perturbation_factors},
         factors_grad{gradient_factors}
     {
-
-            iSetCount = _ps.size();
-            _sim_set.reserve(iSetCount);
+            _sim_set.reserve(_ps.size());
 
             // For each set, load data to _ps and _sim_set
             for (Parameter_Set const& parameter_set : _ps) {
@@ -51,21 +51,18 @@ class Simulation_Set {
                 if (step_size == 0.0) {
                     _sim_set.push_back(
                             new Stochastic_Simulation(parameter_set, factors_pert,
-                                factors_grad, cell_total, total_width,
-                                analysis_interval, sim_time, seed));
+                                factors_grad, cell_total, total_width, seed));
                 } else {
                     _sim_set.push_back(
                             new Deterministic_Simulation(parameter_set, factors_pert,
-                                factors_grad, cell_total, total_width,
-                                step_size, analysis_interval, sim_time));
+                                factors_grad, cell_total, total_width, step_size));
                 }
-                _sim_set.back()->initialize();
             }
     }
 
     void simulate_sets() {
         for (auto & set : _sim_set) {
-            set->simulate();
+            set->simulate(total_time, analysis_interval);
             set->finalize();
         }
     }

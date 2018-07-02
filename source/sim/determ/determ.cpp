@@ -92,14 +92,3 @@ void Deterministic_Simulation::step() {
     //print the concentration level of mh1 for cell 1
 
 }
-
-void Deterministic_Simulation::initialize() {
-    Simulation::initialize();
-    _baby_cl.initialize();
-    //Copy and normalize _delays into _intDelays
-    for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
-      for (dense::Natural j = 0; j < _cells_total; ++j) {
-        _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
-      }
-    }
-}
