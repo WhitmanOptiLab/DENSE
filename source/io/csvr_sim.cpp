@@ -6,9 +6,9 @@ CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName,
     csvr(pcfFileName), Simulation()
 {
     _cells_total = csvr::next<dense::Natural>();
-    analysis_gran = csvr::next<Real>();
+    /*analysis_gran =*/ csvr::next<Real>();
     t = csvr::next<Real>();
-    time_total = csvr::next<Real>();
+    /*time_total =*/ csvr::next<Real>();
     iTimeCol = csvr::next<dense::Natural>() > 0;
     csvr::get_next(&iCellStart);
     csvr::get_next(&iCellEnd);
@@ -84,9 +84,8 @@ void CSV_Streamed_Simulation::simulate_for (Real duration) {
   Real stopping_time = t + duration;
   while (t < stopping_time) {
     iRate.resize(_cells_total);
-    Real next_analysis = t + analysis_gran;
     for (dense::Natural cell = iCellStart; cell < iCellEnd; ++cell) {
-      t = iTimeCol ? csvr::next<Real>() : next_analysis;
+      t = iTimeCol ? csvr::next<Real>() : stopping_time;
       for (auto & species : iSpecieVec) {
         iRate[cell][species] = csvr::next<Real>();
       }
