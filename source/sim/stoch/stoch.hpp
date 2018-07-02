@@ -93,13 +93,9 @@ class Stochastic_Simulation : public Simulation {
       return get_concentration(cell, species);
     }
 
-    CUDA_HOST CUDA_DEVICE
     void update_concentration (dense::Natural cell_, specie_id sid, int delta) {
-      if (concs[cell_][sid] + delta < 0) {
-        concs[cell_][sid] = 0;
-      } else {
-        concs[cell_][sid] += delta;
-      }
+      auto& concentration = concs[cell_][sid];
+      concentration = std::max(concentration + delta, 0);
     }
 
 
@@ -109,7 +105,6 @@ class Stochastic_Simulation : public Simulation {
    * called by "generateTau" in simulation_stoch.cpp
    * return "sum": the propensity sum
   */
-    CUDA_HOST CUDA_DEVICE
     Real get_total_propensity() const {
       Real sum = 0;
       for (dense::Natural c = 0; c < _cells_total; ++c) {
