@@ -82,10 +82,9 @@ void Stochastic_Simulation::executeDelayRXN(){
  * GETRANDVARIABLE
  * return "u": a random variable between 0.0 and 1.0
 */
-Real Stochastic_Simulation::getRandVariable(){
-	std::uniform_real_distribution<Real> distribution(0.0,1.0);
-	Real u = distribution(generator);
-	return u;
+Real Stochastic_Simulation::getRandVariable() {
+	static std::uniform_real_distribution<Real> distribution(0.0, 1.0);
+	return distribution(generator);
 }
 
 /*
