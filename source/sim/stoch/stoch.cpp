@@ -19,7 +19,7 @@
 
 void Stochastic_Simulation::simulate_for (Real duration) {
   littleT = 0;
-  while (littleT < duration && (t + littleT) < time_total) {
+  while (littleT < duration) {
     Real tau = generateTau();
 
     if ((t + littleT + tau > getSoonestDelay()) && NUM_DELAY_REACTIONS > 0) {
@@ -149,30 +149,6 @@ void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
 	update_propensities(cell, rid);
-}
-
-/*
- * INITIALIZE
- * calls "simulation_base" initialize function
- * populates main data structures "concs", "propensities"
- * precondition: propensities and concs are empty vectors
-*/
-void Stochastic_Simulation::initialize(){
-
-    Simulation::initialize();
-
-    initPropensityNetwork();
-
-    for (dense::Natural c = 0; c < _cells_total; ++c) {
-      std::vector<int> species;
-      std::vector<Real> props;
-      concs.push_back(species);
-      propensities.push_back(props);
-      for (int s = 0; s < NUM_SPECIES; s++) {
-        concs[c].push_back(0);
-      }
-    }
-    initPropensities();
 }
 
 /*

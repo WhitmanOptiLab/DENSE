@@ -31,8 +31,12 @@ std::string file_add_num (
   return file_name;
 }
 
-int main(int argc, char* argv[])
-{
+std::string xml_child_text(ezxml_t xml, char const* name, std::string default_ = "") {
+  ezxml_t child = ezxml_child(xml, name);
+  return child == nullptr ? default_ : child->txt;
+}
+
+int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
   style::enable(!arg_parse::get<bool>("n", "no-color", nullptr, false));
 
@@ -107,9 +111,8 @@ int main(int argc, char* argv[])
   // See if importing
   // string is for either sim data import or export
   std::string data_ioe;
-  if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false))
-  {
-      simsAmbig.emplace_back(new CSV_Streamed_Simulation(data_ioe, default_specie_option));
+  if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false)) {
+    simsAmbig.emplace_back(new CSV_Streamed_Simulation(data_ioe, default_specie_option));
   }
   else // Not importing, do a real simulation
   {
@@ -178,75 +181,43 @@ int main(int argc, char* argv[])
 
   // Analyses each with own file writer
   std::string config_file;
-  if (arg_parse::get<std::string>("a", "analysis", &config_file, false))
-  {
-      // Prepare analyses and writers
-      ezxml_t config = ezxml_parse_file(config_file.c_str());
+  if (arg_parse::get<std::string>("a", "analysis", &config_file, false)) {
+    // Prepare analyses and writers
+    ezxml_t config = ezxml_parse_file(config_file.c_str());
 
-      for (ezxml_t anlys = ezxml_child(config, "anlys");
-              anlys; anlys = anlys->next)
-      {
-          std::string type = ezxml_attr(anlys, "type");
-          for (std::size_t i = 0; i < simsAmbig.size(); ++i)
-          {
-              Real
-                  cell_start = strtol(ezxml_child(anlys,
-                          "cell-start")->txt, nullptr, 0),
-                  cell_end = strtol(ezxml_child(anlys,
-                          "cell-end")->txt, nullptr, 0),
-                  time_start = strtol(ezxml_child(anlys,
-                          "time-start")->txt, nullptr, 0),
-                  time_end = strtol(ezxml_child(anlys,
-                          "time-end")->txt, nullptr, 0);
-              specie_vec specie_option = str_to_species(ezxml_child(anlys,
-                      "species")->txt);
+    for (ezxml_t anlys = ezxml_child(config, "anlys"); anlys != nullptr; anlys = anlys->next) {
+      std::string type = ezxml_attr(anlys, "type");
+      Real cell_start = std::stold(xml_child_text(anlys, "cell-start"));
+      Real cell_end = std::stold(xml_child_text(anlys, "cell-end"));
+      Real time_start = std::stold(xml_child_text(anlys, "time-start"));
+      Real time_end = std::stold(xml_child_text(anlys, "time-end"));
+      specie_vec specie_option = str_to_species(xml_child_text(anlys, "species"));
+      std::string out_file = xml_child_text(anlys, "out-file");
+      for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
+        // If multiple sets, set file name to "x_####.y"
+        csv_writers.emplace_back(new csvw(
+          simsAmbig.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
 
-              if (type == "basic")
-              {
-                  std::string out_file =
-                      ezxml_child(anlys, "out-file")->txt;
+        if (type == "basic") {
+          anlysAmbig.emplace_back(new BasicAnalysis(
+            *simsAmbig[i], specie_option, cell_start, cell_end, time_start, time_end));
+        }
+        else if (type == "oscillation") {
+          Real win_range = std::stold(xml_child_text(anlys, "win-range"));
+          anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
 
-                  // If multiple sets, set file name
-                  //   to "x_####.y"
-                  csv_writers.emplace_back(new csvw(simsAmbig.size()==1 ?
-                              out_file :
-                              file_add_num(out_file,
-                                  "_", '0', i, 4, ".")));
-
-                  anlysAmbig.emplace_back(new BasicAnalysis(
-                              *simsAmbig[i], specie_option,
-                              cell_start, cell_end,
-                              time_start, time_end));
-              }
-              else if (type == "oscillation")
-              {
-                  Real win_range = strtol(ezxml_child(anlys, "win-range")->txt, nullptr, 0);
-                  anlys_intvl = strtold(ezxml_child(anlys, "anlys-intvl")->txt, nullptr);
-                  std::string out_file = ezxml_child(anlys, "out-file")->txt;
-
-                  // If multiple sets, set file name
-                  //   to "x_####.y"
-                  csv_writers.emplace_back(new csvw(simsAmbig.size()==1 ?
-                              out_file :
-                              file_add_num(out_file,
-                                  "_", '0', i, 4, ".")));
-
-                  anlysAmbig.emplace_back(new OscillationAnalysis(
-                              *simsAmbig[i], anlys_intvl, win_range,
-                              specie_option,
-                              cell_start, cell_end,
-                              time_start, time_end));
-              }
-              else {
-                std::cout << style::apply(Color::yellow) << "Warning: No analysis type \"" << type << "\" found." << style::reset() << '\n';
-              }
-          }
+          anlysAmbig.emplace_back(new OscillationAnalysis(
+            *simsAmbig[i], anlys_intvl, win_range, specie_option, cell_start, cell_end, time_start, time_end));
+        }
+        else {
+          std::cout << style::apply(Color::yellow) << "Warning: No analysis type \"" << type << "\" found.\n" << style::reset();
+        }
       }
+    }
   } else {// End analysis flag
     // Data export aka file log
     // Can't do it if already using data-import
-    if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "")
-    {
+    if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "") {
       for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
         new csvw_sim(
           (simsAmbig.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
@@ -275,7 +246,7 @@ int main(int argc, char* argv[])
   }
 
   for (auto & simulation : simsAmbig) {
-    simulation->simulate();
+    simulation->simulate(time_total, anlys_intvl);
     simulation->finalize();
   }
 

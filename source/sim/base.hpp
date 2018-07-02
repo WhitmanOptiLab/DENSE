@@ -83,7 +83,7 @@ class Simulation : public Observable {
 
   Real t = 0.0;
   dense::Natural _width_total; // The maximum width in cells of the PSM
-  dense::Natural circumf; // The current width in cells
+  //dense::Natural circumf; // The current width in cells
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
   //int height; // The height in cells of the PSM
@@ -91,8 +91,6 @@ class Simulation : public Observable {
   dense::Natural _cells_total; // The total number of cells of the PSM (total width * total height)
 
   // Times and timing
-  Real time_total;
-  Real analysis_gran;
   //int steps_total; // The number of time steps to simulate (total time / step size)
   //int steps_split; // The number of time steps it takes for cells to split
   //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
@@ -115,8 +113,8 @@ class Simulation : public Observable {
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
   Parameter_Set _parameter_set;
-  Real* factors_perturb;
-  Real** factors_gradient;
+  //Real* factors_perturb;
+  //Real** factors_gradient;
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
   dense::Natural *_numNeighbors;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
@@ -131,30 +129,20 @@ class Simulation : public Observable {
    * arg "ps": assiged to "_parameter_set", used to access user-inputted rate constants, delay times, and crit values
    * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
    * arg "width_total": the circumference of the tube, in cells
-   * arg "analysis_interval": the interval between notifying observers for data storage and analysis, in minutes
-   * arg "sim_time": the total time to simulate for, in minutes
   */
-  Simulation(Parameter_Set ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, Real analysis_interval, Real sim_time) :
-    Observable(), _width_total(width_total), circumf(width_total), _cells_total(cells_total),
-    time_total(sim_time),  analysis_gran(analysis_interval),
-    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(std::move(ps)),
-    factors_perturb(pnFactorsPert), factors_gradient(pnFactorsGrad), _cellParams(*this, cells_total), _numNeighbors(new dense::Natural[cells_total])
-    { }
+  Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb = nullptr, Real** factors_gradient = nullptr);
 
-  Simulation() : Simulation(Parameter_Set(), nullptr, nullptr, 0, 0, 0.0, 0.0) {}
+  Simulation() : Simulation(Parameter_Set(), 0, 0) {}
 
   //DECONSTRUCTOR
   virtual ~Simulation() {}
-
-  //Virtual function all subclasses must implement
-  virtual void initialize();
 
     /*
      * CALC_NEIGHBOR_2D
      * populates the data structure "_neighbors" with cell indices of neighbors
      * follows hexagonal adjacencies for an unfilled tube
     */
-    IF_CUDA(__host__ __device__)
+    CUDA_HOST CUDA_DEVICE
     void calc_neighbor_2d(){
         for (dense::Natural i = 0; i < _cells_total; i++) {
 	        int adjacents[6];
@@ -168,38 +156,38 @@ class Simulation : public Observable {
             5: BOTTOM-LEFT
             */
             if (i % 2 == 0) {
-                adjacents[0] = (_cells_total + i - circumf) % _cells_total;
-                adjacents[1] = (_cells_total + i - circumf + 1) % _cells_total;
+                adjacents[0] = (_cells_total + i - _width_total) % _cells_total;
+                adjacents[1] = (_cells_total + i - _width_total + 1) % _cells_total;
                 adjacents[2] = (i + 1) % _cells_total;
-                adjacents[3] = (i + circumf) % _cells_total;
-                if (i % circumf == 0) {
-                    adjacents[4] = i + circumf - 1;
+                adjacents[3] = (i + _width_total) % _cells_total;
+                if (i % _width_total == 0) {
+                    adjacents[4] = i + _width_total - 1;
                     adjacents[5] = (_cells_total + i - 1) % _cells_total;
                 } else {
                     adjacents[4] = i - 1;
-                    adjacents[5] = (_cells_total + i - circumf - 1) % _cells_total;
+                    adjacents[5] = (_cells_total + i - _width_total - 1) % _cells_total;
                 }
             } else {
-                adjacents[0] = (_cells_total + i - circumf) % _cells_total;
-                if (i % circumf == circumf - 1) {
-                    adjacents[1] = i - circumf + 1;
+                adjacents[0] = (_cells_total + i - _width_total) % _cells_total;
+                if (i % _width_total == _width_total - 1) {
+                    adjacents[1] = i - _width_total + 1;
                     adjacents[2] = (i + 1) % _cells_total;
                 } else {
                     adjacents[1] = i + 1;
-                    adjacents[2] = (_cells_total + i + circumf + 1) % _cells_total;
+                    adjacents[2] = (_cells_total + i + _width_total + 1) % _cells_total;
                 }
-                adjacents[3] = (i + circumf) % _cells_total;
-                adjacents[4] = (i + circumf - 1) % _cells_total;
+                adjacents[3] = (i + _width_total) % _cells_total;
+                adjacents[4] = (i + _width_total - 1) % _cells_total;
                 adjacents[5] = (_cells_total + i - 1) % _cells_total;
             }
 
-            if (i % circumf == 0) {
+            if (i % _width_total == 0) {
                 _neighbors[i][0] = adjacents[0];
                 _neighbors[i][1] = adjacents[1];
                 _neighbors[i][2] = adjacents[4];
                 _neighbors[i][3] = adjacents[5];
                 _numNeighbors[i] = 4;
-    	    } else if ((i + 1) % circumf == 0) {
+    	    } else if ((i + 1) % _width_total == 0) {
                 _neighbors[i][0] = adjacents[0];
                 _neighbors[i][1] = adjacents[1];
                 _neighbors[i][2] = adjacents[2];
@@ -217,9 +205,9 @@ class Simulation : public Observable {
         }
     }
 
-    void simulate() {
-      Real analysis_chunks = time_total/analysis_gran;
-      int chunks_per_min = 1.0 / analysis_gran;
+    void simulate(Real duration, Real notify_interval) {
+      Real analysis_chunks = duration / notify_interval;
+      int notifications_per_min = 1.0 / notify_interval;
 
       for (int a = 0; a < analysis_chunks; a++) {
         notify();
@@ -228,9 +216,9 @@ class Simulation : public Observable {
             break;
         }
 
-        simulate_for(analysis_gran);
+        simulate_for(notify_interval);
 
-        if (a % chunks_per_min == 0)
+        if (a % notifications_per_min == 0)
           std::cout << "Time: " << t << '\n';
       }
     }
@@ -251,7 +239,7 @@ class Simulation : public Observable {
 
   protected:
 
-    void calc_max_delays();
+    void calc_max_delays(Real*, Real**);
 
     bool abort_signaled = false;
 

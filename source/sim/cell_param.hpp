@@ -9,15 +9,15 @@
 #include "core/specie.hpp"
 #include "core/parameter_set.hpp"
 
-
 class Simulation;
 
 template<int N, class T = Real>
 class cell_param {
+static constexpr dense::Natural _height = N;
     //FIXME - want to make this private at some point
 public:
     Simulation const& _sim;
-    int   _height, _width;
+    dense::Natural _width;
     T *_array;
     bool _cuda;
 
@@ -38,8 +38,8 @@ public:
     };
 
     IF_CUDA(__host__ __device__)
-    cell_param(Simulation const& sim, int ncells)
-    :_sim(sim),_height(N),_width(ncells),_cuda(false){
+    cell_param(Simulation const& sim, dense::Natural ncells)
+    :_sim(sim),_width(ncells),_cuda(false){
         allocate_array();
     }
 
@@ -57,37 +57,28 @@ public:
         return cell(_array + _width * i);
     }
 
-    void initialize_params(Parameter_Set const& ps, Real normfactor = 1.0);
+    void initialize_params(Parameter_Set const& ps, Real normfactor = 1.0, Real* factors_perturb = nullptr, Real** factors_gradient = nullptr);
     int height() const {return _height;}
     int width() const {return _width;}
     inline T random_perturbation (T perturb) {
-        return random_rate(std::pair<T, T>(1 - perturb, 1 + perturb));
+      return random_rate(1 - perturb, 1 + perturb);
     }
-    T random_rate(std::pair<T, T> range) {
-        return range.first + (range.second - range.first) * rand() / (RAND_MAX + 1.0);
+    T random_rate(T minimum, T maximum) {
+      return minimum + (maximum - minimum) * rand() / (RAND_MAX + 1.0);
     }
     void initialize();
 //protected:
     IF_CUDA(__host__ __device__)
-    void dealloc_array(){
-        if (_array){
-            delete[] _array;
-        }
-        _array = nullptr;
+    void dealloc_array() {
+      delete[] _array;
+      _array = nullptr;
     }
 
     IF_CUDA(__host__ __device__)
-    void allocate_array(){
-        if (_width * _height >0){
-            _array = new T[_height * _width];
-            //if (_array == nullptr){std::cout<<"ERROR"<<'\n'; exit(EXIT_MEMORY_ERROR);}
-        }
-        else {
-            _array = nullptr;
-        }
+    void allocate_array() {
+      _array = _width > 0 && _height > 0 ? new T[_height * _width] : nullptr;
     }
 
 };
-
 
 #endif

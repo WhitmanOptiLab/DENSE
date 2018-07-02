@@ -74,15 +74,18 @@ class Stochastic_Simulation : public Simulation {
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Real analysis_interval, Real sim_time, int seed):
-        Simulation(ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time),
-        generator(std::default_random_engine(seed)){}
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, int seed)
+    : Simulation(ps, cells_total, width_total, pnFactorsPert, pnFactorsGrad)
+    , concs(_cells_total, std::vector<int>(NUM_SPECIES, 0))
+    , propensities(_cells_total)
+    , generator{std::default_random_engine(seed)} {
+      initPropensityNetwork();
+      initPropensities();
+    }
 
     //Deconstructor
     virtual ~Stochastic_Simulation() {}
 
-    void initialize() override final;
     void simulate_for(Real duration) override final;
 
     Real get_concentration (dense::Natural cell, specie_id species) const override final {

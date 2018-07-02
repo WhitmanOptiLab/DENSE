@@ -6,6 +6,70 @@
 #include <iostream>
 #include <bitset>
 
+
+template<int N, class T>
+void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor, Real* factors_perturb, Real** factors_gradient) {
+//    initialize();
+    if (factors_perturb){
+        for (int i = 0; i < N; i++) {
+            if (factors_perturb[i] == 0) { // If the current rate has no perturbation factor then set every cell's rate to the base rate
+                for (int j = 0; j < _sim._cells_total; j++) {
+                    //double rnum;
+                    //rnum = 0.082;
+                    _array[_width * i + j] = ps.getArray()[i]/normfactor;
+                }
+            } else { // If the current rate has a perturbation factor then set every cell's rate to a randomly perturbed positive or negative variation of the base with a maximum perturbation up to the rate's perturbation factor
+                for (int j = 0; j < _sim._cells_total; j++) {
+                    _array[_width * i + j] = ps.getArray()[i] * random_perturbation(factors_perturb[i]) / normfactor;
+                }
+            }
+        }
+    } else {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < _sim._cells_total; j++) {
+                _array[_width * i + j] = ps.getArray()[i] / normfactor;
+            }
+        }
+    }
+    if (factors_gradient) { // If at least one rate has a gradient
+        for (int i = 0; i < N; i++) {
+            if (factors_gradient[i]) { // If this rate has a gradient
+                // Iterate through every cell
+                for (int k = 0; k < _sim._cells_total; k++) {
+                    // Calculate the cell's index relative to the active start
+                    int col = k % _sim._width_total;
+                    int gradient_index;
+                    //if (col <= active_start) {
+                        gradient_index = _sim._width_total - col;
+                    //} else {
+                    //    gradient_index = active_start + rs.width - col;
+                    //}
+
+                    // Set the cell's active rate to its perturbed rate modified by its position's gradient factor
+                    _array[_width * i + k] *= factors_gradient[i][gradient_index];
+                }
+            }
+        }
+    }
+}
+
+template<int N, class T>
+void cell_param<N,T>:: initialize(){
+    _width = _sim._cells_total;
+    dealloc_array();
+    allocate_array();
+}
+
+Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb, Real** factors_gradient) :
+    Observable(), _width_total(width_total), _cells_total(cells_total),
+    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(std::move(ps)),
+    _cellParams(*this, cells_total), _numNeighbors(new dense::Natural[cells_total])
+  {
+    calc_max_delays(factors_perturb, factors_gradient);
+    calc_neighbor_2d();
+    _cellParams.initialize_params(_parameter_set, 1.0, factors_perturb, factors_gradient);
+  }
+
 /*
 bool simulation_base::any_less_than_0 (baby_cl& baby_cl, int* times) {
     for (int i = 0; i <= NUM_SPECIES; i++) {
@@ -30,14 +94,7 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 }
 */
 
-
-void Simulation::initialize(){
-    calc_max_delays();
-    calc_neighbor_2d();
-    _cellParams.initialize_params(_parameter_set);
-}
-
-void Simulation::calc_max_delays() {
+void Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
   }
