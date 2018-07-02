@@ -70,12 +70,9 @@ class Simulation_Set {
         }
     }
 
-    const unsigned int& getSetCount() const
-    {
-        return iSetCount;
+    dense::Natural size() const {
+      return _sim_set.size();
     }
 
-private:
-    unsigned int iSetCount;
 };
 #endif

@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
             anlys_intvl, time_total, seed
           );
 
-          simsAmbig.reserve(simsAmbig.size() + sim_set.getSetCount());
+          simsAmbig.reserve(simsAmbig.size() + sim_set.size());
           for (auto & sim : sim_set._sim_set) {
             simsAmbig.emplace_back(sim);
           }
