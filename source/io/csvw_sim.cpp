@@ -60,19 +60,13 @@ csvw_sim::csvw_sim(std::string const& pcfFileName, Real const& pcfTimeInterval,
     csvw::add_div("\n");
 }
 
-
-csvw_sim::~csvw_sim()
-{
-}
-
 void csvw_sim::when_updated_by(Observable & observable) {
-  if (observable.t < icTimeStart || observable.t >= icTimeEnd) return;
-  auto & begin = *observable.context;
-  begin.set(icCellStart);
-  update(begin);
+  Simulation * simulation = dynamic_cast<Simulation*>(&observable);
+  if (simulation && (simulation->t < icTimeStart || simulation->t >= icTimeEnd)) return;
+  update({ simulation, icCellStart });
 }
 
-void csvw_sim::update(dense::Context & pfStart)
+void csvw_sim::update(dense::Context<> pfStart)
 {
     for (unsigned c = icCellStart; c < icCellEnd; ++c) {
         if (icTimeColumn)

@@ -18,50 +18,10 @@ typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 class Deterministic_Simulation : public Simulation {
 
  public:
-    class Context : public dense::Context {
-        //FIXME - want to make this private at some point
-      protected:
-        Deterministic_Simulation& _simulation;
-        double _avg;
-        unsigned _cell;
 
-      public:
-        typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
-        IF_CUDA(__host__ __device__)
-        Context(Deterministic_Simulation& sim, int cell) : _simulation(sim),_cell(cell) { }
-        IF_CUDA(__host__ __device__)
-        Real calculateNeighborAvg(specie_id sp, int delay = 0) const;
-        IF_CUDA(__host__ __device__)
-        void updateCon(const SpecieRates& rates);
-        IF_CUDA(__host__ __device__)
-        const SpecieRates calculateRatesOfChange();
-        IF_CUDA(__host__ __device__)
-        Real getCon(specie_id sp) const override final {
-          return getCon(sp, 1);
-        }
-        IF_CUDA(__host__ __device__)
-        Real getCon(specie_id sp, int delay) const {
-            return _simulation._baby_cl[sp][1 - delay][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        Real getCritVal(critspecie_id rcritsp) const {
-            return _simulation._cellParams[rcritsp + NUM_REACTIONS + NUM_DELAY_REACTIONS][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        Real getRate(reaction_id reaction) const {
-            return _simulation._cellParams[reaction][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        int getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._cellParams[delay_reaction + NUM_REACTIONS][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        void advance() override final { ++_cell; }
-	IF_CUDA(__host__ __device__)
-        void set(int c) override final {_cell = c;}
-        IF_CUDA(__host__ __device__)
-        bool isValid() const override final { return _cell < _simulation._cells_total; }
-    };
+    using Context = dense::Context<Deterministic_Simulation>;
+    using SpecieRates = CUDA_Array<Real, NUM_SPECIES>;
+
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
   IntDelays _intDelays;
 
@@ -95,18 +55,41 @@ class Deterministic_Simulation : public Simulation {
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
   int _j;
-  unsigned _num_history_steps; // how many steps in history are needed for this numerical method
+  dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
 
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real step_size, Real analysis_interval, Real sim_time) :
     Simulation(ps, pnFactorsPert, pnFactorsGrad, cells_total, width_total, analysis_interval, sim_time), _intDelays(*this, cells_total),
     _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) { }
-  virtual ~Deterministic_Simulation() {}
-  void execute();
+
+  IF_CUDA(__host__ __device__)
+  void update_concentrations(dense::Natural cell, SpecieRates const& rates);
+
+  IF_CUDA(__host__ __device__)
+  SpecieRates calculate_concentrations(dense::Natural cell);
+
+  void step();
+
   void initialize() override;
 
-  void simulate() override;
+  Real get_concentration(dense::Natural cell, specie_id species) const override final {
+    return get_concentration(cell, species, 1);
+  }
 
-  void simulate_for (Real duration);
+  Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+    return _baby_cl[species][1 - delay][cell];
+  }
+
+  dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const override final {
+    // Average the given cell's neighbors' concentrations
+    Real sum = 0.0L;
+    for (dense::Natural i = 0; i < _numNeighbors[cell]; i++) {
+        sum += _baby_cl[species][-delay][_neighbors[cell][i]];
+    }
+    Real avg = sum / _numNeighbors[cell];
+    return avg;
+  }
+
+  void simulate_for (Real duration) override final;
 };
 #endif

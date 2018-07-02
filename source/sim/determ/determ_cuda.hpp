@@ -87,7 +87,7 @@ class simulation_cuda: public Deterministic_Simulation {
             // Perform biological calculations
             //_baby_cl_cuda[ph11][0][0] = 5.0; works
             //c.calculateRatesOfChange();
-            c.updateCon(c.calculateRatesOfChange());
+            update_concentrations(k, c.calculateRatesOfChange());
         //}
         if (k==0){
             _j++;

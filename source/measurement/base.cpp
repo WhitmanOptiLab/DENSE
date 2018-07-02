@@ -15,10 +15,9 @@ Analysis::Analysis (
 }
 
 void Analysis::when_updated_by(Observable & observable) {
-  if (observable.t < start_time || observable.t >= end_time) return;
-  auto & begin = *observable.context;
-  begin.set(min);
-  update(begin);
+  Simulation * simulation = dynamic_cast<Simulation*>(&observable);
+  if (simulation && (simulation->t < start_time || simulation->t >= end_time)) return;
+  update({ simulation, min });
 }
 
 void Analysis::when_unsubscribed_from(Observable & observable) {

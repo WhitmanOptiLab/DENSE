@@ -4,13 +4,6 @@
 #include <functional>
 #include <vector>
 
-namespace dense {
-
-  class Context;
-
-}
-
-
 class Observer;
 
 /**
@@ -22,15 +15,9 @@ class Observable {
 
   public:
 
-    virtual void run() = 0;
+    void notify ();
 
-    void notify (dense::Context & start);
-
-    void finalize();
-
-    double t = 0.0;
-
-    dense::Context * context = nullptr;
+    virtual ~Observable() noexcept = default;
 
   protected:
 

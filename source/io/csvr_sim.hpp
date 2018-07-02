@@ -10,52 +10,35 @@
 #include <vector>
 
 
-class csvr_sim : public csvr, public Observable
+class CSV_Streamed_Simulation : public csvr, public Simulation // <- order important here; csvr must be initialized before Simulation
 {
-public:
-    class sim_ct : public dense::Context
-    {
-        friend class csvr_sim;
-    public:
-        sim_ct();
+  public:
 
-        IF_CUDA(__host__ __device__)
-        Real getCon(specie_id sp) const override;
-        IF_CUDA(__host__ __device__)
-        void advance() override;
-        IF_CUDA(__host__ __device__)
-        bool isValid() const override;
-        IF_CUDA(__host__ __device__)
-        void set(int c) override;
+    CSV_Streamed_Simulation(std::string const& pcfFileName, specie_vec const& pcfSpecieVec);
 
-    private:
-        std::vector<std::map<specie_id, Real>> iRate;
-        unsigned iIter;
-    };
-
-
-
-    csvr_sim(std::string const& pcfFileName, specie_vec const& pcfSpecieVec);
-    virtual ~csvr_sim();
-
-    int getCellTotal();
-    Real getAnlysIntvl();
-    Real getTimeStart();
-    Real getTimeEnd();
     int getCellStart();
     int getCellEnd();
 
-    void run() override final;
+    void simulate_for(Real duration) override final;
+
+    Real get_concentration(dense::Natural cell, specie_id species) const override final {
+      return iRate.at(cell).at(species);
+    }
+
+    Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+      return get_concentration(cell, species);
+    }
+
+    [[noreturn]] Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+      throw std::logic_error("Neighbor average not implemented for csvr_sim");
+    }
 
 private:
     // Required for csvr_sim
     specie_vec iSpecieVec;
-    unsigned iCellTotal;
     bool iTimeCol;
-
-    // For everyone else to get()
-    Real iAnlysIntvl, iTimeStart, iTimeEnd;
     int iCellStart, iCellEnd;
+      std::vector<std::map<specie_id, Real>> iRate;
 };
 
 #endif

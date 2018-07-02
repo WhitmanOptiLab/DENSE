@@ -63,63 +63,10 @@ class Stochastic_Simulation : public Simulation {
      * ContextStoch:
      * iterator for observers to access conc levels with
     */
-    class ContextStoch : public dense::Context {
-        //FIXME - want to make this private at some point
-      private:
-        Stochastic_Simulation& _simulation;
-        double _avg;
-        unsigned _cell;
-
-      public:
-        typedef CUDA_Array<Real, NUM_SPECIES> SpecieRates;
-        IF_CUDA(__host__ __device__)
-        ContextStoch(Stochastic_Simulation& sim, int cell) : _simulation(sim), _cell(cell) { }
-        IF_CUDA(__host__ __device__)
-        Real calculateNeighborAvg(specie_id sp, int delay) const;
-        IF_CUDA(__host__ __device__)
-        void updateCon(specie_id sid,int delta){
-	      if (_simulation.concs[_cell][sid]+delta < 0){
-              _simulation.concs[_cell][sid] = 0;
-          }
-          else{
-              _simulation.concs[_cell][sid]+=delta;
-          }
-	    }
-        IF_CUDA(__host__ __device__)
-        void updatePropensities(reaction_id rid);
-	    IF_CUDA(__host__ __device__)
-	    Real getTotalPropensity();
-	    IF_CUDA(__host__ __device__)
-	    int chooseReaction(Real propensity_portion);
-      IF_CUDA(__host__ __device__)
-      Real getCon(specie_id sp) const override final {
-        return _simulation.concs[_cell][sp];
-      }
-	    Real getCon(specie_id sp, int delay) const {
-	      return getCon(sp);
-	    }
-        IF_CUDA(__host__ __device__)
-        Real getCritVal(critspecie_id rcritsp) const {
-            return _simulation._cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        Real getRate(reaction_id reaction) const {
-            return _simulation._cellParams[reaction][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        Real getDelay(delay_reaction_id delay_reaction) const{
-            return _simulation._cellParams[NUM_REACTIONS+delay_reaction][_cell];
-        }
-        IF_CUDA(__host__ __device__)
-        void advance() override final { ++_cell; }
-	      IF_CUDA(__host__ __device__)
-	      void set(int c) override final {_cell = c;}
-        IF_CUDA(__host__ __device__)
-        bool isValid() const override final { return _cell < _simulation._cells_total; }
-    };
+    using SpecieRates = CUDA_Array<Real, NUM_SPECIES>;
 
   private:
-    void fireReaction(ContextStoch *c, const reaction_id rid);
+    void fireReaction(dense::Natural cell, const reaction_id rid);
 
   public:
     /*
@@ -135,7 +82,114 @@ class Stochastic_Simulation : public Simulation {
     //Deconstructor
     virtual ~Stochastic_Simulation() {}
 
-    void initialize() override;
-    void simulate() override;
+    void initialize() override final;
+    void simulate_for(Real duration) override final;
+
+    Real get_concentration (dense::Natural cell, specie_id species) const override final {
+      return concs[cell][species];
+    }
+
+    Real get_concentration (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+      return get_concentration(cell, species);
+    }
+
+    CUDA_HOST CUDA_DEVICE
+    void update_concentration (dense::Natural cell_, specie_id sid, int delta) {
+      if (concs[cell_][sid] + delta < 0) {
+        concs[cell_][sid] = 0;
+      } else {
+        concs[cell_][sid] += delta;
+      }
+    }
+
+
+  /*
+   * GETTOTALPROPENSITY
+   * sums the propensities of every reaction in every cell
+   * called by "generateTau" in simulation_stoch.cpp
+   * return "sum": the propensity sum
+  */
+    CUDA_HOST CUDA_DEVICE
+    Real get_total_propensity() const {
+      Real sum = 0;
+      for (dense::Natural c = 0; c < _cells_total; ++c) {
+        for (int r=0; r<NUM_REACTIONS; r++) {
+          sum += propensities[c][r];
+        }
+      }
+      return sum;
+    }
+
+
+    /*
+     * CHOOSEREACTION
+     * randomly chooses a reaction biased by their propensities
+     * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
+     * return "j": the index of the reaction chosen.
+    */
+    CUDA_HOST CUDA_DEVICE
+    int choose_reaction(Real propensity_portion) {
+      Real sum = 0;
+      dense::Natural c;
+      int s;
+
+      for (c = 0; c < _cells_total; c++) {
+        for (s = 0; s < NUM_REACTIONS; s++) {
+          sum += propensities[c][s];
+
+          if (sum > propensity_portion) {
+            int j = (c * NUM_REACTIONS) + s;
+            return j;
+          }
+        }
+      }
+
+      int j = ((c - 1) * NUM_REACTIONS) + (s - 1);
+      return j;
+    }
+
+    /*
+     * UPDATEPROPENSITIES
+     * recalculates the propensities of reactions affected by the firing of "rid"
+     * arg "rid": the reaction that fired
+    */
+    CUDA_HOST CUDA_DEVICE
+    void update_propensities(dense::Natural cell_, reaction_id rid) {
+        #define REACTION(name) \
+        for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
+            if ( name == propensity_network[rid][i] ) { \
+                propensities[cell_][name] = dense::model::reaction_##name.active_rate(Context(this, cell_)); \
+            } \
+        } \
+    \
+        for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
+            if (name == neighbor_propensity_network[rid][r]) { \
+                for (dense::Natural n=0; n< _numNeighbors[cell_]; n++) { \
+                    int n_cell = _neighbors[cell_][n]; \
+                    Context neighbor(this, n_cell); \
+                    propensities[n_cell][name] = dense::model::reaction_##name.active_rate(neighbor); \
+                } \
+            } \
+        }
+        #include "reactions_list.hpp"
+        #undef REACTION
+    }
+
+
+  /*
+   * CALCULATENEIGHBORAVG
+   * arg "sp": the specie to average from the surrounding cells
+   * arg "delay": unused, but used in deterministic context. Kept for polymorphism
+   * returns "avg": average concentration of specie in current and neighboring cells
+  */
+  Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+    Real sum = 0;
+    for (dense::Natural i = 0; i < _numNeighbors[cell]; ++i) {
+        sum += concs[_neighbors[cell][i]][species];
+    }
+    Real avg = sum / _numNeighbors[cell];
+    return avg;
+  }
+
 };
 #endif
