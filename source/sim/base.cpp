@@ -30,6 +30,7 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 }
 */
 
+
 void Simulation::initialize(){
     calc_max_delays();
     calc_neighbor_2d();
@@ -48,12 +49,12 @@ void Simulation::calc_max_delays() {
         DummyContext(std::vector<specie_id>& deps_to_fill) :
             deps(deps_to_fill) {};
         Real getCon(specie_id species, int delay = 0) const {
-            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            std::ptrdiff_t sp = static_cast<std::underlying_type<Species>::type>(species);
             deps_bitset.set(sp);
             return 0.0;
         };
         Real getCon(specie_id species){
-            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            std::ptrdiff_t sp = static_cast<std::underlying_type<Species>::type>(species);
             deps_bitset.set(sp);
             return 0.0;
         };
@@ -61,7 +62,7 @@ void Simulation::calc_max_delays() {
         Real getDelay(delay_reaction_id rid) const { return 0.0; };
         Real getCritVal(critspecie_id crit) const { return 0.0; };
         Real calculateNeighborAvg(specie_id species, int delay = 0) const {
-            std::size_t sp = static_cast<std::underlying_type<Species>::type>(species);
+            std::ptrdiff_t sp = static_cast<std::underlying_type<Species>::type>(species);
             deps_bitset.set(sp);
             return 0.0;
         };
@@ -96,7 +97,7 @@ void Simulation::calc_max_delays() {
   Real max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \
-    for (unsigned k = 0; k < _width_total && factors_gradient[name]; k++) { \
+    for (dense::Natural k = 0; k < _width_total && factors_gradient[name]; k++) { \
       max_gradient_##name = std::max<Real>(factors_gradient[ name ][k], max_gradient_##name); \
     } \
   } \

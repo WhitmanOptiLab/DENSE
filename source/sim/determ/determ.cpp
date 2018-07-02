@@ -3,29 +3,48 @@
 #include "model_impl.hpp"
 #include <limits>
 #include <iostream>
+#include <cassert>
 
-void Deterministic_Simulation::simulate(){
-	Real analysis_chunks = time_total/analysis_gran;
- 	Real total_step = analysis_gran/_step_size;
-	for (int c = 0; c<analysis_chunks;c++){
-        Context context(*this,0);
-        notify(context);
-
-        if (abort_signaled){
-            std::cout << "early abort\n";
-            finalize();
-            return;
-        }
-
-        for (int i = 0; i < total_step; i++) {
-			execute();
-		}
-        t += analysis_gran;
-	}
-	finalize();
+void Deterministic_Simulation::simulate_for (Real duration) {
+  assert(duration > 0 && t > 0 && _step_size > 0);
+  dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / _step_size;
+  for (dense::Natural s = 0; s < steps; ++s) {
+    step();
+  }
+  t += duration;
 }
 
-void Deterministic_Simulation::execute(){
+void Deterministic_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
+    for (int i=0; i< NUM_SPECIES; i++){
+        auto curr_rate = rates[i];
+        _baby_cl[i][1][cell] = _baby_cl[i][0][cell] + _step_size * curr_rate;
+    }
+}
+
+CUDA_HOST CUDA_DEVICE
+Deterministic_Simulation::SpecieRates Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
+    //Step 1: for each reaction, compute reaction rate
+    CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
+    #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(Context(this));
+        #include "reactions_list.hpp"
+    #undef REACTION
+
+    //Step 2: allocate specie concentration rate change array
+    SpecieRates specie_deltas{};
+
+    //Step 3: for each reaction rate, for each specie it affects, accumulate its contributions
+    #define REACTION(name) \
+    const reaction<name>& r##name = dense::model::reaction_##name; \
+    for (int j = 0; j < r##name.getNumDeltas(); j++) { \
+        specie_deltas[delta_ids_##name[j]] += reaction_rates[name]*deltas_##name[j]; \
+    }
+    #include "reactions_list.hpp"
+    #undef REACTION
+
+    return specie_deltas;
+}
+
+void Deterministic_Simulation::step() {
     //concentration cl;
     //Rates rates;
     //int steps_elapsed = steps_split; // Used to determine when to split a column of cells
@@ -38,19 +57,18 @@ void Deterministic_Simulation::execute(){
 
     //where to keep the birth and parent information
     //copy_records(_contexts, _baby_j, _time_prev); // Copy each cell's birth and parent so the records are accessible at every time step
-    //cout.precision(dbl::max_digits10);
+    //cout.precision(std::numeric_limits<double>::max_digits10);
     //cout<< _j<< " "<<_baby_cl[ph1][_j][0]<<endl;
     // Iterate through each extant cell or context
-    for (unsigned k = 0; k < _cells_total; k++) {
+    for (dense::Natural k = 0; k < _cells_total; k++) {
         //if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
-            Context c(*this, k);
             //int old_cells_mrna[NUM_SPECIES];
             //int old_cells_protein[NUM_SPECIES]; // birth and parents info are kept elsewhere now
             //calculate_delay_indices(_baby_cl, _baby_j, _j, k, _rates, old_cells_mrna, old_cells_protein);
 
             // Perform biological calculations
-            c.updateCon(c.calculateRatesOfChange());
+            update_concentrations(k, calculate_concentrations(k));
         //}
     }
 
@@ -75,12 +93,12 @@ void Deterministic_Simulation::execute(){
 
 }
 
-void Deterministic_Simulation::initialize(){
+void Deterministic_Simulation::initialize() {
     Simulation::initialize();
     _baby_cl.initialize();
     //Copy and normalize _delays into _intDelays
     for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
-      for (unsigned j = 0; j < _cells_total; ++j) {
+      for (dense::Natural j = 0; j < _cells_total; ++j) {
         _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
       }
     }

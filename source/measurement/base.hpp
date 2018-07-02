@@ -4,9 +4,9 @@
 #include "core/observable.hpp"
 #include "core/specie.hpp"
 #include "io/csvw.hpp"
+#include "sim/base.hpp"
 
 #include <memory>
-
 
 /// Superclass for Analysis Objects
 /// - observes passed "Observable"
@@ -23,7 +23,7 @@ class Analysis : public Observer {
 
     virtual void show (csvw * = nullptr) {};
 
-    virtual void update(dense::Context & start) = 0;
+    virtual void update(dense::Context<> start) = 0;
 
     virtual void finalize() = 0;
 

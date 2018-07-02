@@ -30,7 +30,7 @@ class BasicAnalysis : public Analysis {
      * - postcondition: start.isValid() is false.
      * - update is overloaded virtual function of Analysis
      */
-    void update (dense::Context & begin) override;
+    void update (dense::Context<> begin) override;
 
     /* Finalize: overloaded virtual function of Analysis
        - must be called to produce correct average values

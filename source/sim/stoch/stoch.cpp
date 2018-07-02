@@ -2,7 +2,6 @@
 #include "stoch.hpp"
 #include "sim/cell_param.hpp"
 #include "model_impl.hpp"
-#include "stoch_context.hpp"
 #include "core/model.hpp"
 #include <limits>
 #include <iostream>
@@ -17,34 +16,19 @@
  * precondition: t=0
  * postcondition: ti>=time_total
 */
-void Stochastic_Simulation::simulate(){
-	Real analysis_chunks = time_total/analysis_gran;
 
-	for (int a=1; a<=analysis_chunks; a++){
-		ContextStoch context(*this,0);
-		notify(context);
-        littleT = 0;
+void Stochastic_Simulation::simulate_for (Real duration) {
+  littleT = 0;
+  while (littleT < duration && (t + littleT) < time_total) {
+    Real tau = generateTau();
 
-        if (abort_signaled){
-            finalize();
-            return;
-        }
-
-		while (littleT<analysis_gran && (t+littleT)<time_total){
-            Real tau = generateTau();
-
-            if ((t+littleT+tau>getSoonestDelay())&&NUM_DELAY_REACTIONS>0){
-                executeDelayRXN();
-			}
-			else {
-				tauLeap(tau);
-			}
-		}
-        t += littleT;
-        if (a % int(1.0/analysis_gran) == 0)
-            std::cout << "time=" << t << '\n';
-	}
-	finalize();
+    if ((t + littleT + tau > getSoonestDelay()) && NUM_DELAY_REACTIONS > 0) {
+      executeDelayRXN();
+    } else {
+      tauLeap(tau);
+    }
+  }
+  t += littleT;
 }
 
 /*
@@ -52,8 +36,8 @@ void Stochastic_Simulation::simulate(){
  * return "tau": possible timestep leap calculated from a random variable
 */
 Real Stochastic_Simulation::generateTau(){
-	ContextStoch c(*this, 0);
-	Real propensity_sum = c.getTotalPropensity();
+	Context c(this);
+	Real propensity_sum = get_total_propensity();
 	Real u = getRandVariable();
 	Real tau = -(std::log(u))/propensity_sum;
 
@@ -86,8 +70,8 @@ Real Stochastic_Simulation::getSoonestDelay(){
 void Stochastic_Simulation::executeDelayRXN(){
 	event delay_rxn = *event_schedule.begin();
 
-    ContextStoch c(*this, delay_rxn.cell);
-	fireReaction(&c,delay_rxn.rxn);
+    Context c(this, delay_rxn.cell);
+	fireReaction(delay_rxn.cell,delay_rxn.rxn);
 
     littleT = delay_rxn.time - t;
 
@@ -113,11 +97,11 @@ void Stochastic_Simulation::tauLeap(Real tau){
 
 	Real u = getRandVariable();
 
-	ContextStoch context(*this, 0);
+	Context context(this);
 
-	Real propensity_portion = u * context.getTotalPropensity();
+	Real propensity_portion = u * get_total_propensity();
 
-	int j = context.chooseReaction(propensity_portion);
+	int j = choose_reaction(propensity_portion);
 	int r = j%NUM_REACTIONS;
 	int c = (j-r)/NUM_REACTIONS;
 
@@ -136,7 +120,7 @@ void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
 
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
-	ContextStoch x(*this,c);
+	Context x(this,c);
 
 	if (dri!=NUM_DELAY_REACTIONS){
 		Real delay = x.getDelay(dri);
@@ -149,7 +133,7 @@ void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
 		event_schedule.insert(futureRXN);
 	}
 	else{
-		fireReaction(&x,rid);
+		fireReaction(c,rid);
 	}
 }
 
@@ -159,13 +143,13 @@ void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
  * arg "*c": pointer to a context of the cell to fire the reaction in
  * arg "rid": reaction to fire
 */
-void Stochastic_Simulation::fireReaction(ContextStoch *c, reaction_id rid){
+void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
 	for (int i=0; i<r.getNumDeltas(); i++){
-		c->updateCon(specie_deltas[i], r.getDeltas()[i]);
+		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
-	c->updatePropensities(rid);
+	update_propensities(cell, rid);
 }
 
 /*
@@ -180,7 +164,7 @@ void Stochastic_Simulation::initialize(){
 
     initPropensityNetwork();
 
-    for (unsigned c = 0; c < _cells_total; ++c) {
+    for (dense::Natural c = 0; c < _cells_total; ++c) {
       std::vector<int> species;
       std::vector<Real> props;
       concs.push_back(species);
@@ -197,8 +181,8 @@ void Stochastic_Simulation::initialize(){
  * sets the propensities of each reaction in each cell to its respective active
 */
 void Stochastic_Simulation::initPropensities(){
-    for (unsigned c = 0; c < _cells_total; ++c) {
-        ContextStoch ctxt(*this,c);
+    for (dense::Natural c = 0; c < _cells_total; ++c) {
+        Context ctxt(this,c);
         #define REACTION(name) \
         propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));
         #include "reactions_list.hpp"
@@ -211,10 +195,12 @@ void Stochastic_Simulation::initPropensities(){
  * populates the "propensity_network" and "neighbor_propensity_network" data structures
  * finds inter- and intracellular reactions that have rates affected by the firing of each rxn
 */
-void Stochastic_Simulation::initPropensityNetwork(){
+void Stochastic_Simulation::initPropensityNetwork() {
 
     std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
     std::set<specie_id> dependencies[NUM_REACTIONS];
+
+    using Context = dense::Context<Stochastic_Simulation>;
 
     class DependanceContext {
       public:
@@ -247,7 +233,7 @@ void Stochastic_Simulation::initPropensityNetwork(){
     #undef REACTION
 
     #define REACTION(name) \
-    for (unsigned n=0; n<NUM_REACTIONS; n++) { \
+    for (dense::Natural n=0; n<NUM_REACTIONS; n++) { \
         const std::set<specie_id>& intradeps = dependencies[n]; \
         const std::set<specie_id>& interdeps = neighbor_dependencies[n]; \
         std::set<specie_id>::iterator intra = intradeps.begin(); \

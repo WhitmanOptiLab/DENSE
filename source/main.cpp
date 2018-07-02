@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
     return EXIT_SUCCESS;
   }
   // Ambiguous "simulators" will either be a real simulations or input file
-  std::vector<std::unique_ptr<Observable>> simsAmbig;
+  std::vector<std::unique_ptr<Simulation>> simsAmbig;
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
@@ -109,7 +109,7 @@ int main(int argc, char* argv[])
   std::string data_ioe;
   if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false))
   {
-      simsAmbig.emplace_back(new csvr_sim(data_ioe, default_specie_option));
+      simsAmbig.emplace_back(new CSV_Streamed_Simulation(data_ioe, default_specie_option));
   }
   else // Not importing, do a real simulation
   {
@@ -275,12 +275,19 @@ int main(int argc, char* argv[])
   }
 
   for (auto & simulation : simsAmbig) {
-    simulation->run();
+    simulation->simulate();
+    simulation->finalize();
   }
 
-  for (auto & out : csv_writers) {
-    anlysAmbig[std::distance(&out, csv_writers.data())]->show(out.get());
+  std::size_t i = 0;
+  for (; i < csv_writers.size(); ++i) {
+    anlysAmbig[i]->show(csv_writers[i].get());
   }
+
+  for(; i < anlysAmbig.size(); ++i) {
+    anlysAmbig[i]->show();
+  }
+
 
   return EXIT_SUCCESS;
 }

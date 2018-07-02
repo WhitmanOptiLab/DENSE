@@ -15,8 +15,8 @@ public:
             bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
             const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
             specie_vec const& pcfSpecieOption, Observable & observable);
-    virtual ~csvw_sim();
-    void update(dense::Context & pfStart);
+
+    void update(dense::Context<> pfStart);
 
   protected:
     void when_updated_by(Observable & observable) override;

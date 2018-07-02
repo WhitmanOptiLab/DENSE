@@ -39,7 +39,16 @@ public:
     */
     bool get_next(Real* pnRate);
     bool get_next(int* pnRate);
-    bool get_next();
+    bool skip_next();
+
+    template <typename T>
+    T next() {
+      T result;
+      if (!get_next(&result)) {
+        throw std::out_of_range("Could not get next!");
+      }
+      return result;
+    }
 
 
 private:

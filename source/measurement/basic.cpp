@@ -21,7 +21,7 @@ BasicAnalysis::BasicAnalysis (
   subscribe_to(observable);
 }
 
-void BasicAnalysis::update (dense::Context & begin) {
+void BasicAnalysis::update (dense::Context<> begin) {
   for (unsigned cell_no = min; cell_no < max; ++cell_no) {
     for (std::size_t i = 0; i < observed_species_.size(); ++i) {
   		Real concentration = begin.getCon(observed_species_[i]);
