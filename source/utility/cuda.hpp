@@ -62,6 +62,22 @@ class CUDA_Array {
 
 };
 
+namespace cuda {
+
+  template <typename T>
+  CUDA_HOST CUDA_DEVICE
+  T min(T first, T second) {
+    return first < second ? first : second;
+  }
+
+  template <typename T>
+  CUDA_HOST CUDA_DEVICE
+  T max(T first, T second) {
+    return first > second ? first : second;
+  }
+
+}
+
 #ifdef USING_CUDA
 
 
