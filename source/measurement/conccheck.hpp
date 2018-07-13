@@ -12,7 +12,6 @@ class ConcentrationCheck : public Analysis {
 
   public:
     ConcentrationCheck (
-      Simulation& observable,
       unsigned min_cell, unsigned max_cell,
       Real lowerB, Real upperB,
       Real start_time, Real end_time,
@@ -21,7 +20,6 @@ class ConcentrationCheck : public Analysis {
       Analysis(min_cell, max_cell, start_time, end_time),
       lower_bound(lowerB), upper_bound(upperB),
       target_specie(t_specie) {
-      subscribe_to(observable);
     };
 
     void update (dense::Context & start) override {

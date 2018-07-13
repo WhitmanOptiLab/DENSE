@@ -12,7 +12,7 @@
 using style::Color;
 
 #include <cstdlib>
-#include <ctime>
+#include <random>
 #include <memory>
 #include <exception>
 #include <iostream>
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
     return EXIT_SUCCESS;
   }
   // Ambiguous "simulators" will either be a real simulations or input file
-  std::vector<std::unique_ptr<Simulation>> simsAmbig;
+  std::vector<std::unique_ptr<Simulation>> simulations;
 
   // These fields are somewhat universal
   specie_vec default_specie_option;
@@ -109,15 +109,14 @@ int main(int argc, char* argv[]) {
   int cell_total;
 
   arg_parse::get<specie_vec>("o", "specie-option", &default_specie_option, false);
-  // ========================== FILL SIMSAMBIG ==========================
+  // ========================== FILL simulations ==========================
   // See if importing
   // string is for either sim data import or export
   std::string data_ioe;
   if (arg_parse::get<std::string>("i", "data-import", &data_ioe, false)) {
-    simsAmbig.emplace_back(new CSV_Streamed_Simulation(data_ioe, default_specie_option));
+    simulations.emplace_back(new CSV_Streamed_Simulation(data_ioe, default_specie_option));
   }
-  else // Not importing, do a real simulation
-  {
+  else {
       std::string param_sets;
       int tissue_width;
 
@@ -130,12 +129,14 @@ int main(int argc, char* argv[]) {
       {
           // If step_size not set, create stochastic simulation
           Real step_size = arg_parse::get<Real>("s", "step-size", 0.0);
-          int seed = arg_parse::get<int>("r", "rand-seed", std::time(nullptr));
-
-          // Warn user that they are not running deterministic sim
+          int seed = 0;
           if (step_size == 0.0) {
-              std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
-              std::cout << "Stochastic simulation seed: " << seed << '\n';
+            if (!arg_parse.get<int>("r", "rand-seed", &seed, false)) {
+              seed = std::random_device()();
+            }
+            // Warn user that they are not running deterministic sim
+            std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
+            std::cout << "Stochastic simulation seed: " << seed << '\n';
           }
 
           std::vector<Parameter_Set> params;
@@ -153,32 +154,44 @@ int main(int argc, char* argv[]) {
           Real** gradient_factors = parse_gradients(
             arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
 
-          // Create simulation set
-          Simulation_Set sim_set(
-            std::move(params),
-            gradient_factors,
-            perturbation_factors,
-            cell_total, tissue_width, step_size,
-            anlys_intvl, time_total, seed
-          );
+          Simulation_Set sim_set;
 
-          simsAmbig.reserve(simsAmbig.size() + sim_set.size());
-          for (auto & sim : sim_set._sim_set) {
-            simsAmbig.emplace_back(sim);
+          if (step_size == 0.0) {
+            Simulation_Set stochastic_set;
+            for (auto& parameter_set : params) {
+              stochastic_set.emplace<Stochastic_Simulation>(
+                std::move(parameter_set), perturbation_factors, gradient_factors,
+                cell_total, tissue_width, seed);
+            }
+            sim_set = std::move(stochastic_set);
+          } else {
+            Simulation_Set deterministic_set;
+            for (auto& parameter_set : params) {
+              deterministic_set.emplace<Deterministic_Simulation>(
+                std::move(parameter_set), perturbation_factors, gradient_factors,
+                cell_total, tissue_width, step_size);
+            }
+            sim_set = std::move(deterministic_set);
           }
+
+          simulations.reserve(simulations.size() + sim_set.size());
+          for (auto & sim : sim_set._sim_set) {
+            simulations.emplace_back(sim);
+          }
+      }
+      else {
+        std::cout << style::apply(Color::red) <<
+          "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) "
+          "Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?\n" << style::reset();
+        return EXIT_FAILURE;
       }
   }
 
 
   // ========================== FILL ANLYSAMBIG =========================
-  // Must have at least one observable
-  if (simsAmbig.empty()) {
-    std::cout << style::apply(Color::red) << "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?" << style::reset() << '\n';
-    return EXIT_FAILURE;
-  }
 
   // Ambiguous "analyzers" will either be analyses or output file logs
-  std::vector<std::unique_ptr<Analysis>> anlysAmbig;
+  std::vector<std::pair<std::unique_ptr<Analysis>, std::size_t>> analysis_links;
   std::vector<std::unique_ptr<csvw>> csv_writers;
 
   // Analyses each with own file writer
@@ -195,21 +208,21 @@ int main(int argc, char* argv[]) {
       Real time_end = std::stold(xml_child_text(anlys, "time-end"));
       specie_vec specie_option = str_to_species(xml_child_text(anlys, "species"));
       std::string out_file = xml_child_text(anlys, "out-file");
-      for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
+      for (std::size_t i = 0; i < simulations.size(); ++i) {
         // If multiple sets, set file name to "x_####.y"
         csv_writers.emplace_back(new csvw(
-          simsAmbig.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
+          simulations.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
 
         if (type == "basic") {
-          anlysAmbig.emplace_back(new BasicAnalysis(
-            *simsAmbig[i], specie_option, cell_start, cell_end, time_start, time_end));
+          analysis_links.emplace_back(new BasicAnalysis(
+            specie_option, cell_start, cell_end, time_start, time_end), i);
         }
         else if (type == "oscillation") {
           Real win_range = std::stold(xml_child_text(anlys, "win-range"));
           anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
 
-          anlysAmbig.emplace_back(new OscillationAnalysis(
-            *simsAmbig[i], anlys_intvl, win_range, specie_option, cell_start, cell_end, time_start, time_end));
+          analysis_links.emplace_back(new OscillationAnalysis(
+            anlys_intvl, win_range, specie_option, cell_start, cell_end, time_start, time_end), i);
         }
         else {
           std::cout << style::apply(Color::yellow) << "Warning: No analysis type \"" << type << "\" found.\n" << style::reset();
@@ -220,43 +233,71 @@ int main(int argc, char* argv[]) {
     // Data export aka file log
     // Can't do it if already using data-import
     if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "") {
-      for (std::size_t i = 0; i < simsAmbig.size(); ++i) {
+      for (std::size_t i = 0; i < simulations.size(); ++i) {
         new csvw_sim(
-          (simsAmbig.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
+          (simulations.size() == 1 ? data_ioe : file_add_num(data_ioe, "_", '0', i, 4, ".")),
           arg_parse::get<std::string>("v", "time-col", nullptr, false),
-          default_specie_option, *simsAmbig[i] );
+          default_specie_option, *simulations[i] );
       }
     }
   }
   // End all observer preparation
 
-
-  // ========================= RUN THE SHOW =========================
-  // Only bother if there are outputs
-  if (anlysAmbig.empty() && !arg_parse::get<bool>("N", "test-run", nullptr, false)) {
+  if (analysis_links.empty() && !arg_parse::get<bool>("N", "test-run", nullptr, false)) {
     std::cout << style::apply(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
-    for (auto & simulation : simsAmbig) {
-      anlysAmbig.emplace_back(new BasicAnalysis(
-        *simulation, default_specie_option,
+    for (std::size_t i = 0; i < simulations.size(); ++i) {
+      analysis_links.emplace_back(new BasicAnalysis(
+        default_specie_option,
         0, cell_total, 0, time_total
-      ));
+      ), i);
     }
   }
 
-  for (auto & simulation : simsAmbig) {
-    simulation->simulate(time_total, anlys_intvl);
+  // ========================= RUN THE SHOW =========================
+
+  auto duration = time_total;
+  auto notify_interval = anlys_intvl;
+  Real analysis_chunks = duration / notify_interval;
+  int notifications_per_min = 1.0 / notify_interval;
+
+  for (int a = 0; a < analysis_chunks; a++) {
+    for (auto& analysis_link : analysis_links) {
+      analysis_link.first->when_updated_by(*simulations[analysis_link.second]);
+    }
+
+    for (auto & simulation : simulations) {
+      if (simulation->was_aborted()) continue;
+      simulation->simulate_for(notify_interval);
+      if (a % notifications_per_min == 0)
+        std::cout << "Time: " << simulation->t << '\n';
+    }
+  }
+
+  for (auto & simulation : simulations) {
     simulation->finalize();
+  }
+  for (auto& analysis_link : analysis_links) {
+    analysis_link.first->finalize();
   }
 
   std::size_t i = 0;
   for (; i < csv_writers.size(); ++i) {
-    anlysAmbig[i]->show(csv_writers[i].get());
+    analysis_links[i].first->show(csv_writers[i].get());
   }
 
-  for(; i < anlysAmbig.size(); ++i) {
-    anlysAmbig[i]->show();
+  for(; i < analysis_links.size(); ++i) {
+    analysis_links[i].first->show();
   }
-
 
   return EXIT_SUCCESS;
 }
+
+/*
+Snapshot<> snapshot;
+Snapshot<> data = simulation.snapshot();
+
+template <typename Simulation>
+Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
+
+}
+*/

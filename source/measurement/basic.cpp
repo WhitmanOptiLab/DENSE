@@ -6,7 +6,6 @@
 #include <iostream>
 
 BasicAnalysis::BasicAnalysis (
-  Simulation& observable,
   specie_vec const& species_vector,
   unsigned min_cell, unsigned max_cell,
   Real start_time, Real end_time
@@ -18,7 +17,6 @@ BasicAnalysis::BasicAnalysis (
   mins_by_context(max - min, mins),
   maxs_by_context(max - min, maxs),
   means_by_context(max - min, means) {
-  subscribe_to(observable);
 }
 
 void BasicAnalysis::update (dense::Context<> begin) {
