@@ -1,5 +1,7 @@
 #include "utility/style.hpp"
 
+using style::Color;
+
 #include <cstdlib>
 #include <iostream>
 #include <string>

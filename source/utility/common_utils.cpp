@@ -4,6 +4,8 @@
 #include "io/csvr.hpp"
 #include "core/reaction.hpp"
 
+using style::Color;
+
 #include <algorithm>
 #include <iostream>
 #include <cmath>

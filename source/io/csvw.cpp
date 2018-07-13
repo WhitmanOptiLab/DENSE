@@ -1,6 +1,8 @@
 #include "csvw.hpp"
 #include "utility/style.hpp"
 
+using style::Color;
+
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <iostream>
 
