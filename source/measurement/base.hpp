@@ -7,19 +7,21 @@
 #include "sim/base.hpp"
 
 #include <memory>
+#include <limits>
+
 using dense::Simulation;
 
 /// Superclass for Analysis Objects
 /// - observes passed "Observable"
 /// - does not implement any analysis
-class Analysis : public Observer {
+class Analysis : public Observer<Simulation> {
 
   public:
 
     Analysis (
       specie_vec const& species_vector,
       unsigned min_cell, unsigned max_cell,
-      Real start_time, Real end_time
+      Real start_time = 0, Real end_time = std::numeric_limits<Real>::infinity()
     );
 
     virtual void show (csvw * = nullptr) {};
@@ -28,9 +30,9 @@ class Analysis : public Observer {
 
     virtual void finalize() = 0;
 
-    void when_updated_by(Observable &) override;
+    void when_updated_by(Simulation &) override;
 
-    void when_unsubscribed_from(Observable &) override;
+    void when_unsubscribed_from(Simulation &) override;
 
   protected:
 
@@ -40,7 +42,7 @@ class Analysis : public Observer {
 
     unsigned const min, max;
 
-    unsigned time = 0;
+    dense::Natural time = 0;
 
 };
 

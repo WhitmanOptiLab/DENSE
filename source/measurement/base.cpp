@@ -14,12 +14,11 @@ Analysis::Analysis (
 {
 }
 
-void Analysis::when_updated_by(Observable & observable) {
-  Simulation * simulation = dynamic_cast<Simulation*>(&observable);
-  if (simulation && (simulation->t < start_time || simulation->t >= end_time)) return;
-  update({ simulation, min });
+void Analysis::when_updated_by(Simulation & simulation) {
+  if (simulation.t < start_time || simulation.t >= end_time) return;
+  update({ &simulation, min });
 }
 
-void Analysis::when_unsubscribed_from(Observable & observable) {
+void Analysis::when_unsubscribed_from(Simulation &) {
   finalize();
 }

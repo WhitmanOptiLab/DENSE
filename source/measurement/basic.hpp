@@ -17,7 +17,7 @@ class BasicAnalysis : public Analysis {
   public:
 
     BasicAnalysis (
-      Observable & observable,
+      Simulation& observable,
       specie_vec const& species_vector,
       unsigned min_cell, unsigned max_cell,
       Real start_time, Real end_time

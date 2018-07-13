@@ -6,29 +6,28 @@
 #include "core/observable.hpp"
 #include "core/specie.hpp"
 
+#include <limits>
 
 namespace dense {
 
 class csvw_sim : private csvw, public Observer
+<Simulation>
 {
 public:
-    csvw_sim(std::string const& pcfFileName, Real const& pcfTimeInterval,
-            Real const& pcfTimeStart, Real const& pcfTimeEnd,
-            bool const& pcfTimeColumn, const unsigned int& pcfCellTotal,
-            const unsigned int& pcfCellStart, const unsigned int& pcfCellEnd,
-            specie_vec const& pcfSpecieOption, Observable & observable);
+    csvw_sim(std::string const& pcfFileName,
+            bool pcfTimeColumn,
+            specie_vec const& pcfSpecieOption, Simulation & observable);
 
     void update(dense::Context<> pfStart);
 
   protected:
-    void when_updated_by(Observable & observable) override;
+    void when_updated_by(Simulation & observable) override;
 
 private:
     specie_vec const icSpecieOption;
-    Real const icTimeInterval, icTimeStart, icTimeEnd;
-    Real ilTime;
-    unsigned const icCellTotal, icCellStart, icCellEnd;
-    unsigned ilCell;
+    Real const icTimeStart = 0, icTimeEnd = std::numeric_limits<Real>::infinity();
+    unsigned const icCellTotal, icCellStart = 0, icCellEnd;
+    unsigned ilCell = icCellStart;
     bool const icTimeColumn;
 };
 

@@ -8,9 +8,7 @@ CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName,
     csvr(pcfFileName), Simulation()
 {
     _cells_total = csvr::next<dense::Natural>();
-    /*analysis_gran =*/ csvr::next<Real>();
     t = csvr::next<Real>();
-    /*time_total =*/ csvr::next<Real>();
     iTimeCol = csvr::next<dense::Natural>() > 0;
     csvr::get_next(&iCellStart);
     csvr::get_next(&iCellEnd);
