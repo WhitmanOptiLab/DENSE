@@ -9,6 +9,8 @@
 #include "core/specie.hpp"
 #include "core/parameter_set.hpp"
 
+namespace dense {
+
 class Simulation;
 
 template<int N, class T = Real>
@@ -80,5 +82,7 @@ public:
     }
 
 };
+
+}
 
 #endif

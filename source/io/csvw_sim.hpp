@@ -7,6 +7,8 @@
 #include "core/specie.hpp"
 
 
+namespace dense {
+
 class csvw_sim : private csvw, public Observer
 {
 public:
@@ -31,3 +33,5 @@ private:
 };
 
 #endif
+
+}

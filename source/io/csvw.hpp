@@ -18,7 +18,6 @@ public:
      *
     */
     csvw(std::string const& pcfFileName, bool const& pcfWriteDoc = true, std::string const& pcfChildDoc = "");
-    virtual ~csvw() = default;
 
     /**
      *  Add Data

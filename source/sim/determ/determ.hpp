@@ -13,6 +13,8 @@
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
 
+ namespace dense {
+
 typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
 class Deterministic_Simulation : public Simulation {
@@ -98,4 +100,6 @@ class Deterministic_Simulation : public Simulation {
 
   void simulate_for (Real duration) override final;
 };
+
+}
 #endif

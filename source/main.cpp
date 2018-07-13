@@ -17,6 +17,12 @@ using style::Color;
 #include <exception>
 #include <iostream>
 
+using dense::CSV_Streamed_Simulation;
+using dense::Simulation_Set;
+using dense::csvw_sim;
+using dense::Deterministic_Simulation;
+using dense::Stochastic_Simulation;
+
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ') {
   string.insert(string.begin(), min_size - std::min(min_size, string.size()), padding);
   return string;

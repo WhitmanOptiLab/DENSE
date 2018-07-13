@@ -5,6 +5,8 @@
 #include "core/specie.hpp"
 #include "core/model.hpp"
 
+namespace dense {
+
 class Deterministic_Simulation;
 
 class baby_cl {
@@ -130,6 +132,8 @@ protected:
     }
 
 };
+
+}
 
 
 

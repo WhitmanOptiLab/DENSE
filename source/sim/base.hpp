@@ -11,9 +11,9 @@
 #include <vector>
 #include <iostream>
 
-class Simulation;
-
 namespace dense {
+
+class Simulation;
 
   template <typename Simulation_T = Simulation>
   class Context {
@@ -61,11 +61,11 @@ namespace dense {
 
     Simulation_T * owner_;
 
-    dense::Natural cell_;
+  public:
+
+    Natural cell_;
 
   };
-
-}
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
@@ -82,13 +82,13 @@ class Simulation : public Observable {
   // Sizes
 
   Real t = 0.0;
-  dense::Natural _width_total; // The maximum width in cells of the PSM
+  Natural _width_total; // The maximum width in cells of the PSM
   //dense::Natural circumf; // The current width in cells
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
   //int height; // The height in cells of the PSM
   //int cells; // The number of cells in the simulation
-  dense::Natural _cells_total; // The total number of cells of the PSM (total width * total height)
+  Natural _cells_total; // The total number of cells of the PSM (total width * total height)
 
   // Times and timing
   //int steps_total; // The number of time steps to simulate (total time / step size)
@@ -116,7 +116,7 @@ class Simulation : public Observable {
   //Real* factors_perturb;
   //Real** factors_gradient;
   cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
-  dense::Natural *_numNeighbors;
+  Natural* _numNeighbors;
   //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
   //int* _delay_size;
   //int* _time_prev;
@@ -135,7 +135,7 @@ class Simulation : public Observable {
   Simulation() : Simulation(Parameter_Set(), 0, 0) {}
 
   //DECONSTRUCTOR
-  virtual ~Simulation() {}
+  virtual ~Simulation() noexcept = default;
 
     /*
      * CALC_NEIGHBOR_2D
@@ -143,7 +143,7 @@ class Simulation : public Observable {
      * follows hexagonal adjacencies for an unfilled tube
     */
     CUDA_HOST CUDA_DEVICE
-    void calc_neighbor_2d(){
+    void calc_neighbor_2d() {
         for (dense::Natural i = 0; i < _cells_total; i++) {
 	        int adjacents[6];
 
@@ -225,11 +225,11 @@ class Simulation : public Observable {
 
     virtual void simulate_for(Real duration) = 0;
 
-    virtual dense::Real get_concentration(dense::Natural cell, specie_id species) const = 0;
+    virtual Real get_concentration(Natural cell, specie_id species) const = 0;
 
-    virtual dense::Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const = 0;
+    virtual Real get_concentration(Natural cell, specie_id species, Natural delay) const = 0;
 
-    virtual dense::Real calculate_neighbor_average(dense::Natural cell, specie_id specie, dense::Natural delay = 0) const = 0;
+    virtual Real calculate_neighbor_average(Natural cell, specie_id specie, Natural delay = 0) const = 0;
 
     void finalize() {
       for (Observer & subscriber : subscribers()) {
@@ -248,6 +248,8 @@ class Simulation : public Observable {
 
 };
 
+}
+
 
 template <typename T>
 bool dense::Context<T>::isValid() const {
@@ -265,7 +267,7 @@ Real dense::Context<T>::getRate(reaction_id reaction) const {
 }
 
 template <typename T>
-Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const{
+Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const {
     return owner()._cellParams[NUM_REACTIONS+delay_reaction][cell_];
 }
 

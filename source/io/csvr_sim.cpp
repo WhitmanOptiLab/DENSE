@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+namespace dense {
+
 CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName, specie_vec const& pcfSpecieVec) :
     csvr(pcfFileName), Simulation()
 {
@@ -92,4 +94,6 @@ void CSV_Streamed_Simulation::simulate_for (Real duration) {
     }
     iRate.clear();
   }
+}
+
 }

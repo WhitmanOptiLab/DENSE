@@ -8,7 +8,7 @@
 
 
 template<int N, class T>
-void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor, Real* factors_perturb, Real** factors_gradient) {
+void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor, Real* factors_perturb, Real** factors_gradient) {
 //    initialize();
     if (factors_perturb){
         for (int i = 0; i < N; i++) {
@@ -54,13 +54,13 @@ void cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real norm
 }
 
 template<int N, class T>
-void cell_param<N,T>:: initialize(){
+void dense::cell_param<N,T>:: initialize(){
     _width = _sim._cells_total;
     dealloc_array();
     allocate_array();
 }
 
-Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb, Real** factors_gradient) :
+dense::Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb, Real** factors_gradient) :
     Observable(), _width_total(width_total), _cells_total(cells_total),
     _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(std::move(ps)),
     _cellParams(*this, cells_total), _numNeighbors(new dense::Natural[cells_total])
@@ -94,7 +94,7 @@ bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, dou
 }
 */
 
-void Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {
+void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
   }
@@ -105,7 +105,7 @@ void Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient)
       public:
         DummyContext(std::vector<specie_id>& deps_to_fill) :
             deps(deps_to_fill) {};
-        Real getCon(specie_id species, int delay = 0) const {
+        Real getCon(specie_id species, int = 0) const {
             std::ptrdiff_t sp = static_cast<std::underlying_type<Species>::type>(species);
             deps_bitset.set(sp);
             return 0.0;
@@ -115,10 +115,10 @@ void Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient)
             deps_bitset.set(sp);
             return 0.0;
         };
-        Real getRate(reaction_id rid) const { return 0.0; };
-        Real getDelay(delay_reaction_id rid) const { return 0.0; };
-        Real getCritVal(critspecie_id crit) const { return 0.0; };
-        Real calculateNeighborAvg(specie_id species, int delay = 0) const {
+        Real getRate(reaction_id) const { return 0.0; };
+        Real getDelay(delay_reaction_id) const { return 0.0; };
+        Real getCritVal(critspecie_id) const { return 0.0; };
+        Real calculateNeighborAvg(specie_id species, int = 0) const {
             std::ptrdiff_t sp = static_cast<std::underlying_type<Species>::type>(species);
             deps_bitset.set(sp);
             return 0.0;

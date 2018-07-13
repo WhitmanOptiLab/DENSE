@@ -9,6 +9,8 @@
 #include <cfloat>
 #include <set>
 
+namespace dense {
+
 /*
  * SIMULATE
  * main simulation loop
@@ -181,7 +183,7 @@ void Stochastic_Simulation::initPropensityNetwork() {
       public:
         DependanceContext(std::set<specie_id>& neighbordeps_tofill,std::set<specie_id>& deps_tofill) :
             interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
-        Real getCon(specie_id sp, int delay=0) const {
+        Real getCon(specie_id sp, int = 0) const {
             intradeps_tofill.insert(sp);
             return 0.0;
         };
@@ -189,10 +191,10 @@ void Stochastic_Simulation::initPropensityNetwork() {
             intradeps_tofill.insert(sp);
             return 0.0;
         };
-        Real getRate(reaction_id rid) const { return 0.0; };
-        Real getDelay(delay_reaction_id rid) const { return 0.0; };
-        Real getCritVal(critspecie_id crit) const { return 0.0; };
-        Real calculateNeighborAvg(specie_id sp, int delay=0) const {
+        Real getRate(reaction_id) const { return 0.0; };
+        Real getDelay(delay_reaction_id) const { return 0.0; };
+        Real getCritVal(critspecie_id) const { return 0.0; };
+        Real calculateNeighborAvg(specie_id sp, int = 0) const {
             interdeps_tofill.insert(sp);
             return 0.0;
         };
@@ -240,4 +242,6 @@ void Stochastic_Simulation::initPropensityNetwork() {
     }
     #include "reactions_list.hpp"
     #undef REACTION
+}
+
 }

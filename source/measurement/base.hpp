@@ -7,6 +7,7 @@
 #include "sim/base.hpp"
 
 #include <memory>
+using dense::Simulation;
 
 /// Superclass for Analysis Objects
 /// - observes passed "Observable"

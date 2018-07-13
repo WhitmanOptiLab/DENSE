@@ -22,6 +22,9 @@
 	todo:
  */
 
+
+namespace dense {
+
 class Simulation_Set {
 
   public:
@@ -67,9 +70,12 @@ class Simulation_Set {
         }
     }
 
-    dense::Natural size() const {
+    Natural size() const {
       return _sim_set.size();
     }
 
 };
+
+}
+
 #endif

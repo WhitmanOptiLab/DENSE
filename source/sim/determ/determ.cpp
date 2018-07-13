@@ -5,7 +5,7 @@
 #include <iostream>
 #include <cassert>
 
-void Deterministic_Simulation::simulate_for (Real duration) {
+void dense::Deterministic_Simulation::simulate_for (Real duration) {
   assert(duration > 0 && t > 0 && _step_size > 0);
   dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / _step_size;
   for (dense::Natural s = 0; s < steps; ++s) {
@@ -14,7 +14,7 @@ void Deterministic_Simulation::simulate_for (Real duration) {
   t += duration;
 }
 
-void Deterministic_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
+void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
     for (int i=0; i< NUM_SPECIES; i++){
         auto curr_rate = rates[i];
         _baby_cl[i][1][cell] = _baby_cl[i][0][cell] + _step_size * curr_rate;
@@ -22,7 +22,7 @@ void Deterministic_Simulation::update_concentrations(dense::Natural cell, Specie
 }
 
 CUDA_HOST CUDA_DEVICE
-Deterministic_Simulation::SpecieRates Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
+dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(Context(this));
@@ -44,7 +44,7 @@ Deterministic_Simulation::SpecieRates Deterministic_Simulation::calculate_concen
     return specie_deltas;
 }
 
-void Deterministic_Simulation::step() {
+void dense::Deterministic_Simulation::step() {
     //concentration cl;
     //Rates rates;
     //int steps_elapsed = steps_split; // Used to determine when to split a column of cells
