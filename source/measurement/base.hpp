@@ -46,42 +46,4 @@ class Analysis : public Observer<Simulation> {
 
 };
 
-class Measurement {
-
-  using Collector = Analysis;
-
-};
-/*
-metrics have to be associated with parameter sets that came in
-
-there needs to be a list of metrics eventually, in standard format across the parameter_set s, aka a single score you can compare
-
-so metrics need to be the same across parameter sets
-
-you have to take the same measurements across all the simulations in order to compare them.
-which means you can\'t have measurements that use more than one simulation, because then simulations can\'t be judged in their own right.
-
-a metric is a methodology for judging a given experiment
-
-but there can be multiple measurements per simulation
-measurements can only be taken on a single simulation
-
--> simulation -> measurement -+
-                              |
--> simulation -> measurement -+->
-
-very beginning:
-- you have a group of measurements you want to take for each simulation
-- you have a metric you can apply
-
-- a metric describes what measurements to take and how to assess the results
-
-
-you start out with a population of Parameter_Sets
-
-
-*/
-
-
-
 #endif
