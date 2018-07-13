@@ -53,14 +53,13 @@ public:
 	* range: required local range of a peak or trough in minutes.
 	* specieID: specie to analyze.
 	*/
-	OscillationAnalysis(Simulation& observable, Real interval,
+	OscillationAnalysis(Real interval,
                         Real range, specie_vec const& pcfSpecieOption,
                         unsigned min_cell, unsigned max_cell,
                         Real start_time, Real end_time) :
             Analysis(pcfSpecieOption,min_cell,max_cell,start_time,end_time),
             range_steps(range/interval), analysis_interval(interval)
     {
-      subscribe_to(observable);
         for (std::size_t i = 0; i < observed_species_.size(); ++i)
         {
             windows.emplace_back();
@@ -107,12 +106,10 @@ class CorrelationAnalysis : public Analysis {
   public:
 
     CorrelationAnalysis(
-      Simulation* dLog,
       specie_vec const& pcfSpecieOption,
       unsigned min_cell, unsigned max_cell, Real start_time, Real end_time)
     : Analysis(pcfSpecieOption, min_cell, max_cell, start_time, end_time)
     {
-      subscribe_to(*dLog);
     }
 
     void update(dense::Context<>) override {

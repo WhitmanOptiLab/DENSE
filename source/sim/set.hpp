@@ -18,7 +18,6 @@
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
 	notes:
- There should be only one instance of simulation at any time.
 	todo:
  */
 
@@ -28,42 +27,41 @@ namespace dense {
 class Simulation_Set {
 
   public:
-    std::vector<Parameter_Set> const _ps;
-    std::vector<Simulation*> _sim_set;
-    Real total_time, analysis_interval;
-    Real* factors_pert;
-    Real** factors_grad;
 
-    Simulation_Set(std::vector<Parameter_Set> params,
+    std::vector<Simulation*> _sim_set;
+
+    Simulation_Set(std::vector<Parameter_Set> parameter_sets,
       Real** gradient_factors,
       Real* perturbation_factors,
       int cell_total, int total_width,
-      Real step_size, Real analysis_interval,
-      Real sim_time, int seed) :
-        _ps(params),
-        total_time{sim_time},
-        analysis_interval{analysis_interval},
-        factors_pert{perturbation_factors},
-        factors_grad{gradient_factors}
+      Real step_size, int seed)
     {
-            _sim_set.reserve(_ps.size());
-
-            // For each set, load data to _ps and _sim_set
-            for (Parameter_Set const& parameter_set : _ps) {
-                // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
-                if (step_size == 0.0) {
-                    _sim_set.push_back(
-                            new Stochastic_Simulation(parameter_set, factors_pert,
-                                factors_grad, cell_total, total_width, seed));
-                } else {
-                    _sim_set.push_back(
-                            new Deterministic_Simulation(parameter_set, factors_pert,
-                                factors_grad, cell_total, total_width, step_size));
-                }
-            }
+      // For each set, load data to _ps and _sim_set
+      reserve(parameter_sets.size());
+      for (Parameter_Set const& parameter_set : parameter_sets) {
+          // When init'ing a sim_set<sim_base>, have step_size be = to 0.0 so that sim_set can emplace_back correctly
+          if (step_size == 0.0) {
+            emplace<Stochastic_Simulation>(
+              parameter_set, perturbation_factors, gradient_factors, cell_total, total_width, seed);
+          } else {
+            emplace<Deterministic_Simulation>(
+              parameter_set, perturbation_factors, gradient_factors, cell_total, total_width, step_size);
+          }
+      }
     }
 
-    void simulate_sets() {
+    Simulation_Set() = default;
+
+    void reserve(std::ptrdiff_t new_capacity) {
+      _sim_set.reserve(new_capacity);
+    }
+
+    template <typename T, typename... Args>
+    void emplace(Args&&... args) {
+      _sim_set.push_back(new T(std::forward<Args>(args)...));
+    }
+
+    void simulate_sets(Real total_time, Real analysis_interval) {
         for (auto & set : _sim_set) {
             set->simulate(total_time, analysis_interval);
             set->finalize();
