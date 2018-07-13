@@ -20,30 +20,27 @@ namespace dense {
 */
 
 void Stochastic_Simulation::simulate_for (Real duration) {
-  littleT = 0;
-  while (littleT < duration) {
-    Real tau = generateTau();
+  Real end_time = t + duration;
+  while (t < end_time) {
+    Real tau;
 
-    if ((t + littleT + tau > getSoonestDelay()) && NUM_DELAY_REACTIONS > 0) {
+    while (t + (tau = generateTau()) > getSoonestDelay()) {
+      t = getSoonestDelay();
       executeDelayRXN();
-    } else {
-      tauLeap(tau);
+      if (t >= end_time) return;
     }
+
+    tauLeap();
+    t += tau;
   }
-  t += littleT;
 }
 
 /*
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-Real Stochastic_Simulation::generateTau(){
-	Context c(this);
-	Real propensity_sum = get_total_propensity();
-	Real u = getRandVariable();
-	Real tau = -(std::log(u))/propensity_sum;
-
-	return tau;
+Real Stochastic_Simulation::generateTau() {
+	return -std::log(getRandVariable()) / get_total_propensity();
 }
 
 /*
@@ -51,16 +48,10 @@ Real Stochastic_Simulation::generateTau(){
  * return "dTime": the time that the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
-Real Stochastic_Simulation::getSoonestDelay(){
-    Real dTime;
-    if (event_schedule.size()>0){
-	    event e = *event_schedule.begin();
-        dTime = e.time;
-    }
-    else{
-        dTime = std::numeric_limits<Real>::max();
-    }
-	return dTime;
+Real Stochastic_Simulation::getSoonestDelay() {
+  return event_schedule.empty() ?
+    std::numeric_limits<Real>::max() :
+    event_schedule.top().time;
 }
 
 /*
@@ -70,20 +61,16 @@ Real Stochastic_Simulation::getSoonestDelay(){
  * postcondition: the soonest scheduled delay reaction is removed from the schedule
 */
 void Stochastic_Simulation::executeDelayRXN(){
-	event delay_rxn = *event_schedule.begin();
-
-    Context c(this, delay_rxn.cell);
-	fireReaction(delay_rxn.cell,delay_rxn.rxn);
-
-    littleT = delay_rxn.time - t;
-
-    event_schedule.erase(delay_rxn);
+	event delay_rxn = event_schedule.top();
+	fireReaction(delay_rxn.cell, delay_rxn.rxn);
+  event_schedule.pop();
 }
 
 /*
  * GETRANDVARIABLE
  * return "u": a random variable between 0.0 and 1.0
 */
+
 Real Stochastic_Simulation::getRandVariable() {
 	static std::uniform_real_distribution<Real> distribution(0.0, 1.0);
 	return distribution(generator);
@@ -94,21 +81,15 @@ Real Stochastic_Simulation::getRandVariable() {
  * chooses a reaction to fire or schedule and moves forward in time
  * arg "tau": timestep to leap forward by
 */
-void Stochastic_Simulation::tauLeap(Real tau){
+void Stochastic_Simulation::tauLeap(){
 
-	Real u = getRandVariable();
-
-	Context context(this);
-
-	Real propensity_portion = u * get_total_propensity();
+	Real propensity_portion = getRandVariable() * get_total_propensity();
 
 	int j = choose_reaction(propensity_portion);
-	int r = j%NUM_REACTIONS;
-	int c = (j-r)/NUM_REACTIONS;
+	int r = j % NUM_REACTIONS;
+	int c = j / NUM_REACTIONS;
 
     fireOrSchedule(c,(reaction_id)r);
-
-    littleT+=tau;
 }
 
 /*
@@ -117,24 +98,15 @@ void Stochastic_Simulation::tauLeap(Real tau){
  * arg "c": the cell that the reaction takes place in
  * arg "rid": the reaction to fire or schedule
 */
-void Stochastic_Simulation::fireOrSchedule(int c, reaction_id rid){
+void Stochastic_Simulation::fireOrSchedule(int cell, reaction_id rid){
 
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
-	Context x(this,c);
-
-	if (dri!=NUM_DELAY_REACTIONS){
-		Real delay = x.getDelay(dri);
-
-		event futureRXN;
-		futureRXN.time = t + littleT + delay;
-		futureRXN.rxn = rid;
-		futureRXN.cell = c;
-
-		event_schedule.insert(futureRXN);
+	if (dri!=NUM_DELAY_REACTIONS) {
+		event_schedule.push({ t + Context(this, cell).getDelay(dri), cell, rid });
 	}
-	else{
-		fireReaction(c,rid);
+	else {
+		fireReaction(cell, rid);
 	}
 }
 
@@ -158,10 +130,12 @@ void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
  * sets the propensities of each reaction in each cell to its respective active
 */
 void Stochastic_Simulation::initPropensities(){
+   total_propensity_ = 0.0;
     for (dense::Natural c = 0; c < _cells_total; ++c) {
         Context ctxt(this,c);
         #define REACTION(name) \
-        propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));
+        propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
+        total_propensity_ += propensities[c].back();
         #include "reactions_list.hpp"
         #undef REACTION
     }
@@ -176,8 +150,6 @@ void Stochastic_Simulation::initPropensityNetwork() {
 
     std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
     std::set<specie_id> dependencies[NUM_REACTIONS];
-
-    using Context = dense::Context<Stochastic_Simulation>;
 
     class DependanceContext {
       public:

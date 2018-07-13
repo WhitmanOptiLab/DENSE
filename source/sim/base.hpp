@@ -240,6 +240,10 @@ class Simulation : public Observable<Simulation> {
       }
     }
 
+    bool was_aborted() const noexcept {
+      return abort_signaled;
+    }
+
   protected:
 
     void calc_max_delays(Real*, Real**);
