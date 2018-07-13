@@ -12,6 +12,10 @@ class model{
 public:
     model() = delete;
 
+    #define REACTION(name) static CUDA_MANAGED reaction<name> reaction_##name;
+    #include "reactions_list.hpp"
+    #undef REACTION
+
     static delay_reaction_id getDelayReactionId(reaction_id rid) {
         switch (rid) {
             #define REACTION(name)
@@ -34,9 +38,17 @@ public:
         }
     }
 
-    #define REACTION(name) static CUDA_MANAGED reaction<name> reaction_##name;
-    #include "reactions_list.hpp"
-    #undef REACTION
+    template <typename T>
+    static Real active_rate(reaction_id id, T context) {
+      switch (id) {
+        #define REACTION(name)\
+          case name: return reaction_##name.active_rate(context);
+        #include "reactions_list.hpp"
+        #undef REACTION
+        default: throw std::out_of_range("Invalid reaction ID: " + std::to_string(static_cast<unsigned>(id)));
+      }
+    }
+
 };
 
 }
