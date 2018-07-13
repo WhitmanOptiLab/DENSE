@@ -12,6 +12,8 @@
 #include <set>
 #include <random>
 
+namespace dense {
+
 /*
  * STOCHASTIC SIMULATOR:
  * superclasses: simulation_base, Observable
@@ -83,9 +85,6 @@ class Stochastic_Simulation : public Simulation {
       initPropensities();
     }
 
-    //Deconstructor
-    virtual ~Stochastic_Simulation() {}
-
     void simulate_for(Real duration) override final;
 
     Real get_concentration (dense::Natural cell, specie_id species) const override final {
@@ -93,6 +92,7 @@ class Stochastic_Simulation : public Simulation {
     }
 
     Real get_concentration (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+      (void)delay;
       return get_concentration(cell, species);
     }
 
@@ -181,6 +181,7 @@ class Stochastic_Simulation : public Simulation {
    * returns "avg": average concentration of specie in current and neighboring cells
   */
   Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+    (void)delay;
     Real sum = 0;
     for (dense::Natural i = 0; i < _numNeighbors[cell]; ++i) {
         sum += concs[_neighbors[cell][i]][species];
@@ -190,4 +191,6 @@ class Stochastic_Simulation : public Simulation {
   }
 
 };
+
+}
 #endif

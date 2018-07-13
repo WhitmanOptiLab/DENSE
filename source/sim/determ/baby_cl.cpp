@@ -1,7 +1,7 @@
 #include "baby_cl.hpp"
 #include "determ.hpp"
 
-void baby_cl::initialize(){
+void dense::baby_cl::initialize(){
     unsigned sum = 0;
     for (int i = 0; i < NUM_SPECIES; i++) {
         _specie_size[i] = (_sim.max_delays[i] / _sim._step_size) + _sim._num_history_steps;

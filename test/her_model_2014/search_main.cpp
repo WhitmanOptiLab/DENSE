@@ -44,6 +44,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include <ctime>
 
 using namespace std;
+using dense::Simulation_Set;
 using style::Color;
 
 int printing_precision = 6;

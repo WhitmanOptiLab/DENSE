@@ -9,6 +9,7 @@
 #include <map>
 #include <vector>
 
+namespace dense {
 
 class CSV_Streamed_Simulation : public csvr, public Simulation // <- order important here; csvr must be initialized before Simulation
 {
@@ -40,5 +41,7 @@ private:
     int iCellStart, iCellEnd;
       std::vector<std::map<specie_id, Real>> iRate;
 };
+
+}
 
 #endif

@@ -2,6 +2,7 @@
 
 #include <string>
 
+namespace dense {
 
 csvw_sim::csvw_sim(std::string const& pcfFileName, Real const& pcfTimeInterval,
         Real const& pcfTimeStart, Real const& pcfTimeEnd,
@@ -87,4 +88,6 @@ void csvw_sim::update(dense::Context<> pfStart)
         csvw::add_div("\n");
     }
     ilTime += icTimeInterval;
+}
+
 }
