@@ -44,66 +44,60 @@ std::string xml_child_text(ezxml_t xml, char const* name, std::string default_ =
   return child == nullptr ? default_ : child->txt;
 }
 
+void display_usage(std::ostream& out) {
+  auto yellow = style::apply(Color::yellow);
+  auto green = style::apply(Color::green);
+  out <<
+    yellow << "[-h | --help | --usage]         " <<
+    green << "Print information about program's various command line arguments.\n" <<
+    yellow << "[-n | --no-color]               " <<
+    green << "Disable color in the terminal.\n" <<
+    yellow << "[-p | --param-sets]    <string> " <<
+    green << "Relative file location and name of the parameter sets csv, e.g. '../param_sets.csv'.\n" <<
+    yellow << "[-g | --gradients]     <string> " <<
+    green << "Enables gradients and specifies the relative file location and name of the gradients csv, e.g. '../param_grad.csv'.\n" <<
+    yellow << "[-b | --perturbations] <string> " <<
+    green << "Enables perturbations and specifies the relative file location and name of the perturbations csv, e.g. '../param_pert.csv'.\n" <<
+    yellow << "[-b|--perturbations]     <Real> " <<
+    green << "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. "
+      "The [-b | --perturb] flag itself is identical to the <string> version; "
+      "the program automatically detects whether it is in the format of a file or a real number.\n" <<
+    yellow << "[-e | --data-export]   <string> " <<
+    green << "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example.\n" <<
+    yellow << "[-o | --specie-option] <string> " <<
+    green << "Specify which species the logged data csv should output. This argument is only useful if [-e | --data-export] is being used. "
+      "Not including this argument makes the program by default output/analyze all species. "
+      "IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and separate the species using commas. "
+      "For example, \"alpha, bravo, charlie\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." <<
+    yellow << "[-i | --data-import]   <string> " <<
+    green << "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis.\n" <<
+    yellow << "[-a | --analysis]      <string> " <<
+    green << "Relative file location and name of the analysis config xml file. \"../analyses.xml\", for example. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS.\n" <<
+    yellow << "[-c | --cell-total]       <int> " <<
+    green << "Total number of cells to simulate.\n" <<
+    yellow << "[-w | --tissue-width]      <int> " <<
+    green << "Width of tissue to simulate. Height is inferred by c/w.\n" <<
+    yellow << "[-r | --rand-seed]        <int> " <<
+    green << "Set the stochastic simulation's random number generator seed.\n" <<
+    yellow << "[-s | --step-size]       <Real> " <<
+    green << "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC.\n" <<
+    yellow << "[-t | --time-total]       <int> " <<
+    green << "Amount of simulated minutes the simulation should execute.\n" <<
+    yellow << "[-u | --anlys-intvl]     <Real> " <<
+    green << "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.\n" <<
+    yellow << "[-v | --time-col]        <bool> " <<
+    green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
+    yellow << "[-N | --test-run]        <bool> " <<
+    green << "Enables running a simulation without output for performance testing.\n" << style::reset();
+}
+
 int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
-  style::enable(!arg_parse::get<bool>("n", "no-color", nullptr, false));
+  using style::Mode;
+  style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
 
   if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1) {
-    // # Display all possible command line arguments with descriptions
-    std::cout << style::apply(Color::yellow) <<
-      "[-h | --help | --usage]         " << style::apply(Color::green) <<
-      "Print information about program's various command line arguments." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-n | --no-color]               " << style::apply(Color::green) <<
-      "Disable color in the terminal." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-p | --param-sets]    <string> " << style::apply(Color::green) <<
-      "Relative file location and name of the parameter sets csv. \"../param_sets.csv\", for example." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-g | --gradients]     <string> " << style::apply(Color::green) <<
-      "Enables gradients and specifies the relative file location and name of the gradients csv. \"../param_grad.csv\", for example." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-b | --perturbations] <string> " << style::apply(Color::green) <<
-      "Enables perturbations and specifies the relative file location and name of the perturbations csv. \"../param_pert.csv\", for example." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-b|--perturbations]     <Real> " << style::apply(Color::green) <<
-      "Enables perturbations and specifies a global perturbation factor to be applied to ALL reactions. The [-b | --perturb] flag itself is identical to the <string> version; the program automatically detects whether it is in the format of a file or a Real." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-e | --data-export]   <string> " << style::apply(Color::green) <<
-      "Relative file location and name of the output of the logged data csv. \"../data_out.csv\", for example." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-o | --specie-option] <string> " << style::apply(Color::green) <<
-      "Specify which species the logged data csv should output. This argument is only useful if [-e | --data-export] is being used. Not including this argument makes the program by default output/analyze all species. IF MORE THAN ONE BUT NOT ALL SPECIES ARE DESIRED, enclose the argument in quotation marks and seperate the species using commas. For example, \"alpha, bravo, charlie\", including quotation marks. If only one specie is desired, no commas or quotation marks are necessary." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-i | --data-import]   <string> " << style::apply(Color::green) <<
-      "Relative file location and name of csv data to import into the analyses. \"../data_in.csv\", for example. Using this flag runs only analysis." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-a | --analysis]      <string> " << style::apply(Color::green) <<
-      "Relative file location and name of the analysis config xml file. \"../analyses.xml\", for example. USING THIS ARGUMENT IMPLICITLY TOGGLES ANALYSIS." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-c | --cell-total]       <int> " << style::apply(Color::green) <<
-      "Total number of cells to simulate." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-w | --tissue-width]      <int> " << style::apply(Color::green) <<
-      "Width of tissue to simulate. Height is inferred by c/w." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-r | --rand-seed]        <int> " << style::apply(Color::green) <<
-      "Set the stochastic simulation's random number generator seed." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-s | --step-size]       <Real> " << style::apply(Color::green) <<
-      "Time increment by which the deterministic simulation progresses. USING THIS ARGUMENT IMPLICITLY SWITCHES THE SIMULATION FROM STOCHASTIC TO DETERMINISTIC." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-t | --time-total]       <int> " << style::apply(Color::green) <<
-      "Amount of simulated minutes the simulation should execute." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-u | --anlys-intvl]     <Real> " << style::apply(Color::green) <<
-      "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-v | --time-col]        <bool> " << style::apply(Color::green) <<
-      "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval." << style::reset() << '\n';
-    std::cout << style::apply(Color::yellow) <<
-      "[-N | --test-run]        <bool> " << style::apply(Color::green) <<
-      "Enables running a simulation without output for performance testing." << style::reset() << '\n';
+    display_usage(std::cout);
     return EXIT_SUCCESS;
   }
   // Ambiguous "simulators" will either be a real simulations or input file
