@@ -54,6 +54,9 @@ class Simulation;
     CUDA_HOST CUDA_DEVICE
     Real getDelay(delay_reaction_id delay_reaction) const;
 
+    CUDA_HOST CUDA_DEVICE
+    Real time() const;
+
   private:
 
     CUDA_HOST CUDA_DEVICE
@@ -73,7 +76,7 @@ class Simulation;
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
 */
-class Simulation : public Observable {
+class Simulation : public Observable<Simulation> {
 
   public:
 
@@ -232,7 +235,7 @@ class Simulation : public Observable {
     virtual Real calculate_neighbor_average(Natural cell, specie_id specie, Natural delay = 0) const = 0;
 
     void finalize() {
-      for (Observer & subscriber : subscribers()) {
+      for (Observer<Simulation> & subscriber : subscribers()) {
         subscriber.unsubscribe_from(*this);
       }
     }
@@ -254,6 +257,11 @@ class Simulation : public Observable {
 template <typename T>
 bool dense::Context<T>::isValid() const {
   return cell_ < owner()._cells_total;
+}
+
+template <typename T>
+Real dense::Context<T>::time() const {
+  return owner().t;
 }
 
 template <typename T>

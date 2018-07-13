@@ -12,7 +12,7 @@ class ConcentrationCheck : public Analysis {
 
   public:
     ConcentrationCheck (
-      Observable & observable,
+      Simulation& observable,
       unsigned min_cell, unsigned max_cell,
       Real lowerB, Real upperB,
       Real start_time, Real end_time,
