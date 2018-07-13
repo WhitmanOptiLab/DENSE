@@ -9,6 +9,8 @@
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 
+using style::Color;
+
 #include <cstdlib>
 #include <ctime>
 #include <memory>

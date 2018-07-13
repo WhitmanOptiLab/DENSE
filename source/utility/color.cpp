@@ -4,22 +4,18 @@
 namespace style {
 
   namespace {
-    bool is_enabled = true;
-  }
-
-  void enable (bool value) noexcept {
-    is_enabled = value;
-  }
-
-  void disable () noexcept {
-    enable(false);
+    Mode mode = Mode::force;
   }
 
   std::string apply (Color c) {
-    return is_enabled ? std::string("\x1b[3") + static_cast<char>(c) + 'm' : "";
+    return mode == Mode::force ? std::string("\x1b[3") + get_color_code(c) + 'm' : "";
   }
 
   std::string reset () {
-    return is_enabled ? "\x1b[0m" : "";
+    return mode == Mode::force ? "\x1b[0m" : "";
+  }
+
+  void configure(Mode mode) noexcept {
+    style::mode = mode;
   }
 }

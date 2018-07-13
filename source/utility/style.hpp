@@ -7,20 +7,22 @@
 
 namespace style {
 
-  enum class Color : char {
-    black = '0', red, green, yellow, blue, magenta, cyan, white, initial = '9'
+  enum class Color : int_fast8_t {
+    black, red, green, yellow, blue, magenta, cyan, white, initial
   };
 
-  void enable (bool value = true) noexcept;
-
-  void disable() noexcept;
+  constexpr char get_color_code(Color color) noexcept {
+    return "012345679"[static_cast<int_fast8_t>(color)];
+  }
 
   std::string apply (Color c);
 
   std::string reset();
 
-}
+  enum class Mode : int_fast8_t { disable, detect, force };
 
-using Color = style::Color;
+  void configure(Mode) noexcept;
+
+}
 
 #endif // COLOR_HPP

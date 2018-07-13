@@ -4,6 +4,8 @@
 #include "core/specie.hpp"
 #include "utility/numerics.hpp"
 
+using style::Color;
+
 #include <iostream>
 #include <vector>
 
