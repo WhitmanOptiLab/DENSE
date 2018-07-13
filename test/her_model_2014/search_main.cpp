@@ -43,30 +43,31 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include <cstdlib>
 #include <ctime>
 
-using namespace std;
 using dense::Simulation_Set;
 using style::Color;
 
 int printing_precision = 6;
 
-std::vector<double> her2014_scorer (const vector<Parameter_Set>& population) {
+std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population) {
   //Create mutants
 
   //Create simulations
-  Simulation_Set(population,
+  Simulation_Set set(population,
                  parse_gradients("", 0), parse_perturbations(""),
                  arg_parse::get<int>("c", "cell-total", 200),
                  arg_parse::get<int>("w", "tissue_width", 50),
                  arg_parse::get<RATETYPE>("s", "step-size", 0.01),
-                 arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01),
-                 arg_parse::get<int>("t", "time-total", 600),
                  arg_parse::get<int>("r", "rand-seed", std::time(nullptr))
                 );
+
+
+Real analysis_interval = arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01);
+Real total_time = arg_parse::get<int>("t", "time-total", 600);
 
   //Create analyses
 
   //Run simulation
-  std::cout << "Running simulations!" << endl;
+  std::cout << "Running simulations!\n";
 
   //Calculate scores
   std::vector<double> scores;
@@ -93,26 +94,23 @@ int main (int argc, char** argv) {
   arg_parse::init(argc, argv);
 
   if (arg_parse::get<bool>("h", "help", false) || arg_parse::get<bool>("H", "usage", false) || argc == 1) {
-    cout << style::apply(Color::yellow) <<
+    std::cout << style::apply(Color::yellow) <<
       "[-h | --help | --usage]         " << style::apply(Color::green) <<
-      "Print information about program's various command line arguments."
-      << style::reset() << endl;
-    cout << style::apply(Color::yellow) <<
+      "Print information about program's various command line arguments.\n"
+      << style::reset();
+    std::cout << style::apply(Color::yellow) <<
       "[-b | --param-bounds]   <string>" << style::apply(Color::green) <<
-      "Path to file for lower and upper bounds"
-      << style::reset() << endl;
-    cout << style::apply(Color::yellow) <<
+      "Path to file for lower and upper bounds\n"
+      << style::reset();
+    std::cout << style::apply(Color::yellow) <<
       "[-p | --population]        <int>" << style::apply(Color::green) <<
-      "Size of a population"
-      << style::reset() << endl;
-    cout << style::apply(Color::yellow) <<
+      "Size of a population\n" << style::reset();
+    std::cout << style::apply(Color::yellow) <<
       "[-m | --miu | --parents] <int>" << style::apply(Color::green) <<
-      "Size of the parent set between generations"
-      << style::reset() << endl;
-    cout << style::apply(Color::yellow) <<
+      "Size of the parent set between generations\n" << style::reset();
+    std::cout << style::apply(Color::yellow) <<
       "[-n | --num-generations]   <int>" << style::apply(Color::green) <<
-      "Number of generations"
-      << style::reset() << endl;
+      "Number of generations\n" << style::reset();
     return 0;
   }
   int popc = arg_parse::get<int>("p", "population", 400);
@@ -121,10 +119,10 @@ int main (int argc, char** argv) {
 
   std::string boundsfile;
 
-  if (!arg_parse::get<string>("b", "param-bounds", &boundsfile, true)) {
+  if (!arg_parse::get<std::string>("b", "param-bounds", &boundsfile, true)) {
     return -1;
   }
-  std::cout << boundsfile << endl;
+  std::cout << boundsfile << '\n';
 
   csvr csv_in(boundsfile);
 
