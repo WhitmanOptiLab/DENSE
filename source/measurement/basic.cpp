@@ -20,7 +20,7 @@ BasicAnalysis::BasicAnalysis (
 }
 
 void BasicAnalysis::update (dense::Context<> begin) {
-  for (unsigned cell_no = min; cell_no < max; ++cell_no) {
+  for (unsigned cell_no = min; cell_no < max && begin.isValid(); ++cell_no) {
     for (std::size_t i = 0; i < observed_species_.size(); ++i) {
   		Real concentration = begin.getCon(observed_species_[i]);
       mins[i] = std::min(concentration, mins[i]);
