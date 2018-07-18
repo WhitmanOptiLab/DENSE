@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
           Real step_size = arg_parse::get<Real>("s", "step-size", 0.0);
           int seed = 0;
           if (step_size == 0.0) {
-            if (!arg_parse.get<int>("r", "rand-seed", &seed, false)) {
+            if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
               seed = std::random_device()();
             }
             // Warn user that they are not running deterministic sim
