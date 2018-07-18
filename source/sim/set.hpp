@@ -61,13 +61,6 @@ class Simulation_Set {
       _sim_set.push_back(new T(std::forward<Args>(args)...));
     }
 
-    void simulate_sets(Real total_time, Real analysis_interval) {
-        for (auto & set : _sim_set) {
-            set->simulate(total_time, analysis_interval);
-            set->finalize();
-        }
-    }
-
     Natural size() const {
       return _sim_set.size();
     }
