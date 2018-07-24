@@ -6,18 +6,55 @@
 
 using style::Color;
 
-#include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <cmath>
+#include <unordered_map>
 
-specie_vec str_to_species(std::string pSpecies)
+namespace {
+
+  std::unordered_map<std::string, Species> const species_by_name = {
+    #define SPECIE(NAME) { #NAME, Species::NAME },
+    #include "specie_list.hpp"
+    #undef SPECIE
+  };
+
+}
+
+Species get_species_by_name (std::string const& name) {
+  auto i = species_by_name.find(name);
+  if (i == species_by_name.end()) {
+    throw std::out_of_range("Invalid species: " + name);
+  }
+
+  return (*i).second;
+}
+
+std::vector<Species> str_to_species(std::string pSpecies)
 {
+  std::vector<Species> result;
+  if (pSpecies == "*" || pSpecies == "" || pSpecies == "all") {
+    result.resize(Species::size);
+    std::size_t i = 0;
+    for (auto& species : result) {
+      species = static_cast<Species>(i++);
+    }
+  } else {
+    std::istringstream stream(pSpecies);
+    std::string token;
+    while (std::getline(stream, token, ',')) {
+      token.erase(0, token.find_first_not_of(' '));
+      token.erase(token.find_last_not_of(' '));
+      result.push_back(get_species_by_name(token));
+    }
+  }
+  return result;/*
     pSpecies = "," + pSpecies + ",";
     pSpecies.erase(
             std::remove(pSpecies.begin(), pSpecies.end(), ' '),
             pSpecies.end() );
 
-    specie_vec rVec;
+    std::vector<Species> rVec;
     rVec.reserve(NUM_SPECIES);
     for (unsigned int i = 0; i < NUM_SPECIES; i++)
     {
@@ -28,7 +65,7 @@ specie_vec str_to_species(std::string pSpecies)
         }
     }
 
-    return rVec;
+    return rVec;*/
 }
 
 
