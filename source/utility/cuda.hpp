@@ -25,16 +25,6 @@ class CUDA_Array {
  public:
 
   CUDA_HOST CUDA_DEVICE
-  CUDA_Array() : data_{} {}
-
-  CUDA_HOST CUDA_DEVICE
-  CUDA_Array(T const& value) {
-    for (auto& x : data_) {
-      x = value;
-    }
-  }
-
-  CUDA_HOST CUDA_DEVICE
   T* begin() { return data_; }
 
   CUDA_HOST CUDA_DEVICE
@@ -56,7 +46,7 @@ class CUDA_Array {
     return data_[i];
   };
 
-  private:
+  public:
 
     T data_[size];
 
