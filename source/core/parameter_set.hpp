@@ -52,6 +52,16 @@ class Parameter_Set {
     return true;
   }
 
+  friend std::istream& operator>> (std::istream& in, Parameter_Set& parameter_set) {
+    for (auto & parameter : parameter_set) {
+      if (!csvr::get_real(in, &parameter)) {
+        in.setstate(std::ios_base::failbit);
+        break;
+      }
+    }
+    return in;
+  }
+
   void printall() const
   {
     for (unsigned int i = 0; i < NUM_CRITICAL_SPECIES; ++i)
