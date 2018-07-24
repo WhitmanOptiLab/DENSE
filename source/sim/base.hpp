@@ -10,6 +10,8 @@
 #include "core/reaction.hpp"
 #include <vector>
 #include <iostream>
+  #include <initializer_list>
+  #include <algorithm>
 
 namespace dense {
 
@@ -70,13 +72,14 @@ class Simulation;
 
   };
 
+
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
 /* SIMULATION_BASE
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
 */
-class Simulation : public Observable<Simulation> {
+class Simulation {
 
   public:
 
@@ -137,9 +140,6 @@ class Simulation : public Observable<Simulation> {
 
   Simulation() : Simulation(Parameter_Set(), 0, 0) {}
 
-  //DECONSTRUCTOR
-  virtual ~Simulation() noexcept = default;
-
     /*
      * CALC_NEIGHBOR_2D
      * populates the data structure "_neighbors" with cell indices of neighbors
@@ -147,82 +147,30 @@ class Simulation : public Observable<Simulation> {
     */
     CUDA_HOST CUDA_DEVICE
     void calc_neighbor_2d() {
-        for (dense::Natural i = 0; i < _cells_total; i++) {
-	        int adjacents[6];
+      for (dense::Natural i = 0; i < _cells_total; ++i) {
+        bool is_former_edge = i % _width_total == 0;
+        bool is_latter_edge = (i + 1) % _width_total == 0;
+        bool is_even = i % 2 == 0;
+        auto la = (is_former_edge || !is_even) ? _width_total - 1 : -1;
+        auto ra = !(is_latter_edge || is_even) ? _width_total + 1 :  1;
 
-            /* Hexagonal Adjacencies
-            0: TOP
-            1: TOP-RIGHT
-            2: BOTTOM-RIGHT
-            3: BOTTOM
-            4: TOP-LEFT
-            5: BOTTOM-LEFT
-            */
-            if (i % 2 == 0) {
-                adjacents[0] = (_cells_total + i - _width_total) % _cells_total;
-                adjacents[1] = (_cells_total + i - _width_total + 1) % _cells_total;
-                adjacents[2] = (i + 1) % _cells_total;
-                adjacents[3] = (i + _width_total) % _cells_total;
-                if (i % _width_total == 0) {
-                    adjacents[4] = i + _width_total - 1;
-                    adjacents[5] = (_cells_total + i - 1) % _cells_total;
-                } else {
-                    adjacents[4] = i - 1;
-                    adjacents[5] = (_cells_total + i - _width_total - 1) % _cells_total;
-                }
-            } else {
-                adjacents[0] = (_cells_total + i - _width_total) % _cells_total;
-                if (i % _width_total == _width_total - 1) {
-                    adjacents[1] = i - _width_total + 1;
-                    adjacents[2] = (i + 1) % _cells_total;
-                } else {
-                    adjacents[1] = i + 1;
-                    adjacents[2] = (_cells_total + i + _width_total + 1) % _cells_total;
-                }
-                adjacents[3] = (i + _width_total) % _cells_total;
-                adjacents[4] = (i + _width_total - 1) % _cells_total;
-                adjacents[5] = (_cells_total + i - 1) % _cells_total;
-            }
+        auto top          = (i - _width_total      + _cells_total) % _cells_total;
+        auto bottom       = (i + _width_total                    ) % _cells_total;
+        auto bottom_right = (i                + ra               ) % _cells_total;
+        auto top_left     = (i                + la               ) % _cells_total;
+        auto top_right    = (i - _width_total + ra + _cells_total) % _cells_total;
+        auto bottom_left  = (i - _width_total + la + _cells_total) % _cells_total;
 
-            if (i % _width_total == 0) {
-                _neighbors[i][0] = adjacents[0];
-                _neighbors[i][1] = adjacents[1];
-                _neighbors[i][2] = adjacents[4];
-                _neighbors[i][3] = adjacents[5];
-                _numNeighbors[i] = 4;
-    	    } else if ((i + 1) % _width_total == 0) {
-                _neighbors[i][0] = adjacents[0];
-                _neighbors[i][1] = adjacents[1];
-                _neighbors[i][2] = adjacents[2];
-                _neighbors[i][3] = adjacents[3];
-                _numNeighbors[i] = 4;
-            } else {
-                _neighbors[i][0] = adjacents[0];
-                _neighbors[i][1] = adjacents[1];
-                _neighbors[i][2] = adjacents[2];
-                _neighbors[i][3] = adjacents[3];
-                _neighbors[i][4] = adjacents[4];
-                _neighbors[i][5] = adjacents[5];
-                _numNeighbors[i] = 6;
-            }
+        if (is_former_edge) {
+          _neighbors[i] = { top, top_right, top_left, bottom_left };
+          _numNeighbors[i] = 4;
+        } else if (is_latter_edge) {
+          _neighbors[i] = { top, top_right, bottom_right, bottom };
+          _numNeighbors[i] = 4;
+        } else {
+          _neighbors[i] = { top, top_right, bottom_right, bottom, top_left, bottom_left };
+          _numNeighbors[i] = 6;
         }
-    }
-
-    void simulate(Real duration, Real notify_interval) {
-      Real analysis_chunks = duration / notify_interval;
-      int notifications_per_min = 1.0 / notify_interval;
-
-      for (int a = 0; a < analysis_chunks; a++) {
-        notify();
-
-        if (abort_signaled) {
-            break;
-        }
-
-        simulate_for(notify_interval);
-
-        if (a % notifications_per_min == 0)
-          std::cout << "Time: " << t << '\n';
       }
     }
 
@@ -234,24 +182,22 @@ class Simulation : public Observable<Simulation> {
 
     virtual Real calculate_neighbor_average(Natural cell, specie_id specie, Natural delay = 0) const = 0;
 
-    void finalize() {
-      for (Observer<Simulation> & subscriber : subscribers()) {
-        subscriber.unsubscribe_from(*this);
-      }
-    }
-
     bool was_aborted() const noexcept {
       return abort_signaled;
     }
+
+    // Called by Observer in update
+    void abort() noexcept { abort_signaled = true; }
 
   protected:
 
     void calc_max_delays(Real*, Real**);
 
-    bool abort_signaled = false;
+    ~Simulation() noexcept = default;
 
-    // Called by Observer in update
-    void abort() { abort_signaled = true; }
+  private:
+
+    bool abort_signaled = false;
 
 };
 

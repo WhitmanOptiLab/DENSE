@@ -12,9 +12,6 @@ function(SIMCORELIB localname simdir)
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
-          ${PROJECT_SOURCE_DIR}/source/measurement/base.cpp
-          ${PROJECT_SOURCE_DIR}/source/measurement/basic.cpp
-          ${PROJECT_SOURCE_DIR}/source/measurement/oscillation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
@@ -27,7 +24,6 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/csvw_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
 
     target_include_directories(${localname} PUBLIC ${simdir})
