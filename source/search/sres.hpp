@@ -34,6 +34,7 @@ sres.hpp contains function declarations for sres.cpp.
 #endif
 
 #include <cassert>
+#include <vector>
 
 class SRES {
  public:
