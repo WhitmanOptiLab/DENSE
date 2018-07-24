@@ -4,9 +4,12 @@
 #include "core/specie.hpp"
 #include "utility/numerics.hpp"
 #include <memory>
+#include <vector>
 
-// converts comma-separated list of specie names to specie_vec
-specie_vec str_to_species(std::string pcfSpecies);
+Species get_species_by_name (std::string const& name);
+
+// converts comma-separated list of specie names to std::vector<Species>
+std::vector<Species> str_to_species(std::string pcfSpecies);
 Real* parse_perturbations(std::string const& file_name);
 Real** parse_gradients(std::string const& file_name, int width);
 
