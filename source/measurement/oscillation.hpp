@@ -14,7 +14,8 @@
 * - calculates average amplitude of oscillations per cell
 * - calculates average period of oscillations per cell
 */
-class OscillationAnalysis : public Analysis {
+template <typename Simulation>
+class OscillationAnalysis : public Analysis<Simulation> {
 
 private:
 	struct crit_point {
@@ -39,9 +40,9 @@ private:
 	std::vector<std::vector<Real>> amplitudes;
 	std::vector<std::vector<Real>> periods;
 
-    // s: specie_vec index
+    // s: std::vector<Species> index
 	void addCritPoint(int s, int context, bool isPeak, Real minute, Real concentration);
-	void get_peaks_and_troughs(dense::Context<> const& start, int c);
+	void get_peaks_and_troughs(dense::Context<Simulation> const& start, int c);
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
 
@@ -54,31 +55,20 @@ public:
 	* specieID: specie to analyze.
 	*/
 	OscillationAnalysis(Real interval,
-                        Real range, specie_vec const& pcfSpecieOption,
-                        unsigned min_cell, unsigned max_cell,
-                        Real start_time, Real end_time) :
-            Analysis(pcfSpecieOption,min_cell,max_cell,start_time,end_time),
+                        Real range, std::vector<Species> const& pcfSpecieOption,
+                        std::pair<dense::Natural, dense::Natural> cell_range,
+                        std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }) :
+            Analysis<Simulation>(pcfSpecieOption, cell_range, time_range),
             range_steps(range/interval), analysis_interval(interval)
     {
-        for (std::size_t i = 0; i < observed_species_.size(); ++i)
+        auto cell_count = Analysis<>::max - Analysis<>::min;
+        for (std::size_t i = 0; i < Analysis<>::observed_species_.size(); ++i)
         {
-            windows.emplace_back();
-            peaksAndTroughs.emplace_back();
-            bst.emplace_back();
-            amplitudes.emplace_back();
-            periods.emplace_back();
-            for (unsigned c = min; c < max; ++c){
-                Queue<Real> q(range_steps);
-                std::vector<crit_point> v;
-                std::multiset<Real> BST;
-
-                windows[i].push_back(q);
-                peaksAndTroughs[i].push_back(v);
-                bst[i].push_back(BST);
-
-                amplitudes[i].push_back(0);
-                periods[i].push_back(0);
-            }
+            windows.emplace_back(cell_count, Queue<Real>(range_steps));
+            peaksAndTroughs.emplace_back(cell_count);
+            bst.emplace_back(cell_count);
+            amplitudes.emplace_back(cell_count, 0.0);
+            periods.emplace_back(cell_count, 0.0);
         }
 	}
 
@@ -92,30 +82,39 @@ public:
 	* - postcondition: start.isValid() is false.
 	* - update is overloaded virtual function of Observer
 	*/
-	void update (dense::Context<>) override;
+	void update (Simulation& simulation, std::ostream& log) override;
 
 	//Finalize: called by observable to signal end of data
 	// - generates peaks and troughs in final slice of data.
 	void finalize () override;
 
   void show (csvw * = nullptr) override;
+
+  OscillationAnalysis* clone() const override {
+    return new auto(*this);
+  }
+
 };
 
-class CorrelationAnalysis : public Analysis {
+template <typename Simulation>
+class CorrelationAnalysis : public Analysis<Simulation> {
 
   public:
 
     CorrelationAnalysis(
-      specie_vec const& pcfSpecieOption,
-      unsigned min_cell, unsigned max_cell, Real start_time, Real end_time)
-    : Analysis(pcfSpecieOption, min_cell, max_cell, start_time, end_time)
+      std::vector<Species> const& pcfSpecieOption,
+  std::pair<dense::Natural, dense::Natural> cell_range,
+  std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() })
+    : Analysis<Simulation>(pcfSpecieOption, cell_range, time_range)
     {
     }
 
-    void update(dense::Context<>) override {
+    void update(Simulation& simulation, std::ostream&) override {
     }
 
     bool pearsonCorrelate();
 };
+
+#include "oscillation.ipp"
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "base.hpp"
 #include "core/context.hpp"
+#include "bad_simulation_error.hpp"
 
 class ConcentrationCheck : public Analysis {
 
@@ -22,24 +23,32 @@ class ConcentrationCheck : public Analysis {
       target_specie(t_specie) {
     };
 
-    void update (dense::Context & start) override {
-        for (unsigned c = min; c < max; ++c) {
-            if (target_specie > -1) {
-                Real concentration = start.getCon(target_specie);
-                if (con < lower_bound || con > upper_bound) {
-                    subject->abort();
-                }
-            } else {
-                for (unsigned s = 0; s < NUM_SPECIES; ++s){
-                    Real con = start.getCon((specie_id) s);
-                    if (con<lower_bound || con>upper_bound) {
-                        subject->abort();
-                    }
-                }
+    void update(Simulation & start, std::ostream&) override {
+      dense::Context<> begin { &simulation, min };
+      for (unsigned c = min; c < max; ++c) {
+        if (target_specie > -1) {
+          Real concentration = start.getCon(target_specie);
+          if (con < lower_bound || con > upper_bound) {
+            throw dense::Bad_Simulation_Error("Concentration out of bounds: [" +
+              specie_str[target_specie] + "] = " + std::to_string(con), start);
+          }
+        } else {
+          for (unsigned s = 0; s < NUM_SPECIES; ++s) {
+            Real con = start.getCon((specie_id) s);
+            if (con<lower_bound || con>upper_bound) {
+              throw dense::Bad_Simulation_Error("Concentration out of bounds: [" +
+                specie_str[s] + "] = " + std::to_string(con), start);
             }
+          }
         }
+      }
     }
 
     void finalize() override {};
+
+    ConcentrationCheck* clone() const override {
+      return new auto(*this);
+    }
+
 };
 #endif

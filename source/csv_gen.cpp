@@ -69,12 +69,33 @@ namespace {
 }
 
 csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType) :
-    csvw::csvw(pcfFileName, true, "\n# Rename this file by removing the "
-            "\"_template\" from the file name (or just change the name "
-            "entirely) once the data has been entered!\n")
+    csvw::csvw(pcfFileName)
 {
-
     csvw & out = *this;
+
+
+    out <<
+          "# CSV Specification\n"
+          "#   Ignored by the file readers are:\n"
+          "#     (1) Empty cells / Blank rows / Whitespace\n"
+          "#     (2) Comment whose rows always begin with a \'#\'\n"
+          "#         For best results delete all comments before loading "
+            "this file into any Excel-like program.\n"
+          "#     (3) Any cell which does not conform to the scientific "
+            "notation format 3.14e-41 or simple whole numbers and decimals\n"
+          "#         Often times cells which do not contain numbers are "
+            "intended to be column headers. These are not parsed by the simulation "
+            "and can technically be modified by the users as they wish.\n"
+          "#         It is futile to add/remove/modify the column headers "
+            "with the expectation of changing the program's behavior. Data must "
+            "be entered in the default order for it to be parsed correctly.\n"
+          "# None of these comments include commas because it messes with "
+            "the column widths when loaded into Excel-like programs.\n"
+          "# For more information and examples see README.md section 2.2.0\n";
+
+    out << "\n# Rename this file by removing the "
+            "\"_template\" from the file name (or just change the name "
+            "entirely) once the data has been entered!\n";
 
     // param_type string prefix
     std::vector<std::string> nPrefix;

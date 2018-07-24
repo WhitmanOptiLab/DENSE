@@ -12,14 +12,15 @@
 * - records overall specie averages
 * - records specie averages per cell
 */
-class BasicAnalysis : public Analysis {
+template <typename Simulation>
+class BasicAnalysis : public Analysis<Simulation> {
 
   public:
 
     BasicAnalysis (
-      specie_vec const& species_vector,
-      unsigned min_cell, unsigned max_cell,
-      Real start_time, Real end_time
+      std::vector<Species> const& species_vector,
+      std::pair<dense::Natural, dense::Natural> cell_range,
+      std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }
     );
 
     /*
@@ -29,7 +30,7 @@ class BasicAnalysis : public Analysis {
      * - postcondition: start.isValid() is false.
      * - update is overloaded virtual function of Analysis
      */
-    void update (dense::Context<> begin) override;
+    void update (Simulation& simulation, std::ostream& log) override;
 
     /* Finalize: overloaded virtual function of Analysis
        - must be called to produce correct average values
@@ -38,6 +39,10 @@ class BasicAnalysis : public Analysis {
 
     void show (csvw * = nullptr) override;
 
+    BasicAnalysis* clone() const override {
+      return new auto(*this);
+    }
+
   private:
 
     std::vector<Real> mins, maxs, means;
@@ -45,5 +50,7 @@ class BasicAnalysis : public Analysis {
     std::vector<std::vector<Real>> mins_by_context, maxs_by_context, means_by_context;
 
 };
+
+#include "basic.ipp"
 
 #endif

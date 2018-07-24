@@ -5,6 +5,7 @@
 #include "core/specie.hpp"
 #include "io/csvw.hpp"
 #include "sim/base.hpp"
+#include "utility/requires.hpp"
 
 #include <memory>
 #include <limits>
@@ -12,38 +13,73 @@
 using dense::Simulation;
 
 /// Superclass for Analysis Objects
-/// - observes passed "Observable"
-/// - does not implement any analysis
-class Analysis : public Observer<Simulation> {
+template <typename Simulation = void>
+class Analysis;
+
+template <>
+class Analysis<void> {
 
   public:
 
     Analysis (
-      specie_vec const& species_vector,
-      unsigned min_cell, unsigned max_cell,
-      Real start_time = 0, Real end_time = std::numeric_limits<Real>::infinity()
-    );
+      std::vector<Species> const& species_vector,
+      std::pair<dense::Natural, dense::Natural> cell_range,
+      std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }
+    ):
+      observed_species_{species_vector},
+      start_time{time_range.first},
+      end_time{time_range.second},
+      min{cell_range.first},
+      max{cell_range.second} {
+    }
 
-    virtual void show (csvw * = nullptr) {};
-
-    virtual void update(dense::Context<> start) = 0;
-
-    virtual void finalize() = 0;
-
-    void when_updated_by(Simulation &) override;
-
-    void when_unsubscribed_from(Simulation &) override;
+    virtual void show (csvw* csv_out = nullptr) {
+      if (csv_out) {
+        auto & out = *csv_out;
+        out << "# Showing cells " << min << '-' << max;
+        if (start_time != 0.0) {
+          out << " between " << start_time << " min and ";
+        } else {
+          out << " until ";
+        }
+        out << time << " min\n";
+      }
+    }
 
   protected:
 
-    specie_vec const observed_species_;
+    std::vector<Species> observed_species_;
 
     Real start_time, end_time;
 
-    unsigned const min, max;
+    dense::Natural min, max;
 
-    dense::Natural time = 0;
+    Real time = 0;
+
+    dense::Natural samples = 0;
 
 };
+
+template <typename Simulation>
+class Analysis : public Analysis<> {
+
+  static_assert(std::is_base_of<dense::Simulation, Simulation>::value,
+    "requires DerivedFrom<dense::Simulation, Simulation>");
+
+  public:
+
+    using Analysis<>::Analysis;
+
+    virtual void update(Simulation& start, std::ostream& log = std::cout) = 0;
+
+    virtual Analysis* clone() const = 0;
+
+    virtual void finalize() = 0;
+
+    void when_updated_by(Simulation & simulation, std::ostream& log);
+
+};
+
+#include "base.ipp"
 
 #endif

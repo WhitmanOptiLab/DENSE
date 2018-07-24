@@ -2,7 +2,6 @@
 #define CORE_SPECIE_HPP
 
 #include <string>
-#include <vector>
 
 // Try to ensure that enum values are assigned in the range [0, size)
 // and not user-determined as in SPECIE(example = 10)
@@ -32,12 +31,10 @@ enum Critical_Species_ID {
 #include "specie_list.hpp"
 #undef SPECIE
 #undef CRITICAL_SPECIE
-  NUM_CRITICAL_SPECIES  //And a terminal marker so that we know how many there are
+  NUM_CRITICAL_SPECIES
 };
 
 using critspecie_id = Critical_Species_ID;
-
-using specie_vec = std::vector<Species>;
 
 #endif
 

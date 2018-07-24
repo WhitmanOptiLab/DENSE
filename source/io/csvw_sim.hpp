@@ -3,34 +3,42 @@
 
 #include "csvw.hpp"
 #include "sim/base.hpp"
-#include "core/observable.hpp"
+#include "measurement/base.hpp"
 #include "core/specie.hpp"
 
 #include <limits>
 
 namespace dense {
 
-class csvw_sim : private csvw, public Observer
-<Simulation>
-{
-public:
-    csvw_sim(std::string const& pcfFileName,
+template <typename Simulation>
+class csvw_sim : public Analysis<Simulation> {
+
+  public:
+    csvw_sim(Natural cell_total,
             bool pcfTimeColumn,
-            specie_vec const& pcfSpecieOption, Simulation & observable);
+            std::vector<Species> const& pcfSpecieOption);
 
-    void update(dense::Context<> pfStart);
+    csvw_sim(csvw_sim const& other)
+    : Analysis<Simulation>(other)
+    , icTimeColumn{other.icTimeColumn} {
+    }
 
-  protected:
-    void when_updated_by(Simulation & observable) override;
+    void update(Simulation& simulation, std::ostream& log) override;
+
+    void finalize() override {};
+
+    csvw_sim* clone() const override {
+      return new auto(*this);
+    }
 
 private:
-    specie_vec const icSpecieOption;
-    Real const icTimeStart = 0, icTimeEnd = std::numeric_limits<Real>::infinity();
-    unsigned const icCellTotal, icCellStart = 0, icCellEnd;
-    unsigned ilCell = icCellStart;
-    bool const icTimeColumn;
+    unsigned ilCell = this->min;
+    bool icTimeColumn = true;
+    bool print_header_ = true;
 };
 
-#endif
-
 }
+
+#include "csvw_sim.ipp"
+
+#endif
