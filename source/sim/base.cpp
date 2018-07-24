@@ -11,7 +11,7 @@ template<int N, class T>
 void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor, Real* factors_perturb, Real** factors_gradient) {
 //    initialize();
     for (int i = 0; i < N; i++) {
-      auto begin = &_array[_width * i], end = begin + _sim._cells_total;
+      auto begin = &_array[_width * i], end = begin + _sim.get()._cells_total;
       std::fill(begin, end, ps.getArray()[i] / normfactor);
       if (Real factor = factors_perturb ? factors_perturb[i] : 0.0) {
         std::transform(begin, end, begin, [=](Real param) {
@@ -23,9 +23,9 @@ void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Re
         for (int i = 0; i < N; i++) {
           if (factors_gradient[i]) { // If this rate has a gradient
                 // Iterate through every cell
-                for (int k = 0; k < _sim._cells_total; ++k) {
+                for (int k = 0; k < _sim.get()._cells_total; ++k) {
                     // Calculate the cell's index relative to the active start
-                    int gradient_index = _sim._width_total - k % _sim._width_total;
+                    int gradient_index = _sim.get()._width_total - k % _sim.get()._width_total;
                     _array[_width * i + k] *= factors_gradient[i][gradient_index];
                 }
             }
@@ -35,13 +35,13 @@ void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Re
 
 template<int N, class T>
 void dense::cell_param<N,T>:: initialize(){
-    _width = _sim._cells_total;
+    _width = _sim.get()._cells_total;
     dealloc_array();
     allocate_array();
 }
 
 dense::Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb, Real** factors_gradient) :
-    Observable(), _width_total(width_total), _cells_total(cells_total),
+    _width_total(width_total), _cells_total(cells_total),
     _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(std::move(ps)),
     _cellParams(*this, cells_total), _numNeighbors(new dense::Natural[cells_total])
   {
