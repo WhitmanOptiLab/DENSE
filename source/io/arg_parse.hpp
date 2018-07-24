@@ -48,8 +48,8 @@ namespace arg_parse
      *
      *  usage
      *      Anywhere in your program after init(...) is called, return the value proceeding "-pcFlagShort" or "--pcFlagLong"
-     *      IMPORTANT!!! typename T must be either std::string, bool, int, Real, or specie_vec
-     *      Second version of get<>() does not work with specie_vec typename
+     *      IMPORTANT!!! typename T must be either std::string, bool, int, Real, or std::vector<Species>
+     *      Second version of get<>() does not work with std::vector<Species> typename
      *
      *  parameters
      *      pcFlagShort - short version of command line flag, do not include "-" at beginning
