@@ -79,7 +79,7 @@ Real* parse_perturbations(std::string const& pcfPertFileName) {
           // Try loading file, suppress warning if string can be
           //   read as Real
           csvr perturbFile(pcfPertFileName, do_global_pert);
-          if (perturbFile.is_open() || do_global_pert)
+          if (/*perturbFile.is_open()*/ true || do_global_pert)
           {
               factors_pert = new Real[NUM_REACTIONS];
 
@@ -118,7 +118,7 @@ Real* parse_perturbations(std::string const& pcfPertFileName) {
       Real** factors_grad = nullptr;
       if (pcfGradFileName.size() > 0) {
           csvr gradientFile(pcfGradFileName);
-          if (gradientFile.is_open())
+          if (gradientFile.has_stream())
           {
               factors_grad = new Real*[NUM_REACTIONS];
               // gradient width index start, gradient width index end,
