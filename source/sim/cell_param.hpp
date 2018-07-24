@@ -18,7 +18,7 @@ class cell_param {
 static constexpr dense::Natural _height = N;
     //FIXME - want to make this private at some point
 public:
-    Simulation const& _sim;
+    std::reference_wrapper<Simulation const> _sim;
     dense::Natural _width;
     T *_array;
     bool _cuda;
