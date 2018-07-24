@@ -35,6 +35,7 @@ namespace dense {
 }
 
 using dense::Real;
+using dense::Natural;
 using RATETYPE = ::Real;
 
 #endif
