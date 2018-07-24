@@ -125,11 +125,11 @@ namespace arg_parse
 
     // The default is a vec filled with all specie ids
     template<>
-    bool get<specie_vec>(std::string const& pcfFlagShort,
-            std::string const& pcfFlagLong, specie_vec* pnPushTo,
+    bool get<std::vector<Species>>(std::string const& pcfFlagShort,
+            std::string const& pcfFlagLong, std::vector<Species>* pnPushTo,
             bool const& pcfObligatory)
     {
-        specie_vec rVec = str_to_species(
+        auto rVec = str_to_species(
                 get<std::string>(pcfFlagShort, pcfFlagLong, ""));
 
         if (!rVec.empty())
