@@ -5,6 +5,7 @@
 
 #include <fstream>
 #include <string>
+#include <memory>
 
 
 class csvr
@@ -19,7 +20,10 @@ public:
     */
     csvr(std::string const& file_name, bool suppress_file_not_found = false);
 
-    bool is_open() const;
+    csvr(csvr&&) = default;
+    csvr& operator=(csvr&&) = default;
+
+    bool has_stream() const;
 
     /**
      *  Get Next CSV Data Cell
@@ -50,10 +54,11 @@ public:
       return result;
     }
 
+    static bool get_real(std::istream& in, Real* out);
 
 private:
     // Input file of CSV
-    std::ifstream iFile;
+    std::unique_ptr<std::istream> iFile;
     unsigned int iLine;
 };
 

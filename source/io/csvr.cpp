@@ -1,5 +1,6 @@
 #include "csvr.hpp"
 #include "utility/style.hpp"
+#include "utility/common_utils.hpp"
 
 using style::Color;
 
@@ -10,15 +11,21 @@ using style::Color;
 
 
 csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
-    iFile(file_name), iLine(1)
-{
-    if (!iFile.is_open() && !suppress_file_not_found)
+    iFile{}, iLine(1) {
+
+    auto file { std14::make_unique<std::ifstream>(file_name) };
+    // Check if open successful
+    if (!file->is_open() && !suppress_file_not_found) {
         std::cout << style::apply(Color::red) << "CSV file input failed. CSV file \'" <<
             file_name << "\' not found or open." << style::reset() << '\n';
+        return;
+    }
+
+    iFile = std::move(file);
 }
 
-bool csvr::is_open() const {
-    return iFile.is_open();
+bool csvr::has_stream() const {
+  return iFile.get();
 }
 
 bool csvr::skip_next() {
@@ -33,14 +40,12 @@ bool csvr::get_next(int* rate) {
 }
 
 bool csvr::get_next(Real* pnRate) {
-  // Only bother if open
-  if (!iFile.is_open()) {
-      std::cout << style::apply(Color::red) << "CSV parsing failed. "
-          "No CSV file found/open." << style::reset() << '\n';
-      return false;
-  }
+  return csvr::get_real(*iFile, pnRate);
+}
+
+bool csvr::get_real(std::istream& iFile, Real* pnRate) {
   // tParam data from file to be "pushed" to pfRate
-  std::string tParam;
+  std::string tParam; int iLine = 0;
 
   char c;
   while (iFile >> c) {
@@ -74,7 +79,7 @@ bool csvr::get_next(Real* pnRate) {
           {
               std::cout << style::apply(Color::red) <<
                   "CSV parsing failed. Invalid data contained "
-                  "at line " << iLine << "." <<
+                  "at line " << "(unknown)" << "." <<
                   style::reset() << '\n';
               return false;
           }

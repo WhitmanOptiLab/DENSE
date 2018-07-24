@@ -4,7 +4,7 @@
 
 namespace dense {
 
-CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName, specie_vec const& pcfSpecieVec) :
+CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName, std::vector<Species> const& pcfSpecieVec) :
     csvr(pcfFileName), Simulation()
 {
     _cells_total = csvr::next<dense::Natural>();
