@@ -80,11 +80,11 @@ void OscillationAnalysis<Simulation>::show (csvw * csv_out) {
  * arg "c": the cell the context inhabits
 */
 template <typename Simulation>
-void OscillationAnalysis<Simulation>::get_peaks_and_troughs (dense::Context<Simulation> const& start, int c) {
+void OscillationAnalysis<Simulation>::get_peaks_and_troughs (Simulation const& simulation, int c) {
 
     for (std::size_t i = 0; i < this->observed_species_.size(); ++i)
     {
-        Real added = start.getCon(this->observed_species_[i]);
+        Real added = simulation.get_concentration(c + this->min, this->observed_species_[i]);
         windows[i][c].enqueue(added);
         bst[i][c].insert(added);
         if ( windows[i][c].getSize() == range_steps + 1) {
@@ -106,11 +106,11 @@ void OscillationAnalysis<Simulation>::get_peaks_and_troughs (dense::Context<Simu
 template <typename Simulation>
 void OscillationAnalysis<Simulation>::checkCritPoint (int s, int c) {
 	Real mid_conc = windows[s][c].getVal(windows[s][c].getCurrent());
-	if ((mid_conc==*bst[s][c].rbegin())&&!(mid_conc==*bst[s][c].begin())){
-		addCritPoint(s,c,true,std::max<Real>(0.0,(this->samples - range_steps/2)*analysis_interval + this->start_time),mid_conc);
+	if (mid_conc == *bst[s][c].rbegin() && mid_conc != *bst[s][c].begin()) {
+		addCritPoint(s,c, crit_point{ std::max<Real>(0.0,(this->samples - range_steps/2)*analysis_interval + this->start_time),mid_conc, true });
 	}
-	else if (mid_conc==*bst[s][c].begin()){
-		addCritPoint(s,c,false,std::max<Real>(0.0,(this->samples - (range_steps/2))*analysis_interval + this->start_time),mid_conc);
+	else if (mid_conc == *bst[s][c].begin()) {
+		addCritPoint(s,c, crit_point{ std::max<Real>(0.0,(this->samples - (range_steps/2))*analysis_interval + this->start_time),mid_conc, false });
 	}
 }
 
@@ -123,16 +123,11 @@ void OscillationAnalysis<Simulation>::checkCritPoint (int s, int c) {
  * arg "concentration": the concentration level of the critical point
 */
 template <typename Simulation>
-void OscillationAnalysis<Simulation>::addCritPoint (int s, int context, bool isPeak, Real minute, Real concentration) {
-	crit_point crit;
-	crit.is_peak = isPeak;
-	crit.time = minute;
-	crit.conc = concentration;
-
+void OscillationAnalysis<Simulation>::addCritPoint (int s, int context, crit_point crit) {
 	if (peaksAndTroughs[s][context].size() > 0){
 		crit_point prev_crit = peaksAndTroughs[s][context].back();
 		if (prev_crit.is_peak == crit.is_peak){
-			if ((crit.is_peak && crit.conc >= prev_crit.conc)||(!crit.is_peak && crit.conc <= prev_crit.conc)){
+			if (crit.is_peak ? (crit.conc >= prev_crit.conc) : (crit.conc <= prev_crit.conc)){
 				peaksAndTroughs[s][context].back() = crit;
 			}
 		}
@@ -154,10 +149,8 @@ void OscillationAnalysis<Simulation>::addCritPoint (int s, int context, bool isP
 */
 template <typename Simulation>
 void OscillationAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
-  dense::Context<Simulation> start { &simulation, this->min };
-	for (Natural c = this->min; c < this->max && start.isValid(); ++c) {
-		get_peaks_and_troughs(start, c - this->min);
-		start.advance();
+	for (Natural c = this->min; c < this->max; ++c) {
+		get_peaks_and_troughs(simulation, c - this->min);
 	}
 	++this->samples;
 }
@@ -172,15 +165,11 @@ void OscillationAnalysis<Simulation>::calcAmpsAndPers (int s, int c) {
 	std::vector<crit_point> crits = peaksAndTroughs[s][c];
     Real peakSum = 0.0, troughSum = 0.0, cycleSum = 0.0;
     int numPeaks = 0, numTroughs = 0, cycles = 0;
-	for (std::size_t i = 0; i < crits.size(); ++i){
-		if (crits[i].is_peak){
-			peakSum+=crits[i].conc;
-			++numPeaks;
-		}
-		else {
-			troughSum+=crits[i].conc;
-			++numTroughs;
-		}
+	for (std::size_t i = 0; i < crits.size(); ++i) {
+    auto& sum = crits[i].is_peak ? peakSum : troughSum;
+    auto& count = crits[i].is_peak ? numPeaks : numTroughs;
+		sum += crits[i].conc;
+		++count;
 		if (i < 2){
 			continue;
 		}

@@ -92,7 +92,7 @@ public:
     }
 
     Real get_concentration (dense::Natural cell, specie_id species) const override final {
-      return concs[cell][species];
+      return concs.at(cell).at(species);
     }
 
     Real get_concentration (dense::Natural cell, specie_id species, dense::Natural delay) const override final {

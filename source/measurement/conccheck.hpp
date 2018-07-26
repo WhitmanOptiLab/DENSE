@@ -2,7 +2,6 @@
 #define ANLYS_CONCCHECK_HPP
 
 #include "base.hpp"
-#include "core/context.hpp"
 #include "bad_simulation_error.hpp"
 
 class ConcentrationCheck : public Analysis {
@@ -23,22 +22,13 @@ class ConcentrationCheck : public Analysis {
       target_specie(t_specie) {
     };
 
-    void update(Simulation & start, std::ostream&) override {
-      dense::Context<> begin { &simulation, min };
+    void update(Simulation & simulation, std::ostream&) override {
       for (unsigned c = min; c < max; ++c) {
         if (target_specie > -1) {
-          Real concentration = start.getCon(target_specie);
-          if (con < lower_bound || con > upper_bound) {
-            throw dense::Bad_Simulation_Error("Concentration out of bounds: [" +
-              specie_str[target_specie] + "] = " + std::to_string(con), start);
-          }
+          check(simulation, c, target_specie);
         } else {
-          for (unsigned s = 0; s < NUM_SPECIES; ++s) {
-            Real con = start.getCon((specie_id) s);
-            if (con<lower_bound || con>upper_bound) {
-              throw dense::Bad_Simulation_Error("Concentration out of bounds: [" +
-                specie_str[s] + "] = " + std::to_string(con), start);
-            }
+          for (Natural s = 0; s < NUM_SPECIES; ++s) {
+            check(simulation, c, static_cast<Species>(s));
           }
         }
       }
@@ -48,6 +38,16 @@ class ConcentrationCheck : public Analysis {
 
     ConcentrationCheck* clone() const override {
       return new auto(*this);
+    }
+
+  private:
+
+    void check(Simulation & simulation, Natural cell, Species species) const {
+      Real concentration = simulation.get_concentration(cell, species);
+      if (concentration < lower_bound || concentration > upper_bound) {
+        throw dense::Bad_Simulation_Error("Concentration out of bounds: [" +
+          specie_str[species] + "] = " + std::to_string(concentration), simulation);
+      }
     }
 
 };
