@@ -1,7 +1,6 @@
 #ifndef ANLYS_BASE_HPP
 #define ANLYS_BASE_HPP
 
-#include "core/observable.hpp"
 #include "core/specie.hpp"
 #include "io/csvw.hpp"
 #include "sim/base.hpp"

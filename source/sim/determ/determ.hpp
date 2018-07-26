@@ -2,7 +2,6 @@
 #define SIM_DETERM_DETERM_HPP
 
 #include "sim/base.hpp"
-#include "core/observable.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"

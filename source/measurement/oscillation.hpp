@@ -112,7 +112,7 @@ class CorrelationAnalysis : public Analysis<Simulation> {
     void update(Simulation& simulation, std::ostream&) override {
     }
 
-    bool pearsonCorrelate();
+    bool pearson_correlate();
 };
 
 #include "oscillation.ipp"
