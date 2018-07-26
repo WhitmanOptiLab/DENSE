@@ -3,7 +3,6 @@
 
 #include "csvr.hpp"
 #include "sim/base.hpp"
-#include "core/observable.hpp"
 #include "core/specie.hpp"
 
 #include <map>

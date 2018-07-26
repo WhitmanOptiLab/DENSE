@@ -11,7 +11,6 @@ function(SIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
-          ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
@@ -45,7 +44,6 @@ function(CUDASIMCORELIB localname simdir)
     configure_file(${PROJECT_SOURCE_DIR}/source/core/build_once.cpp ${PROJECT_SOURCE_DIR}/source/core/build_once.cu COPYONLY)
     cuda_add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cu
-          ${PROJECT_SOURCE_DIR}/source/core/observable.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/set_cuda.cu
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
