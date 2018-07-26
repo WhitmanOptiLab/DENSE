@@ -91,8 +91,6 @@ public:
       initPropensities();
     }
 
-    void simulate_for(Real duration) override final;
-
     Real get_concentration (dense::Natural cell, specie_id species) const override final {
       return concs[cell][species];
     }
@@ -218,6 +216,10 @@ public:
     Real avg = sum / _numNeighbors[cell];
     return avg;
   }
+
+    using Simulation::simulate_for;
+
+    void simulate_for(Real duration) override final;
 
 };
 

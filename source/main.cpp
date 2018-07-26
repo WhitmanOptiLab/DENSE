@@ -12,6 +12,7 @@
 
 using style::Color;
 
+#include <chrono>
 #include <cstdlib>
 #include <cassert>
 #include <random>
@@ -52,7 +53,9 @@ template <typename Simulation>
 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse_analysis_entries();
 
 template <typename Simulation>
-void run_simulation(Real duration, Real notify_interval,
+void run_simulation(
+  std::chrono::duration<Real, std::chrono::minutes::period> duration,
+  std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
 
@@ -130,8 +133,8 @@ int main(int argc, char* argv[]) {
     return EXIT_SUCCESS;
   }
   // These fields are somewhat universal
-
   Real anlys_intvl, time_total;
+  std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration, analysis_interval;
   arg_parse::get<std::vector<Species>>("o", "specie-option", &default_specie_option, false);
   // ========================== FILL simulations ==========================
   // See if importing
@@ -147,7 +150,9 @@ int main(int argc, char* argv[]) {
       std::cerr << "No time-total or anlys-intvl for CSV Simulation (fix in future)\n";
       return EXIT_FAILURE;
     }
-    run_simulation(time_total, anlys_intvl, std::move(simulations), parse_analysis_entries<Simulation>());
+    simulation_duration = decltype(simulation_duration)(time_total);
+    analysis_interval = decltype(analysis_interval)(anlys_intvl);
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
     return EXIT_SUCCESS;
   }
   std::string param_sets;
@@ -164,6 +169,8 @@ int main(int argc, char* argv[]) {
       "Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?\n" << style::reset();
     return EXIT_FAILURE;
   }
+  simulation_duration = decltype(simulation_duration)(time_total);
+  analysis_interval = decltype(analysis_interval)(anlys_intvl);
 
   // If step_size not set, create stochastic simulation
   Real step_size = arg_parse::get<Real>("s", "step-size", 0.0);
@@ -195,7 +202,7 @@ int main(int argc, char* argv[]) {
         cell_total, tissue_width, seed);
     }
 
-    run_simulation(time_total, anlys_intvl, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
     return EXIT_SUCCESS;
 
   } else {
@@ -207,13 +214,17 @@ int main(int argc, char* argv[]) {
         cell_total, tissue_width, step_size);
     }
 
-    run_simulation(time_total, anlys_intvl, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
     return EXIT_SUCCESS;
   }
 
 }
 
+#ifndef __cpp_concepts
 template <typename Simulation>
+#else
+template <Simulation_Concept Simulation>
+#endif
 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse_analysis_entries() {
 
   decltype(parse_analysis_entries<Simulation>()) named_analysis_vector;
@@ -281,7 +292,12 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
 
 
 template <typename Simulation>
-void run_simulation(Real duration, Real notify_interval, std::vector<Simulation> simulations, std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries) {
+void run_simulation(
+  std::chrono::duration<Real, std::chrono::minutes::period> duration,
+  std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
+  std::vector<Simulation> simulations,
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries)
+{
 
   struct Callback {
 
@@ -323,7 +339,7 @@ void run_simulation(Real duration, Real notify_interval, std::vector<Simulation>
   // ========================= RUN THE SHOW =========================
 
   Real analysis_chunks = duration / notify_interval;
-  int notifications_per_min = 1.0 / notify_interval;
+  int notifications_per_min = decltype(duration)(1.0) / notify_interval;
 
   for (dense::Natural a = 0; a < analysis_chunks; a++) {
     std::vector<Simulation const*> bad_simulations;

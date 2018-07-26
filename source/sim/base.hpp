@@ -12,6 +12,7 @@
 #include <iostream>
   #include <initializer_list>
   #include <algorithm>
+#include <chrono>
 
 namespace dense {
 
@@ -174,7 +175,11 @@ class Simulation {
       }
     }
 
-    virtual void simulate_for(Real duration) = 0;
+    void simulate_for (std::chrono::duration<Real, std::chrono::minutes::period> duration) {
+      return simulate_for(duration.count());
+    }
+
+    virtual void simulate_for (Real duration) = 0;
 
     virtual Real get_concentration(Natural cell, specie_id species) const = 0;
 

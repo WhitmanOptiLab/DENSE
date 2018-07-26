@@ -98,6 +98,8 @@ class Deterministic_Simulation : public Simulation {
     return avg;
   }
 
+  using Simulation::simulate_for;
+
   void simulate_for (Real duration) override final;
 };
 
