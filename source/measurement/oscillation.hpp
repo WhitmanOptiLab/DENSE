@@ -41,8 +41,8 @@ private:
 	std::vector<std::vector<Real>> periods;
 
     // s: std::vector<Species> index
-	void addCritPoint(int s, int context, bool isPeak, Real minute, Real concentration);
-	void get_peaks_and_troughs(dense::Context<Simulation> const& start, int c);
+	void addCritPoint(int s, int context, crit_point crit);
+	void get_peaks_and_troughs(Simulation const& simulation, int c);
 	void calcAmpsAndPers(int s, int c);
 	void checkCritPoint(int s, int c);
 

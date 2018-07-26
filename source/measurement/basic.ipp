@@ -19,10 +19,9 @@ BasicAnalysis<Simulation>::BasicAnalysis (
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
-  dense::Context<> begin { &simulation, Analysis<>::min };
-  for (Natural cell_no = Analysis<>::min; cell_no < Analysis<>::max && begin.isValid(); ++cell_no) {
-    for (std::size_t i = 0; i < Analysis<>::observed_species_.size(); ++i) {
-  		Real concentration = begin.getCon(Analysis<>::observed_species_[i]);
+  for (Natural cell_no = this->min; cell_no < this->max; ++cell_no) {
+    for (std::size_t i = 0; i < this->observed_species_.size(); ++i) {
+  		Real concentration = simulation.get_concentration(cell_no, this->observed_species_[i]);
       mins[i] = std::min(concentration, mins[i]);
       maxs[i] = std::max(concentration, maxs[i]);
       means[i] += concentration;
@@ -30,7 +29,6 @@ void BasicAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
       maxs_by_context[cell_no][i] = std::max(concentration, maxs_by_context[cell_no][i]);
   		means_by_context[cell_no][i] += concentration;
   	}
-    begin.advance();
   }
   ++Analysis<>::samples;
 }
