@@ -7,7 +7,11 @@ namespace dense {
 
   /// An exception thrown to reject a simulation for having produced data that
   /// is not realistic enough to be meaningfully analyzed.
+  #ifndef __cpp_concepts
   template <typename Simulation>
+  #else
+  template <Simulation_Concept Simulation>
+  #endif
   class Bad_Simulation_Error : public std::runtime_error {
 
     public:

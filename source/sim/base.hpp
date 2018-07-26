@@ -8,11 +8,26 @@
 #include "core/specie.hpp"
 #include "cell_param.hpp"
 #include "core/reaction.hpp"
+
 #include <vector>
 #include <iostream>
-  #include <initializer_list>
-  #include <algorithm>
+#include <initializer_list>
+#include <algorithm>
 #include <chrono>
+#include <type_traits>
+
+#ifdef __cpp_concepts
+template <typename T>
+concept bool Simulation_Concept() {
+  return requires(T simulation) {
+    { simulation.simulate_for(Real{}) };
+    { simulation.simulate_for(std::chrono::duration<Real, std::chrono::minutes::period>{}) };
+    { simulation.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
+    { simulation.get_concentration(Natural{}, specie_id{}) } -> Real;
+    { simulation.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
+  };
+}
+#endif
 
 namespace dense {
 

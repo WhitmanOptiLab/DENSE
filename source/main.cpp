@@ -49,10 +49,18 @@ std::string xml_child_text(ezxml_t xml, char const* name, std::string default_ =
   return child == nullptr ? default_ : child->txt;
 }
 
+#ifndef __cpp_concepts
 template <typename Simulation>
+#else
+template <Simulation_Concept Simulation>
+#endif
 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse_analysis_entries();
 
+#ifndef __cpp_concepts
 template <typename Simulation>
+#else
+template <Simulation_Concept Simulation>
+#endif
 void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
@@ -289,9 +297,11 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
 #include <algorithm>
 #include <utility>
 
-
-
+#ifndef __cpp_concepts
 template <typename Simulation>
+#else
+template <Simulation_Concept Simulation>
+#endif
 void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
