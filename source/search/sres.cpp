@@ -65,7 +65,7 @@ void SRES::simulate_population(int popc, double** population, double* scores) {
   for (int i = 0; i < popc; ++i) {
     Parameter_Set ps;
     for (int p = 0; p < NUM_PARAMS; ++p) {
-      ps.getArray()[p] = population[i][p];
+      ps.data()[p] = population[i][p];
     }
     sets.push_back(ps);
   }
