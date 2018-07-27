@@ -23,9 +23,8 @@ using style::Color;
 #include <exception>
 #include <iostream>
 
-using dense::CSV_Streamed_Simulation;
-using dense::Simulation_Set;
 using dense::csvw_sim;
+using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Stochastic_Simulation;
 
@@ -123,9 +122,8 @@ std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
   return parse_parameter_sets_csv(in);
 }
 
-
 std::vector<Species> default_specie_option;
-  int cell_total;
+int cell_total;
 
 int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
@@ -371,8 +369,9 @@ void run_simulation(
 
     for (auto & simulation : simulations) {
       simulation.simulate_for(notify_interval);
-      if (a % notifications_per_min == 0)
-        std::cout << "Time: " << simulation.t << '\n';
+      if (a % notifications_per_min == 0) {
+        std::cout << "Time: " << simulation.age().count() << '\n';
+      }
     }
   }
 
@@ -382,46 +381,6 @@ void run_simulation(
   }
 
 }
-//
-//template <typename Simulation>
-//class Callback_Factory {
-//
-//  template <typename F, typename... Args>
-//  friend std::function<void(Simulation)> make_callback(F);
-//
-//  public:
-//
-//    template <typename... Args>
-//    Callback(Simulation simulation, )
-//
-//    std::function<void()> make_callback(Simulation& simulation) {
-//      return
-//    }
-//
-//};
-//
-//struct BasicAnalysis_Factory {
-//
-//
-//
-//};
-//
-//std::function<std::function<void()>(Simulation&)
-//
-//class BasicAnalysis {
-//
-//  public:
-//
-//    BasicAnalysis(Simulation& simulation);
-//
-//
-//
-//  private:
-//
-//    std::reference_wrapper<Simulation> simulation_;
-//
-//};
-
 /*
 Snapshot<> snapshot;
 Snapshot<> data = simulation.snapshot();

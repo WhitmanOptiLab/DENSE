@@ -16,7 +16,6 @@ csvw_sim<Simulation>::csvw_sim(Natural cell_total,
 
 template <typename Simulation>
 void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
-  dense::Context<Simulation> pfStart { &simulation, this->min };
   if (print_header_) {
 
     log << "\n# This file can be used as a template for "
@@ -29,7 +28,7 @@ void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
             "cell-start, cell-end, specie-option,\n";
     log <<
       this->max << ',' <<
-      pfStart.time() << ',' <<
+      simulation.age().count() << ',' <<
       icTimeColumn << ',' <<
       this->min << ',' << this->max << ',';
 
@@ -64,17 +63,13 @@ void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
   }
 
     for (Natural c = this->min; c < this->max; ++c) {
-        if (icTimeColumn)
-        {
-            log << pfStart.time() << ',';
+        if (icTimeColumn) {
+            log << simulation.age().count() << ',';
         }
-
-        for (specie_id const& lcfID : this->observed_species_)
-        {
-            log << pfStart.getCon(lcfID) << ',';
+        for (specie_id const& lcfID : this->observed_species_) {
+            log << simulation.get_concentration(c, lcfID) << ',';
         }
         log << '\n';
-        pfStart.advance();
     }
 
     if (this->max > this->min) {

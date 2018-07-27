@@ -22,21 +22,23 @@ class CSV_Streamed_Simulation : public csvr, public Simulation // <- order impor
     int getCellStart();
     int getCellEnd();
 
-    Real get_concentration(dense::Natural cell, specie_id species) const override final {
+    Real get_concentration(dense::Natural cell, specie_id species) const {
       return iRate.at(cell).at(species);
     }
 
-    Real get_concentration(dense::Natural cell, specie_id species, dense::Natural) const override final {
+    Real get_concentration(dense::Natural cell, specie_id species, dense::Natural) const {
       return get_concentration(cell, species);
     }
 
-    [[noreturn]] Real calculate_neighbor_average(dense::Natural, specie_id, dense::Natural) const override final {
+    [[noreturn]] Real calculate_neighbor_average(dense::Natural, specie_id, dense::Natural) const {
       throw std::logic_error("Neighbor average not implemented for csvr_sim");
     }
 
-    using Simulation::simulate_for;
+    void simulate_for (Minutes duration) {
+      return simulate_for(duration.count());
+    }
 
-    void simulate_for(Real duration) override final;
+    void simulate_for(Real duration);
 
 private:
     // Required for csvr_sim
