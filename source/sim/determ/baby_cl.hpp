@@ -10,7 +10,9 @@ namespace dense {
 class Deterministic_Simulation;
 
 class baby_cl {
+
   protected:
+
     int _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
     int _j[NUM_SPECIES];
@@ -21,18 +23,20 @@ class baby_cl {
 
 
   public:
-    class cell{
-    public:
 
-        IF_CUDA(__host__ __device__)
+    class cell {
+
+      public:
+
+        CUDA_HOST CUDA_DEVICE
         cell(Real *row): _array(row) {}
 
-        IF_CUDA(__host__ __device__)
+        CUDA_HOST CUDA_DEVICE
         Real& operator[](int k){
             return _array[k];
         }
 
-        IF_CUDA(__host__ __device__)
+        CUDA_HOST CUDA_DEVICE
         const Real& operator[](int k) const {
             return _array[k];
         }
@@ -40,29 +44,32 @@ class baby_cl {
     };
 
     template <typename NumericT>
-    IF_CUDA(__host__ __device__)
+    CUDA_HOST CUDA_DEVICE
     static NumericT wrap (NumericT x, NumericT y) {
       return (x + y) % y;
     }
 
-    class timespan{
-    public:
-        IF_CUDA(__host__ __device__)
+    class timespan {
+
+      public:
+
+        CUDA_HOST CUDA_DEVICE
         timespan(Real *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
 
-        IF_CUDA(__host__ __device__)
+        CUDA_HOST CUDA_DEVICE
         cell operator[](int j) {
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
 
-        IF_CUDA(__host__ __device__)
+        CUDA_HOST CUDA_DEVICE
         const cell operator[](int j) const{
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
+
         Real *_array;
         int _width;
         int _pos;
@@ -96,32 +103,37 @@ class baby_cl {
     }
 
 
-    IF_CUDA(__host__ __device__)
+    CUDA_HOST CUDA_DEVICE
     timespan operator[](int i) {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
-    IF_CUDA(__host__ __device__)
+    CUDA_HOST CUDA_DEVICE
     const timespan operator[](int i) const {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
-    IF_CUDA(__host__ __device__)
+    CUDA_HOST CUDA_DEVICE
     void advance() {
       for (int i = 0; i < NUM_SPECIES; i++) {
         _j[i] = wrap(_j[i]+1, _specie_size[i]);
       }
     }
 
+    int width() const {
+      return _width;
+    }
 
-    int width() const {return _width;}
-    int total_length() const {return _total_length;}
+    int total_length() const {
+      return _total_length;
+    }
+
     ~baby_cl() {
       dealloc_array();
     }
 
+  protected:
 
-protected:
     void dealloc_array() {
         delete[] _array;
         _array = nullptr;

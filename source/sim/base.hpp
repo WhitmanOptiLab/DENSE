@@ -18,12 +18,12 @@
 #ifdef __cpp_concepts
 template <typename T>
 concept bool Simulation_Concept() {
-  return requires(T simulation) {
+  return requires(T& simulation, T const& simulation_const) {
     { simulation.simulate_for(Real{}) };
     { simulation.simulate_for(std::chrono::duration<Real, std::chrono::minutes::period>{}) };
-    { simulation.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
-    { simulation.get_concentration(Natural{}, specie_id{}) } -> Real;
-    { simulation.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
+    { simulation_const.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
+    { simulation_const.get_concentration(Natural{}, specie_id{}) } -> Real;
+    { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
   };
 }
 #endif
@@ -32,26 +32,18 @@ namespace dense {
 
 class Simulation;
 
-  template <typename Simulation_T = Simulation>
-  class Context {
+template <typename Simulation_T>
+class Context {
 
-    static_assert(std::is_base_of<Simulation, Simulation_T>(),
+    static_assert(std::is_base_of<dense::Simulation, Simulation_T>(),
       "Class template <typename T> dense::Context requires std::is_base_of<Simulation, T>()");
-    //FIXME - want to make this private at some point
-   public:
+
+  public:
 
     CUDA_HOST CUDA_DEVICE
-    Context(Simulation_T * owner, dense::Natural cell = 0)
-    : owner_{owner}, cell_{cell} {
+    Context(Simulation_T & owner, dense::Natural cell = 0)
+    : owner_{std::addressof(owner)}, cell_{cell} {
     }
-
-    CUDA_HOST CUDA_DEVICE
-    void advance() {
-      ++cell_;
-    }
-
-    CUDA_HOST CUDA_DEVICE
-    bool isValid() const;
 
     CUDA_HOST CUDA_DEVICE
     Real getCon(specie_id sp) const;
@@ -71,21 +63,17 @@ class Simulation;
     CUDA_HOST CUDA_DEVICE
     Real getDelay(delay_reaction_id delay_reaction) const;
 
-    CUDA_HOST CUDA_DEVICE
-    Real time() const;
-
   private:
-
-    CUDA_HOST CUDA_DEVICE
-    Simulation_T & owner() const;
 
     Simulation_T * owner_;
 
-  public:
-
     Natural cell_;
 
-  };
+};
+
+
+using Seconds = std::chrono::duration<Real>;
+using Minutes = std::chrono::duration<Real, std::chrono::minutes::period>;
 
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
@@ -98,62 +86,35 @@ class Simulation {
 
   public:
 
-    using Context = dense::Context<>;
+    /*
+     * CONSTRUCTOR
+     * arg "ps": assiged to "_parameter_set", used to access user-inputted rate constants, delay times, and crit values
+     * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
+     * arg "width_total": the circumference of the tube, in cells
+    */
+    Simulation(Parameter_Set parameter_set, int cells_total, int width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr);
 
-  // Sizes
+    Simulation() : Simulation(Parameter_Set(), 0, 0) {}
 
-  Real t = 0.0;
-  Natural _width_total; // The maximum width in cells of the PSM
-  //dense::Natural circumf; // The current width in cells
-  //int _width_initial; // The width in cells of the PSM before anterior growth
-  //int _width_current; // The width in cells of the PSM at the current time step
-  //int height; // The height in cells of the PSM
-  //int cells; // The number of cells in the simulation
-  Natural _cells_total; // The total number of cells of the PSM (total width * total height)
+    Minutes age() const {
+      return Minutes(age_);
+    }
 
-  // Times and timing
-  //int steps_total; // The number of time steps to simulate (total time / step size)
-  //int steps_split; // The number of time steps it takes for cells to split
-  //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
-  //bool no_growth; // Whether or not the simulation should rerun with growth
+    Minutes age_by (Minutes duration) {
+      return age_by(duration.count());
+    }
 
-  // Neighbors and boundaries
-  //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
-  //int active_start; // The start of the active portion of the PSM
-  //int active_end; // The end of the active portion of the PSM
-  CUDA_Array<int, 6>* _neighbors;
+    Minutes age_by (Real duration_in_minutes) {
+      return Minutes(age_ += duration_in_minutes);
+    }
 
-  // PSM section and section-specific times
-  //int section; // Posterior or anterior (sec_post or sec_ant)
-  //int time_start; // The start time (in time steps) of the current simulation
-  //int time_end; // The end time (in time steps) of the current simulation
+  protected:
 
-  // Mutants and condition scores
-  //int num_active_mutants; // The number of mutants to simulate for each parameter set
-  //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
-  //double max_score_all; // The maximum score possible for all mutants for all testing sections
+    ~Simulation() noexcept = default;
 
-  Parameter_Set _parameter_set;
-  //Real* factors_perturb;
-  //Real** factors_gradient;
-  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
-  Natural* _numNeighbors;
-  //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
-  //int* _delay_size;
-  //int* _time_prev;
-  //double* _sets;
-  //int _NEIGHBORS_2D;
-  Real max_delays[NUM_SPECIES]{};  // The maximum number of time steps that each specie might be accessed in the past
+  private:
 
-  /*
-   * CONSTRUCTOR
-   * arg "ps": assiged to "_parameter_set", used to access user-inputted rate constants, delay times, and crit values
-   * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
-   * arg "width_total": the circumference of the tube, in cells
-  */
-  Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb = nullptr, Real** factors_gradient = nullptr);
-
-  Simulation() : Simulation(Parameter_Set(), 0, 0) {}
+    void calc_max_delays(Real*, Real**);
 
     /*
      * CALC_NEIGHBOR_2D
@@ -161,7 +122,7 @@ class Simulation {
      * follows hexagonal adjacencies for an unfilled tube
     */
     CUDA_HOST CUDA_DEVICE
-    void calc_neighbor_2d() {
+    void calc_neighbor_2d() noexcept {
       for (dense::Natural i = 0; i < _cells_total; ++i) {
         bool is_former_edge = i % _width_total == 0;
         bool is_latter_edge = (i + 1) % _width_total == 0;
@@ -189,86 +150,92 @@ class Simulation {
       }
     }
 
-    void simulate_for (std::chrono::duration<Real, std::chrono::minutes::period> duration) {
-      return simulate_for(duration.count());
-    }
-
-    virtual void simulate_for (Real duration) = 0;
-
-    virtual Real get_concentration(Natural cell, specie_id species) const = 0;
-
-    virtual Real get_concentration(Natural cell, specie_id species, Natural delay) const = 0;
-
-    virtual Real calculate_neighbor_average(Natural cell, specie_id specie, Natural delay = 0) const = 0;
-
-    bool was_aborted() const noexcept {
-      return abort_signaled;
-    }
-
-    // Called by Observer in update
-    void abort() noexcept { abort_signaled = true; }
-
   protected:
 
-    void calc_max_delays(Real*, Real**);
+    Real age_ = {};
 
-    ~Simulation() noexcept = default;
+  public:
 
-  private:
+  Natural _width_total = {}; // The maximum width in cells of the PSM
+  Natural _cells_total = {}; // The total number of cells of the PSM (total width * total height)
+  CUDA_Array<int, 6>* _neighbors;
+  Parameter_Set _parameter_set = {};
+  //Real* factors_perturb;
+  //Real** factors_gradient;
+  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
+  Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
+  Natural* _numNeighbors;
 
-    bool abort_signaled = false;
+  // Sizes
+
+  //dense::Natural circumf; // The current width in cells
+  //int _width_initial; // The width in cells of the PSM before anterior growth
+  //int _width_current; // The width in cells of the PSM at the current time step
+  //int height; // The height in cells of the PSM
+  //int cells; // The number of cells in the simulation
+
+  // Times and timing
+  //int steps_total; // The number of time steps to simulate (total time / step size)
+  //int steps_split; // The number of time steps it takes for cells to split
+  //int steps_til_growth; // The number of time steps to wait before allowing cells to grow into the anterior PSM
+  //bool no_growth; // Whether or not the simulation should rerun with growth
+
+  // Neighbors and boundaries
+  //array2D<int> neighbors; // An array of neighbor indices for each cell position used in 2D simulations (2-cell and 1D calculate these on the fly)
+  //int active_start; // The start of the active portion of the PSM
+  //int active_end; // The end of the active portion of the PSM
+
+  // PSM section and section-specific times
+  //int section; // Posterior or anterior (sec_post or sec_ant)
+  //int time_start; // The start time (in time steps) of the current simulation
+  //int time_end; // The end time (in time steps) of the current simulation
+
+  // Mutants and condition scores
+  //int num_active_mutants; // The number of mutants to simulate for each parameter set
+  //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
+  //double max_score_all; // The maximum score possible for all mutants for all testing sections
+
+  //CPUGPU_TempArray<int,NUM_SPECIES> _baby_j;
+  //int* _delay_size;
+  //int* _time_prev;
+  //double* _sets;
+  //int _NEIGHBORS_2D;
+
 
 };
 
 }
 
-
-template <typename T>
-bool dense::Context<T>::isValid() const {
-  return cell_ < owner()._cells_total;
-}
-
-template <typename T>
-Real dense::Context<T>::time() const {
-  return owner().t;
-}
-
 template <typename T>
 Real dense::Context<T>::getCritVal(critspecie_id rcritsp) const {
-  return owner()._cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][cell_];
+  return owner_->_cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][cell_];
 }
 
 template <typename T>
 Real dense::Context<T>::getRate(reaction_id reaction) const {
-    return owner()._cellParams[reaction][cell_];
+    return owner_->_cellParams[reaction][cell_];
 }
 
 template <typename T>
 Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const {
-    return owner()._cellParams[NUM_REACTIONS+delay_reaction][cell_];
+    return owner_->_cellParams[NUM_REACTIONS+delay_reaction][cell_];
 }
 
 template <typename T>
 dense::Real dense::Context<T>::getCon(specie_id sp) const {
-  return owner().get_concentration(cell_, sp);
+  return owner_->get_concentration(cell_, sp);
 }
 
 template <typename T>
 dense::Real dense::Context<T>::getCon(specie_id sp, int delay) const {
-  return owner().get_concentration(cell_, sp, delay);
+  return owner_->get_concentration(cell_, sp, delay);
 }
 
 template <typename T>
 dense::Real dense::Context<T>::calculateNeighborAvg(specie_id sp, int delay) const {
-  return owner().calculate_neighbor_average(cell_, sp, delay);
+  return owner_->calculate_neighbor_average(cell_, sp, delay);
 }
 
-template <typename T>
-T & dense::Context<T>::owner() const {
-  return *(owner_ != nullptr ?
-    owner_ :
-    throw std::logic_error("This context does not belong to a Simulation"));
-}
 
 template<int N, class T>
 IF_CUDA(__host__ __device__)

@@ -90,11 +90,11 @@ public:
       initPropensities();
     }
 
-    Real get_concentration (dense::Natural cell, specie_id species) const override final {
+    Real get_concentration (dense::Natural cell, specie_id species) const {
       return concs.at(cell).at(species);
     }
 
-    Real get_concentration (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+    Real get_concentration (dense::Natural cell, specie_id species, dense::Natural delay) const {
       (void)delay;
       return get_concentration(cell, species);
     }
@@ -162,7 +162,7 @@ public:
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \
                 auto& p = propensities[cell_][name];\
-                auto new_p = dense::model::reaction_##name.active_rate(Context(this, cell_)); \
+                auto new_p = dense::model::reaction_##name.active_rate(Context(*this, cell_)); \
                 total_propensity_ += new_p - p;\
                 p = new_p;\
             } \
@@ -172,7 +172,7 @@ public:
             if (name == neighbor_propensity_network[rid][r]) { \
                 for (dense::Natural n=0; n< _numNeighbors[cell_]; n++) { \
                     int n_cell = _neighbors[cell_][n]; \
-                    Context neighbor(this, n_cell); \
+                    Context neighbor(*this, n_cell); \
                     auto& p = propensities[n_cell][name];\
                     auto new_p = dense::model::reaction_##name.active_rate(neighbor); \
                     total_propensity_ += new_p - p;\
@@ -206,7 +206,7 @@ public:
    * arg "delay": unused, but used in deterministic context. Kept for polymorphism
    * returns "avg": average concentration of specie in current and neighboring cells
   */
-  Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const override final {
+  Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const {
     (void)delay;
     Real sum = 0;
     for (dense::Natural i = 0; i < _numNeighbors[cell]; ++i) {
@@ -216,9 +216,11 @@ public:
     return avg;
   }
 
-    using Simulation::simulate_for;
+    void simulate_for (Minutes duration) {
+      return simulate_for(duration.count());
+    }
 
-    void simulate_for(Real duration) override final;
+    void simulate_for(Real duration);
 
 };
 

@@ -20,18 +20,18 @@ namespace dense {
 */
 
 void Stochastic_Simulation::simulate_for (Real duration) {
-  Real end_time = t + duration;
-  while (t < end_time) {
+  Real end_time = age_ + duration;
+  while (age_ < end_time) {
     Real tau;
 
-    while (t + (tau = generateTau()) > getSoonestDelay()) {
-      t = getSoonestDelay();
+    while (age_ + (tau = generateTau()) > getSoonestDelay()) {
+      age_ = getSoonestDelay();
       executeDelayRXN();
-      if (t >= end_time) return;
+      if (age_ >= end_time) return;
     }
 
     tauLeap();
-    t += tau;
+    age_ += tau;
   }
 }
 
@@ -103,7 +103,7 @@ void Stochastic_Simulation::fireOrSchedule(int cell, reaction_id rid){
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
 	if (dri!=NUM_DELAY_REACTIONS) {
-		event_schedule.push({ t + Context(this, cell).getDelay(dri), cell, rid });
+		event_schedule.push({ age_ + Context(*this, cell).getDelay(dri), cell, rid });
 	}
 	else {
 		fireReaction(cell, rid);
@@ -132,7 +132,7 @@ void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 void Stochastic_Simulation::initPropensities(){
    total_propensity_ = 0.0;
     for (dense::Natural c = 0; c < _cells_total; ++c) {
-        Context ctxt(this,c);
+        Context ctxt(*this,c);
         #define REACTION(name) \
         propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
         total_propensity_ += propensities[c].back();
