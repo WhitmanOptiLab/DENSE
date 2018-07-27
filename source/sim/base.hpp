@@ -270,4 +270,11 @@ T & dense::Context<T>::owner() const {
     throw std::logic_error("This context does not belong to a Simulation"));
 }
 
+template<int N, class T>
+IF_CUDA(__host__ __device__)
+dense::cell_param<N, T>::cell_param(Natural width_total, Natural cells_total)
+: cell_count_{cells_total},
+  simulation_width_{width_total},
+  _array{new T[_height * cell_count_]} {}
+
 #endif
