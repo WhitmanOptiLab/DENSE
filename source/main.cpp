@@ -17,6 +17,7 @@ using style::Color;
 #include <cassert>
 #include <random>
 #include <memory>
+#include <iterator>
 #include <algorithm>
 #include <functional>
 #include <exception>
@@ -115,12 +116,7 @@ void display_usage(std::ostream& out) {
 }
 
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in) {
-  std::vector<Parameter_Set> parameter_sets;
-  Parameter_Set next_set;
-  while (in >> next_set) {
-    parameter_sets.push_back(next_set);
-  }
-  return parameter_sets;
+  return { std::istream_iterator<Parameter_Set>(in), std::istream_iterator<Parameter_Set>() };
 }
 
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
