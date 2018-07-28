@@ -37,13 +37,11 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include "io/csvr.hpp"
 #include "utility/common_utils.hpp"
 #include "utility/style.hpp"
-#include "sim/set.hpp"
-#include "sim/set.hpp"
 
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 
-using dense::Simulation_Set;
 using style::Color;
 
 int printing_precision = 6;
@@ -52,13 +50,13 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
   //Create mutants
 
   //Create simulations
-  Simulation_Set set(population,
+  /*Simulation_Set set(population,
                  parse_gradients("", 0), parse_perturbations(""),
                  arg_parse::get<int>("c", "cell-total", 200),
                  arg_parse::get<int>("w", "tissue_width", 50),
                  arg_parse::get<RATETYPE>("s", "step-size", 0.01),
                  arg_parse::get<int>("r", "rand-seed", std::time(nullptr))
-                );
+                );*/
 
 
 Real analysis_interval = arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01);
