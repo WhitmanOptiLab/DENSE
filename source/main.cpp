@@ -6,7 +6,8 @@
 #include "utility/common_utils.hpp"
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
-#include "sim/set.hpp"
+#include "sim/determ/determ.hpp"
+#include "sim/stoch/stoch.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 
