@@ -44,30 +44,6 @@ dense::Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total
     _cellParams.initialize_params(_parameter_set, 1.0, factors_perturb, factors_gradient);
   }
 
-/*
-bool simulation_base::any_less_than_0 (baby_cl& baby_cl, int* times) {
-    for (int i = 0; i <= NUM_SPECIES; i++) {
-        int time = times[i];
-        if (baby_cl[i][time][0] < 0) { // This checks only the first cell
-            return true;
-        }
-    }
-    return false;
-}
-
-bool simulation_base::concentrations_too_high (baby_cl& baby_cl, int* times, double max_con_thresh) {
-    if (max_con_thresh != INFINITY) {
-        for (int i = 0; i <= NUM_SPECIES; i++) {
-            int time = times[i];
-            if (baby_cl[i][time][0] > max_con_thresh) { // This checks only the first cell
-                return true;
-            }
-        }
-    }
-    return false;
-}
-*/
-
 void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {
   for (int s = 0; s < NUM_SPECIES; s++) {
     max_delays[s] = 0.0;
