@@ -44,7 +44,7 @@ std::vector<Species> str_to_species(std::string pSpecies)
     std::string token;
     while (std::getline(stream, token, ',')) {
       token.erase(0, token.find_first_not_of(' '));
-      token.erase(token.find_last_not_of(' '));
+      token.erase(token.find_last_not_of(' ') + 1);
       result.push_back(get_species_by_name(token));
     }
   }
