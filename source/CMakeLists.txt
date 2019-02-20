@@ -12,7 +12,6 @@ function(SIMCORELIB localname simdir)
     add_library(${localname}
           ${PROJECT_SOURCE_DIR}/source/core/build_once.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
-          ${PROJECT_SOURCE_DIR}/source/sim/cell_param.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
