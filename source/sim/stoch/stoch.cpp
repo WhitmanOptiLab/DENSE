@@ -6,7 +6,6 @@
 #include <limits>
 #include <iostream>
 #include <cmath>
-#include <cfloat>
 #include <set>
 
 namespace dense {
@@ -19,28 +18,35 @@ namespace dense {
  * postcondition: ti>=time_total
 */
 
-void Stochastic_Simulation::simulate_for (Real duration) {
-  Real end_time = age_ + duration;
-  while (age_ < end_time) {
-    Real tau;
+std::uniform_real_distribution<Real> Stochastic_Simulation::distribution_ = std::uniform_real_distribution<Real>{0.0, 1.0};
 
-    while (age_ + (tau = generateTau()) > getSoonestDelay()) {
-      age_ = getSoonestDelay();
+CUDA_AGNOSTIC
+Minutes Stochastic_Simulation::age_by (Minutes duration) {
+  auto end_time = age() + duration;
+  while (age() < end_time) {
+    Minutes tau;
+
+    while ((tau = generateTau()) > time_until_next_event()) {
+      Simulation::age_by(time_until_next_event());
       executeDelayRXN();
-      if (age_ >= end_time) return;
+      if (age() >= end_time) return age();
     }
 
     tauLeap();
-    age_ += tau;
+    Simulation::age_by(tau);
   }
+  return age();
 }
 
 /*
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-Real Stochastic_Simulation::generateTau() {
-	return -std::log(getRandVariable()) / get_total_propensity();
+Minutes Stochastic_Simulation::generateTau() {
+  auto r = getRandVariable();
+  auto log_inv_r = -std::log(r);
+
+	return Minutes{ log_inv_r / get_total_propensity() };
 }
 
 /*
@@ -48,10 +54,14 @@ Real Stochastic_Simulation::generateTau() {
  * return "dTime": the time that the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
-Real Stochastic_Simulation::getSoonestDelay() {
+Minutes Stochastic_Simulation::getSoonestDelay() const {
   return event_schedule.empty() ?
-    std::numeric_limits<Real>::max() :
+    Minutes{ std::numeric_limits<Real>::max() } :
     event_schedule.top().time;
+}
+
+Minutes Stochastic_Simulation::time_until_next_event() const {
+  return getSoonestDelay() - age();
 }
 
 /*
@@ -72,8 +82,7 @@ void Stochastic_Simulation::executeDelayRXN(){
 */
 
 Real Stochastic_Simulation::getRandVariable() {
-	static std::uniform_real_distribution<Real> distribution(0.0, 1.0);
-	return distribution(generator);
+	return distribution_(generator);
 }
 
 /*
@@ -103,7 +112,7 @@ void Stochastic_Simulation::fireOrSchedule(int cell, reaction_id rid){
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
 	if (dri!=NUM_DELAY_REACTIONS) {
-		event_schedule.push({ age_ + Context(*this, cell).getDelay(dri), cell, rid });
+		event_schedule.push({ age() + Minutes{ Context(*this, cell).getDelay(dri) }, cell, rid });
 	}
 	else {
 		fireReaction(cell, rid);
@@ -131,7 +140,7 @@ void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 */
 void Stochastic_Simulation::initPropensities(){
    total_propensity_ = 0.0;
-    for (dense::Natural c = 0; c < _cells_total; ++c) {
+    for (dense::Natural c = 0; c < cell_count(); ++c) {
         Context ctxt(*this,c);
         #define REACTION(name) \
         propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\

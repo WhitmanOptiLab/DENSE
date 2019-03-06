@@ -43,8 +43,7 @@ public:
       return &_array[cell_count_ * i];
     }
 
-    void initialize_params(Parameter_Set const& ps, Real normfactor = 1.0, Real* factors_perturb = nullptr, Real** factors_gradient = nullptr);
-
+    CUDA_AGNOSTIC
     int height() const {
       return _height;
     }
@@ -55,15 +54,23 @@ public:
     }
 };
 
-    static inline T random_perturbation (T perturb) {
-      return perturb == 0 ? 1 : random_rate(1 - perturb, 1 + perturb);
-    }
-    static T random_rate(T minimum, T maximum) {
-      return minimum + (maximum - minimum) * rand() / (RAND_MAX + 1.0);
-    }
-
-};
-
 }
+
+template
+class dense::cell_param<NUM_PARAMS>;
+
+template <typename T>
+CUDA_AGNOSTIC
+inline T random_rate(T minimum, T maximum) {
+  return minimum + (maximum - minimum) * rand() / (RAND_MAX + 1.0);
+}
+
+template <typename T>
+CUDA_AGNOSTIC
+inline T random_perturbation (T perturb) {
+  return perturb == 0 ? 1 : random_rate(1 - perturb, 1 + perturb);
+}
+
+#include "cell_param.ipp"
 
 #endif

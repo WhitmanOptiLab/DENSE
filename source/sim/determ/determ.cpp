@@ -5,13 +5,14 @@
 #include <iostream>
 #include <cassert>
 
-void dense::Deterministic_Simulation::simulate_for (Real duration) {
+CUDA_AGNOSTIC
+Minutes dense::Deterministic_Simulation::age_by (Minutes duration) {
   assert(duration > 0 && t > 0 && _step_size > 0);
-  dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / _step_size;
+  dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
   for (dense::Natural s = 0; s < steps; ++s) {
     step();
   }
-  age_ += duration;
+  return Simulation::age_by(duration);
 }
 
 CUDA_AGNOSTIC
@@ -75,7 +76,7 @@ void dense::Deterministic_Simulation::step() {
     //cout.precision(std::numeric_limits<double>::max_digits10);
     //cout<< _j<< " "<<_baby_cl[ph1][_j][0]<<endl;
     // Iterate through each extant cell or context
-    for (dense::Natural k = 0; k < _cells_total; k++) {
+    for (dense::Natural k = 0; k < cell_count(); k++) {
         //if (_width_current == _width_total || k % _width_total <= 10) { // Compute only existing (i.e. already grown)cells
                 // Calculate the cell indices at the start of each mRNA and protein's dela
             //int old_cells_mrna[NUM_SPECIES];

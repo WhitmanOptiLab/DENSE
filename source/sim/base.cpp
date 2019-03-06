@@ -8,11 +8,9 @@
 #include <algorithm>
 
 template<int N, class T>
-void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Real normfactor, Real* factors_perturb, Real** factors_gradient) {
-//    initialize();
-    auto& self = *this;
+void initialize_params(dense::cell_param<N,T> & self, Parameter_Set const& ps, Real normfactor, Real* factors_perturb, Real** factors_gradient) {
     for (int i = 0; i < N; i++) {
-      auto begin = self[i], end = begin + cell_count_;
+      auto begin = self[i], end = begin + self.cell_count_;
       std::fill(begin, end, ps.data()[i] / normfactor);
       if (Real factor = factors_perturb ? factors_perturb[i] : 0.0) {
         std::transform(begin, end, begin, [=](Real param) {
@@ -20,28 +18,30 @@ void dense::cell_param<N,T>::initialize_params(Parameter_Set const& ps, const Re
         });
       }
     }
-    if (factors_gradient) { // If at least one rate has a gradient
-        for (int i = 0; i < N; i++) {
-          if (factors_gradient[i]) { // If this rate has a gradient
-                // Iterate through every cell
-                for (int k = 0; k < cell_count_; ++k) {
-                    // Calculate the cell's index relative to the active start
-                    int gradient_index = simulation_width_ - k % simulation_width_;
-                    self[i][k] *= factors_gradient[i][gradient_index];
-                }
-            }
+    if (factors_gradient) {
+      for (int i = 0; i < N; i++) {
+        if (factors_gradient[i]) {
+          for (int k = 0; k < self.cell_count_; ++k) {
+            // Calculate the cell's index relative to the active start
+            int gradient_index = self.simulation_width_ - k % self.simulation_width_;
+            self[i][k] *= factors_gradient[i][gradient_index];
+          }
         }
+      }
     }
 }
 
-dense::Simulation::Simulation(Parameter_Set ps, int cells_total, int width_total, Real* factors_perturb, Real** factors_gradient) :
-    _width_total(width_total), _cells_total(cells_total),
-    _neighbors(new CUDA_Array<int, 6>[cells_total]), _parameter_set(std::move(ps)),
-    _cellParams(width_total, cells_total), _numNeighbors(new dense::Natural[cells_total])
+dense::Simulation::Simulation(Parameter_Set parameter_set, Natural cell_count, Natural circumference, Real* factors_perturb, Real** factors_gradient) :
+    circumference_{circumference},
+    cell_count_{cell_count},
+    parameter_set_{std::move(parameter_set)},
+    neighbors_by_cell_{new CUDA_Array<int, 6>[cell_count]},
+    neighbor_count_by_cell_{new dense::Natural[cell_count]},
+    cell_parameters_(circumference, cell_count)
   {
     calc_max_delays(factors_perturb, factors_gradient);
     calc_neighbor_2d();
-    _cellParams.initialize_params(_parameter_set, 1.0, factors_perturb, factors_gradient);
+    initialize_params(cell_parameters_, parameter_set_, 1.0, factors_perturb, factors_gradient);
   }
 
 void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {
@@ -104,7 +104,7 @@ void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gr
   Real max_gradient_##name = 1.0; \
   if (factors_gradient) \
   { \
-    for (dense::Natural k = 0; k < _width_total && factors_gradient[name]; k++) { \
+    for (dense::Natural k = 0; k < circumference_ && factors_gradient[name]; k++) { \
       max_gradient_##name = std::max<Real>(factors_gradient[ name ][k], max_gradient_##name); \
     } \
   } \
@@ -117,7 +117,7 @@ void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gr
   \
   for (auto factor : delts) { \
     Real& sp_max_delay = max_delays[factor]; \
-    sp_max_delay = std::max<Real>((_parameter_set.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
+    sp_max_delay = std::max<Real>((parameter_set_.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
 #undef REACTION

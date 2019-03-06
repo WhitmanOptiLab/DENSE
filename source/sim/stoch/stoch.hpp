@@ -29,13 +29,12 @@ public:
  private:
 
     //"event" represents a delayed reaction scheduled to fire later
-    struct event{
-      Real time;
-	    int cell;
+    struct event {
+      Minutes time;
+	    Natural cell;
       reaction_id rxn;
-	    Real getTime() const{return time;}
-	    bool operator<(event const &b) const {return time < b.time;}
-	    bool operator>(event const& other) const { return other < *this; }
+	    friend bool operator<(event const& a, event const &b) { return a.time < b.time;}
+	    friend bool operator>(event const& a, event const& b) { return b < a; }
     };
 
     //"event_schedule" is a set ordered by time of delay reactions that will fire
@@ -50,12 +49,13 @@ public:
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
     //random number generator
-    std::default_random_engine generator;
+    std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
 
-    Real total_propensity_ = 0.0;
+    Real total_propensity_ = {};
+    static std::uniform_real_distribution<Real> distribution_;
 
-    Real generateTau();
-    Real getSoonestDelay();
+    Minutes generateTau();
+    Minutes getSoonestDelay() const;
     void executeDelayRXN();
     Real getRandVariable();
     void tauLeap();
@@ -81,11 +81,11 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total, int seed)
-    : Simulation(ps, cells_total, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(_cells_total, std::vector<int>(NUM_SPECIES, 0))
-    , propensities(_cells_total)
-    , generator{std::default_random_engine(seed)} {
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
+    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
+    , propensities(cell_count)
+    , generator{seed} {
       initPropensityNetwork();
       initPropensities();
     }
@@ -133,20 +133,15 @@ public:
     CUDA_AGNOSTIC
     __attribute_noinline__ int choose_reaction(Real propensity_portion) {
       Real sum = 0;
-      dense::Natural c;
-      int s;
-
-      for (c = 0; c < _cells_total; c++) {
-        for (s = 0; s < NUM_REACTIONS; s++) {
+      for (Natural c = {}; c < cell_count(); ++c) {
+        for (Natural s = {}; s < NUM_REACTIONS; ++s) {
           sum += propensities[c][s];
           if (sum > propensity_portion) {
             return (c * NUM_REACTIONS) + s;
           }
         }
       }
-
-      int j = ((c - 1) * NUM_REACTIONS) + (s - 1);
-      return j;
+      return cell_count() * NUM_REACTIONS - 1;
     }
 
     /*
@@ -168,8 +163,8 @@ public:
     \
         for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
             if (name == neighbor_propensity_network[rid][r]) { \
-                for (dense::Natural n=0; n< _numNeighbors[cell_]; n++) { \
-                    int n_cell = _neighbors[cell_][n]; \
+                for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
+                    int n_cell = neighbors_by_cell_[cell_][n]; \
                     Context neighbor(*this, n_cell); \
                     auto& p = propensities[n_cell][name];\
                     auto new_p = dense::model::reaction_##name.active_rate(neighbor); \
@@ -187,8 +182,8 @@ public:
           p = new_p;
         }
         for (auto rxn : neighbor_propensity_network[rid]) {
-          for (Natural n = 0; n < _numNeighbors[cell_]; ++n) {
-            Natural n_cell = _neighbors[cell_][n];
+          for (Natural n = 0; n < neighbor_count_by_cell_[cell_]; ++n) {
+            Natural n_cell = neighbors_by_cell_[cell_][n];
             auto& p = propensities[n_cell][rxn];
             auto new_p = dense::model::active_rate(rxn, Context(this, n_cell));
             total_propensity_ += new_p - p;
@@ -207,18 +202,17 @@ public:
   Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const {
     (void)delay;
     Real sum = 0;
-    for (dense::Natural i = 0; i < _numNeighbors[cell]; ++i) {
-        sum += concs[_neighbors[cell][i]][species];
+    for (dense::Natural i = 0; i < neighbor_count_by_cell_[cell]; ++i) {
+      sum += concs[neighbors_by_cell_[cell][i]][species];
     }
-    Real avg = sum / _numNeighbors[cell];
-    return avg;
+    return sum / neighbor_count_by_cell_[cell];
   }
 
-    void simulate_for (Minutes duration) {
-      return simulate_for(duration.count());
-    }
+  Minutes age_by(Minutes duration);
 
-    void simulate_for(Real duration);
+  private:
+
+    Minutes time_until_next_event () const;
 
 };
 

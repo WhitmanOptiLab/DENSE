@@ -59,7 +59,7 @@ class Deterministic_Simulation : public Simulation {
   dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
 
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Real step_size);
+                    Minutes step_size);
 
   CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);
@@ -80,18 +80,15 @@ class Deterministic_Simulation : public Simulation {
   dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const {
     // Average the given cell's neighbors' concentrations
     Real sum = 0.0L;
-    for (dense::Natural i = 0; i < _numNeighbors[cell]; i++) {
-        sum += _baby_cl[species][-delay][_neighbors[cell][i]];
+    for (dense::Natural i = 0; i < neighbor_count_by_cell_[cell]; i++) {
+        sum += _baby_cl[species][-delay][neighbors_by_cell_[cell][i]];
     }
-    Real avg = sum / _numNeighbors[cell];
+    Real avg = sum / neighbor_count_by_cell_[cell];
     return avg;
   }
 
-  void simulate_for (Minutes duration) {
-    return simulate_for(duration.count());
-  }
-
-  void simulate_for (Real duration);
+  CUDA_AGNOSTIC
+  Minutes age_by (Minutes duration);
 
 };
 
