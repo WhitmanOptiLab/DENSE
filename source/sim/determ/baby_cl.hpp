@@ -28,15 +28,15 @@ class baby_cl {
 
       public:
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         cell(Real *row): _array(row) {}
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         Real& operator[](int k){
             return _array[k];
         }
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         const Real& operator[](int k) const {
             return _array[k];
         }
@@ -44,7 +44,7 @@ class baby_cl {
     };
 
     template <typename NumericT>
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     static NumericT wrap (NumericT x, NumericT y) {
       return (x + y) % y;
     }
@@ -53,17 +53,17 @@ class baby_cl {
 
       public:
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         timespan(Real *plane,int width, int pos, int hist_len): _array(plane), _width(width),_pos(pos),_hist_len(hist_len) {};
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         cell operator[](int j) {
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
             return temp;
         }
 
-        CUDA_HOST CUDA_DEVICE
+        CUDA_AGNOSTIC
         const cell operator[](int j) const{
             j = (j == 0) ? _pos : wrap(_pos + j, _hist_len);
             cell temp(_array+_width*j);
@@ -103,17 +103,17 @@ class baby_cl {
     }
 
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     timespan operator[](int i) {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     const timespan operator[](int i) const {
         return timespan(_array+_position[i], _width, _j[i], _specie_size[i]);
     }
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     void advance() {
       for (int i = 0; i < NUM_SPECIES; i++) {
         _j[i] = wrap(_j[i]+1, _specie_size[i]);

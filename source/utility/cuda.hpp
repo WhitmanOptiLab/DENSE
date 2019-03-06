@@ -17,6 +17,7 @@
 #define CUDA_DEVICE CUDA_QUALIFY(__device__)
 #define CUDA_KERNEL CUDA_QUALIFY(__global__)
 #define CUDA_MANAGED CUDA_QUALIFY(__managed__)
+#define CUDA_AGNOSTIC CUDA_QUALIFY(__host__ __device__)
 #define STATIC_VAR CUDA_MANAGED
 
 template <typename T, std::ptrdiff_t size>
@@ -24,24 +25,24 @@ class CUDA_Array {
 
  public:
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T* begin() { return data_; }
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T const* begin() const { return data_; }
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T* end() { return data_ + size; }
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T const* end() const { return data_ + size; }
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T & operator[] (std::ptrdiff_t i) {
     return data_[i];
   };
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T const& operator[] (std::ptrdiff_t i) const {
     return data_[i];
   };
@@ -55,16 +56,22 @@ class CUDA_Array {
 namespace cuda {
 
   template <typename T>
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T min(T first, T second) {
     return first < second ? first : second;
   }
 
   template <typename T>
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   T max(T first, T second) {
     return first > second ? first : second;
   }
+
+  #ifdef __CUDA_ARCH__
+  #define CUDA_FALLBACK(HOST_EXPRESSION, DEVICE_EXPRESSION) DEVICE_EXPRESSION
+  #else
+  #define CUDA_FALLBACK(HOST_EXPRESSION, DEVICE_EXPRESSION) HOST_EXPRESSION
+  #endif
 
 }
 

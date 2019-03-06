@@ -130,7 +130,7 @@ public:
      * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
      * return "j": the index of the reaction chosen.
     */
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     __attribute_noinline__ int choose_reaction(Real propensity_portion) {
       Real sum = 0;
       dense::Natural c;
@@ -139,10 +139,8 @@ public:
       for (c = 0; c < _cells_total; c++) {
         for (s = 0; s < NUM_REACTIONS; s++) {
           sum += propensities[c][s];
-
           if (sum > propensity_portion) {
-            int j = (c * NUM_REACTIONS) + s;
-            return j;
+            return (c * NUM_REACTIONS) + s;
           }
         }
       }
@@ -156,7 +154,7 @@ public:
      * recalculates the propensities of reactions affected by the firing of "rid"
      * arg "rid": the reaction that fired
     */
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \

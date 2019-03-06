@@ -14,6 +14,7 @@ void dense::Deterministic_Simulation::simulate_for (Real duration) {
   age_ += duration;
 }
 
+CUDA_AGNOSTIC
 void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
     for (int i=0; i< NUM_SPECIES; i++){
         auto curr_rate = rates[i];
@@ -22,19 +23,19 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
 }
 
 dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Real step_size) :
+                    Minutes step_size) :
     Simulation(ps, cells_total, width_total, pnFactorsPert, pnFactorsGrad), _intDelays(width_total, cells_total),
-    _baby_cl(*this), _step_size(step_size), _j(0), _num_history_steps(2) {
+    _baby_cl(*this), _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(2) {
       _baby_cl.initialize();
       //Copy and normalize _delays into _intDelays
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
-        for (dense::Natural j = 0; j < _cells_total; ++j) {
-          _intDelays[i][j] = _cellParams[NUM_REACTIONS+i][j] / _step_size;
+        for (dense::Natural j = 0; j < cell_count(); ++j) {
+          _intDelays[i][j] = cell_parameters_[NUM_REACTIONS+i][j] / _step_size;
         }
       }
     }
 
-CUDA_HOST CUDA_DEVICE
+CUDA_AGNOSTIC
 dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
@@ -57,6 +58,7 @@ dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::ca
     return specie_deltas;
 }
 
+CUDA_AGNOSTIC
 void dense::Deterministic_Simulation::step() {
     //concentration cl;
     //Rates rates;

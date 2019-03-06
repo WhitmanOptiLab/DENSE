@@ -2,6 +2,7 @@
 #define SIM_BASE_HPP
 
 #include "utility/common_utils.hpp"
+#include "utility/cuda.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
 #include "core/specie.hpp"
@@ -40,27 +41,27 @@ class Context {
 
   public:
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Context(Simulation_T & owner, dense::Natural cell = 0)
     : owner_{std::addressof(owner)}, cell_{cell} {
     }
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real getCon(specie_id sp) const;
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real getCon(specie_id sp, int delay) const;
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real calculateNeighborAvg(specie_id sp, int delay) const;
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real getCritVal(critspecie_id rcritsp) const;
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real getRate(reaction_id reaction) const;
 
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     Real getDelay(delay_reaction_id delay_reaction) const;
 
   private:
@@ -121,7 +122,7 @@ class Simulation {
      * populates the data structure "_neighbors" with cell indices of neighbors
      * follows hexagonal adjacencies for an unfilled tube
     */
-    CUDA_HOST CUDA_DEVICE
+    CUDA_AGNOSTIC
     void calc_neighbor_2d() noexcept {
       for (dense::Natural i = 0; i < _cells_total; ++i) {
         bool is_former_edge = i % _width_total == 0;
