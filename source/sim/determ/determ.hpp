@@ -61,10 +61,10 @@ class Deterministic_Simulation : public Simulation {
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Real step_size);
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);
 
-  CUDA_HOST CUDA_DEVICE
+  CUDA_AGNOSTIC
   SpecieRates calculate_concentrations(dense::Natural cell);
 
   void step();

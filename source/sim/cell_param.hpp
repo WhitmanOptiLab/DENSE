@@ -18,23 +18,27 @@ class cell_param {
 static constexpr Natural _height = N;
     //FIXME - want to make this private at some point
 public:
+
+    cell_param () noexcept = default;
+
     Natural cell_count_ = {};
     Natural simulation_width_ = {};
-    T *_array;
+    T *_array = {};
 
-    IF_CUDA(__host__ __device__)
+    CUDA_AGNOSTIC
     cell_param(Natural width_total, Natural cells_total);
 
+    CUDA_AGNOSTIC
     ~cell_param() {
       delete[] _array;
     }
 
-    IF_CUDA(__host__ __device__)
+    CUDA_AGNOSTIC
     T* operator[](int i){
       return &_array[cell_count_ * i];
     }
 
-    IF_CUDA(__host__ __device__)
+    CUDA_AGNOSTIC
     T const* operator[](int i) const{
       return &_array[cell_count_ * i];
     }
@@ -45,9 +49,11 @@ public:
       return _height;
     }
 
+    CUDA_AGNOSTIC
     int width() const {
       return cell_count_;
     }
+};
 
     static inline T random_perturbation (T perturb) {
       return perturb == 0 ? 1 : random_rate(1 - perturb, 1 + perturb);
