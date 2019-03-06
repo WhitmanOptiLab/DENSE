@@ -369,9 +369,9 @@ void run_simulation(
     }
 
     for (auto & simulation : simulations) {
-      simulation.simulate_for(notify_interval);
+      auto age = simulation.age_by(notify_interval);
       if (a % notifications_per_min == 0) {
-        std::cout << "Time: " << simulation.age().count() << '\n';
+        std::cout << "Time: " << age / Minutes{1} << '\n';
       }
     }
   }

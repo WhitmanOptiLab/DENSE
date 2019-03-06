@@ -7,8 +7,8 @@ namespace dense {
 CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName, std::vector<Species> const& pcfSpecieVec) :
     csvr(pcfFileName), Simulation()
 {
-    _cells_total = csvr::next<dense::Natural>();
-    age_ = csvr::next<Real>();
+    cell_count() = csvr::next<dense::Natural>();
+    age_by(Minutes{ csvr::next<Real>() });
     iTimeCol = csvr::next<dense::Natural>() > 0;
     csvr::get_next(&iCellStart);
     csvr::get_next(&iCellEnd);
@@ -80,18 +80,19 @@ void csvr_sim::run()
     finalize();
 }*/
 
-void CSV_Streamed_Simulation::simulate_for (Real duration) {
-  Real stopping_time = age_ + duration;
-  while (age_ < stopping_time) {
-    iRate.resize(_cells_total);
+Minutes CSV_Streamed_Simulation::age_by (Minutes duration) {
+  Minutes stopping_time = age() + duration;
+  while (age() < stopping_time) {
+    iRate.resize(cell_count());
     for (dense::Natural cell = iCellStart; cell < iCellEnd; ++cell) {
-      age_ = iTimeCol ? csvr::next<Real>() : stopping_time;
+      age_by((iTimeCol ? Minutes{ csvr::next<Real>() } : stopping_time) - age());
       for (auto & species : iSpecieVec) {
         iRate[cell][species] = csvr::next<Real>();
       }
     }
     iRate.clear();
   }
+  return age();
 }
 
 }

@@ -34,11 +34,7 @@ class CSV_Streamed_Simulation : public csvr, public Simulation // <- order impor
       throw std::logic_error("Neighbor average not implemented for csvr_sim");
     }
 
-    void simulate_for (Minutes duration) {
-      return simulate_for(duration.count());
-    }
-
-    void simulate_for(Real duration);
+    Minutes age_by (Minutes duration);
 
 private:
     // Required for csvr_sim

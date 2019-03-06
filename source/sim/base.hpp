@@ -16,18 +16,27 @@
 #include <chrono>
 #include <type_traits>
 
-#ifdef __cpp_concepts
+
+# if defined __CUDA_ARCH__
+using Minutes = Real;
+# else
+using Minutes = std::chrono::duration<Real, std::chrono::minutes::period>;
+# endif
+
+# if defined __cpp_concepts
 template <typename T>
 concept bool Simulation_Concept() {
   return requires(T& simulation, T const& simulation_const) {
-    { simulation.simulate_for(Real{}) };
-    { simulation.simulate_for(std::chrono::duration<Real, std::chrono::minutes::period>{}) };
+    { simulation_const.age() } noexcept -> Minutes;
+    { simulation.age_by(Minutes{}) } -> Minutes;
+    { simulation_const.cell_count() } noexcept -> Natural;
     { simulation_const.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
     { simulation_const.get_concentration(Natural{}, specie_id{}) } -> Real;
     { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
   };
 }
-#endif
+# endif
+
 
 namespace dense {
 
@@ -72,20 +81,53 @@ class Context {
 
 };
 
-
-using Seconds = std::chrono::duration<Real>;
-using Minutes = std::chrono::duration<Real, std::chrono::minutes::period>;
-
-
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
 /* SIMULATION_BASE
  * superclass for simulation_determ and simulation_stoch
  * inherits from Observable, can be observed by Observer object
 */
+///
+///
 class Simulation {
 
+  using This = Simulation;
+
   public:
+
+    /// (Deleted) Copy-construct a simulation.
+    Simulation (This const&) = delete;
+
+    /// Move-construct a simulation.
+    CUDA_AGNOSTIC
+    Simulation (This&&) noexcept;
+
+    /// (Deleted) Copy-assign to a simulation.
+    This& operator= (This const&) = delete;
+
+    /// Move-assign to a simulation.
+    CUDA_AGNOSTIC
+    This& operator= (This&&);
+
+    /// Determine the current number of cells comprising a simulation.
+    CUDA_AGNOSTIC
+    Natural cell_count () const noexcept;
+
+    /// Determine the age of a simulation in virtual minutes.
+    CUDA_AGNOSTIC
+    Minutes age () const noexcept;
+
+    /// Age (advance) a simulation by the specified number of virtual minutes.
+    CUDA_AGNOSTIC
+    Minutes age_by (Minutes duration) noexcept;
+
+  protected:
+
+    CUDA_AGNOSTIC
+    Natural& cell_count () noexcept;
+
+    CUDA_AGNOSTIC
+    Simulation () noexcept;
 
     /*
      * CONSTRUCTOR
@@ -95,23 +137,9 @@ class Simulation {
     */
     Simulation(Parameter_Set parameter_set, int cells_total, int width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr);
 
-    Simulation() : Simulation(Parameter_Set(), 0, 0) {}
+    CUDA_AGNOSTIC
+    ~Simulation () noexcept;
 
-    Minutes age() const {
-      return Minutes(age_);
-    }
-
-    Minutes age_by (Minutes duration) {
-      return age_by(duration.count());
-    }
-
-    Minutes age_by (Real duration_in_minutes) {
-      return Minutes(age_ += duration_in_minutes);
-    }
-
-  protected:
-
-    ~Simulation() noexcept = default;
 
   private:
 
@@ -124,51 +152,54 @@ class Simulation {
     */
     CUDA_AGNOSTIC
     void calc_neighbor_2d() noexcept {
-      for (dense::Natural i = 0; i < _cells_total; ++i) {
-        bool is_former_edge = i % _width_total == 0;
-        bool is_latter_edge = (i + 1) % _width_total == 0;
+      for (Natural i = 0; i < cell_count_; ++i) {
+        bool is_former_edge = i % circumference_ == 0;
+        bool is_latter_edge = (i + 1) % circumference_ == 0;
         bool is_even = i % 2 == 0;
-        auto la = (is_former_edge || !is_even) ? _width_total - 1 : -1;
-        auto ra = !(is_latter_edge || is_even) ? _width_total + 1 :  1;
+        auto la = (is_former_edge || !is_even) ? circumference_ - 1 : -1;
+        auto ra = !(is_latter_edge || is_even) ? circumference_ + 1 :  1;
 
-        auto top          = (i - _width_total      + _cells_total) % _cells_total;
-        auto bottom       = (i + _width_total                    ) % _cells_total;
-        auto bottom_right = (i                + ra               ) % _cells_total;
-        auto top_left     = (i                + la               ) % _cells_total;
-        auto top_right    = (i - _width_total + ra + _cells_total) % _cells_total;
-        auto bottom_left  = (i - _width_total + la + _cells_total) % _cells_total;
+        auto top          = (i - circumference_      + cell_count_) % cell_count_;
+        auto bottom       = (i + circumference_                   ) % cell_count_;
+        auto bottom_right = (i                  + ra              ) % cell_count_;
+        auto top_left     = (i                  + la              ) % cell_count_;
+        auto top_right    = (i - circumference_ + ra + cell_count_) % cell_count_;
+        auto bottom_left  = (i - circumference_ + la + cell_count_) % cell_count_;
 
         if (is_former_edge) {
-          _neighbors[i] = { top, top_right, top_left, bottom_left };
-          _numNeighbors[i] = 4;
+          neighbors_by_cell_[i] = { top, top_right, top_left, bottom_left };
+          neighbor_count_by_cell_[i] = 4;
         } else if (is_latter_edge) {
-          _neighbors[i] = { top, top_right, bottom_right, bottom };
-          _numNeighbors[i] = 4;
+          neighbors_by_cell_[i] = { top, top_right, bottom_right, bottom };
+          neighbor_count_by_cell_[i] = 4;
         } else {
-          _neighbors[i] = { top, top_right, bottom_right, bottom, top_left, bottom_left };
-          _numNeighbors[i] = 6;
+          neighbors_by_cell_[i] = { top, top_right, bottom_right, bottom, top_left, bottom_left };
+          neighbor_count_by_cell_[i] = 6;
         }
       }
     }
 
-  protected:
+  private:
 
     Real age_ = {};
+    Natural circumference_ = {};
+    Natural cell_count_ = {};
+    Parameter_Set parameter_set_ = {};
+
+  protected:
+
+    CUDA_Array<int, 6>* neighbors_by_cell_ = {};
+    Natural* neighbor_count_by_cell_ = {};
 
   public:
 
-  Natural _width_total = {}; // The maximum width in cells of the PSM
-  Natural _cells_total = {}; // The total number of cells of the PSM (total width * total height)
-  CUDA_Array<int, 6>* _neighbors;
-  Parameter_Set _parameter_set = {};
-  //Real* factors_perturb;
-  //Real** factors_gradient;
-  cell_param<NUM_REACTIONS + NUM_DELAY_REACTIONS + NUM_CRITICAL_SPECIES> _cellParams;
-  Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
-  Natural* _numNeighbors;
+    Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
+    cell_param<NUM_PARAMS> cell_parameters_ = {};
 
   // Sizes
-
+  // Real* factors_perturb;
+  // Real** factors_gradient;
+  //Natural _width_total = {}; // The maximum width in cells of the PSM
   //dense::Natural circumf; // The current width in cells
   //int _width_initial; // The width in cells of the PSM before anterior growth
   //int _width_current; // The width in cells of the PSM at the current time step
@@ -202,24 +233,55 @@ class Simulation {
   //double* _sets;
   //int _NEIGHBORS_2D;
 
-
 };
+
+CUDA_AGNOSTIC
+inline Simulation::Simulation (Simulation&&) noexcept = default;
+
+CUDA_AGNOSTIC
+inline Simulation& Simulation::operator= (Simulation&&) = default;
+
+CUDA_AGNOSTIC
+inline Natural Simulation::cell_count() const noexcept {
+  return cell_count_;
+}
+
+CUDA_AGNOSTIC
+inline Natural& Simulation::cell_count() noexcept {
+  return cell_count_;
+}
+
+CUDA_AGNOSTIC
+inline Minutes Simulation::age () const noexcept {
+  return Minutes{ age_ };
+}
+
+CUDA_AGNOSTIC
+inline Minutes Simulation::age_by (Minutes duration) noexcept {
+  return Minutes{ age_ += duration / Minutes{1} };
+}
+
+CUDA_AGNOSTIC
+inline Simulation::Simulation () noexcept = default;
+
+CUDA_AGNOSTIC
+inline Simulation::~Simulation () noexcept = default;
 
 }
 
 template <typename T>
 Real dense::Context<T>::getCritVal(critspecie_id rcritsp) const {
-  return owner_->_cellParams[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][cell_];
+  return owner_->cell_parameters_[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][cell_];
 }
 
 template <typename T>
 Real dense::Context<T>::getRate(reaction_id reaction) const {
-    return owner_->_cellParams[reaction][cell_];
+    return owner_->cell_parameters_[reaction][cell_];
 }
 
 template <typename T>
 Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const {
-    return owner_->_cellParams[NUM_REACTIONS+delay_reaction][cell_];
+  return owner_->cell_parameters_[NUM_REACTIONS+delay_reaction][cell_];
 }
 
 template <typename T>
@@ -236,13 +298,5 @@ template <typename T>
 dense::Real dense::Context<T>::calculateNeighborAvg(specie_id sp, int delay) const {
   return owner_->calculate_neighbor_average(cell_, sp, delay);
 }
-
-
-template<int N, class T>
-IF_CUDA(__host__ __device__)
-dense::cell_param<N, T>::cell_param(Natural width_total, Natural cells_total)
-: cell_count_{cells_total},
-  simulation_width_{width_total},
-  _array{new T[_height * cell_count_]} {}
 
 #endif
