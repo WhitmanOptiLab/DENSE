@@ -24,10 +24,10 @@ CUDA_AGNOSTIC
 Minutes Stochastic_Simulation::age_by (Minutes duration) {
   auto end_time = age() + duration;
   while (age() < end_time) {
-    Minutes tau;
+    Minutes tau, t_until_event;
 
-    while ((tau = generateTau()) > time_until_next_event()) {
-      Simulation::age_by(time_until_next_event());
+    while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
+      Simulation::age_by(t_until_event);
       executeDelayRXN();
       if (age() >= end_time) return age();
     }
@@ -71,9 +71,11 @@ Minutes Stochastic_Simulation::time_until_next_event() const {
  * postcondition: the soonest scheduled delay reaction is removed from the schedule
 */
 void Stochastic_Simulation::executeDelayRXN(){
-	event delay_rxn = event_schedule.top();
-	fireReaction(delay_rxn.cell, delay_rxn.rxn);
-  event_schedule.pop();
+  if (!event_schedule.empty()) {
+    event delay_rxn = event_schedule.top();
+    fireReaction(delay_rxn.cell, delay_rxn.rxn);
+    event_schedule.pop();
+  }
 }
 
 /*
