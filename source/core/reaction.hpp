@@ -39,14 +39,14 @@ using ReactionTerm = std::pair<int, int>;
 
 class reaction_base{
  public:
-  IF_CUDA(__host__ __device__)
+  CUDA_AGNOSTIC
   reaction_base(int specie_delta_num, int const* coeffs, specie_id const* ids) :
                 num_deltas(specie_delta_num), deltas(coeffs), delta_ids(ids) {}
-  IF_CUDA(__host__ __device__)
+  CUDA_AGNOSTIC
   int getNumDeltas() const { return num_deltas; }
-  IF_CUDA(__host__ __device__)
+  CUDA_AGNOSTIC
   specie_id const* getSpecieDeltas() const { return delta_ids; }
-  IF_CUDA(__host__ __device__)
+  CUDA_AGNOSTIC
   int const* getDeltas() const { return deltas; }
 
  private:
@@ -60,7 +60,7 @@ class reaction : public reaction_base {
  public:
   reaction();
   template<class Ctxt>
-  IF_CUDA(__host__ __device__)
+  CUDA_AGNOSTIC
   static Real active_rate(Ctxt const& c);
 };
 
