@@ -48,6 +48,7 @@ namespace {
         #include "reactions_list.hpp"
         #undef REACTION
         #undef DELAY_REACTION
+        ""
     };
 
     const std::string cDelay[] = {
@@ -56,6 +57,7 @@ namespace {
         #include "reactions_list.hpp"
         #undef REACTION
         #undef DELAY_REACTION
+        ""
     };
 
     const std::string cCritical[] = {
@@ -64,6 +66,7 @@ namespace {
         #include "specie_list.hpp"
         #undef SPECIE
         #undef CRITICAL_SPECIE
+        ""
     };
 
 }
