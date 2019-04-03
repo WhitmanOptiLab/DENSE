@@ -1,0 +1,10 @@
+<analyses>
+    <anlys type="basic">
+        <species>vulnerable, infected, immune, dead</species>
+        <cell-start>0</cell-start>
+        <cell-end>10</cell-end>
+        <time-start>0</time-start>
+        <time-end>15</time-end>
+        <out-file>out/data.csv</out-file>
+    </anlys>
+</analyses>
