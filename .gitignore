@@ -31,8 +31,8 @@ build/CMakeCache\.txt
 
 build/Makefile
 
-binary/*
-!binary/\.keep
+build/out/*
+!build/out/.keep
 
 build/param_grad_template\.csv
 
