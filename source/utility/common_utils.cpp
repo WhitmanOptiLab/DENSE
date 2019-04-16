@@ -26,7 +26,6 @@ Species get_species_by_name (std::string const& name) {
   if (i == species_by_name.end()) {
     throw std::out_of_range("Invalid species: " + name);
   }
-
   return (*i).second;
 }
 

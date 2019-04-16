@@ -121,10 +121,10 @@ class Simulation {
     CUDA_AGNOSTIC
     Minutes age_by (Minutes duration) noexcept;
 
-  protected:
-
     CUDA_AGNOSTIC
     Natural& cell_count () noexcept;
+
+  protected:
 
     CUDA_AGNOSTIC
     Simulation () noexcept;
