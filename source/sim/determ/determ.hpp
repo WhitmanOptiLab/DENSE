@@ -26,8 +26,6 @@ class Deterministic_Simulation : public Simulation {
   // PSM stands for Presomitic Mesoderm (growth region of embryo)
   IntDelays _intDelays;
 
-  baby_cl _baby_cl;
-
   // Sizes
   Real _step_size; // The step size in minutes
   //int steps_total; // The number of time steps to simulate (total time / step size)
@@ -57,7 +55,9 @@ class Deterministic_Simulation : public Simulation {
 
   int _j;
   dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
-
+private:
+  baby_cl _baby_cl;
+public:
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
                     Minutes step_size);
 
@@ -74,14 +74,14 @@ class Deterministic_Simulation : public Simulation {
   }
 
   Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const {
-    return _baby_cl[species][1 - delay][cell];
+    return _baby_cl.row_at(species, 1 - delay)[cell];
   }
 
   dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const {
     // Average the given cell's neighbors' concentrations
     Real sum = 0.0L;
     for (dense::Natural i = 0; i < neighbor_count_by_cell_[cell]; i++) {
-        sum += _baby_cl[species][-delay][neighbors_by_cell_[cell][i]];
+        sum += _baby_cl.row_at(species, -delay)[neighbors_by_cell_[cell][i]];
     }
     Real avg = sum / neighbor_count_by_cell_[cell];
     return avg;
