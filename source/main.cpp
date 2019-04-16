@@ -209,12 +209,12 @@ int main(int argc, char* argv[]) {
     return EXIT_SUCCESS;
 
   } else {
-    using Simulation = Stochastic_Simulation;
+    using Simulation = Deterministic_Simulation;
     std::vector<Simulation> simulations;
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
-        cell_total, tissue_width, step_size);
+        cell_total, tissue_width, Minutes{step_size});
     }
 
     run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
