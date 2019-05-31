@@ -211,6 +211,8 @@ int main(int argc, char* argv[]) {
   } else {
     using Simulation = Deterministic_Simulation;
     std::vector<Simulation> simulations;
+		
+ 
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
@@ -367,13 +369,15 @@ void run_simulation(
       swap(simulations[bad_simulation - simulations.data()], simulations.back());
       simulations.pop_back();
     }
-
-    for (auto & simulation : simulations) {
-      auto age = simulation.age_by(notify_interval);
-      if (a % notifications_per_min == 0) {
+			#pragma omp parallel for
+			for (auto & simulation : simulations) {
+     	auto age = simulation.age_by(notify_interval);
+     	if (a % notifications_per_min == 0) {
         std::cout << "Time: " << age / Minutes{1} << '\n';
       }
     }
+		
+	
   }
 
   for (auto& callback : callbacks) {
