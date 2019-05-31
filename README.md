@@ -369,9 +369,9 @@ Concentration Check allows the user to abort simulation prematurely if a concent
 
 ## 4: Authorship and License
 
-Copyright (C) 2016-2017 John Stratton (strattja@whitman.edu), Ahmet Ay (aay@colgate.edu)
+Copyright (C) 2016-2019 John Stratton (strattja@whitman.edu), Ahmet Ay (aay@colgate.edu)
 
-This software was developed with significant contributions from several students over the years: Yecheng Yang, Nikhil Lonberg, and Kirk Lange.
+This software was developed with significant contributions from many students over the years, including: Yecheng Yang, Nikhil Lonberg, Kirk Lange, Maxwell Brown, Yiwen Xiang, Jeremy Davis, Jack Taylor, Nick McClellan.
 
 Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
