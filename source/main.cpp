@@ -66,7 +66,7 @@ void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries, bool is_deterministic);
 
 void display_usage(std::ostream& out) {
   auto yellow = style::apply(Color::yellow);
@@ -155,7 +155,7 @@ int main(int argc, char* argv[]) {
     }
     simulation_duration = decltype(simulation_duration)(time_total);
     analysis_interval = decltype(analysis_interval)(anlys_intvl);
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
   }
   std::string param_sets;
@@ -205,7 +205,7 @@ int main(int argc, char* argv[]) {
         cell_total, tissue_width, seed);
     }
 
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
 
   } else {
@@ -219,7 +219,7 @@ int main(int argc, char* argv[]) {
         cell_total, tissue_width, Minutes{step_size});
     }
 
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), true);
     return EXIT_SUCCESS;
   }
 
@@ -303,7 +303,7 @@ void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries)
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries, bool is_deterministic)
 {
 
   struct Callback {
@@ -369,14 +369,24 @@ void run_simulation(
       swap(simulations[bad_simulation - simulations.data()], simulations.back());
       simulations.pop_back();
     }
-			#pragma omp parallel for
+		
+		if(is_deterministic){
+
+			#pragma omp parallel for 
+			for (auto it = simulations.begin(); it < simulations.end(); it++) {
+     	auto age = it->age_by(notify_interval);
+     	if (a % notifications_per_min == 0) {
+        std::cout << "Time: " << age / Minutes{1} << '\n';
+      }
+    }
+		} else{
 			for (auto & simulation : simulations) {
      	auto age = simulation.age_by(notify_interval);
      	if (a % notifications_per_min == 0) {
         std::cout << "Time: " << age / Minutes{1} << '\n';
       }
     }
-		
+		}
 	
   }
 
