@@ -368,15 +368,6 @@ void run_simulation(
       swap(simulations[bad_simulation - simulations.data()], simulations.back());
       simulations.pop_back();
     }
-<<<<<<< HEAD
-
-    for (auto & simulation : simulations) {
-      auto age = simulation.age_by(notify_interval);
-      if (a % notifications_per_min == 0) {
-        std::cout << "Time: " << age / Minutes{1} << '\n';
-      }
-    }
-=======
 		
 		if(is_deterministic){
 		
