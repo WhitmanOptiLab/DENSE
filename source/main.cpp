@@ -391,8 +391,7 @@ void run_simulation(
       }
     }
 		}
-	
->>>>>>> Complies with parallelization... Still needs testing
+
   }
 
   for (auto& callback : callbacks) {
