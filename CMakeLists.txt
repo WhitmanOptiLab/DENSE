@@ -1,5 +1,4 @@
-#Would prefer to make this 3.1, as it makes C++ dialect selection automatic.
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.9)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
@@ -8,8 +7,7 @@ RelWithDebInfo MinSizeRel."
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-project (DDESimulatorTemplate CXX C)
-#Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
+project (DDESimulatorTemplate CMAKE_CXX_STANDARD LANGUAGES CXX;C)
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -25,6 +23,11 @@ elseif(COMPILER_SUPPORTS_CXX0X)
 else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
+
+#Checking if compiler has OpenMP Support
+find_package(OpenMP REQUIRED)
+add_executable(DDESimulatorTemplate DDESimulatorTemplate.cc)
+target_link_libraries(DDESimulatorTemplate PRIVATE OpenMP::OpenMP_CXX)
 
 set(Real "double" CACHE STRING "dense::Real")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDENSE_CONFIGURABLE_Real=\"${Real}\"")
