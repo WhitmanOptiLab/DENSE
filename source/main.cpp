@@ -10,6 +10,7 @@
 #include "sim/stoch/stoch.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
+#include <chrono>
 
 using style::Color;
 
@@ -216,8 +217,8 @@ int main(int argc, char* argv[]) {
         std::move(parameter_set), perturbation_factors, gradient_factors,
         cell_total, tissue_width, Minutes{step_size});
     }
-
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), true);
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), 		 
+		parse_analysis_entries<Simulation>(), true);
     return EXIT_SUCCESS;
   }
 
@@ -378,14 +379,19 @@ void run_simulation(
 =======
 		
 		if(is_deterministic){
-
+		
 			#pragma omp parallel for 
 			for (auto it = simulations.begin(); it < simulations.end(); it++) {
      	auto age = it->age_by(notify_interval);
+			
      	if (a % notifications_per_min == 0) {
+				#pragma omp critical
+				{
         std::cout << "Time: " << age / Minutes{1} << '\n';
-      }
+      	}
+			}
     }
+		
 		} else{
 			for (auto & simulation : simulations) {
      	auto age = simulation.age_by(notify_interval);
