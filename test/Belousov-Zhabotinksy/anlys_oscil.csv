@@ -1,0 +1,502 @@
+# Showing cells 0-100 until 14.5508 min
+
+# Showing cell 0
+Species,FE2,FE3,BR
+avg peak,2.8,4,4.5,
+avg amp,1.4,1.83333,2.08333,
+avg per,2.55556,4.125,4.83333,
+# Showing cell 1
+Species,FE2,FE3,BR
+avg peak,2,6,2.33333,
+avg amp,1,2.16667,1.16667,
+avg per,2.07143,3.875,3.5,
+# Showing cell 2
+Species,FE2,FE3,BR
+avg peak,4,3.66667,4,
+avg amp,2,1.66667,2,
+avg per,3.21429,4.25,3.6,
+# Showing cell 3
+Species,FE2,FE3,BR
+avg peak,3.33333,4.5,5.5,
+avg amp,1.66667,1.75,2.75,
+avg per,4.6,4,4.66667,
+# Showing cell 4
+Species,FE2,FE3,BR
+avg peak,2.4,6,2.75,
+avg amp,1.2,1.5,1.375,
+avg per,2.61111,3.07143,2.83333,
+# Showing cell 5
+Species,FE2,FE3,BR
+avg peak,2.66667,4.5,3.25,
+avg amp,1.33333,1.55,1.625,
+avg per,6.125,3.35714,3.08333,
+# Showing cell 6
+Species,FE2,FE3,BR
+avg peak,2.66667,6.5,4.5,
+avg amp,1.33333,2,2.25,
+avg per,2.13636,3.41667,5.16667,
+# Showing cell 7
+Species,FE2,FE3,BR
+avg peak,3.33333,7.33333,2.25,
+avg amp,1.66667,2.16667,1.125,
+avg per,3.2,3.5,3.08333,
+# Showing cell 8
+Species,FE2,FE3,BR
+avg peak,2.33333,4.66667,3.66667,
+avg amp,1.16667,1.45833,1.83333,
+avg per,2.45455,3.6,4.25,
+# Showing cell 9
+Species,FE2,FE3,BR
+avg peak,3.5,6,2.66667,
+avg amp,1.75,2.25,1.33333,
+avg per,2.57143,6,2.9,
+# Showing cell 10
+Species,FE2,FE3,BR
+avg peak,2,3.5,4,
+avg amp,1,1.25,1.83333,
+avg per,2.07692,3.5,4.875,
+# Showing cell 11
+Species,FE2,FE3,BR
+avg peak,3.2,6.25,3.66667,
+avg amp,1.6,1.625,1.83333,
+avg per,3.3125,4,4,
+# Showing cell 12
+Species,FE2,FE3,BR
+avg peak,3,4,7,
+avg amp,1.5,1.66667,3.5,
+avg per,2.5,4.875,10.5,
+# Showing cell 13
+Species,FE2,FE3,BR
+avg peak,2.8,4,4.33333,
+avg amp,1.4,1.5,1.91667,
+avg per,2.61111,4.625,3.2,
+# Showing cell 14
+Species,FE2,FE3,BR
+avg peak,3.33333,4.33333,3.5,
+avg amp,1.66667,1.83333,1.75,
+avg per,4.1,4.375,3.66667,
+# Showing cell 15
+Species,FE2,FE3,BR
+avg peak,2.33333,5,5.5,
+avg amp,1.16667,1.25,2.75,
+avg per,2.6,4.8,8,
+# Showing cell 16
+Species,FE2,FE3,BR
+avg peak,4,5,5.75,
+avg amp,2,1.625,2.375,
+avg per,2.7,4,3.08333,
+# Showing cell 17
+Species,FE2,FE3,BR
+avg peak,2.33333,9.33333,3,
+avg amp,1.16667,1.83333,1.5,
+avg per,2.45455,5.25,4.5,
+# Showing cell 18
+Species,FE2,FE3,BR
+avg peak,6,6,5,
+avg amp,3,2,2.5,
+avg per,4.4,8,4,
+# Showing cell 19
+Species,FE2,FE3,BR
+avg peak,2.5,5,2.66667,
+avg amp,1.25,2,1.33333,
+avg per,3.42857,7,3.5,
+# Showing cell 20
+Species,FE2,FE3,BR
+avg peak,5.33333,6,5.66667,
+avg amp,2.66667,2.83333,2.83333,
+avg per,5.25,5.16667,5.25,
+# Showing cell 21
+Species,FE2,FE3,BR
+avg peak,4,5.33333,4,
+avg amp,2,2.5,2,
+avg per,2.92857,4.25,3.1,
+# Showing cell 22
+Species,FE2,FE3,BR
+avg peak,4.5,3,5,
+avg amp,2.25,1.375,2.5,
+avg per,3.35714,3.5,3,
+# Showing cell 23
+Species,FE2,FE3,BR
+avg peak,2.5,5,3,
+avg amp,1.25,1.75,1.33333,
+avg per,3.66667,4.5,3.5,
+# Showing cell 24
+Species,FE2,FE3,BR
+avg peak,3.2,4.5,4,
+avg amp,1.6,1.25,2,
+avg per,3.25,3.21429,5,
+# Showing cell 25
+Species,FE2,FE3,BR
+avg peak,3.33333,5,4,
+avg amp,1.66667,2,2,
+avg per,4.2,4.625,4.5,
+# Showing cell 26
+Species,FE2,FE3,BR
+avg peak,3,4.5,4.5,
+avg amp,1.5,1.91667,1.75,
+avg per,3.5,5.66667,3.41667,
+# Showing cell 27
+Species,FE2,FE3,BR
+avg peak,3,9,3.66667,
+avg amp,1.5,2.5,1.58333,
+avg per,2.85714,4.25,3.4,
+# Showing cell 28
+Species,FE2,FE3,BR
+avg peak,4,4.66667,5,
+avg amp,2,1.58333,2.5,
+avg per,3.91667,3.7,8,
+# Showing cell 29
+Species,FE2,FE3,BR
+avg peak,4,5,4,
+avg amp,2,1.83333,2,
+avg per,2.83333,4.66667,3.7,
+# Showing cell 30
+Species,FE2,FE3,BR
+avg peak,4,3,4.25,
+avg amp,2,1.25,2.125,
+avg per,1.91667,2.6,3.1,
+# Showing cell 31
+Species,FE2,FE3,BR
+avg peak,3.33333,3.5,4,
+avg amp,1.66667,1.125,2,
+avg per,4.1,2.91667,4.33333,
+# Showing cell 32
+Species,FE2,FE3,BR
+avg peak,2.5,3.2,3,
+avg amp,1.25,1.1,1.5,
+avg per,3.35714,2.5,2.66667,
+# Showing cell 33
+Species,FE2,FE3,BR
+avg peak,3.33333,5,4,
+avg amp,1.66667,2.25,2,
+avg per,5,6,5,
+# Showing cell 34
+Species,FE2,FE3,BR
+avg peak,3.6,5.66667,4.2,
+avg amp,1.8,1.58333,2.01667,
+avg per,2.83333,6,2.27778,
+# Showing cell 35
+Species,FE2,FE3,BR
+avg peak,2,7,5,
+avg amp,1,3,2.16667,
+avg per,2.3,9,4.16667,
+# Showing cell 36
+Species,FE2,FE3,BR
+avg peak,3,4.75,4,
+avg amp,1.5,1.54167,2,
+avg per,3.71429,3.6,5.5,
+# Showing cell 37
+Species,FE2,FE3,BR
+avg peak,3.6,4.66667,5.66667,
+avg amp,1.8,2.16667,2.45833,
+avg per,2.72222,4.625,3.7,
+# Showing cell 38
+Species,FE2,FE3,BR
+avg peak,2,3.66667,3,
+avg amp,1,1.5,1.5,
+avg per,2.71429,3.875,3.2,
+# Showing cell 39
+Species,FE2,FE3,BR
+avg peak,3.5,6.5,4.25,
+avg amp,1.75,2.25,2.125,
+avg per,3.58333,4.83333,2.5,
+# Showing cell 40
+Species,FE2,FE3,BR
+avg peak,3,5.33333,3.33333,
+avg amp,1.5,2,1.66667,
+avg per,3.21429,5.625,3.6,
+# Showing cell 41
+Species,FE2,FE3,BR
+avg peak,2,4.33333,2.25,
+avg amp,1,1.41667,1.125,
+avg per,2.27273,3.4,2.5,
+# Showing cell 42
+Species,FE2,FE3,BR
+avg peak,2.33333,6,5,
+avg amp,1.16667,1.5,2.5,
+avg per,2.2,3.3,9.25,
+# Showing cell 43
+Species,FE2,FE3,BR
+avg peak,4,5.5,2.66667,
+avg amp,2,1.91667,1.33333,
+avg per,2.77778,5.33333,4,
+# Showing cell 44
+Species,FE2,FE3,BR
+avg peak,3,5.66667,3.25,
+avg amp,1.5,2,1.625,
+avg per,2.78571,4.375,2.91667,
+# Showing cell 45
+Species,FE2,FE3,BR
+avg peak,2.8,3.75,4.33333,
+avg amp,1.4,1.5,1.83333,
+avg per,2.4375,2.91667,4.5,
+# Showing cell 46
+Species,FE2,FE3,BR
+avg peak,3.2,5,3.33333,
+avg amp,1.6,2,1.66667,
+avg per,2.61111,4,3.25,
+# Showing cell 47
+Species,FE2,FE3,BR
+avg peak,4,3.33333,5.5,
+avg amp,2,1.66667,2.75,
+avg per,5.16667,3.83333,6.25,
+# Showing cell 48
+Species,FE2,FE3,BR
+avg peak,3,5.5,2.75,
+avg amp,1.5,1.75,1.375,
+avg per,2.31818,5.5,2.66667,
+# Showing cell 49
+Species,FE2,FE3,BR
+avg peak,3.33333,4,4.33333,
+avg amp,1.66667,1.83333,2.16667,
+avg per,3,4.16667,4.25,
+# Showing cell 50
+Species,FE2,FE3,BR
+avg peak,2.8,4,4,
+avg amp,1.4,1.33333,1.75,
+avg per,2.83333,4.625,3.1,
+# Showing cell 51
+Species,FE2,FE3,BR
+avg peak,4,5,3.33333,
+avg amp,2,1.75,1.66667,
+avg per,4.6,2.71429,4.2,
+# Showing cell 52
+Species,FE2,FE3,BR
+avg peak,2.66667,3.5,4,
+avg amp,1.33333,1.08333,2,
+avg per,4,3.5,4.33333,
+# Showing cell 53
+Species,FE2,FE3,BR
+avg peak,3,5,3.33333,
+avg amp,1.5,1.83333,1.54167,
+avg per,3.85714,3.5,3.7,
+# Showing cell 54
+Species,FE2,FE3,BR
+avg peak,2.5,8,5.5,
+avg amp,1.25,2.33333,2.75,
+avg per,3.07143,5.25,7.5,
+# Showing cell 55
+Species,FE2,FE3,BR
+avg peak,3.6,5,4,
+avg amp,1.8,2,1.625,
+avg per,2.77778,3.75,3.5,
+# Showing cell 56
+Species,FE2,FE3,BR
+avg peak,3.5,3.25,3,
+avg amp,1.75,1.225,1.5,
+avg per,3,2.85714,4.625,
+# Showing cell 57
+Species,FE2,FE3,BR
+avg peak,2.66667,3.5,4.5,
+avg amp,1.33333,1.25,2.25,
+avg per,3.7,5.66667,2.66667,
+# Showing cell 58
+Species,FE2,FE3,BR
+avg peak,3.33333,4,4,
+avg amp,1.66667,1.75,2,
+avg per,2.5,3.16667,3.2,
+# Showing cell 59
+Species,FE2,FE3,BR
+avg peak,2.66667,4.5,4.66667,
+avg amp,1.33333,1.91667,2.08333,
+avg per,4.125,4.66667,3.83333,
+# Showing cell 60
+Species,FE2,FE3,BR
+avg peak,3.6,5,3.75,
+avg amp,1.8,2.25,1.875,
+avg per,2.61111,5.33333,2.42857,
+# Showing cell 61
+Species,FE2,FE3,BR
+avg peak,3,6,3.25,
+avg amp,1.5,1.83333,1.625,
+avg per,3.83333,6.33333,3.8,
+# Showing cell 62
+Species,FE2,FE3,BR
+avg peak,3.33333,7,4.5,
+avg amp,1.66667,2.5,2.25,
+avg per,3.5,7.5,5,
+# Showing cell 63
+Species,FE2,FE3,BR
+avg peak,3.2,3.5,3.5,
+avg amp,1.6,1.25,1.75,
+avg per,2.9375,3.21429,3.5,
+# Showing cell 64
+Species,FE2,FE3,BR
+avg peak,2.5,3,3.33333,
+avg amp,1.25,1,1.66667,
+avg per,2.78571,3.33333,3.5,
+# Showing cell 65
+Species,FE2,FE3,BR
+avg peak,3.33333,4.25,4.33333,
+avg amp,1.66667,1.025,2.16667,
+avg per,4.4,3.42857,4.875,
+# Showing cell 66
+Species,FE2,FE3,BR
+avg peak,4,5.33333,5,
+avg amp,2,2.41667,2.25,
+avg per,4.83333,5,11,
+# Showing cell 67
+Species,FE2,FE3,BR
+avg peak,3.5,4.75,4,
+avg amp,1.75,1.575,2,
+avg per,3.14286,3.14286,3.33333,
+# Showing cell 68
+Species,FE2,FE3,BR
+avg peak,2.8,5.33333,4.33333,
+avg amp,1.4,1.54167,1.91667,
+avg per,2.5,4.2,5.33333,
+# Showing cell 69
+Species,FE2,FE3,BR
+avg peak,3.33333,4.33333,6,
+avg amp,1.66667,1.83333,3,
+avg per,2.04545,4.5,4.16667,
+# Showing cell 70
+Species,FE2,FE3,BR
+avg peak,3,6,4,
+avg amp,1.5,2.75,2,
+avg per,5,11.5,6.75,
+# Showing cell 71
+Species,FE2,FE3,BR
+avg peak,3,4.66667,4.5,
+avg amp,1.5,1.66667,2.08333,
+avg per,3.83333,4.625,4,
+# Showing cell 72
+Species,FE2,FE3,BR
+avg peak,3.6,4,4.25,
+avg amp,1.8,1.5,2.125,
+avg per,3,3.6,3.33333,
+# Showing cell 73
+Species,FE2,FE3,BR
+avg peak,2.66667,4.5,3,
+avg amp,1.33333,1.75,1.5,
+avg per,1.95455,3.83333,4.625,
+# Showing cell 74
+Species,FE2,FE3,BR
+avg peak,3.33333,10,3,
+avg amp,1.66667,4.25,1.5,
+avg per,4.6,9,3.625,
+# Showing cell 75
+Species,FE2,FE3,BR
+avg peak,4,4.5,5,
+avg amp,2,2,2.5,
+avg per,6.5,5.25,6.25,
+# Showing cell 76
+Species,FE2,FE3,BR
+avg peak,2,7,4,
+avg amp,1,2.5,2,
+avg per,4.125,6.5,3.5,
+# Showing cell 77
+Species,FE2,FE3,BR
+avg peak,5,2.66667,4.33333,
+avg amp,2.5,0.833333,1.83333,
+avg per,7.33333,4.875,4.625,
+# Showing cell 78
+Species,FE2,FE3,BR
+avg peak,3.5,3.75,4,
+avg amp,1.75,1.5,2,
+avg per,3.78571,3.75,3.7,
+# Showing cell 79
+Species,FE2,FE3,BR
+avg peak,4.4,5.5,4.8,
+avg amp,2.2,2.25,2.4,
+avg per,2.61111,3.8,2.42857,
+# Showing cell 80
+Species,FE2,FE3,BR
+avg peak,3.5,3.33333,5,
+avg amp,1.75,1.54167,2.5,
+avg per,3.83333,3.8,3.875,
+# Showing cell 81
+Species,FE2,FE3,BR
+avg peak,4,4,4,
+avg amp,2,1.125,2,
+avg per,2.5,3.3,3,
+# Showing cell 82
+Species,FE2,FE3,BR
+avg peak,4.66667,7,3.5,
+avg amp,2.33333,3.5,1.75,
+avg per,4.5,-nan,4.16667,
+# Showing cell 83
+Species,FE2,FE3,BR
+avg peak,2.5,3.33333,2.66667,
+avg amp,1.25,1.33333,1.20833,
+avg per,2.21429,3.875,3.2,
+# Showing cell 84
+Species,FE2,FE3,BR
+avg peak,4,6.5,4.66667,
+avg amp,2,2.75,2.33333,
+avg per,3.14286,5.75,3.2,
+# Showing cell 85
+Species,FE2,FE3,BR
+avg peak,3,6,4.5,
+avg amp,1.5,2,2.25,
+avg per,2.91667,5.33333,6.25,
+# Showing cell 86
+Species,FE2,FE3,BR
+avg peak,2.8,6.66667,3.66667,
+avg amp,1.4,1.83333,1.83333,
+avg per,2.94444,7.16667,4,
+# Showing cell 87
+Species,FE2,FE3,BR
+avg peak,4,3.5,5.33333,
+avg amp,2,1.25,2.66667,
+avg per,3.21429,3,3.3,
+# Showing cell 88
+Species,FE2,FE3,BR
+avg peak,4.5,5,5.25,
+avg amp,2.25,1.83333,2.45833,
+avg per,3.66667,3.875,3.2,
+# Showing cell 89
+Species,FE2,FE3,BR
+avg peak,2.8,6,3.25,
+avg amp,1.4,1.5,1.625,
+avg per,2.22222,3.8,2.78571,
+# Showing cell 90
+Species,FE2,FE3,BR
+avg peak,2.66667,4,3.5,
+avg amp,1.33333,1.83333,1.75,
+avg per,2.6,4.125,5,
+# Showing cell 91
+Species,FE2,FE3,BR
+avg peak,2.5,5.33333,5,
+avg amp,1.25,1.79167,2.5,
+avg per,2.92857,3.2,5.5,
+# Showing cell 92
+Species,FE2,FE3,BR
+avg peak,2.5,3.75,3.33333,
+avg amp,1.25,1.375,1.5,
+avg per,2.64286,3.9,4,
+# Showing cell 93
+Species,FE2,FE3,BR
+avg peak,3.2,3.5,3.6,
+avg amp,1.6,1.58333,1.675,
+avg per,2.5625,4.83333,2.64286,
+# Showing cell 94
+Species,FE2,FE3,BR
+avg peak,3,4,2,
+avg amp,1.5,1.16667,1,
+avg per,6.25,4.83333,2.91667,
+# Showing cell 95
+Species,FE2,FE3,BR
+avg peak,2,5,3,
+avg amp,1,1.625,1.5,
+avg per,1.83333,4.5,3.25,
+# Showing cell 96
+Species,FE2,FE3,BR
+avg peak,3.14286,5,3.5,
+avg amp,1.57143,2,1.75,
+avg per,2,4.83333,2.5,
+# Showing cell 97
+Species,FE2,FE3,BR
+avg peak,4.5,4,4.33333,
+avg amp,2.25,1.66667,2.16667,
+avg per,2.5,3.375,3.5,
+# Showing cell 98
+Species,FE2,FE3,BR
+avg peak,2.5,4,2.75,
+avg amp,1.25,1.25,1.375,
+avg per,2.78571,3.7,2.78571,
+# Showing cell 99
+Species,FE2,FE3,BR
+avg peak,4,4,4.66667,
+avg amp,2,1.5,2.33333,
+avg per,3.35714,4.5,3.875,
