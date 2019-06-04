@@ -59,6 +59,188 @@ In order to compile the CUDA accelerated code, both a CUDA 6.0+ compiler and NVI
 
 step-by-step instructions on whole process using a simple model
 
+#### 1.0 Set Up
+In terminal, create a sub-directory of your main directory called lemonade-build and navigate to it:
+```
+$ mkdir lemonade-build
+$ cd lemonade-build
+```
+Next, make five new empty files within the lemonade-build directory:
+```
+$ touch specie_list.hpp reactions_list.hpp reaction_deltas.hpp model_impl.hpp param_set.csv
+```
+#### 1.1 Adding the Model
+
+Open specie_list.hpp with your text editor of choice and add the following code:
+```
+#ifndef CRITICAL_SPECIE
+#define CRITICAL_SPECIE SPECIE
+#define UNDO_CRITICAL_SPECIE_DEF
+#endif
+CRITICAL_SPECIE(lemon)
+CRITICAL_SPECIE(sugar)
+SPECIE(lemonade)
+SPECIE(money)
+SPECIE(good_lemonade)
+SPECIE(customer_satisfaction)
+#ifdef UNDO_CRITICAL_SPECIE_DEF
+#undef CRITICAL_SPECIE
+#undef UNDO_CRITICAL_SPECIE_DEF
+#endif
+```
+Save and exit from this file.
+
+Open reactions_list.hpp and add the following code:
+```
+#ifndef DELAY_REACTION
+#define DELAY_REACTION REACTION
+#define UNDO_DELAY_REACTION_DEF
+#endif
+REACTION(make_lemon)
+REACTION(make_sugar)
+REACTION(make_lemonade)
+REACTION(customer_purchase)
+REACTION(buy_lemons)
+REACTION(buy_sugar)
+REACTION(make_quality)
+REACTION(quality_to_satisfaction)
+REACTION(satisfaction_to_tips)
+#ifdef UNDO_DELAY_REACTION_DEF
+#undef DELAY_REACTION
+#undef UNDO_DELAY_REACTION_DEF
+#endif
+```
+Save and exit from this file.
+
+Open reaction_deltas.hpp and add the following code:
+```
+#include "utility/common_utils.hpp"
+#include "core/reaction.hpp"
+
+#include <cstddef>
+
+STATIC_VAR int num_deltas_make_lemonade = 3;
+STATIC_VAR int deltas_make_lemonade[] = {-2,-3,1};
+STATIC_VAR specie_id delta_ids_make_lemonade[] = {lemon,sugar,lemonade};
+
+STATIC_VAR int num_deltas_make_lemon = 1;
+STATIC_VAR int deltas_make_lemon[] = {1};
+STATIC_VAR specie_id delta_ids_make_lemon[] = {lemon};
+
+STATIC_VAR int num_deltas_make_sugar = 1;
+STATIC_VAR int deltas_make_sugar[] = {1};
+STATIC_VAR specie_id delta_ids_make_sugar[] = {sugar};
+
+STATIC_VAR int num_deltas_customer_purchase = 2;
+STATIC_VAR int deltas_customer_purchase[] = {-1,2};
+STATIC_VAR specie_id delta_ids_customer_purchase[] = {lemonade,money};
+
+STATIC_VAR int num_deltas_buy_lemons = 2;
+STATIC_VAR int deltas_buy_lemons[] = {-3,2};
+STATIC_VAR specie_id delta_ids_buy_lemons[] = {money,lemon};
+
+STATIC_VAR int num_deltas_buy_sugar = 2;
+STATIC_VAR int deltas_buy_sugar[] = {-2,25};
+STATIC_VAR specie_id delta_ids_buy_sugar[] = {money,sugar};
+
+STATIC_VAR int num_deltas_make_quality = 2;
+STATIC_VAR int deltas_make_quality[] = {-4,1};
+STATIC_VAR specie_id delta_ids_make_quality[] = {lemonade, good_lemonade};
+
+STATIC_VAR int num_deltas_quality_to_satisfaction = 3;
+STATIC_VAR int deltas_quality_to_satisfaction[] = {-2,-1,1};
+STATIC_VAR specie_id delta_ids_quality_to_satisfaction[] = {good_lemonade, lemonade, customer_satisfaction};
+
+STATIC_VAR int num_deltas_satisfaction_to_tips = 2;
+STATIC_VAR int deltas_satisfaction_to_tips[] = {-1,4};
+STATIC_VAR specie_id delta_ids_satisfaction_to_tips[] = {customer_satisfaction, money};
+```
+Save and exit from this file. 
+
+Open model_impl.hpp and add the following code:
+```
+#ifndef MODEL_IMPL_H
+#define MODEL_IMPL_H
+#include "core/reaction.hpp"
+#include "core/specie.hpp"
+#include "core/model.hpp"
+#include "sim/base.hpp"
+#include <cstddef>
+
+template<>
+template<class Ctxt>
+RATETYPE reaction<make_lemonade>::active_rate(const Ctxt& c) {
+	return c.getRate(make_lemonade) * c.getCon(lemon)*c.getCon(sugar);
+}
+
+template<>
+template<class Ctxt>
+RATETYPE reaction<make_lemon>::active_rate(const Ctxt& c) {
+	return (c.getRate(make_lemon) * (c.getCon(lemon) - (c.getCon(lemon) *c.getCritVal(rcrit_lemon))));
+}
+
+template<>
+template<class Ctxt>
+RATETYPE reaction<make_sugar>::active_rate(const Ctxt& c) {
+	return (c.getRate(make_sugar) * (c.getCon(sugar) - c.getCritVal(rcrit_sugar)));
+}
+
+template<>
+template<class Ctxt>
+RATETYPE reaction<customer_purchase>::active_rate(const Ctxt& c) {
+	return c.getRate(customer_purchase);
+}
+
+template<>
+template<class Ctxt>
+RATETYPE reaction<buy_lemons>::active_rate(const Ctxt& c) {
+	return c.getRate(buy_lemons);
+}
+
+template<>
+template<class Ctxt>
+Real reaction<buy_sugar>::active_rate (const Ctxt& c) {
+	return c.getRate(buy_sugar);
+}
+
+
+template<>
+template<class Ctxt>
+Real reaction<make_quality>::active_rate (const Ctxt& c) {
+	return c.getRate(make_quality)*c.getCon(lemon)*c.getCon(sugar);
+}
+
+template<>
+template<class Ctxt>
+Real reaction<quality_to_satisfaction>::active_rate (const Ctxt& c) {
+	return c.getRate(quality_to_satisfaction);
+}
+
+template<>
+template<class Ctxt>
+Real reaction<satisfaction_to_tips>::active_rate (const Ctxt& c) {
+	return c.getRate(satisfaction_to_tips);
+}
+#endif // MODEL_IMPL_H
+```
+Save and exit from this file.
+
+Open param_set.csv and add the following code:
+```
+make_lemonade,customer_purchase,buy_lemons,buy_sugar,make_lemon,make_sugar,make_quality,quality_to_satisfaction,satisfaction_to_tips,rcrit_lemon,rcrit_sugar,
+2.25,0.75,1.655,1.237,4.12,12.12,0.657,4.3,2.7,12,19,
+```
+Save and exit from this file.
+
+#### 1.2 Running the Simulation
+
+Make sure that you are in the lemonade_build directory. Then, run the following commands in the terminal:
+```
+$ cmake <path-to-DENSE> && make;
+$ ./simulation -p ./param_set.csv -c 100 -w 100 -t 10 -u 0.5
+```
+This will run a stochastic simulation of a lemonade stand and print the output in the terminal. To run a deterministic simulation, add the `-s 0.5` command to the above. To print the output to a file, add `-e "output.csv"`.
+
 [Back to Top](#delay-differential-equations-simulator)
 
 ## 2: Model Building
