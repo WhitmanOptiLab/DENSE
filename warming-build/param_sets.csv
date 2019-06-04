@@ -14,7 +14,6 @@
 # For more information and examples see README.md section 2.2.1,,,,,,,,,,
 ,,,,,,,,,,
 red_warming, green_warming, blue_warming, red_green_diffusion, green_blue_diffusion, , , rcrit_red_room_dT, rcrit_green_room_dT, rcrit_blue_room_dT, 
-4,4.2,4.3,0,0,,,1093.9,323.7,187.6,
 ,,,,,,,,,,
 6,6.5,7,0,0,,,1121,350,200,
 ,,,,,,,,,,
