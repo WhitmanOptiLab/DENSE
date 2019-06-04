@@ -21,7 +21,7 @@ Contributors to this file should be aware of [Adam Pritchard's Markdown Cheatshe
         1. [Parameter Sets](#221-parameter-sets)
         2. [Perturbations](#222-perturbations)
         3. [Gradients](#223-gradients)
-        4. [Anyses XML](#224-analyses-xml)
+        4. [Analysis XML](#224-analyses-xml)
 3. [Running the Simulation](#3-running-the-simulation)
     0. [Description of the Simulation](#30-description-of-the-simulation)
         0. [Preamble](#300-preamble)
