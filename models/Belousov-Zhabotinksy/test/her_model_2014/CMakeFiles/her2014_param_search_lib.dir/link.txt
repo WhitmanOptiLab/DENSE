@@ -1,2 +1,0 @@
-/usr/bin/ar qc libher2014_param_search_lib.a  CMakeFiles/her2014_param_search_lib.dir/__/__/source/search/libsres/ESES.cpp.o CMakeFiles/her2014_param_search_lib.dir/__/__/source/search/libsres/ESSRSort.cpp.o CMakeFiles/her2014_param_search_lib.dir/__/__/source/search/libsres/sharefunc.cpp.o CMakeFiles/her2014_param_search_lib.dir/__/__/source/search/sres.cpp.o
-/usr/bin/ranlib libher2014_param_search_lib.a
