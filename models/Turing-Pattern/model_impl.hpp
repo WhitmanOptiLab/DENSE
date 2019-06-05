@@ -37,7 +37,7 @@ RATETYPE reaction<activator_diffusion_rate>::active_rate(const Ctxt& c) {
     if(c.calculateNeighborAvg(activator,1)>c.getCon(activator)){
         return c.getRate(activator_diffusion_rate)*c.getCon(activator);
     }else{
-        return c.getRate(activator_diffusion_rate)*c.getCon(activator)-(c.getCon(activator_dt));
+        return -(c.getRate(activator_diffusion_rate));
     }
 }
 
@@ -47,7 +47,7 @@ RATETYPE reaction<inhibitor_diffusion_rate>::active_rate(const Ctxt& c) {
     if(c.calculateNeighborAvg(inhibitor,1)>c.getCon(inhibitor)){
         return c.getRate(inhibitor_diffusion_rate)*c.getCon(inhibitor);
     }else{
-        return c.getRate(inhibitor_diffusion_rate)*c.getCon(inhibitor)-(c.getCon(inhibitor_dt));
+        return -(c.getRate(inhibitor_diffusion_rate));
     }
 }
 
