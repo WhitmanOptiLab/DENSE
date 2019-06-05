@@ -1,0 +1,11 @@
+her_test 9 0.126491
+oscil_test_pt1 9 0.00490411
+oscil_test_pt2 9 0.00439133
+oscil_test_pt3 9 0.004421
+oscil_test_pt4 9 0.0044361
+oscil_test_pt5 9 0.0043451
+oscil_test_overall 9 0.00436624
+nan_test 9 0.00339402
+current_build_time 1 5.35862
+previous_build_time 2 2.75109
+---
