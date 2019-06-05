@@ -1,4 +1,3 @@
-
 if( NOT output_blessed )
    message( FATAL_ERROR "Variable output_blessed not defined" )
 endif( NOT output_blessed )
