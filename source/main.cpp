@@ -347,7 +347,7 @@ void run_simulation(
   Real analysis_chunks = duration / notify_interval;
   int notifications_per_min = decltype(duration)(1.0) / notify_interval;
 
-  for (dense::Natural a = 0; a < analysis_chunks; a++) {
+  for (dense::Natural a = 1; a <= analysis_chunks; a++) {
     std::vector<Simulation const*> bad_simulations;
     for (auto& callback : callbacks) {
       try {
