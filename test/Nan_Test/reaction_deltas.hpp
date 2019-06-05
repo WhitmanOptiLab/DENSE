@@ -31,4 +31,3 @@ STATIC_VAR specie_id delta_ids_br_synthesis[] = {BR};
 STATIC_VAR int num_deltas_fe2_synthesis = 1;
 STATIC_VAR int deltas_fe2_synthesis[] = {2};
 STATIC_VAR specie_id delta_ids_fe2_synthesis[] = {FE2};
-

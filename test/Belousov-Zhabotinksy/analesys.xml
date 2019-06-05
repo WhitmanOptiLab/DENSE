@@ -1,0 +1,52 @@
+<analyses>
+    <anlys type="basic">
+        <species>FE2,FE3,BR</species>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>0</time-start>
+        <time-end>2</time-end>
+        <out-file>anlys_basic_a.csv</out-file>
+    </anlys>
+    <anlys type="basic">
+        <species>FE2,FE3,BR</species>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>3</time-start>
+        <time-end>5</time-end>
+        <out-file>anlys_basic_b.csv</out-file>
+    </anlys>
+ 		    <anlys type="basic">
+        <species>FE2,FE3,BR</species>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>6</time-start>
+        <time-end>8</time-end>
+        <out-file>anlys_basic_c.csv</out-file>
+    </anlys>
+		    <anlys type="basic">
+        <species>FE2,FE3,BR</species>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>9</time-start>
+        <time-end>11</time-end>
+        <out-file>anlys_basic_d.csv</out-file>
+    </anlys>
+		    <anlys type="basic">
+        <species>FE2,FE3,BR</species>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>12</time-start>
+        <time-end>14</time-end>
+        <out-file>anlys_basic_e.csv</out-file>
+    </anlys>
+		<anlys type="oscillation">
+        <species>FE2, FE3, BR</species>
+        <anlys-intvl>0.5</anlys-intvl>
+        <win-range>4.0</win-range>
+        <cell-start>0</cell-start>
+        <cell-end>100</cell-end>
+        <time-start>0</time-start>
+        <time-end>14</time-end>
+        <out-file>anlys_oscil.csv</out-file>
+		</anlys>
+</analyses>
