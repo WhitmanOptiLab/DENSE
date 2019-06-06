@@ -223,6 +223,8 @@ namespace arg_parse
 
         if (pnPushTo)
             *pnPushTo = found;
+        if (!found && pcfObligatory)
+            warnObligatory(pcfFlagShort, pcfFlagLong);
         return found;
     }
 

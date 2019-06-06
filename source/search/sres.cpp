@@ -47,7 +47,6 @@ namespace {
 	returns: the rank
 	notes:
 	todo:
-*/
 int get_rank () {
 	int rank = 0;
 	#if defined(MPI)
@@ -55,6 +54,7 @@ int get_rank () {
 	#endif
 	return rank;
 }
+*/
 
 }
 

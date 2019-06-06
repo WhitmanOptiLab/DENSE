@@ -117,7 +117,7 @@ void Stochastic_Simulation::tauLeap(){
  * arg "c": the cell that the reaction takes place in
  * arg "rid": the reaction to fire or schedule
 */
-void Stochastic_Simulation::fireOrSchedule(int cell, reaction_id rid){
+void Stochastic_Simulation::fireOrSchedule(Natural cell, reaction_id rid){
 
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 

@@ -40,7 +40,7 @@ private:
     // Required for csvr_sim
     std::vector<Species> iSpecieVec;
     bool iTimeCol;
-    int iCellStart, iCellEnd;
+    Natural iCellStart, iCellEnd;
       std::vector<std::map<specie_id, Real>> iRate;
 };
 

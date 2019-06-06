@@ -269,7 +269,7 @@ void ESPrintSp(ESIndividual *, ESParameter *);
 void ESCopyIndividual(ESIndividual *, ESIndividual *, ESParameter *);
 /*********************************************************************
  ** initialize statistics                                           **
- ** ESInitialStat(stats, population, param)                         **
+ ** ESInitialStat(stats, param)                                     **
  ** to intialize time, curgen, bestindvdl,thisbestindvdl            **
  ** not to do the first statistics                                  **
  ** to set dt, bestgen                                              **
@@ -277,7 +277,7 @@ void ESCopyIndividual(ESIndividual *, ESIndividual *, ESParameter *);
  ** ESDeInitialStat(stats)                                          **
  ** free statistics                                                 **
  *********************************************************************/
-void ESInitialStat(ESStatistics **, ESPopulation *, ESParameter *);
+void ESInitialStat(ESStatistics **, ESParameter *);
 void ESDeInitialStat(ESStatistics *);
 /*********************************************************************
  ** do statistics                                                   **
