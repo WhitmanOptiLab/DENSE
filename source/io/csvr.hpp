@@ -42,7 +42,7 @@ public:
      *      false - if reached end of file or a parsing error
     */
     bool get_next(Real* pnRate);
-    bool get_next(int* pnRate);
+    bool get_next(Natural* pnRate);
     bool skip_next();
 
     template <typename T>

@@ -39,7 +39,7 @@ CUDA_AGNOSTIC
 dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
-    #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(Context(*this));
+    #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(Context(*this, cell));
         #include "reactions_list.hpp"
     #undef REACTION
 
