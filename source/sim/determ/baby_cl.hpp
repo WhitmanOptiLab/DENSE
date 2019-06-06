@@ -14,10 +14,10 @@ class baby_cl {
 
   private:
 
-    int _position[NUM_SPECIES];
+    Natural _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
     int _j[NUM_SPECIES] = {};
-    int _width;
+    Natural _width;
     unsigned _total_length;
     std::unique_ptr<Real[]> _array;
 

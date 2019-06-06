@@ -61,7 +61,7 @@ public:
     void tauLeap();
     void initPropensityNetwork();
     void generateRXNTaus(Real tau);
-    void fireOrSchedule(int c, reaction_id rid);
+    void fireOrSchedule(Natural c, reaction_id rid);
     void initPropensities();
 
     public:

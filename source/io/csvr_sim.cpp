@@ -16,7 +16,7 @@ CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName,
     // like a bitwise & of pcfSpecieVec and what exists in the file
     for (dense::Natural i = 0; i < NUM_SPECIES; i++)
     {
-        int t;
+        Natural t;
         csvr::get_next(&t);
         if (t > 0)
         {

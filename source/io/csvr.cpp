@@ -32,7 +32,7 @@ bool csvr::skip_next() {
     return csvr::get_next(static_cast<Real *>(nullptr));
 }
 
-bool csvr::get_next(int* rate) {
+bool csvr::get_next(Natural* rate) {
   Real result;
   bool success = get_next(&result);
   if (success && rate) *rate = std::round(result);
