@@ -30,6 +30,10 @@ class baby_cl {
     }
 
     baby_cl(Deterministic_Simulation& sim);
+  
+    int get_species_size(int species){
+      return _specie_size[species];
+    }
 
 public:
     Real* row_at(int species, int j) {

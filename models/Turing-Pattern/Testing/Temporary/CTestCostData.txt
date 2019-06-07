@@ -1,0 +1,18 @@
+her_test 4 0.287372
+cell_width_test 4 0.291006
+cell_width_test_01 4 0.292802
+cell_width_test_02 4 0.289326
+cell_number_test 4 0.990455
+cell_number_test_01 4 3.79748
+time_total_test 4 0.0416757
+time_total_test_01 4 0.469872
+oscil_test_pt1 4 0.011246
+oscil_test_pt2 4 0.0113252
+oscil_test_pt3 4 0.0132585
+oscil_test_pt4 4 0.0113612
+oscil_test_pt5 4 0.0120018
+oscil_test_overall 4 0.0110818
+nan_test 4 0.00798577
+current_build_time 4 1.46272
+previous_build_time 4 0.495515
+---
