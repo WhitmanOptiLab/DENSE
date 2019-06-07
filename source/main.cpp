@@ -226,7 +226,7 @@ int main(int argc, char* argv[]) {
   //    initialize conc vector with either 0s or given concentrations
   std::string init_conc;
   //initialize conc vector with initial concentrations or 0s
-  bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, true);
+  bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
   
   if (step_size == 0.0) {
     std::vector<int> conc;
