@@ -14,7 +14,9 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
-          ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/stoch/gillespie_direct_simulation.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/preprocessor.cpp
@@ -22,7 +24,13 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/io/csvr.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${PROJECT_SOURCE_DIR}/source/io/csvw.cpp
-          ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c)
+          ${PROJECT_SOURCE_DIR}/source/io/ezxml/ezxml.c
+          ${PROJECT_SOURCE_DIR}/source/arg_parse.hpp
+          ${PROJECT_SOURCE_DIR}/source/parse_analysis_entries.hpp
+          ${PROJECT_SOURCE_DIR}/source/run_simulation.hpp
+          ${PROJECT_SOURCE_DIR}/source/Sim_Builder.hpp
+          )
+
 
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
@@ -36,6 +44,15 @@ function(SIMULATION localname simdir)
   target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
   target_link_libraries(${localname} PUBLIC ${localname}_lib)
 endfunction(SIMULATION localname simdir)
+
+function(BENCHMARK localname simdir)
+  SIMCORELIB(${localname}_lib ${simdir})
+  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/deterministic_main.cpp)
+  target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  target_link_libraries(${localname} PUBLIC ${localname}_lib)
+endfunction(BENCHMARK localname simdir)
+
 
 function(CUDASIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
@@ -113,7 +130,9 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
   else (${BUILD_TESTS_ONLY})
     CSV_GEN(csv_gen ${PROJECT_BINARY_DIR})
     SIMULATION(simulation ${PROJECT_BINARY_DIR})
+    BENCHMARK(benchmark ${PROJECT_BINARY_DIR})
     set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    set_target_properties(benchmark PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
