@@ -1,6 +1,7 @@
 #include <limits>
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 template <typename Simulation>
 BasicAnalysis<Simulation>::BasicAnalysis (
@@ -15,6 +16,7 @@ BasicAnalysis<Simulation>::BasicAnalysis (
   mins_by_context(Analysis<>::max - Analysis<>::min, mins),
   maxs_by_context(Analysis<>::max - Analysis<>::min, maxs),
   means_by_context(Analysis<>::max - Analysis<>::min, means) {
+	finalized = false;
 }
 
 template <typename Simulation>
@@ -35,6 +37,10 @@ void BasicAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::finalize () {
+
+if(!finalized){
+	finalized = true;
+}
   for (auto & cell_means : means_by_context) {
     for (auto & mean : cell_means) {
       mean /= Analysis<>::samples;
@@ -43,6 +49,32 @@ void BasicAnalysis<Simulation>::finalize () {
 }
 
 #include <iomanip>
+
+template <typename Simulation>
+std::vector<Real> BasicAnalysis<Simulation>::get_mins(){
+	if(!finalized){
+		throw std::invalid_argument('Analysis not finalized');
+	}
+	
+	return mins;
+}
+
+template <typename Simulation>
+std::vector<Real> BasicAnalysis<Simulation>::get_maxs(){
+	if(!finalized){
+		throw std::invalid_argument('Analysis not finalized');
+	}
+	return maxs;
+}
+
+template <typename Simulation>
+std::vector<Real> BasicAnalysis<Simulation>::get_means(){
+	if(!finalized){
+		throw std::invalid_argument('Analysis not finalized');
+	}
+	
+	return means;
+}
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::show (csvw * csv_out) {

@@ -90,7 +90,7 @@ class SRES {
         &population, //Population to fill
         &stats); //Statistics
 	}
-
+	
 	~SRES() {
     ESDeInitial(param, population, stats);
   }
