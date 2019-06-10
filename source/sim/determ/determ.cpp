@@ -33,11 +33,13 @@ dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& p
           _intDelays[i][j] = cell_parameters_[NUM_REACTIONS+i][j] / _step_size;
         }
       }
-      for (int specie = 0; specie < NUM_SPECIES; specie++) {
-        int specie_size = _baby_cl.get_species_size(specie);
-        for (int time = 0; time < specie_size; time++){
-          for(dense::Natural cell = 0; cell < cell_count(); cell++){
-            _baby_cl.row_at(specie,time)[cell] = conc[specie];
+      if (!conc.empty()) {
+        for (int specie = 0; specie < NUM_SPECIES; specie++) {
+          int specie_size = _baby_cl.get_species_size(specie);
+          for (int time = 0; time < specie_size; time++){
+            for(dense::Natural cell = 0; cell < cell_count(); cell++){
+              _baby_cl.row_at(specie,time)[cell] = conc[specie];
+            }
           }
         }
       }
