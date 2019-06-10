@@ -1,6 +1,6 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
+add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
 SIMULATION(nan_simulation ${CMAKE_CURRENT_SOURCE_DIR})
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/nan_simulation)
