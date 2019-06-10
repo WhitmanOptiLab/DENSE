@@ -8,6 +8,7 @@
 #include "core/specie.hpp"
 #include "cell_param.hpp"
 #include "core/reaction.hpp"
+#include "ngraph/ngraph_components.hpp"
 
 #include <vector>
 #include <iostream>
@@ -39,6 +40,7 @@ concept bool Simulation_Concept() {
 
 
 namespace dense {
+//namespace NGraph {
 
 class Simulation;
 
@@ -144,21 +146,17 @@ class Simulation {
   private:
 
     void calc_max_delays(Real*, Real**);
-
-    /*
-     * CALC_NEIGHBOR_2D
-     * populates the data structure "_neighbors" with cell indices of neighbors
-     * follows hexagonal adjacencies for an unfilled tube
-    */
-    CUDA_AGNOSTIC
-    void calc_neighbor_2d() noexcept {
+  
+    
+    
+    void graph_constructor() noexcept{
       for (Natural i = 0; i < cell_count_; ++i) {
         bool is_former_edge = i % circumference_ == 0;
         bool is_latter_edge = (i + 1) % circumference_ == 0;
         bool is_even = i % 2 == 0;
         auto la = (is_former_edge || !is_even) ? circumference_ - 1 : -1;
         auto ra = !(is_latter_edge || is_even) ? circumference_ + 1 :  1;
-
+        
         auto top          = (i - circumference_      + cell_count_) % cell_count_;
         auto bottom       = (i + circumference_                   ) % cell_count_;
         auto bottom_right = (i                  + ra              ) % cell_count_;
@@ -167,16 +165,49 @@ class Simulation {
         auto bottom_left  = (i - circumference_ + la + cell_count_) % cell_count_;
 
         if (is_former_edge) {
-          neighbors_by_cell_[i] = { top, top_right, top_left, bottom_left };
+          adjacency_graph.insert_edge(i,top);
+          adjacency_graph.insert_edge(i,top_right);
+          adjacency_graph.insert_edge(i,top_left);
+          adjacency_graph.insert_edge(i,bottom_left);
           neighbor_count_by_cell_[i] = 4;
         } else if (is_latter_edge) {
-          neighbors_by_cell_[i] = { top, top_right, bottom_right, bottom };
+          adjacency_graph.insert_edge(i,top);
+          adjacency_graph.insert_edge(i,top_right);
+          adjacency_graph.insert_edge(i,bottom_right);
+          adjacency_graph.insert_edge(i,bottom);
           neighbor_count_by_cell_[i] = 4;
         } else {
-          neighbors_by_cell_[i] = { top, top_right, bottom_right, bottom, top_left, bottom_left };
+          adjacency_graph.insert_edge(i,top);
+          adjacency_graph.insert_edge(i,top_right);
+          adjacency_graph.insert_edge(i,bottom_right);
+          adjacency_graph.insert_edge(i,bottom);
+          adjacency_graph.insert_edge(i,top_left);
+          adjacency_graph.insert_edge(i,bottom_left);
           neighbor_count_by_cell_[i] = 6;
         }
       }
+    }
+    /*
+     * CALC_NEIGHBOR_2D
+     * populates the data structure "_neighbors" with cell indices of neighbors
+     * follows hexagonal adjacencies for an unfilled tube
+    */
+    CUDA_AGNOSTIC
+    void calc_neighbor_2d() noexcept {
+      index = 0;
+      for ( Graph::const_iterator p = adjacency_graph.begin(); p != adjacency_graph.end(); p++){
+          Graph::vertex_set neigh = Graph::out_neighbors(p);
+          std::vector<Natural>* neighbors = new std::vector<Natural> [6];
+          for ( Graph::vertex_set::const_iterator cell = neigh.begin(); cell != neigh.end(); cell++){
+            std::cout << *cell << std::endl;
+            neighbors->push_back(*cell);
+          }
+    
+          neighbors_by_cell_[index] = *neighbors;
+          neighbor_count_by_cell_[index] = neighbors->size();
+          index ++;
+          delete[] neighbors;
+        }
     }
 
   private:
@@ -185,10 +216,12 @@ class Simulation {
     Natural circumference_ = {};
     Natural cell_count_ = {};
     Parameter_Set parameter_set_ = {};
+    int index;
+    NGraph::Graph adjacency_graph;
 
   protected:
 
-    CUDA_Array<int, 6>* neighbors_by_cell_ = {};
+    std::vector<std::vector<Natural>> neighbors_by_cell_ = {};
     Natural* neighbor_count_by_cell_ = {};
 
   public:
@@ -234,6 +267,7 @@ class Simulation {
   //int _NEIGHBORS_2D;
 
 };
+
 
 CUDA_AGNOSTIC
 inline Simulation::Simulation (Simulation&&) noexcept = default;
@@ -298,5 +332,6 @@ template <typename T>
 dense::Real dense::Context<T>::calculateNeighborAvg(specie_id sp, int delay) const {
   return owner_->calculate_neighbor_average(cell_, sp, delay);
 }
+
 
 #endif

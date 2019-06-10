@@ -122,6 +122,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+source/CMakeFiles/benchmark.dir/rule:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/benchmark.dir/rule
+.PHONY : source/CMakeFiles/benchmark.dir/rule
+
+# Convenience name for target.
+benchmark: source/CMakeFiles/benchmark.dir/rule
+
+.PHONY : benchmark
+
+# fast build rule for target.
+benchmark/fast:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/build
+.PHONY : benchmark/fast
+
+# Convenience name for target.
 source/CMakeFiles/csv_gen.dir/rule:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/csv_gen.dir/rule
 .PHONY : source/CMakeFiles/csv_gen.dir/rule
@@ -135,21 +150,6 @@ csv_gen: source/CMakeFiles/csv_gen.dir/rule
 csv_gen/fast:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/build
 .PHONY : csv_gen/fast
-
-# Convenience name for target.
-source/CMakeFiles/csv_gen_run.dir/rule:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/csv_gen_run.dir/rule
-.PHONY : source/CMakeFiles/csv_gen_run.dir/rule
-
-# Convenience name for target.
-csv_gen_run: source/CMakeFiles/csv_gen_run.dir/rule
-
-.PHONY : csv_gen_run
-
-# fast build rule for target.
-csv_gen_run/fast:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
-.PHONY : csv_gen_run/fast
 
 # Convenience name for target.
 source/CMakeFiles/simulation_lib.dir/rule:
@@ -181,6 +181,36 @@ simulation/fast:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/build
 .PHONY : simulation/fast
 
+# Convenience name for target.
+source/CMakeFiles/benchmark_lib.dir/rule:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/benchmark_lib.dir/rule
+.PHONY : source/CMakeFiles/benchmark_lib.dir/rule
+
+# Convenience name for target.
+benchmark_lib: source/CMakeFiles/benchmark_lib.dir/rule
+
+.PHONY : benchmark_lib
+
+# fast build rule for target.
+benchmark_lib/fast:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/build
+.PHONY : benchmark_lib/fast
+
+# Convenience name for target.
+source/CMakeFiles/csv_gen_run.dir/rule:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/csv_gen_run.dir/rule
+.PHONY : source/CMakeFiles/csv_gen_run.dir/rule
+
+# Convenience name for target.
+csv_gen_run: source/CMakeFiles/csv_gen_run.dir/rule
+
+.PHONY : csv_gen_run
+
+# fast build rule for target.
+csv_gen_run/fast:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
+.PHONY : csv_gen_run/fast
+
 core/build_once.o: core/build_once.cpp.o
 
 .PHONY : core/build_once.o
@@ -188,6 +218,7 @@ core/build_once.o: core/build_once.cpp.o
 # target to build an object file
 core/build_once.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/core/build_once.cpp.o
 .PHONY : core/build_once.cpp.o
 
 core/build_once.i: core/build_once.cpp.i
@@ -197,6 +228,7 @@ core/build_once.i: core/build_once.cpp.i
 # target to preprocess a source file
 core/build_once.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/core/build_once.cpp.i
 .PHONY : core/build_once.cpp.i
 
 core/build_once.s: core/build_once.cpp.s
@@ -206,6 +238,7 @@ core/build_once.s: core/build_once.cpp.s
 # target to generate assembly for a file
 core/build_once.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/core/build_once.cpp.s
 .PHONY : core/build_once.cpp.s
 
 csv_gen.o: csv_gen.cpp.o
@@ -235,6 +268,33 @@ csv_gen.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/csv_gen.cpp.s
 .PHONY : csv_gen.cpp.s
 
+deterministic_main.o: deterministic_main.cpp.o
+
+.PHONY : deterministic_main.o
+
+# target to build an object file
+deterministic_main.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o
+.PHONY : deterministic_main.cpp.o
+
+deterministic_main.i: deterministic_main.cpp.i
+
+.PHONY : deterministic_main.i
+
+# target to preprocess a source file
+deterministic_main.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.i
+.PHONY : deterministic_main.cpp.i
+
+deterministic_main.s: deterministic_main.cpp.s
+
+.PHONY : deterministic_main.s
+
+# target to generate assembly for a file
+deterministic_main.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.s
+.PHONY : deterministic_main.cpp.s
+
 io/arg_parse.o: io/arg_parse.cpp.o
 
 .PHONY : io/arg_parse.o
@@ -242,6 +302,7 @@ io/arg_parse.o: io/arg_parse.cpp.o
 # target to build an object file
 io/arg_parse.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/arg_parse.cpp.o
 .PHONY : io/arg_parse.cpp.o
 
 io/arg_parse.i: io/arg_parse.cpp.i
@@ -251,6 +312,7 @@ io/arg_parse.i: io/arg_parse.cpp.i
 # target to preprocess a source file
 io/arg_parse.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/arg_parse.cpp.i
 .PHONY : io/arg_parse.cpp.i
 
 io/arg_parse.s: io/arg_parse.cpp.s
@@ -260,6 +322,7 @@ io/arg_parse.s: io/arg_parse.cpp.s
 # target to generate assembly for a file
 io/arg_parse.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/arg_parse.cpp.s
 .PHONY : io/arg_parse.cpp.s
 
 io/csvr.o: io/csvr.cpp.o
@@ -269,6 +332,7 @@ io/csvr.o: io/csvr.cpp.o
 # target to build an object file
 io/csvr.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr.cpp.o
 .PHONY : io/csvr.cpp.o
 
 io/csvr.i: io/csvr.cpp.i
@@ -278,6 +342,7 @@ io/csvr.i: io/csvr.cpp.i
 # target to preprocess a source file
 io/csvr.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr.cpp.i
 .PHONY : io/csvr.cpp.i
 
 io/csvr.s: io/csvr.cpp.s
@@ -287,6 +352,7 @@ io/csvr.s: io/csvr.cpp.s
 # target to generate assembly for a file
 io/csvr.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr.cpp.s
 .PHONY : io/csvr.cpp.s
 
 io/csvr_sim.o: io/csvr_sim.cpp.o
@@ -296,6 +362,7 @@ io/csvr_sim.o: io/csvr_sim.cpp.o
 # target to build an object file
 io/csvr_sim.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr_sim.cpp.o
 .PHONY : io/csvr_sim.cpp.o
 
 io/csvr_sim.i: io/csvr_sim.cpp.i
@@ -305,6 +372,7 @@ io/csvr_sim.i: io/csvr_sim.cpp.i
 # target to preprocess a source file
 io/csvr_sim.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr_sim.cpp.i
 .PHONY : io/csvr_sim.cpp.i
 
 io/csvr_sim.s: io/csvr_sim.cpp.s
@@ -314,6 +382,7 @@ io/csvr_sim.s: io/csvr_sim.cpp.s
 # target to generate assembly for a file
 io/csvr_sim.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvr_sim.cpp.s
 .PHONY : io/csvr_sim.cpp.s
 
 io/csvw.o: io/csvw.cpp.o
@@ -324,6 +393,7 @@ io/csvw.o: io/csvw.cpp.o
 io/csvw.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.o
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvw.cpp.o
 .PHONY : io/csvw.cpp.o
 
 io/csvw.i: io/csvw.cpp.i
@@ -334,6 +404,7 @@ io/csvw.i: io/csvw.cpp.i
 io/csvw.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.i
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvw.cpp.i
 .PHONY : io/csvw.cpp.i
 
 io/csvw.s: io/csvw.cpp.s
@@ -344,6 +415,7 @@ io/csvw.s: io/csvw.cpp.s
 io/csvw.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.s
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/csvw.cpp.s
 .PHONY : io/csvw.cpp.s
 
 io/ezxml/ezxml.o: io/ezxml/ezxml.c.o
@@ -353,6 +425,7 @@ io/ezxml/ezxml.o: io/ezxml/ezxml.c.o
 # target to build an object file
 io/ezxml/ezxml.c.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/ezxml/ezxml.c.o
 .PHONY : io/ezxml/ezxml.c.o
 
 io/ezxml/ezxml.i: io/ezxml/ezxml.c.i
@@ -362,6 +435,7 @@ io/ezxml/ezxml.i: io/ezxml/ezxml.c.i
 # target to preprocess a source file
 io/ezxml/ezxml.c.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/ezxml/ezxml.c.i
 .PHONY : io/ezxml/ezxml.c.i
 
 io/ezxml/ezxml.s: io/ezxml/ezxml.c.s
@@ -371,6 +445,7 @@ io/ezxml/ezxml.s: io/ezxml/ezxml.c.s
 # target to generate assembly for a file
 io/ezxml/ezxml.c.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/ezxml/ezxml.c.s
 .PHONY : io/ezxml/ezxml.c.s
 
 main.o: main.cpp.o
@@ -407,6 +482,7 @@ sim/base.o: sim/base.cpp.o
 # target to build an object file
 sim/base.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/base.cpp.o
 .PHONY : sim/base.cpp.o
 
 sim/base.i: sim/base.cpp.i
@@ -416,6 +492,7 @@ sim/base.i: sim/base.cpp.i
 # target to preprocess a source file
 sim/base.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/base.cpp.i
 .PHONY : sim/base.cpp.i
 
 sim/base.s: sim/base.cpp.s
@@ -425,6 +502,7 @@ sim/base.s: sim/base.cpp.s
 # target to generate assembly for a file
 sim/base.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/base.cpp.s
 .PHONY : sim/base.cpp.s
 
 sim/determ/baby_cl.o: sim/determ/baby_cl.cpp.o
@@ -434,6 +512,7 @@ sim/determ/baby_cl.o: sim/determ/baby_cl.cpp.o
 # target to build an object file
 sim/determ/baby_cl.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/baby_cl.cpp.o
 .PHONY : sim/determ/baby_cl.cpp.o
 
 sim/determ/baby_cl.i: sim/determ/baby_cl.cpp.i
@@ -443,6 +522,7 @@ sim/determ/baby_cl.i: sim/determ/baby_cl.cpp.i
 # target to preprocess a source file
 sim/determ/baby_cl.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/baby_cl.cpp.i
 .PHONY : sim/determ/baby_cl.cpp.i
 
 sim/determ/baby_cl.s: sim/determ/baby_cl.cpp.s
@@ -452,6 +532,7 @@ sim/determ/baby_cl.s: sim/determ/baby_cl.cpp.s
 # target to generate assembly for a file
 sim/determ/baby_cl.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/baby_cl.cpp.s
 .PHONY : sim/determ/baby_cl.cpp.s
 
 sim/determ/determ.o: sim/determ/determ.cpp.o
@@ -461,6 +542,7 @@ sim/determ/determ.o: sim/determ/determ.cpp.o
 # target to build an object file
 sim/determ/determ.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/determ.cpp.o
 .PHONY : sim/determ/determ.cpp.o
 
 sim/determ/determ.i: sim/determ/determ.cpp.i
@@ -470,6 +552,7 @@ sim/determ/determ.i: sim/determ/determ.cpp.i
 # target to preprocess a source file
 sim/determ/determ.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/determ.cpp.i
 .PHONY : sim/determ/determ.cpp.i
 
 sim/determ/determ.s: sim/determ/determ.cpp.s
@@ -479,34 +562,68 @@ sim/determ/determ.s: sim/determ/determ.cpp.s
 # target to generate assembly for a file
 sim/determ/determ.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/determ/determ.cpp.s
 .PHONY : sim/determ/determ.cpp.s
 
-sim/stoch/stoch.o: sim/stoch/stoch.cpp.o
+sim/stoch/fast_gillespie_direct_simulation.o: sim/stoch/fast_gillespie_direct_simulation.cpp.o
 
-.PHONY : sim/stoch/stoch.o
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.o
 
 # target to build an object file
-sim/stoch/stoch.cpp.o:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o
-.PHONY : sim/stoch/stoch.cpp.o
+sim/stoch/fast_gillespie_direct_simulation.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.cpp.o
 
-sim/stoch/stoch.i: sim/stoch/stoch.cpp.i
+sim/stoch/fast_gillespie_direct_simulation.i: sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-.PHONY : sim/stoch/stoch.i
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.i
 
 # target to preprocess a source file
-sim/stoch/stoch.cpp.i:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.i
-.PHONY : sim/stoch/stoch.cpp.i
+sim/stoch/fast_gillespie_direct_simulation.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.i
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-sim/stoch/stoch.s: sim/stoch/stoch.cpp.s
+sim/stoch/fast_gillespie_direct_simulation.s: sim/stoch/fast_gillespie_direct_simulation.cpp.s
 
-.PHONY : sim/stoch/stoch.s
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.s
 
 # target to generate assembly for a file
-sim/stoch/stoch.cpp.s:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.s
-.PHONY : sim/stoch/stoch.cpp.s
+sim/stoch/fast_gillespie_direct_simulation.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.s
+.PHONY : sim/stoch/fast_gillespie_direct_simulation.cpp.s
+
+sim/stoch/next_reaction_simulation.o: sim/stoch/next_reaction_simulation.cpp.o
+
+.PHONY : sim/stoch/next_reaction_simulation.o
+
+# target to build an object file
+sim/stoch/next_reaction_simulation.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/next_reaction_simulation.cpp.o
+.PHONY : sim/stoch/next_reaction_simulation.cpp.o
+
+sim/stoch/next_reaction_simulation.i: sim/stoch/next_reaction_simulation.cpp.i
+
+.PHONY : sim/stoch/next_reaction_simulation.i
+
+# target to preprocess a source file
+sim/stoch/next_reaction_simulation.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/next_reaction_simulation.cpp.i
+.PHONY : sim/stoch/next_reaction_simulation.cpp.i
+
+sim/stoch/next_reaction_simulation.s: sim/stoch/next_reaction_simulation.cpp.s
+
+.PHONY : sim/stoch/next_reaction_simulation.s
+
+# target to generate assembly for a file
+sim/stoch/next_reaction_simulation.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/sim/stoch/next_reaction_simulation.cpp.s
+.PHONY : sim/stoch/next_reaction_simulation.cpp.s
 
 utility/color.o: utility/color.cpp.o
 
@@ -516,6 +633,7 @@ utility/color.o: utility/color.cpp.o
 utility/color.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.o
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/color.cpp.o
 .PHONY : utility/color.cpp.o
 
 utility/color.i: utility/color.cpp.i
@@ -526,6 +644,7 @@ utility/color.i: utility/color.cpp.i
 utility/color.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.i
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/color.cpp.i
 .PHONY : utility/color.cpp.i
 
 utility/color.s: utility/color.cpp.s
@@ -536,6 +655,7 @@ utility/color.s: utility/color.cpp.s
 utility/color.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.s
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/color.cpp.s
 .PHONY : utility/color.cpp.s
 
 utility/common_utils.o: utility/common_utils.cpp.o
@@ -545,6 +665,7 @@ utility/common_utils.o: utility/common_utils.cpp.o
 # target to build an object file
 utility/common_utils.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/common_utils.cpp.o
 .PHONY : utility/common_utils.cpp.o
 
 utility/common_utils.i: utility/common_utils.cpp.i
@@ -554,6 +675,7 @@ utility/common_utils.i: utility/common_utils.cpp.i
 # target to preprocess a source file
 utility/common_utils.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/common_utils.cpp.i
 .PHONY : utility/common_utils.cpp.i
 
 utility/common_utils.s: utility/common_utils.cpp.s
@@ -563,6 +685,7 @@ utility/common_utils.s: utility/common_utils.cpp.s
 # target to generate assembly for a file
 utility/common_utils.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/common_utils.cpp.s
 .PHONY : utility/common_utils.cpp.s
 
 utility/preprocessor.o: utility/preprocessor.cpp.o
@@ -572,6 +695,7 @@ utility/preprocessor.o: utility/preprocessor.cpp.o
 # target to build an object file
 utility/preprocessor.cpp.o:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/preprocessor.cpp.o
 .PHONY : utility/preprocessor.cpp.o
 
 utility/preprocessor.i: utility/preprocessor.cpp.i
@@ -581,6 +705,7 @@ utility/preprocessor.i: utility/preprocessor.cpp.i
 # target to preprocess a source file
 utility/preprocessor.cpp.i:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.i
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/preprocessor.cpp.i
 .PHONY : utility/preprocessor.cpp.i
 
 utility/preprocessor.s: utility/preprocessor.cpp.s
@@ -590,6 +715,7 @@ utility/preprocessor.s: utility/preprocessor.cpp.s
 # target to generate assembly for a file
 utility/preprocessor.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.s
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/utility/preprocessor.cpp.s
 .PHONY : utility/preprocessor.cpp.s
 
 # Help Target
@@ -599,18 +725,23 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... csv_gen"
 	@echo "... test"
-	@echo "... csv_gen_run"
+	@echo "... benchmark"
+	@echo "... csv_gen"
+	@echo "... edit_cache"
 	@echo "... simulation_lib"
 	@echo "... simulation"
-	@echo "... edit_cache"
+	@echo "... benchmark_lib"
+	@echo "... csv_gen_run"
 	@echo "... core/build_once.o"
 	@echo "... core/build_once.i"
 	@echo "... core/build_once.s"
 	@echo "... csv_gen.o"
 	@echo "... csv_gen.i"
 	@echo "... csv_gen.s"
+	@echo "... deterministic_main.o"
+	@echo "... deterministic_main.i"
+	@echo "... deterministic_main.s"
 	@echo "... io/arg_parse.o"
 	@echo "... io/arg_parse.i"
 	@echo "... io/arg_parse.s"
@@ -638,9 +769,12 @@ help:
 	@echo "... sim/determ/determ.o"
 	@echo "... sim/determ/determ.i"
 	@echo "... sim/determ/determ.s"
-	@echo "... sim/stoch/stoch.o"
-	@echo "... sim/stoch/stoch.i"
-	@echo "... sim/stoch/stoch.s"
+	@echo "... sim/stoch/fast_gillespie_direct_simulation.o"
+	@echo "... sim/stoch/fast_gillespie_direct_simulation.i"
+	@echo "... sim/stoch/fast_gillespie_direct_simulation.s"
+	@echo "... sim/stoch/next_reaction_simulation.o"
+	@echo "... sim/stoch/next_reaction_simulation.i"
+	@echo "... sim/stoch/next_reaction_simulation.s"
 	@echo "... utility/color.o"
 	@echo "... utility/color.i"
 	@echo "... utility/color.s"

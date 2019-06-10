@@ -153,33 +153,57 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o
 
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o: ../../source/sim/stoch/stoch.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o: ../../source/sim/stoch/fast_gillespie_direct_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp > CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.i
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp > CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.s
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.requires:
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires:
 
-.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.requires
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.provides: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.requires
-	$(MAKE) -f test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/build.make test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.provides.build
-.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.provides
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
+	$(MAKE) -f test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/build.make test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides.build
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides
 
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o: ../../source/sim/stoch/next_reaction_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp > CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp -o CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.requires:
+
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.requires
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.provides: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.requires
+	$(MAKE) -f test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/build.make test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.provides.build
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.provides
+
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o
 
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o: ../../source/utility/common_utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o -c /home/mcclelnr/DENSE/source/utility/common_utils.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.i: cmake_force
@@ -203,7 +227,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_util
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o: ../../source/utility/color.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o -c /home/mcclelnr/DENSE/source/utility/color.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.i: cmake_force
@@ -227,7 +251,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o: ../../source/utility/preprocessor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o -c /home/mcclelnr/DENSE/source/utility/preprocessor.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.i: cmake_force
@@ -251,7 +275,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocesso
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o: ../../source/io/arg_parse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o -c /home/mcclelnr/DENSE/source/io/arg_parse.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.i: cmake_force
@@ -275,7 +299,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o.
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o: ../../source/io/csvr.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.i: cmake_force
@@ -299,7 +323,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr.cpp.o.provi
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o: ../../source/io/csvr_sim.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr_sim.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.i: cmake_force
@@ -323,7 +347,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o.p
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o: ../../source/io/csvw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o -c /home/mcclelnr/DENSE/source/io/csvw.cpp
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.i: cmake_force
@@ -347,7 +371,7 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/csvw.cpp.o.provi
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/flags.make
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o: ../../source/io/ezxml/ezxml.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o   -c /home/mcclelnr/DENSE/source/io/ezxml/ezxml.c
 
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.i: cmake_force
@@ -375,7 +399,8 @@ nan_simulation_lib_OBJECTS = \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/base.cpp.o" \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o" \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o" \
-"CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o" \
+"CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o" \
+"CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o" \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o" \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o" \
 "CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o" \
@@ -392,7 +417,8 @@ test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_l
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/base.cpp.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o
-test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o
+test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o
@@ -403,7 +429,7 @@ test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_l
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/build.make
 test/Nan_Test/libnan_simulation_lib.a: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library libnan_simulation_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libnan_simulation_lib.a"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && $(CMAKE_COMMAND) -P CMakeFiles/nan_simulation_lib.dir/cmake_clean_target.cmake
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/nan_simulation_lib.dir/link.txt --verbose=$(VERBOSE)
 
@@ -416,7 +442,8 @@ test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFil
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/base.cpp.o.requires
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o.requires
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o.requires
-test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/stoch.cpp.o.requires
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
+test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.requires
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o.requires
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/color.cpp.o.requires
 test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o.requires

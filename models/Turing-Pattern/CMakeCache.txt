@@ -272,6 +272,9 @@ DDESimulatorTemplate_SOURCE_DIR:STATIC=/home/mcclelnr/DENSE
 Real:STRING=double
 
 //Dependencies for target
+benchmark_lib_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
 her2014_param_search_lib_LIB_DEPENDS:STATIC=
 
 //Dependencies for target

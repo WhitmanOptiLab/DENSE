@@ -153,33 +153,57 @@ source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o.provides: source/C
 source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o.provides.build: source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o
 
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o: ../../source/sim/stoch/stoch.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o: ../../source/sim/stoch/fast_gillespie_direct_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp > CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.i
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp > CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/stoch.cpp -o CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.s
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp -o CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.s
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.requires:
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires:
 
-.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.requires
+.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.provides: source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.requires
-	$(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.provides.build
-.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.provides
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides: source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
+	$(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides.build
+.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides
 
-source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.provides.build: source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o
+source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.provides.build: source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o: ../../source/sim/stoch/next_reaction_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp > CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.i
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp -o CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.s
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.requires:
+
+.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.requires
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.provides: source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.requires
+	$(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.provides.build
+.PHONY : source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.provides
+
+source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.provides.build: source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o
 
 
 source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o: ../../source/utility/common_utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o -c /home/mcclelnr/DENSE/source/utility/common_utils.cpp
 
 source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.i: cmake_force
@@ -203,7 +227,7 @@ source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o.provides.build: 
 
 source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o: ../../source/utility/color.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/utility/color.cpp.o -c /home/mcclelnr/DENSE/source/utility/color.cpp
 
 source/CMakeFiles/simulation_lib.dir/utility/color.cpp.i: cmake_force
@@ -227,7 +251,7 @@ source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o.provides.build: source/
 
 source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o: ../../source/utility/preprocessor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o -c /home/mcclelnr/DENSE/source/utility/preprocessor.cpp
 
 source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.i: cmake_force
@@ -251,7 +275,7 @@ source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o.provides.build: 
 
 source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o: ../../source/io/arg_parse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o -c /home/mcclelnr/DENSE/source/io/arg_parse.cpp
 
 source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.i: cmake_force
@@ -275,7 +299,7 @@ source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o.provides.build: source/C
 
 source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o: ../../source/io/csvr.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/io/csvr.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr.cpp
 
 source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.i: cmake_force
@@ -299,7 +323,7 @@ source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o.provides.build: source/CMakeF
 
 source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o: ../../source/io/csvr_sim.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr_sim.cpp
 
 source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.i: cmake_force
@@ -323,7 +347,7 @@ source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o.provides.build: source/CM
 
 source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o: ../../source/io/csvw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/simulation_lib.dir/io/csvw.cpp.o -c /home/mcclelnr/DENSE/source/io/csvw.cpp
 
 source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.i: cmake_force
@@ -347,7 +371,7 @@ source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o.provides.build: source/CMakeF
 
 source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o: source/CMakeFiles/simulation_lib.dir/flags.make
 source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o: ../../source/io/ezxml/ezxml.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o   -c /home/mcclelnr/DENSE/source/io/ezxml/ezxml.c
 
 source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.i: cmake_force
@@ -375,7 +399,8 @@ simulation_lib_OBJECTS = \
 "CMakeFiles/simulation_lib.dir/sim/base.cpp.o" \
 "CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.o" \
 "CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o" \
-"CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o" \
+"CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o" \
+"CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o" \
 "CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o" \
 "CMakeFiles/simulation_lib.dir/utility/color.cpp.o" \
 "CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o" \
@@ -392,7 +417,8 @@ source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/core/build_once
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/base.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o
-source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o
+source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o
@@ -403,7 +429,7 @@ source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/build.make
 source/libsimulation_lib.a: source/CMakeFiles/simulation_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX static library libsimulation_lib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libsimulation_lib.a"
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && $(CMAKE_COMMAND) -P CMakeFiles/simulation_lib.dir/cmake_clean_target.cmake
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/simulation_lib.dir/link.txt --verbose=$(VERBOSE)
 
@@ -416,7 +442,8 @@ source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/base.cpp.o.requires
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.o.requires
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o.requires
-source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o.requires
+source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires
+source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/sim/stoch/next_reaction_simulation.cpp.o.requires
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o.requires
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o.requires
 source/CMakeFiles/simulation_lib.dir/requires: source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o.requires

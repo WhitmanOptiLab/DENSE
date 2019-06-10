@@ -421,32 +421,59 @@ __/__/source/sim/determ/determ.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/determ/determ.cpp.s
 .PHONY : __/__/source/sim/determ/determ.cpp.s
 
-__/__/source/sim/stoch/stoch.o: __/__/source/sim/stoch/stoch.cpp.o
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.o: __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o
 
-.PHONY : __/__/source/sim/stoch/stoch.o
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.o
 
 # target to build an object file
-__/__/source/sim/stoch/stoch.cpp.o:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/stoch.cpp.o
-.PHONY : __/__/source/sim/stoch/stoch.cpp.o
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o
 
-__/__/source/sim/stoch/stoch.i: __/__/source/sim/stoch/stoch.cpp.i
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.i: __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-.PHONY : __/__/source/sim/stoch/stoch.i
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.i
 
 # target to preprocess a source file
-__/__/source/sim/stoch/stoch.cpp.i:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/stoch.cpp.i
-.PHONY : __/__/source/sim/stoch/stoch.cpp.i
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
-__/__/source/sim/stoch/stoch.s: __/__/source/sim/stoch/stoch.cpp.s
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.s: __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
 
-.PHONY : __/__/source/sim/stoch/stoch.s
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.s
 
 # target to generate assembly for a file
-__/__/source/sim/stoch/stoch.cpp.s:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/stoch.cpp.s
-.PHONY : __/__/source/sim/stoch/stoch.cpp.s
+__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
+.PHONY : __/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
+
+__/__/source/sim/stoch/next_reaction_simulation.o: __/__/source/sim/stoch/next_reaction_simulation.cpp.o
+
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.o
+
+# target to build an object file
+__/__/source/sim/stoch/next_reaction_simulation.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.cpp.o
+
+__/__/source/sim/stoch/next_reaction_simulation.i: __/__/source/sim/stoch/next_reaction_simulation.cpp.i
+
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.i
+
+# target to preprocess a source file
+__/__/source/sim/stoch/next_reaction_simulation.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.cpp.i
+
+__/__/source/sim/stoch/next_reaction_simulation.s: __/__/source/sim/stoch/next_reaction_simulation.cpp.s
+
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.s
+
+# target to generate assembly for a file
+__/__/source/sim/stoch/next_reaction_simulation.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/time_test/CMakeFiles/time_test_lib.dir/build.make test/time_test/CMakeFiles/time_test_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s
+.PHONY : __/__/source/sim/stoch/next_reaction_simulation.cpp.s
 
 __/__/source/utility/color.o: __/__/source/utility/color.cpp.o
 
@@ -570,9 +597,12 @@ help:
 	@echo "... __/__/source/sim/determ/determ.o"
 	@echo "... __/__/source/sim/determ/determ.i"
 	@echo "... __/__/source/sim/determ/determ.s"
-	@echo "... __/__/source/sim/stoch/stoch.o"
-	@echo "... __/__/source/sim/stoch/stoch.i"
-	@echo "... __/__/source/sim/stoch/stoch.s"
+	@echo "... __/__/source/sim/stoch/fast_gillespie_direct_simulation.o"
+	@echo "... __/__/source/sim/stoch/fast_gillespie_direct_simulation.i"
+	@echo "... __/__/source/sim/stoch/fast_gillespie_direct_simulation.s"
+	@echo "... __/__/source/sim/stoch/next_reaction_simulation.o"
+	@echo "... __/__/source/sim/stoch/next_reaction_simulation.i"
+	@echo "... __/__/source/sim/stoch/next_reaction_simulation.s"
 	@echo "... __/__/source/utility/color.o"
 	@echo "... __/__/source/utility/color.i"
 	@echo "... __/__/source/utility/color.s"

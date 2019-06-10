@@ -122,6 +122,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named benchmark
+
+# Build rule for target.
+benchmark: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark
+.PHONY : benchmark
+
+# fast build rule for target.
+benchmark/fast:
+	$(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/build
+.PHONY : benchmark/fast
+
+#=============================================================================
 # Target rules for targets named csv_gen
 
 # Build rule for target.
@@ -133,19 +146,6 @@ csv_gen: cmake_check_build_system
 csv_gen/fast:
 	$(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/build
 .PHONY : csv_gen/fast
-
-#=============================================================================
-# Target rules for targets named csv_gen_run
-
-# Build rule for target.
-csv_gen_run: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 csv_gen_run
-.PHONY : csv_gen_run
-
-# fast build rule for target.
-csv_gen_run/fast:
-	$(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
-.PHONY : csv_gen_run/fast
 
 #=============================================================================
 # Target rules for targets named simulation_lib
@@ -172,6 +172,32 @@ simulation: cmake_check_build_system
 simulation/fast:
 	$(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/build
 .PHONY : simulation/fast
+
+#=============================================================================
+# Target rules for targets named benchmark_lib
+
+# Build rule for target.
+benchmark_lib: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 benchmark_lib
+.PHONY : benchmark_lib
+
+# fast build rule for target.
+benchmark_lib/fast:
+	$(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/build
+.PHONY : benchmark_lib/fast
+
+#=============================================================================
+# Target rules for targets named csv_gen_run
+
+# Build rule for target.
+csv_gen_run: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 csv_gen_run
+.PHONY : csv_gen_run
+
+# fast build rule for target.
+csv_gen_run/fast:
+	$(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
+.PHONY : csv_gen_run/fast
 
 #=============================================================================
 # Target rules for targets named her2014_simulation
@@ -312,10 +338,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... edit_cache"
+	@echo "... benchmark"
 	@echo "... csv_gen"
-	@echo "... csv_gen_run"
 	@echo "... simulation_lib"
 	@echo "... simulation"
+	@echo "... benchmark_lib"
+	@echo "... csv_gen_run"
 	@echo "... her2014_simulation"
 	@echo "... her2014_simulation_lib"
 	@echo "... her2014_param_search"

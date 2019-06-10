@@ -1,4 +1,4 @@
-The system is: Linux - 4.15.0-50-generic - x86_64
+The system is: Linux - 4.15.0-51-generic - x86_64
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
 Build flags: 
@@ -28,28 +28,28 @@ The C compiler identification is GNU, found in "/home/mcclelnr/DENSE/models/Turi
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_fe31c/fast"
-/usr/bin/make -f CMakeFiles/cmTC_fe31c.dir/build.make CMakeFiles/cmTC_fe31c.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8fdff/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8fdff.dir/build.make CMakeFiles/cmTC_8fdff.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_fe31c.dir/testCXXCompiler.cxx.o
-/usr/bin/c++     -o CMakeFiles/cmTC_fe31c.dir/testCXXCompiler.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_fe31c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fe31c.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_fe31c.dir/testCXXCompiler.cxx.o  -o cmTC_fe31c 
+Building CXX object CMakeFiles/cmTC_8fdff.dir/testCXXCompiler.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_8fdff.dir/testCXXCompiler.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_8fdff
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8fdff.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_8fdff.dir/testCXXCompiler.cxx.o  -o cmTC_8fdff 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_cffb5/fast"
-/usr/bin/make -f CMakeFiles/cmTC_cffb5.dir/build.make CMakeFiles/cmTC_cffb5.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_e9e91/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e9e91.dir/build.make CMakeFiles/cmTC_e9e91.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++     -o CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_cffb5
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cffb5.dir/link.txt --verbose=1
-/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_cffb5 
+Building CXX object CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++     -o CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_e9e91
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9e91.dir/link.txt --verbose=1
+/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e9e91 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
@@ -61,9 +61,9 @@ Thread model: posix
 gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_cffb5' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2ICWAO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cffb5 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_cffb5' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e9e91' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccBn83IT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_e9e91 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e9e91' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -71,14 +71,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_cffb5/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_cffb5.dir/build.make CMakeFiles/cmTC_cffb5.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_e9e91/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_e9e91.dir/build.make CMakeFiles/cmTC_e9e91.dir/build]
   ignore line: [make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_cffb5]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cffb5.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_cffb5 ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++     -o CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.10/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_e9e91]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e9e91.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++      -v -rdynamic CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_e9e91 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
@@ -90,13 +90,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_cffb5' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/cc2ICWAO.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_cffb5 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_e9e91' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccBn83IT.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_e9e91 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cc2ICWAO.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccBn83IT.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -116,7 +116,7 @@ Parsed CXX implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_cffb5] ==> ignore
+    arg [cmTC_e9e91] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
@@ -128,7 +128,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
-    arg [CMakeFiles/cmTC_cffb5.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_e9e91.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -156,14 +156,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_105ef/fast"
-/usr/bin/make -f CMakeFiles/cmTC_105ef.dir/build.make CMakeFiles/cmTC_105ef.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_c55cd/fast"
+/usr/bin/make -f CMakeFiles/cmTC_c55cd.dir/build.make CMakeFiles/cmTC_c55cd.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_105ef.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_105ef.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_105ef
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_105ef.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_105ef.dir/feature_tests.cxx.o  -o cmTC_105ef 
+Building CXX object CMakeFiles/cmTC_c55cd.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_c55cd.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_c55cd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c55cd.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_c55cd.dir/feature_tests.cxx.o  -o cmTC_c55cd 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -229,14 +229,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7d676/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7d676.dir/build.make CMakeFiles/cmTC_7d676.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8a0c7/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8a0c7.dir/build.make CMakeFiles/cmTC_8a0c7.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_7d676.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_7d676.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_7d676
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7d676.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_7d676.dir/feature_tests.cxx.o  -o cmTC_7d676 
+Building CXX object CMakeFiles/cmTC_8a0c7.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_8a0c7.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_8a0c7
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a0c7.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_8a0c7.dir/feature_tests.cxx.o  -o cmTC_8a0c7 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -302,14 +302,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d201b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d201b.dir/build.make CMakeFiles/cmTC_d201b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_4dc13/fast"
+/usr/bin/make -f CMakeFiles/cmTC_4dc13.dir/build.make CMakeFiles/cmTC_4dc13.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_d201b.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_d201b.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_d201b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d201b.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_d201b.dir/feature_tests.cxx.o  -o cmTC_d201b 
+Building CXX object CMakeFiles/cmTC_4dc13.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_4dc13.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_4dc13
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4dc13.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_4dc13.dir/feature_tests.cxx.o  -o cmTC_4dc13 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -375,14 +375,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9930b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9930b.dir/build.make CMakeFiles/cmTC_9930b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_fa878/fast"
+/usr/bin/make -f CMakeFiles/cmTC_fa878.dir/build.make CMakeFiles/cmTC_fa878.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_9930b.dir/feature_tests.cxx.o
-/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_9930b.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_9930b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9930b.dir/link.txt --verbose=1
-/usr/bin/c++       -rdynamic CMakeFiles/cmTC_9930b.dir/feature_tests.cxx.o  -o cmTC_9930b 
+Building CXX object CMakeFiles/cmTC_fa878.dir/feature_tests.cxx.o
+/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_fa878.dir/feature_tests.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_fa878
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa878.dir/link.txt --verbose=1
+/usr/bin/c++       -rdynamic CMakeFiles/cmTC_fa878.dir/feature_tests.cxx.o  -o cmTC_fa878 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -446,28 +446,28 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_43cde/fast"
-/usr/bin/make -f CMakeFiles/cmTC_43cde.dir/build.make CMakeFiles/cmTC_43cde.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_7983c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_7983c.dir/build.make CMakeFiles/cmTC_7983c.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_43cde.dir/testCCompiler.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_43cde.dir/testCCompiler.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_43cde
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43cde.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_43cde.dir/testCCompiler.c.o  -o cmTC_43cde 
+Building C object CMakeFiles/cmTC_7983c.dir/testCCompiler.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_7983c.dir/testCCompiler.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_7983c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7983c.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_7983c.dir/testCCompiler.c.o  -o cmTC_7983c 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ebe22/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ebe22.dir/build.make CMakeFiles/cmTC_ebe22.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_26028/fast"
+/usr/bin/make -f CMakeFiles/cmTC_26028.dir/build.make CMakeFiles/cmTC_26028.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc    -o CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_ebe22
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ebe22.dir/link.txt --verbose=1
-/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o  -o cmTC_ebe22 
+Building C object CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_26028
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26028.dir/link.txt --verbose=1
+/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o  -o cmTC_26028 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper
@@ -479,9 +479,9 @@ Thread model: posix
 gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_ebe22' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccM48WN2.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ebe22 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_ebe22' '-mtune=generic' '-march=x86-64'
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_26028' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccmN3LqH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_26028 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_26028' '-mtune=generic' '-march=x86-64'
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -489,14 +489,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_ebe22/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_ebe22.dir/build.make CMakeFiles/cmTC_ebe22.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_26028/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_26028.dir/build.make CMakeFiles/cmTC_26028.dir/build]
   ignore line: [make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_ebe22]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ebe22.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o  -o cmTC_ebe22 ]
+  ignore line: [Building C object CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc    -o CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.10/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_26028]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26028.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc     -v -rdynamic CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o  -o cmTC_26028 ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper]
@@ -508,13 +508,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/7/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/7/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_ebe22' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccM48WN2.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_ebe22 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-rdynamic' '-o' 'cmTC_26028' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/7/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper -plugin-opt=-fresolution=/tmp/ccmN3LqH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -pie -z now -z relro -o cmTC_26028 /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o -L/usr/lib/gcc/x86_64-linux-gnu/7 -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/7/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/7/../../.. CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/x86_64-linux-gnu/7/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/7/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccM48WN2.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccmN3LqH.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -534,7 +534,7 @@ Parsed C implicit link information from above output:
     arg [-znow] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_ebe22] ==> ignore
+    arg [cmTC_26028] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/Scrt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/7/crtbeginS.o] ==> ignore
@@ -546,7 +546,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/7/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/7/../../..]
-    arg [CMakeFiles/cmTC_ebe22.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_26028.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--push-state] ==> ignore
     arg [--as-needed] ==> ignore
@@ -578,14 +578,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0424b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0424b.dir/build.make CMakeFiles/cmTC_0424b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_0a218/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0a218.dir/build.make CMakeFiles/cmTC_0a218.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0424b.dir/feature_tests.c.o
-/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_0424b.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
-Linking C executable cmTC_0424b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0424b.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_0424b.dir/feature_tests.c.o  -o cmTC_0424b 
+Building C object CMakeFiles/cmTC_0a218.dir/feature_tests.c.o
+/usr/bin/cc   -std=c11 -o CMakeFiles/cmTC_0a218.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
+Linking C executable cmTC_0a218
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0a218.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_0a218.dir/feature_tests.c.o  -o cmTC_0a218 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -598,14 +598,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_8398a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_8398a.dir/build.make CMakeFiles/cmTC_8398a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_55fbb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_55fbb.dir/build.make CMakeFiles/cmTC_55fbb.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_8398a.dir/feature_tests.c.o
-/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_8398a.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
-Linking C executable cmTC_8398a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8398a.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_8398a.dir/feature_tests.c.o  -o cmTC_8398a 
+Building C object CMakeFiles/cmTC_55fbb.dir/feature_tests.c.o
+/usr/bin/cc   -std=c99 -o CMakeFiles/cmTC_55fbb.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
+Linking C executable cmTC_55fbb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_55fbb.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_55fbb.dir/feature_tests.c.o  -o cmTC_55fbb 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -618,14 +618,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_0f0ed/fast"
-/usr/bin/make -f CMakeFiles/cmTC_0f0ed.dir/build.make CMakeFiles/cmTC_0f0ed.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_353f5/fast"
+/usr/bin/make -f CMakeFiles/cmTC_353f5.dir/build.make CMakeFiles/cmTC_353f5.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_0f0ed.dir/feature_tests.c.o
-/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_0f0ed.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
-Linking C executable cmTC_0f0ed
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f0ed.dir/link.txt --verbose=1
-/usr/bin/cc      -rdynamic CMakeFiles/cmTC_0f0ed.dir/feature_tests.c.o  -o cmTC_0f0ed 
+Building C object CMakeFiles/cmTC_353f5.dir/feature_tests.c.o
+/usr/bin/cc   -std=c90 -o CMakeFiles/cmTC_353f5.dir/feature_tests.c.o   -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/feature_tests.c
+Linking C executable cmTC_353f5
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_353f5.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_353f5.dir/feature_tests.c.o  -o cmTC_353f5 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 
@@ -636,14 +636,14 @@ make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFile
 Performing C++ SOURCE FILE Test COMPILER_SUPPORTS_CXX11 succeeded with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d068a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d068a.dir/build.make CMakeFiles/cmTC_d068a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_97db6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_97db6.dir/build.make CMakeFiles/cmTC_97db6.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_d068a.dir/src.cxx.o
-/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX11   -std=c++11 -o CMakeFiles/cmTC_d068a.dir/src.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_d068a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d068a.dir/link.txt --verbose=1
-/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX11    -rdynamic CMakeFiles/cmTC_d068a.dir/src.cxx.o  -o cmTC_d068a 
+Building CXX object CMakeFiles/cmTC_97db6.dir/src.cxx.o
+/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX11   -std=c++11 -o CMakeFiles/cmTC_97db6.dir/src.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_97db6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_97db6.dir/link.txt --verbose=1
+/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX11    -rdynamic CMakeFiles/cmTC_97db6.dir/src.cxx.o  -o cmTC_97db6 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 Source file was:
@@ -651,14 +651,14 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test COMPILER_SUPPORTS_CXX0X succeeded with the following output:
 Change Dir: /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7ca0a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_7ca0a.dir/build.make CMakeFiles/cmTC_7ca0a.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_a9f37/fast"
+/usr/bin/make -f CMakeFiles/cmTC_a9f37.dir/build.make CMakeFiles/cmTC_a9f37.dir/build
 make[1]: Entering directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_7ca0a.dir/src.cxx.o
-/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX0X   -std=c++0x -o CMakeFiles/cmTC_7ca0a.dir/src.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/src.cxx
-Linking CXX executable cmTC_7ca0a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ca0a.dir/link.txt --verbose=1
-/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX0X    -rdynamic CMakeFiles/cmTC_7ca0a.dir/src.cxx.o  -o cmTC_7ca0a 
+Building CXX object CMakeFiles/cmTC_a9f37.dir/src.cxx.o
+/usr/bin/c++    -DCOMPILER_SUPPORTS_CXX0X   -std=c++0x -o CMakeFiles/cmTC_a9f37.dir/src.cxx.o -c /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_a9f37
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9f37.dir/link.txt --verbose=1
+/usr/bin/c++   -DCOMPILER_SUPPORTS_CXX0X    -rdynamic CMakeFiles/cmTC_a9f37.dir/src.cxx.o  -o cmTC_a9f37 
 make[1]: Leaving directory '/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/CMakeTmp'
 
 Source file was:

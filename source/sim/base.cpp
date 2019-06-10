@@ -40,6 +40,7 @@ dense::Simulation::Simulation(Parameter_Set parameter_set, Natural cell_count, N
     cell_parameters_(circumference, cell_count)
   {
     calc_max_delays(factors_perturb, factors_gradient);
+    graph_constructor();
     calc_neighbor_2d();
     initialize_params(cell_parameters_, parameter_set_, 1.0, factors_perturb, factors_gradient);
   }
