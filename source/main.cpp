@@ -112,6 +112,8 @@ void display_usage(std::ostream& out) {
     green << "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.\n" <<
     yellow << "[-v | --time-col]        <bool> " <<
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
+    yellow << "[-d | --initial-conc]    <string>" <<
+    green << "Relative file location and name of the file containing the initial concentrations of species.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
@@ -126,6 +128,29 @@ std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
 
 std::vector<Species> default_specie_option;
 int cell_total;
+
+
+template <typename NUM_TYPE>
+void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
+  if(c_or_0){
+    NUM_TYPE c_species;
+    csvr reader = csvr(init_conc);
+    while(reader.get_next(&c_species)){
+      conc->push_back(c_species);
+    }
+  } else {
+    for(int i = 0; i < NUM_SPECIES; i++){
+      conc->push_back(0);
+    }
+  }
+  while(conc->size() > NUM_SPECIES){
+    conc->pop_back();
+  }
+  while(conc->size() < NUM_SPECIES){
+    conc->push_back(0);
+  }
+}
+
 
 int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
@@ -159,9 +184,9 @@ int main(int argc, char* argv[]) {
     run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
   }
+
   std::string param_sets;
   int tissue_width;
-
   // Required simulation fields
   if (!(arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
           arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
@@ -195,34 +220,42 @@ int main(int argc, char* argv[]) {
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
 
   auto parameter_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
+  
 
+  // See if starting with initial concentrations
+  //    initialize conc vector with either 0s or given concentrations
+  std::string init_conc;
+  //initialize conc vector with initial concentrations or 0s
+  bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+  
   if (step_size == 0.0) {
+    std::vector<int> conc;
+    conc_vector(init_conc, c_or_0, &conc);
     using Simulation = Stochastic_Simulation;
     std::vector<Simulation> simulations;
-
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
-        cell_total, tissue_width, seed);
+        cell_total, tissue_width, seed, conc);
     }
-
     run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
-
   } else {
+    std::vector<Real> conc;
+    conc_vector(init_conc, c_or_0, &conc);
     using Simulation = Deterministic_Simulation;
     std::vector<Simulation> simulations;
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
-        cell_total, tissue_width, Minutes{step_size});
+        cell_total, tissue_width, Minutes{step_size}, conc);
     }
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), 		 
-		parse_analysis_entries<Simulation>(), true);
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), true);
     return EXIT_SUCCESS;
   }
 
 }
+
 
 #ifndef __cpp_concepts
 template <typename Simulation>

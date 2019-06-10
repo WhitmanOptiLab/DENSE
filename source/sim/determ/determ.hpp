@@ -59,7 +59,7 @@ private:
   baby_cl _baby_cl;
 public:
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Minutes step_size);
+                    Minutes step_size, std::vector<Real> conc = std::vector<Real>());
 
   CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);
