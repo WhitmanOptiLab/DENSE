@@ -14,9 +14,9 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/sim/base.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
-          ${PROJECT_SOURCE_DIR}/source/sim/stoch/gillespie_direct_simulation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${PROJECT_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
+          ${PROJECT_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/common_utils.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/color.cpp
           ${PROJECT_SOURCE_DIR}/source/utility/preprocessor.cpp
