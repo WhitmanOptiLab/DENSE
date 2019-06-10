@@ -8,9 +8,9 @@
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-#add_subdirectory("${PROJECT_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
+#add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-SIMULATION(time_test ${CMAKE_CURRENT_SOURCE_DIR})
+DETERMINISTIC_SIMULATION(time_test ${CMAKE_CURRENT_SOURCE_DIR})
 
 #the current DENSE build's compiled simulation called "simulation" 
 set(simA_cmd ${CMAKE_SOURCE_DIR}/test/time_test/simulation)
@@ -19,7 +19,8 @@ set(simA_cmd ${CMAKE_SOURCE_DIR}/test/time_test/simulation)
 set(simB_cmd ${CMAKE_SOURCE_DIR}/test/time_test/ref_sim)
 
 #the desired parameters for the test from the param_sets.csv file in this directory, be sure to update it with desired params
-set(test_args "--param-sets ${CMAKE_SOURCE_DIR}/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01")
+set(test_args "--param-sets ${CMAKE_SOURCE_DIR}/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01 -d ${CMAKE_SOURCE_DIR}/test/time_test/init_conc.csv")
+set(test_args1 "--param-sets ${CMAKE_SOURCE_DIR}/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01")
 
 add_test( "current_build_time"
  ${CMAKE_COMMAND}
@@ -31,6 +32,6 @@ add_test( "current_build_time"
 add_test( "previous_build_time"
  ${CMAKE_COMMAND}
  -D test_cmd=${simB_cmd}
- -D test_args:string=${test_args}
+ -D test_args:string=${test_args1}
  -P ${CMAKE_SOURCE_DIR}/test/time_test/run_test.cmake
  )
