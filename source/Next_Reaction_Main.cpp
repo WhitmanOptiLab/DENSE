@@ -30,7 +30,7 @@ using style::Color;
 #include <iostream>
 
 using dense::csvw_sim;
-using dense::Next_Reaction_Simulation;
+using dense::stochastic::Next_Reaction_Simulation;
 using dense::Sim_Builder;
 using dense::parse_static_args;
 using dense::parse_analysis_entries;

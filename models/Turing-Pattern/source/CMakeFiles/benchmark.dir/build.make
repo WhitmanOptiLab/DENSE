@@ -57,38 +57,38 @@ include source/CMakeFiles/benchmark.dir/progress.make
 # Include the compile flags for this target's objects.
 include source/CMakeFiles/benchmark.dir/flags.make
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o: source/CMakeFiles/benchmark.dir/flags.make
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o: ../../source/deterministic_main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/benchmark.dir/deterministic_main.cpp.o -c /home/mcclelnr/DENSE/source/deterministic_main.cpp
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o: source/CMakeFiles/benchmark.dir/flags.make
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o: ../../source/Fast_Gillespie_Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o -c /home/mcclelnr/DENSE/source/Fast_Gillespie_Main.cpp
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/benchmark.dir/deterministic_main.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/deterministic_main.cpp > CMakeFiles/benchmark.dir/deterministic_main.cpp.i
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/Fast_Gillespie_Main.cpp > CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.i
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/benchmark.dir/deterministic_main.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/deterministic_main.cpp -o CMakeFiles/benchmark.dir/deterministic_main.cpp.s
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/source && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/Fast_Gillespie_Main.cpp -o CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.s
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.requires:
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.requires:
 
-.PHONY : source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.requires
+.PHONY : source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.requires
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.provides: source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.requires
-	$(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.provides.build
-.PHONY : source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.provides
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.provides: source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.requires
+	$(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.provides.build
+.PHONY : source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.provides
 
-source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.provides.build: source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o
+source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.provides.build: source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o
 
 
 # Object files for target benchmark
 benchmark_OBJECTS = \
-"CMakeFiles/benchmark.dir/deterministic_main.cpp.o"
+"CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o"
 
 # External object files for target benchmark
 benchmark_EXTERNAL_OBJECTS =
 
-benchmark: source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o
+benchmark: source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o
 benchmark: source/CMakeFiles/benchmark.dir/build.make
 benchmark: source/libbenchmark_lib.a
 benchmark: source/CMakeFiles/benchmark.dir/link.txt
@@ -100,7 +100,7 @@ source/CMakeFiles/benchmark.dir/build: benchmark
 
 .PHONY : source/CMakeFiles/benchmark.dir/build
 
-source/CMakeFiles/benchmark.dir/requires: source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o.requires
+source/CMakeFiles/benchmark.dir/requires: source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o.requires
 
 .PHONY : source/CMakeFiles/benchmark.dir/requires
 

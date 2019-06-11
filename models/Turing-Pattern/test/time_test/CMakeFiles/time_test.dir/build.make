@@ -57,38 +57,38 @@ include test/time_test/CMakeFiles/time_test.dir/progress.make
 # Include the compile flags for this target's objects.
 include test/time_test/CMakeFiles/time_test.dir/flags.make
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o: test/time_test/CMakeFiles/time_test.dir/flags.make
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o: ../../source/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/time_test.dir/__/__/source/main.cpp.o -c /home/mcclelnr/DENSE/source/main.cpp
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o: test/time_test/CMakeFiles/time_test.dir/flags.make
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o: ../../source/Next_Reaction_Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o -c /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/time_test.dir/__/__/source/main.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/main.cpp > CMakeFiles/time_test.dir/__/__/source/main.cpp.i
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp > CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.i
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/time_test.dir/__/__/source/main.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/main.cpp -o CMakeFiles/time_test.dir/__/__/source/main.cpp.s
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp -o CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.s
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.requires:
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.requires:
 
-.PHONY : test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.requires
+.PHONY : test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.provides: test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.requires
-	$(MAKE) -f test/time_test/CMakeFiles/time_test.dir/build.make test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.provides.build
-.PHONY : test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.provides
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.provides: test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+	$(MAKE) -f test/time_test/CMakeFiles/time_test.dir/build.make test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build
+.PHONY : test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.provides
 
-test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.provides.build: test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o
+test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build: test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o
 
 
 # Object files for target time_test
 time_test_OBJECTS = \
-"CMakeFiles/time_test.dir/__/__/source/main.cpp.o"
+"CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o"
 
 # External object files for target time_test
 time_test_EXTERNAL_OBJECTS =
 
-test/time_test/time_test: test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o
+test/time_test/time_test: test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o
 test/time_test/time_test: test/time_test/CMakeFiles/time_test.dir/build.make
 test/time_test/time_test: test/time_test/libtime_test_lib.a
 test/time_test/time_test: test/time_test/CMakeFiles/time_test.dir/link.txt
@@ -100,7 +100,7 @@ test/time_test/CMakeFiles/time_test.dir/build: test/time_test/time_test
 
 .PHONY : test/time_test/CMakeFiles/time_test.dir/build
 
-test/time_test/CMakeFiles/time_test.dir/requires: test/time_test/CMakeFiles/time_test.dir/__/__/source/main.cpp.o.requires
+test/time_test/CMakeFiles/time_test.dir/requires: test/time_test/CMakeFiles/time_test.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
 
 .PHONY : test/time_test/CMakeFiles/time_test.dir/requires
 

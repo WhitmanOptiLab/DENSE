@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <chrono>
 #include <type_traits>
+#include <utility>
 
 
 # if defined __CUDA_ARCH__
@@ -40,7 +41,6 @@ concept bool Simulation_Concept() {
 
 
 namespace dense {
-//namespace NGraph {
 
 class Simulation;
 
@@ -137,7 +137,7 @@ class Simulation {
      * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
      * arg "width_total": the circumference of the tube, in cells
     */
-    Simulation(Parameter_Set parameter_set, int cells_total, int width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr);
+    Simulation(Parameter_Set parameter_set, int cells_total, int width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr) noexcept;
 
     CUDA_AGNOSTIC
     ~Simulation () noexcept;
@@ -148,7 +148,12 @@ class Simulation {
     void calc_max_delays(Real*, Real**);
   
     
-    
+    /*
+     * GRAPH_CONSTRUCTOR
+     * default is to follow hexagonal adjacencies for an unfilled tube
+     * user can specify a graph using ___
+     * loads desired graph into "adjacency_graph"
+    */
     void graph_constructor() noexcept{
       for (Natural i = 0; i < cell_count_; ++i) {
         bool is_former_edge = i % circumference_ == 0;
@@ -165,24 +170,24 @@ class Simulation {
         auto bottom_left  = (i - circumference_ + la + cell_count_) % cell_count_;
 
         if (is_former_edge) {
-          adjacency_graph.insert_edge(i,top);
-          adjacency_graph.insert_edge(i,top_right);
-          adjacency_graph.insert_edge(i,top_left);
-          adjacency_graph.insert_edge(i,bottom_left);
+          adjacency_graph->insert_edge(i,top);
+          adjacency_graph->insert_edge(i,top_right);
+          adjacency_graph->insert_edge(i,top_left);
+          adjacency_graph->insert_edge(i,bottom_left);
           neighbor_count_by_cell_[i] = 4;
         } else if (is_latter_edge) {
-          adjacency_graph.insert_edge(i,top);
-          adjacency_graph.insert_edge(i,top_right);
-          adjacency_graph.insert_edge(i,bottom_right);
-          adjacency_graph.insert_edge(i,bottom);
+          adjacency_graph->insert_edge(i,top);
+          adjacency_graph->insert_edge(i,top_right);
+          adjacency_graph->insert_edge(i,bottom_right);
+          adjacency_graph->insert_edge(i,bottom);
           neighbor_count_by_cell_[i] = 4;
         } else {
-          adjacency_graph.insert_edge(i,top);
-          adjacency_graph.insert_edge(i,top_right);
-          adjacency_graph.insert_edge(i,bottom_right);
-          adjacency_graph.insert_edge(i,bottom);
-          adjacency_graph.insert_edge(i,top_left);
-          adjacency_graph.insert_edge(i,bottom_left);
+          adjacency_graph->insert_edge(i,top);
+          adjacency_graph->insert_edge(i,top_right);
+          adjacency_graph->insert_edge(i,bottom_right);
+          adjacency_graph->insert_edge(i,bottom);
+          adjacency_graph->insert_edge(i,top_left);
+          adjacency_graph->insert_edge(i,bottom_left);
           neighbor_count_by_cell_[i] = 6;
         }
       }
@@ -190,12 +195,13 @@ class Simulation {
     /*
      * CALC_NEIGHBOR_2D
      * populates the data structure "_neighbors" with cell indices of neighbors
-     * follows hexagonal adjacencies for an unfilled tube
+     * loads graph from "adjacency_graph", either user specified or default graph from graph_constructor()
     */
     CUDA_AGNOSTIC
     void calc_neighbor_2d() noexcept {
+      graph_constructor();
       index = 0;
-      for ( Graph::const_iterator p = adjacency_graph.begin(); p != adjacency_graph.end(); p++){
+      for ( Graph::const_iterator p = adjacency_graph->begin(); p != adjacency_graph->end(); p++){
           Graph::vertex_set neigh = Graph::out_neighbors(p);
           std::vector<Natural>* neighbors = new std::vector<Natural> [6];
           for ( Graph::vertex_set::const_iterator cell = neigh.begin(); cell != neigh.end(); cell++){
@@ -217,7 +223,7 @@ class Simulation {
     Natural cell_count_ = {};
     Parameter_Set parameter_set_ = {};
     int index;
-    NGraph::Graph adjacency_graph;
+    unique_ptr<NGraph::Graph> adjacency_graph;
 
   protected:
 

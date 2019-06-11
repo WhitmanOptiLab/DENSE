@@ -10,7 +10,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -33,7 +32,6 @@ using style::Color;
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
-using dense::Stochastic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 
@@ -83,6 +81,8 @@ void display_usage(std::ostream& out) {
     green << "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.\n" <<
     yellow << "[-v | --time-col]        <bool> " <<
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
+    yellow << "[-d | --initial-conc]    <string>" <<
+    green << "Relative file location and name of the file containing the initial concentrations of species.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
@@ -141,6 +141,7 @@ arg_parse::init(argc, argv);
     param_args.help = 2;
     return param_args;
   }
+  
 
   simulation_duration = decltype(simulation_duration)(time_total);
   analysis_interval = decltype(analysis_interval)(anlys_intvl);
@@ -158,6 +159,26 @@ arg_parse::init(argc, argv);
 return param_args;
 }
 
+template <typename NUM_TYPE>
+void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
+  if(c_or_0){
+    NUM_TYPE c_species;
+    csvr reader = csvr(init_conc);
+    while(reader.get_next(&c_species)){
+      conc->push_back(c_species);
+    }
+  } else {
+    for(int i = 0; i < NUM_SPECIES; i++){
+      conc->push_back(0);
+    }
+  }
+  while(conc->size() > NUM_SPECIES){
+    conc->pop_back();
+  }
+  while(conc->size() < NUM_SPECIES){
+    conc->push_back(0);
+  }
+}
 }
 
 #endif

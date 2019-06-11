@@ -10,11 +10,11 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
+#include "arg_parse.hpp"
 
 using style::Color;
 
@@ -32,9 +32,9 @@ using style::Color;
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
-using dense::Stochastic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::conc_vector;
 namespace dense {
 
     #ifndef __cpp_concepts
@@ -52,10 +52,10 @@ namespace dense {
             Sim_Builder<Simulation>(Real* pf, Real** gf, int ct, int tw, int argc, char* argv[]);
             std::vector<Simulation> get_simulations();
         private:
-						Real* perturbation_factors;
-						Real** gradient_factors;
-						int cell_total;
-						int tissue_width;
+            Real* perturbation_factors;
+            Real** gradient_factors;
+            int cell_total;
+            int tissue_width;
    };
 
    template<>
@@ -66,7 +66,7 @@ namespace dense {
             This& operator= (This&&);
             Sim_Builder (This const&) = default;
             Sim_Builder(Real* pf, Real** gf, int ct, int tw, int argc, char* argv[]){
-							  arg_parse::init(argc, argv);
+							     arg_parse::init(argc, argv);
         				using style::Mode;
         				style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
         				step_size = arg_parse::get<Real>("s", "step-size", 0.0);
@@ -74,15 +74,18 @@ namespace dense {
        					gradient_factors = gf;
         				cell_total = ct;
        					tissue_width = tw;
+            std::string init_conc;
+            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+            conc_vector(init_conc, i_or_o, &conc);
 						}
-            std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-							std::vector<Deterministic_Simulation> simulations;
+      std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+							  std::vector<Deterministic_Simulation> simulations;
     					for (auto& parameter_set : param_sets) {
         					simulations.emplace_back(
           					std::move(parameter_set), perturbation_factors, gradient_factors,
-          					cell_total, tissue_width, Minutes{step_size});
+          					cell_total, tissue_width, Minutes{step_size},conc);
       			}
-   						 return simulations;
+   					return simulations;
 						};
         private:
 						Real* perturbation_factors;
@@ -90,6 +93,7 @@ namespace dense {
 						int cell_total;
 						int tissue_width;
 						Real step_size;
+      std::vector<Real> conc;
 
    };
    template<>
@@ -114,13 +118,16 @@ namespace dense {
 									gradient_factors = gf;
 									cell_total = ct;
 									tissue_width = tw;
+         std::string init_conc;
+         bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+         conc_vector(init_conc, i_or_o, &conc);
 								}
            std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
 									std::vector<Fast_Gillespie_Direct_Simulation> simulations;
 									for (auto& parameter_set : param_sets) {
 											simulations.emplace_back(
 											std::move(parameter_set), perturbation_factors, gradient_factors,
-											cell_total, tissue_width, seed);
+											cell_total, tissue_width, seed, conc);
 											}
 									return simulations;
 										}
@@ -130,6 +137,7 @@ namespace dense {
 						int cell_total;
 						int tissue_width;
 						int seed;
+      std::vector<int> conc;
 
    };
     template<>
@@ -154,13 +162,16 @@ namespace dense {
 								gradient_factors = gf;
 								cell_total = ct;
 								tissue_width = tw;
+        std::string init_conc;
+        bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+        conc_vector(init_conc, i_or_o, &conc);
 								}
             std::vector<Next_Reaction_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
 								std::vector<Next_Reaction_Simulation> simulations;
 								for (auto& parameter_set : param_sets) {
 								simulations.emplace_back(
 								std::move(parameter_set), perturbation_factors, gradient_factors,
-								cell_total, tissue_width, seed);
+								cell_total, tissue_width, seed, conc);
 				}
     						return simulations;
 						}
@@ -170,6 +181,7 @@ namespace dense {
 						int cell_total;
 						int tissue_width;
 						int seed;
+      std::vector<int> conc;
    };
 }
 /*

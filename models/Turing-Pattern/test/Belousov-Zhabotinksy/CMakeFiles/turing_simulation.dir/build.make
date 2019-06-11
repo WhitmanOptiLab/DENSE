@@ -57,38 +57,38 @@ include test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/progress.make
 # Include the compile flags for this target's objects.
 include test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/flags.make
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/flags.make
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o: ../../source/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o -c /home/mcclelnr/DENSE/source/main.cpp
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/flags.make
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: ../../source/Next_Reaction_Main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o -c /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/main.cpp > CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.i
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp > CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/main.cpp -o CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.s
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp -o CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.requires:
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires:
 
-.PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.requires
+.PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.provides: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.requires
-	$(MAKE) -f test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/build.make test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.provides.build
-.PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.provides
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+	$(MAKE) -f test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/build.make test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build
+.PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.provides.build: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
 
 
 # Object files for target turing_simulation
 turing_simulation_OBJECTS = \
-"CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o"
+"CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
 
 # External object files for target turing_simulation
 turing_simulation_EXTERNAL_OBJECTS =
 
-test/Belousov-Zhabotinksy/turing_simulation: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o
+test/Belousov-Zhabotinksy/turing_simulation: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
 test/Belousov-Zhabotinksy/turing_simulation: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/build.make
 test/Belousov-Zhabotinksy/turing_simulation: test/Belousov-Zhabotinksy/libturing_simulation_lib.a
 test/Belousov-Zhabotinksy/turing_simulation: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/link.txt
@@ -100,7 +100,7 @@ test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/build: test/Belousov-
 
 .PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/build
 
-test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/requires: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/main.cpp.o.requires
+test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/requires: test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
 
 .PHONY : test/Belousov-Zhabotinksy/CMakeFiles/turing_simulation.dir/requires
 

@@ -211,6 +211,60 @@ csv_gen_run/fast:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
 .PHONY : csv_gen_run/fast
 
+Fast_Gillespie_Main.o: Fast_Gillespie_Main.cpp.o
+
+.PHONY : Fast_Gillespie_Main.o
+
+# target to build an object file
+Fast_Gillespie_Main.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o
+.PHONY : Fast_Gillespie_Main.cpp.o
+
+Fast_Gillespie_Main.i: Fast_Gillespie_Main.cpp.i
+
+.PHONY : Fast_Gillespie_Main.i
+
+# target to preprocess a source file
+Fast_Gillespie_Main.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.i
+.PHONY : Fast_Gillespie_Main.cpp.i
+
+Fast_Gillespie_Main.s: Fast_Gillespie_Main.cpp.s
+
+.PHONY : Fast_Gillespie_Main.s
+
+# target to generate assembly for a file
+Fast_Gillespie_Main.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.s
+.PHONY : Fast_Gillespie_Main.cpp.s
+
+Next_Reaction_Main.o: Next_Reaction_Main.cpp.o
+
+.PHONY : Next_Reaction_Main.o
+
+# target to build an object file
+Next_Reaction_Main.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/Next_Reaction_Main.cpp.o
+.PHONY : Next_Reaction_Main.cpp.o
+
+Next_Reaction_Main.i: Next_Reaction_Main.cpp.i
+
+.PHONY : Next_Reaction_Main.i
+
+# target to preprocess a source file
+Next_Reaction_Main.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/Next_Reaction_Main.cpp.i
+.PHONY : Next_Reaction_Main.cpp.i
+
+Next_Reaction_Main.s: Next_Reaction_Main.cpp.s
+
+.PHONY : Next_Reaction_Main.s
+
+# target to generate assembly for a file
+Next_Reaction_Main.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/Next_Reaction_Main.cpp.s
+.PHONY : Next_Reaction_Main.cpp.s
+
 core/build_once.o: core/build_once.cpp.o
 
 .PHONY : core/build_once.o
@@ -267,33 +321,6 @@ csv_gen.s: csv_gen.cpp.s
 csv_gen.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/csv_gen.cpp.s
 .PHONY : csv_gen.cpp.s
-
-deterministic_main.o: deterministic_main.cpp.o
-
-.PHONY : deterministic_main.o
-
-# target to build an object file
-deterministic_main.cpp.o:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.o
-.PHONY : deterministic_main.cpp.o
-
-deterministic_main.i: deterministic_main.cpp.i
-
-.PHONY : deterministic_main.i
-
-# target to preprocess a source file
-deterministic_main.cpp.i:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.i
-.PHONY : deterministic_main.cpp.i
-
-deterministic_main.s: deterministic_main.cpp.s
-
-.PHONY : deterministic_main.s
-
-# target to generate assembly for a file
-deterministic_main.cpp.s:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark.dir/build.make source/CMakeFiles/benchmark.dir/deterministic_main.cpp.s
-.PHONY : deterministic_main.cpp.s
 
 io/arg_parse.o: io/arg_parse.cpp.o
 
@@ -447,33 +474,6 @@ io/ezxml/ezxml.c.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.s
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/benchmark_lib.dir/build.make source/CMakeFiles/benchmark_lib.dir/io/ezxml/ezxml.c.s
 .PHONY : io/ezxml/ezxml.c.s
-
-main.o: main.cpp.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.s
-.PHONY : main.cpp.s
 
 sim/base.o: sim/base.cpp.o
 
@@ -733,15 +733,18 @@ help:
 	@echo "... simulation"
 	@echo "... benchmark_lib"
 	@echo "... csv_gen_run"
+	@echo "... Fast_Gillespie_Main.o"
+	@echo "... Fast_Gillespie_Main.i"
+	@echo "... Fast_Gillespie_Main.s"
+	@echo "... Next_Reaction_Main.o"
+	@echo "... Next_Reaction_Main.i"
+	@echo "... Next_Reaction_Main.s"
 	@echo "... core/build_once.o"
 	@echo "... core/build_once.i"
 	@echo "... core/build_once.s"
 	@echo "... csv_gen.o"
 	@echo "... csv_gen.i"
 	@echo "... csv_gen.s"
-	@echo "... deterministic_main.o"
-	@echo "... deterministic_main.i"
-	@echo "... deterministic_main.s"
 	@echo "... io/arg_parse.o"
 	@echo "... io/arg_parse.i"
 	@echo "... io/arg_parse.s"
@@ -757,9 +760,6 @@ help:
 	@echo "... io/ezxml/ezxml.o"
 	@echo "... io/ezxml/ezxml.i"
 	@echo "... io/ezxml/ezxml.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
 	@echo "... sim/base.o"
 	@echo "... sim/base.i"
 	@echo "... sim/base.s"

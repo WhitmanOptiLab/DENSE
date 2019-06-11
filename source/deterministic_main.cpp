@@ -7,7 +7,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-//#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
