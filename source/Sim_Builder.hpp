@@ -10,7 +10,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -32,7 +31,6 @@ using style::Color;
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
-using dense::Stochastic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 namespace dense {
@@ -81,9 +79,10 @@ namespace dense {
         					simulations.emplace_back(
           					std::move(parameter_set), perturbation_factors, gradient_factors,
           					cell_total, tissue_width, Minutes{step_size});
+
       			}
    						 return simulations;
-						};
+						}
 						std::vector<Deterministic_Simulation> get_simulations(Parameter_Set param_sets){
 								std::vector<Deterministic_Simulation> simulations;
 								simulations.emplace_back(
@@ -91,6 +90,10 @@ namespace dense {
 								cell_total, tissue_width, Minutes{step_size});
     						return simulations;
 						}
+
+              
+   						
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -131,6 +134,7 @@ namespace dense {
 											}
 									return simulations;
 										}
+
 					std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(Parameter_Set param_sets){
 								std::vector<Fast_Gillespie_Direct_Simulation> simulations;
 								simulations.emplace_back(
@@ -138,6 +142,7 @@ namespace dense {
 								cell_total, tissue_width, seed);
     						return simulations;
 						}
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -178,6 +183,7 @@ namespace dense {
 				}
     						return simulations;
 						}
+
 						 std::vector<Next_Reaction_Simulation> get_simulations(Parameter_Set param_sets){
 								std::vector<Next_Reaction_Simulation> simulations;
 								simulations.emplace_back(
@@ -185,6 +191,7 @@ namespace dense {
 								cell_total, tissue_width, seed);
     						return simulations;
 						}
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -200,4 +207,5 @@ template <typename Simulation>
 Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
 }
 */
+
 #endif

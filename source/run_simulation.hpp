@@ -10,7 +10,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -34,7 +33,6 @@ using style::Color;
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
-using dense::Stochastic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 using dense::Details;
@@ -77,9 +75,7 @@ void run_simulation(
   std::vector<Simulation> simulations,
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
 
-		
-	 
-	
+
     #ifndef __cpp_concepts
     template <typename Simulation>
     #else
@@ -90,8 +86,9 @@ void run_simulation(
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
         std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
-             
-							struct Callback {
+
+             struct Callback {
+
                     Callback(
                     std::unique_ptr<Analysis<Simulation>> analysis,
                     Simulation & simulation,
@@ -167,6 +164,7 @@ void run_simulation(
                 }
             
         }
+
 	
 	#ifndef __cpp_concepts
   template <typename Simulation>
@@ -283,3 +281,6 @@ void run_simulation(
 }
 
 #endif
+
+
+

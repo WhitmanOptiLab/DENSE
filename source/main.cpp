@@ -10,6 +10,7 @@
 #include "sim/stoch/stoch.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
+#include <chrono>
 
 using style::Color;
 
@@ -66,7 +67,7 @@ void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries, bool is_deterministic);
 
 void display_usage(std::ostream& out) {
   auto yellow = style::apply(Color::yellow);
@@ -111,6 +112,8 @@ void display_usage(std::ostream& out) {
     green << "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.\n" <<
     yellow << "[-v | --time-col]        <bool> " <<
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
+    yellow << "[-d | --initial-conc]    <string>" <<
+    green << "Relative file location and name of the file containing the initial concentrations of species.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
@@ -125,6 +128,29 @@ std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
 
 std::vector<Species> default_specie_option;
 int cell_total;
+
+
+template <typename NUM_TYPE>
+void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
+  if(c_or_0){
+    NUM_TYPE c_species;
+    csvr reader = csvr(init_conc);
+    while(reader.get_next(&c_species)){
+      conc->push_back(c_species);
+    }
+  } else {
+    for(int i = 0; i < NUM_SPECIES; i++){
+      conc->push_back(0);
+    }
+  }
+  while(conc->size() > NUM_SPECIES){
+    conc->pop_back();
+  }
+  while(conc->size() < NUM_SPECIES){
+    conc->push_back(0);
+  }
+}
+
 
 int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
@@ -155,12 +181,12 @@ int main(int argc, char* argv[]) {
     }
     simulation_duration = decltype(simulation_duration)(time_total);
     analysis_interval = decltype(analysis_interval)(anlys_intvl);
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
   }
+
   std::string param_sets;
   int tissue_width;
-
   // Required simulation fields
   if (!(arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
           arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
@@ -194,34 +220,42 @@ int main(int argc, char* argv[]) {
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
 
   auto parameter_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
+  
 
+  // See if starting with initial concentrations
+  //    initialize conc vector with either 0s or given concentrations
+  std::string init_conc;
+  //initialize conc vector with initial concentrations or 0s
+  bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+  
   if (step_size == 0.0) {
+    std::vector<int> conc;
+    conc_vector(init_conc, c_or_0, &conc);
     using Simulation = Stochastic_Simulation;
     std::vector<Simulation> simulations;
-
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
-        cell_total, tissue_width, seed);
+        cell_total, tissue_width, seed, conc);
     }
-
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), false);
     return EXIT_SUCCESS;
-
   } else {
+    std::vector<Real> conc;
+    conc_vector(init_conc, c_or_0, &conc);
     using Simulation = Deterministic_Simulation;
     std::vector<Simulation> simulations;
     for (auto& parameter_set : parameter_sets) {
       simulations.emplace_back(
         std::move(parameter_set), perturbation_factors, gradient_factors,
-        cell_total, tissue_width, Minutes{step_size});
+        cell_total, tissue_width, Minutes{step_size}, conc);
     }
-
-    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>());
+    run_simulation(simulation_duration, analysis_interval, std::move(simulations), parse_analysis_entries<Simulation>(), true);
     return EXIT_SUCCESS;
   }
 
 }
+
 
 #ifndef __cpp_concepts
 template <typename Simulation>
@@ -301,7 +335,7 @@ void run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries)
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries, bool is_deterministic)
 {
 
   struct Callback {
@@ -346,7 +380,7 @@ void run_simulation(
   Real analysis_chunks = duration / notify_interval;
   int notifications_per_min = decltype(duration)(1.0) / notify_interval;
 
-  for (dense::Natural a = 0; a < analysis_chunks; a++) {
+  for (dense::Natural a = 1; a <= analysis_chunks; a++) {
     std::vector<Simulation const*> bad_simulations;
     for (auto& callback : callbacks) {
       try {
@@ -367,13 +401,30 @@ void run_simulation(
       swap(simulations[bad_simulation - simulations.data()], simulations.back());
       simulations.pop_back();
     }
-
-    for (auto & simulation : simulations) {
-      auto age = simulation.age_by(notify_interval);
-      if (a % notifications_per_min == 0) {
+		
+		if(is_deterministic){
+		
+			#pragma omp parallel for 
+			for (auto it = simulations.begin(); it < simulations.end(); it++) {
+     	auto age = it->age_by(notify_interval);
+			
+     	if (a % notifications_per_min == 0) {
+				#pragma omp critical
+				{
+        std::cout << "Time: " << age / Minutes{1} << '\n';
+      	}
+			}
+    }
+		
+		} else{
+			for (auto & simulation : simulations) {
+     	auto age = simulation.age_by(notify_interval);
+     	if (a % notifications_per_min == 0) {
         std::cout << "Time: " << age / Minutes{1} << '\n';
       }
     }
+		}
+
   }
 
   for (auto& callback : callbacks) {

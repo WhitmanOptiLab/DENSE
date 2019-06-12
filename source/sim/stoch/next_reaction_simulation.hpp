@@ -52,7 +52,7 @@ public:
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
     //random number generator
-    std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
+    std::default_random_engine generator;
 
     Real total_propensity_ = {};
     static std::uniform_real_distribution<Real> distribution_;
@@ -86,10 +86,10 @@ public:
     */
     Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
     : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
+	  , reaction_schedule(NUM_REACTIONS * cell_count)
     , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
     , propensities(cell_count)
-    , generator{seed}
-	  , reaction_schedule(NUM_REACTIONS * cell_count) {
+    , generator(seed) {
       // 1.a. generate the dependency graph
       initPropensityNetwork();
       // 1.b. calculate the propensity function a_i for all i
@@ -206,70 +206,6 @@ public:
         }
         #include "reactions_list.hpp"
         #undef REACTION
-
-        /*
-        #define REACTION(name) {\
-            event_id thisReaction = encode(cell_,rid); \
-            Minutes current_tau = reaction_schedule[thisReaction];\
-            auto r = getRandVariable();\
-            auto log_inv_r = -std::log(r);\
-            Minutes new_tau = current_tau + Minutes{log_inv_r};\
-            reaction_schedule.emplace(thisReaction, new_tau);\
-        for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
-            if ( name == propensity_network[rid][i] ) { \
-                auto& p = propensities[cell_][name];\
-                auto new_p = dense::model::reaction_##name.active_rate(Context(*this, cell_)); \
-                total_propensity_ += new_p - p;\
-								\
-			          \
-								event_id cell_reaction_id = encode(cell_, propensity_network[rid][i]); \
-								Minutes t_old  = reaction_schedule[cell_reaction_id]; \
-								Minutes current_age = age();\
-								Minutes t_new = (p/new_p)*(t_old - current_age)+current_age; \
-								std::pair<event_id, Minutes> input_pair = std::make_pair(cell_reaction_id,t_new);\
-								reaction_schedule.push(input_pair); \
-										\
-                p = new_p;\
-            } \
-        } \
-    \
-        for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
-            if (name == neighbor_propensity_network[rid][r]) { \
-                for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
-                    int n_cell = neighbors_by_cell_[cell_][n]; \
-                    Context neighbor(*this, n_cell); \
-                    auto& p = propensities[n_cell][name];\
-                    auto new_p = dense::model::reaction_##name.active_rate(neighbor); \
-                    total_propensity_ += new_p - p;\
-										\
-										auto cell_reaction_id = encode(n_cell,propensity_network[rid][r]);\
-										Minutes t_old  = reaction_schedule[cell_reaction_id]; \
-										Minutes current_age = age();\
-										Minutes t_new = (p/new_p)*(t_old - current_age)+current_age; \
-										std::pair<event_id, Minutes> input_pair = std::make_pair(cell_reaction_id,t_new);\
-										reaction_schedule.push(input_pair); \
-                    p = new_p;\
-                } \
-            } \
-        }\
-        }
-        #include "reactions_list.hpp"
-        #undef REACTION
-        /*for (auto rxn : propensity_network[rid]) {
-          auto& p = propensities[cell_][rxn];
-          auto new_p = dense::model::active_rate(rxn, Context(this, cell_));
-          total_propensity_ += new_p - p;
-          p = new_p;
-        }
-        for (auto rxn : neighbor_propensity_network[rid]) {
-          for (Natural n = 0; n < neighbor_count_by_cell_[cell_]; ++n) {
-            Natural n_cell = neighbors_by_cell_[cell_][n];
-            auto& p = propensities[n_cell][rxn];
-            auto new_p = dense::model::active_rate(rxn, Context(this, n_cell));
-            total_propensity_ += new_p - p;
-            p = new_p;
-          }
-        }*/
     }
 
 

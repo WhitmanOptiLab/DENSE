@@ -1,4 +1,4 @@
-add_subdirectory("${PROJECT_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
+add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
 SIMULATION(newmodel_simulation ${CMAKE_CURRENT_SOURCE_DIR})
 if (${CUDA_FOUND})

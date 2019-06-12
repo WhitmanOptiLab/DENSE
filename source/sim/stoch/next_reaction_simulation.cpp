@@ -100,13 +100,11 @@ Real Next_Reaction_Simulation::getRandVariable() {
 */
 void Next_Reaction_Simulation::tauLeap(){
 
-	Real propensity_portion = getRandVariable() * get_total_propensity();
-
 	std::pair<Natural, reaction_id> j = choose_reaction();
 	reaction_id r =j.second;
 	int c = j.first;
 
-    fireOrSchedule(c,r);
+  fireOrSchedule(c,r);
 }
 
 /*
@@ -248,5 +246,3 @@ void Next_Reaction_Simulation::initTau() {
 }
 	
 }}
-
-

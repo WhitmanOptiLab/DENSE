@@ -135,7 +135,7 @@ class Simulation {
      * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
      * arg "width_total": the circumference of the tube, in cells
     */
-    Simulation(Parameter_Set parameter_set, int cells_total, int width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr);
+    Simulation(Parameter_Set parameter_set, Natural cells_total, Natural width_total, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr);
 
     CUDA_AGNOSTIC
     ~Simulation () noexcept;
@@ -188,7 +188,7 @@ class Simulation {
 
   protected:
 
-    CUDA_Array<int, 6>* neighbors_by_cell_ = {};
+    CUDA_Array<dense::Natural, 6>* neighbors_by_cell_ = {};
     Natural* neighbor_count_by_cell_ = {};
 
   public:

@@ -39,7 +39,7 @@ void OscillationAnalysis<Simulation>::show (csvw * csv_out) {
               auto& x = peaksAndTroughs[s][c];
               avg_peak[s] = std::accumulate(x.begin(), x.end(), 0.0, [&](Real total, crit_point cp) {
                 if (cp.is_peak) {
-                  ++peak_count;
+                  peak_count = peak_count + 1;
                   return total + cp.conc;
                 }
                 return total;
@@ -54,7 +54,7 @@ void OscillationAnalysis<Simulation>::show (csvw * csv_out) {
                   }
               }*/
 
-              if (peak_count != 0) avg_peak[s] /= peak_count;
+              if (peak_count != 0) avg_peak[s] /= Real(peak_count);
           }
 
           *csv_out << "\n# Showing cell " << c << "\nSpecies";

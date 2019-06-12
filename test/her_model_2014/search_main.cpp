@@ -59,8 +59,8 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
                 );*/
 
 
-Real analysis_interval = arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01);
-Real total_time = arg_parse::get<int>("t", "time-total", 600);
+//Real analysis_interval = arg_parse::get<RATETYPE>("u", "anlys-intvl", 0.01);
+//Real total_time = arg_parse::get<int>("t", "time-total", 600);
 
   //Create analyses
 

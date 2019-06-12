@@ -33,7 +33,7 @@ class csvw_sim : public Analysis<Simulation> {
       return new auto(*this);
     }
 		
-		Details get_details(){
+		Details get_details() override{
 		return Details();
 		}
 

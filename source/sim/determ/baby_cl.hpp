@@ -14,10 +14,10 @@ class baby_cl {
 
   private:
 
-    int _position[NUM_SPECIES];
+    Natural _position[NUM_SPECIES];
     int _specie_size[NUM_SPECIES];
     int _j[NUM_SPECIES] = {};
-    int _width;
+    Natural _width;
     unsigned _total_length;
     std::unique_ptr<Real[]> _array;
 
@@ -30,6 +30,10 @@ class baby_cl {
     }
 
     baby_cl(Deterministic_Simulation& sim);
+  
+    int get_species_size(int species){
+      return _specie_size[species];
+    }
 
 public:
     Real* row_at(int species, int j) {

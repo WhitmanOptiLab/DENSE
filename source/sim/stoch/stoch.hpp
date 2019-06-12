@@ -31,7 +31,7 @@ public:
     //"event" represents a delayed reaction scheduled to fire later
     struct event {
       Minutes time;
-	    Natural cell;
+	     Natural cell;
       reaction_id rxn;
 	    friend bool operator<(event const& a, event const &b) { return a.time < b.time;}
 	    friend bool operator>(event const& a, event const& b) { return b < a; }
@@ -61,7 +61,7 @@ public:
     void tauLeap();
     void initPropensityNetwork();
     void generateRXNTaus(Real tau);
-    void fireOrSchedule(int c, reaction_id rid);
+    void fireOrSchedule(Natural c, reaction_id rid);
     void initPropensities();
 
     public:
@@ -81,9 +81,9 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed, std::vector<int> conc)
     : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
+    , concs(cell_count, conc)
     , propensities(cell_count)
     , generator{seed} {
       initPropensityNetwork();

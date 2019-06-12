@@ -23,6 +23,8 @@ sres.hpp contains function declarations for sres.cpp.
 #ifndef SRES_HPP
 #define SRES_HPP
 
+#define UNUSED_PARAM(x) (void)(x)
+
 #include "core/parameter_set.hpp"
 
 #if defined(MPI)
@@ -73,6 +75,7 @@ class SRES {
         &param, //Parameter set to be filled
         nullptr, //Optional transform function
         [this](double** pop, double* scores, double** constr, int popc) {
+          UNUSED_PARAM(constr);
           simulate_population(popc, pop, scores);
         }, //Fitness evaluation callback
         esDefESSlash, //ES process, esDefESPlus/esDefESSlash

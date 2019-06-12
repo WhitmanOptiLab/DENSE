@@ -41,7 +41,7 @@ class BasicAnalysis : public Analysis<Simulation> {
 
     void show (csvw * = nullptr) override;
  
-		Details get_details();
+		Details get_details() override;
 		 
 		 
     BasicAnalysis* clone() const override {

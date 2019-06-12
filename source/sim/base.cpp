@@ -21,7 +21,7 @@ void initialize_params(dense::cell_param<N,T> & self, Parameter_Set const& ps, R
     if (factors_gradient) {
       for (int i = 0; i < N; i++) {
         if (factors_gradient[i]) {
-          for (int k = 0; k < self.cell_count_; ++k) {
+          for (Natural k = 0; k < self.cell_count_; ++k) {
             // Calculate the cell's index relative to the active start
             int gradient_index = self.simulation_width_ - k % self.simulation_width_;
             self[i][k] *= factors_gradient[i][gradient_index];
@@ -35,7 +35,7 @@ dense::Simulation::Simulation(Parameter_Set parameter_set, Natural cell_count, N
     circumference_{circumference},
     cell_count_{cell_count},
     parameter_set_{std::move(parameter_set)},
-    neighbors_by_cell_{new CUDA_Array<int, 6>[cell_count]},
+    neighbors_by_cell_{new CUDA_Array<Natural, 6>[cell_count]},
     neighbor_count_by_cell_{new dense::Natural[cell_count]},
     cell_parameters_(circumference, cell_count)
   {
@@ -97,29 +97,36 @@ void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gr
   //    accumulate delay into specie
   //  for each factor
   //    accumulate delay into specie
- std::vector<specie_id> delts;
 #define REACTION(name)
+
 #define DELAY_REACTION(name) \
-  delts = rate_terms[name]; \
   Real max_gradient_##name = 1.0; \
-  if (factors_gradient) \
-  { \
+  Real pert_##name = 0.0;
+#include "reactions_list.hpp"
+#undef DELAY_REACTION
+
+ if (factors_gradient) {
+#define DELAY_REACTION(name) \
     for (dense::Natural k = 0; k < circumference_ && factors_gradient[name]; k++) { \
       max_gradient_##name = std::max<Real>(factors_gradient[ name ][k], max_gradient_##name); \
-    } \
-  } \
-  \
-  Real pert_##name = 0.0; \
-  if (factors_perturb) \
-  { \
-    pert_##name = factors_perturb[name]; \
-  } \
-  \
-  for (auto factor : delts) { \
+    }
+#include "reactions_list.hpp"
+#undef DELAY_REACTION
+  } 
+
+ if (factors_perturb) {
+#define DELAY_REACTION(name) \
+   pert_##name = factors_perturb[name];
+#include "reactions_list.hpp"
+#undef DELAY_REACTION
+ }
+
+#define DELAY_REACTION(name) \
+  for (auto factor : rate_terms[name]) { \
     Real& sp_max_delay = max_delays[factor]; \
     sp_max_delay = std::max<Real>((parameter_set_.getDelay(dreact_##name) * max_gradient_##name * (1.0 + pert_##name) ), sp_max_delay); \
   }
 #include "reactions_list.hpp"
-#undef REACTION
 #undef DELAY_REACTION
+#undef REACTION
 }
