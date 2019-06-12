@@ -27,7 +27,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 
 #if 0
 #include "main.hpp" // Function declarations
-#endifpara
+#endif
 
 #include "search/sres.hpp"
 #include "io/arg_parse.hpp"
@@ -49,6 +49,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include "run_simulation.hpp"
 #include "arg_parse.hpp"
 #include "parse_analysis_entries.hpp"
+#include "measurement/details.hpp"
 
 #include <chrono>
 #include <cstdlib>
@@ -63,6 +64,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include <exception>
 #include <stdexcept>
 
+
 using style::Color;
 using dense::csvw_sim;
 using dense::Fast_Gillespie_Direct_Simulation;
@@ -71,43 +73,24 @@ using dense::parse_static_args;
 using dense::parse_analysis_entries;
 using dense::Static_Args;
 using dense::run_and_return_analyses;
+using dense::Details;
 int printing_precision = 6;
 
-std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<std::unique_ptr<Analysis<Simulation>>> real_results, im_Builder<Fast_Gillespie_Direct_Simulation> simulation, Static_Args a, Real* ac, char* av[]) {
+std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, Real real_results[], Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Static_Args a, int ac, char* av[]) {
 	
 	
 	using Simulation = Fast_Gillespie_Direct_Simulation;
-	std:vector<double> scores;
+	std::vector<double> scores;
 	
 	for(auto param_set : population){
-		std::vector<std::unique_ptr<Analysis<Simulation>>> simulation_results = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),parse_analysis_entries<Simulation>(ac, av, a.cell_total));
 		
-		if(real_results.size() != simulation_results.size()){
-			throw std::invalid_argument('simulation yielded different number of analyses than the number of analyses inputed');
-		}
-		for(std::size_t i = 0; i < real_results.size(); i++){
-			std::vector<Real> real_means = real_results[i].get_means();
-			std::vector<Real> real_mins = real_results[i].get_mins();
-			std::vector<Real> real_maxs = real_results[i].get_maxs();
-			std::vector<Real> simulation_means = simulation_results[i].get_means();
-			std::vector<Real> simulation_mins = simulation_results[i].get_mins();
-			std::vector<Real> simulation_maxs = simulation_results[i].get_maxs();
-			double score  = 0.0;
-			double sum = 0.0;
-			for(std::size_t j = 0;  j < simulation_maxs.size(); j++){
-				double max_mean = std::max(real_means[j], simulation_means[j]);
-				double min_mean = std::min(real_means[j], simulation_means[j]);
-				double max_min = std::max(real_mins[j], simulation_mins[j]);
-				double min_min = std::min(real_mins[j], simulation_mins[j]);
-				double max_max = std::max(real_maxs[j], simulation_maxs[j]);
-				double min_max = std::min(real_maxs[j], simulation_maxs[j]);
-				
-				score += ((max_mean - min_mean) + (max_min - min_min) + (max_max - min_max));
-				sum += (max_mean + max_min + max_max);
-				scores.push_back(sum/score);
-			}
+			auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),parse_analysis_entries<Simulation>(ac, av, a.cell_total));
 			
-		}
+			double score  = 0.0;
+			for(std::size_t j = 0;  j < simulation_means.size(); j++){
+		      score += (((simulation_means[j]-real_results[j])*(simulation_means[j]-real_results[j]))+100);
+					scores.push_back(100/score);
+			}
 		
 	}
 	
@@ -149,6 +132,18 @@ int main (int argc, char** argv) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
   }
 	
+	std::string real_inputs;
+	if(!arg_parse::get<std::string>("ri", "real-input", &real_inputs,true)) {
+		return -1;
+	}
+	std::cout << real_inputs << '\n';
+	
+	csvr csv_in_(real_inputs);
+	
+	Parameter_Set rinput;
+	if (!rinput.import_from(csv_in_)){
+		std::cout << style::apply(Color::red) << "Error, user inputs are misformatted \n" <<  style::reset();
+	}
 	
 	//Init Simulation Object
 	Static_Args args = parse_static_args(argc, argv);
@@ -160,11 +155,13 @@ int main (int argc, char** argv) {
   }
 	
 	 using Simulation = Fast_Gillespie_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, ac, av); 
-  std::vector<double> (*SRESscorer)(std::vector<Parameter_Set>& population) = 
-		[&](std::vector<Parameter_Set>& population) {
-	    return her2014_scorer(population, sim, a, argc, argv);
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, argc, argv); 
+	
+  auto SRESscorer = 
+		[&](const std::vector<Parameter_Set>& population) {
+	    return her2014_scorer(population, rinput.data(), sim, args, argc, argv);
 	  };
+	
   SRES sres_driver(popc, miu, arg_parse::get<int>("nn", "num-generations", 100), lBounds, uBounds, SRESscorer);
 
 	// Run libSRES

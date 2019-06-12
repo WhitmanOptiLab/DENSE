@@ -38,7 +38,7 @@ sres.hpp contains function declarations for sres.cpp.
 
 class SRES {
  public:
-  typedef std::vector<double> (*SRES_Scorer) (const std::vector<Parameter_Set>&);
+  typedef std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRES_Scorer;
 
  private:
   //SRES interface members

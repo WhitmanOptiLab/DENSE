@@ -25,6 +25,8 @@ private:
 	};
 
 	bool vectors_assigned;
+	bool finalized;
+	Details detail;
 
     // Outer-most vector is "for each specie in observed_species_"
 
@@ -70,6 +72,7 @@ public:
             amplitudes.emplace_back(cell_count, 0.0);
             periods.emplace_back(cell_count, 0.0);
         }
+				finalized = false;
 	}
 
 	virtual ~OscillationAnalysis() {}
@@ -93,6 +96,22 @@ public:
   OscillationAnalysis* clone() const override {
     return new auto(*this);
   }
+	
+	Details get_details() override{
+			std::vector<Real> times;
+
+	
+			for(size_t i = 0; i <  peaksAndTroughs.size(); i++){
+					for(size_t j = 0; j <  peaksAndTroughs[i].size(); i++){
+							for(size_t l = 0; l <  peaksAndTroughs[i][j].size(); l++){
+								times.push_back(peaksAndTroughs[i][j][l].time);
+								detail.concs.push_back( peaksAndTroughs[i][j][l].conc);
+							}
+					}
+			}
+			detail.other_details.push_back(times);
+	 		return detail;
+	}
 
 };
 

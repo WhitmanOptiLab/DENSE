@@ -5,8 +5,10 @@
 #include "sim/base.hpp"
 #include "measurement/base.hpp"
 #include "core/specie.hpp"
+#include "measurement/details.hpp"
 
 #include <limits>
+using dense::Details;
 
 namespace dense {
 
@@ -30,6 +32,10 @@ class csvw_sim : public Analysis<Simulation> {
     csvw_sim* clone() const override {
       return new auto(*this);
     }
+		
+		Details get_details(){
+		return Details();
+		}
 
 private:
     unsigned ilCell = this->min;

@@ -15,6 +15,7 @@
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
+#include "measurement/details.hpp"
 
 using style::Color;
 
@@ -36,6 +37,7 @@ using dense::Deterministic_Simulation;
 using dense::Stochastic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::Details;
 
 
 
@@ -166,13 +168,12 @@ void run_simulation(
             
         }
 	
-	
 	#ifndef __cpp_concepts
   template <typename Simulation>
   #else
   template <Simulation_Concept Simulation>
   #endif
-	std::vector<std::unique_ptr<Analysis<Simulation>>> run_and_return_analyses(
+	std::vector<Real> run_and_return_analyses(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -184,7 +185,7 @@ void run_simulation(
   #else
   template <Simulation_Concept Simulation>
   #endif
-	std::vector<std::unique_ptr<Analysis<Simulation>>> run_and_return_analyses(
+	std::vector<Real> run_and_return_analyses(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -261,14 +262,18 @@ void run_simulation(
                     }
                 }
 		
-								std::vector<std::unique_ptr<Analysis<Simulation>>> analyses;
+								std::vector<Real> analyses;
 
                 for (auto& callback : callbacks) {
                     callback.analysis->finalize();
                     callback.analysis->show(&callback.log);
-										analyses.push_back(callback.analysis);
+										
+										Details analysis_details = callback.analysis->get_details();
+										
+										for(size_t i = 0; i < analysis_details.concs.size(); i++){
+												analyses.push_back(analysis_details.concs[i]);
+										}
                 }
-		
 					return analyses;
 		
 	}

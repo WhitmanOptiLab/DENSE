@@ -20,6 +20,9 @@ void OscillationAnalysis<Simulation>::finalize() {
             calcAmpsAndPers(s, c);
         }
     }
+		if(!finalized){
+		finalized = true;
+		}
 }
 
 #include <numeric>
@@ -72,6 +75,7 @@ void OscillationAnalysis<Simulation>::show (csvw * csv_out) {
       }
   }
 }
+
 
 /*
  * GET_PEAKS_AND_TROUGHS

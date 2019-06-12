@@ -48,33 +48,19 @@ if(!finalized){
   }
 }
 
+template<typename Simulation>
+Details BasicAnalysis<Simulation>::get_details(){
+/*	if(!finalized){
+	*		return EXIT_FAILURE;
+	*				}
+	*/
+	detail.other_details.emplace_back(mins);
+	detail.concs = means;
+	detail.other_details.emplace_back(maxs);
+	return detail;
+}
+
 #include <iomanip>
-
-template <typename Simulation>
-std::vector<Real> BasicAnalysis<Simulation>::get_mins(){
-	if(!finalized){
-		throw std::invalid_argument('Analysis not finalized');
-	}
-	
-	return mins;
-}
-
-template <typename Simulation>
-std::vector<Real> BasicAnalysis<Simulation>::get_maxs(){
-	if(!finalized){
-		throw std::invalid_argument('Analysis not finalized');
-	}
-	return maxs;
-}
-
-template <typename Simulation>
-std::vector<Real> BasicAnalysis<Simulation>::get_means(){
-	if(!finalized){
-		throw std::invalid_argument('Analysis not finalized');
-	}
-	
-	return means;
-}
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::show (csvw * csv_out) {
