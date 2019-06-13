@@ -68,29 +68,33 @@ using style::Color;
 using dense::csvw_sim;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::Sim_Builder;
-using dense::parse_static_args;
+using dense::param_search_parse_static_args;
 using dense::parse_analysis_entries;
-using dense::Static_Args;
+using dense::Param_Static_Args;
 using dense::run_and_return_analyses;
 using dense::Details;
 int printing_precision = 6;
 
-std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, Real real_results[], Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Static_Args a, int ac, char* av[]) {
+std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<Real> real_results, Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Param_Static_Args a, int ac, char* av[]) {
 	
 	
 	using Simulation = Fast_Gillespie_Direct_Simulation;
 	std::vector<double> scores;
 	
+	 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(ac, av, a.cell_total)));
+	
 	for(auto param_set : population){
 		
-			auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),parse_analysis_entries<Simulation>(ac, av, a.cell_total));
+			
+			auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),analysis_entries);
 			
 			double score  = 0.0;
+			
 			for(std::size_t j = 0;  j < simulation_means.size(); j++){
 		      score += (((simulation_means[j]-real_results[j])*(simulation_means[j]-real_results[j]))+100);
 					scores.push_back(100/score);
 			}
-		
+
 	}
 	
   return scores;
@@ -106,46 +110,10 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
 	todo:
 */
 int main (int argc, char** argv) {
-	// Initialize MPI if compiled with it
-	#if defined(MPI)
-		MPI_Init(&argc, &argv);
-	#endif
-  arg_parse::init(argc, argv);
-
-  int popc = arg_parse::get<int>("pp", "population", 400);
-
-  int miu = arg_parse::get<int>("m", "parents", NUM_PARAMS);
-
-  std::string boundsfile;
-
-  if (!arg_parse::get<std::string>("bb", "param-bounds", &boundsfile, true)) {
-    return -1;
-  }
-  std::cout << boundsfile << '\n';
-
-  csvr csv_in(boundsfile);
-
-  Parameter_Set lBounds, uBounds;
-		
-  if (!lBounds.import_from(csv_in) || !uBounds.import_from(csv_in)) {
-    std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
-  }
 	
-	std::string real_inputs;
-	if(!arg_parse::get<std::string>("ri", "real-input", &real_inputs,true)) {
-		return -1;
-	}
-	std::cout << real_inputs << '\n';
-	
-	csvr csv_in_(real_inputs);
-	
-	Parameter_Set rinput;
-	if (!rinput.import_from(csv_in_)){
-		std::cout << style::apply(Color::red) << "Error, user inputs are misformatted \n" <<  style::reset();
-	}
-	
+
 	//Init Simulation Object
-	Static_Args args = parse_static_args(argc, argv);
+	Param_Static_Args args = param_search_parse_static_args(argc, argv);
 	if(args.help == 1){
     return EXIT_SUCCESS;
   }
@@ -156,15 +124,16 @@ int main (int argc, char** argv) {
 	 using Simulation = Fast_Gillespie_Direct_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, argc, argv); 
 	
-  auto SRESscorer = 
+	
+  std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
 		[&](const std::vector<Parameter_Set>& population) {
-	    return her2014_scorer(population, rinput.data(), sim, args, argc, argv);
+	    return her2014_scorer(population, args.real_input, sim, args, argc, argv);
 	  };
 	
-  SRES sres_driver(popc, miu, arg_parse::get<int>("nn", "num-generations", 100), lBounds, uBounds, SRESscorer);
+  SRES sres_driver(args.pop, args.parent, args.num_generations, args.lbounds, args.ubounds, SRESscorer);
 
 	// Run libSRES
-  for (int n = 1; n < arg_parse::get<int>("nn", "num-generations", 100); ++n) {
+  for (int n = 1; n < args.num_generations; ++n) {
       sres_driver.nextGeneration();
   }
 
@@ -172,44 +141,7 @@ int main (int argc, char** argv) {
 }
 
 #if 0
-/* usage prints the usage information and, optionally, an error message and then exits
-	parameters:
-		message: an error message to print before the usage information (set message to NULL or "\0" to not print any error)
-	returns: nothing
-	notes:
-		This function exits after printing the usage information.
-		Note that accept_input_params in init.cpp handles actual command-line input and that this information should be updated according to that function.
-	todo:
-		TODO somehow free memory even with the abrupt exit
-*/
-void usage (const char* message) {
-	cout << endl;
-	bool error = message != NULL && message[0] != '\0';
-	if (error) {
-		cout << term->red << message << term->reset << endl << endl;
-	}
-	cout << "Usage: [-option [value]]. . . [--option [value]]. . ." << endl;
-	cout << "-r, --ranges-file        [filename]   : the relative filename of the ranges input file, default=none" << endl;
-	cout << "-f, --simulation         [filename]   : the relative filename of the simulation executable, default=../simulation/simulation" << endl;
-	cout << "-d, --dimensions         [int]        : the number of dimensions (i.e. rate parameters) to explore, min=1, default=45" << endl;
-	cout << "-P, --parent-population  [int]        : the population of parent simulations to use each generation, min=1, default=3" << endl;
-	cout << "-p, --total-population   [int]        : the population of total simulations to use each generation, min=1, default=20" << endl;
-	cout << "-g, --generations        [int]        : the number of generations to run before returning results, min=1, default=1750" << endl;
-	cout << "-s, --seed               [int]        : the seed used in the evolutionary strategy (not simulations), min=1, default=time" << endl;
-	cout << "-e, --printing-precision [int]        : how many digits of precision parameters should be printed with, min=1, default=6" << endl;
-	cout << "-a, --arguments          [N/A]        : every argument following this will be sent to the simulation" << endl;
-	cout << "-c, --no-color           [N/A]        : disable coloring the terminal output, default=unused" << endl;
-	cout << "-v, --verbose            [N/A]        : print detailed messages about the program state" << endl;
-	cout << "-q, --quiet              [N/A]        : hide the terminal output, default=unused" << endl;
-	cout << "-l, --licensing          [N/A]        : view licensing information (no simulations will be run)" << endl;
-	cout << "-h, --help               [N/A]        : view usage information (i.e. this)" << endl;
-	cout << endl << term->blue << "Example: ./sres-sampler " << term->reset << endl << endl;
-	if (error) {
-		exit(EXIT_INPUT_ERROR);
-	} else {
-		exit(EXIT_SUCCESS);
-	}
-}
+
 
 /* licensing prints the program's copyright and licensing information and then exits
 	parameters:

@@ -46,17 +46,13 @@ if(!finalized){
       mean /= Analysis<>::samples;
     }
   }
+	detail.concs = means;
+	detail.other_details.emplace_back(mins);
+	detail.other_details.emplace_back(maxs);
 }
 
 template<typename Simulation>
 Details BasicAnalysis<Simulation>::get_details(){
-/*	if(!finalized){
-	*		return EXIT_FAILURE;
-	*				}
-	*/
-	detail.other_details.emplace_back(mins);
-	detail.concs = means;
-	detail.other_details.emplace_back(maxs);
 	return detail;
 }
 

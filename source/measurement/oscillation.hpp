@@ -110,6 +110,7 @@ public:
 					}
 			}
 			detail.other_details.push_back(times);
+
 	 		return detail;
 	}
 

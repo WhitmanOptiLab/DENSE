@@ -175,7 +175,7 @@ void run_simulation(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
-        std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
+        const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries);
 	
 	
 	#ifndef __cpp_concepts
@@ -187,7 +187,7 @@ void run_simulation(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
-        std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
+        const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries){
 		
 		
 			struct Callback {
@@ -228,7 +228,6 @@ void run_simulation(
                 // ========================= RUN THE SHOW =========================
 
                 Real analysis_chunks = duration / notify_interval;
-                int notifications_per_min = decltype(duration)(1.0) / notify_interval;
 
                 for (dense::Natural a = 0; a < analysis_chunks; a++) {
                     std::vector<Simulation const*> bad_simulations;
@@ -254,17 +253,15 @@ void run_simulation(
 
                     for (auto & simulation : simulations) {
                     auto age = simulation.age_by(notify_interval);
-                    if (a % notifications_per_min == 0) {
-                        std::cout << "Time: " << age / Minutes{1} << '\n';
-                    }
                     }
                 }
 		
 								std::vector<Real> analyses;
+								
 
                 for (auto& callback : callbacks) {
                     callback.analysis->finalize();
-                    callback.analysis->show(&callback.log);
+               //     callback.analysis->show(&callback.log);
 										
 										Details analysis_details = callback.analysis->get_details();
 										

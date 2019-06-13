@@ -34,13 +34,16 @@ class csvw_sim : public Analysis<Simulation> {
     }
 		
 		Details get_details() override{
-		return Details();
+		 detail.concs = concs;
+		 return detail;
 		}
 
 private:
     unsigned ilCell = this->min;
     bool icTimeColumn = true;
     bool print_header_ = true;
+		std::vector<Real> concs;
+		Details detail;
 };
 
 }

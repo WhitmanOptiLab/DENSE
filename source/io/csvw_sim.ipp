@@ -68,6 +68,7 @@ void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
         }
         for (specie_id const& lcfID : this->observed_species_) {
             log << simulation.get_concentration(c, lcfID) << ',';
+						concs.push_back(simulation.get_concentration(c, lcfID));
         }
         log << '\n';
     }
