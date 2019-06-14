@@ -118,14 +118,6 @@ void display_usage(std::ostream& out) {
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
 
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in) {
-  return { std::istream_iterator<Parameter_Set>(in), std::istream_iterator<Parameter_Set>() };
-}
-
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
-  return parse_parameter_sets_csv(in);
-}
-
 std::vector<Species> default_specie_option;
 int cell_total;
 
@@ -219,15 +211,15 @@ int main(int argc, char* argv[]) {
   Real** gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
 
-  auto parameter_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
-  
-
   // See if starting with initial concentrations
   //    initialize conc vector with either 0s or given concentrations
   std::string init_conc;
   //initialize conc vector with initial concentrations or 0s
   bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
   
+  csvr parse_param_sets(param_sets, false);
+  auto parameter_sets = parse_param_sets.get_param_sets();
+
   if (step_size == 0.0) {
     std::vector<int> conc;
     conc_vector(init_conc, c_or_0, &conc);

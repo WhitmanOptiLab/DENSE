@@ -3,7 +3,6 @@
 
 #include "specie.hpp"
 #include "reaction.hpp"
-#include "io/csvr.hpp"
 
 #include <string>
 
@@ -58,23 +57,6 @@ class Parameter_Set {
     const_iterator end () const noexcept {
       return parameters_ + NUM_PARAMS;
     }
-
-  bool import_from (csvr & in) {
-    for (auto & parameter : *this) {
-      if (!in.get_next(&parameter)) return false;
-    }
-    return true;
-  }
-
-  friend std::istream& operator>> (std::istream& in, Parameter_Set& parameter_set) {
-    for (auto & parameter : parameter_set) {
-      if (!csvr::get_real(in, &parameter)) {
-        in.setstate(std::ios_base::failbit);
-        break;
-      }
-    }
-    return in;
-  }
 
   private:
 
