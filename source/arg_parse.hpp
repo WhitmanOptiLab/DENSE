@@ -278,7 +278,7 @@ arg_parse::init(argc, argv);
 		
   if (!lBounds.import_from(csv_in) || !uBounds.import_from(csv_in)) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
-    param_args.help = 
+    param_args.help = 2;
   }
 	
 	std::string real_inputs;

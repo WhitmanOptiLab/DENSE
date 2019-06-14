@@ -87,15 +87,13 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
     double sse  = 0.0;	
 		for(std::size_t j = 0;  j < simulation_means.size(); j++){
       
-		  sse += ((real_results[j] - simulation_means[j])*(real_results[j] - simulation_means[j]));
+      sse = ((real_results[j] - simulation_means[j])*(real_results[j] -simulation_means[j]));
       
     }
-    scores.push_back(sse);
-
+ 
+      scores.push_back(sse);
 	}
-	for(double t : scores){
-    std::cout << t << '\n';
-  }
+	
   return scores;
 }
 
