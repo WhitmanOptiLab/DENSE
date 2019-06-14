@@ -650,6 +650,7 @@ void ESScorePopulation(ESPopulation * population, ESParameter *param, int lambda
   {
     indvdl = population->member[i];
     indvdl->f = scores[i];
+    printf("%f \n", scores[i]);
   }
 
   free(genes);

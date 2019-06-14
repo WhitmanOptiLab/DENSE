@@ -75,28 +75,27 @@ using dense::run_and_return_analyses;
 using dense::Details;
 int printing_precision = 6;
 
-std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<Real> real_results, Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Param_Static_Args a, int ac, char* av[]) {
-	
+std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<Real> real_results, Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Param_Static_Args a, const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Fast_Gillespie_Direct_Simulation>>>> &analysisEntries) {
 	
 	using Simulation = Fast_Gillespie_Direct_Simulation;
 	std::vector<double> scores;
 	
-	 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(ac, av, a.cell_total)));
-	
 	for(auto param_set : population){
+    
+    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),analysisEntries);	
 		
-			
-			auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),analysis_entries);
-			
-			double score  = 0.0;
-			
-			for(std::size_t j = 0;  j < simulation_means.size(); j++){
-		      score += (((simulation_means[j]-real_results[j])*(simulation_means[j]-real_results[j]))+100);
-					scores.push_back(100/score);
-			}
+    double sse  = 0.0;	
+		for(std::size_t j = 0;  j < simulation_means.size(); j++){
+      
+		  sse += ((real_results[j] - simulation_means[j])*(real_results[j] - simulation_means[j]));
+      
+    }
+    scores.push_back(sse);
 
 	}
-	
+	for(double t : scores){
+    std::cout << t << '\n';
+  }
   return scores;
 }
 
@@ -111,30 +110,33 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
 */
 int main (int argc, char** argv) {
 	
-
 	//Init Simulation Object
 	Param_Static_Args args = param_search_parse_static_args(argc, argv);
-	if(args.help == 1){
+	
+  if(args.help == 1){
     return EXIT_SUCCESS;
   }
+  
   if(args.help == 2){
     return EXIT_FAILURE;
   }
 	
-	 using Simulation = Fast_Gillespie_Direct_Simulation;
+  using Simulation = Fast_Gillespie_Direct_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, argc, argv); 
 	
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.cell_total)));
 	
   std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
-		[&](const std::vector<Parameter_Set>& population) {
-	    return her2014_scorer(population, args.real_input, sim, args, argc, argv);
+    [&](const std::vector<Parameter_Set>& population) {
+		
+	    return her2014_scorer(population, args.real_input, sim, args, analysis_entries);
 	  };
 	
   SRES sres_driver(args.pop, args.parent, args.num_generations, args.lbounds, args.ubounds, SRESscorer);
 
 	// Run libSRES
   for (int n = 1; n < args.num_generations; ++n) {
-      sres_driver.nextGeneration();
+    sres_driver.nextGeneration();
   }
 
 	return 0;
