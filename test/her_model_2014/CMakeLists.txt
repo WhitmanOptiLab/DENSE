@@ -19,7 +19,3 @@ if (${CUDA_FOUND})
 endif (${CUDA_FOUND})
 
 PARAM_SEARCH_LIB(her2014_param_search_lib ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_executable(her2014_param_search search_main.cpp)
-
-target_link_libraries(her2014_param_search her2014_param_search_lib her2014_simulation_lib)
