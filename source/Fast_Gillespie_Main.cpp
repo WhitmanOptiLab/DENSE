@@ -7,7 +7,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-//#include "sim/stoch/gillespie_direct_simulation.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -51,8 +50,8 @@ int main(int argc, char* argv[]){
     return EXIT_FAILURE;
   }
   using Simulation = Fast_Gillespie_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, ac, av); 
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.cell_total));
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.tissue_width, args.adj_graph, ac, av); 
+  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph->num_vertices()));
 }
 /*
 Snapshot<> snapshot;

@@ -181,33 +181,6 @@ her2014_param_search_lib/fast:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_param_search_lib.dir/build.make test/her_model_2014/CMakeFiles/her2014_param_search_lib.dir/build
 .PHONY : her2014_param_search_lib/fast
 
-__/__/source/Next_Reaction_Main.o: __/__/source/Next_Reaction_Main.cpp.o
-
-.PHONY : __/__/source/Next_Reaction_Main.o
-
-# target to build an object file
-__/__/source/Next_Reaction_Main.cpp.o:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
-.PHONY : __/__/source/Next_Reaction_Main.cpp.o
-
-__/__/source/Next_Reaction_Main.i: __/__/source/Next_Reaction_Main.cpp.i
-
-.PHONY : __/__/source/Next_Reaction_Main.i
-
-# target to preprocess a source file
-__/__/source/Next_Reaction_Main.cpp.i:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i
-.PHONY : __/__/source/Next_Reaction_Main.cpp.i
-
-__/__/source/Next_Reaction_Main.s: __/__/source/Next_Reaction_Main.cpp.s
-
-.PHONY : __/__/source/Next_Reaction_Main.s
-
-# target to generate assembly for a file
-__/__/source/Next_Reaction_Main.cpp.s:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s
-.PHONY : __/__/source/Next_Reaction_Main.cpp.s
-
 __/__/source/core/build_once.o: __/__/source/core/build_once.cpp.o
 
 .PHONY : __/__/source/core/build_once.o
@@ -234,6 +207,33 @@ __/__/source/core/build_once.s: __/__/source/core/build_once.cpp.s
 __/__/source/core/build_once.cpp.s:
 	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.s
 .PHONY : __/__/source/core/build_once.cpp.s
+
+__/__/source/deterministic_main.o: __/__/source/deterministic_main.cpp.o
+
+.PHONY : __/__/source/deterministic_main.o
+
+# target to build an object file
+__/__/source/deterministic_main.cpp.o:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o
+.PHONY : __/__/source/deterministic_main.cpp.o
+
+__/__/source/deterministic_main.i: __/__/source/deterministic_main.cpp.i
+
+.PHONY : __/__/source/deterministic_main.i
+
+# target to preprocess a source file
+__/__/source/deterministic_main.cpp.i:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.i
+.PHONY : __/__/source/deterministic_main.cpp.i
+
+__/__/source/deterministic_main.s: __/__/source/deterministic_main.cpp.s
+
+.PHONY : __/__/source/deterministic_main.s
+
+# target to generate assembly for a file
+__/__/source/deterministic_main.cpp.s:
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.s
+.PHONY : __/__/source/deterministic_main.cpp.s
 
 __/__/source/io/arg_parse.o: __/__/source/io/arg_parse.cpp.o
 
@@ -734,12 +734,12 @@ help:
 	@echo "... test"
 	@echo "... her2014_param_search_lib"
 	@echo "... edit_cache"
-	@echo "... __/__/source/Next_Reaction_Main.o"
-	@echo "... __/__/source/Next_Reaction_Main.i"
-	@echo "... __/__/source/Next_Reaction_Main.s"
 	@echo "... __/__/source/core/build_once.o"
 	@echo "... __/__/source/core/build_once.i"
 	@echo "... __/__/source/core/build_once.s"
+	@echo "... __/__/source/deterministic_main.o"
+	@echo "... __/__/source/deterministic_main.i"
+	@echo "... __/__/source/deterministic_main.s"
 	@echo "... __/__/source/io/arg_parse.o"
 	@echo "... __/__/source/io/arg_parse.i"
 	@echo "... __/__/source/io/arg_parse.s"

@@ -175,8 +175,21 @@ class tGraph
       s >> *this;
     }
 
-    tGraph(const tGraph &B) : G_(B.G_), num_edges_(B.num_edges_), 
+    tGraph(const tGraph &B): G_(B.G_), num_edges_(B.num_edges_), 
           undirected_(B.undirected_){}
+    
+    //Move constructor
+    tGraph(tGraph&& B) noexcept {
+      *this = std::move(B);
+    }
+  
+    tGraph& operator= (tGraph&& B){
+      G_ = std::move(B.G_);
+      num_edges_ = std::move(B.num_edges_);
+      undirected_ = std::move(B.undirected_);
+      return *this;
+    }
+    
     tGraph(const edge_set &E)
     {
       for (typename edge_set::const_iterator p = E.begin(); 

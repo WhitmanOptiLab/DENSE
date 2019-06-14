@@ -57,38 +57,38 @@ include test/her_model_2014/CMakeFiles/her2014_simulation.dir/progress.make
 # Include the compile flags for this target's objects.
 include test/her_model_2014/CMakeFiles/her2014_simulation.dir/flags.make
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation.dir/flags.make
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: ../../source/Next_Reaction_Main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o -c /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation.dir/flags.make
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o: ../../source/deterministic_main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o -c /home/mcclelnr/DENSE/source/deterministic_main.cpp
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp > CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/deterministic_main.cpp > CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.i
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp -o CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/deterministic_main.cpp -o CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.s
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires:
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.requires:
 
-.PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+.PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
-	$(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build
-.PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.provides: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
+	$(MAKE) -f test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.provides.build
+.PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.provides
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.provides.build: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o
 
 
 # Object files for target her2014_simulation
 her2014_simulation_OBJECTS = \
-"CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
+"CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o"
 
 # External object files for target her2014_simulation
 her2014_simulation_EXTERNAL_OBJECTS =
 
-test/her_model_2014/her2014_simulation: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
+test/her_model_2014/her2014_simulation: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o
 test/her_model_2014/her2014_simulation: test/her_model_2014/CMakeFiles/her2014_simulation.dir/build.make
 test/her_model_2014/her2014_simulation: test/her_model_2014/libher2014_simulation_lib.a
 test/her_model_2014/her2014_simulation: test/her_model_2014/CMakeFiles/her2014_simulation.dir/link.txt
@@ -100,7 +100,7 @@ test/her_model_2014/CMakeFiles/her2014_simulation.dir/build: test/her_model_2014
 
 .PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/build
 
-test/her_model_2014/CMakeFiles/her2014_simulation.dir/requires: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+test/her_model_2014/CMakeFiles/her2014_simulation.dir/requires: test/her_model_2014/CMakeFiles/her2014_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
 
 .PHONY : test/her_model_2014/CMakeFiles/her2014_simulation.dir/requires
 

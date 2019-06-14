@@ -15,6 +15,7 @@
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "Sim_Builder.hpp"
+#include "ngraph/ngraph_components.hpp"
 
 using style::Color;
 
@@ -28,6 +29,7 @@ using style::Color;
 #include <functional>
 #include <exception>
 #include <iostream>
+#include <cmath>
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
@@ -83,20 +85,25 @@ void display_usage(std::ostream& out) {
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
     yellow << "[-d | --initial-conc]    <string>" <<
     green << "Relative file location and name of the file containing the initial concentrations of species.\n" <<
+    yellow << "[-f | --cell-graph]    <string>" <<
+    green << "Relative file location and name of the file containing the cell graph.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
 
+
 struct Static_Args{
   Real*  perturbation_factors; 
   Real**  gradient_factors;
-  int  cell_total; 
   int  tissue_width;
   std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
   std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
   std::vector<Parameter_Set> param_sets;
   int help;
+  NGraph::Graph* adj_graph;
 };
+  
+void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total);
 
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in);
 
@@ -128,13 +135,13 @@ arg_parse::init(argc, argv);
   int cell_total;
   int tissue_width;
   std::string param_sets;
+  std::string cell_graph;
 
   // Required simulation fields
-  if (!(arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
-          arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
+  if (!(arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
           arg_parse::get<Real>("t", "time-total", &time_total, true) &&
           arg_parse::get<Real>("u", "anlys-intvl", &anlys_intvl, true) &&
-          arg_parse::get<std::string>("p", "param-sets", &param_sets, true) )) {
+          arg_parse::get<std::string>("p", "param-sets", &param_sets, true))) {
     std::cout << style::apply(Color::red) <<
       "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) "
       "Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?\n" << style::reset();
@@ -142,7 +149,6 @@ arg_parse::init(argc, argv);
     return param_args;
   }
   
-
   simulation_duration = decltype(simulation_duration)(time_total);
   analysis_interval = decltype(analysis_interval)(anlys_intvl);
 
@@ -151,13 +157,72 @@ arg_parse::init(argc, argv);
 
   param_args.gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
- param_args.cell_total = cell_total;
- param_args.tissue_width = tissue_width;
- param_args.simulation_duration = simulation_duration;
- param_args.analysis_interval = analysis_interval;
- param_args.param_sets =  parse_parameter_sets_csv(std::ifstream(param_sets));
-return param_args;
+ 
+  param_args.tissue_width = tissue_width;
+  param_args.simulation_duration = simulation_duration;
+  param_args.analysis_interval = analysis_interval;
+  param_args.param_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
+
+  bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
+  bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
+  
+  if ( c_flag && !f_flag){
+      graph_constructor(&param_args, "", cell_total);
+  } else if ( f_flag && !c_flag) {
+      graph_constructor(&param_args, cell_graph, 0);
+  } else {
+      std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "Either specify a cell total with [-c | --cell-total] or provide a cell graph file with [-f | --cell-graph].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  }
+  param_args.adj_graph->print();
+  return param_args;
 }
+
+void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total){
+    std::ifstream cell_file(graph_file);
+    if(cell_file){
+      NGraph::Graph* a_graph(new NGraph::Graph(cell_file));
+      param_args->adj_graph = std::move(a_graph);
+    } else {
+      NGraph::Graph* a_graph(new NGraph::Graph());
+      for (Natural i = 0; i < cell_total; ++i) {
+        bool is_former_edge = i % param_args->tissue_width == 0;
+        bool is_latter_edge = (i + 1) % param_args->tissue_width == 0;
+        bool is_even = i % 2 == 0;
+        auto la = (is_former_edge || !is_even) ? param_args->tissue_width - 1 : -1;
+        auto ra = !(is_latter_edge || is_even) ? param_args->tissue_width + 1 :  1;
+
+        auto top          = (i - param_args->tissue_width      + cell_total) % cell_total;
+        auto bottom       = (i + param_args->tissue_width                   ) % cell_total;
+        auto bottom_right = (i                  + ra              ) % cell_total;
+        auto top_left     = (i                  + la              ) % cell_total;
+        auto top_right    = (i - param_args->tissue_width + ra + cell_total) % cell_total;
+        auto bottom_left  = (i - param_args->tissue_width + la + cell_total) % cell_total;
+        
+        if (is_former_edge) {
+          a_graph->insert_edge_noloop(i,abs(top));
+          a_graph->insert_edge_noloop(i,abs(top_left));
+          a_graph->insert_edge_noloop(i,abs(top_right));
+          a_graph->insert_edge_noloop(i,abs(bottom_left));
+        } else if (is_latter_edge) {
+          a_graph->insert_edge_noloop(i,abs(top));
+          a_graph->insert_edge_noloop(i,abs(top_right));
+          a_graph->insert_edge_noloop(i,abs(bottom_right));
+          a_graph->insert_edge_noloop(i,abs(bottom));
+        } else {
+          a_graph->insert_edge_noloop(i,abs(top_right));
+          a_graph->insert_edge_noloop(i,abs(bottom_right));
+          a_graph->insert_edge_noloop(i,abs(bottom));
+          a_graph->insert_edge_noloop(i,abs(top_left));
+          a_graph->insert_edge_noloop(i,abs(bottom_left));
+        }
+      }
+      param_args->adj_graph = std::move(a_graph);
+    }
+  }
 
 template <typename NUM_TYPE>
 void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
@@ -179,6 +244,7 @@ void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc
     conc->push_back(0);
   }
 }
+
 }
 
 #endif

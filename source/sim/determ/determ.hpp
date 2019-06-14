@@ -58,8 +58,8 @@ class Deterministic_Simulation : public Simulation {
 private:
   baby_cl _baby_cl;
 public:
-  Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Minutes step_size, std::vector<Real> conc);
+  Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int width_total,
+                    Minutes step_size, std::vector<Real> conc, NGraph::Graph* adj_graph);
 
   CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);

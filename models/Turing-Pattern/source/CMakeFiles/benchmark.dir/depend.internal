@@ -10,10 +10,6 @@ source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o
  ../../source/io/csvr.hpp
  ../../source/io/csvw.hpp
  ../../source/measurement/base.hpp
- ../../source/ngraph/equivalence.hpp
- ../../source/ngraph/ngraph.hpp
- ../../source/ngraph/ngraph_components.hpp
- ../../source/ngraph/set_ops.hpp
  ../../source/sim/base.hpp
  ../../source/sim/cell_param.hpp
  ../../source/sim/cell_param.ipp
@@ -38,6 +34,10 @@ source/CMakeFiles/benchmark.dir/Fast_Gillespie_Main.cpp.o
  /home/mcclelnr/DENSE/source/measurement/basic.ipp
  /home/mcclelnr/DENSE/source/measurement/oscillation.hpp
  /home/mcclelnr/DENSE/source/measurement/oscillation.ipp
+ /home/mcclelnr/DENSE/source/ngraph/equivalence.hpp
+ /home/mcclelnr/DENSE/source/ngraph/ngraph.hpp
+ /home/mcclelnr/DENSE/source/ngraph/ngraph_components.hpp
+ /home/mcclelnr/DENSE/source/ngraph/set_ops.hpp
  /home/mcclelnr/DENSE/source/parse_analysis_entries.hpp
  /home/mcclelnr/DENSE/source/run_simulation.hpp
  /home/mcclelnr/DENSE/source/sim/determ/baby_cl.hpp

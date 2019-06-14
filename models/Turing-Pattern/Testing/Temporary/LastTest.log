@@ -1,3093 +1,58 @@
-Start testing: Jun 10 18:04 PDT
+Start testing: Jun 11 11:42 PDT
 ----------------------------------------------------------
 1/17 Testing: her_test
 1/17 Test: her_test
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"her_test" start time: Jun 10 18:04 PDT
+"her_test" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-4
-5
-6
-9
-0
-2
-5
-6
-7
-1
-3
-6
-7
-8
-2
-4
-7
-8
-9
-0
-5
-9
-0
-4
-6
-9
-0
-1
-2
-5
-7
-1
-2
-3
-6
-8
-2
-3
-4
-7
-9
-0
-4
-5
-Time: 0.01
-Time: 1.01
-Time: 2.01
-Time: 3.01
-Time: 4.01
-Time: 5.01
-Time: 6.01
-Time: 7.01
-Time: 8.01
-Time: 9.01
-Time: 10.01
-Time: 11.01
-Time: 12.01
-Time: 13.01
-Time: 14.01
-Time: 15.01
-Time: 16.01
-Time: 17.01
-Time: 18.01
-Time: 19.01
-Time: 20.01
-Time: 21.01
-Time: 22.01
-Time: 23.01
-Time: 24.01
-Time: 25.01
-Time: 26.01
-Time: 27.01
-Time: 28.01
-Time: 29.01
-Time: 30.01
-Time: 31.01
-Time: 32.01
-Time: 33.01
-Time: 34.01
-Time: 35.01
-Time: 36.01
-Time: 37.01
-Time: 38.01
-Time: 39.01
-Time: 40.01
-Time: 41.01
-Time: 42.01
-Time: 43.01
-Time: 44.01
-Time: 45.01
-Time: 46.01
-Time: 47.01
-Time: 48.01
-Time: 49.01
-Time: 50.01
-Time: 51.01
-Time: 52.01
-Time: 53.01
-Time: 54.01
-Time: 55.01
-Time: 56.01
-Time: 57.01
-Time: 58.01
-Time: 59.01
-Time: 60.01
-Time: 61.01
-Time: 62.01
-Time: 63.01
-Time: 64.01
-Time: 65.01
-Time: 66.01
-Time: 67.01
-Time: 68.01
-Time: 69.01
-Time: 70.01
-Time: 71.01
-Time: 72.01
-Time: 73.01
-Time: 74.01
-Time: 75.01
-Time: 76.01
-Time: 77.01
-Time: 78.01
-Time: 79.01
-Time: 80.01
-Time: 81.01
-Time: 82.01
-Time: 83.01
-Time: 84.01
-Time: 85.01
-Time: 86.01
-Time: 87.01
-Time: 88.01
-Time: 89.01
-Time: 90.01
-Time: 91.01
-Time: 92.01
-Time: 93.01
-Time: 94.01
-Time: 95.01
-Time: 96.01
-Time: 97.01
-Time: 98.01
-Time: 99.01
-Time: 100.01
-Time: 101.01
-Time: 102.01
-Time: 103.01
-Time: 104.01
-Time: 105.01
-Time: 106.01
-Time: 107.01
-Time: 108.01
-Time: 109.01
-Time: 110.01
-Time: 111.01
-Time: 112.01
-Time: 113.01
-Time: 114.01
-Time: 115.01
-Time: 116.01
-Time: 117.01
-Time: 118.01
-Time: 119.01
-Time: 120.01
-Time: 121.01
-Time: 122.01
-Time: 123.01
-Time: 124.01
-Time: 125.01
-Time: 126.01
-Time: 127.01
-Time: 128.01
-Time: 129.01
-Time: 130.01
-Time: 131.01
-Time: 132.01
-Time: 133.01
-Time: 134.01
-Time: 135.01
-Time: 136.01
-Time: 137.01
-Time: 138.01
-Time: 139.01
-Time: 140.01
-Time: 141.01
-Time: 142.01
-Time: 143.01
-Time: 144.01
-Time: 145.01
-Time: 146.01
-Time: 147.01
-Time: 148.01
-Time: 149.01
-Time: 150.01
-Time: 151.01
-Time: 152.01
-Time: 153.01
-Time: 154.01
-Time: 155.01
-Time: 156.01
-Time: 157.01
-Time: 158.01
-Time: 159.01
-Time: 160.01
-Time: 161.01
-Time: 162.01
-Time: 163.01
-Time: 164.01
-Time: 165.01
-Time: 166.01
-Time: 167.01
-Time: 168.01
-Time: 169.01
-Time: 170.01
-Time: 171.01
-Time: 172.01
-Time: 173.01
-Time: 174.01
-Time: 175.01
-Time: 176.01
-Time: 177.01
-Time: 178.01
-Time: 179.01
-Time: 180.01
-Time: 181.01
-Time: 182.01
-Time: 183.01
-Time: 184.01
-Time: 185.01
-Time: 186.01
-Time: 187.01
-Time: 188.01
-Time: 189.01
-Time: 190.01
-Time: 191.01
-Time: 192.01
-Time: 193.01
-Time: 194.01
-Time: 195.01
-Time: 196.01
-Time: 197.01
-Time: 198.01
-Time: 199.01
-Time: 200.01
-Time: 201.01
-Time: 202.01
-Time: 203.01
-Time: 204.01
-Time: 205.01
-Time: 206.01
-Time: 207.01
-Time: 208.01
-Time: 209.01
-Time: 210.01
-Time: 211.01
-Time: 212.01
-Time: 213.01
-Time: 214.01
-Time: 215.01
-Time: 216.01
-Time: 217.01
-Time: 218.01
-Time: 219.01
-Time: 220.01
-Time: 221.01
-Time: 222.01
-Time: 223.01
-Time: 224.01
-Time: 225.01
-Time: 226.01
-Time: 227.01
-Time: 228.01
-Time: 229.01
-Time: 230.01
-Time: 231.01
-Time: 232.01
-Time: 233.01
-Time: 234.01
-Time: 235.01
-Time: 236.01
-Time: 237.01
-Time: 238.01
-Time: 239.01
-Time: 240.01
-Time: 241.01
-Time: 242.01
-Time: 243.01
-Time: 244.01
-Time: 245.01
-Time: 246.01
-Time: 247.01
-Time: 248.01
-Time: 249.01
-Time: 250.01
-Time: 251.01
-Time: 252.01
-Time: 253.01
-Time: 254.01
-Time: 255.01
-Time: 256.01
-Time: 257.01
-Time: 258.01
-Time: 259.01
-Time: 260.01
-Time: 261.01
-Time: 262.01
-Time: 263.01
-Time: 264.01
-Time: 265.01
-Time: 266.01
-Time: 267.01
-Time: 268.01
-Time: 269.01
-Time: 270.01
-Time: 271.01
-Time: 272.01
-Time: 273.01
-Time: 274.01
-Time: 275.01
-Time: 276.01
-Time: 277.01
-Time: 278.01
-Time: 279.01
-Time: 280.01
-Time: 281.01
-Time: 282.01
-Time: 283.01
-Time: 284.01
-Time: 285.01
-Time: 286.01
-Time: 287.01
-Time: 288.01
-Time: 289.01
-Time: 290.01
-Time: 291.01
-Time: 292.01
-Time: 293.01
-Time: 294.01
-Time: 295.01
-Time: 296.01
-Time: 297.01
-Time: 298.01
-Time: 299.01
-Time: 300.01
-Time: 301.01
-Time: 302.01
-Time: 303.01
-Time: 304.01
-Time: 305.01
-Time: 306.01
-Time: 307.01
-Time: 308.01
-Time: 309.01
-Time: 310.01
-Time: 311.01
-Time: 312.01
-Time: 313.01
-Time: 314.01
-Time: 315.01
-Time: 316.01
-Time: 317.01
-Time: 318.01
-Time: 319.01
-Time: 320.01
-Time: 321.01
-Time: 322.01
-Time: 323.01
-Time: 324.01
-Time: 325.01
-Time: 326.01
-Time: 327.01
-Time: 328.01
-Time: 329.01
-Time: 330.01
-Time: 331.01
-Time: 332.01
-Time: 333.01
-Time: 334.01
-Time: 335.01
-Time: 336.01
-Time: 337.01
-Time: 338.01
-Time: 339.01
-Time: 340.01
-Time: 341.01
-Time: 342.01
-Time: 343.01
-Time: 344.01
-Time: 345.01
-Time: 346.01
-Time: 347.01
-Time: 348.01
-Time: 349.01
-Time: 350.01
-Time: 351.01
-Time: 352.01
-Time: 353.01
-Time: 354.01
-Time: 355.01
-Time: 356.01
-Time: 357.01
-Time: 358.01
-Time: 359.01
-Time: 360.01
-Time: 361.01
-Time: 362.01
-Time: 363.01
-Time: 364.01
-Time: 365.01
-Time: 366.01
-Time: 367.01
-Time: 368.01
-Time: 369.01
-Time: 370.01
-Time: 371.01
-Time: 372.01
-Time: 373.01
-Time: 374.01
-Time: 375.01
-Time: 376.01
-Time: 377.01
-Time: 378.01
-Time: 379.01
-Time: 380.01
-Time: 381.01
-Time: 382.01
-Time: 383.01
-Time: 384.01
-Time: 385.01
-Time: 386.01
-Time: 387.01
-Time: 388.01
-Time: 389.01
-Time: 390.01
-Time: 391.01
-Time: 392.01
-Time: 393.01
-Time: 394.01
-Time: 395.01
-Time: 396.01
-Time: 397.01
-Time: 398.01
-Time: 399.01
-Time: 400.01
-Time: 401.01
-Time: 402.01
-Time: 403.01
-Time: 404.01
-Time: 405.01
-Time: 406.01
-Time: 407.01
-Time: 408.01
-Time: 409.01
-Time: 410.01
-Time: 411.01
-Time: 412.01
-Time: 413.01
-Time: 414.01
-Time: 415.01
-Time: 416.01
-Time: 417.01
-Time: 418.01
-Time: 419.01
-Time: 420.01
-Time: 421.01
-Time: 422.01
-Time: 423.01
-Time: 424.01
-Time: 425.01
-Time: 426.01
-Time: 427.01
-Time: 428.01
-Time: 429.01
-Time: 430.01
-Time: 431.01
-Time: 432.01
-Time: 433.01
-Time: 434.01
-Time: 435.01
-Time: 436.01
-Time: 437.01
-Time: 438.01
-Time: 439.01
-Time: 440.01
-Time: 441.01
-Time: 442.01
-Time: 443.01
-Time: 444.01
-Time: 445.01
-Time: 446.01
-Time: 447.01
-Time: 448.01
-Time: 449.01
-Time: 450.01
-Time: 451.01
-Time: 452.01
-Time: 453.01
-Time: 454.01
-Time: 455.01
-Time: 456.01
-Time: 457.01
-Time: 458.01
-Time: 459.01
-Time: 460.01
-Time: 461.01
-Time: 462.01
-Time: 463.01
-Time: 464.01
-Time: 465.01
-Time: 466.01
-Time: 467.01
-Time: 468.01
-Time: 469.01
-Time: 470.01
-Time: 471.01
-Time: 472.01
-Time: 473.01
-Time: 474.01
-Time: 475.01
-Time: 476.01
-Time: 477.01
-Time: 478.01
-Time: 479.01
-Time: 480.01
-Time: 481.01
-Time: 482.01
-Time: 483.01
-Time: 484.01
-Time: 485.01
-Time: 486.01
-Time: 487.01
-Time: 488.01
-Time: 489.01
-Time: 490.01
-Time: 491.01
-Time: 492.01
-Time: 493.01
-Time: 494.01
-Time: 495.01
-Time: 496.01
-Time: 497.01
-Time: 498.01
-Time: 499.01
-Time: 500.01
-Time: 501.01
-Time: 502.01
-Time: 503.01
-Time: 504.01
-Time: 505.01
-Time: 506.01
-Time: 507.01
-Time: 508.01
-Time: 509.01
-Time: 510.01
-Time: 511.01
-Time: 512.01
-Time: 513.01
-Time: 514.01
-Time: 515.01
-Time: 516.01
-Time: 517.01
-Time: 518.01
-Time: 519.01
-Time: 520.01
-Time: 521.01
-Time: 522.01
-Time: 523.01
-Time: 524.01
-Time: 525.01
-Time: 526.01
-Time: 527.01
-Time: 528.01
-Time: 529.01
-Time: 530.01
-Time: 531.01
-Time: 532.01
-Time: 533.01
-Time: 534.01
-Time: 535.01
-Time: 536.01
-Time: 537.01
-Time: 538.01
-Time: 539.01
-Time: 540.01
-Time: 541.01
-Time: 542.01
-Time: 543.01
-Time: 544.01
-Time: 545.01
-Time: 546.01
-Time: 547.01
-Time: 548.01
-Time: 549.01
-Time: 550.01
-Time: 551.01
-Time: 552.01
-Time: 553.01
-Time: 554.01
-Time: 555.01
-Time: 556.01
-Time: 557.01
-Time: 558.01
-Time: 559.01
-Time: 560.01
-Time: 561.01
-Time: 562.01
-Time: 563.01
-Time: 564.01
-Time: 565.01
-Time: 566.01
-Time: 567.01
-Time: 568.01
-Time: 569.01
-Time: 570.01
-Time: 571.01
-Time: 572.01
-Time: 573.01
-Time: 574.01
-Time: 575.01
-Time: 576.01
-Time: 577.01
-Time: 578.01
-Time: 579.01
-Time: 580.01
-Time: 581.01
-Time: 582.01
-Time: 583.01
-Time: 584.01
-Time: 585.01
-Time: 586.01
-Time: 587.01
-Time: 588.01
-Time: 589.01
-Time: 590.01
-Time: 591.01
-Time: 592.01
-Time: 593.01
-Time: 594.01
-Time: 595.01
-Time: 596.01
-Time: 597.01
-Time: 598.01
-Time: 599.01
-Time: 600.01
-Time: 601.01
-Time: 602.01
-Time: 603.01
-Time: 604.01
-Time: 605.01
-Time: 606.01
-Time: 607.01
-Time: 608.01
-Time: 609.01
-Time: 610.01
-Time: 611.01
-Time: 612.01
-Time: 613.01
-Time: 614.01
-Time: 615.01
-Time: 616.01
-Time: 617.01
-Time: 618.01
-Time: 619.01
-Time: 620.01
-Time: 621.01
-Time: 622.01
-Time: 623.01
-Time: 624.01
-Time: 625.01
-Time: 626.01
-Time: 627.01
-Time: 628.01
-Time: 629.01
-Time: 630.01
-Time: 631.01
-Time: 632.01
-Time: 633.01
-Time: 634.01
-Time: 635.01
-Time: 636.01
-Time: 637.01
-Time: 638.01
-Time: 639.01
-Time: 640.01
-Time: 641.01
-Time: 642.01
-Time: 643.01
-Time: 644.01
-Time: 645.01
-Time: 646.01
-Time: 647.01
-Time: 648.01
-Time: 649.01
-Time: 650.01
-Time: 651.01
-Time: 652.01
-Time: 653.01
-Time: 654.01
-Time: 655.01
-Time: 656.01
-Time: 657.01
-Time: 658.01
-Time: 659.01
-Time: 660.01
-Time: 661.01
-Time: 662.01
-Time: 663.01
-Time: 664.01
-Time: 665.01
-Time: 666.01
-Time: 667.01
-Time: 668.01
-Time: 669.01
-Time: 670.01
-Time: 671.01
-Time: 672.01
-Time: 673.01
-Time: 674.01
-Time: 675.01
-Time: 676.01
-Time: 677.01
-Time: 678.01
-Time: 679.01
-Time: 680.01
-Time: 681.01
-Time: 682.01
-Time: 683.01
-Time: 684.01
-Time: 685.01
-Time: 686.01
-Time: 687.01
-Time: 688.01
-Time: 689.01
-Time: 690.01
-Time: 691.01
-Time: 692.01
-Time: 693.01
-Time: 694.01
-Time: 695.01
-Time: 696.01
-Time: 697.01
-Time: 698.01
-Time: 699.01
-Time: 700.01
-Time: 701.01
-Time: 702.01
-Time: 703.01
-Time: 704.01
-Time: 705.01
-Time: 706.01
-Time: 707.01
-Time: 708.01
-Time: 709.01
-Time: 710.01
-Time: 711.01
-Time: 712.01
-Time: 713.01
-Time: 714.01
-Time: 715.01
-Time: 716.01
-Time: 717.01
-Time: 718.01
-Time: 719.01
-Time: 720.01
-Time: 721.01
-Time: 722.01
-Time: 723.01
-Time: 724.01
-Time: 725.01
-Time: 726.01
-Time: 727.01
-Time: 728.01
-Time: 729.01
-Time: 730.01
-Time: 731.01
-Time: 732.01
-Time: 733.01
-Time: 734.01
-Time: 735.01
-Time: 736.01
-Time: 737.01
-Time: 738.01
-Time: 739.01
-Time: 740.01
-Time: 741.01
-Time: 742.01
-Time: 743.01
-Time: 744.01
-Time: 745.01
-Time: 746.01
-Time: 747.01
-Time: 748.01
-Time: 749.01
-Time: 750.01
-Time: 751.01
-Time: 752.01
-Time: 753.01
-Time: 754.01
-Time: 755.01
-Time: 756.01
-Time: 757.01
-Time: 758.01
-Time: 759.01
-Time: 760.01
-Time: 761.01
-Time: 762.01
-Time: 763.01
-Time: 764.01
-Time: 765.01
-Time: 766.01
-Time: 767.01
-Time: 768.01
-Time: 769.01
-Time: 770.01
-Time: 771.01
-Time: 772.01
-Time: 773.01
-Time: 774.01
-Time: 775.01
-Time: 776.01
-Time: 777.01
-Time: 778.01
-Time: 779.01
-Time: 780.01
-Time: 781.01
-Time: 782.01
-Time: 783.01
-Time: 784.01
-Time: 785.01
-Time: 786.01
-Time: 787.01
-Time: 788.01
-Time: 789.01
-Time: 790.01
-Time: 791.01
-Time: 792.01
-Time: 793.01
-Time: 794.01
-Time: 795.01
-Time: 796.01
-Time: 797.01
-Time: 798.01
-Time: 799.01
-Time: 800.01
-Time: 801.01
-Time: 802.01
-Time: 803.01
-Time: 804.01
-Time: 805.01
-Time: 806.01
-Time: 807.01
-Time: 808.01
-Time: 809.01
-Time: 810.01
-Time: 811.01
-Time: 812.01
-Time: 813.01
-Time: 814.01
-Time: 815.01
-Time: 816.01
-Time: 817.01
-Time: 818.01
-Time: 819.01
-Time: 820.01
-Time: 821.01
-Time: 822.01
-Time: 823.01
-Time: 824.01
-Time: 825.01
-Time: 826.01
-Time: 827.01
-Time: 828.01
-Time: 829.01
-Time: 830.01
-Time: 831.01
-Time: 832.01
-Time: 833.01
-Time: 834.01
-Time: 835.01
-Time: 836.01
-Time: 837.01
-Time: 838.01
-Time: 839.01
-Time: 840.01
-Time: 841.01
-Time: 842.01
-Time: 843.01
-Time: 844.01
-Time: 845.01
-Time: 846.01
-Time: 847.01
-Time: 848.01
-Time: 849.01
-Time: 850.01
-Time: 851.01
-Time: 852.01
-Time: 853.01
-Time: 854.01
-Time: 855.01
-Time: 856.01
-Time: 857.01
-Time: 858.01
-Time: 859.01
-Time: 860.01
-Time: 861.01
-Time: 862.01
-Time: 863.01
-Time: 864.01
-Time: 865.01
-Time: 866.01
-Time: 867.01
-Time: 868.01
-Time: 869.01
-Time: 870.01
-Time: 871.01
-Time: 872.01
-Time: 873.01
-Time: 874.01
-Time: 875.01
-Time: 876.01
-Time: 877.01
-Time: 878.01
-Time: 879.01
-Time: 880.01
-Time: 881.01
-Time: 882.01
-Time: 883.01
-Time: 884.01
-Time: 885.01
-Time: 886.01
-Time: 887.01
-Time: 888.01
-Time: 889.01
-Time: 890.01
-Time: 891.01
-Time: 892.01
-Time: 893.01
-Time: 894.01
-Time: 895.01
-Time: 896.01
-Time: 897.01
-Time: 898.01
-Time: 899.01
-Time: 900.01
-Time: 901.01
-Time: 902.01
-Time: 903.01
-Time: 904.01
-Time: 905.01
-Time: 906.01
-Time: 907.01
-Time: 908.01
-Time: 909.01
-Time: 910.01
-Time: 911.01
-Time: 912.01
-Time: 913.01
-Time: 914.01
-Time: 915.01
-Time: 916.01
-Time: 917.01
-Time: 918.01
-Time: 919.01
-Time: 920.01
-Time: 921.01
-Time: 922.01
-Time: 923.01
-Time: 924.01
-Time: 925.01
-Time: 926.01
-Time: 927.01
-Time: 928.01
-Time: 929.01
-Time: 930.01
-Time: 931.01
-Time: 932.01
-Time: 933.01
-Time: 934.01
-Time: 935.01
-Time: 936.01
-Time: 937.01
-Time: 938.01
-Time: 939.01
-Time: 940.01
-Time: 941.01
-Time: 942.01
-Time: 943.01
-Time: 944.01
-Time: 945.01
-Time: 946.01
-Time: 947.01
-Time: 948.01
-Time: 949.01
-Time: 950.01
-Time: 951.01
-Time: 952.01
-Time: 953.01
-Time: 954.01
-Time: 955.01
-Time: 956.01
-Time: 957.01
-Time: 958.01
-Time: 959.01
-Time: 960.01
-Time: 961.01
-Time: 962.01
-Time: 963.01
-Time: 964.01
-Time: 965.01
-Time: 966.01
-Time: 967.01
-Time: 968.01
-Time: 969.01
-Time: 970.01
-Time: 971.01
-Time: 972.01
-Time: 973.01
-Time: 974.01
-Time: 975.01
-Time: 976.01
-Time: 977.01
-Time: 978.01
-Time: 979.01
-Time: 980.01
-Time: 981.01
-Time: 982.01
-Time: 983.01
-Time: 984.01
-Time: 985.01
-Time: 986.01
-Time: 987.01
-Time: 988.01
-Time: 989.01
-Time: 990.01
-Time: 991.01
-Time: 992.01
-Time: 993.01
-Time: 994.01
-Time: 995.01
-Time: 996.01
-Time: 997.01
-Time: 998.01
-Time: 999.01
-Time: 1000.01
-Time: 1001.01
-Time: 1002.01
-Time: 1003.01
-Time: 1004.01
-Time: 1005.01
-Time: 1006.01
-Time: 1007.01
-Time: 1008.01
-Time: 1009.01
-Time: 1010.01
-Time: 1011.01
-Time: 1012.01
-Time: 1013.01
-Time: 1014.01
-Time: 1015.01
-Time: 1016.01
-Time: 1017.01
-Time: 1018.01
-Time: 1019.01
-Time: 1020.01
-Time: 1021.01
-Time: 1022.01
-Time: 1023.01
-Time: 1024.01
-Time: 1025.01
-Time: 1026.01
-Time: 1027.01
-Time: 1028.01
-Time: 1029.01
-Time: 1030.01
-Time: 1031.01
-Time: 1032.01
-Time: 1033.01
-Time: 1034.01
-Time: 1035.01
-Time: 1036.01
-Time: 1037.01
-Time: 1038.01
-Time: 1039.01
-Time: 1040.01
-Time: 1041.01
-Time: 1042.01
-Time: 1043.01
-Time: 1044.01
-Time: 1045.01
-Time: 1046.01
-Time: 1047.01
-Time: 1048.01
-Time: 1049.01
-Time: 1050.01
-Time: 1051.01
-Time: 1052.01
-Time: 1053.01
-Time: 1054.01
-Time: 1055.01
-Time: 1056.01
-Time: 1057.01
-Time: 1058.01
-Time: 1059.01
-Time: 1060.01
-Time: 1061.01
-Time: 1062.01
-Time: 1063.01
-Time: 1064.01
-Time: 1065.01
-Time: 1066.01
-Time: 1067.01
-Time: 1068.01
-Time: 1069.01
-Time: 1070.01
-Time: 1071.01
-Time: 1072.01
-Time: 1073.01
-Time: 1074.01
-Time: 1075.01
-Time: 1076.01
-Time: 1077.01
-Time: 1078.01
-Time: 1079.01
-Time: 1080.01
-Time: 1081.01
-Time: 1082.01
-Time: 1083.01
-Time: 1084.01
-Time: 1085.01
-Time: 1086.01
-Time: 1087.01
-Time: 1088.01
-Time: 1089.01
-Time: 1090.01
-Time: 1091.01
-Time: 1092.01
-Time: 1093.01
-Time: 1094.01
-Time: 1095.01
-Time: 1096.01
-Time: 1097.01
-Time: 1098.01
-Time: 1099.01
-Time: 1100.01
-Time: 1101.01
-Time: 1102.01
-Time: 1103.01
-Time: 1104.01
-Time: 1105.01
-Time: 1106.01
-Time: 1107.01
-Time: 1108.01
-Time: 1109.01
-Time: 1110.01
-Time: 1111.01
-Time: 1112.01
-Time: 1113.01
-Time: 1114.01
-Time: 1115.01
-Time: 1116.01
-Time: 1117.01
-Time: 1118.01
-Time: 1119.01
-Time: 1120.01
-Time: 1121.01
-Time: 1122.01
-Time: 1123.01
-Time: 1124.01
-Time: 1125.01
-Time: 1126.01
-Time: 1127.01
-Time: 1128.01
-Time: 1129.01
-Time: 1130.01
-Time: 1131.01
-Time: 1132.01
-Time: 1133.01
-Time: 1134.01
-Time: 1135.01
-Time: 1136.01
-Time: 1137.01
-Time: 1138.01
-Time: 1139.01
-Time: 1140.01
-Time: 1141.01
-Time: 1142.01
-Time: 1143.01
-Time: 1144.01
-Time: 1145.01
-Time: 1146.01
-Time: 1147.01
-Time: 1148.01
-Time: 1149.01
-Time: 1150.01
-Time: 1151.01
-Time: 1152.01
-Time: 1153.01
-Time: 1154.01
-Time: 1155.01
-Time: 1156.01
-Time: 1157.01
-Time: 1158.01
-Time: 1159.01
-Time: 1160.01
-Time: 1161.01
-Time: 1162.01
-Time: 1163.01
-Time: 1164.01
-Time: 1165.01
-Time: 1166.01
-Time: 1167.01
-Time: 1168.01
-Time: 1169.01
-Time: 1170.01
-Time: 1171.01
-Time: 1172.01
-Time: 1173.01
-Time: 1174.01
-Time: 1175.01
-Time: 1176.01
-Time: 1177.01
-Time: 1178.01
-Time: 1179.01
-Time: 1180.01
-Time: 1181.01
-Time: 1182.01
-Time: 1183.01
-Time: 1184.01
-Time: 1185.01
-Time: 1186.01
-Time: 1187.01
-Time: 1188.01
-Time: 1189.01
-Time: 1190.01
-Time: 1191.01
-Time: 1192.01
-Time: 1193.01
-Time: 1194.01
-Time: 1195.01
-Time: 1196.01
-Time: 1197.01
-Time: 1198.01
-Time: 1199.01
-Time: 1200.01
-Time: 1201.01
-Time: 1202.01
-Time: 1203.01
-Time: 1204.01
-Time: 1205.01
-Time: 1206.01
-Time: 1207.01
-Time: 1208.01
-Time: 1209.01
-Time: 1210.01
-Time: 1211.01
-Time: 1212.01
-Time: 1213.01
-Time: 1214.01
-Time: 1215.01
-Time: 1216.01
-Time: 1217.01
-Time: 1218.01
-Time: 1219.01
-Time: 1220.01
-Time: 1221.01
-Time: 1222.01
-Time: 1223.01
-Time: 1224.01
-Time: 1225.01
-Time: 1226.01
-Time: 1227.01
-Time: 1228.01
-Time: 1229.01
-Time: 1230.01
-Time: 1231.01
-Time: 1232.01
-Time: 1233.01
-Time: 1234.01
-Time: 1235.01
-Time: 1236.01
-Time: 1237.01
-Time: 1238.01
-Time: 1239.01
-Time: 1240.01
-Time: 1241.01
-Time: 1242.01
-Time: 1243.01
-Time: 1244.01
-Time: 1245.01
-Time: 1246.01
-Time: 1247.01
-Time: 1248.01
-Time: 1249.01
-Time: 1250.01
-Time: 1251.01
-Time: 1252.01
-Time: 1253.01
-Time: 1254.01
-Time: 1255.01
-Time: 1256.01
-Time: 1257.01
-Time: 1258.01
-Time: 1259.01
-Time: 1260.01
-Time: 1261.01
-Time: 1262.01
-Time: 1263.01
-Time: 1264.01
-Time: 1265.01
-Time: 1266.01
-Time: 1267.01
-Time: 1268.01
-Time: 1269.01
-Time: 1270.01
-Time: 1271.01
-Time: 1272.01
-Time: 1273.01
-Time: 1274.01
-Time: 1275.01
-Time: 1276.01
-Time: 1277.01
-Time: 1278.01
-Time: 1279.01
-Time: 1280.01
-Time: 1281.01
-Time: 1282.01
-Time: 1283.01
-Time: 1284.01
-Time: 1285.01
-Time: 1286.01
-Time: 1287.01
-Time: 1288.01
-Time: 1289.01
-Time: 1290.01
-Time: 1291.01
-Time: 1292.01
-Time: 1293.01
-Time: 1294.01
-Time: 1295.01
-Time: 1296.01
-Time: 1297.01
-Time: 1298.01
-Time: 1299.01
-Time: 1300.01
-Time: 1301.01
-Time: 1302.01
-Time: 1303.01
-Time: 1304.01
-Time: 1305.01
-Time: 1306.01
-Time: 1307.01
-Time: 1308.01
-Time: 1309.01
-Time: 1310.01
-Time: 1311.01
-Time: 1312.01
-Time: 1313.01
-Time: 1314.01
-Time: 1315.01
-Time: 1316.01
-Time: 1317.01
-Time: 1318.01
-Time: 1319.01
-Time: 1320.01
-Time: 1321.01
-Time: 1322.01
-Time: 1323.01
-Time: 1324.01
-Time: 1325.01
-Time: 1326.01
-Time: 1327.01
-Time: 1328.01
-Time: 1329.01
-Time: 1330.01
-Time: 1331.01
-Time: 1332.01
-Time: 1333.01
-Time: 1334.01
-Time: 1335.01
-Time: 1336.01
-Time: 1337.01
-Time: 1338.01
-Time: 1339.01
-Time: 1340.01
-Time: 1341.01
-Time: 1342.01
-Time: 1343.01
-Time: 1344.01
-Time: 1345.01
-Time: 1346.01
-Time: 1347.01
-Time: 1348.01
-Time: 1349.01
-Time: 1350.01
-Time: 1351.01
-Time: 1352.01
-Time: 1353.01
-Time: 1354.01
-Time: 1355.01
-Time: 1356.01
-Time: 1357.01
-Time: 1358.01
-Time: 1359.01
-Time: 1360.01
-Time: 1361.01
-Time: 1362.01
-Time: 1363.01
-Time: 1364.01
-Time: 1365.01
-Time: 1366.01
-Time: 1367.01
-Time: 1368.01
-Time: 1369.01
-Time: 1370.01
-Time: 1371.01
-Time: 1372.01
-Time: 1373.01
-Time: 1374.01
-Time: 1375.01
-Time: 1376.01
-Time: 1377.01
-Time: 1378.01
-Time: 1379.01
-Time: 1380.01
-Time: 1381.01
-Time: 1382.01
-Time: 1383.01
-Time: 1384.01
-Time: 1385.01
-Time: 1386.01
-Time: 1387.01
-Time: 1388.01
-Time: 1389.01
-Time: 1390.01
-Time: 1391.01
-Time: 1392.01
-Time: 1393.01
-Time: 1394.01
-Time: 1395.01
-Time: 1396.01
-Time: 1397.01
-Time: 1398.01
-Time: 1399.01
-Time: 1400.01
-Time: 1401.01
-Time: 1402.01
-Time: 1403.01
-Time: 1404.01
-Time: 1405.01
-Time: 1406.01
-Time: 1407.01
-Time: 1408.01
-Time: 1409.01
-Time: 1410.01
-Time: 1411.01
-Time: 1412.01
-Time: 1413.01
-Time: 1414.01
-Time: 1415.01
-Time: 1416.01
-Time: 1417.01
-Time: 1418.01
-Time: 1419.01
-Time: 1420.01
-Time: 1421.01
-Time: 1422.01
-Time: 1423.01
-Time: 1424.01
-Time: 1425.01
-Time: 1426.01
-Time: 1427.01
-Time: 1428.01
-Time: 1429.01
-Time: 1430.01
-Time: 1431.01
-Time: 1432.01
-Time: 1433.01
-Time: 1434.01
-Time: 1435.01
-Time: 1436.01
-Time: 1437.01
-Time: 1438.01
-Time: 1439.01
-Time: 1440.01
-Time: 1441.01
-Time: 1442.01
-Time: 1443.01
-Time: 1444.01
-Time: 1445.01
-Time: 1446.01
-Time: 1447.01
-Time: 1448.01
-Time: 1449.01
-Time: 1450.01
-Time: 1451.01
-Time: 1452.01
-Time: 1453.01
-Time: 1454.01
-Time: 1455.01
-Time: 1456.01
-Time: 1457.01
-Time: 1458.01
-Time: 1459.01
-Time: 1460.01
-Time: 1461.01
-Time: 1462.01
-Time: 1463.01
-Time: 1464.01
-Time: 1465.01
-Time: 1466.01
-Time: 1467.01
-Time: 1468.01
-Time: 1469.01
-Time: 1470.01
-Time: 1471.01
-Time: 1472.01
-Time: 1473.01
-Time: 1474.01
-Time: 1475.01
-Time: 1476.01
-Time: 1477.01
-Time: 1478.01
-Time: 1479.01
-Time: 1480.01
-Time: 1481.01
-Time: 1482.01
-Time: 1483.01
-Time: 1484.01
-Time: 1485.01
-Time: 1486.01
-Time: 1487.01
-Time: 1488.01
-Time: 1489.01
-Time: 1490.01
-Time: 1491.01
-Time: 1492.01
-Time: 1493.01
-Time: 1494.01
-Time: 1495.01
-Time: 1496.01
-Time: 1497.01
-Time: 1498.01
-Time: 1499.01
-Time: 1500.01
-Time: 1501.01
-Time: 1502.01
-Time: 1503.01
-Time: 1504.01
-Time: 1505.01
-Time: 1506.01
-Time: 1507.01
-Time: 1508.01
-Time: 1509.01
-Time: 1510.01
-Time: 1511.01
-Time: 1512.01
-Time: 1513.01
-Time: 1514.01
-Time: 1515.01
-Time: 1516.01
-Time: 1517.01
-Time: 1518.01
-Time: 1519.01
-Time: 1520.01
-Time: 1521.01
-Time: 1522.01
-Time: 1523.01
-Time: 1524.01
-Time: 1525.01
-Time: 1526.01
-Time: 1527.01
-Time: 1528.01
-Time: 1529.01
-Time: 1530.01
-Time: 1531.01
-Time: 1532.01
-Time: 1533.01
-Time: 1534.01
-Time: 1535.01
-Time: 1536.01
-Time: 1537.01
-Time: 1538.01
-Time: 1539.01
-Time: 1540.01
-Time: 1541.01
-Time: 1542.01
-Time: 1543.01
-Time: 1544.01
-Time: 1545.01
-Time: 1546.01
-Time: 1547.01
-Time: 1548.01
-Time: 1549.01
-Time: 1550.01
-Time: 1551.01
-Time: 1552.01
-Time: 1553.01
-Time: 1554.01
-Time: 1555.01
-Time: 1556.01
-Time: 1557.01
-Time: 1558.01
-Time: 1559.01
-Time: 1560.01
-Time: 1561.01
-Time: 1562.01
-Time: 1563.01
-Time: 1564.01
-Time: 1565.01
-Time: 1566.01
-Time: 1567.01
-Time: 1568.01
-Time: 1569.01
-Time: 1570.01
-Time: 1571.01
-Time: 1572.01
-Time: 1573.01
-Time: 1574.01
-Time: 1575.01
-Time: 1576.01
-Time: 1577.01
-Time: 1578.01
-Time: 1579.01
-Time: 1580.01
-Time: 1581.01
-Time: 1582.01
-Time: 1583.01
-Time: 1584.01
-Time: 1585.01
-Time: 1586.01
-Time: 1587.01
-Time: 1588.01
-Time: 1589.01
-Time: 1590.01
-Time: 1591.01
-Time: 1592.01
-Time: 1593.01
-Time: 1594.01
-Time: 1595.01
-Time: 1596.01
-Time: 1597.01
-Time: 1598.01
-Time: 1599.01
-Time: 1600.01
-Time: 1601.01
-Time: 1602.01
-Time: 1603.01
-Time: 1604.01
-Time: 1605.01
-Time: 1606.01
-Time: 1607.01
-Time: 1608.01
-Time: 1609.01
-Time: 1610.01
-Time: 1611.01
-Time: 1612.01
-Time: 1613.01
-Time: 1614.01
-Time: 1615.01
-Time: 1616.01
-Time: 1617.01
-Time: 1618.01
-Time: 1619.01
-Time: 1620.01
-Time: 1621.01
-Time: 1622.01
-Time: 1623.01
-Time: 1624.01
-Time: 1625.01
-Time: 1626.01
-Time: 1627.01
-Time: 1628.01
-Time: 1629.01
-Time: 1630.01
-Time: 1631.01
-Time: 1632.01
-Time: 1633.01
-Time: 1634.01
-Time: 1635.01
-Time: 1636.01
-Time: 1637.01
-Time: 1638.01
-Time: 1639.01
-Time: 1640.01
-Time: 1641.01
-Time: 1642.01
-Time: 1643.01
-Time: 1644.01
-Time: 1645.01
-Time: 1646.01
-Time: 1647.01
-Time: 1648.01
-Time: 1649.01
-Time: 1650.01
-Time: 1651.01
-Time: 1652.01
-Time: 1653.01
-Time: 1654.01
-Time: 1655.01
-Time: 1656.01
-Time: 1657.01
-Time: 1658.01
-Time: 1659.01
-Time: 1660.01
-Time: 1661.01
-Time: 1662.01
-Time: 1663.01
-Time: 1664.01
-Time: 1665.01
-Time: 1666.01
-Time: 1667.01
-Time: 1668.01
-Time: 1669.01
-Time: 1670.01
-Time: 1671.01
-Time: 1672.01
-Time: 1673.01
-Time: 1674.01
-Time: 1675.01
-Time: 1676.01
-Time: 1677.01
-Time: 1678.01
-Time: 1679.01
-Time: 1680.01
-Time: 1681.01
-Time: 1682.01
-Time: 1683.01
-Time: 1684.01
-Time: 1685.01
-Time: 1686.01
-Time: 1687.01
-Time: 1688.01
-Time: 1689.01
-Time: 1690.01
-Time: 1691.01
-Time: 1692.01
-Time: 1693.01
-Time: 1694.01
-Time: 1695.01
-Time: 1696.01
-Time: 1697.01
-Time: 1698.01
-Time: 1699.01
-Time: 1700.01
-Time: 1701.01
-Time: 1702.01
-Time: 1703.01
-Time: 1704.01
-Time: 1705.01
-Time: 1706.01
-Time: 1707.01
-Time: 1708.01
-Time: 1709.01
-Time: 1710.01
-Time: 1711.01
-Time: 1712.01
-Time: 1713.01
-Time: 1714.01
-Time: 1715.01
-Time: 1716.01
-Time: 1717.01
-Time: 1718.01
-Time: 1719.01
-Time: 1720.01
-Time: 1721.01
-Time: 1722.01
-Time: 1723.01
-Time: 1724.01
-Time: 1725.01
-Time: 1726.01
-Time: 1727.01
-Time: 1728.01
-Time: 1729.01
-Time: 1730.01
-Time: 1731.01
-Time: 1732.01
-Time: 1733.01
-Time: 1734.01
-Time: 1735.01
-Time: 1736.01
-Time: 1737.01
-Time: 1738.01
-Time: 1739.01
-Time: 1740.01
-Time: 1741.01
-Time: 1742.01
-Time: 1743.01
-Time: 1744.01
-Time: 1745.01
-Time: 1746.01
-Time: 1747.01
-Time: 1748.01
-Time: 1749.01
-Time: 1750.01
-Time: 1751.01
-Time: 1752.01
-Time: 1753.01
-Time: 1754.01
-Time: 1755.01
-Time: 1756.01
-Time: 1757.01
-Time: 1758.01
-Time: 1759.01
-Time: 1760.01
-Time: 1761.01
-Time: 1762.01
-Time: 1763.01
-Time: 1764.01
-Time: 1765.01
-Time: 1766.01
-Time: 1767.01
-Time: 1768.01
-Time: 1769.01
-Time: 1770.01
-Time: 1771.01
-Time: 1772.01
-Time: 1773.01
-Time: 1774.01
-Time: 1775.01
-Time: 1776.01
-Time: 1777.01
-Time: 1778.01
-Time: 1779.01
-Time: 1780.01
-Time: 1781.01
-Time: 1782.01
-Time: 1783.01
-Time: 1784.01
-Time: 1785.01
-Time: 1786.01
-Time: 1787.01
-Time: 1788.01
-Time: 1789.01
-Time: 1790.01
-Time: 1791.01
-Time: 1792.01
-Time: 1793.01
-Time: 1794.01
-Time: 1795.01
-Time: 1796.01
-Time: 1797.01
-Time: 1798.01
-Time: 1799.01
-Time: 1800.01
-Time: 1801.01
-Time: 1802.01
-Time: 1803.01
-Time: 1804.01
-Time: 1805.01
-Time: 1806.01
-Time: 1807.01
-Time: 1808.01
-Time: 1809.01
-Time: 1810.01
-Time: 1811.01
-Time: 1812.01
-Time: 1813.01
-Time: 1814.01
-Time: 1815.01
-Time: 1816.01
-Time: 1817.01
-Time: 1818.01
-Time: 1819.01
-Time: 1820.01
-Time: 1821.01
-Time: 1822.01
-Time: 1823.01
-Time: 1824.01
-Time: 1825.01
-Time: 1826.01
-Time: 1827.01
-Time: 1828.01
-Time: 1829.01
-Time: 1830.01
-Time: 1831.01
-Time: 1832.01
-Time: 1833.01
-Time: 1834.01
-Time: 1835.01
-Time: 1836.01
-Time: 1837.01
-Time: 1838.01
-Time: 1839.01
-Time: 1840.01
-Time: 1841.01
-Time: 1842.01
-Time: 1843.01
-Time: 1844.01
-Time: 1845.01
-Time: 1846.01
-Time: 1847.01
-Time: 1848.01
-Time: 1849.01
-Time: 1850.01
-Time: 1851.01
-Time: 1852.01
-Time: 1853.01
-Time: 1854.01
-Time: 1855.01
-Time: 1856.01
-Time: 1857.01
-Time: 1858.01
-Time: 1859.01
-Time: 1860.01
-Time: 1861.01
-Time: 1862.01
-Time: 1863.01
-Time: 1864.01
-Time: 1865.01
-Time: 1866.01
-Time: 1867.01
-Time: 1868.01
-Time: 1869.01
-Time: 1870.01
-Time: 1871.01
-Time: 1872.01
-Time: 1873.01
-Time: 1874.01
-Time: 1875.01
-Time: 1876.01
-Time: 1877.01
-Time: 1878.01
-Time: 1879.01
-Time: 1880.01
-Time: 1881.01
-Time: 1882.01
-Time: 1883.01
-Time: 1884.01
-Time: 1885.01
-Time: 1886.01
-Time: 1887.01
-Time: 1888.01
-Time: 1889.01
-Time: 1890.01
-Time: 1891.01
-Time: 1892.01
-Time: 1893.01
-Time: 1894.01
-Time: 1895.01
-Time: 1896.01
-Time: 1897.01
-Time: 1898.01
-Time: 1899.01
-Time: 1900.01
-Time: 1901.01
-Time: 1902.01
-Time: 1903.01
-Time: 1904.01
-Time: 1905.01
-Time: 1906.01
-Time: 1907.01
-Time: 1908.01
-Time: 1909.01
-Time: 1910.01
-Time: 1911.01
-Time: 1912.01
-Time: 1913.01
-Time: 1914.01
-Time: 1915.01
-Time: 1916.01
-Time: 1917.01
-Time: 1918.01
-Time: 1919.01
-Time: 1920.01
-Time: 1921.01
-Time: 1922.01
-Time: 1923.01
-Time: 1924.01
-Time: 1925.01
-Time: 1926.01
-Time: 1927.01
-Time: 1928.01
-Time: 1929.01
-Time: 1930.01
-Time: 1931.01
-Time: 1932.01
-Time: 1933.01
-Time: 1934.01
-Time: 1935.01
-Time: 1936.01
-Time: 1937.01
-Time: 1938.01
-Time: 1939.01
-Time: 1940.01
-Time: 1941.01
-Time: 1942.01
-Time: 1943.01
-Time: 1944.01
-Time: 1945.01
-Time: 1946.01
-Time: 1947.01
-Time: 1948.01
-Time: 1949.01
-Time: 1950.01
-Time: 1951.01
-Time: 1952.01
-Time: 1953.01
-Time: 1954.01
-Time: 1955.01
-Time: 1956.01
-Time: 1957.01
-Time: 1958.01
-Time: 1959.01
-Time: 1960.01
-Time: 1961.01
-Time: 1962.01
-Time: 1963.01
-Time: 1964.01
-Time: 1965.01
-Time: 1966.01
-Time: 1967.01
-Time: 1968.01
-Time: 1969.01
-Time: 1970.01
-Time: 1971.01
-Time: 1972.01
-Time: 1973.01
-Time: 1974.01
-Time: 1975.01
-Time: 1976.01
-Time: 1977.01
-Time: 1978.01
-Time: 1979.01
-Time: 1980.01
-Time: 1981.01
-Time: 1982.01
-Time: 1983.01
-Time: 1984.01
-Time: 1985.01
-Time: 1986.01
-Time: 1987.01
-Time: 1988.01
-Time: 1989.01
-Time: 1990.01
-Time: 1991.01
-Time: 1992.01
-Time: 1993.01
-Time: 1994.01
-Time: 1995.01
-Time: 1996.01
-Time: 1997.01
-Time: 1998.01
-Time: 1999.01
-Time: 2000.01
-Time: 2001.01
-Time: 2002.01
-Time: 2003.01
-Time: 2004.01
-Time: 2005.01
-Time: 2006.01
-Time: 2007.01
-Time: 2008.01
-Time: 2009.01
-Time: 2010.01
-Time: 2011.01
-Time: 2012.01
-Time: 2013.01
-Time: 2014.01
-Time: 2015.01
-Time: 2016.01
-Time: 2017.01
-Time: 2018.01
-Time: 2019.01
-Time: 2020.01
-Time: 2021.01
-Time: 2022.01
-Time: 2023.01
-Time: 2024.01
-Time: 2025.01
-Time: 2026.01
-Time: 2027.01
-Time: 2028.01
-Time: 2029.01
-Time: 2030.01
-Time: 2031.01
-Time: 2032.01
-Time: 2033.01
-Time: 2034.01
-Time: 2035.01
-Time: 2036.01
-Time: 2037.01
-Time: 2038.01
-Time: 2039.01
-Time: 2040.01
-Time: 2041.01
-Time: 2042.01
-Time: 2043.01
-Time: 2044.01
-Time: 2045.01
-Time: 2046.01
-Time: 2047.01
-Time: 2048.01
-Time: 2049.01
-Time: 2050.01
-Time: 2051.01
-Time: 2052.01
-Time: 2053.01
-Time: 2054.01
-Time: 2055.01
-Time: 2056.01
-Time: 2057.01
-Time: 2058.01
-Time: 2059.01
-Time: 2060.01
-Time: 2061.01
-Time: 2062.01
-Time: 2063.01
-Time: 2064.01
-Time: 2065.01
-Time: 2066.01
-Time: 2067.01
-Time: 2068.01
-Time: 2069.01
-Time: 2070.01
-Time: 2071.01
-Time: 2072.01
-Time: 2073.01
-Time: 2074.01
-Time: 2075.01
-Time: 2076.01
-Time: 2077.01
-Time: 2078.01
-Time: 2079.01
-Time: 2080.01
-Time: 2081.01
-Time: 2082.01
-Time: 2083.01
-Time: 2084.01
-Time: 2085.01
-Time: 2086.01
-Time: 2087.01
-Time: 2088.01
-Time: 2089.01
-Time: 2090.01
-Time: 2091.01
-Time: 2092.01
-Time: 2093.01
-Time: 2094.01
-Time: 2095.01
-Time: 2096.01
-Time: 2097.01
-Time: 2098.01
-Time: 2099.01
-Time: 2100.01
-Time: 2101.01
-Time: 2102.01
-Time: 2103.01
-Time: 2104.01
-Time: 2105.01
-Time: 2106.01
-Time: 2107.01
-Time: 2108.01
-Time: 2109.01
-Time: 2110.01
-Time: 2111.01
-Time: 2112.01
-Time: 2113.01
-Time: 2114.01
-Time: 2115.01
-Time: 2116.01
-Time: 2117.01
-Time: 2118.01
-Time: 2119.01
-Time: 2120.01
-Time: 2121.01
-Time: 2122.01
-Time: 2123.01
-Time: 2124.01
-Time: 2125.01
-Time: 2126.01
-Time: 2127.01
-Time: 2128.01
-Time: 2129.01
-Time: 2130.01
-Time: 2131.01
-Time: 2132.01
-Time: 2133.01
-Time: 2134.01
-Time: 2135.01
-Time: 2136.01
-Time: 2137.01
-Time: 2138.01
-Time: 2139.01
-Time: 2140.01
-Time: 2141.01
-Time: 2142.01
-Time: 2143.01
-Time: 2144.01
-Time: 2145.01
-Time: 2146.01
-Time: 2147.01
-Time: 2148.01
-Time: 2149.01
-Time: 2150.01
-Time: 2151.01
-Time: 2152.01
-Time: 2153.01
-Time: 2154.01
-Time: 2155.01
-Time: 2156.01
-Time: 2157.01
-Time: 2158.01
-Time: 2159.01
-Time: 2160.01
-Time: 2161.01
-Time: 2162.01
-Time: 2163.01
-Time: 2164.01
-Time: 2165.01
-Time: 2166.01
-Time: 2167.01
-Time: 2168.01
-Time: 2169.01
-Time: 2170.01
-Time: 2171.01
-Time: 2172.01
-Time: 2173.01
-Time: 2174.01
-Time: 2175.01
-Time: 2176.01
-Time: 2177.01
-Time: 2178.01
-Time: 2179.01
-Time: 2180.01
-Time: 2181.01
-Time: 2182.01
-Time: 2183.01
-Time: 2184.01
-Time: 2185.01
-Time: 2186.01
-Time: 2187.01
-Time: 2188.01
-Time: 2189.01
-Time: 2190.01
-Time: 2191.01
-Time: 2192.01
-Time: 2193.01
-Time: 2194.01
-Time: 2195.01
-Time: 2196.01
-Time: 2197.01
-Time: 2198.01
-Time: 2199.01
-Time: 2200.01
-Time: 2201.01
-Time: 2202.01
-Time: 2203.01
-Time: 2204.01
-Time: 2205.01
-Time: 2206.01
-Time: 2207.01
-Time: 2208.01
-Time: 2209.01
-Time: 2210.01
-Time: 2211.01
-Time: 2212.01
-Time: 2213.01
-Time: 2214.01
-Time: 2215.01
-Time: 2216.01
-Time: 2217.01
-Time: 2218.01
-Time: 2219.01
-Time: 2220.01
-Time: 2221.01
-Time: 2222.01
-Time: 2223.01
-Time: 2224.01
-Time: 2225.01
-Time: 2226.01
-Time: 2227.01
-Time: 2228.01
-Time: 2229.01
-Time: 2230.01
-Time: 2231.01
-Time: 2232.01
-Time: 2233.01
-Time: 2234.01
-Time: 2235.01
-Time: 2236.01
-Time: 2237.01
-Time: 2238.01
-Time: 2239.01
-Time: 2240.01
-Time: 2241.01
-Time: 2242.01
-Time: 2243.01
-Time: 2244.01
-Time: 2245.01
-Time: 2246.01
-Time: 2247.01
-Time: 2248.01
-Time: 2249.01
-Time: 2250.01
-Time: 2251.01
-Time: 2252.01
-Time: 2253.01
-Time: 2254.01
-Time: 2255.01
-Time: 2256.01
-Time: 2257.01
-Time: 2258.01
-Time: 2259.01
-Time: 2260.01
-Time: 2261.01
-Time: 2262.01
-Time: 2263.01
-Time: 2264.01
-Time: 2265.01
-Time: 2266.01
-Time: 2267.01
-Time: 2268.01
-Time: 2269.01
-Time: 2270.01
-Time: 2271.01
-Time: 2272.01
-Time: 2273.01
-Time: 2274.01
-Time: 2275.01
-Time: 2276.01
-Time: 2277.01
-Time: 2278.01
-Time: 2279.01
-Time: 2280.01
-Time: 2281.01
-Time: 2282.01
-Time: 2283.01
-Time: 2284.01
-Time: 2285.01
-Time: 2286.01
-Time: 2287.01
-Time: 2288.01
-Time: 2289.01
-Time: 2290.01
-Time: 2291.01
-Time: 2292.01
-Time: 2293.01
-Time: 2294.01
-Time: 2295.01
-Time: 2296.01
-Time: 2297.01
-Time: 2298.01
-Time: 2299.01
-Time: 2300.01
-Time: 2301.01
-Time: 2302.01
-Time: 2303.01
-Time: 2304.01
-Time: 2305.01
-Time: 2306.01
-Time: 2307.01
-Time: 2308.01
-Time: 2309.01
-Time: 2310.01
-Time: 2311.01
-Time: 2312.01
-Time: 2313.01
-Time: 2314.01
-Time: 2315.01
-Time: 2316.01
-Time: 2317.01
-Time: 2318.01
-Time: 2319.01
-Time: 2320.01
-Time: 2321.01
-Time: 2322.01
-Time: 2323.01
-Time: 2324.01
-Time: 2325.01
-Time: 2326.01
-Time: 2327.01
-Time: 2328.01
-Time: 2329.01
-Time: 2330.01
-Time: 2331.01
-Time: 2332.01
-Time: 2333.01
-Time: 2334.01
-Time: 2335.01
-Time: 2336.01
-Time: 2337.01
-Time: 2338.01
-Time: 2339.01
-Time: 2340.01
-Time: 2341.01
-Time: 2342.01
-Time: 2343.01
-Time: 2344.01
-Time: 2345.01
-Time: 2346.01
-Time: 2347.01
-Time: 2348.01
-Time: 2349.01
-Time: 2350.01
-Time: 2351.01
-Time: 2352.01
-Time: 2353.01
-Time: 2354.01
-Time: 2355.01
-Time: 2356.01
-Time: 2357.01
-Time: 2358.01
-Time: 2359.01
-Time: 2360.01
-Time: 2361.01
-Time: 2362.01
-Time: 2363.01
-Time: 2364.01
-Time: 2365.01
-Time: 2366.01
-Time: 2367.01
-Time: 2368.01
-Time: 2369.01
-Time: 2370.01
-Time: 2371.01
-Time: 2372.01
-Time: 2373.01
-Time: 2374.01
-Time: 2375.01
-Time: 2376.01
-Time: 2377.01
-Time: 2378.01
-Time: 2379.01
-Time: 2380.01
-Time: 2381.01
-Time: 2382.01
-Time: 2383.01
-Time: 2384.01
-Time: 2385.01
-Time: 2386.01
-Time: 2387.01
-Time: 2388.01
-Time: 2389.01
-Time: 2390.01
-Time: 2391.01
-Time: 2392.01
-Time: 2393.01
-Time: 2394.01
-Time: 2395.01
-Time: 2396.01
-Time: 2397.01
-Time: 2398.01
-Time: 2399.01
-Time: 2400.01
-Time: 2401.01
-Time: 2402.01
-Time: 2403.01
-Time: 2404.01
-Time: 2405.01
-Time: 2406.01
-Time: 2407.01
-Time: 2408.01
-Time: 2409.01
-Time: 2410.01
-Time: 2411.01
-Time: 2412.01
-Time: 2413.01
-Time: 2414.01
-Time: 2415.01
-Time: 2416.01
-Time: 2417.01
-Time: 2418.01
-Time: 2419.01
-Time: 2420.01
-Time: 2421.01
-Time: 2422.01
-Time: 2423.01
-Time: 2424.01
-Time: 2425.01
-Time: 2426.01
-Time: 2427.01
-Time: 2428.01
-Time: 2429.01
-Time: 2430.01
-Time: 2431.01
-Time: 2432.01
-Time: 2433.01
-Time: 2434.01
-Time: 2435.01
-Time: 2436.01
-Time: 2437.01
-Time: 2438.01
-Time: 2439.01
-Time: 2440.01
-Time: 2441.01
-Time: 2442.01
-Time: 2443.01
-Time: 2444.01
-Time: 2445.01
-Time: 2446.01
-Time: 2447.01
-Time: 2448.01
-Time: 2449.01
-Time: 2450.01
-Time: 2451.01
-Time: 2452.01
-Time: 2453.01
-Time: 2454.01
-Time: 2455.01
-Time: 2456.01
-Time: 2457.01
-Time: 2458.01
-Time: 2459.01
-Time: 2460.01
-Time: 2461.01
-Time: 2462.01
-Time: 2463.01
-Time: 2464.01
-Time: 2465.01
-Time: 2466.01
-Time: 2467.01
-Time: 2468.01
-Time: 2469.01
-Time: 2470.01
-Time: 2471.01
-Time: 2472.01
-Time: 2473.01
-Time: 2474.01
-Time: 2475.01
-Time: 2476.01
-Time: 2477.01
-Time: 2478.01
-Time: 2479.01
-Time: 2480.01
-Time: 2481.01
-Time: 2482.01
-Time: 2483.01
-Time: 2484.01
-Time: 2485.01
-Time: 2486.01
-Time: 2487.01
-Time: 2488.01
-Time: 2489.01
-Time: 2490.01
-Time: 2491.01
-Time: 2492.01
-Time: 2493.01
-Time: 2494.01
-Time: 2495.01
-Time: 2496.01
-Time: 2497.01
-Time: 2498.01
-Time: 2499.01
-Time: 2500.01
-Time: 2501.01
-Time: 2502.01
-Time: 2503.01
-Time: 2504.01
-Time: 2505.01
-Time: 2506.01
-Time: 2507.01
-Time: 2508.01
-Time: 2509.01
-Time: 2510.01
-Time: 2511.01
-Time: 2512.01
-Time: 2513.01
-Time: 2514.01
-Time: 2515.01
-Time: 2516.01
-Time: 2517.01
-Time: 2518.01
-Time: 2519.01
-Time: 2520.01
-Time: 2521.01
-Time: 2522.01
-Time: 2523.01
-Time: 2524.01
-Time: 2525.01
-Time: 2526.01
-Time: 2527.01
-Time: 2528.01
-Time: 2529.01
-Time: 2530.01
-Time: 2531.01
-Time: 2532.01
-Time: 2533.01
-Time: 2534.01
-Time: 2535.01
-Time: 2536.01
-Time: 2537.01
-Time: 2538.01
-Time: 2539.01
-Time: 2540.01
-Time: 2541.01
-Time: 2542.01
-Time: 2543.01
-Time: 2544.01
-Time: 2545.01
-Time: 2546.01
-Time: 2547.01
-Time: 2548.01
-Time: 2549.01
-Time: 2550.01
-Time: 2551.01
-Time: 2552.01
-Time: 2553.01
-Time: 2554.01
-Time: 2555.01
-Time: 2556.01
-Time: 2557.01
-Time: 2558.01
-Time: 2559.01
-Time: 2560.01
-Time: 2561.01
-Time: 2562.01
-Time: 2563.01
-Time: 2564.01
-Time: 2565.01
-Time: 2566.01
-Time: 2567.01
-Time: 2568.01
-Time: 2569.01
-Time: 2570.01
-Time: 2571.01
-Time: 2572.01
-Time: 2573.01
-Time: 2574.01
-Time: 2575.01
-Time: 2576.01
-Time: 2577.01
-Time: 2578.01
-Time: 2579.01
-Time: 2580.01
-Time: 2581.01
-Time: 2582.01
-Time: 2583.01
-Time: 2584.01
-Time: 2585.01
-Time: 2586.01
-Time: 2587.01
-Time: 2588.01
-Time: 2589.01
-Time: 2590.01
-Time: 2591.01
-Time: 2592.01
-Time: 2593.01
-Time: 2594.01
-Time: 2595.01
-Time: 2596.01
-Time: 2597.01
-Time: 2598.01
-Time: 2599.01
-Time: 2600.01
-Time: 2601.01
-Time: 2602.01
-Time: 2603.01
-Time: 2604.01
-Time: 2605.01
-Time: 2606.01
-Time: 2607.01
-Time: 2608.01
-Time: 2609.01
-Time: 2610.01
-Time: 2611.01
-Time: 2612.01
-Time: 2613.01
-Time: 2614.01
-Time: 2615.01
-Time: 2616.01
-Time: 2617.01
-Time: 2618.01
-Time: 2619.01
-Time: 2620.01
-Time: 2621.01
-Time: 2622.01
-Time: 2623.01
-Time: 2624.01
-Time: 2625.01
-Time: 2626.01
-Time: 2627.01
-Time: 2628.01
-Time: 2629.01
-Time: 2630.01
-Time: 2631.01
-Time: 2632.01
-Time: 2633.01
-Time: 2634.01
-Time: 2635.01
-Time: 2636.01
-Time: 2637.01
-Time: 2638.01
-Time: 2639.01
-Time: 2640.01
-Time: 2641.01
-Time: 2642.01
-Time: 2643.01
-Time: 2644.01
-Time: 2645.01
-Time: 2646.01
-Time: 2647.01
-Time: 2648.01
-Time: 2649.01
-Time: 2650.01
-Time: 2651.01
-Time: 2652.01
-Time: 2653.01
-Time: 2654.01
-Time: 2655.01
-Time: 2656.01
-Time: 2657.01
-Time: 2658.01
-Time: 2659.01
-Time: 2660.01
-Time: 2661.01
-Time: 2662.01
-Time: 2663.01
-Time: 2664.01
-Time: 2665.01
-Time: 2666.01
-Time: 2667.01
-Time: 2668.01
-Time: 2669.01
-Time: 2670.01
-Time: 2671.01
-Time: 2672.01
-Time: 2673.01
-Time: 2674.01
-Time: 2675.01
-Time: 2676.01
-Time: 2677.01
-Time: 2678.01
-Time: 2679.01
-Time: 2680.01
-Time: 2681.01
-Time: 2682.01
-Time: 2683.01
-Time: 2684.01
-Time: 2685.01
-Time: 2686.01
-Time: 2687.01
-Time: 2688.01
-Time: 2689.01
-Time: 2690.01
-Time: 2691.01
-Time: 2692.01
-Time: 2693.01
-Time: 2694.01
-Time: 2695.01
-Time: 2696.01
-Time: 2697.01
-Time: 2698.01
-Time: 2699.01
-Time: 2700.01
-Time: 2701.01
-Time: 2702.01
-Time: 2703.01
-Time: 2704.01
-Time: 2705.01
-Time: 2706.01
-Time: 2707.01
-Time: 2708.01
-Time: 2709.01
-Time: 2710.01
-Time: 2711.01
-Time: 2712.01
-Time: 2713.01
-Time: 2714.01
-Time: 2715.01
-Time: 2716.01
-Time: 2717.01
-Time: 2718.01
-Time: 2719.01
-Time: 2720.01
-Time: 2721.01
-Time: 2722.01
-Time: 2723.01
-Time: 2724.01
-Time: 2725.01
-Time: 2726.01
-Time: 2727.01
-Time: 2728.01
-Time: 2729.01
-Time: 2730.01
-Time: 2731.01
-Time: 2732.01
-Time: 2733.01
-Time: 2734.01
-Time: 2735.01
-Time: 2736.01
-Time: 2737.01
-Time: 2738.01
-Time: 2739.01
-Time: 2740.01
-Time: 2741.01
-Time: 2742.01
-Time: 2743.01
-Time: 2744.01
-Time: 2745.01
-Time: 2746.01
-Time: 2747.01
-Time: 2748.01
-Time: 2749.01
-Time: 2750.01
-Time: 2751.01
-Time: 2752.01
-Time: 2753.01
-Time: 2754.01
-Time: 2755.01
-Time: 2756.01
-Time: 2757.01
-Time: 2758.01
-Time: 2759.01
-Time: 2760.01
-Time: 2761.01
-Time: 2762.01
-Time: 2763.01
-Time: 2764.01
-Time: 2765.01
-Time: 2766.01
-Time: 2767.01
-Time: 2768.01
-Time: 2769.01
-Time: 2770.01
-Time: 2771.01
-Time: 2772.01
-Time: 2773.01
-Time: 2774.01
-Time: 2775.01
-Time: 2776.01
-Time: 2777.01
-Time: 2778.01
-Time: 2779.01
-Time: 2780.01
-Time: 2781.01
-Time: 2782.01
-Time: 2783.01
-Time: 2784.01
-Time: 2785.01
-Time: 2786.01
-Time: 2787.01
-Time: 2788.01
-Time: 2789.01
-Time: 2790.01
-Time: 2791.01
-Time: 2792.01
-Time: 2793.01
-Time: 2794.01
-Time: 2795.01
-Time: 2796.01
-Time: 2797.01
-Time: 2798.01
-Time: 2799.01
-Time: 2800.01
-Time: 2801.01
-Time: 2802.01
-Time: 2803.01
-Time: 2804.01
-Time: 2805.01
-Time: 2806.01
-Time: 2807.01
-Time: 2808.01
-Time: 2809.01
-Time: 2810.01
-Time: 2811.01
-Time: 2812.01
-Time: 2813.01
-Time: 2814.01
-Time: 2815.01
-Time: 2816.01
-Time: 2817.01
-Time: 2818.01
-Time: 2819.01
-Time: 2820.01
-Time: 2821.01
-Time: 2822.01
-Time: 2823.01
-Time: 2824.01
-Time: 2825.01
-Time: 2826.01
-Time: 2827.01
-Time: 2828.01
-Time: 2829.01
-Time: 2830.01
-Time: 2831.01
-Time: 2832.01
-Time: 2833.01
-Time: 2834.01
-Time: 2835.01
-Time: 2836.01
-Time: 2837.01
-Time: 2838.01
-Time: 2839.01
-Time: 2840.01
-Time: 2841.01
-Time: 2842.01
-Time: 2843.01
-Time: 2844.01
-Time: 2845.01
-Time: 2846.01
-Time: 2847.01
-Time: 2848.01
-Time: 2849.01
-Time: 2850.01
-Time: 2851.01
-Time: 2852.01
-Time: 2853.01
-Time: 2854.01
-Time: 2855.01
-Time: 2856.01
-Time: 2857.01
-Time: 2858.01
-Time: 2859.01
-Time: 2860.01
-Time: 2861.01
-Time: 2862.01
-Time: 2863.01
-Time: 2864.01
-Time: 2865.01
-Time: 2866.01
-Time: 2867.01
-Time: 2868.01
-Time: 2869.01
-Time: 2870.01
-Time: 2871.01
-Time: 2872.01
-Time: 2873.01
-Time: 2874.01
-Time: 2875.01
-Time: 2876.01
-Time: 2877.01
-Time: 2878.01
-Time: 2879.01
-Time: 2880.01
-Time: 2881.01
-Time: 2882.01
-Time: 2883.01
-Time: 2884.01
-Time: 2885.01
-Time: 2886.01
-Time: 2887.01
-Time: 2888.01
-Time: 2889.01
-Time: 2890.01
-Time: 2891.01
-Time: 2892.01
-Time: 2893.01
-Time: 2894.01
-Time: 2895.01
-Time: 2896.01
-Time: 2897.01
-Time: 2898.01
-Time: 2899.01
-Time: 2900.01
-Time: 2901.01
-Time: 2902.01
-Time: 2903.01
-Time: 2904.01
-Time: 2905.01
-Time: 2906.01
-Time: 2907.01
-Time: 2908.01
-Time: 2909.01
-Time: 2910.01
-Time: 2911.01
-Time: 2912.01
-Time: 2913.01
-Time: 2914.01
-Time: 2915.01
-Time: 2916.01
-Time: 2917.01
-Time: 2918.01
-Time: 2919.01
-Time: 2920.01
-Time: 2921.01
-Time: 2922.01
-Time: 2923.01
-Time: 2924.01
-Time: 2925.01
-Time: 2926.01
-Time: 2927.01
-Time: 2928.01
-Time: 2929.01
-Time: 2930.01
-Time: 2931.01
-Time: 2932.01
-Time: 2933.01
-Time: 2934.01
-Time: 2935.01
-Time: 2936.01
-Time: 2937.01
-Time: 2938.01
-Time: 2939.01
-Time: 2940.01
-Time: 2941.01
-Time: 2942.01
-Time: 2943.01
-Time: 2944.01
-Time: 2945.01
-Time: 2946.01
-Time: 2947.01
-Time: 2948.01
-Time: 2949.01
-Time: 2950.01
-Time: 2951.01
-Time: 2952.01
-Time: 2953.01
-Time: 2954.01
-Time: 2955.01
-Time: 2956.01
-Time: 2957.01
-Time: 2958.01
-Time: 2959.01
-Time: 2960.01
-Time: 2961.01
-Time: 2962.01
-Time: 2963.01
-Time: 2964.01
-Time: 2965.01
-Time: 2966.01
-Time: 2967.01
-Time: 2968.01
-Time: 2969.01
-Time: 2970.01
-Time: 2971.01
-Time: 2972.01
-Time: 2973.01
-Time: 2974.01
-Time: 2975.01
-Time: 2976.01
-Time: 2977.01
-Time: 2978.01
-Time: 2979.01
-Time: 2980.01
-Time: 2981.01
-Time: 2982.01
-Time: 2983.01
-Time: 2984.01
-Time: 2985.01
-Time: 2986.01
-Time: 2987.01
-Time: 2988.01
-Time: 2989.01
-Time: 2990.01
-Time: 2991.01
-Time: 2992.01
-Time: 2993.01
-Time: 2994.01
-Time: 2995.01
-Time: 2996.01
-Time: 2997.01
-Time: 2998.01
-Time: 2999.01
-<end of output>
-Test time =   0.76 sec
-----------------------------------------------------------
-Test Passed.
-"her_test" end time: Jun 10 18:04 PDT
-"her_test" time elapsed: 00:00:00
-----------------------------------------------------------
+# vertices: 10
+# edges:    42
+0  -->  4
+0  -->  5
+0  -->  9
+1  -->  0
+1  -->  2
+1  -->  5
+1  -->  6
+1  -->  7
+2  -->  1
+2  -->  3
+2  -->  6
+2  -->  7
+2  -->  8
+3  -->  2
+3  -->  4
+3  -->  7
+3  -->  8
+3  -->  9
+4  -->  0
+4  -->  5
+4  -->  9
+5  -->  0
+5  -->  4
+5  -->  9
+6  -->  0
+6  -->  1
+6  -->  2
+6  -->  5
+6  -->  7
+7  -->  1
+7  -->  2
+7  -->  3
+7  -->  6
+7  -->  8
+8  -->  2
+8  -->  3
+8  -->  4
+8  -->  7
+8  -->  9
+9  -->  0
+9  -->  4
+9  -->  5
 
-2/17 Testing: cell_width_test
-2/17 Test: cell_width_test
-Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
-Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"cell_width_test" start time: Jun 10 18:04 PDT
-Output:
-----------------------------------------------------------
-/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-0
-9
-0
-1
-1
-2
-2
-3
-3
-4
-4
-5
-5
-6
-6
-7
-7
-8
-8
-9
 Time: 0.01
 Time: 1.01
 Time: 2.01
@@ -6092,7 +3057,3046 @@ Time: 2999.01
 Test time =   0.70 sec
 ----------------------------------------------------------
 Test Passed.
-"cell_width_test" end time: Jun 10 18:04 PDT
+"her_test" end time: Jun 11 11:42 PDT
+"her_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/17 Testing: cell_width_test
+2/17 Test: cell_width_test
+Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
+Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
+"cell_width_test" start time: Jun 11 11:42 PDT
+Output:
+----------------------------------------------------------
+/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
+# vertices: 10
+# edges:    20
+0  -->  0
+0  -->  9
+1  -->  0
+1  -->  1
+2  -->  1
+2  -->  2
+3  -->  2
+3  -->  3
+4  -->  3
+4  -->  4
+5  -->  4
+5  -->  5
+6  -->  5
+6  -->  6
+7  -->  6
+7  -->  7
+8  -->  7
+8  -->  8
+9  -->  8
+9  -->  9
+
+Time: 0.01
+Time: 1.01
+Time: 2.01
+Time: 3.01
+Time: 4.01
+Time: 5.01
+Time: 6.01
+Time: 7.01
+Time: 8.01
+Time: 9.01
+Time: 10.01
+Time: 11.01
+Time: 12.01
+Time: 13.01
+Time: 14.01
+Time: 15.01
+Time: 16.01
+Time: 17.01
+Time: 18.01
+Time: 19.01
+Time: 20.01
+Time: 21.01
+Time: 22.01
+Time: 23.01
+Time: 24.01
+Time: 25.01
+Time: 26.01
+Time: 27.01
+Time: 28.01
+Time: 29.01
+Time: 30.01
+Time: 31.01
+Time: 32.01
+Time: 33.01
+Time: 34.01
+Time: 35.01
+Time: 36.01
+Time: 37.01
+Time: 38.01
+Time: 39.01
+Time: 40.01
+Time: 41.01
+Time: 42.01
+Time: 43.01
+Time: 44.01
+Time: 45.01
+Time: 46.01
+Time: 47.01
+Time: 48.01
+Time: 49.01
+Time: 50.01
+Time: 51.01
+Time: 52.01
+Time: 53.01
+Time: 54.01
+Time: 55.01
+Time: 56.01
+Time: 57.01
+Time: 58.01
+Time: 59.01
+Time: 60.01
+Time: 61.01
+Time: 62.01
+Time: 63.01
+Time: 64.01
+Time: 65.01
+Time: 66.01
+Time: 67.01
+Time: 68.01
+Time: 69.01
+Time: 70.01
+Time: 71.01
+Time: 72.01
+Time: 73.01
+Time: 74.01
+Time: 75.01
+Time: 76.01
+Time: 77.01
+Time: 78.01
+Time: 79.01
+Time: 80.01
+Time: 81.01
+Time: 82.01
+Time: 83.01
+Time: 84.01
+Time: 85.01
+Time: 86.01
+Time: 87.01
+Time: 88.01
+Time: 89.01
+Time: 90.01
+Time: 91.01
+Time: 92.01
+Time: 93.01
+Time: 94.01
+Time: 95.01
+Time: 96.01
+Time: 97.01
+Time: 98.01
+Time: 99.01
+Time: 100.01
+Time: 101.01
+Time: 102.01
+Time: 103.01
+Time: 104.01
+Time: 105.01
+Time: 106.01
+Time: 107.01
+Time: 108.01
+Time: 109.01
+Time: 110.01
+Time: 111.01
+Time: 112.01
+Time: 113.01
+Time: 114.01
+Time: 115.01
+Time: 116.01
+Time: 117.01
+Time: 118.01
+Time: 119.01
+Time: 120.01
+Time: 121.01
+Time: 122.01
+Time: 123.01
+Time: 124.01
+Time: 125.01
+Time: 126.01
+Time: 127.01
+Time: 128.01
+Time: 129.01
+Time: 130.01
+Time: 131.01
+Time: 132.01
+Time: 133.01
+Time: 134.01
+Time: 135.01
+Time: 136.01
+Time: 137.01
+Time: 138.01
+Time: 139.01
+Time: 140.01
+Time: 141.01
+Time: 142.01
+Time: 143.01
+Time: 144.01
+Time: 145.01
+Time: 146.01
+Time: 147.01
+Time: 148.01
+Time: 149.01
+Time: 150.01
+Time: 151.01
+Time: 152.01
+Time: 153.01
+Time: 154.01
+Time: 155.01
+Time: 156.01
+Time: 157.01
+Time: 158.01
+Time: 159.01
+Time: 160.01
+Time: 161.01
+Time: 162.01
+Time: 163.01
+Time: 164.01
+Time: 165.01
+Time: 166.01
+Time: 167.01
+Time: 168.01
+Time: 169.01
+Time: 170.01
+Time: 171.01
+Time: 172.01
+Time: 173.01
+Time: 174.01
+Time: 175.01
+Time: 176.01
+Time: 177.01
+Time: 178.01
+Time: 179.01
+Time: 180.01
+Time: 181.01
+Time: 182.01
+Time: 183.01
+Time: 184.01
+Time: 185.01
+Time: 186.01
+Time: 187.01
+Time: 188.01
+Time: 189.01
+Time: 190.01
+Time: 191.01
+Time: 192.01
+Time: 193.01
+Time: 194.01
+Time: 195.01
+Time: 196.01
+Time: 197.01
+Time: 198.01
+Time: 199.01
+Time: 200.01
+Time: 201.01
+Time: 202.01
+Time: 203.01
+Time: 204.01
+Time: 205.01
+Time: 206.01
+Time: 207.01
+Time: 208.01
+Time: 209.01
+Time: 210.01
+Time: 211.01
+Time: 212.01
+Time: 213.01
+Time: 214.01
+Time: 215.01
+Time: 216.01
+Time: 217.01
+Time: 218.01
+Time: 219.01
+Time: 220.01
+Time: 221.01
+Time: 222.01
+Time: 223.01
+Time: 224.01
+Time: 225.01
+Time: 226.01
+Time: 227.01
+Time: 228.01
+Time: 229.01
+Time: 230.01
+Time: 231.01
+Time: 232.01
+Time: 233.01
+Time: 234.01
+Time: 235.01
+Time: 236.01
+Time: 237.01
+Time: 238.01
+Time: 239.01
+Time: 240.01
+Time: 241.01
+Time: 242.01
+Time: 243.01
+Time: 244.01
+Time: 245.01
+Time: 246.01
+Time: 247.01
+Time: 248.01
+Time: 249.01
+Time: 250.01
+Time: 251.01
+Time: 252.01
+Time: 253.01
+Time: 254.01
+Time: 255.01
+Time: 256.01
+Time: 257.01
+Time: 258.01
+Time: 259.01
+Time: 260.01
+Time: 261.01
+Time: 262.01
+Time: 263.01
+Time: 264.01
+Time: 265.01
+Time: 266.01
+Time: 267.01
+Time: 268.01
+Time: 269.01
+Time: 270.01
+Time: 271.01
+Time: 272.01
+Time: 273.01
+Time: 274.01
+Time: 275.01
+Time: 276.01
+Time: 277.01
+Time: 278.01
+Time: 279.01
+Time: 280.01
+Time: 281.01
+Time: 282.01
+Time: 283.01
+Time: 284.01
+Time: 285.01
+Time: 286.01
+Time: 287.01
+Time: 288.01
+Time: 289.01
+Time: 290.01
+Time: 291.01
+Time: 292.01
+Time: 293.01
+Time: 294.01
+Time: 295.01
+Time: 296.01
+Time: 297.01
+Time: 298.01
+Time: 299.01
+Time: 300.01
+Time: 301.01
+Time: 302.01
+Time: 303.01
+Time: 304.01
+Time: 305.01
+Time: 306.01
+Time: 307.01
+Time: 308.01
+Time: 309.01
+Time: 310.01
+Time: 311.01
+Time: 312.01
+Time: 313.01
+Time: 314.01
+Time: 315.01
+Time: 316.01
+Time: 317.01
+Time: 318.01
+Time: 319.01
+Time: 320.01
+Time: 321.01
+Time: 322.01
+Time: 323.01
+Time: 324.01
+Time: 325.01
+Time: 326.01
+Time: 327.01
+Time: 328.01
+Time: 329.01
+Time: 330.01
+Time: 331.01
+Time: 332.01
+Time: 333.01
+Time: 334.01
+Time: 335.01
+Time: 336.01
+Time: 337.01
+Time: 338.01
+Time: 339.01
+Time: 340.01
+Time: 341.01
+Time: 342.01
+Time: 343.01
+Time: 344.01
+Time: 345.01
+Time: 346.01
+Time: 347.01
+Time: 348.01
+Time: 349.01
+Time: 350.01
+Time: 351.01
+Time: 352.01
+Time: 353.01
+Time: 354.01
+Time: 355.01
+Time: 356.01
+Time: 357.01
+Time: 358.01
+Time: 359.01
+Time: 360.01
+Time: 361.01
+Time: 362.01
+Time: 363.01
+Time: 364.01
+Time: 365.01
+Time: 366.01
+Time: 367.01
+Time: 368.01
+Time: 369.01
+Time: 370.01
+Time: 371.01
+Time: 372.01
+Time: 373.01
+Time: 374.01
+Time: 375.01
+Time: 376.01
+Time: 377.01
+Time: 378.01
+Time: 379.01
+Time: 380.01
+Time: 381.01
+Time: 382.01
+Time: 383.01
+Time: 384.01
+Time: 385.01
+Time: 386.01
+Time: 387.01
+Time: 388.01
+Time: 389.01
+Time: 390.01
+Time: 391.01
+Time: 392.01
+Time: 393.01
+Time: 394.01
+Time: 395.01
+Time: 396.01
+Time: 397.01
+Time: 398.01
+Time: 399.01
+Time: 400.01
+Time: 401.01
+Time: 402.01
+Time: 403.01
+Time: 404.01
+Time: 405.01
+Time: 406.01
+Time: 407.01
+Time: 408.01
+Time: 409.01
+Time: 410.01
+Time: 411.01
+Time: 412.01
+Time: 413.01
+Time: 414.01
+Time: 415.01
+Time: 416.01
+Time: 417.01
+Time: 418.01
+Time: 419.01
+Time: 420.01
+Time: 421.01
+Time: 422.01
+Time: 423.01
+Time: 424.01
+Time: 425.01
+Time: 426.01
+Time: 427.01
+Time: 428.01
+Time: 429.01
+Time: 430.01
+Time: 431.01
+Time: 432.01
+Time: 433.01
+Time: 434.01
+Time: 435.01
+Time: 436.01
+Time: 437.01
+Time: 438.01
+Time: 439.01
+Time: 440.01
+Time: 441.01
+Time: 442.01
+Time: 443.01
+Time: 444.01
+Time: 445.01
+Time: 446.01
+Time: 447.01
+Time: 448.01
+Time: 449.01
+Time: 450.01
+Time: 451.01
+Time: 452.01
+Time: 453.01
+Time: 454.01
+Time: 455.01
+Time: 456.01
+Time: 457.01
+Time: 458.01
+Time: 459.01
+Time: 460.01
+Time: 461.01
+Time: 462.01
+Time: 463.01
+Time: 464.01
+Time: 465.01
+Time: 466.01
+Time: 467.01
+Time: 468.01
+Time: 469.01
+Time: 470.01
+Time: 471.01
+Time: 472.01
+Time: 473.01
+Time: 474.01
+Time: 475.01
+Time: 476.01
+Time: 477.01
+Time: 478.01
+Time: 479.01
+Time: 480.01
+Time: 481.01
+Time: 482.01
+Time: 483.01
+Time: 484.01
+Time: 485.01
+Time: 486.01
+Time: 487.01
+Time: 488.01
+Time: 489.01
+Time: 490.01
+Time: 491.01
+Time: 492.01
+Time: 493.01
+Time: 494.01
+Time: 495.01
+Time: 496.01
+Time: 497.01
+Time: 498.01
+Time: 499.01
+Time: 500.01
+Time: 501.01
+Time: 502.01
+Time: 503.01
+Time: 504.01
+Time: 505.01
+Time: 506.01
+Time: 507.01
+Time: 508.01
+Time: 509.01
+Time: 510.01
+Time: 511.01
+Time: 512.01
+Time: 513.01
+Time: 514.01
+Time: 515.01
+Time: 516.01
+Time: 517.01
+Time: 518.01
+Time: 519.01
+Time: 520.01
+Time: 521.01
+Time: 522.01
+Time: 523.01
+Time: 524.01
+Time: 525.01
+Time: 526.01
+Time: 527.01
+Time: 528.01
+Time: 529.01
+Time: 530.01
+Time: 531.01
+Time: 532.01
+Time: 533.01
+Time: 534.01
+Time: 535.01
+Time: 536.01
+Time: 537.01
+Time: 538.01
+Time: 539.01
+Time: 540.01
+Time: 541.01
+Time: 542.01
+Time: 543.01
+Time: 544.01
+Time: 545.01
+Time: 546.01
+Time: 547.01
+Time: 548.01
+Time: 549.01
+Time: 550.01
+Time: 551.01
+Time: 552.01
+Time: 553.01
+Time: 554.01
+Time: 555.01
+Time: 556.01
+Time: 557.01
+Time: 558.01
+Time: 559.01
+Time: 560.01
+Time: 561.01
+Time: 562.01
+Time: 563.01
+Time: 564.01
+Time: 565.01
+Time: 566.01
+Time: 567.01
+Time: 568.01
+Time: 569.01
+Time: 570.01
+Time: 571.01
+Time: 572.01
+Time: 573.01
+Time: 574.01
+Time: 575.01
+Time: 576.01
+Time: 577.01
+Time: 578.01
+Time: 579.01
+Time: 580.01
+Time: 581.01
+Time: 582.01
+Time: 583.01
+Time: 584.01
+Time: 585.01
+Time: 586.01
+Time: 587.01
+Time: 588.01
+Time: 589.01
+Time: 590.01
+Time: 591.01
+Time: 592.01
+Time: 593.01
+Time: 594.01
+Time: 595.01
+Time: 596.01
+Time: 597.01
+Time: 598.01
+Time: 599.01
+Time: 600.01
+Time: 601.01
+Time: 602.01
+Time: 603.01
+Time: 604.01
+Time: 605.01
+Time: 606.01
+Time: 607.01
+Time: 608.01
+Time: 609.01
+Time: 610.01
+Time: 611.01
+Time: 612.01
+Time: 613.01
+Time: 614.01
+Time: 615.01
+Time: 616.01
+Time: 617.01
+Time: 618.01
+Time: 619.01
+Time: 620.01
+Time: 621.01
+Time: 622.01
+Time: 623.01
+Time: 624.01
+Time: 625.01
+Time: 626.01
+Time: 627.01
+Time: 628.01
+Time: 629.01
+Time: 630.01
+Time: 631.01
+Time: 632.01
+Time: 633.01
+Time: 634.01
+Time: 635.01
+Time: 636.01
+Time: 637.01
+Time: 638.01
+Time: 639.01
+Time: 640.01
+Time: 641.01
+Time: 642.01
+Time: 643.01
+Time: 644.01
+Time: 645.01
+Time: 646.01
+Time: 647.01
+Time: 648.01
+Time: 649.01
+Time: 650.01
+Time: 651.01
+Time: 652.01
+Time: 653.01
+Time: 654.01
+Time: 655.01
+Time: 656.01
+Time: 657.01
+Time: 658.01
+Time: 659.01
+Time: 660.01
+Time: 661.01
+Time: 662.01
+Time: 663.01
+Time: 664.01
+Time: 665.01
+Time: 666.01
+Time: 667.01
+Time: 668.01
+Time: 669.01
+Time: 670.01
+Time: 671.01
+Time: 672.01
+Time: 673.01
+Time: 674.01
+Time: 675.01
+Time: 676.01
+Time: 677.01
+Time: 678.01
+Time: 679.01
+Time: 680.01
+Time: 681.01
+Time: 682.01
+Time: 683.01
+Time: 684.01
+Time: 685.01
+Time: 686.01
+Time: 687.01
+Time: 688.01
+Time: 689.01
+Time: 690.01
+Time: 691.01
+Time: 692.01
+Time: 693.01
+Time: 694.01
+Time: 695.01
+Time: 696.01
+Time: 697.01
+Time: 698.01
+Time: 699.01
+Time: 700.01
+Time: 701.01
+Time: 702.01
+Time: 703.01
+Time: 704.01
+Time: 705.01
+Time: 706.01
+Time: 707.01
+Time: 708.01
+Time: 709.01
+Time: 710.01
+Time: 711.01
+Time: 712.01
+Time: 713.01
+Time: 714.01
+Time: 715.01
+Time: 716.01
+Time: 717.01
+Time: 718.01
+Time: 719.01
+Time: 720.01
+Time: 721.01
+Time: 722.01
+Time: 723.01
+Time: 724.01
+Time: 725.01
+Time: 726.01
+Time: 727.01
+Time: 728.01
+Time: 729.01
+Time: 730.01
+Time: 731.01
+Time: 732.01
+Time: 733.01
+Time: 734.01
+Time: 735.01
+Time: 736.01
+Time: 737.01
+Time: 738.01
+Time: 739.01
+Time: 740.01
+Time: 741.01
+Time: 742.01
+Time: 743.01
+Time: 744.01
+Time: 745.01
+Time: 746.01
+Time: 747.01
+Time: 748.01
+Time: 749.01
+Time: 750.01
+Time: 751.01
+Time: 752.01
+Time: 753.01
+Time: 754.01
+Time: 755.01
+Time: 756.01
+Time: 757.01
+Time: 758.01
+Time: 759.01
+Time: 760.01
+Time: 761.01
+Time: 762.01
+Time: 763.01
+Time: 764.01
+Time: 765.01
+Time: 766.01
+Time: 767.01
+Time: 768.01
+Time: 769.01
+Time: 770.01
+Time: 771.01
+Time: 772.01
+Time: 773.01
+Time: 774.01
+Time: 775.01
+Time: 776.01
+Time: 777.01
+Time: 778.01
+Time: 779.01
+Time: 780.01
+Time: 781.01
+Time: 782.01
+Time: 783.01
+Time: 784.01
+Time: 785.01
+Time: 786.01
+Time: 787.01
+Time: 788.01
+Time: 789.01
+Time: 790.01
+Time: 791.01
+Time: 792.01
+Time: 793.01
+Time: 794.01
+Time: 795.01
+Time: 796.01
+Time: 797.01
+Time: 798.01
+Time: 799.01
+Time: 800.01
+Time: 801.01
+Time: 802.01
+Time: 803.01
+Time: 804.01
+Time: 805.01
+Time: 806.01
+Time: 807.01
+Time: 808.01
+Time: 809.01
+Time: 810.01
+Time: 811.01
+Time: 812.01
+Time: 813.01
+Time: 814.01
+Time: 815.01
+Time: 816.01
+Time: 817.01
+Time: 818.01
+Time: 819.01
+Time: 820.01
+Time: 821.01
+Time: 822.01
+Time: 823.01
+Time: 824.01
+Time: 825.01
+Time: 826.01
+Time: 827.01
+Time: 828.01
+Time: 829.01
+Time: 830.01
+Time: 831.01
+Time: 832.01
+Time: 833.01
+Time: 834.01
+Time: 835.01
+Time: 836.01
+Time: 837.01
+Time: 838.01
+Time: 839.01
+Time: 840.01
+Time: 841.01
+Time: 842.01
+Time: 843.01
+Time: 844.01
+Time: 845.01
+Time: 846.01
+Time: 847.01
+Time: 848.01
+Time: 849.01
+Time: 850.01
+Time: 851.01
+Time: 852.01
+Time: 853.01
+Time: 854.01
+Time: 855.01
+Time: 856.01
+Time: 857.01
+Time: 858.01
+Time: 859.01
+Time: 860.01
+Time: 861.01
+Time: 862.01
+Time: 863.01
+Time: 864.01
+Time: 865.01
+Time: 866.01
+Time: 867.01
+Time: 868.01
+Time: 869.01
+Time: 870.01
+Time: 871.01
+Time: 872.01
+Time: 873.01
+Time: 874.01
+Time: 875.01
+Time: 876.01
+Time: 877.01
+Time: 878.01
+Time: 879.01
+Time: 880.01
+Time: 881.01
+Time: 882.01
+Time: 883.01
+Time: 884.01
+Time: 885.01
+Time: 886.01
+Time: 887.01
+Time: 888.01
+Time: 889.01
+Time: 890.01
+Time: 891.01
+Time: 892.01
+Time: 893.01
+Time: 894.01
+Time: 895.01
+Time: 896.01
+Time: 897.01
+Time: 898.01
+Time: 899.01
+Time: 900.01
+Time: 901.01
+Time: 902.01
+Time: 903.01
+Time: 904.01
+Time: 905.01
+Time: 906.01
+Time: 907.01
+Time: 908.01
+Time: 909.01
+Time: 910.01
+Time: 911.01
+Time: 912.01
+Time: 913.01
+Time: 914.01
+Time: 915.01
+Time: 916.01
+Time: 917.01
+Time: 918.01
+Time: 919.01
+Time: 920.01
+Time: 921.01
+Time: 922.01
+Time: 923.01
+Time: 924.01
+Time: 925.01
+Time: 926.01
+Time: 927.01
+Time: 928.01
+Time: 929.01
+Time: 930.01
+Time: 931.01
+Time: 932.01
+Time: 933.01
+Time: 934.01
+Time: 935.01
+Time: 936.01
+Time: 937.01
+Time: 938.01
+Time: 939.01
+Time: 940.01
+Time: 941.01
+Time: 942.01
+Time: 943.01
+Time: 944.01
+Time: 945.01
+Time: 946.01
+Time: 947.01
+Time: 948.01
+Time: 949.01
+Time: 950.01
+Time: 951.01
+Time: 952.01
+Time: 953.01
+Time: 954.01
+Time: 955.01
+Time: 956.01
+Time: 957.01
+Time: 958.01
+Time: 959.01
+Time: 960.01
+Time: 961.01
+Time: 962.01
+Time: 963.01
+Time: 964.01
+Time: 965.01
+Time: 966.01
+Time: 967.01
+Time: 968.01
+Time: 969.01
+Time: 970.01
+Time: 971.01
+Time: 972.01
+Time: 973.01
+Time: 974.01
+Time: 975.01
+Time: 976.01
+Time: 977.01
+Time: 978.01
+Time: 979.01
+Time: 980.01
+Time: 981.01
+Time: 982.01
+Time: 983.01
+Time: 984.01
+Time: 985.01
+Time: 986.01
+Time: 987.01
+Time: 988.01
+Time: 989.01
+Time: 990.01
+Time: 991.01
+Time: 992.01
+Time: 993.01
+Time: 994.01
+Time: 995.01
+Time: 996.01
+Time: 997.01
+Time: 998.01
+Time: 999.01
+Time: 1000.01
+Time: 1001.01
+Time: 1002.01
+Time: 1003.01
+Time: 1004.01
+Time: 1005.01
+Time: 1006.01
+Time: 1007.01
+Time: 1008.01
+Time: 1009.01
+Time: 1010.01
+Time: 1011.01
+Time: 1012.01
+Time: 1013.01
+Time: 1014.01
+Time: 1015.01
+Time: 1016.01
+Time: 1017.01
+Time: 1018.01
+Time: 1019.01
+Time: 1020.01
+Time: 1021.01
+Time: 1022.01
+Time: 1023.01
+Time: 1024.01
+Time: 1025.01
+Time: 1026.01
+Time: 1027.01
+Time: 1028.01
+Time: 1029.01
+Time: 1030.01
+Time: 1031.01
+Time: 1032.01
+Time: 1033.01
+Time: 1034.01
+Time: 1035.01
+Time: 1036.01
+Time: 1037.01
+Time: 1038.01
+Time: 1039.01
+Time: 1040.01
+Time: 1041.01
+Time: 1042.01
+Time: 1043.01
+Time: 1044.01
+Time: 1045.01
+Time: 1046.01
+Time: 1047.01
+Time: 1048.01
+Time: 1049.01
+Time: 1050.01
+Time: 1051.01
+Time: 1052.01
+Time: 1053.01
+Time: 1054.01
+Time: 1055.01
+Time: 1056.01
+Time: 1057.01
+Time: 1058.01
+Time: 1059.01
+Time: 1060.01
+Time: 1061.01
+Time: 1062.01
+Time: 1063.01
+Time: 1064.01
+Time: 1065.01
+Time: 1066.01
+Time: 1067.01
+Time: 1068.01
+Time: 1069.01
+Time: 1070.01
+Time: 1071.01
+Time: 1072.01
+Time: 1073.01
+Time: 1074.01
+Time: 1075.01
+Time: 1076.01
+Time: 1077.01
+Time: 1078.01
+Time: 1079.01
+Time: 1080.01
+Time: 1081.01
+Time: 1082.01
+Time: 1083.01
+Time: 1084.01
+Time: 1085.01
+Time: 1086.01
+Time: 1087.01
+Time: 1088.01
+Time: 1089.01
+Time: 1090.01
+Time: 1091.01
+Time: 1092.01
+Time: 1093.01
+Time: 1094.01
+Time: 1095.01
+Time: 1096.01
+Time: 1097.01
+Time: 1098.01
+Time: 1099.01
+Time: 1100.01
+Time: 1101.01
+Time: 1102.01
+Time: 1103.01
+Time: 1104.01
+Time: 1105.01
+Time: 1106.01
+Time: 1107.01
+Time: 1108.01
+Time: 1109.01
+Time: 1110.01
+Time: 1111.01
+Time: 1112.01
+Time: 1113.01
+Time: 1114.01
+Time: 1115.01
+Time: 1116.01
+Time: 1117.01
+Time: 1118.01
+Time: 1119.01
+Time: 1120.01
+Time: 1121.01
+Time: 1122.01
+Time: 1123.01
+Time: 1124.01
+Time: 1125.01
+Time: 1126.01
+Time: 1127.01
+Time: 1128.01
+Time: 1129.01
+Time: 1130.01
+Time: 1131.01
+Time: 1132.01
+Time: 1133.01
+Time: 1134.01
+Time: 1135.01
+Time: 1136.01
+Time: 1137.01
+Time: 1138.01
+Time: 1139.01
+Time: 1140.01
+Time: 1141.01
+Time: 1142.01
+Time: 1143.01
+Time: 1144.01
+Time: 1145.01
+Time: 1146.01
+Time: 1147.01
+Time: 1148.01
+Time: 1149.01
+Time: 1150.01
+Time: 1151.01
+Time: 1152.01
+Time: 1153.01
+Time: 1154.01
+Time: 1155.01
+Time: 1156.01
+Time: 1157.01
+Time: 1158.01
+Time: 1159.01
+Time: 1160.01
+Time: 1161.01
+Time: 1162.01
+Time: 1163.01
+Time: 1164.01
+Time: 1165.01
+Time: 1166.01
+Time: 1167.01
+Time: 1168.01
+Time: 1169.01
+Time: 1170.01
+Time: 1171.01
+Time: 1172.01
+Time: 1173.01
+Time: 1174.01
+Time: 1175.01
+Time: 1176.01
+Time: 1177.01
+Time: 1178.01
+Time: 1179.01
+Time: 1180.01
+Time: 1181.01
+Time: 1182.01
+Time: 1183.01
+Time: 1184.01
+Time: 1185.01
+Time: 1186.01
+Time: 1187.01
+Time: 1188.01
+Time: 1189.01
+Time: 1190.01
+Time: 1191.01
+Time: 1192.01
+Time: 1193.01
+Time: 1194.01
+Time: 1195.01
+Time: 1196.01
+Time: 1197.01
+Time: 1198.01
+Time: 1199.01
+Time: 1200.01
+Time: 1201.01
+Time: 1202.01
+Time: 1203.01
+Time: 1204.01
+Time: 1205.01
+Time: 1206.01
+Time: 1207.01
+Time: 1208.01
+Time: 1209.01
+Time: 1210.01
+Time: 1211.01
+Time: 1212.01
+Time: 1213.01
+Time: 1214.01
+Time: 1215.01
+Time: 1216.01
+Time: 1217.01
+Time: 1218.01
+Time: 1219.01
+Time: 1220.01
+Time: 1221.01
+Time: 1222.01
+Time: 1223.01
+Time: 1224.01
+Time: 1225.01
+Time: 1226.01
+Time: 1227.01
+Time: 1228.01
+Time: 1229.01
+Time: 1230.01
+Time: 1231.01
+Time: 1232.01
+Time: 1233.01
+Time: 1234.01
+Time: 1235.01
+Time: 1236.01
+Time: 1237.01
+Time: 1238.01
+Time: 1239.01
+Time: 1240.01
+Time: 1241.01
+Time: 1242.01
+Time: 1243.01
+Time: 1244.01
+Time: 1245.01
+Time: 1246.01
+Time: 1247.01
+Time: 1248.01
+Time: 1249.01
+Time: 1250.01
+Time: 1251.01
+Time: 1252.01
+Time: 1253.01
+Time: 1254.01
+Time: 1255.01
+Time: 1256.01
+Time: 1257.01
+Time: 1258.01
+Time: 1259.01
+Time: 1260.01
+Time: 1261.01
+Time: 1262.01
+Time: 1263.01
+Time: 1264.01
+Time: 1265.01
+Time: 1266.01
+Time: 1267.01
+Time: 1268.01
+Time: 1269.01
+Time: 1270.01
+Time: 1271.01
+Time: 1272.01
+Time: 1273.01
+Time: 1274.01
+Time: 1275.01
+Time: 1276.01
+Time: 1277.01
+Time: 1278.01
+Time: 1279.01
+Time: 1280.01
+Time: 1281.01
+Time: 1282.01
+Time: 1283.01
+Time: 1284.01
+Time: 1285.01
+Time: 1286.01
+Time: 1287.01
+Time: 1288.01
+Time: 1289.01
+Time: 1290.01
+Time: 1291.01
+Time: 1292.01
+Time: 1293.01
+Time: 1294.01
+Time: 1295.01
+Time: 1296.01
+Time: 1297.01
+Time: 1298.01
+Time: 1299.01
+Time: 1300.01
+Time: 1301.01
+Time: 1302.01
+Time: 1303.01
+Time: 1304.01
+Time: 1305.01
+Time: 1306.01
+Time: 1307.01
+Time: 1308.01
+Time: 1309.01
+Time: 1310.01
+Time: 1311.01
+Time: 1312.01
+Time: 1313.01
+Time: 1314.01
+Time: 1315.01
+Time: 1316.01
+Time: 1317.01
+Time: 1318.01
+Time: 1319.01
+Time: 1320.01
+Time: 1321.01
+Time: 1322.01
+Time: 1323.01
+Time: 1324.01
+Time: 1325.01
+Time: 1326.01
+Time: 1327.01
+Time: 1328.01
+Time: 1329.01
+Time: 1330.01
+Time: 1331.01
+Time: 1332.01
+Time: 1333.01
+Time: 1334.01
+Time: 1335.01
+Time: 1336.01
+Time: 1337.01
+Time: 1338.01
+Time: 1339.01
+Time: 1340.01
+Time: 1341.01
+Time: 1342.01
+Time: 1343.01
+Time: 1344.01
+Time: 1345.01
+Time: 1346.01
+Time: 1347.01
+Time: 1348.01
+Time: 1349.01
+Time: 1350.01
+Time: 1351.01
+Time: 1352.01
+Time: 1353.01
+Time: 1354.01
+Time: 1355.01
+Time: 1356.01
+Time: 1357.01
+Time: 1358.01
+Time: 1359.01
+Time: 1360.01
+Time: 1361.01
+Time: 1362.01
+Time: 1363.01
+Time: 1364.01
+Time: 1365.01
+Time: 1366.01
+Time: 1367.01
+Time: 1368.01
+Time: 1369.01
+Time: 1370.01
+Time: 1371.01
+Time: 1372.01
+Time: 1373.01
+Time: 1374.01
+Time: 1375.01
+Time: 1376.01
+Time: 1377.01
+Time: 1378.01
+Time: 1379.01
+Time: 1380.01
+Time: 1381.01
+Time: 1382.01
+Time: 1383.01
+Time: 1384.01
+Time: 1385.01
+Time: 1386.01
+Time: 1387.01
+Time: 1388.01
+Time: 1389.01
+Time: 1390.01
+Time: 1391.01
+Time: 1392.01
+Time: 1393.01
+Time: 1394.01
+Time: 1395.01
+Time: 1396.01
+Time: 1397.01
+Time: 1398.01
+Time: 1399.01
+Time: 1400.01
+Time: 1401.01
+Time: 1402.01
+Time: 1403.01
+Time: 1404.01
+Time: 1405.01
+Time: 1406.01
+Time: 1407.01
+Time: 1408.01
+Time: 1409.01
+Time: 1410.01
+Time: 1411.01
+Time: 1412.01
+Time: 1413.01
+Time: 1414.01
+Time: 1415.01
+Time: 1416.01
+Time: 1417.01
+Time: 1418.01
+Time: 1419.01
+Time: 1420.01
+Time: 1421.01
+Time: 1422.01
+Time: 1423.01
+Time: 1424.01
+Time: 1425.01
+Time: 1426.01
+Time: 1427.01
+Time: 1428.01
+Time: 1429.01
+Time: 1430.01
+Time: 1431.01
+Time: 1432.01
+Time: 1433.01
+Time: 1434.01
+Time: 1435.01
+Time: 1436.01
+Time: 1437.01
+Time: 1438.01
+Time: 1439.01
+Time: 1440.01
+Time: 1441.01
+Time: 1442.01
+Time: 1443.01
+Time: 1444.01
+Time: 1445.01
+Time: 1446.01
+Time: 1447.01
+Time: 1448.01
+Time: 1449.01
+Time: 1450.01
+Time: 1451.01
+Time: 1452.01
+Time: 1453.01
+Time: 1454.01
+Time: 1455.01
+Time: 1456.01
+Time: 1457.01
+Time: 1458.01
+Time: 1459.01
+Time: 1460.01
+Time: 1461.01
+Time: 1462.01
+Time: 1463.01
+Time: 1464.01
+Time: 1465.01
+Time: 1466.01
+Time: 1467.01
+Time: 1468.01
+Time: 1469.01
+Time: 1470.01
+Time: 1471.01
+Time: 1472.01
+Time: 1473.01
+Time: 1474.01
+Time: 1475.01
+Time: 1476.01
+Time: 1477.01
+Time: 1478.01
+Time: 1479.01
+Time: 1480.01
+Time: 1481.01
+Time: 1482.01
+Time: 1483.01
+Time: 1484.01
+Time: 1485.01
+Time: 1486.01
+Time: 1487.01
+Time: 1488.01
+Time: 1489.01
+Time: 1490.01
+Time: 1491.01
+Time: 1492.01
+Time: 1493.01
+Time: 1494.01
+Time: 1495.01
+Time: 1496.01
+Time: 1497.01
+Time: 1498.01
+Time: 1499.01
+Time: 1500.01
+Time: 1501.01
+Time: 1502.01
+Time: 1503.01
+Time: 1504.01
+Time: 1505.01
+Time: 1506.01
+Time: 1507.01
+Time: 1508.01
+Time: 1509.01
+Time: 1510.01
+Time: 1511.01
+Time: 1512.01
+Time: 1513.01
+Time: 1514.01
+Time: 1515.01
+Time: 1516.01
+Time: 1517.01
+Time: 1518.01
+Time: 1519.01
+Time: 1520.01
+Time: 1521.01
+Time: 1522.01
+Time: 1523.01
+Time: 1524.01
+Time: 1525.01
+Time: 1526.01
+Time: 1527.01
+Time: 1528.01
+Time: 1529.01
+Time: 1530.01
+Time: 1531.01
+Time: 1532.01
+Time: 1533.01
+Time: 1534.01
+Time: 1535.01
+Time: 1536.01
+Time: 1537.01
+Time: 1538.01
+Time: 1539.01
+Time: 1540.01
+Time: 1541.01
+Time: 1542.01
+Time: 1543.01
+Time: 1544.01
+Time: 1545.01
+Time: 1546.01
+Time: 1547.01
+Time: 1548.01
+Time: 1549.01
+Time: 1550.01
+Time: 1551.01
+Time: 1552.01
+Time: 1553.01
+Time: 1554.01
+Time: 1555.01
+Time: 1556.01
+Time: 1557.01
+Time: 1558.01
+Time: 1559.01
+Time: 1560.01
+Time: 1561.01
+Time: 1562.01
+Time: 1563.01
+Time: 1564.01
+Time: 1565.01
+Time: 1566.01
+Time: 1567.01
+Time: 1568.01
+Time: 1569.01
+Time: 1570.01
+Time: 1571.01
+Time: 1572.01
+Time: 1573.01
+Time: 1574.01
+Time: 1575.01
+Time: 1576.01
+Time: 1577.01
+Time: 1578.01
+Time: 1579.01
+Time: 1580.01
+Time: 1581.01
+Time: 1582.01
+Time: 1583.01
+Time: 1584.01
+Time: 1585.01
+Time: 1586.01
+Time: 1587.01
+Time: 1588.01
+Time: 1589.01
+Time: 1590.01
+Time: 1591.01
+Time: 1592.01
+Time: 1593.01
+Time: 1594.01
+Time: 1595.01
+Time: 1596.01
+Time: 1597.01
+Time: 1598.01
+Time: 1599.01
+Time: 1600.01
+Time: 1601.01
+Time: 1602.01
+Time: 1603.01
+Time: 1604.01
+Time: 1605.01
+Time: 1606.01
+Time: 1607.01
+Time: 1608.01
+Time: 1609.01
+Time: 1610.01
+Time: 1611.01
+Time: 1612.01
+Time: 1613.01
+Time: 1614.01
+Time: 1615.01
+Time: 1616.01
+Time: 1617.01
+Time: 1618.01
+Time: 1619.01
+Time: 1620.01
+Time: 1621.01
+Time: 1622.01
+Time: 1623.01
+Time: 1624.01
+Time: 1625.01
+Time: 1626.01
+Time: 1627.01
+Time: 1628.01
+Time: 1629.01
+Time: 1630.01
+Time: 1631.01
+Time: 1632.01
+Time: 1633.01
+Time: 1634.01
+Time: 1635.01
+Time: 1636.01
+Time: 1637.01
+Time: 1638.01
+Time: 1639.01
+Time: 1640.01
+Time: 1641.01
+Time: 1642.01
+Time: 1643.01
+Time: 1644.01
+Time: 1645.01
+Time: 1646.01
+Time: 1647.01
+Time: 1648.01
+Time: 1649.01
+Time: 1650.01
+Time: 1651.01
+Time: 1652.01
+Time: 1653.01
+Time: 1654.01
+Time: 1655.01
+Time: 1656.01
+Time: 1657.01
+Time: 1658.01
+Time: 1659.01
+Time: 1660.01
+Time: 1661.01
+Time: 1662.01
+Time: 1663.01
+Time: 1664.01
+Time: 1665.01
+Time: 1666.01
+Time: 1667.01
+Time: 1668.01
+Time: 1669.01
+Time: 1670.01
+Time: 1671.01
+Time: 1672.01
+Time: 1673.01
+Time: 1674.01
+Time: 1675.01
+Time: 1676.01
+Time: 1677.01
+Time: 1678.01
+Time: 1679.01
+Time: 1680.01
+Time: 1681.01
+Time: 1682.01
+Time: 1683.01
+Time: 1684.01
+Time: 1685.01
+Time: 1686.01
+Time: 1687.01
+Time: 1688.01
+Time: 1689.01
+Time: 1690.01
+Time: 1691.01
+Time: 1692.01
+Time: 1693.01
+Time: 1694.01
+Time: 1695.01
+Time: 1696.01
+Time: 1697.01
+Time: 1698.01
+Time: 1699.01
+Time: 1700.01
+Time: 1701.01
+Time: 1702.01
+Time: 1703.01
+Time: 1704.01
+Time: 1705.01
+Time: 1706.01
+Time: 1707.01
+Time: 1708.01
+Time: 1709.01
+Time: 1710.01
+Time: 1711.01
+Time: 1712.01
+Time: 1713.01
+Time: 1714.01
+Time: 1715.01
+Time: 1716.01
+Time: 1717.01
+Time: 1718.01
+Time: 1719.01
+Time: 1720.01
+Time: 1721.01
+Time: 1722.01
+Time: 1723.01
+Time: 1724.01
+Time: 1725.01
+Time: 1726.01
+Time: 1727.01
+Time: 1728.01
+Time: 1729.01
+Time: 1730.01
+Time: 1731.01
+Time: 1732.01
+Time: 1733.01
+Time: 1734.01
+Time: 1735.01
+Time: 1736.01
+Time: 1737.01
+Time: 1738.01
+Time: 1739.01
+Time: 1740.01
+Time: 1741.01
+Time: 1742.01
+Time: 1743.01
+Time: 1744.01
+Time: 1745.01
+Time: 1746.01
+Time: 1747.01
+Time: 1748.01
+Time: 1749.01
+Time: 1750.01
+Time: 1751.01
+Time: 1752.01
+Time: 1753.01
+Time: 1754.01
+Time: 1755.01
+Time: 1756.01
+Time: 1757.01
+Time: 1758.01
+Time: 1759.01
+Time: 1760.01
+Time: 1761.01
+Time: 1762.01
+Time: 1763.01
+Time: 1764.01
+Time: 1765.01
+Time: 1766.01
+Time: 1767.01
+Time: 1768.01
+Time: 1769.01
+Time: 1770.01
+Time: 1771.01
+Time: 1772.01
+Time: 1773.01
+Time: 1774.01
+Time: 1775.01
+Time: 1776.01
+Time: 1777.01
+Time: 1778.01
+Time: 1779.01
+Time: 1780.01
+Time: 1781.01
+Time: 1782.01
+Time: 1783.01
+Time: 1784.01
+Time: 1785.01
+Time: 1786.01
+Time: 1787.01
+Time: 1788.01
+Time: 1789.01
+Time: 1790.01
+Time: 1791.01
+Time: 1792.01
+Time: 1793.01
+Time: 1794.01
+Time: 1795.01
+Time: 1796.01
+Time: 1797.01
+Time: 1798.01
+Time: 1799.01
+Time: 1800.01
+Time: 1801.01
+Time: 1802.01
+Time: 1803.01
+Time: 1804.01
+Time: 1805.01
+Time: 1806.01
+Time: 1807.01
+Time: 1808.01
+Time: 1809.01
+Time: 1810.01
+Time: 1811.01
+Time: 1812.01
+Time: 1813.01
+Time: 1814.01
+Time: 1815.01
+Time: 1816.01
+Time: 1817.01
+Time: 1818.01
+Time: 1819.01
+Time: 1820.01
+Time: 1821.01
+Time: 1822.01
+Time: 1823.01
+Time: 1824.01
+Time: 1825.01
+Time: 1826.01
+Time: 1827.01
+Time: 1828.01
+Time: 1829.01
+Time: 1830.01
+Time: 1831.01
+Time: 1832.01
+Time: 1833.01
+Time: 1834.01
+Time: 1835.01
+Time: 1836.01
+Time: 1837.01
+Time: 1838.01
+Time: 1839.01
+Time: 1840.01
+Time: 1841.01
+Time: 1842.01
+Time: 1843.01
+Time: 1844.01
+Time: 1845.01
+Time: 1846.01
+Time: 1847.01
+Time: 1848.01
+Time: 1849.01
+Time: 1850.01
+Time: 1851.01
+Time: 1852.01
+Time: 1853.01
+Time: 1854.01
+Time: 1855.01
+Time: 1856.01
+Time: 1857.01
+Time: 1858.01
+Time: 1859.01
+Time: 1860.01
+Time: 1861.01
+Time: 1862.01
+Time: 1863.01
+Time: 1864.01
+Time: 1865.01
+Time: 1866.01
+Time: 1867.01
+Time: 1868.01
+Time: 1869.01
+Time: 1870.01
+Time: 1871.01
+Time: 1872.01
+Time: 1873.01
+Time: 1874.01
+Time: 1875.01
+Time: 1876.01
+Time: 1877.01
+Time: 1878.01
+Time: 1879.01
+Time: 1880.01
+Time: 1881.01
+Time: 1882.01
+Time: 1883.01
+Time: 1884.01
+Time: 1885.01
+Time: 1886.01
+Time: 1887.01
+Time: 1888.01
+Time: 1889.01
+Time: 1890.01
+Time: 1891.01
+Time: 1892.01
+Time: 1893.01
+Time: 1894.01
+Time: 1895.01
+Time: 1896.01
+Time: 1897.01
+Time: 1898.01
+Time: 1899.01
+Time: 1900.01
+Time: 1901.01
+Time: 1902.01
+Time: 1903.01
+Time: 1904.01
+Time: 1905.01
+Time: 1906.01
+Time: 1907.01
+Time: 1908.01
+Time: 1909.01
+Time: 1910.01
+Time: 1911.01
+Time: 1912.01
+Time: 1913.01
+Time: 1914.01
+Time: 1915.01
+Time: 1916.01
+Time: 1917.01
+Time: 1918.01
+Time: 1919.01
+Time: 1920.01
+Time: 1921.01
+Time: 1922.01
+Time: 1923.01
+Time: 1924.01
+Time: 1925.01
+Time: 1926.01
+Time: 1927.01
+Time: 1928.01
+Time: 1929.01
+Time: 1930.01
+Time: 1931.01
+Time: 1932.01
+Time: 1933.01
+Time: 1934.01
+Time: 1935.01
+Time: 1936.01
+Time: 1937.01
+Time: 1938.01
+Time: 1939.01
+Time: 1940.01
+Time: 1941.01
+Time: 1942.01
+Time: 1943.01
+Time: 1944.01
+Time: 1945.01
+Time: 1946.01
+Time: 1947.01
+Time: 1948.01
+Time: 1949.01
+Time: 1950.01
+Time: 1951.01
+Time: 1952.01
+Time: 1953.01
+Time: 1954.01
+Time: 1955.01
+Time: 1956.01
+Time: 1957.01
+Time: 1958.01
+Time: 1959.01
+Time: 1960.01
+Time: 1961.01
+Time: 1962.01
+Time: 1963.01
+Time: 1964.01
+Time: 1965.01
+Time: 1966.01
+Time: 1967.01
+Time: 1968.01
+Time: 1969.01
+Time: 1970.01
+Time: 1971.01
+Time: 1972.01
+Time: 1973.01
+Time: 1974.01
+Time: 1975.01
+Time: 1976.01
+Time: 1977.01
+Time: 1978.01
+Time: 1979.01
+Time: 1980.01
+Time: 1981.01
+Time: 1982.01
+Time: 1983.01
+Time: 1984.01
+Time: 1985.01
+Time: 1986.01
+Time: 1987.01
+Time: 1988.01
+Time: 1989.01
+Time: 1990.01
+Time: 1991.01
+Time: 1992.01
+Time: 1993.01
+Time: 1994.01
+Time: 1995.01
+Time: 1996.01
+Time: 1997.01
+Time: 1998.01
+Time: 1999.01
+Time: 2000.01
+Time: 2001.01
+Time: 2002.01
+Time: 2003.01
+Time: 2004.01
+Time: 2005.01
+Time: 2006.01
+Time: 2007.01
+Time: 2008.01
+Time: 2009.01
+Time: 2010.01
+Time: 2011.01
+Time: 2012.01
+Time: 2013.01
+Time: 2014.01
+Time: 2015.01
+Time: 2016.01
+Time: 2017.01
+Time: 2018.01
+Time: 2019.01
+Time: 2020.01
+Time: 2021.01
+Time: 2022.01
+Time: 2023.01
+Time: 2024.01
+Time: 2025.01
+Time: 2026.01
+Time: 2027.01
+Time: 2028.01
+Time: 2029.01
+Time: 2030.01
+Time: 2031.01
+Time: 2032.01
+Time: 2033.01
+Time: 2034.01
+Time: 2035.01
+Time: 2036.01
+Time: 2037.01
+Time: 2038.01
+Time: 2039.01
+Time: 2040.01
+Time: 2041.01
+Time: 2042.01
+Time: 2043.01
+Time: 2044.01
+Time: 2045.01
+Time: 2046.01
+Time: 2047.01
+Time: 2048.01
+Time: 2049.01
+Time: 2050.01
+Time: 2051.01
+Time: 2052.01
+Time: 2053.01
+Time: 2054.01
+Time: 2055.01
+Time: 2056.01
+Time: 2057.01
+Time: 2058.01
+Time: 2059.01
+Time: 2060.01
+Time: 2061.01
+Time: 2062.01
+Time: 2063.01
+Time: 2064.01
+Time: 2065.01
+Time: 2066.01
+Time: 2067.01
+Time: 2068.01
+Time: 2069.01
+Time: 2070.01
+Time: 2071.01
+Time: 2072.01
+Time: 2073.01
+Time: 2074.01
+Time: 2075.01
+Time: 2076.01
+Time: 2077.01
+Time: 2078.01
+Time: 2079.01
+Time: 2080.01
+Time: 2081.01
+Time: 2082.01
+Time: 2083.01
+Time: 2084.01
+Time: 2085.01
+Time: 2086.01
+Time: 2087.01
+Time: 2088.01
+Time: 2089.01
+Time: 2090.01
+Time: 2091.01
+Time: 2092.01
+Time: 2093.01
+Time: 2094.01
+Time: 2095.01
+Time: 2096.01
+Time: 2097.01
+Time: 2098.01
+Time: 2099.01
+Time: 2100.01
+Time: 2101.01
+Time: 2102.01
+Time: 2103.01
+Time: 2104.01
+Time: 2105.01
+Time: 2106.01
+Time: 2107.01
+Time: 2108.01
+Time: 2109.01
+Time: 2110.01
+Time: 2111.01
+Time: 2112.01
+Time: 2113.01
+Time: 2114.01
+Time: 2115.01
+Time: 2116.01
+Time: 2117.01
+Time: 2118.01
+Time: 2119.01
+Time: 2120.01
+Time: 2121.01
+Time: 2122.01
+Time: 2123.01
+Time: 2124.01
+Time: 2125.01
+Time: 2126.01
+Time: 2127.01
+Time: 2128.01
+Time: 2129.01
+Time: 2130.01
+Time: 2131.01
+Time: 2132.01
+Time: 2133.01
+Time: 2134.01
+Time: 2135.01
+Time: 2136.01
+Time: 2137.01
+Time: 2138.01
+Time: 2139.01
+Time: 2140.01
+Time: 2141.01
+Time: 2142.01
+Time: 2143.01
+Time: 2144.01
+Time: 2145.01
+Time: 2146.01
+Time: 2147.01
+Time: 2148.01
+Time: 2149.01
+Time: 2150.01
+Time: 2151.01
+Time: 2152.01
+Time: 2153.01
+Time: 2154.01
+Time: 2155.01
+Time: 2156.01
+Time: 2157.01
+Time: 2158.01
+Time: 2159.01
+Time: 2160.01
+Time: 2161.01
+Time: 2162.01
+Time: 2163.01
+Time: 2164.01
+Time: 2165.01
+Time: 2166.01
+Time: 2167.01
+Time: 2168.01
+Time: 2169.01
+Time: 2170.01
+Time: 2171.01
+Time: 2172.01
+Time: 2173.01
+Time: 2174.01
+Time: 2175.01
+Time: 2176.01
+Time: 2177.01
+Time: 2178.01
+Time: 2179.01
+Time: 2180.01
+Time: 2181.01
+Time: 2182.01
+Time: 2183.01
+Time: 2184.01
+Time: 2185.01
+Time: 2186.01
+Time: 2187.01
+Time: 2188.01
+Time: 2189.01
+Time: 2190.01
+Time: 2191.01
+Time: 2192.01
+Time: 2193.01
+Time: 2194.01
+Time: 2195.01
+Time: 2196.01
+Time: 2197.01
+Time: 2198.01
+Time: 2199.01
+Time: 2200.01
+Time: 2201.01
+Time: 2202.01
+Time: 2203.01
+Time: 2204.01
+Time: 2205.01
+Time: 2206.01
+Time: 2207.01
+Time: 2208.01
+Time: 2209.01
+Time: 2210.01
+Time: 2211.01
+Time: 2212.01
+Time: 2213.01
+Time: 2214.01
+Time: 2215.01
+Time: 2216.01
+Time: 2217.01
+Time: 2218.01
+Time: 2219.01
+Time: 2220.01
+Time: 2221.01
+Time: 2222.01
+Time: 2223.01
+Time: 2224.01
+Time: 2225.01
+Time: 2226.01
+Time: 2227.01
+Time: 2228.01
+Time: 2229.01
+Time: 2230.01
+Time: 2231.01
+Time: 2232.01
+Time: 2233.01
+Time: 2234.01
+Time: 2235.01
+Time: 2236.01
+Time: 2237.01
+Time: 2238.01
+Time: 2239.01
+Time: 2240.01
+Time: 2241.01
+Time: 2242.01
+Time: 2243.01
+Time: 2244.01
+Time: 2245.01
+Time: 2246.01
+Time: 2247.01
+Time: 2248.01
+Time: 2249.01
+Time: 2250.01
+Time: 2251.01
+Time: 2252.01
+Time: 2253.01
+Time: 2254.01
+Time: 2255.01
+Time: 2256.01
+Time: 2257.01
+Time: 2258.01
+Time: 2259.01
+Time: 2260.01
+Time: 2261.01
+Time: 2262.01
+Time: 2263.01
+Time: 2264.01
+Time: 2265.01
+Time: 2266.01
+Time: 2267.01
+Time: 2268.01
+Time: 2269.01
+Time: 2270.01
+Time: 2271.01
+Time: 2272.01
+Time: 2273.01
+Time: 2274.01
+Time: 2275.01
+Time: 2276.01
+Time: 2277.01
+Time: 2278.01
+Time: 2279.01
+Time: 2280.01
+Time: 2281.01
+Time: 2282.01
+Time: 2283.01
+Time: 2284.01
+Time: 2285.01
+Time: 2286.01
+Time: 2287.01
+Time: 2288.01
+Time: 2289.01
+Time: 2290.01
+Time: 2291.01
+Time: 2292.01
+Time: 2293.01
+Time: 2294.01
+Time: 2295.01
+Time: 2296.01
+Time: 2297.01
+Time: 2298.01
+Time: 2299.01
+Time: 2300.01
+Time: 2301.01
+Time: 2302.01
+Time: 2303.01
+Time: 2304.01
+Time: 2305.01
+Time: 2306.01
+Time: 2307.01
+Time: 2308.01
+Time: 2309.01
+Time: 2310.01
+Time: 2311.01
+Time: 2312.01
+Time: 2313.01
+Time: 2314.01
+Time: 2315.01
+Time: 2316.01
+Time: 2317.01
+Time: 2318.01
+Time: 2319.01
+Time: 2320.01
+Time: 2321.01
+Time: 2322.01
+Time: 2323.01
+Time: 2324.01
+Time: 2325.01
+Time: 2326.01
+Time: 2327.01
+Time: 2328.01
+Time: 2329.01
+Time: 2330.01
+Time: 2331.01
+Time: 2332.01
+Time: 2333.01
+Time: 2334.01
+Time: 2335.01
+Time: 2336.01
+Time: 2337.01
+Time: 2338.01
+Time: 2339.01
+Time: 2340.01
+Time: 2341.01
+Time: 2342.01
+Time: 2343.01
+Time: 2344.01
+Time: 2345.01
+Time: 2346.01
+Time: 2347.01
+Time: 2348.01
+Time: 2349.01
+Time: 2350.01
+Time: 2351.01
+Time: 2352.01
+Time: 2353.01
+Time: 2354.01
+Time: 2355.01
+Time: 2356.01
+Time: 2357.01
+Time: 2358.01
+Time: 2359.01
+Time: 2360.01
+Time: 2361.01
+Time: 2362.01
+Time: 2363.01
+Time: 2364.01
+Time: 2365.01
+Time: 2366.01
+Time: 2367.01
+Time: 2368.01
+Time: 2369.01
+Time: 2370.01
+Time: 2371.01
+Time: 2372.01
+Time: 2373.01
+Time: 2374.01
+Time: 2375.01
+Time: 2376.01
+Time: 2377.01
+Time: 2378.01
+Time: 2379.01
+Time: 2380.01
+Time: 2381.01
+Time: 2382.01
+Time: 2383.01
+Time: 2384.01
+Time: 2385.01
+Time: 2386.01
+Time: 2387.01
+Time: 2388.01
+Time: 2389.01
+Time: 2390.01
+Time: 2391.01
+Time: 2392.01
+Time: 2393.01
+Time: 2394.01
+Time: 2395.01
+Time: 2396.01
+Time: 2397.01
+Time: 2398.01
+Time: 2399.01
+Time: 2400.01
+Time: 2401.01
+Time: 2402.01
+Time: 2403.01
+Time: 2404.01
+Time: 2405.01
+Time: 2406.01
+Time: 2407.01
+Time: 2408.01
+Time: 2409.01
+Time: 2410.01
+Time: 2411.01
+Time: 2412.01
+Time: 2413.01
+Time: 2414.01
+Time: 2415.01
+Time: 2416.01
+Time: 2417.01
+Time: 2418.01
+Time: 2419.01
+Time: 2420.01
+Time: 2421.01
+Time: 2422.01
+Time: 2423.01
+Time: 2424.01
+Time: 2425.01
+Time: 2426.01
+Time: 2427.01
+Time: 2428.01
+Time: 2429.01
+Time: 2430.01
+Time: 2431.01
+Time: 2432.01
+Time: 2433.01
+Time: 2434.01
+Time: 2435.01
+Time: 2436.01
+Time: 2437.01
+Time: 2438.01
+Time: 2439.01
+Time: 2440.01
+Time: 2441.01
+Time: 2442.01
+Time: 2443.01
+Time: 2444.01
+Time: 2445.01
+Time: 2446.01
+Time: 2447.01
+Time: 2448.01
+Time: 2449.01
+Time: 2450.01
+Time: 2451.01
+Time: 2452.01
+Time: 2453.01
+Time: 2454.01
+Time: 2455.01
+Time: 2456.01
+Time: 2457.01
+Time: 2458.01
+Time: 2459.01
+Time: 2460.01
+Time: 2461.01
+Time: 2462.01
+Time: 2463.01
+Time: 2464.01
+Time: 2465.01
+Time: 2466.01
+Time: 2467.01
+Time: 2468.01
+Time: 2469.01
+Time: 2470.01
+Time: 2471.01
+Time: 2472.01
+Time: 2473.01
+Time: 2474.01
+Time: 2475.01
+Time: 2476.01
+Time: 2477.01
+Time: 2478.01
+Time: 2479.01
+Time: 2480.01
+Time: 2481.01
+Time: 2482.01
+Time: 2483.01
+Time: 2484.01
+Time: 2485.01
+Time: 2486.01
+Time: 2487.01
+Time: 2488.01
+Time: 2489.01
+Time: 2490.01
+Time: 2491.01
+Time: 2492.01
+Time: 2493.01
+Time: 2494.01
+Time: 2495.01
+Time: 2496.01
+Time: 2497.01
+Time: 2498.01
+Time: 2499.01
+Time: 2500.01
+Time: 2501.01
+Time: 2502.01
+Time: 2503.01
+Time: 2504.01
+Time: 2505.01
+Time: 2506.01
+Time: 2507.01
+Time: 2508.01
+Time: 2509.01
+Time: 2510.01
+Time: 2511.01
+Time: 2512.01
+Time: 2513.01
+Time: 2514.01
+Time: 2515.01
+Time: 2516.01
+Time: 2517.01
+Time: 2518.01
+Time: 2519.01
+Time: 2520.01
+Time: 2521.01
+Time: 2522.01
+Time: 2523.01
+Time: 2524.01
+Time: 2525.01
+Time: 2526.01
+Time: 2527.01
+Time: 2528.01
+Time: 2529.01
+Time: 2530.01
+Time: 2531.01
+Time: 2532.01
+Time: 2533.01
+Time: 2534.01
+Time: 2535.01
+Time: 2536.01
+Time: 2537.01
+Time: 2538.01
+Time: 2539.01
+Time: 2540.01
+Time: 2541.01
+Time: 2542.01
+Time: 2543.01
+Time: 2544.01
+Time: 2545.01
+Time: 2546.01
+Time: 2547.01
+Time: 2548.01
+Time: 2549.01
+Time: 2550.01
+Time: 2551.01
+Time: 2552.01
+Time: 2553.01
+Time: 2554.01
+Time: 2555.01
+Time: 2556.01
+Time: 2557.01
+Time: 2558.01
+Time: 2559.01
+Time: 2560.01
+Time: 2561.01
+Time: 2562.01
+Time: 2563.01
+Time: 2564.01
+Time: 2565.01
+Time: 2566.01
+Time: 2567.01
+Time: 2568.01
+Time: 2569.01
+Time: 2570.01
+Time: 2571.01
+Time: 2572.01
+Time: 2573.01
+Time: 2574.01
+Time: 2575.01
+Time: 2576.01
+Time: 2577.01
+Time: 2578.01
+Time: 2579.01
+Time: 2580.01
+Time: 2581.01
+Time: 2582.01
+Time: 2583.01
+Time: 2584.01
+Time: 2585.01
+Time: 2586.01
+Time: 2587.01
+Time: 2588.01
+Time: 2589.01
+Time: 2590.01
+Time: 2591.01
+Time: 2592.01
+Time: 2593.01
+Time: 2594.01
+Time: 2595.01
+Time: 2596.01
+Time: 2597.01
+Time: 2598.01
+Time: 2599.01
+Time: 2600.01
+Time: 2601.01
+Time: 2602.01
+Time: 2603.01
+Time: 2604.01
+Time: 2605.01
+Time: 2606.01
+Time: 2607.01
+Time: 2608.01
+Time: 2609.01
+Time: 2610.01
+Time: 2611.01
+Time: 2612.01
+Time: 2613.01
+Time: 2614.01
+Time: 2615.01
+Time: 2616.01
+Time: 2617.01
+Time: 2618.01
+Time: 2619.01
+Time: 2620.01
+Time: 2621.01
+Time: 2622.01
+Time: 2623.01
+Time: 2624.01
+Time: 2625.01
+Time: 2626.01
+Time: 2627.01
+Time: 2628.01
+Time: 2629.01
+Time: 2630.01
+Time: 2631.01
+Time: 2632.01
+Time: 2633.01
+Time: 2634.01
+Time: 2635.01
+Time: 2636.01
+Time: 2637.01
+Time: 2638.01
+Time: 2639.01
+Time: 2640.01
+Time: 2641.01
+Time: 2642.01
+Time: 2643.01
+Time: 2644.01
+Time: 2645.01
+Time: 2646.01
+Time: 2647.01
+Time: 2648.01
+Time: 2649.01
+Time: 2650.01
+Time: 2651.01
+Time: 2652.01
+Time: 2653.01
+Time: 2654.01
+Time: 2655.01
+Time: 2656.01
+Time: 2657.01
+Time: 2658.01
+Time: 2659.01
+Time: 2660.01
+Time: 2661.01
+Time: 2662.01
+Time: 2663.01
+Time: 2664.01
+Time: 2665.01
+Time: 2666.01
+Time: 2667.01
+Time: 2668.01
+Time: 2669.01
+Time: 2670.01
+Time: 2671.01
+Time: 2672.01
+Time: 2673.01
+Time: 2674.01
+Time: 2675.01
+Time: 2676.01
+Time: 2677.01
+Time: 2678.01
+Time: 2679.01
+Time: 2680.01
+Time: 2681.01
+Time: 2682.01
+Time: 2683.01
+Time: 2684.01
+Time: 2685.01
+Time: 2686.01
+Time: 2687.01
+Time: 2688.01
+Time: 2689.01
+Time: 2690.01
+Time: 2691.01
+Time: 2692.01
+Time: 2693.01
+Time: 2694.01
+Time: 2695.01
+Time: 2696.01
+Time: 2697.01
+Time: 2698.01
+Time: 2699.01
+Time: 2700.01
+Time: 2701.01
+Time: 2702.01
+Time: 2703.01
+Time: 2704.01
+Time: 2705.01
+Time: 2706.01
+Time: 2707.01
+Time: 2708.01
+Time: 2709.01
+Time: 2710.01
+Time: 2711.01
+Time: 2712.01
+Time: 2713.01
+Time: 2714.01
+Time: 2715.01
+Time: 2716.01
+Time: 2717.01
+Time: 2718.01
+Time: 2719.01
+Time: 2720.01
+Time: 2721.01
+Time: 2722.01
+Time: 2723.01
+Time: 2724.01
+Time: 2725.01
+Time: 2726.01
+Time: 2727.01
+Time: 2728.01
+Time: 2729.01
+Time: 2730.01
+Time: 2731.01
+Time: 2732.01
+Time: 2733.01
+Time: 2734.01
+Time: 2735.01
+Time: 2736.01
+Time: 2737.01
+Time: 2738.01
+Time: 2739.01
+Time: 2740.01
+Time: 2741.01
+Time: 2742.01
+Time: 2743.01
+Time: 2744.01
+Time: 2745.01
+Time: 2746.01
+Time: 2747.01
+Time: 2748.01
+Time: 2749.01
+Time: 2750.01
+Time: 2751.01
+Time: 2752.01
+Time: 2753.01
+Time: 2754.01
+Time: 2755.01
+Time: 2756.01
+Time: 2757.01
+Time: 2758.01
+Time: 2759.01
+Time: 2760.01
+Time: 2761.01
+Time: 2762.01
+Time: 2763.01
+Time: 2764.01
+Time: 2765.01
+Time: 2766.01
+Time: 2767.01
+Time: 2768.01
+Time: 2769.01
+Time: 2770.01
+Time: 2771.01
+Time: 2772.01
+Time: 2773.01
+Time: 2774.01
+Time: 2775.01
+Time: 2776.01
+Time: 2777.01
+Time: 2778.01
+Time: 2779.01
+Time: 2780.01
+Time: 2781.01
+Time: 2782.01
+Time: 2783.01
+Time: 2784.01
+Time: 2785.01
+Time: 2786.01
+Time: 2787.01
+Time: 2788.01
+Time: 2789.01
+Time: 2790.01
+Time: 2791.01
+Time: 2792.01
+Time: 2793.01
+Time: 2794.01
+Time: 2795.01
+Time: 2796.01
+Time: 2797.01
+Time: 2798.01
+Time: 2799.01
+Time: 2800.01
+Time: 2801.01
+Time: 2802.01
+Time: 2803.01
+Time: 2804.01
+Time: 2805.01
+Time: 2806.01
+Time: 2807.01
+Time: 2808.01
+Time: 2809.01
+Time: 2810.01
+Time: 2811.01
+Time: 2812.01
+Time: 2813.01
+Time: 2814.01
+Time: 2815.01
+Time: 2816.01
+Time: 2817.01
+Time: 2818.01
+Time: 2819.01
+Time: 2820.01
+Time: 2821.01
+Time: 2822.01
+Time: 2823.01
+Time: 2824.01
+Time: 2825.01
+Time: 2826.01
+Time: 2827.01
+Time: 2828.01
+Time: 2829.01
+Time: 2830.01
+Time: 2831.01
+Time: 2832.01
+Time: 2833.01
+Time: 2834.01
+Time: 2835.01
+Time: 2836.01
+Time: 2837.01
+Time: 2838.01
+Time: 2839.01
+Time: 2840.01
+Time: 2841.01
+Time: 2842.01
+Time: 2843.01
+Time: 2844.01
+Time: 2845.01
+Time: 2846.01
+Time: 2847.01
+Time: 2848.01
+Time: 2849.01
+Time: 2850.01
+Time: 2851.01
+Time: 2852.01
+Time: 2853.01
+Time: 2854.01
+Time: 2855.01
+Time: 2856.01
+Time: 2857.01
+Time: 2858.01
+Time: 2859.01
+Time: 2860.01
+Time: 2861.01
+Time: 2862.01
+Time: 2863.01
+Time: 2864.01
+Time: 2865.01
+Time: 2866.01
+Time: 2867.01
+Time: 2868.01
+Time: 2869.01
+Time: 2870.01
+Time: 2871.01
+Time: 2872.01
+Time: 2873.01
+Time: 2874.01
+Time: 2875.01
+Time: 2876.01
+Time: 2877.01
+Time: 2878.01
+Time: 2879.01
+Time: 2880.01
+Time: 2881.01
+Time: 2882.01
+Time: 2883.01
+Time: 2884.01
+Time: 2885.01
+Time: 2886.01
+Time: 2887.01
+Time: 2888.01
+Time: 2889.01
+Time: 2890.01
+Time: 2891.01
+Time: 2892.01
+Time: 2893.01
+Time: 2894.01
+Time: 2895.01
+Time: 2896.01
+Time: 2897.01
+Time: 2898.01
+Time: 2899.01
+Time: 2900.01
+Time: 2901.01
+Time: 2902.01
+Time: 2903.01
+Time: 2904.01
+Time: 2905.01
+Time: 2906.01
+Time: 2907.01
+Time: 2908.01
+Time: 2909.01
+Time: 2910.01
+Time: 2911.01
+Time: 2912.01
+Time: 2913.01
+Time: 2914.01
+Time: 2915.01
+Time: 2916.01
+Time: 2917.01
+Time: 2918.01
+Time: 2919.01
+Time: 2920.01
+Time: 2921.01
+Time: 2922.01
+Time: 2923.01
+Time: 2924.01
+Time: 2925.01
+Time: 2926.01
+Time: 2927.01
+Time: 2928.01
+Time: 2929.01
+Time: 2930.01
+Time: 2931.01
+Time: 2932.01
+Time: 2933.01
+Time: 2934.01
+Time: 2935.01
+Time: 2936.01
+Time: 2937.01
+Time: 2938.01
+Time: 2939.01
+Time: 2940.01
+Time: 2941.01
+Time: 2942.01
+Time: 2943.01
+Time: 2944.01
+Time: 2945.01
+Time: 2946.01
+Time: 2947.01
+Time: 2948.01
+Time: 2949.01
+Time: 2950.01
+Time: 2951.01
+Time: 2952.01
+Time: 2953.01
+Time: 2954.01
+Time: 2955.01
+Time: 2956.01
+Time: 2957.01
+Time: 2958.01
+Time: 2959.01
+Time: 2960.01
+Time: 2961.01
+Time: 2962.01
+Time: 2963.01
+Time: 2964.01
+Time: 2965.01
+Time: 2966.01
+Time: 2967.01
+Time: 2968.01
+Time: 2969.01
+Time: 2970.01
+Time: 2971.01
+Time: 2972.01
+Time: 2973.01
+Time: 2974.01
+Time: 2975.01
+Time: 2976.01
+Time: 2977.01
+Time: 2978.01
+Time: 2979.01
+Time: 2980.01
+Time: 2981.01
+Time: 2982.01
+Time: 2983.01
+Time: 2984.01
+Time: 2985.01
+Time: 2986.01
+Time: 2987.01
+Time: 2988.01
+Time: 2989.01
+Time: 2990.01
+Time: 2991.01
+Time: 2992.01
+Time: 2993.01
+Time: 2994.01
+Time: 2995.01
+Time: 2996.01
+Time: 2997.01
+Time: 2998.01
+Time: 2999.01
+<end of output>
+Test time =   0.68 sec
+----------------------------------------------------------
+Test Passed.
+"cell_width_test" end time: Jun 11 11:42 PDT
 "cell_width_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -6100,128 +6104,60 @@ Test Passed.
 3/17 Test: cell_width_test_01
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 50 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"cell_width_test_01" start time: Jun 10 18:04 PDT
+"cell_width_test_01" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 50 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-0
-9
-4294967287
-0
-1
-2
-4294967287
-1
-2
-3
-4294967287
-4294967288
-4294967289
-2
-3
-4
-4294967289
-3
-4
-5
-4294967289
-4294967290
-4294967291
-4
-5
-6
-4294967291
-5
-6
-7
-4294967291
-4294967292
-4294967293
-6
-7
-8
-4294967293
-7
-8
-9
-4294967293
-4294967294
-4294967295
-0
-8
-9
-4294967295
-Files "/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" to "/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" are different.
-CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (message):
-  
-  /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv
-  does not match
-  /home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv!
+# vertices: 19
+# edges:    46
+0  -->  0
+0  -->  9
+1  -->  0
+1  -->  1
+1  -->  2
+1  -->  4294967287
+2  -->  1
+2  -->  2
+2  -->  3
+2  -->  4294967287
+2  -->  4294967288
+2  -->  4294967289
+3  -->  2
+3  -->  3
+3  -->  4
+3  -->  4294967289
+4  -->  3
+4  -->  4
+4  -->  5
+4  -->  4294967289
+4  -->  4294967290
+4  -->  4294967291
+5  -->  4
+5  -->  5
+5  -->  6
+5  -->  4294967291
+6  -->  5
+6  -->  6
+6  -->  7
+6  -->  4294967291
+6  -->  4294967292
+6  -->  4294967293
+7  -->  6
+7  -->  7
+7  -->  8
+7  -->  4294967293
+8  -->  7
+8  -->  8
+8  -->  9
+8  -->  4294967293
+8  -->  4294967294
+8  -->  4294967295
+9  -->  0
+9  -->  8
+9  -->  9
+9  -->  4294967295
 
-
-<end of output>
-Test time =   0.15 sec
-----------------------------------------------------------
-Test Failed.
-"cell_width_test_01" end time: Jun 10 18:04 PDT
-"cell_width_test_01" time elapsed: 00:00:00
-----------------------------------------------------------
-
-4/17 Testing: cell_width_test_02
-4/17 Test: cell_width_test_02
-Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 100 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
-Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"cell_width_test_02" start time: Jun 10 18:04 PDT
-Output:
-----------------------------------------------------------
-/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 100 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-0
-9
-4294967287
-0
-1
-2
-4294967287
-1
-2
-3
-4294967287
-4294967288
-4294967289
-2
-3
-4
-4294967289
-3
-4
-5
-4294967289
-4294967290
-4294967291
-4
-5
-6
-4294967291
-5
-6
-7
-4294967291
-4294967292
-4294967293
-6
-7
-8
-4294967293
-7
-8
-9
-4294967293
-4294967294
-4294967295
-0
-8
-9
-4294967295
+malloc_consolidate(): invalid chunk size
 Files "/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" to "/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" are different.
 CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (message):
   
@@ -6234,7 +6170,81 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.11 sec
 ----------------------------------------------------------
 Test Failed.
-"cell_width_test_02" end time: Jun 10 18:04 PDT
+"cell_width_test_01" end time: Jun 11 11:42 PDT
+"cell_width_test_01" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/17 Testing: cell_width_test_02
+4/17 Test: cell_width_test_02
+Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 100 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
+Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
+"cell_width_test_02" start time: Jun 11 11:42 PDT
+Output:
+----------------------------------------------------------
+/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 100 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
+# vertices: 19
+# edges:    46
+0  -->  0
+0  -->  9
+1  -->  0
+1  -->  1
+1  -->  2
+1  -->  4294967287
+2  -->  1
+2  -->  2
+2  -->  3
+2  -->  4294967287
+2  -->  4294967288
+2  -->  4294967289
+3  -->  2
+3  -->  3
+3  -->  4
+3  -->  4294967289
+4  -->  3
+4  -->  4
+4  -->  5
+4  -->  4294967289
+4  -->  4294967290
+4  -->  4294967291
+5  -->  4
+5  -->  5
+5  -->  6
+5  -->  4294967291
+6  -->  5
+6  -->  6
+6  -->  7
+6  -->  4294967291
+6  -->  4294967292
+6  -->  4294967293
+7  -->  6
+7  -->  7
+7  -->  8
+7  -->  4294967293
+8  -->  7
+8  -->  8
+8  -->  9
+8  -->  4294967293
+8  -->  4294967294
+8  -->  4294967295
+9  -->  0
+9  -->  8
+9  -->  9
+9  -->  4294967295
+
+malloc_consolidate(): invalid chunk size
+Files "/home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv" to "/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" are different.
+CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (message):
+  
+  /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv
+  does not match
+  /home/mcclelnr/DENSE/test/her_model_2014/cell_width_test_anlys.csv!
+
+
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"cell_width_test_02" end time: Jun 11 11:42 PDT
 "cell_width_test_02" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -6242,270 +6252,263 @@ Test Failed.
 5/17 Test: cell_number_test
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 50 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"cell_number_test" start time: Jun 10 18:04 PDT
+"cell_number_test" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 50 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-4
-45
-46
-49
-0
-2
-5
-6
-7
-46
-1
-3
-7
-46
-47
-48
-2
-4
-7
-8
-9
-48
-0
-5
-9
-49
-0
-4
-6
-9
-0
-1
-2
-5
-7
-11
-2
-6
-8
-11
-12
-13
-2
-3
-4
-7
-9
-13
-4
-5
-10
-14
-5
-6
-9
-14
-6
-10
-12
-15
-16
-17
-6
-7
-8
-11
-13
-17
-8
-12
-14
-17
-18
-19
-9
-10
-15
-19
-10
-14
-16
-19
-10
-11
-12
-15
-17
-21
-12
-16
-18
-21
-22
-23
-12
-13
-14
-17
-19
-23
-14
-15
-20
-24
-15
-16
-19
-24
-16
-20
-22
-25
-26
-27
-16
-17
-18
-21
-23
-27
-18
-22
-24
-27
-28
-29
-19
-20
-25
-29
-20
-24
-26
-29
-20
-21
-22
-25
-27
-31
-22
-26
-28
-31
-32
-33
-22
-23
-24
-27
-29
-33
-24
-25
-30
-34
-25
-26
-29
-34
-26
-30
-32
-35
-36
-37
-26
-27
-28
-31
-33
-37
-28
-32
-34
-37
-38
-39
-29
-30
-35
-39
-30
-34
-36
-39
-30
-31
-32
-35
-37
-41
-32
-36
-38
-41
-42
-43
-32
-33
-34
-37
-39
-43
-34
-35
-40
-44
-35
-36
-39
-44
-36
-40
-42
-45
-46
-47
-36
-37
-38
-41
-43
-47
-38
-42
-44
-47
-48
-49
-39
-40
-45
-49
-40
-44
-46
-49
-1
-40
-41
-42
-45
-47
-1
-2
-3
-42
-46
-48
-3
-42
-43
-44
-47
-49
-0
-4
-44
-45
+# vertices: 50
+# edges:    250
+0  -->  4
+0  -->  45
+0  -->  49
+1  -->  0
+1  -->  2
+1  -->  5
+1  -->  6
+1  -->  7
+1  -->  46
+2  -->  1
+2  -->  3
+2  -->  7
+2  -->  46
+2  -->  47
+2  -->  48
+3  -->  2
+3  -->  4
+3  -->  7
+3  -->  8
+3  -->  9
+3  -->  48
+4  -->  0
+4  -->  5
+4  -->  9
+4  -->  49
+5  -->  0
+5  -->  4
+5  -->  9
+6  -->  0
+6  -->  1
+6  -->  2
+6  -->  5
+6  -->  7
+6  -->  11
+7  -->  2
+7  -->  6
+7  -->  8
+7  -->  11
+7  -->  12
+7  -->  13
+8  -->  2
+8  -->  3
+8  -->  4
+8  -->  7
+8  -->  9
+8  -->  13
+9  -->  4
+9  -->  5
+9  -->  10
+9  -->  14
+10  -->  5
+10  -->  9
+10  -->  14
+11  -->  6
+11  -->  10
+11  -->  12
+11  -->  15
+11  -->  16
+11  -->  17
+12  -->  6
+12  -->  7
+12  -->  8
+12  -->  11
+12  -->  13
+12  -->  17
+13  -->  8
+13  -->  12
+13  -->  14
+13  -->  17
+13  -->  18
+13  -->  19
+14  -->  9
+14  -->  10
+14  -->  15
+14  -->  19
+15  -->  10
+15  -->  14
+15  -->  19
+16  -->  10
+16  -->  11
+16  -->  12
+16  -->  15
+16  -->  17
+16  -->  21
+17  -->  12
+17  -->  16
+17  -->  18
+17  -->  21
+17  -->  22
+17  -->  23
+18  -->  12
+18  -->  13
+18  -->  14
+18  -->  17
+18  -->  19
+18  -->  23
+19  -->  14
+19  -->  15
+19  -->  20
+19  -->  24
+20  -->  15
+20  -->  19
+20  -->  24
+21  -->  16
+21  -->  20
+21  -->  22
+21  -->  25
+21  -->  26
+21  -->  27
+22  -->  16
+22  -->  17
+22  -->  18
+22  -->  21
+22  -->  23
+22  -->  27
+23  -->  18
+23  -->  22
+23  -->  24
+23  -->  27
+23  -->  28
+23  -->  29
+24  -->  19
+24  -->  20
+24  -->  25
+24  -->  29
+25  -->  20
+25  -->  24
+25  -->  29
+26  -->  20
+26  -->  21
+26  -->  22
+26  -->  25
+26  -->  27
+26  -->  31
+27  -->  22
+27  -->  26
+27  -->  28
+27  -->  31
+27  -->  32
+27  -->  33
+28  -->  22
+28  -->  23
+28  -->  24
+28  -->  27
+28  -->  29
+28  -->  33
+29  -->  24
+29  -->  25
+29  -->  30
+29  -->  34
+30  -->  25
+30  -->  29
+30  -->  34
+31  -->  26
+31  -->  30
+31  -->  32
+31  -->  35
+31  -->  36
+31  -->  37
+32  -->  26
+32  -->  27
+32  -->  28
+32  -->  31
+32  -->  33
+32  -->  37
+33  -->  28
+33  -->  32
+33  -->  34
+33  -->  37
+33  -->  38
+33  -->  39
+34  -->  29
+34  -->  30
+34  -->  35
+34  -->  39
+35  -->  30
+35  -->  34
+35  -->  39
+36  -->  30
+36  -->  31
+36  -->  32
+36  -->  35
+36  -->  37
+36  -->  41
+37  -->  32
+37  -->  36
+37  -->  38
+37  -->  41
+37  -->  42
+37  -->  43
+38  -->  32
+38  -->  33
+38  -->  34
+38  -->  37
+38  -->  39
+38  -->  43
+39  -->  34
+39  -->  35
+39  -->  40
+39  -->  44
+40  -->  35
+40  -->  39
+40  -->  44
+41  -->  36
+41  -->  40
+41  -->  42
+41  -->  45
+41  -->  46
+41  -->  47
+42  -->  36
+42  -->  37
+42  -->  38
+42  -->  41
+42  -->  43
+42  -->  47
+43  -->  38
+43  -->  42
+43  -->  44
+43  -->  47
+43  -->  48
+43  -->  49
+44  -->  39
+44  -->  40
+44  -->  45
+44  -->  49
+45  -->  40
+45  -->  44
+45  -->  49
+46  -->  1
+46  -->  40
+46  -->  41
+46  -->  42
+46  -->  45
+46  -->  47
+47  -->  1
+47  -->  2
+47  -->  3
+47  -->  42
+47  -->  46
+47  -->  48
+48  -->  3
+48  -->  42
+48  -->  43
+48  -->  44
+48  -->  47
+48  -->  49
+49  -->  0
+49  -->  4
+49  -->  44
+49  -->  45
+
 Time: 0.01
 Time: 1.01
 Time: 2.01
@@ -9507,10 +9510,10 @@ Time: 2997.01
 Time: 2998.01
 Time: 2999.01
 <end of output>
-Test time =   3.17 sec
+Test time =   3.24 sec
 ----------------------------------------------------------
 Test Passed.
-"cell_number_test" end time: Jun 10 18:04 PDT
+"cell_number_test" end time: Jun 11 11:42 PDT
 "cell_number_test" time elapsed: 00:00:03
 ----------------------------------------------------------
 
@@ -9518,1050 +9521,1013 @@ Test Passed.
 6/17 Test: cell_number_test_01
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 200 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"cell_number_test_01" start time: Jun 10 18:04 PDT
+"cell_number_test_01" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 200 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-4
-195
-196
-199
-0
-2
-5
-6
-7
-196
-1
-3
-7
-196
-197
-198
-2
-4
-7
-8
-9
-198
-0
-5
-9
-199
-0
-4
-6
-9
-0
-1
-2
-5
-7
-11
-2
-6
-8
-11
-12
-13
-2
-3
-4
-7
-9
-13
-4
-5
-10
-14
-5
-6
-9
-14
-6
-10
-12
-15
-16
-17
-6
-7
-8
-11
-13
-17
-8
-12
-14
-17
-18
-19
-9
-10
-15
-19
-10
-14
-16
-19
-10
-11
-12
-15
-17
-21
-12
-16
-18
-21
-22
-23
-12
-13
-14
-17
-19
-23
-14
-15
-20
-24
-15
-16
-19
-24
-16
-20
-22
-25
-26
-27
-16
-17
-18
-21
-23
-27
-18
-22
-24
-27
-28
-29
-19
-20
-25
-29
-20
-24
-26
-29
-20
-21
-22
-25
-27
-31
-22
-26
-28
-31
-32
-33
-22
-23
-24
-27
-29
-33
-24
-25
-30
-34
-25
-26
-29
-34
-26
-30
-32
-35
-36
-37
-26
-27
-28
-31
-33
-37
-28
-32
-34
-37
-38
-39
-29
-30
-35
-39
-30
-34
-36
-39
-30
-31
-32
-35
-37
-41
-32
-36
-38
-41
-42
-43
-32
-33
-34
-37
-39
-43
-34
-35
-40
-44
-35
-36
-39
-44
-36
-40
-42
-45
-46
-47
-36
-37
-38
-41
-43
-47
-38
-42
-44
-47
-48
-49
-39
-40
-45
-49
-40
-44
-46
-49
-40
-41
-42
-45
-47
-51
-42
-46
-48
-51
-52
-53
-42
-43
-44
-47
-49
-53
-44
-45
-50
-54
-45
-46
-49
-54
-46
-50
-52
-55
-56
-57
-46
-47
-48
-51
-53
-57
-48
-52
-54
-57
-58
-59
-49
-50
-55
-59
-50
-54
-56
-59
-50
-51
-52
-55
-57
-61
-52
-56
-58
-61
-62
-63
-52
-53
-54
-57
-59
-63
-54
-55
-60
-64
-55
-56
-59
-64
-56
-60
-62
-65
-66
-67
-56
-57
-58
-61
-63
-67
-58
-62
-64
-67
-68
-69
-59
-60
-65
-69
-60
-64
-66
-69
-60
-61
-62
-65
-67
-71
-62
-66
-68
-71
-72
-73
-62
-63
-64
-67
-69
-73
-64
-65
-70
-74
-65
-66
-69
-74
-66
-70
-72
-75
-76
-77
-66
-67
-68
-71
-73
-77
-68
-72
-74
-77
-78
-79
-69
-70
-75
-79
-70
-74
-76
-79
-70
-71
-72
-75
-77
-81
-72
-76
-78
-81
-82
-83
-72
-73
-74
-77
-79
-83
-74
-75
-80
-84
-75
-76
-79
-84
-76
-80
-82
-85
-86
-87
-76
-77
-78
-81
-83
-87
-78
-82
-84
-87
-88
-89
-79
-80
-85
-89
-80
-84
-86
-89
-80
-81
-82
-85
-87
-91
-82
-86
-88
-91
-92
-93
-82
-83
-84
-87
-89
-93
-84
-85
-90
-94
-85
-86
-89
-94
-86
-90
-92
-95
-96
-97
-86
-87
-88
-91
-93
-97
-88
-92
-94
-97
-98
-99
-89
-90
-95
-99
-90
-94
-96
-99
-90
-91
-92
-95
-97
-101
-92
-96
-98
-101
-102
-103
-92
-93
-94
-97
-99
-103
-94
-95
-100
-104
-95
-96
-99
-104
-96
-100
-102
-105
-106
-107
-96
-97
-98
-101
-103
-107
-98
-102
-104
-107
-108
-109
-99
-100
-105
-109
-100
-104
-106
-109
-100
-101
-102
-105
-107
-111
-102
-106
-108
-111
-112
-113
-102
-103
-104
-107
-109
-113
-104
-105
-110
-114
-105
-106
-109
-114
-106
-110
-112
-115
-116
-117
-106
-107
-108
-111
-113
-117
-108
-112
-114
-117
-118
-119
-109
-110
-115
-119
-110
-114
-116
-119
-110
-111
-112
-115
-117
-121
-112
-116
-118
-121
-122
-123
-112
-113
-114
-117
-119
-123
-114
-115
-120
-124
-115
-116
-119
-124
-116
-120
-122
-125
-126
-127
-116
-117
-118
-121
-123
-127
-118
-122
-124
-127
-128
-129
-119
-120
-125
-129
-120
-124
-126
-129
-120
-121
-122
-125
-127
-131
-122
-126
-128
-131
-132
-133
-122
-123
-124
-127
-129
-133
-124
-125
-130
-134
-125
-126
-129
-134
-126
-130
-132
-135
-136
-137
-126
-127
-128
-131
-133
-137
-128
-132
-134
-137
-138
-139
-129
-130
-135
-139
-130
-134
-136
-139
-130
-131
-132
-135
-137
-141
-132
-136
-138
-141
-142
-143
-132
-133
-134
-137
-139
-143
-134
-135
-140
-144
-135
-136
-139
-144
-136
-140
-142
-145
-146
-147
-136
-137
-138
-141
-143
-147
-138
-142
-144
-147
-148
-149
-139
-140
-145
-149
-140
-144
-146
-149
-140
-141
-142
-145
-147
-151
-142
-146
-148
-151
-152
-153
-142
-143
-144
-147
-149
-153
-144
-145
-150
-154
-145
-146
-149
-154
-146
-150
-152
-155
-156
-157
-146
-147
-148
-151
-153
-157
-148
-152
-154
-157
-158
-159
-149
-150
-155
-159
-150
-154
-156
-159
-150
-151
-152
-155
-157
-161
-152
-156
-158
-161
-162
-163
-152
-153
-154
-157
-159
-163
-154
-155
-160
-164
-155
-156
-159
-164
-156
-160
-162
-165
-166
-167
-156
-157
-158
-161
-163
-167
-158
-162
-164
-167
-168
-169
-159
-160
-165
-169
-160
-164
-166
-169
-160
-161
-162
-165
-167
-171
-162
-166
-168
-171
-172
-173
-162
-163
-164
-167
-169
-173
-164
-165
-170
-174
-165
-166
-169
-174
-166
-170
-172
-175
-176
-177
-166
-167
-168
-171
-173
-177
-168
-172
-174
-177
-178
-179
-169
-170
-175
-179
-170
-174
-176
-179
-170
-171
-172
-175
-177
-181
-172
-176
-178
-181
-182
-183
-172
-173
-174
-177
-179
-183
-174
-175
-180
-184
-175
-176
-179
-184
-176
-180
-182
-185
-186
-187
-176
-177
-178
-181
-183
-187
-178
-182
-184
-187
-188
-189
-179
-180
-185
-189
-180
-184
-186
-189
-180
-181
-182
-185
-187
-191
-182
-186
-188
-191
-192
-193
-182
-183
-184
-187
-189
-193
-184
-185
-190
-194
-185
-186
-189
-194
-186
-190
-192
-195
-196
-197
-186
-187
-188
-191
-193
-197
-188
-192
-194
-197
-198
-199
-189
-190
-195
-199
-190
-194
-196
-199
-1
-190
-191
-192
-195
-197
-1
-2
-3
-192
-196
-198
-3
-192
-193
-194
-197
-199
-0
-4
-194
-195
+# vertices: 200
+# edges:    1000
+0  -->  4
+0  -->  195
+0  -->  199
+1  -->  0
+1  -->  2
+1  -->  5
+1  -->  6
+1  -->  7
+1  -->  196
+2  -->  1
+2  -->  3
+2  -->  7
+2  -->  196
+2  -->  197
+2  -->  198
+3  -->  2
+3  -->  4
+3  -->  7
+3  -->  8
+3  -->  9
+3  -->  198
+4  -->  0
+4  -->  5
+4  -->  9
+4  -->  199
+5  -->  0
+5  -->  4
+5  -->  9
+6  -->  0
+6  -->  1
+6  -->  2
+6  -->  5
+6  -->  7
+6  -->  11
+7  -->  2
+7  -->  6
+7  -->  8
+7  -->  11
+7  -->  12
+7  -->  13
+8  -->  2
+8  -->  3
+8  -->  4
+8  -->  7
+8  -->  9
+8  -->  13
+9  -->  4
+9  -->  5
+9  -->  10
+9  -->  14
+10  -->  5
+10  -->  9
+10  -->  14
+11  -->  6
+11  -->  10
+11  -->  12
+11  -->  15
+11  -->  16
+11  -->  17
+12  -->  6
+12  -->  7
+12  -->  8
+12  -->  11
+12  -->  13
+12  -->  17
+13  -->  8
+13  -->  12
+13  -->  14
+13  -->  17
+13  -->  18
+13  -->  19
+14  -->  9
+14  -->  10
+14  -->  15
+14  -->  19
+15  -->  10
+15  -->  14
+15  -->  19
+16  -->  10
+16  -->  11
+16  -->  12
+16  -->  15
+16  -->  17
+16  -->  21
+17  -->  12
+17  -->  16
+17  -->  18
+17  -->  21
+17  -->  22
+17  -->  23
+18  -->  12
+18  -->  13
+18  -->  14
+18  -->  17
+18  -->  19
+18  -->  23
+19  -->  14
+19  -->  15
+19  -->  20
+19  -->  24
+20  -->  15
+20  -->  19
+20  -->  24
+21  -->  16
+21  -->  20
+21  -->  22
+21  -->  25
+21  -->  26
+21  -->  27
+22  -->  16
+22  -->  17
+22  -->  18
+22  -->  21
+22  -->  23
+22  -->  27
+23  -->  18
+23  -->  22
+23  -->  24
+23  -->  27
+23  -->  28
+23  -->  29
+24  -->  19
+24  -->  20
+24  -->  25
+24  -->  29
+25  -->  20
+25  -->  24
+25  -->  29
+26  -->  20
+26  -->  21
+26  -->  22
+26  -->  25
+26  -->  27
+26  -->  31
+27  -->  22
+27  -->  26
+27  -->  28
+27  -->  31
+27  -->  32
+27  -->  33
+28  -->  22
+28  -->  23
+28  -->  24
+28  -->  27
+28  -->  29
+28  -->  33
+29  -->  24
+29  -->  25
+29  -->  30
+29  -->  34
+30  -->  25
+30  -->  29
+30  -->  34
+31  -->  26
+31  -->  30
+31  -->  32
+31  -->  35
+31  -->  36
+31  -->  37
+32  -->  26
+32  -->  27
+32  -->  28
+32  -->  31
+32  -->  33
+32  -->  37
+33  -->  28
+33  -->  32
+33  -->  34
+33  -->  37
+33  -->  38
+33  -->  39
+34  -->  29
+34  -->  30
+34  -->  35
+34  -->  39
+35  -->  30
+35  -->  34
+35  -->  39
+36  -->  30
+36  -->  31
+36  -->  32
+36  -->  35
+36  -->  37
+36  -->  41
+37  -->  32
+37  -->  36
+37  -->  38
+37  -->  41
+37  -->  42
+37  -->  43
+38  -->  32
+38  -->  33
+38  -->  34
+38  -->  37
+38  -->  39
+38  -->  43
+39  -->  34
+39  -->  35
+39  -->  40
+39  -->  44
+40  -->  35
+40  -->  39
+40  -->  44
+41  -->  36
+41  -->  40
+41  -->  42
+41  -->  45
+41  -->  46
+41  -->  47
+42  -->  36
+42  -->  37
+42  -->  38
+42  -->  41
+42  -->  43
+42  -->  47
+43  -->  38
+43  -->  42
+43  -->  44
+43  -->  47
+43  -->  48
+43  -->  49
+44  -->  39
+44  -->  40
+44  -->  45
+44  -->  49
+45  -->  40
+45  -->  44
+45  -->  49
+46  -->  40
+46  -->  41
+46  -->  42
+46  -->  45
+46  -->  47
+46  -->  51
+47  -->  42
+47  -->  46
+47  -->  48
+47  -->  51
+47  -->  52
+47  -->  53
+48  -->  42
+48  -->  43
+48  -->  44
+48  -->  47
+48  -->  49
+48  -->  53
+49  -->  44
+49  -->  45
+49  -->  50
+49  -->  54
+50  -->  45
+50  -->  49
+50  -->  54
+51  -->  46
+51  -->  50
+51  -->  52
+51  -->  55
+51  -->  56
+51  -->  57
+52  -->  46
+52  -->  47
+52  -->  48
+52  -->  51
+52  -->  53
+52  -->  57
+53  -->  48
+53  -->  52
+53  -->  54
+53  -->  57
+53  -->  58
+53  -->  59
+54  -->  49
+54  -->  50
+54  -->  55
+54  -->  59
+55  -->  50
+55  -->  54
+55  -->  59
+56  -->  50
+56  -->  51
+56  -->  52
+56  -->  55
+56  -->  57
+56  -->  61
+57  -->  52
+57  -->  56
+57  -->  58
+57  -->  61
+57  -->  62
+57  -->  63
+58  -->  52
+58  -->  53
+58  -->  54
+58  -->  57
+58  -->  59
+58  -->  63
+59  -->  54
+59  -->  55
+59  -->  60
+59  -->  64
+60  -->  55
+60  -->  59
+60  -->  64
+61  -->  56
+61  -->  60
+61  -->  62
+61  -->  65
+61  -->  66
+61  -->  67
+62  -->  56
+62  -->  57
+62  -->  58
+62  -->  61
+62  -->  63
+62  -->  67
+63  -->  58
+63  -->  62
+63  -->  64
+63  -->  67
+63  -->  68
+63  -->  69
+64  -->  59
+64  -->  60
+64  -->  65
+64  -->  69
+65  -->  60
+65  -->  64
+65  -->  69
+66  -->  60
+66  -->  61
+66  -->  62
+66  -->  65
+66  -->  67
+66  -->  71
+67  -->  62
+67  -->  66
+67  -->  68
+67  -->  71
+67  -->  72
+67  -->  73
+68  -->  62
+68  -->  63
+68  -->  64
+68  -->  67
+68  -->  69
+68  -->  73
+69  -->  64
+69  -->  65
+69  -->  70
+69  -->  74
+70  -->  65
+70  -->  69
+70  -->  74
+71  -->  66
+71  -->  70
+71  -->  72
+71  -->  75
+71  -->  76
+71  -->  77
+72  -->  66
+72  -->  67
+72  -->  68
+72  -->  71
+72  -->  73
+72  -->  77
+73  -->  68
+73  -->  72
+73  -->  74
+73  -->  77
+73  -->  78
+73  -->  79
+74  -->  69
+74  -->  70
+74  -->  75
+74  -->  79
+75  -->  70
+75  -->  74
+75  -->  79
+76  -->  70
+76  -->  71
+76  -->  72
+76  -->  75
+76  -->  77
+76  -->  81
+77  -->  72
+77  -->  76
+77  -->  78
+77  -->  81
+77  -->  82
+77  -->  83
+78  -->  72
+78  -->  73
+78  -->  74
+78  -->  77
+78  -->  79
+78  -->  83
+79  -->  74
+79  -->  75
+79  -->  80
+79  -->  84
+80  -->  75
+80  -->  79
+80  -->  84
+81  -->  76
+81  -->  80
+81  -->  82
+81  -->  85
+81  -->  86
+81  -->  87
+82  -->  76
+82  -->  77
+82  -->  78
+82  -->  81
+82  -->  83
+82  -->  87
+83  -->  78
+83  -->  82
+83  -->  84
+83  -->  87
+83  -->  88
+83  -->  89
+84  -->  79
+84  -->  80
+84  -->  85
+84  -->  89
+85  -->  80
+85  -->  84
+85  -->  89
+86  -->  80
+86  -->  81
+86  -->  82
+86  -->  85
+86  -->  87
+86  -->  91
+87  -->  82
+87  -->  86
+87  -->  88
+87  -->  91
+87  -->  92
+87  -->  93
+88  -->  82
+88  -->  83
+88  -->  84
+88  -->  87
+88  -->  89
+88  -->  93
+89  -->  84
+89  -->  85
+89  -->  90
+89  -->  94
+90  -->  85
+90  -->  89
+90  -->  94
+91  -->  86
+91  -->  90
+91  -->  92
+91  -->  95
+91  -->  96
+91  -->  97
+92  -->  86
+92  -->  87
+92  -->  88
+92  -->  91
+92  -->  93
+92  -->  97
+93  -->  88
+93  -->  92
+93  -->  94
+93  -->  97
+93  -->  98
+93  -->  99
+94  -->  89
+94  -->  90
+94  -->  95
+94  -->  99
+95  -->  90
+95  -->  94
+95  -->  99
+96  -->  90
+96  -->  91
+96  -->  92
+96  -->  95
+96  -->  97
+96  -->  101
+97  -->  92
+97  -->  96
+97  -->  98
+97  -->  101
+97  -->  102
+97  -->  103
+98  -->  92
+98  -->  93
+98  -->  94
+98  -->  97
+98  -->  99
+98  -->  103
+99  -->  94
+99  -->  95
+99  -->  100
+99  -->  104
+100  -->  95
+100  -->  99
+100  -->  104
+101  -->  96
+101  -->  100
+101  -->  102
+101  -->  105
+101  -->  106
+101  -->  107
+102  -->  96
+102  -->  97
+102  -->  98
+102  -->  101
+102  -->  103
+102  -->  107
+103  -->  98
+103  -->  102
+103  -->  104
+103  -->  107
+103  -->  108
+103  -->  109
+104  -->  99
+104  -->  100
+104  -->  105
+104  -->  109
+105  -->  100
+105  -->  104
+105  -->  109
+106  -->  100
+106  -->  101
+106  -->  102
+106  -->  105
+106  -->  107
+106  -->  111
+107  -->  102
+107  -->  106
+107  -->  108
+107  -->  111
+107  -->  112
+107  -->  113
+108  -->  102
+108  -->  103
+108  -->  104
+108  -->  107
+108  -->  109
+108  -->  113
+109  -->  104
+109  -->  105
+109  -->  110
+109  -->  114
+110  -->  105
+110  -->  109
+110  -->  114
+111  -->  106
+111  -->  110
+111  -->  112
+111  -->  115
+111  -->  116
+111  -->  117
+112  -->  106
+112  -->  107
+112  -->  108
+112  -->  111
+112  -->  113
+112  -->  117
+113  -->  108
+113  -->  112
+113  -->  114
+113  -->  117
+113  -->  118
+113  -->  119
+114  -->  109
+114  -->  110
+114  -->  115
+114  -->  119
+115  -->  110
+115  -->  114
+115  -->  119
+116  -->  110
+116  -->  111
+116  -->  112
+116  -->  115
+116  -->  117
+116  -->  121
+117  -->  112
+117  -->  116
+117  -->  118
+117  -->  121
+117  -->  122
+117  -->  123
+118  -->  112
+118  -->  113
+118  -->  114
+118  -->  117
+118  -->  119
+118  -->  123
+119  -->  114
+119  -->  115
+119  -->  120
+119  -->  124
+120  -->  115
+120  -->  119
+120  -->  124
+121  -->  116
+121  -->  120
+121  -->  122
+121  -->  125
+121  -->  126
+121  -->  127
+122  -->  116
+122  -->  117
+122  -->  118
+122  -->  121
+122  -->  123
+122  -->  127
+123  -->  118
+123  -->  122
+123  -->  124
+123  -->  127
+123  -->  128
+123  -->  129
+124  -->  119
+124  -->  120
+124  -->  125
+124  -->  129
+125  -->  120
+125  -->  124
+125  -->  129
+126  -->  120
+126  -->  121
+126  -->  122
+126  -->  125
+126  -->  127
+126  -->  131
+127  -->  122
+127  -->  126
+127  -->  128
+127  -->  131
+127  -->  132
+127  -->  133
+128  -->  122
+128  -->  123
+128  -->  124
+128  -->  127
+128  -->  129
+128  -->  133
+129  -->  124
+129  -->  125
+129  -->  130
+129  -->  134
+130  -->  125
+130  -->  129
+130  -->  134
+131  -->  126
+131  -->  130
+131  -->  132
+131  -->  135
+131  -->  136
+131  -->  137
+132  -->  126
+132  -->  127
+132  -->  128
+132  -->  131
+132  -->  133
+132  -->  137
+133  -->  128
+133  -->  132
+133  -->  134
+133  -->  137
+133  -->  138
+133  -->  139
+134  -->  129
+134  -->  130
+134  -->  135
+134  -->  139
+135  -->  130
+135  -->  134
+135  -->  139
+136  -->  130
+136  -->  131
+136  -->  132
+136  -->  135
+136  -->  137
+136  -->  141
+137  -->  132
+137  -->  136
+137  -->  138
+137  -->  141
+137  -->  142
+137  -->  143
+138  -->  132
+138  -->  133
+138  -->  134
+138  -->  137
+138  -->  139
+138  -->  143
+139  -->  134
+139  -->  135
+139  -->  140
+139  -->  144
+140  -->  135
+140  -->  139
+140  -->  144
+141  -->  136
+141  -->  140
+141  -->  142
+141  -->  145
+141  -->  146
+141  -->  147
+142  -->  136
+142  -->  137
+142  -->  138
+142  -->  141
+142  -->  143
+142  -->  147
+143  -->  138
+143  -->  142
+143  -->  144
+143  -->  147
+143  -->  148
+143  -->  149
+144  -->  139
+144  -->  140
+144  -->  145
+144  -->  149
+145  -->  140
+145  -->  144
+145  -->  149
+146  -->  140
+146  -->  141
+146  -->  142
+146  -->  145
+146  -->  147
+146  -->  151
+147  -->  142
+147  -->  146
+147  -->  148
+147  -->  151
+147  -->  152
+147  -->  153
+148  -->  142
+148  -->  143
+148  -->  144
+148  -->  147
+148  -->  149
+148  -->  153
+149  -->  144
+149  -->  145
+149  -->  150
+149  -->  154
+150  -->  145
+150  -->  149
+150  -->  154
+151  -->  146
+151  -->  150
+151  -->  152
+151  -->  155
+151  -->  156
+151  -->  157
+152  -->  146
+152  -->  147
+152  -->  148
+152  -->  151
+152  -->  153
+152  -->  157
+153  -->  148
+153  -->  152
+153  -->  154
+153  -->  157
+153  -->  158
+153  -->  159
+154  -->  149
+154  -->  150
+154  -->  155
+154  -->  159
+155  -->  150
+155  -->  154
+155  -->  159
+156  -->  150
+156  -->  151
+156  -->  152
+156  -->  155
+156  -->  157
+156  -->  161
+157  -->  152
+157  -->  156
+157  -->  158
+157  -->  161
+157  -->  162
+157  -->  163
+158  -->  152
+158  -->  153
+158  -->  154
+158  -->  157
+158  -->  159
+158  -->  163
+159  -->  154
+159  -->  155
+159  -->  160
+159  -->  164
+160  -->  155
+160  -->  159
+160  -->  164
+161  -->  156
+161  -->  160
+161  -->  162
+161  -->  165
+161  -->  166
+161  -->  167
+162  -->  156
+162  -->  157
+162  -->  158
+162  -->  161
+162  -->  163
+162  -->  167
+163  -->  158
+163  -->  162
+163  -->  164
+163  -->  167
+163  -->  168
+163  -->  169
+164  -->  159
+164  -->  160
+164  -->  165
+164  -->  169
+165  -->  160
+165  -->  164
+165  -->  169
+166  -->  160
+166  -->  161
+166  -->  162
+166  -->  165
+166  -->  167
+166  -->  171
+167  -->  162
+167  -->  166
+167  -->  168
+167  -->  171
+167  -->  172
+167  -->  173
+168  -->  162
+168  -->  163
+168  -->  164
+168  -->  167
+168  -->  169
+168  -->  173
+169  -->  164
+169  -->  165
+169  -->  170
+169  -->  174
+170  -->  165
+170  -->  169
+170  -->  174
+171  -->  166
+171  -->  170
+171  -->  172
+171  -->  175
+171  -->  176
+171  -->  177
+172  -->  166
+172  -->  167
+172  -->  168
+172  -->  171
+172  -->  173
+172  -->  177
+173  -->  168
+173  -->  172
+173  -->  174
+173  -->  177
+173  -->  178
+173  -->  179
+174  -->  169
+174  -->  170
+174  -->  175
+174  -->  179
+175  -->  170
+175  -->  174
+175  -->  179
+176  -->  170
+176  -->  171
+176  -->  172
+176  -->  175
+176  -->  177
+176  -->  181
+177  -->  172
+177  -->  176
+177  -->  178
+177  -->  181
+177  -->  182
+177  -->  183
+178  -->  172
+178  -->  173
+178  -->  174
+178  -->  177
+178  -->  179
+178  -->  183
+179  -->  174
+179  -->  175
+179  -->  180
+179  -->  184
+180  -->  175
+180  -->  179
+180  -->  184
+181  -->  176
+181  -->  180
+181  -->  182
+181  -->  185
+181  -->  186
+181  -->  187
+182  -->  176
+182  -->  177
+182  -->  178
+182  -->  181
+182  -->  183
+182  -->  187
+183  -->  178
+183  -->  182
+183  -->  184
+183  -->  187
+183  -->  188
+183  -->  189
+184  -->  179
+184  -->  180
+184  -->  185
+184  -->  189
+185  -->  180
+185  -->  184
+185  -->  189
+186  -->  180
+186  -->  181
+186  -->  182
+186  -->  185
+186  -->  187
+186  -->  191
+187  -->  182
+187  -->  186
+187  -->  188
+187  -->  191
+187  -->  192
+187  -->  193
+188  -->  182
+188  -->  183
+188  -->  184
+188  -->  187
+188  -->  189
+188  -->  193
+189  -->  184
+189  -->  185
+189  -->  190
+189  -->  194
+190  -->  185
+190  -->  189
+190  -->  194
+191  -->  186
+191  -->  190
+191  -->  192
+191  -->  195
+191  -->  196
+191  -->  197
+192  -->  186
+192  -->  187
+192  -->  188
+192  -->  191
+192  -->  193
+192  -->  197
+193  -->  188
+193  -->  192
+193  -->  194
+193  -->  197
+193  -->  198
+193  -->  199
+194  -->  189
+194  -->  190
+194  -->  195
+194  -->  199
+195  -->  190
+195  -->  194
+195  -->  199
+196  -->  1
+196  -->  190
+196  -->  191
+196  -->  192
+196  -->  195
+196  -->  197
+197  -->  1
+197  -->  2
+197  -->  3
+197  -->  192
+197  -->  196
+197  -->  198
+198  -->  3
+198  -->  192
+198  -->  193
+198  -->  194
+198  -->  197
+198  -->  199
+199  -->  0
+199  -->  4
+199  -->  194
+199  -->  195
+
 Time: 0.01
 Time: 1.01
 Time: 2.01
@@ -13563,10 +13529,10 @@ Time: 2997.01
 Time: 2998.01
 Time: 2999.01
 <end of output>
-Test time =  12.67 sec
+Test time =  12.95 sec
 ----------------------------------------------------------
 Test Passed.
-"cell_number_test_01" end time: Jun 10 18:04 PDT
+"cell_number_test_01" end time: Jun 11 11:42 PDT
 "cell_number_test_01" time elapsed: 00:00:12
 ----------------------------------------------------------
 
@@ -13574,54 +13540,55 @@ Test Passed.
 7/17 Test: time_total_test
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 300 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/total_time_test_anlys.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"time_total_test" start time: Jun 10 18:04 PDT
+"time_total_test" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 300 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-4
-5
-6
-9
-0
-2
-5
-6
-7
-1
-3
-6
-7
-8
-2
-4
-7
-8
-9
-0
-5
-9
-0
-4
-6
-9
-0
-1
-2
-5
-7
-1
-2
-3
-6
-8
-2
-3
-4
-7
-9
-0
-4
-5
+# vertices: 10
+# edges:    42
+0  -->  4
+0  -->  5
+0  -->  9
+1  -->  0
+1  -->  2
+1  -->  5
+1  -->  6
+1  -->  7
+2  -->  1
+2  -->  3
+2  -->  6
+2  -->  7
+2  -->  8
+3  -->  2
+3  -->  4
+3  -->  7
+3  -->  8
+3  -->  9
+4  -->  0
+4  -->  5
+4  -->  9
+5  -->  0
+5  -->  4
+5  -->  9
+6  -->  0
+6  -->  1
+6  -->  2
+6  -->  5
+6  -->  7
+7  -->  1
+7  -->  2
+7  -->  3
+7  -->  6
+7  -->  8
+8  -->  2
+8  -->  3
+8  -->  4
+8  -->  7
+8  -->  9
+9  -->  0
+9  -->  4
+9  -->  5
+
 Time: 0.01
 Time: 1.01
 Time: 2.01
@@ -13923,10 +13890,10 @@ Time: 297.01
 Time: 298.01
 Time: 299.01
 <end of output>
-Test time =   0.12 sec
+Test time =   0.11 sec
 ----------------------------------------------------------
 Test Passed.
-"time_total_test" end time: Jun 10 18:04 PDT
+"time_total_test" end time: Jun 11 11:42 PDT
 "time_total_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -13934,54 +13901,55 @@ Test Passed.
 8/17 Test: time_total_test_01
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 5000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/her_model_2014/total_time_test_01_anlys.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014
-"time_total_test_01" start time: Jun 10 18:04 PDT
+"time_total_test_01" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/her2014_simulation--param-sets /home/mcclelnr/DENSE/test/her_model_2014/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 5000 --anlys-intvl .01 --step-size .01 --analysis /home/mcclelnr/DENSE/test/her_model_2014/analyses.xml
-4
-5
-6
-9
-0
-2
-5
-6
-7
-1
-3
-6
-7
-8
-2
-4
-7
-8
-9
-0
-5
-9
-0
-4
-6
-9
-0
-1
-2
-5
-7
-1
-2
-3
-6
-8
-2
-3
-4
-7
-9
-0
-4
-5
+# vertices: 10
+# edges:    42
+0  -->  4
+0  -->  5
+0  -->  9
+1  -->  0
+1  -->  2
+1  -->  5
+1  -->  6
+1  -->  7
+2  -->  1
+2  -->  3
+2  -->  6
+2  -->  7
+2  -->  8
+3  -->  2
+3  -->  4
+3  -->  7
+3  -->  8
+3  -->  9
+4  -->  0
+4  -->  5
+4  -->  9
+5  -->  0
+5  -->  4
+5  -->  9
+6  -->  0
+6  -->  1
+6  -->  2
+6  -->  5
+6  -->  7
+7  -->  1
+7  -->  2
+7  -->  3
+7  -->  6
+7  -->  8
+8  -->  2
+8  -->  3
+8  -->  4
+8  -->  7
+8  -->  9
+9  -->  0
+9  -->  4
+9  -->  5
+
 Time: 0.01
 Time: 1.01
 Time: 2.01
@@ -18983,10 +18951,10 @@ Time: 4997.01
 Time: 4998.01
 Time: 4999.01
 <end of output>
-Test time =   1.11 sec
+Test time =   1.13 sec
 ----------------------------------------------------------
 Test Passed.
-"time_total_test_01" end time: Jun 10 18:04 PDT
+"time_total_test_01" end time: Jun 11 11:42 PDT
 "time_total_test_01" time elapsed: 00:00:01
 ----------------------------------------------------------
 
@@ -18994,309 +18962,311 @@ Test Passed.
 9/17 Test: oscil_test_pt1
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_pt1" start time: Jun 10 18:04 PDT
+"oscil_test_pt1" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -19324,7 +19294,7 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_pt1" end time: Jun 10 18:04 PDT
+"oscil_test_pt1" end time: Jun 11 11:42 PDT
 "oscil_test_pt1" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19332,309 +19302,311 @@ Test Failed.
 10/17 Test: oscil_test_pt2
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_basic_b.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_basic_b.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_pt2" start time: Jun 10 18:04 PDT
+"oscil_test_pt2" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -19659,10 +19631,10 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 
 
 <end of output>
-Test time =   0.04 sec
+Test time =   0.03 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_pt2" end time: Jun 10 18:04 PDT
+"oscil_test_pt2" end time: Jun 11 11:42 PDT
 "oscil_test_pt2" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -19670,309 +19642,311 @@ Test Failed.
 11/17 Test: oscil_test_pt3
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_basic_c.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_basic_c.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_pt3" start time: Jun 10 18:04 PDT
+"oscil_test_pt3" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -20000,7 +19974,7 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_pt3" end time: Jun 10 18:04 PDT
+"oscil_test_pt3" end time: Jun 11 11:42 PDT
 "oscil_test_pt3" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -20008,309 +19982,311 @@ Test Failed.
 12/17 Test: oscil_test_pt4
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_basic_d.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_basic_d.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_pt4" start time: Jun 10 18:04 PDT
+"oscil_test_pt4" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -20338,7 +20314,7 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_pt4" end time: Jun 10 18:04 PDT
+"oscil_test_pt4" end time: Jun 11 11:42 PDT
 "oscil_test_pt4" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -20346,309 +20322,311 @@ Test Failed.
 13/17 Test: oscil_test_pt5
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_basic_e.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_basic_e.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_pt5" start time: Jun 10 18:04 PDT
+"oscil_test_pt5" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -20676,7 +20654,7 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_pt5" end time: Jun 10 18:04 PDT
+"oscil_test_pt5" end time: Jun 11 11:42 PDT
 "oscil_test_pt5" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -20684,309 +20662,311 @@ Test Failed.
 14/17 Test: oscil_test_overall
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/anlys_oscil.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/anlys_oscil.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy
-"oscil_test_overall" start time: Jun 10 18:04 PDT
+"oscil_test_overall" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Belousov-Zhabotinksy/turing_simulation--param-sets /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis /home/mcclelnr/DENSE/test/Belousov-Zhabotinksy/analesys.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -21014,7 +20994,7 @@ CMake Error at /home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake:23 (messa
 Test time =   0.04 sec
 ----------------------------------------------------------
 Test Failed.
-"oscil_test_overall" end time: Jun 10 18:04 PDT
+"oscil_test_overall" end time: Jun 11 11:42 PDT
 "oscil_test_overall" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -21022,309 +21002,311 @@ Test Failed.
 15/17 Test: nan_test
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test/nan_simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/Nan_Test/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -s 0.01 --analysis /home/mcclelnr/DENSE/test/Nan_Test/analyses.xml" "-D" "output_blessed=/home/mcclelnr/DENSE/test/Nan_Test/anlys_basic_a.csv" "-D" "output_test=/home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test/anlys_basic_a.csv" "-P" "/home/mcclelnr/DENSE/test/her_model_2014/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test
-"nan_test" start time: Jun 10 18:04 PDT
+"nan_test" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test/nan_simulation--param-sets /home/mcclelnr/DENSE/test/Nan_Test/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -s 0.01 --analysis /home/mcclelnr/DENSE/test/Nan_Test/analyses.xml
-0
-1
-99
-0
-1
-2
-1
-2
-3
-2
-3
-4
-3
-4
-5
-4
-5
-6
-5
-6
-7
-6
-7
-8
-7
-8
-9
-8
-9
-10
-9
-10
-11
-10
-11
-12
-11
-12
-13
-12
-13
-14
-13
-14
-15
-14
-15
-16
-15
-16
-17
-16
-17
-18
-17
-18
-19
-18
-19
-20
-19
-20
-21
-20
-21
-22
-21
-22
-23
-22
-23
-24
-23
-24
-25
-24
-25
-26
-25
-26
-27
-26
-27
-28
-27
-28
-29
-28
-29
-30
-29
-30
-31
-30
-31
-32
-31
-32
-33
-32
-33
-34
-33
-34
-35
-34
-35
-36
-35
-36
-37
-36
-37
-38
-37
-38
-39
-38
-39
-40
-39
-40
-41
-40
-41
-42
-41
-42
-43
-42
-43
-44
-43
-44
-45
-44
-45
-46
-45
-46
-47
-46
-47
-48
-47
-48
-49
-48
-49
-50
-49
-50
-51
-50
-51
-52
-51
-52
-53
-52
-53
-54
-53
-54
-55
-54
-55
-56
-55
-56
-57
-56
-57
-58
-57
-58
-59
-58
-59
-60
-59
-60
-61
-60
-61
-62
-61
-62
-63
-62
-63
-64
-63
-64
-65
-64
-65
-66
-65
-66
-67
-66
-67
-68
-67
-68
-69
-68
-69
-70
-69
-70
-71
-70
-71
-72
-71
-72
-73
-72
-73
-74
-73
-74
-75
-74
-75
-76
-75
-76
-77
-76
-77
-78
-77
-78
-79
-78
-79
-80
-79
-80
-81
-80
-81
-82
-81
-82
-83
-82
-83
-84
-83
-84
-85
-84
-85
-86
-85
-86
-87
-86
-87
-88
-87
-88
-89
-88
-89
-90
-89
-90
-91
-90
-91
-92
-91
-92
-93
-92
-93
-94
-93
-94
-95
-94
-95
-96
-95
-96
-97
-96
-97
-98
-97
-98
-99
-0
-99
+# vertices: 100
+# edges:    298
+0  -->  0
+0  -->  99
+1  -->  0
+1  -->  1
+1  -->  2
+2  -->  1
+2  -->  2
+2  -->  3
+3  -->  2
+3  -->  3
+3  -->  4
+4  -->  3
+4  -->  4
+4  -->  5
+5  -->  4
+5  -->  5
+5  -->  6
+6  -->  5
+6  -->  6
+6  -->  7
+7  -->  6
+7  -->  7
+7  -->  8
+8  -->  7
+8  -->  8
+8  -->  9
+9  -->  8
+9  -->  9
+9  -->  10
+10  -->  9
+10  -->  10
+10  -->  11
+11  -->  10
+11  -->  11
+11  -->  12
+12  -->  11
+12  -->  12
+12  -->  13
+13  -->  12
+13  -->  13
+13  -->  14
+14  -->  13
+14  -->  14
+14  -->  15
+15  -->  14
+15  -->  15
+15  -->  16
+16  -->  15
+16  -->  16
+16  -->  17
+17  -->  16
+17  -->  17
+17  -->  18
+18  -->  17
+18  -->  18
+18  -->  19
+19  -->  18
+19  -->  19
+19  -->  20
+20  -->  19
+20  -->  20
+20  -->  21
+21  -->  20
+21  -->  21
+21  -->  22
+22  -->  21
+22  -->  22
+22  -->  23
+23  -->  22
+23  -->  23
+23  -->  24
+24  -->  23
+24  -->  24
+24  -->  25
+25  -->  24
+25  -->  25
+25  -->  26
+26  -->  25
+26  -->  26
+26  -->  27
+27  -->  26
+27  -->  27
+27  -->  28
+28  -->  27
+28  -->  28
+28  -->  29
+29  -->  28
+29  -->  29
+29  -->  30
+30  -->  29
+30  -->  30
+30  -->  31
+31  -->  30
+31  -->  31
+31  -->  32
+32  -->  31
+32  -->  32
+32  -->  33
+33  -->  32
+33  -->  33
+33  -->  34
+34  -->  33
+34  -->  34
+34  -->  35
+35  -->  34
+35  -->  35
+35  -->  36
+36  -->  35
+36  -->  36
+36  -->  37
+37  -->  36
+37  -->  37
+37  -->  38
+38  -->  37
+38  -->  38
+38  -->  39
+39  -->  38
+39  -->  39
+39  -->  40
+40  -->  39
+40  -->  40
+40  -->  41
+41  -->  40
+41  -->  41
+41  -->  42
+42  -->  41
+42  -->  42
+42  -->  43
+43  -->  42
+43  -->  43
+43  -->  44
+44  -->  43
+44  -->  44
+44  -->  45
+45  -->  44
+45  -->  45
+45  -->  46
+46  -->  45
+46  -->  46
+46  -->  47
+47  -->  46
+47  -->  47
+47  -->  48
+48  -->  47
+48  -->  48
+48  -->  49
+49  -->  48
+49  -->  49
+49  -->  50
+50  -->  49
+50  -->  50
+50  -->  51
+51  -->  50
+51  -->  51
+51  -->  52
+52  -->  51
+52  -->  52
+52  -->  53
+53  -->  52
+53  -->  53
+53  -->  54
+54  -->  53
+54  -->  54
+54  -->  55
+55  -->  54
+55  -->  55
+55  -->  56
+56  -->  55
+56  -->  56
+56  -->  57
+57  -->  56
+57  -->  57
+57  -->  58
+58  -->  57
+58  -->  58
+58  -->  59
+59  -->  58
+59  -->  59
+59  -->  60
+60  -->  59
+60  -->  60
+60  -->  61
+61  -->  60
+61  -->  61
+61  -->  62
+62  -->  61
+62  -->  62
+62  -->  63
+63  -->  62
+63  -->  63
+63  -->  64
+64  -->  63
+64  -->  64
+64  -->  65
+65  -->  64
+65  -->  65
+65  -->  66
+66  -->  65
+66  -->  66
+66  -->  67
+67  -->  66
+67  -->  67
+67  -->  68
+68  -->  67
+68  -->  68
+68  -->  69
+69  -->  68
+69  -->  69
+69  -->  70
+70  -->  69
+70  -->  70
+70  -->  71
+71  -->  70
+71  -->  71
+71  -->  72
+72  -->  71
+72  -->  72
+72  -->  73
+73  -->  72
+73  -->  73
+73  -->  74
+74  -->  73
+74  -->  74
+74  -->  75
+75  -->  74
+75  -->  75
+75  -->  76
+76  -->  75
+76  -->  76
+76  -->  77
+77  -->  76
+77  -->  77
+77  -->  78
+78  -->  77
+78  -->  78
+78  -->  79
+79  -->  78
+79  -->  79
+79  -->  80
+80  -->  79
+80  -->  80
+80  -->  81
+81  -->  80
+81  -->  81
+81  -->  82
+82  -->  81
+82  -->  82
+82  -->  83
+83  -->  82
+83  -->  83
+83  -->  84
+84  -->  83
+84  -->  84
+84  -->  85
+85  -->  84
+85  -->  85
+85  -->  86
+86  -->  85
+86  -->  86
+86  -->  87
+87  -->  86
+87  -->  87
+87  -->  88
+88  -->  87
+88  -->  88
+88  -->  89
+89  -->  88
+89  -->  89
+89  -->  90
+90  -->  89
+90  -->  90
+90  -->  91
+91  -->  90
+91  -->  91
+91  -->  92
+92  -->  91
+92  -->  92
+92  -->  93
+93  -->  92
+93  -->  93
+93  -->  94
+94  -->  93
+94  -->  94
+94  -->  95
+95  -->  94
+95  -->  95
+95  -->  96
+96  -->  95
+96  -->  96
+96  -->  97
+97  -->  96
+97  -->  97
+97  -->  98
+98  -->  97
+98  -->  98
+98  -->  99
+99  -->  0
+99  -->  99
+
 Time: 0.5
 Time: 1.5
 Time: 2.5
@@ -21344,7 +21326,7 @@ Time: 14.5
 Test time =   0.03 sec
 ----------------------------------------------------------
 Test Passed.
-"nan_test" end time: Jun 10 18:04 PDT
+"nan_test" end time: Jun 11 11:42 PDT
 "nan_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -21352,7 +21334,7 @@ Test Passed.
 16/17 Test: current_build_time
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/test/time_test/simulation" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01 -d /home/mcclelnr/DENSE/test/time_test/init_conc.csv" "-P" "/home/mcclelnr/DENSE/test/time_test/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test
-"current_build_time" start time: Jun 10 18:04 PDT
+"current_build_time" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/test/time_test/simulation--param-sets /home/mcclelnr/DENSE/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01 -d /home/mcclelnr/DENSE/test/time_test/init_conc.csv
@@ -51376,10 +51358,10 @@ CMake Warning (dev) in /home/mcclelnr/DENSE/test/time_test/run_test.cmake:
 This warning is for project developers.  Use -Wno-dev to suppress it.
 
 <end of output>
-Test time =   5.94 sec
+Test time =   5.85 sec
 ----------------------------------------------------------
 Test Passed.
-"current_build_time" end time: Jun 10 18:04 PDT
+"current_build_time" end time: Jun 11 11:42 PDT
 "current_build_time" time elapsed: 00:00:05
 ----------------------------------------------------------
 
@@ -51387,7 +51369,7 @@ Test Passed.
 17/17 Test: previous_build_time
 Command: "/usr/bin/cmake" "-D" "test_cmd=/home/mcclelnr/DENSE/test/time_test/ref_sim" "-D" "test_args:string=--param-sets /home/mcclelnr/DENSE/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01" "-P" "/home/mcclelnr/DENSE/test/time_test/run_test.cmake"
 Directory: /home/mcclelnr/DENSE/models/Turing-Pattern/test/time_test
-"previous_build_time" start time: Jun 10 18:04 PDT
+"previous_build_time" start time: Jun 11 11:42 PDT
 Output:
 ----------------------------------------------------------
 /home/mcclelnr/DENSE/test/time_test/ref_sim--param-sets /home/mcclelnr/DENSE/test/time_test/param_sets.csv --cell-total 10 --tissue-width 10 --time-total 30000 --anlys-intvl .01 --step-size .01
@@ -81414,8 +81396,8 @@ This warning is for project developers.  Use -Wno-dev to suppress it.
 Test time =   1.85 sec
 ----------------------------------------------------------
 Test Passed.
-"previous_build_time" end time: Jun 10 18:04 PDT
+"previous_build_time" end time: Jun 11 11:42 PDT
 "previous_build_time" time elapsed: 00:00:01
 ----------------------------------------------------------
 
-End testing: Jun 10 18:04 PDT
+End testing: Jun 11 11:42 PDT

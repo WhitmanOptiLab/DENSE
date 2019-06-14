@@ -84,12 +84,12 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed, std::vector<int> conc)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count, conc)
-    , propensities(cell_count)
+    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph* adj_graph)
+    : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
+    , propensities(cell_count())
     , generator{seed}
-	  , reaction_schedule(NUM_REACTIONS * cell_count) {
+	  , reaction_schedule(NUM_REACTIONS * cell_count()) {
       // 1.a. generate the dependency graph
       initPropensityNetwork();
       // 1.b. calculate the propensity function a_i for all i
@@ -97,7 +97,7 @@ public:
       // 1.c. for each i, generate a putative time, tau_i according to
       //      an exponential distribution with parameter a_i;
       // 1.d. store the values in an indexed priority queue P;
-      for (dense::Natural c = 0; c < cell_count; ++c) {
+      for (dense::Natural c = 0; c < cell_count(); ++c) {
         for (int i = 0; i < NUM_REACTIONS; ++i) {
           auto r = static_cast<reaction_id>(i);
           auto eid = encode(c, r);

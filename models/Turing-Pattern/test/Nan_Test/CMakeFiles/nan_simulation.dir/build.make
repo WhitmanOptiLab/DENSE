@@ -57,38 +57,38 @@ include test/Nan_Test/CMakeFiles/nan_simulation.dir/progress.make
 # Include the compile flags for this target's objects.
 include test/Nan_Test/CMakeFiles/nan_simulation.dir/flags.make
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation.dir/flags.make
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o: ../../source/Next_Reaction_Main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o -c /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o: test/Nan_Test/CMakeFiles/nan_simulation.dir/flags.make
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o: ../../source/deterministic_main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o -c /home/mcclelnr/DENSE/source/deterministic_main.cpp
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp > CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.i
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.i"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/deterministic_main.cpp > CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.i
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/Next_Reaction_Main.cpp -o CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.s
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.s"
+	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/Nan_Test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/deterministic_main.cpp -o CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.s
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires:
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.requires:
 
-.PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
-	$(MAKE) -f test/Nan_Test/CMakeFiles/nan_simulation.dir/build.make test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build
-.PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.provides: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
+	$(MAKE) -f test/Nan_Test/CMakeFiles/nan_simulation.dir/build.make test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.provides.build
+.PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.provides
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
+test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.provides.build: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o
 
 
 # Object files for target nan_simulation
 nan_simulation_OBJECTS = \
-"CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o"
+"CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o"
 
 # External object files for target nan_simulation
 nan_simulation_EXTERNAL_OBJECTS =
 
-test/Nan_Test/nan_simulation: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o
+test/Nan_Test/nan_simulation: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o
 test/Nan_Test/nan_simulation: test/Nan_Test/CMakeFiles/nan_simulation.dir/build.make
 test/Nan_Test/nan_simulation: test/Nan_Test/libnan_simulation_lib.a
 test/Nan_Test/nan_simulation: test/Nan_Test/CMakeFiles/nan_simulation.dir/link.txt
@@ -100,7 +100,7 @@ test/Nan_Test/CMakeFiles/nan_simulation.dir/build: test/Nan_Test/nan_simulation
 
 .PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/build
 
-test/Nan_Test/CMakeFiles/nan_simulation.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/Next_Reaction_Main.cpp.o.requires
+test/Nan_Test/CMakeFiles/nan_simulation.dir/requires: test/Nan_Test/CMakeFiles/nan_simulation.dir/__/__/source/deterministic_main.cpp.o.requires
 
 .PHONY : test/Nan_Test/CMakeFiles/nan_simulation.dir/requires
 

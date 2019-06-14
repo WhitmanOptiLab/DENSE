@@ -81,10 +81,10 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed, std::vector<int> conc)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count, conc)
-    , propensities(cell_count)
+    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph* adj_graph)
+    : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
+    , propensities(adj_graph->num_vertices())
     , generator{seed} {
       initPropensityNetwork();
       initPropensities();

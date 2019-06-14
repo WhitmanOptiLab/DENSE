@@ -1,5 +1,5 @@
 # Showing cells 0-19 until 4999.99 min
 Species,Minimum Concentration,Mean Concentration,Maximum Concentration
 ph1,0,132.939,290.925
-mh1,290.925,8.16567e-315,7.57753e+06
-mh13,410.684,8.16567e-315,1.66121e+07
+mh1,290.925,8.19597e-315,7.57753e+06
+mh13,410.684,8.19597e-315,1.66121e+07
