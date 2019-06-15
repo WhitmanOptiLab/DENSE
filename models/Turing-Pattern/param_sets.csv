@@ -1,3 +1,2 @@
-activator_diffusion_rate, inhibitor_diffusion_rate, activator_synthesis, inhibitor_synthesis, activator_decay, inhibitor_decay, , ,
-0.7,1.05,2,0.1,1,1, , ,
-
+activator_diffusion_rate, inhibitor_diffusion_rate, activator_synthesis, inhibitor_synthesis, activator_decay, inhibitor_decay, , 
+0.7,1.05,2,0.1,1,1, , 

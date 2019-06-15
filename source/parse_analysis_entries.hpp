@@ -7,9 +7,14 @@
 #include "measurement/bad_simulation_error.hpp"
 #include "utility/style.hpp"
 #include "utility/common_utils.hpp"
+#include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
+#include "sim/determ/determ.hpp"
+#include "sim/stoch/fast_gillespie_direct_simulation.hpp"
+#include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
+#include "Sim_Builder.hpp"
 
 using style::Color;
 
@@ -25,6 +30,11 @@ using style::Color;
 #include <iostream>
 
 using dense::csvw_sim;
+using dense::CSV_Streamed_Simulation;
+using dense::Deterministic_Simulation;
+using dense::Fast_Gillespie_Direct_Simulation;
+using dense::stochastic::Next_Reaction_Simulation;
+
 namespace dense {
 
 #ifndef __cpp_concepts
@@ -116,4 +126,6 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
   return named_analysis_vector;
 }
 }
+
 #endif
+

@@ -1,6 +1,7 @@
 #include <limits>
 #include <algorithm>
 #include <iostream>
+#include <stdexcept>
 
 template <typename Simulation>
 BasicAnalysis<Simulation>::BasicAnalysis (
@@ -15,6 +16,7 @@ BasicAnalysis<Simulation>::BasicAnalysis (
   mins_by_context(Analysis<>::max - Analysis<>::min, mins),
   maxs_by_context(Analysis<>::max - Analysis<>::min, maxs),
   means_by_context(Analysis<>::max - Analysis<>::min, means) {
+	finalized = false;
 }
 
 template <typename Simulation>
@@ -35,11 +37,23 @@ void BasicAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::finalize () {
+
+if(!finalized){
+	finalized = true;
+}
   for (auto & cell_means : means_by_context) {
     for (auto & mean : cell_means) {
       mean /= Analysis<>::samples;
     }
   }
+	detail.concs = means;
+	detail.other_details.emplace_back(mins);
+	detail.other_details.emplace_back(maxs);
+}
+
+template<typename Simulation>
+Details BasicAnalysis<Simulation>::get_details(){
+	return detail;
 }
 
 #include <iomanip>

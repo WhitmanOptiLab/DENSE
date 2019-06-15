@@ -246,5 +246,3 @@ void Next_Reaction_Simulation::initTau() {
 }
 	
 }}
-
-

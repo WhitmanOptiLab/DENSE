@@ -7,6 +7,8 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
+#include "sim/stoch/fast_gillespie_direct_simulation.hpp"
+#include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "Sim_Builder.hpp"
@@ -57,4 +59,6 @@ Snapshot<> data = simulation.snapshot();
 template <typename Simulation>
 Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
 }
+
 */
+
