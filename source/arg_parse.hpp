@@ -96,18 +96,6 @@ struct Static_Args{
   int help;
 };
 
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in);
-
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in) {
-  return { std::istream_iterator<Parameter_Set>(in), std::istream_iterator<Parameter_Set>() };
-}
-
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in);
-
-std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
-  return parse_parameter_sets_csv(in);
-}
-
 Static_Args parse_static_args(int argc, char* argv[]);
 
 Static_Args parse_static_args(int argc, char* argv[]){
@@ -152,7 +140,7 @@ arg_parse::init(argc, argv);
  param_args.tissue_width = tissue_width;
  param_args.simulation_duration = simulation_duration;
  param_args.analysis_interval = analysis_interval;
- param_args.param_sets =  parse_parameter_sets_csv(std::ifstream(param_sets));
+ param_args.param_sets =  csvr(param_sets).get_param_sets();
 return param_args;
 }
 
@@ -274,9 +262,9 @@ arg_parse::init(argc, argv);
 
   csvr csv_in(boundsfile);
 
-  Parameter_Set lBounds, uBounds;
+  std::vector<Parameter_Set> bounds = csv_in.get_param_sets();
 		
-  if (!lBounds.import_from(csv_in) || !uBounds.import_from(csv_in)) {
+  if (bounds.size() != 2) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
     param_args.help = 2;
   }
@@ -316,8 +304,8 @@ arg_parse::init(argc, argv);
 	param_args.tissue_width = tissue_width;
 	param_args.simulation_duration = simulation_duration;
  	param_args.analysis_interval = analysis_interval;
-	param_args.lbounds = lBounds;
-	param_args.ubounds = uBounds;
+	param_args.lbounds = bounds[0];
+	param_args.ubounds = bounds[1];
 	param_args.pop = popc;
 	param_args.parent = miu;
 	param_args.real_input = rinput;
