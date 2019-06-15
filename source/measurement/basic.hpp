@@ -4,6 +4,7 @@
 #include "base.hpp"
 
 #include <vector>
+#include <stdexcept>
 
 /*
 * Subclass of Analysis superclass
@@ -16,7 +17,8 @@ template <typename Simulation>
 class BasicAnalysis : public Analysis<Simulation> {
 
   public:
-
+		
+	
     BasicAnalysis (
       std::vector<Species> const& species_vector,
       std::pair<dense::Natural, dense::Natural> cell_range,
@@ -38,7 +40,10 @@ class BasicAnalysis : public Analysis<Simulation> {
     void finalize () override;
 
     void show (csvw * = nullptr) override;
-
+ 
+		Details get_details() override;
+		 
+		 
     BasicAnalysis* clone() const override {
       return new auto(*this);
     }
@@ -46,7 +51,11 @@ class BasicAnalysis : public Analysis<Simulation> {
   private:
 
     std::vector<Real> mins, maxs, means;
-
+		
+		bool finalized;
+		
+		Details detail;
+		
     std::vector<std::vector<Real>> mins_by_context, maxs_by_context, means_by_context;
 
 };

@@ -79,9 +79,21 @@ namespace dense {
         					simulations.emplace_back(
           					std::move(parameter_set), perturbation_factors, gradient_factors,
           					cell_total, tissue_width, Minutes{step_size});
-              }
+
+      			}
    						 return simulations;
-						};
+						}
+						std::vector<Deterministic_Simulation> get_simulations(Parameter_Set param_sets){
+								std::vector<Deterministic_Simulation> simulations;
+								simulations.emplace_back(
+								std::move(param_sets), perturbation_factors, gradient_factors,
+								cell_total, tissue_width, Minutes{step_size});
+    						return simulations;
+						}
+
+              
+   						
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -122,6 +134,15 @@ namespace dense {
 											}
 									return simulations;
 										}
+
+					std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(Parameter_Set param_sets){
+								std::vector<Fast_Gillespie_Direct_Simulation> simulations;
+								simulations.emplace_back(
+								std::move(param_sets), perturbation_factors, gradient_factors,
+								cell_total, tissue_width, seed);
+    						return simulations;
+						}
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -162,6 +183,15 @@ namespace dense {
 				}
     						return simulations;
 						}
+
+						 std::vector<Next_Reaction_Simulation> get_simulations(Parameter_Set param_sets){
+								std::vector<Next_Reaction_Simulation> simulations;
+								simulations.emplace_back(
+								std::move(param_sets), perturbation_factors, gradient_factors,
+								cell_total, tissue_width, seed);
+    						return simulations;
+						}
+
         private:
 						Real* perturbation_factors;
 						Real** gradient_factors;
@@ -177,4 +207,5 @@ template <typename Simulation>
 Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
 }
 */
+
 #endif

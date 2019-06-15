@@ -2,7 +2,9 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
+
 DETERMINISTIC_SIMULATION(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+
 
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/her2014_simulation)
 set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")

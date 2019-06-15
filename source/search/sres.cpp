@@ -70,9 +70,7 @@ void SRES::simulate_population(int popc, double** population, double* scores) {
     sets.push_back(ps);
   }
 
-  //Invoke callback to score the population
   std::vector<double> results = score_fcn(sets);
-
   //Convert analysis features to scores
   for (int i = 0; i < popc; ++i) {
     scores[i] = results[i];
@@ -131,7 +129,7 @@ void init_sres (input_params& ip, sres_params& sp) {
 		sp: parameters required by libSRES
 	returns: nothing
 	notes:
-	todo:
+	todo:f
 */
 void run_sres (sres_params& sp) {
 	int rank = get_rank();
@@ -158,7 +156,7 @@ void run_sres (sres_params& sp) {
 	todo:
 */
 void fitness (double** parameters, double** score, double** constraints) {
-	simulate_set(parameters);
+	simulate_population(parameters); blahblahblah
 }
 #endif
 
