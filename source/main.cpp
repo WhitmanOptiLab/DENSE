@@ -121,7 +121,6 @@ void display_usage(std::ostream& out) {
 std::vector<Species> default_specie_option;
 int cell_total;
 
-
 template <typename NUM_TYPE>
 void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
   if(c_or_0){
@@ -142,7 +141,6 @@ void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc
     conc->push_back(0);
   }
 }
-
 
 int main(int argc, char* argv[]) {
   arg_parse::init(argc, argv);
