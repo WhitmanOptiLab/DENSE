@@ -137,7 +137,7 @@ class Simulation {
      * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
      * arg "width_total": the circumference of the tube, in cells
     */
-    Simulation(Parameter_Set parameter_set, NGraph::Graph* adj_graph, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr) noexcept;
+    Simulation(Parameter_Set parameter_set, Natural circumference, NGraph::Graph adj_graph, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr) noexcept;
 
     CUDA_AGNOSTIC
     ~Simulation () noexcept;
@@ -155,27 +155,26 @@ class Simulation {
     */
     CUDA_AGNOSTIC
     void calc_neighbor_2d() noexcept {
-      for ( Graph::const_iterator p = adjacency_graph->begin(); p != adjacency_graph->end(); p++){
+      for ( Graph::const_iterator p = adjacency_graph.begin(); p != adjacency_graph.end(); p++){
           Graph::vertex_set neigh = Graph::out_neighbors(p);
-          std::vector<Natural>* neighbors = new std::vector<Natural> [neighbors->size()];
-          auto index = adjacency_graph->node(p);
+          auto index = adjacency_graph.node(p);
+          std::vector<Natural>* neighbors = new std::vector<Natural>;
           for ( Graph::vertex_set::const_iterator cell = neigh.begin(); cell != neigh.end(); cell++){
             neighbors->push_back(*cell);
           }
-          neighbors_by_cell_[index] = *neighbors;
-          neighbor_count_by_cell_[index] = neighbors->size();
-          delete[] neighbors;
+          neighbor_count_by_cell_[1] = neighbors->size();
+          neighbors_by_cell_[1] = std::move(*neighbors);
         }
     }
 
   private:
 
     Real age_ = {};
-    //Natural circumference_ = {};
+    Natural circumference_ = {};
     Natural cell_count_ = {};
     Parameter_Set parameter_set_ = {};
     int index;
-    NGraph::Graph* adjacency_graph;
+    NGraph::Graph adjacency_graph;
 
   protected:
 

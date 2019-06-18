@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mcclelnr/DENSE
+CMAKE_SOURCE_DIR = /home/mcclelnr/Adj_Graph_DENSE/DENSE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mcclelnr/DENSE/models/Turing-Pattern
+CMAKE_BINARY_DIR = /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern
 
 # Include any dependencies generated for this target.
 include test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/depend.make
@@ -59,16 +59,16 @@ include test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o: ../../source/core/build_once.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o -c /home/mcclelnr/DENSE/source/core/build_once.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/core/build_once.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/core/build_once.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/core/build_once.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/core/build_once.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/core/build_once.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/build_once.cpp.o.requires:
 
@@ -83,16 +83,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/core/buil
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o: ../../source/sim/base.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o -c /home/mcclelnr/DENSE/source/sim/base.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/base.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/base.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/base.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/base.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/base.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.cpp.o.requires:
 
@@ -107,16 +107,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/base.
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o: ../../source/sim/determ/determ.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o -c /home/mcclelnr/DENSE/source/sim/determ/determ.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/determ.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/determ/determ.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/determ.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/determ/determ.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/determ.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/determ.cpp.o.requires:
 
@@ -131,16 +131,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/deter
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o: ../../source/sim/determ/baby_cl.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o -c /home/mcclelnr/DENSE/source/sim/determ/baby_cl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/baby_cl.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/determ/baby_cl.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/baby_cl.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/determ/baby_cl.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/determ/baby_cl.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/determ/baby_cl.cpp.o.requires:
 
@@ -155,16 +155,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/deter
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o: ../../source/sim/stoch/fast_gillespie_direct_simulation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/fast_gillespie_direct_simulation.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/fast_gillespie_direct_simulation.cpp.o.requires:
 
@@ -179,16 +179,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o: ../../source/sim/stoch/next_reaction_simulation.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o -c /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/next_reaction_simulation.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/next_reaction_simulation.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/sim/stoch/next_reaction_simulation.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/sim/stoch/next_reaction_simulation.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/next_reaction_simulation.cpp.o.requires:
 
@@ -203,16 +203,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o: ../../source/utility/common_utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o -c /home/mcclelnr/DENSE/source/utility/common_utils.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/common_utils.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/utility/common_utils.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/common_utils.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/utility/common_utils.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/common_utils.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/common_utils.cpp.o.requires:
 
@@ -227,16 +227,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/c
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o: ../../source/utility/color.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o -c /home/mcclelnr/DENSE/source/utility/color.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/color.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/utility/color.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/color.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/utility/color.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/color.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/color.cpp.o.requires:
 
@@ -251,16 +251,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/c
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o: ../../source/utility/preprocessor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o -c /home/mcclelnr/DENSE/source/utility/preprocessor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/preprocessor.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/utility/preprocessor.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/preprocessor.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/utility/preprocessor.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/utility/preprocessor.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/preprocessor.cpp.o.requires:
 
@@ -275,16 +275,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/utility/p
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o: ../../source/io/arg_parse.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o -c /home/mcclelnr/DENSE/source/io/arg_parse.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/arg_parse.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/io/arg_parse.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/arg_parse.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/io/arg_parse.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/arg_parse.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_parse.cpp.o.requires:
 
@@ -299,16 +299,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/arg_pa
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o: ../../source/io/csvr.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/io/csvr.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/io/csvr.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.cpp.o.requires:
 
@@ -323,16 +323,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr.c
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o: ../../source/io/csvr_sim.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o -c /home/mcclelnr/DENSE/source/io/csvr_sim.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr_sim.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/io/csvr_sim.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr_sim.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/io/csvr_sim.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvr_sim.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_sim.cpp.o.requires:
 
@@ -347,16 +347,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvr_s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o: ../../source/io/csvw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o -c /home/mcclelnr/DENSE/source/io/csvw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvw.cpp
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/DENSE/source/io/csvw.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvw.cpp > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/DENSE/source/io/csvw.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/csvw.cpp -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.cpp.o.requires:
 
@@ -371,16 +371,16 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/csvw.c
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/flags.make
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o: ../../source/io/ezxml/ezxml.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o   -c /home/mcclelnr/DENSE/source/io/ezxml/ezxml.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building C object test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o   -c /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/ezxml/ezxml.c
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.i"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mcclelnr/DENSE/source/io/ezxml/ezxml.c > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.i
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/ezxml/ezxml.c > CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.i
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.s"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mcclelnr/DENSE/source/io/ezxml/ezxml.c -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.s
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/mcclelnr/Adj_Graph_DENSE/DENSE/source/io/ezxml/ezxml.c -o CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.s
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o.requires:
 
@@ -429,9 +429,9 @@ test/her_model_2014/libher2014_simulation_lib.a: test/her_model_2014/CMakeFiles/
 test/her_model_2014/libher2014_simulation_lib.a: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/io/ezxml/ezxml.c.o
 test/her_model_2014/libher2014_simulation_lib.a: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make
 test/her_model_2014/libher2014_simulation_lib.a: test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libher2014_simulation_lib.a"
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -P CMakeFiles/her2014_simulation_lib.dir/cmake_clean_target.cmake
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/her2014_simulation_lib.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX static library libher2014_simulation_lib.a"
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -P CMakeFiles/her2014_simulation_lib.dir/cmake_clean_target.cmake
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/her2014_simulation_lib.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build: test/her_model_2014/libher2014_simulation_lib.a
@@ -456,10 +456,10 @@ test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/requires: test/her_mod
 .PHONY : test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/requires
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/clean:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -P CMakeFiles/her2014_simulation_lib.dir/cmake_clean.cmake
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 && $(CMAKE_COMMAND) -P CMakeFiles/her2014_simulation_lib.dir/cmake_clean.cmake
 .PHONY : test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/clean
 
 test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/depend:
-	cd /home/mcclelnr/DENSE/models/Turing-Pattern && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mcclelnr/DENSE /home/mcclelnr/DENSE/test/her_model_2014 /home/mcclelnr/DENSE/models/Turing-Pattern /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014 /home/mcclelnr/DENSE/models/Turing-Pattern/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mcclelnr/Adj_Graph_DENSE/DENSE /home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014 /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014 /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/depend
 

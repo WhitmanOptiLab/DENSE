@@ -100,7 +100,7 @@ struct Static_Args{
   std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
   std::vector<Parameter_Set> param_sets;
   int help;
-  NGraph::Graph* adj_graph;
+  NGraph::Graph adj_graph;
 };
   
 void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total);
@@ -177,50 +177,57 @@ arg_parse::init(argc, argv);
       param_args.help = 2;
       return param_args;
   }
-  param_args.adj_graph->print();
   return param_args;
 }
 
 void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total){
     std::ifstream cell_file(graph_file);
-    if(cell_file){
-      NGraph::Graph* a_graph(new NGraph::Graph(cell_file));
-      param_args->adj_graph = std::move(a_graph);
+    if(cell_total == 0){
+      if(cell_file){
+        NGraph::Graph a_graph(cell_file);
+        param_args->adj_graph = std::move(a_graph);
+      } else {
+        std::cout << style::apply(Color::red) << "Error: Could not find cell graph file " + graph_file + " specified by the -f command. Make sure file is spelled correctly and in the correct directory.\n" << style::reset();
+        param_args->help = 2;
+      }
     } else {
-      NGraph::Graph* a_graph(new NGraph::Graph());
+      NGraph::Graph a_graph;
       for (Natural i = 0; i < cell_total; ++i) {
         bool is_former_edge = i % param_args->tissue_width == 0;
         bool is_latter_edge = (i + 1) % param_args->tissue_width == 0;
         bool is_even = i % 2 == 0;
-        auto la = (is_former_edge || !is_even) ? param_args->tissue_width - 1 : -1;
-        auto ra = !(is_latter_edge || is_even) ? param_args->tissue_width + 1 :  1;
+        Natural la = (is_former_edge || !is_even) ? param_args->tissue_width - 1 : -1;
+        Natural ra = !(is_latter_edge || is_even) ? param_args->tissue_width + 1 :  1;
 
-        auto top          = (i - param_args->tissue_width      + cell_total) % cell_total;
-        auto bottom       = (i + param_args->tissue_width                   ) % cell_total;
-        auto bottom_right = (i                  + ra              ) % cell_total;
-        auto top_left     = (i                  + la              ) % cell_total;
-        auto top_right    = (i - param_args->tissue_width + ra + cell_total) % cell_total;
-        auto bottom_left  = (i - param_args->tissue_width + la + cell_total) % cell_total;
+        Natural top          = (i - param_args->tissue_width      + cell_total) % cell_total;
+        Natural bottom       = (i + param_args->tissue_width                   ) % cell_total;
+        Natural bottom_right = (i                  + ra              ) % cell_total;
+        Natural top_left     = (i                  + la              ) % cell_total;
+        Natural top_right    = (i - param_args->tissue_width + ra + cell_total) % cell_total;
+        Natural bottom_left  = (i - param_args->tissue_width + la + cell_total) % cell_total;
+        
+        std::cout << top << " " << bottom << " " << bottom_right << " " << top_left << " " << top_right << " " << bottom_left << "\n";
         
         if (is_former_edge) {
-          a_graph->insert_edge_noloop(i,abs(top));
-          a_graph->insert_edge_noloop(i,abs(top_left));
-          a_graph->insert_edge_noloop(i,abs(top_right));
-          a_graph->insert_edge_noloop(i,abs(bottom_left));
+          a_graph.insert_edge_noloop(i,abs(top));
+          a_graph.insert_edge_noloop(i,abs(top_left));
+          a_graph.insert_edge_noloop(i,abs(top_right));
+          a_graph.insert_edge_noloop(i,abs(bottom_left));
         } else if (is_latter_edge) {
-          a_graph->insert_edge_noloop(i,abs(top));
-          a_graph->insert_edge_noloop(i,abs(top_right));
-          a_graph->insert_edge_noloop(i,abs(bottom_right));
-          a_graph->insert_edge_noloop(i,abs(bottom));
+          a_graph.insert_edge_noloop(i,abs(top));
+          a_graph.insert_edge_noloop(i,abs(top_right));
+          a_graph.insert_edge_noloop(i,abs(bottom_right));
+          a_graph.insert_edge_noloop(i,abs(bottom));
         } else {
-          a_graph->insert_edge_noloop(i,abs(top_right));
-          a_graph->insert_edge_noloop(i,abs(bottom_right));
-          a_graph->insert_edge_noloop(i,abs(bottom));
-          a_graph->insert_edge_noloop(i,abs(top_left));
-          a_graph->insert_edge_noloop(i,abs(bottom_left));
+          a_graph.insert_edge_noloop(i,abs(top_right));
+          a_graph.insert_edge_noloop(i,abs(bottom_right));
+          a_graph.insert_edge_noloop(i,abs(bottom));
+          a_graph.insert_edge_noloop(i,abs(top_left));
+          a_graph.insert_edge_noloop(i,abs(bottom_left));
         }
       }
       param_args->adj_graph = std::move(a_graph);
+      param_args->adj_graph.print();
     }
   }
 

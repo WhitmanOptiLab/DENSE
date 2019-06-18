@@ -6,5 +6,5 @@ CXX_FLAGS =  -g -fconcepts -pedantic -fmax-errors=3 -Wall -Wextra -Wcast-align -
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mcclelnr/DENSE/test/time_test -I/home/mcclelnr/DENSE/source 
+CXX_INCLUDES = -I/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/time_test -I/home/mcclelnr/Adj_Graph_DENSE/DENSE/source 
 

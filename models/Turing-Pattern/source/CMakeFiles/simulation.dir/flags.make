@@ -6,5 +6,5 @@ CXX_FLAGS =  -g -fconcepts -pedantic -fmax-errors=3 -Wall -Wextra -Wcast-align -
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/mcclelnr/DENSE/source -I/home/mcclelnr/DENSE/models/Turing-Pattern 
+CXX_INCLUDES = -I/home/mcclelnr/Adj_Graph_DENSE/DENSE/source -I/home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern 
 

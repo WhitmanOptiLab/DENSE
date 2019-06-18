@@ -128,21 +128,21 @@ string
 
 ../../test/her_model_2014/specie_list.hpp
 
-/home/mcclelnr/DENSE/test/her_model_2014/search_main.cpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/search_main.cpp
 mpi.h
 -
 main.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/main.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/main.hpp
 search/sres.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/search/sres.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/search/sres.hpp
 io/arg_parse.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/io/arg_parse.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/io/arg_parse.hpp
 io/csvr.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/io/csvr.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/io/csvr.hpp
 utility/common_utils.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/utility/common_utils.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/utility/common_utils.hpp
 utility/style.hpp
-/home/mcclelnr/DENSE/test/her_model_2014/utility/style.hpp
+/home/mcclelnr/Adj_Graph_DENSE/DENSE/test/her_model_2014/utility/style.hpp
 cstdlib
 -
 ctime

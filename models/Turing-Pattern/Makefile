@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mcclelnr/DENSE
+CMAKE_SOURCE_DIR = /home/mcclelnr/Adj_Graph_DENSE/DENSE
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mcclelnr/DENSE/models/Turing-Pattern
+CMAKE_BINARY_DIR = /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -91,9 +91,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/DENSE/models/Turing-Pattern/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/Adj_Graph_DENSE/DENSE/models/Turing-Pattern/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

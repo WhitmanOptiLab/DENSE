@@ -64,7 +64,7 @@ namespace dense {
         public: 
         This& operator= (This&&);
         Sim_Builder (This const&) = default;
-        Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph* adj_graph, int argc, char* argv[]){
+        Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph adj_graph, int argc, char* argv[]){
 							     arg_parse::init(argc, argv);
         				using style::Mode;
         				style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
@@ -80,9 +80,7 @@ namespace dense {
       std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
 							  std::vector<Deterministic_Simulation> simulations;
     					for (auto& parameter_set : param_sets) {
-        					simulations.emplace_back(
-          					std::move(parameter_set), perturbation_factors, gradient_factors,
-          					cell_total, tissue_width, Minutes{step_size}, conc, adjacency_graph);
+        					simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, tissue_width, Minutes{step_size}, conc, adjacency_graph);
       			}
    					 return simulations;
 						};
@@ -92,7 +90,7 @@ namespace dense {
 						int tissue_width;
 						Real step_size;
       std::vector<Real> conc;
-      NGraph::Graph* adjacency_graph;
+      NGraph::Graph adjacency_graph;
 
    };
    template<>
@@ -102,7 +100,7 @@ namespace dense {
         public: 
             Sim_Builder (This const&) = default;
             This& operator= (This&&);
-            Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph* adj_graph, int argc, char* argv[]){
+            Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph adj_graph, int argc, char* argv[]){
                  arg_parse::init(argc, argv);
                  using style::Mode;
                  style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
@@ -134,7 +132,7 @@ namespace dense {
         int tissue_width;
         int seed;
         std::vector<int> conc;
-        NGraph::Graph* adjacency_graph;
+        NGraph::Graph adjacency_graph;
    };
     template<>
    class Sim_Builder <Next_Reaction_Simulation>{
@@ -143,7 +141,7 @@ namespace dense {
         public: 
           Sim_Builder (This const&) = default;
           This& operator= (This&&);
-          Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph* adj_graph, int argc, char* argv[]){
+          Sim_Builder(Real* pf, Real** gf, int tw, NGraph::Graph adj_graph, int argc, char* argv[]){
               arg_parse::init(argc, argv);
               using style::Mode;
               style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
@@ -175,7 +173,7 @@ namespace dense {
           int tissue_width;
           int seed;
           std::vector<int> conc;
-          NGraph::Graph* adjacency_graph;
+          NGraph::Graph adjacency_graph;
      };
 }
 /*

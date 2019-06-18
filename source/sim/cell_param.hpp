@@ -22,10 +22,11 @@ public:
     cell_param () noexcept = default;
 
     Natural cell_count_ = {};
+    Natural simulation_width_ = {};
     T *_array = {};
 
     CUDA_AGNOSTIC
-    cell_param(Natural cells_total);
+    cell_param(Natural width_total, Natural cells_total);
 
     CUDA_AGNOSTIC
     ~cell_param() {
