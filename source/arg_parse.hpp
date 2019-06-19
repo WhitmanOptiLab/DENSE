@@ -95,7 +95,6 @@ void display_usage(std::ostream& out) {
 struct Static_Args{
   Real*  perturbation_factors; 
   Real**  gradient_factors;
-  int  tissue_width;
   std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
   std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
   std::vector<Parameter_Set> param_sets;
@@ -103,7 +102,7 @@ struct Static_Args{
   NGraph::Graph adj_graph;
 };
   
-void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total);
+void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total, int tissue_width);
 
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in);
 
@@ -138,8 +137,7 @@ arg_parse::init(argc, argv);
   std::string cell_graph;
 
   // Required simulation fields
-  if (!(arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
-          arg_parse::get<Real>("t", "time-total", &time_total, true) &&
+  if (!(arg_parse::get<Real>("t", "time-total", &time_total, true) &&
           arg_parse::get<Real>("u", "anlys-intvl", &anlys_intvl, true) &&
           arg_parse::get<std::string>("p", "param-sets", &param_sets, true))) {
     std::cout << style::apply(Color::red) <<
@@ -148,6 +146,10 @@ arg_parse::init(argc, argv);
     param_args.help = 2;
     return param_args;
   }
+  
+  bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
+  bool w_flag = arg_parse::get<int>("w", "tissue-width", &tissue_width, false);
+  bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
   
   simulation_duration = decltype(simulation_duration)(time_total);
   analysis_interval = decltype(analysis_interval)(anlys_intvl);
@@ -158,31 +160,49 @@ arg_parse::init(argc, argv);
   param_args.gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
  
-  param_args.tissue_width = tissue_width;
   param_args.simulation_duration = simulation_duration;
   param_args.analysis_interval = analysis_interval;
   param_args.param_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
-
-  bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
-  bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
   
-  if ( c_flag && !f_flag){
-      graph_constructor(&param_args, "", cell_total);
-  } else if ( f_flag && !c_flag) {
-      graph_constructor(&param_args, cell_graph, 0);
+  if (cell_total == 0){
+    std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "The cell total specified with [-c | --cell-total] is invalid.\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  } else if (tissue_width == 0){
+    std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "The tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  } else if (tissue_width > cell_total){
+    std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "The tissue width specified with [-w | --tissue-width] cannot be larger than the cell total specified with [-c | --cell-total].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  }
+  
+  if ( w_flag && c_flag && !f_flag){
+      int t_width = tissue_width % cell_total;
+      if(tissue_width == 0){ tissue_width += 1; }
+      graph_constructor(&param_args, "", cell_total, t_width);
+  } else if ( f_flag && !c_flag && !w_flag) {
+      graph_constructor(&param_args, cell_graph, 0, 0);
   } else {
       std::cout << style::apply(Color::red) <<
         "Error: Your current set of command line arguments produces a useless state. "
-        "Either specify a cell total with [-c | --cell-total] or provide a cell graph file with [-f | --cell-graph].\n" << style::reset();
+        "Either specify a cell total with [-c | --cell-total] and a width with [-w | --tissue-width] or provide a cell graph file with [-f | --cell-graph].\n" << style::reset();
       param_args.help = 2;
       return param_args;
   }
   return param_args;
 }
 
-void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total){
+void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total, int tissue_width){
     std::ifstream cell_file(graph_file);
-    if(cell_total == 0){
+    if(cell_total == 0 && tissue_width == 0){
       if(cell_file){
         NGraph::Graph a_graph(cell_file);
         param_args->adj_graph = std::move(a_graph);
@@ -193,20 +213,18 @@ void graph_constructor(Static_Args* param_args, std::string graph_file, int cell
     } else {
       NGraph::Graph a_graph;
       for (Natural i = 0; i < cell_total; ++i) {
-        bool is_former_edge = i % param_args->tissue_width == 0;
-        bool is_latter_edge = (i + 1) % param_args->tissue_width == 0;
+        bool is_former_edge = i % tissue_width == 0;
+        bool is_latter_edge = (i + 1) % tissue_width == 0;
         bool is_even = i % 2 == 0;
-        Natural la = (is_former_edge || !is_even) ? param_args->tissue_width - 1 : -1;
-        Natural ra = !(is_latter_edge || is_even) ? param_args->tissue_width + 1 :  1;
+        Natural la = (is_former_edge || !is_even) ? tissue_width - 1 : -1;
+        Natural ra = !(is_latter_edge || is_even) ? tissue_width + 1 :  1;
 
-        Natural top          = (i - param_args->tissue_width      + cell_total) % cell_total;
-        Natural bottom       = (i + param_args->tissue_width                   ) % cell_total;
+        Natural top          = (i - tissue_width      + cell_total) % cell_total;
+        Natural bottom       = (i + tissue_width                   ) % cell_total;
         Natural bottom_right = (i                  + ra              ) % cell_total;
         Natural top_left     = (i                  + la              ) % cell_total;
-        Natural top_right    = (i - param_args->tissue_width + ra + cell_total) % cell_total;
-        Natural bottom_left  = (i - param_args->tissue_width + la + cell_total) % cell_total;
-        
-        std::cout << top << " " << bottom << " " << bottom_right << " " << top_left << " " << top_right << " " << bottom_left << "\n";
+        Natural top_right    = (i - tissue_width + ra + cell_total) % cell_total;
+        Natural bottom_left  = (i - tissue_width + la + cell_total) % cell_total;
         
         if (is_former_edge) {
           a_graph.insert_edge_noloop(i,abs(top));
@@ -227,7 +245,6 @@ void graph_constructor(Static_Args* param_args, std::string graph_file, int cell
         }
       }
       param_args->adj_graph = std::move(a_graph);
-      param_args->adj_graph.print();
     }
   }
 

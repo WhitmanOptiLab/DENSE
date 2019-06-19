@@ -58,7 +58,7 @@ class Deterministic_Simulation : public Simulation {
 private:
   baby_cl _baby_cl;
 public:
-  Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int tissue_width,
+  Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph);
 
   CUDA_AGNOSTIC
