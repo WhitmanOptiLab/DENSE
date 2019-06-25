@@ -29,7 +29,7 @@ function(SIMCORELIB localname simdir)
           ${PROJECT_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${PROJECT_SOURCE_DIR}/source/run_simulation.hpp
           ${PROJECT_SOURCE_DIR}/source/Sim_Builder.hpp
-          ${PROJECT_SOURCE_DIR}/source/ngraph/ngraph.hpp
+          ${PROJECT_SOURCE_DIR}/source/Sim_Initializer.hpp
           )
 
 

@@ -157,6 +157,8 @@ class Simulation {
     void calc_neighbor_2d() noexcept {
       for ( auto p = adjacency_graph.begin(); p != adjacency_graph.end(); p++ ){
           Graph::vertex_set neigh = Graph::out_neighbors(p);
+          Graph::vertex_set neigh1 = Graph::in_neighbors(p);
+        //Update later to remove need for circumference
           if( neigh.size() > circumference_){
             circumference_ = neigh.size();
           }
@@ -165,9 +167,13 @@ class Simulation {
           for ( auto cell = neigh.begin(); cell != neigh.end(); cell++ ){
             neighbors->push_back(*cell);
           }
+          for ( auto cell = neigh1.begin(); cell != neigh1.end(); cell++ ){
+            neighbors->push_back(*cell);
+          }
           neighbor_count_by_cell_[index] = neighbors->size();
           neighbors_by_cell_[index] = std::move(*neighbors);
       }
+    //Update later to remove need for circumference
       if (circumference_ == 0){
         circumference_ = 1;
       }

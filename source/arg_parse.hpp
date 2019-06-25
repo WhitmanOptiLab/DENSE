@@ -15,6 +15,7 @@
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "Sim_Builder.hpp"
+#include "Sim_Initializer.hpp"
 #include "ngraph/ngraph_components.hpp"
 
 using style::Color;
@@ -36,6 +37,8 @@ using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::graph_constructor;
+using dense::Static_Args;
 
 namespace dense{
 
@@ -91,33 +94,17 @@ void display_usage(std::ostream& out) {
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
 
-
-struct Static_Args{
-  Real*  perturbation_factors; 
-  Real**  gradient_factors;
-  std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
-  std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
-  std::vector<Parameter_Set> param_sets;
-  int help;
-  NGraph::Graph adj_graph;
-};
-  
-void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total, int tissue_width);
-
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in);
-
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream& in) {
   return { std::istream_iterator<Parameter_Set>(in), std::istream_iterator<Parameter_Set>() };
 }
 
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in);
-
 std::vector<Parameter_Set> parse_parameter_sets_csv(std::istream&& in) {
   return parse_parameter_sets_csv(in);
 }
-
+  
 Static_Args parse_static_args(int argc, char* argv[]);
-
 Static_Args parse_static_args(int argc, char* argv[]){
 Static_Args param_args;
 param_args.help = 0;
@@ -134,7 +121,7 @@ arg_parse::init(argc, argv);
   int cell_total;
   int tissue_width;
   std::string param_sets;
-  std::string cell_graph;
+  std::string cell_graph = "";
 
   // Required simulation fields
   if (!(arg_parse::get<Real>("t", "time-total", &time_total, true) &&
@@ -164,30 +151,23 @@ arg_parse::init(argc, argv);
   param_args.analysis_interval = analysis_interval;
   param_args.param_sets = parse_parameter_sets_csv(std::ifstream(param_sets));
   
-  if (cell_total == 0){
-    std::cout << style::apply(Color::red) <<
-        "Error: Your current set of command line arguments produces a useless state. "
-        "The cell total specified with [-c | --cell-total] is invalid.\n" << style::reset();
-      param_args.help = 2;
-      return param_args;
-  } else if (tissue_width == 0){
-    std::cout << style::apply(Color::red) <<
-        "Error: Your current set of command line arguments produces a useless state. "
-        "The tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
-      param_args.help = 2;
-      return param_args;
-  } else if (tissue_width > cell_total){
-    std::cout << style::apply(Color::red) <<
+  if ( w_flag && c_flag && !f_flag){
+    if (cell_total <= 0 | tissue_width <= 0){
+      std::cout << style::apply(Color::red) <<
+          "Error: Your current set of command line arguments produces a useless state. "
+          "The cell total specified with [-c | --cell-total] or the tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
+        param_args.help = 2;
+        return param_args;
+    }   
+    if (tissue_width > cell_total){
+      std::cout << style::apply(Color::red) <<
         "Error: Your current set of command line arguments produces a useless state. "
         "The tissue width specified with [-w | --tissue-width] cannot be larger than the cell total specified with [-c | --cell-total].\n" << style::reset();
       param_args.help = 2;
       return param_args;
-  }
-  
-  if ( w_flag && c_flag && !f_flag){
-      int t_width = tissue_width % cell_total;
-      if(tissue_width == 0){ tissue_width += 1; }
-      graph_constructor(&param_args, "", cell_total, t_width);
+    }
+    if(tissue_width == 0){ tissue_width += 1; }
+      graph_constructor(&param_args, "", cell_total, tissue_width);
   } else if ( f_flag && !c_flag && !w_flag) {
       graph_constructor(&param_args, cell_graph, 0, 0);
   } else {
@@ -198,75 +178,6 @@ arg_parse::init(argc, argv);
       return param_args;
   }
   return param_args;
-}
-
-void graph_constructor(Static_Args* param_args, std::string graph_file, int cell_total, int tissue_width){
-    std::ifstream cell_file(graph_file);
-    if(cell_total == 0 && tissue_width == 0){
-      if(cell_file){
-        NGraph::Graph a_graph(cell_file);
-        param_args->adj_graph = std::move(a_graph);
-      } else {
-        std::cout << style::apply(Color::red) << "Error: Could not find cell graph file " + graph_file + " specified by the -f command. Make sure file is spelled correctly and in the correct directory.\n" << style::reset();
-        param_args->help = 2;
-      }
-    } else {
-      NGraph::Graph a_graph;
-      for (Natural i = 0; i < cell_total; ++i) {
-        bool is_former_edge = i % tissue_width == 0;
-        bool is_latter_edge = (i + 1) % tissue_width == 0;
-        bool is_even = i % 2 == 0;
-        Natural la = (is_former_edge || !is_even) ? tissue_width - 1 : -1;
-        Natural ra = !(is_latter_edge || is_even) ? tissue_width + 1 :  1;
-
-        Natural top          = (i - tissue_width      + cell_total) % cell_total;
-        Natural bottom       = (i + tissue_width                   ) % cell_total;
-        Natural bottom_right = (i                  + ra              ) % cell_total;
-        Natural top_left     = (i                  + la              ) % cell_total;
-        Natural top_right    = (i - tissue_width + ra + cell_total) % cell_total;
-        Natural bottom_left  = (i - tissue_width + la + cell_total) % cell_total;
-        
-        if (is_former_edge) {
-          a_graph.insert_edge_noloop(i,abs(top));
-          a_graph.insert_edge_noloop(i,abs(top_left));
-          a_graph.insert_edge_noloop(i,abs(top_right));
-          a_graph.insert_edge_noloop(i,abs(bottom_left));
-        } else if (is_latter_edge) {
-          a_graph.insert_edge_noloop(i,abs(top));
-          a_graph.insert_edge_noloop(i,abs(top_right));
-          a_graph.insert_edge_noloop(i,abs(bottom_right));
-          a_graph.insert_edge_noloop(i,abs(bottom));
-        } else {
-          a_graph.insert_edge_noloop(i,abs(top_right));
-          a_graph.insert_edge_noloop(i,abs(bottom_right));
-          a_graph.insert_edge_noloop(i,abs(bottom));
-          a_graph.insert_edge_noloop(i,abs(top_left));
-          a_graph.insert_edge_noloop(i,abs(bottom_left));
-        }
-      }
-      param_args->adj_graph = std::move(a_graph);
-    }
-  }
-
-template <typename NUM_TYPE>
-void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
-  if(c_or_0){
-    NUM_TYPE c_species;
-    csvr reader = csvr(init_conc);
-    while(reader.get_next(&c_species)){
-      conc->push_back(c_species);
-    }
-  } else {
-    for(int i = 0; i < NUM_SPECIES; i++){
-      conc->push_back(0);
-    }
-  }
-  while(conc->size() > NUM_SPECIES){
-    conc->pop_back();
-  }
-  while(conc->size() < NUM_SPECIES){
-    conc->push_back(0);
-  }
 }
 
 }

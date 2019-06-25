@@ -68,6 +68,10 @@ namespace dense {
         				using style::Mode;
         				style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
         				step_size = arg_parse::get<Real>("s", "step-size", 0.0);
+            //require step_size for deterministic simulation
+            if(step_size == 0.0){
+              arg_parse::get<bool>("s", "step-size", nullptr, true);
+            }
         				perturbation_factors = pf;
        					gradient_factors = gf;
             std::string init_conc;
