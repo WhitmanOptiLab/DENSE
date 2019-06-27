@@ -15,6 +15,8 @@
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "Sim_Builder.hpp"
+#include "Sim_Initializer.hpp"
+#include "ngraph/ngraph_components.hpp"
 
 using style::Color;
 
@@ -28,12 +30,16 @@ using style::Color;
 #include <functional>
 #include <exception>
 #include <iostream>
+#include <cmath>
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::graph_constructor;
+using dense::Static_Args;
+using dense::Param_Static_Args;
 
 namespace dense{
 
@@ -81,22 +87,13 @@ void display_usage(std::ostream& out) {
     green << "Analysis AND file writing time interval. How frequently (in units of simulated minutes) data is fetched from simulation for analysis and/or file writing.\n" <<
     yellow << "[-v | --time-col]        <bool> " <<
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
+    yellow << "[-d | --initial-conc]    <string>" <<
+    green << "Relative file location and name of the file containing the initial concentrations of species.\n" <<
+    yellow << "[-f | --cell-graph]    <string>" <<
+    green << "Relative file location and name of the file containing the cell graph.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
     green << "Enables running a simulation without output for performance testing.\n" << style::reset();
 }
-
-struct Static_Args{
-  Real*  perturbation_factors; 
-  Real**  gradient_factors;
-  int  cell_total; 
-  int  tissue_width;
-  std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
-  std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
-  std::vector<Parameter_Set> param_sets;
-  int help;
-};
-
-Static_Args parse_static_args(int argc, char* argv[]);
 
 Static_Args parse_static_args(int argc, char* argv[]){
 Static_Args param_args;
@@ -114,20 +111,23 @@ arg_parse::init(argc, argv);
   int cell_total;
   int tissue_width;
   std::string param_sets;
+  std::string cell_graph = "";
 
   // Required simulation fields
-  if (!(arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
-          arg_parse::get<int>("w", "tissue-width", &tissue_width, true) &&
-          arg_parse::get<Real>("t", "time-total", &time_total, true) &&
+  if (!(arg_parse::get<Real>("t", "time-total", &time_total, true) &&
           arg_parse::get<Real>("u", "anlys-intvl", &anlys_intvl, true) &&
-          arg_parse::get<std::string>("p", "param-sets", &param_sets, true) )) {
+          arg_parse::get<std::string>("p", "param-sets", &param_sets, true))) {
     std::cout << style::apply(Color::red) <<
       "Error: Your current set of command line arguments produces a useless state. (No inputs are specified.) "
       "Did you mean to use the [-i | --data-import] or the simulation-related flag(s)?\n" << style::reset();
     param_args.help = 2;
     return param_args;
   }
-
+  
+  bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
+  bool w_flag = arg_parse::get<int>("w", "tissue-width", &tissue_width, false);
+  bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
+  
   simulation_duration = decltype(simulation_duration)(time_total);
   analysis_interval = decltype(analysis_interval)(anlys_intvl);
 
@@ -136,31 +136,40 @@ arg_parse::init(argc, argv);
 
   param_args.gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
- param_args.cell_total = cell_total;
- param_args.tissue_width = tissue_width;
- param_args.simulation_duration = simulation_duration;
- param_args.analysis_interval = analysis_interval;
- param_args.param_sets =  csvr(param_sets).get_param_sets();
-return param_args;
+ 
+  param_args.simulation_duration = simulation_duration;
+  param_args.analysis_interval = analysis_interval;
+  param_args.param_sets =  csvr(param_sets).get_param_sets();
+  
+  if ( w_flag && c_flag && !f_flag){
+    if (cell_total <= 0 || tissue_width <= 0){
+      std::cout << style::apply(Color::red) <<
+          "Error: Your current set of command line arguments produces a useless state. "
+          "The cell total specified with [-c | --cell-total] or the tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
+        param_args.help = 2;
+        return param_args;
+    }   
+    if (tissue_width > cell_total){
+      std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "The tissue width specified with [-w | --tissue-width] cannot be larger than the cell total specified with [-c | --cell-total].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+    }
+    if(tissue_width == 0){ tissue_width += 1; }
+      graph_constructor(&param_args, "", cell_total, tissue_width);
+  } else if ( f_flag && !c_flag && !w_flag) {
+      graph_constructor(&param_args, cell_graph, 0, 0);
+  } else {
+      std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "Either specify a cell total with [-c | --cell-total] and a width with [-w | --tissue-width] or provide a cell graph file with [-f | --cell-graph].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  }
+  return param_args;
 }
 
-struct Param_Static_Args{
-	Real*  perturbation_factors; 
-  Real**  gradient_factors;
-  int  cell_total; 
-  int  tissue_width;
-  std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
-  std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
-  int help;
-	Parameter_Set lbounds;
-	Parameter_Set ubounds;
-	int pop;
-	int parent;
-	std::vector<Real> real_input;
-	int num_generations;
-};
-	
-	
 	void display_param_search_usage(std::ostream& out);
 void display_param_search_usage(std::ostream& out) {
   auto yellow = style::apply(Color::yellow);
@@ -236,6 +245,7 @@ arg_parse::init(argc, argv);
   int cell_total;
   int tissue_width;
   std::string param_sets;
+  std::string cell_graph = "";
 
   // Required simulation fields
   if (!(arg_parse::get<int>("c", "cell-total", &cell_total, true) &&
@@ -300,17 +310,48 @@ arg_parse::init(argc, argv);
 
   param_args.gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
- 	param_args.cell_total = cell_total;
-	param_args.tissue_width = tissue_width;
-	param_args.simulation_duration = simulation_duration;
- 	param_args.analysis_interval = analysis_interval;
+
+  bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
+  bool w_flag = arg_parse::get<int>("w", "tissue-width", &tissue_width, false);
+  bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
+  
+  param_args.simulation_duration = simulation_duration;
+  param_args.analysis_interval = analysis_interval;
+  
+  if ( w_flag && c_flag && !f_flag){
+    if (cell_total <= 0 || tissue_width <= 0){
+      std::cout << style::apply(Color::red) <<
+          "Error: Your current set of command line arguments produces a useless state. "
+          "The cell total specified with [-c | --cell-total] or the tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
+        param_args.help = 2;
+        return param_args;
+    }   
+    if (tissue_width > cell_total){
+      std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "The tissue width specified with [-w | --tissue-width] cannot be larger than the cell total specified with [-c | --cell-total].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+    }
+    if(tissue_width == 0){ tissue_width += 1; }
+      graph_constructor(&param_args, "", cell_total, tissue_width);
+  } else if ( f_flag && !c_flag && !w_flag) {
+      graph_constructor(&param_args, cell_graph, 0, 0);
+  } else {
+      std::cout << style::apply(Color::red) <<
+        "Error: Your current set of command line arguments produces a useless state. "
+        "Either specify a cell total with [-c | --cell-total] and a width with [-w | --tissue-width] or provide a cell graph file with [-f | --cell-graph].\n" << style::reset();
+      param_args.help = 2;
+      return param_args;
+  }
+
 	param_args.lbounds = bounds[0];
 	param_args.ubounds = bounds[1];
 	param_args.pop = popc;
 	param_args.parent = miu;
 	param_args.real_input = rinput;
 	param_args.num_generations = arg_parse::get<int>("nn", "num-generations", 100);
-return param_args;
+  return param_args;
 }
 
 }

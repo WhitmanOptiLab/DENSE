@@ -1,0 +1,7 @@
+<graphml>
+ <graph edgedefault="undirected">
+  <node id="n1"/>
+  <node id="n2"/>
+  <edge source="n1" target="n2"/>
+ </graph>
+</graphml>

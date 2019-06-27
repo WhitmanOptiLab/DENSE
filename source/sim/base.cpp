@@ -31,14 +31,15 @@ void initialize_params(dense::cell_param<N,T> & self, Parameter_Set const& ps, R
     }
 }
 
-dense::Simulation::Simulation(Parameter_Set parameter_set, Natural cell_count, Natural circumference, Real* factors_perturb, Real** factors_gradient) :
-    circumference_{circumference},
-    cell_count_{cell_count},
+dense::Simulation::Simulation(Parameter_Set parameter_set, NGraph::Graph adj_graph, Real* factors_perturb, Real** factors_gradient) noexcept :
+    circumference_{0},
+    cell_count_{Natural(adj_graph.num_vertices())},
     parameter_set_{std::move(parameter_set)},
-    neighbors_by_cell_{new CUDA_Array<Natural, 6>[cell_count]},
-    neighbor_count_by_cell_{new dense::Natural[cell_count]},
-    cell_parameters_(circumference, cell_count)
+    neighbors_by_cell_{decltype(neighbors_by_cell_.size())(cell_count()), std::vector<Natural>()},
+    neighbor_count_by_cell_{new dense::Natural[cell_count()]},
+    cell_parameters_(circumference_, cell_count())
   {
+    adjacency_graph = std::move(adj_graph);
     calc_max_delays(factors_perturb, factors_gradient);
     calc_neighbor_2d();
     initialize_params(cell_parameters_, parameter_set_, 1.0, factors_perturb, factors_gradient);
