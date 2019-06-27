@@ -77,6 +77,15 @@ function(PARAMSEARCH localname simdir)
 endfunction(PARAMSEARCH localname simdir)
 
 
+function(BENCHMARK localname simdir)
+  SIMCORELIB(${localname}_lib ${simdir})
+  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
+  target_include_directories(${localname} PUBLIC ${simdir})
+  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+  target_link_libraries(${localname} PUBLIC ${localname}_lib)
+endfunction(BENCHMARK localname simdir)
+
+
 function(CUDASIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
     CUDA_INCLUDE_DIRECTORIES(${simdir} ${DENSE_SOURCE_DIR}/source)

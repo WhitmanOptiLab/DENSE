@@ -86,9 +86,7 @@ void run_simulation(
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
         std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
-
              struct Callback {
-
                     Callback(
                     std::unique_ptr<Analysis<Simulation>> analysis,
                     Simulation & simulation,
@@ -109,6 +107,7 @@ void run_simulation(
                     csvw log;
 
                 };
+
                 std::vector<Callback> callbacks;
                     // If multiple sets, set file name to "x_####.y"
                 for (std::size_t i = 0; i < simulations.size(); ++i) {
@@ -165,7 +164,6 @@ void run_simulation(
             
         }
 
-	
 	#ifndef __cpp_concepts
   template <typename Simulation>
   #else
@@ -278,6 +276,4 @@ void run_simulation(
 }
 
 #endif
-
-
 

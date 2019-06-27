@@ -1,0 +1,16 @@
+# CSV Specification
+#   Ignored by the file readers are:
+#     (1) Empty cells / Blank rows / Whitespace
+#     (2) Comment whose rows always begin with a '#'
+#         For best results delete all comments before loading this file into any Excel-like program.
+#     (3) Any cell which does not conform to the scientific notation format 3.14e-41 or simple whole numbers and decimals
+#         Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation and can technically be modified by the users as they wish.
+#         It is futile to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order for it to be parsed correctly.
+# None of these comments include commas because it messes with the column widths when loaded into Excel-like programs.
+# For more information and examples see README.md section 2.2.0
+
+# Rename this file by removing the "_template" from the file name (or just change the name entirely) once the data has been entered!
+# This file can contain more than one set (each being on their own line). All sets are initialized and executed in parallel when a file is loaded into the simulation.
+# For more information and examples see README.md section 2.2.1
+
+mh1_synthesis, mh7_synthesis, mh13_synthesis, md_synthesis, mh1_degradation, mh7_degradation, mh13_degradation, md_degradation, ph1_synthesis, ph7_synthesis, ph13_synthesis, pd_synthesis, ph1_degradation, ph7_degradation, ph13_degradation, pd_degradation, ph11_association, ph17_association, ph113_association, ph77_association, ph713_association, ph1313_association, ph11_dissociation, ph17_dissociation, ph113_dissociation, ph77_dissociation, ph713_dissociation, ph1313_dissociation, ph11_degradation, ph17_degradation, ph113_degradation, ph77_degradation, ph713_degradation, ph1313_degradation, , dreact_mh1_synthesis, dreact_mh7_synthesis, dreact_mh13_synthesis, dreact_md_synthesis, dreact_ph1_synthesis, dreact_ph7_synthesis, dreact_ph13_synthesis, dreact_pd_synthesis, , rcrit_rcrit_pd, rcrit_rcrit_ph11, rcrit_rcrit_ph713, 
