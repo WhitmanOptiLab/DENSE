@@ -1,8 +1,10 @@
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
+add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-SIMULATION(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+
+DETERMINISTIC_SIMULATION(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+
 
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/her2014_simulation)
 set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
@@ -25,7 +27,7 @@ add_test( "cell_width_test"
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
-set(cell_width_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 50 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_width_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 50 --tissue-width 10 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_width_test_01"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -36,7 +38,7 @@ add_test( "cell_width_test_01"
  )
 
 
-set(cell_width_test_02_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 100 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_width_test_02_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 10 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_width_test_02"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -94,8 +96,3 @@ if (${CUDA_FOUND})
   CUDA_SIMULATION(her2014_cuda_simulation ${CMAKE_CURRENT_SOURCE_DIR})
 endif (${CUDA_FOUND})
 
-PARAM_SEARCH_LIB(her2014_param_search_lib ${CMAKE_CURRENT_SOURCE_DIR})
-
-add_executable(her2014_param_search search_main.cpp)
-
-target_link_libraries(her2014_param_search her2014_param_search_lib her2014_simulation_lib)

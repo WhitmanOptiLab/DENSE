@@ -40,14 +40,26 @@ using dense::stochastic::Next_Reaction_Simulation;
 
 namespace dense{
 
-struct Static_Args{
+struct Static_Args_Base {
   Real*  perturbation_factors; 
   Real**  gradient_factors;
   std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
   std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
-  std::vector<Parameter_Set> param_sets;
   int help;
   NGraph::Graph adj_graph;
+};
+
+struct Static_Args : public Static_Args_Base {
+  std::vector<Parameter_Set> param_sets;
+};
+
+struct Param_Static_Args : public Static_Args_Base {
+	Parameter_Set lbounds;
+	Parameter_Set ubounds;
+	int pop;
+	int parent;
+	std::vector<Real> real_input;
+	int num_generations;
 };
   
 void parse_graphml(const char* file, NGraph::Graph* adj_graph){
@@ -145,7 +157,7 @@ void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc
   }
 }
 
-void graph_constructor(Static_Args* param_args, std::string string_file, int cell_total, int tissue_width){
+void graph_constructor(Static_Args_Base* param_args, std::string string_file, int cell_total, int tissue_width){
   NGraph::Graph a_graph;
   a_graph.set_undirected();
   if(cell_total == 0 && tissue_width == 0){

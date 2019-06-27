@@ -53,10 +53,3 @@ int main(int argc, char* argv[]){
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), ac, av); 
   run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 }
-/*
-Snapshot<> snapshot;
-Snapshot<> data = simulation.snapshot();
-template <typename Simulation>
-Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
-}
-*/

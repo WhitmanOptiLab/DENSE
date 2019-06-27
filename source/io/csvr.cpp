@@ -1,5 +1,4 @@
 #include "csvr.hpp"
-#include "utility/style.hpp"
 #include "utility/common_utils.hpp"
 
 using style::Color;
@@ -7,7 +6,6 @@ using style::Color;
 #include <cfloat> // For FLT_MAX as an internal error code
 #include <cmath>
 #include <limits>
-#include <iostream>
 
 
 csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
@@ -24,6 +22,18 @@ csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
     iFile = std::move(file);
 }
 
+std::vector<Parameter_Set> csvr::get_param_sets() {
+    //Since we don't know how many full parameter sets the CSV file
+    //contains, we do not initialize param_sets with a size
+    std::vector<Parameter_Set> param_sets;
+    Parameter_Set p;
+    while(get_set(p.begin(), p.end())) {
+	param_sets.push_back(p);
+    }
+    return param_sets;
+}
+
+		
 bool csvr::has_stream() const {
   return iFile.get();
 }
@@ -32,7 +42,7 @@ bool csvr::skip_next() {
     return csvr::get_next(static_cast<Real *>(nullptr));
 }
 
-bool csvr::get_next(int* rate) {
+bool csvr::get_next(Natural* rate) {
   Real result;
   bool success = get_next(&result);
   if (success && rate) *rate = std::round(result);

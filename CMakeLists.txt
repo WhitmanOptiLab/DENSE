@@ -9,14 +9,16 @@ RelWithDebInfo MinSizeRel."
 endif(NOT CMAKE_BUILD_TYPE)
 
 project (DDESimulatorTemplate CXX C)
+set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}" PARENT_SCOPE)
 #Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 string(REPLACE ";" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} "
- "-g -fconcepts -pedantic -fmax-errors=3 -Wall -Wextra -Wcast-align -Wcast-qual -Wctor-dtor-privacy "
- "-Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs "
- "-Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wstrict-null-sentinel -Wstrict-overflow=5 "
+ "-g -fconcepts -pedantic -fmax-errors=3 -Wall -Wextra -Werror -Wcast-align -Wcast-qual -Wctor-dtor-privacy "
+ "-Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wno-type-limits "
+ "-Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wstrict-null-sentinel -Wstrict-overflow=1 "
  "-Wswitch-default -Wundef -Wunused -Wzero-as-null-pointer-constant -Wuseless-cast -Wsuggest-override -fopenmp")
 if(COMPILER_SUPPORTS_CXX11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")

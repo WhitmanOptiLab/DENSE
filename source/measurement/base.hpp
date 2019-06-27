@@ -4,11 +4,13 @@
 #include "core/specie.hpp"
 #include "io/csvw.hpp"
 #include "sim/base.hpp"
+#include "details.hpp"
 
 #include <memory>
 #include <limits>
 
 using dense::Simulation;
+using dense::Details;
 
 /// Superclass for Analysis Objects
 template <typename Simulation = void>
@@ -55,6 +57,7 @@ class Analysis<void> {
     Real time = 0;
 
     dense::Natural samples = 0;
+	
 
 };
 
@@ -73,6 +76,8 @@ class Analysis : public Analysis<> {
     virtual Analysis* clone() const = 0;
 
     virtual void finalize() = 0;
+	
+	 	virtual Details get_details() = 0;
 
     void when_updated_by(Simulation & simulation, std::ostream& log);
 

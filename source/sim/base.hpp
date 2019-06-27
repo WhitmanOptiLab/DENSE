@@ -159,9 +159,7 @@ class Simulation {
           Graph::vertex_set neigh = Graph::out_neighbors(p);
           Graph::vertex_set neigh1 = Graph::in_neighbors(p);
         //Update later to remove need for circumference
-          if( neigh.size() > circumference_){
-            circumference_ = neigh.size();
-          }
+          circumference_ = std::max(circumference_, Natural(neigh.size()));
           auto index = adjacency_graph.node(p);
           std::vector<Natural>* neighbors = new std::vector<Natural>;
           for ( auto cell = neigh.begin(); cell != neigh.end(); cell++ ){

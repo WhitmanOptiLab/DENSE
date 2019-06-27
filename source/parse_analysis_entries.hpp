@@ -34,6 +34,7 @@ using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+
 namespace dense {
 
 #ifndef __cpp_concepts

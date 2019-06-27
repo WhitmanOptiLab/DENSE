@@ -88,7 +88,7 @@ void ESInitial(unsigned int seed, ESParameter ** param,ESfcnTrsfm *trsfm,  \
   ESInitialParam(param, trsfm, fg, es, outseed,constraint, dim, ub, lb,   \
                  miu, lambda, gen, gamma, alpha, varphi, retry);
   ESInitialPopulation(population, (*param));
-  ESInitialStat(stats, (*population), (*param));
+  ESInitialStat(stats, (*param));
 
   /*printf("\n========\nseed = %u\n========\n", outseed);
   fflush(nullptr);*/
@@ -338,10 +338,10 @@ void ESDeInitialIndividual(ESIndividual *indvdl)
 
   return;
 }
-void ESPrintIndividual(ESIndividual *indvdl, ESParameter *param)
-{
-  return;
-}
+
+//Unimplemented function?
+//void ESPrintIndividual(ESIndividual *indvdl, ESParameter *param);
+
 void ESPrintOp(ESIndividual *indvdl, ESParameter *param)
 {
   int i = 0;
@@ -422,7 +422,7 @@ void ESCopyIndividual(ESIndividual *from, ESIndividual *to, ESParameter *param)
 
 /*********************************************************************
  ** initialize statistics                                           **
- ** ESInitialStat(stats, population, param)                         **
+ ** ESInitialStat(stats, param)                                     **
  ** to intialize time, curgen, bestindvdl,thisbestindvdl            **
  ** not to do the first statistics                                  **
  ** to set dt, bestgen                                              **
@@ -430,8 +430,7 @@ void ESCopyIndividual(ESIndividual *from, ESIndividual *to, ESParameter *param)
  ** ESDeInitialStat(stats)                                          **
  ** free statistics                                                 **
  *********************************************************************/
-void ESInitialStat(ESStatistics **stats, ESPopulation *population,   \
-                   ESParameter *param)
+void ESInitialStat(ESStatistics **stats, ESParameter *param)
 {
   (*stats) = (ESStatistics *)ShareMallocM1c(sizeof(ESStatistics));
   (*stats)->bestgen = 0;
@@ -452,6 +451,7 @@ void ESInitialStat(ESStatistics **stats, ESPopulation *population,   \
 
   return;
 }
+
 void ESDeInitialStat(ESStatistics *stats)
 {
   ESDeInitialIndividual(stats->bestindvdl);
@@ -650,6 +650,7 @@ void ESScorePopulation(ESPopulation * population, ESParameter *param, int lambda
   {
     indvdl = population->member[i];
     indvdl->f = scores[i];
+    printf("%f \n", scores[i]);
   }
 
   free(genes);

@@ -60,39 +60,39 @@ namespace dense {
    class Sim_Builder <Deterministic_Simulation>{
         using This = Sim_Builder<Deterministic_Simulation>;
 
-        public: 
+      public: 
         This& operator= (This&&);
         Sim_Builder (This const&) = default;
         Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-							     arg_parse::init(argc, argv);
-        				using style::Mode;
-        				style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-        				step_size = arg_parse::get<Real>("s", "step-size", 0.0);
+            arg_parse::init(argc, argv);
+            using style::Mode;
+            style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
+            step_size = arg_parse::get<Real>("s", "step-size", 0.0);
             //require step_size for deterministic simulation
             if(step_size == 0.0){
               arg_parse::get<bool>("s", "step-size", nullptr, true);
             }
-        				perturbation_factors = pf;
-       					gradient_factors = gf;
+            perturbation_factors = pf;
+            gradient_factors = gf;
             std::string init_conc;
             bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
             conc_vector(init_conc, i_or_o, &conc);
             adjacency_graph = std::move(adj_graph);
-						}
-      std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-							  std::vector<Deterministic_Simulation> simulations;
-    					for (auto& parameter_set : param_sets) {
-        					simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
-      			}
-   					 return simulations;
-						};
-      private:
-						Real* perturbation_factors;
-						Real** gradient_factors;
-						Real step_size;
-      std::vector<Real> conc;
-      NGraph::Graph adjacency_graph;
+        }
 
+        std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+            std::vector<Deterministic_Simulation> simulations;
+            for (auto& parameter_set : param_sets) {
+              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
+            }
+            return simulations;
+        };
+      private:
+        Real* perturbation_factors;
+        Real** gradient_factors;
+        Real step_size;
+        std::vector<Real> conc;
+        NGraph::Graph adjacency_graph;
    };
    template<>
    class Sim_Builder <Fast_Gillespie_Direct_Simulation>{
@@ -126,14 +126,14 @@ namespace dense {
             }
             return simulations;
        }
-        private:
-						  Real* perturbation_factors;
+      private:
+        Real* perturbation_factors;
         Real** gradient_factors;
         int seed;
         std::vector<int> conc;
         NGraph::Graph adjacency_graph;
    };
-    template<>
+   template<>
    class Sim_Builder <Next_Reaction_Simulation>{
         using This = Sim_Builder<Next_Reaction_Simulation>;
 
@@ -173,11 +173,4 @@ namespace dense {
           NGraph::Graph adjacency_graph;
      };
 }
-/*
-Snapshot<> snapshot;
-Snapshot<> data = simulation.snapshot();
-template <typename Simulation>
-Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
-}
-*/
 #endif

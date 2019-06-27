@@ -31,7 +31,7 @@ public:
     //"event" represents a delayed reaction scheduled to fire later
     struct event {
       Minutes time;
-	     Natural cell;
+	    Natural cell;
       reaction_id rxn;
 	    friend bool operator<(event const& a, event const &b) { return a.time < b.time;}
 	    friend bool operator>(event const& a, event const& b) { return b < a; }
@@ -61,7 +61,7 @@ public:
     void tauLeap();
     void initPropensityNetwork();
     void generateRXNTaus(Real tau);
-    void fireOrSchedule(Natural c, reaction_id rid);
+    void fireOrSchedule(int c, reaction_id rid);
     void initPropensities();
 
     public:
@@ -81,10 +81,10 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
-    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count(), conc)
-    , propensities(cell_count())
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
+    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
+    , propensities(cell_count)
     , generator{seed} {
       initPropensityNetwork();
       initPropensities();
@@ -149,7 +149,7 @@ public:
      * recalculates the propensities of reactions affected by the firing of "rid"
      * arg "rid": the reaction that fired
     */
-    CUDA_AGNOSTIC
+/*    CUDA_AGNOSTIC
     __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
@@ -174,7 +174,29 @@ public:
             } \
         }
         #include "reactions_list.hpp"
+        #undef REACTION 
+    }
+*/
+    CUDA_AGNOSTIC
+    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
+        #define REACTION(name) \
+        for (auto rxname : propensity_network) { \
+            auto id = rxname[0]; \
+            for (std::size_t r=0; r< propensity_network[id].size(); r++) { \
+                if (name == propensity_network[id][r]) { \
+                    for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
+                        int n_cell = neighbors_by_cell_[cell_][n]; \
+                        auto& p = propensities[n_cell][name];\
+                        auto new_p = dense::model::reaction_##name.active_rate(Context(*this, n_cell)); \
+                        total_propensity_ += new_p - p;\
+                        p = new_p;\
+                    } \
+                } \
+            } \
+        }
+        #include "reactions_list.hpp"
         #undef REACTION
+    }
         /*for (auto rxn : propensity_network[rid]) {
           auto& p = propensities[cell_][rxn];
           auto new_p = dense::model::active_rate(rxn, Context(this, cell_));
@@ -190,7 +212,6 @@ public:
             p = new_p;
           }
         }*/
-    }
 
 
   /*

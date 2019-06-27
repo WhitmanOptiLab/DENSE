@@ -23,6 +23,8 @@ sres.hpp contains function declarations for sres.cpp.
 #ifndef SRES_HPP
 #define SRES_HPP
 
+#define UNUSED_PARAM(x) (void)(x)
+
 #include "core/parameter_set.hpp"
 
 #if defined(MPI)
@@ -38,7 +40,7 @@ sres.hpp contains function declarations for sres.cpp.
 
 class SRES {
  public:
-  typedef std::vector<double> (*SRES_Scorer) (const std::vector<Parameter_Set>&);
+  typedef std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRES_Scorer;
 
  private:
   //SRES interface members
@@ -73,6 +75,7 @@ class SRES {
         &param, //Parameter set to be filled
         nullptr, //Optional transform function
         [this](double** pop, double* scores, double** constr, int popc) {
+          UNUSED_PARAM(constr);
           simulate_population(popc, pop, scores);
         }, //Fitness evaluation callback
         esDefESSlash, //ES process, esDefESPlus/esDefESSlash
@@ -90,7 +93,7 @@ class SRES {
         &population, //Population to fill
         &stats); //Statistics
 	}
-
+	
 	~SRES() {
     ESDeInitial(param, population, stats);
   }
