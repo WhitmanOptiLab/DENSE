@@ -9,58 +9,59 @@
 #include <set>
 
 namespace dense {
+namespace stochastic {
   
   class Propensity_Groups{
   public:
     
-    Propensity_Groups(std::vector<std::vector<std::pair<Real, Real>>> bounds, Natural ctotal, Natural rtotal) {
+    
+    
+    Propensity_Groups(std::vector<Rxn> reactions){
       
-      for(Natural c = 0; c < ctotal; ++c){
-        for(Natural r = 0; r < rtotal; ++r){
-          Rxn rxn;
-          rxn.upper_bound = bounds[c][r].second();
-          rxn.cell = c;
-          rxn.reaction = r;
-          
-          place_in_group(rxn);
-        }
+      for(Rxn reaction : reactions){
+        place_in_group(reaction);
       }
       init_p_values();
     }
+  
+    
+    
+    void update_groups(std::vector<Rxn> old_reactions, std::vector<Rxn> new_reactions){
       
-    void update_groups(std::pair<Natural, Natural> index, Natural current_group, std::pair<Real, Real> bounds){
+      //Remove old reactions from their groups
+      for(auto reaction : old_reactions){
+        int i = 0;
+        int index = raction.get_index();
+        
+        if(index == -1){
+          std::cout << "In update_groups: invalid group index" << "\n";
+        }
 
-      int i = 0;
-      Rxn rxn;
-      rxn.cell = index.first();
-      rxn.reaction = index.second();
-      rxn.upper_bound = bounds.second();
-      int group_index = group_at(current_group);
+        while(i < groups[index].size()){
 
-      if(group_index == -1){
-        std::cout << "In update_groups: invalid group index" << "\n";
+          if(groups[index][i] == rxn){
+
+            groups[index].erase(groups[index].begin()+ i);
+            update_p_value(index);
+            break;
+           }
+
+          i++;
+        }
       }
-
-      while(i < groups[group_index].size()){
-
-        if(groups[group_index][i] == rxn){
-
-          groups[group_index].erase(groups[group_index].begin()+ i);
-          update_p_value(group_index);
-          break;
-
-         }
-
-        i++;
-      }
-
+      
+      
+      //Add in new reactions
+      for(Rxn rxn : new_reactions){
         place_in_group(rxn);
+        update_p_value(group_index(rxn.get_index));
+      }
+    }
       
-        update_p_value(group_at(rxn.get_index));
-   }
     
   
-    std::vector<Rxn> get_minimal_group(Real r_1){
+    
+  int get_minimal_group_index(Real r_1){
       Real test_factor = p_naught * r_1;
       Real sum_p_values = 0;
       int i = 0;
@@ -68,37 +69,47 @@ namespace dense {
       while(i < p_values.size()){
         sum_p_values += p_values[i];
         if(sum_p_values > test_factor){
-          return(groups[group_at(i)]);
+          return group_map[i];
         }
         i++;
       }
     }
     
-    Real get_p_naught(){ return p_naught;}
+  
+  std::vector<Rxn> get_group_at_index(int l){ return groups[group_index(l)];}
+  
+    
+    
+  Real get_p_naught(){ return p_naught;}
     
   private:
     
-    std::vector<int> current_indexes;
+    std::vector<int> group_map;
     std::vector<std::vector<Rxn>> groups; 
     std::vector<Real> p_values;
     Real p_naught;
     
     
+    
     void place_in_group(Rxn reaction) {
       
       int p = reaction.get_index();
+      int current_group = group_index(p);
       
       //Create new group
-      if(group_at(p) == -1){
+      if(current_group == -1){
         
         int i = 0;
         
-        while(i < (current_indexes.size() -1)){
+        std::vector::iterator map_it = group_map.begin();
+        std::vector::iterator groups_it = groups.begin();
+        
+        while(i < (group_map.size() -1)){
           
-          if(current_indexes[i] < p && current_indexes[i+1] > p){
-            current_indexes.insert(i+1, p);
+          if(group_map[i] < p && group_map[i+1] > p){
+            group_map.insert((map_it+i+1), p);
             std::vector<Rxn> to_insert(reaction);
-            groups.insert(i+1, to_insert);
+            groups.insert((groups_it+i+1), to_insert);
             return;
           }
           i++;
@@ -107,10 +118,20 @@ namespace dense {
       
       //add to existing group
       else {
-        groups[group_at(p)].push_back(reaction);
-        return;   
+        int current_group_size = groups[current_group].size();
+        std::vector::iterator it = groups.begin();
+        
+        for(int i =0; i < current_group_size; i++){
+          if(i == current_group_size-1){
+            groups[current_group].push_back(reaction);
+          } else if(groups[current_group][i] < reaction && reaction < groups[current_group][i+1]){
+              groups[current_group].insert((it+i+1), reaction);
+          }
+        }
       }
     }
+    
+    
     
     void init_p_values(){
       p_naught = 0;
@@ -124,8 +145,10 @@ namespace dense {
       }  
     }
     
+    
+    
     void update_p_value(int index){
-      int current_group = group_at(index);
+      int current_group = group_index(index);
       p_naught -= p_values[current_group];
       int new_p = 0;
       for(int i = 0; i < groups[current_group].size(); i++){
@@ -136,30 +159,43 @@ namespace dense {
     }
     
     
-    int group_at(int index){
-      
-      int group_index = -1;
+    
+    int group_index(int index){
+      int s = group_map.size();
       int i = 0;
+      int m;
       
-      while(i < current_indexes.size()){
-        if(current_indexes[i] == index){
-          group_index = i;
-          break;
+      while(i <= s){
+        m = i + ((r - i)/2);
+        
+        if(group_map[m] == index){
+          return m;
         }
-        i++;
+        else if(group_map[m] < index){
+          i = m + 1;
+        } else { 
+          i = m - 1; 
+        }
       }
       
-      return group_index;
+      return -1;
     }
-    
-    
   };
+  
+  
   
 struct Rxn {
   Natural cell;
   Natural reaciton;
   Real upper_bound;
+  Real lower_bound;
   friend bool opperator==(const Rxn& a, const Rxn& b){ return (a.cell == b.cell && a.reaction == b.reaction);}
+  friend bool opperator<(const Rxn& a, const Rxn& b){return (a.upper_bound < b.upper_bound);}
+  friend bool opperator> (const Rxn& a, const Rxn& b){return (b < a);}
+  
   int get_index() {return (int)(std::log2(upper_bound));}
+  
 };
+  
+}
 }

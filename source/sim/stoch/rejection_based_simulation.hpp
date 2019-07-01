@@ -34,14 +34,14 @@ public:
   Rejection_Based_Simulation(const Parameter_set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed) : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
   , concs(cell_count, std::vector(NUM_SPECIES, 0))
   , concentration_bounds(cell_count, std::vector(NUM_SPECIES, 0))
-  , reaction_propensity_bounds(cell_count)
+  , reactions(cell_count)
   , depends_on_species(NUM_SPECIES)
   , depends_on_neighbor_species(NUM_SPECIES)
   , generator(seed) {
   
     init_bounds();
     
-    init_groups(2);
+    init_groups();
     
     init_dependancy_graph();
   }
@@ -87,7 +87,7 @@ private:
   std::vector<std::vector<std::pair<Real, Real>>> concentration_bounds;
   
   //"reaction_propensity_bounds" keeps track of the current propensity bounds(std::pair<lower bound, upper bound>) of ech reaction in every cell
-  std::vector<std::vector<std::pair<Real, Real>>> reaction_propensity_bounds;
+  std::vector<std::vector<Rxn>> reactions;
   
   //"depends_on_species" keeps track of which reactions are affected by a change in concentraion of a species in its own cell
   std::vector<std::vector<reaction_id>> depends_on_species;
@@ -97,7 +97,7 @@ private:
   std::vector<std::vector<reaction_id>> depends_on_neighbor_species;
   
   //"propensity_groups" is the partitions of all reactions based on their propensities
-  std::vector<std::vector<std::pair<dense::Natural,reaction_id>>> propensity_groups;
+  Propensity_Groups propensity_groups;
   
   //"delay_schedule" keeps track of all delay reactions scheduled to fire
   dense::indexed_priority_queue delay_schedule;
@@ -109,8 +109,8 @@ private:
   static std::uniform_real_distribution<Real> distribution_;
   
   
-  void init_bounds(Real proportion);
-  void init_groups(int index);
+  void init_bounds();
+  void init_groups();
   void init_dependancy_graph();
   std::vector<reaction_id> get_minimal_group();
   void fire_delay_reactions();
