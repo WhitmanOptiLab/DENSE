@@ -23,6 +23,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
@@ -37,10 +38,10 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
-					${DENSE_SOURCE_DIR}/source/search/sres.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
+		  ${DENSE_SOURCE_DIR}/source/search/sres.cpp
+		  ${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
+		  ${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
+		  ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
           )
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
@@ -62,6 +63,10 @@ endfunction(DETERMINISTIC_SIMULATION localname simdir)
 function(GILLESPIE_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
 endfunction(GILLESPIE_SIMULATION localname simdir)
+
+function(SORTING_DIRECT_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/sorting_direct_Main.cpp)
+endfunction(SORTING_DIRECT_SIMULATION localname simdir)
 
 function(STOCH_NR_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Next_Reaction_Main.cpp)
@@ -160,6 +165,8 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 		PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
     set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    SORTING_DIRECT_SIMULATION(sortingreaction ${PROJECT_BINARY_DIR})
+    set_target_properties(sortingreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
