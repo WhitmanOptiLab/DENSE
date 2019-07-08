@@ -42,6 +42,10 @@ function(SIMCORELIB localname simdir)
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/propensity_groups.hpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/rejection_based_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/rxn_struct.hpp
           )
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
@@ -60,7 +64,11 @@ function(DETERMINISTIC_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/deterministic_main.cpp)
 endfunction(DETERMINISTIC_SIMULATION localname simdir)
 
-function(GILLESPIE_SIMULATION localname simdir)
+function(REJECTION_BASED_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp)
+endfunction(REJECTION_BASED_SIMULATION localname simdir)
+
+ function(GILLESPIE_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
 endfunction(GILLESPIE_SIMULATION localname simdir)
 
@@ -69,13 +77,13 @@ function(STOCH_NR_SIMULATION localname simdir)
 endfunction(STOCH_NR_SIMULATION localname simdir)
 
 
-function(PARAMSEARCH localname simdir)
-  SIMCORELIB(${localname}_lib ${simdir})
-  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/param_search_main.cpp)
-  target_include_directories(${localname} PUBLIC ${simdir})
-  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
-  target_link_libraries(${localname} PUBLIC ${localname}_lib)
-endfunction(PARAMSEARCH localname simdir)
+#function(PARAMSEARCH localname simdir)
+#  SIMCORELIB(${localname}_lib ${simdir})
+#  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/param_search_main.cpp)
+#  target_include_directories(${localname} PUBLIC ${simdir})
+#  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
+#  target_link_libraries(${localname} PUBLIC ${localname}_lib)
+#endfunction(PARAMSEARCH localname simdir)
 
 
 function(CUDASIMCORELIB localname simdir)
@@ -155,12 +163,14 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     CSV_GEN(csv_gen ${PROJECT_BINARY_DIR})
     DETERMINISTIC_SIMULATION(simulation ${PROJECT_BINARY_DIR})
     set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    REJECTION_BASED_SIMULATION(rejection ${PROJECT_BINARY_DIR})
+    set_target_properties(rejection PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})
     set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-		PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
-    set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+		#PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
+    #set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")

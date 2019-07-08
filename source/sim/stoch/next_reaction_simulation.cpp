@@ -79,7 +79,7 @@ Minutes Next_Reaction_Simulation::time_until_next_event() const {
 void Next_Reaction_Simulation::executeDelayRXN() {
 	std::pair<event_id,Minutes> next_reaction_pair = reaction_schedule.top();
 	std::pair<Natural, reaction_id> pair_ids = decode(next_reaction_pair.first);
-	
+
   fireReaction(pair_ids.first, pair_ids.second);
   reaction_schedule.pop(); // TODO: UPDATE, DON"T POP
 }
@@ -116,7 +116,7 @@ void Next_Reaction_Simulation::tauLeap(){
 void Next_Reaction_Simulation::fireOrSchedule(int cell, reaction_id rid){
 
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
-	
+
 	if (dri!=NUM_DELAY_REACTIONS) {
 		event_id rxn_id = encode(cell,rid);
 		Minutes reaction_tau = Minutes{ Context(*this, cell).getDelay(dri)};
@@ -244,5 +244,5 @@ void Next_Reaction_Simulation::initTau() {
     }
   }
 }
-	
+
 }}

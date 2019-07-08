@@ -229,7 +229,7 @@ public:
   private:
 
     Minutes time_until_next_event () const;
-	
+
 		event_id encode(Natural cell, reaction_id reaction){
 			Natural rxn_id = static_cast<Natural>(reaction);
 			return (cell*NUM_REACTIONS)+rxn_id;
@@ -239,10 +239,10 @@ public:
 			Natural c = e / NUM_REACTIONS;
 			return std::make_pair(c,rxn_id);
 		}
-	
+
     void initTau();
 
-  
+
 };
 
 }

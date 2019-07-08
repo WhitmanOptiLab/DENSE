@@ -1,4 +1,8 @@
+#ifndef PROPENSITY_GROUPS
+#define PROPENSITY_GROUPS
+
 #include <cmath>
+#include "rxn_struct.hpp"
 #include "rejection_based_simulation.hpp"
 #include "sim/cell_param.hpp"
 #include "model_impl.hpp"
@@ -14,12 +18,12 @@ namespace stochastic {
   class Propensity_Groups{
   public:
     
+    Propensity_Groups() = default;
     
-    
-    Propensity_Groups(std::vector<Rxn> reactions){
-      
+    void init_propensity_groups(std::vector<Rxn> reactions){
       for(Rxn reaction : reactions){
         place_in_group(reaction);
+        std::cout << "placed reaction in group with upper bound: " << reaction.upper_bound << ' ' << reaction.cell << ' ' << reaction.reaction << '\n';
       }
       init_p_values();
     }
@@ -30,8 +34,8 @@ namespace stochastic {
       
       //Remove old reactions from their groups
       for(auto reaction : old_reactions){
-        int i = 0;
-        int index = raction.get_index();
+        size_t i = 0;
+        int index = reaction.get_index();
         
         if(index == -1){
           std::cout << "In update_groups: invalid group index" << "\n";
@@ -39,7 +43,7 @@ namespace stochastic {
 
         while(i < groups[index].size()){
 
-          if(groups[index][i] == rxn){
+          if(groups[index][i] == reaction){
 
             groups[index].erase(groups[index].begin()+ i);
             update_p_value(index);
@@ -54,7 +58,7 @@ namespace stochastic {
       //Add in new reactions
       for(Rxn rxn : new_reactions){
         place_in_group(rxn);
-        update_p_value(group_index(rxn.get_index));
+        update_p_value(group_index(rxn.get_index()));
       }
     }
       
@@ -64,19 +68,24 @@ namespace stochastic {
   int get_minimal_group_index(Real r_1){
       Real test_factor = p_naught * r_1;
       Real sum_p_values = 0;
-      int i = 0;
-      
+      size_t i = 0;
+      int index = p_values.size() + 1; 
       while(i < p_values.size()){
         sum_p_values += p_values[i];
         if(sum_p_values > test_factor){
-          return group_map[i];
+          index = group_map[i];
         }
         i++;
       }
+      return index;
     }
     
   
   std::vector<Rxn> get_group_at_index(int l){ return groups[group_index(l)];}
+    
+  int get_l_value(int index){
+    return group_map[index];
+  }
   
     
     
@@ -94,38 +103,53 @@ namespace stochastic {
     void place_in_group(Rxn reaction) {
       
       int p = reaction.get_index();
+
+
       int current_group = group_index(p);
+      
       
       //Create new group
       if(current_group == -1){
         
-        int i = 0;
-        
-        std::vector::iterator map_it = group_map.begin();
-        std::vector::iterator groups_it = groups.begin();
-        
-        while(i < (group_map.size() -1)){
-          
-          if(group_map[i] < p && group_map[i+1] > p){
-            group_map.insert((map_it+i+1), p);
-            std::vector<Rxn> to_insert(reaction);
-            groups.insert((groups_it+i+1), to_insert);
-            return;
+        size_t i = 0;
+        std::cout << "in making new group \n";
+        if(group_map.size() > 0){
+          std::vector<int>::iterator map_it = group_map.begin();
+          std::vector<std::vector<Rxn>>::iterator groups_it = groups.begin();
+
+          while(i < (group_map.size() -1)){
+            std::cout << "entering loop \n";
+            if(group_map[i] < p && group_map[i+1] > p){
+              group_map.insert((map_it+i+1), p);
+              std::vector<Rxn> to_insert;
+              to_insert.push_back(reaction);
+              groups.insert((groups_it+i+1), to_insert);
+             std::cout << "leaving loop. pushed back " << p << "\n";
+              return;
+            }
+            i++;
+            }
           }
-          i++;
+          else{
+            group_map.push_back(p);
+            std::vector<Rxn> to_insert;
+            to_insert.push_back(reaction);
+            groups.push_back(to_insert);
+            std::cout << "pushed back " << p << '\n';
+          }
         }
-      }
       
       //add to existing group
       else {
         int current_group_size = groups[current_group].size();
-        std::vector::iterator it = groups.begin();
+        //std::vector<std::vector<Rxn>>::iterator it = groups.begin();
         
         for(int i =0; i < current_group_size; i++){
           if(i == current_group_size-1){
             groups[current_group].push_back(reaction);
           } else if(groups[current_group][i] < reaction && reaction < groups[current_group][i+1]){
-              groups[current_group].insert((it+i+1), reaction);
+              std::vector<Rxn>::iterator current_group_it = groups[current_group].begin();
+              groups[current_group].insert((current_group_it+i+1), reaction);
           }
         }
       }
@@ -135,9 +159,9 @@ namespace stochastic {
     
     void init_p_values(){
       p_naught = 0;
-      for(int i = 0; i < groups.size(); i++){
+      for(size_t i = 0; i < groups.size(); i++){
         int p_i = 0;
-        for(int j = 0; j <groups[i].size(); j++){
+        for(size_t j = 0; j <groups[i].size(); j++){
           p_i += groups[i][j].upper_bound;
         }
         p_naught += p_i;
@@ -151,7 +175,7 @@ namespace stochastic {
       int current_group = group_index(index);
       p_naught -= p_values[current_group];
       int new_p = 0;
-      for(int i = 0; i < groups[current_group].size(); i++){
+      for(size_t i = 0; i < groups[current_group].size(); i++){
         new_p += groups[current_group][i].upper_bound;
       }
       p_values[current_group] = new_p;
@@ -163,39 +187,26 @@ namespace stochastic {
     int group_index(int index){
       int s = group_map.size();
       int i = 0;
-      int m;
-      
-      while(i <= s){
-        m = i + ((r - i)/2);
-        
-        if(group_map[m] == index){
-          return m;
+      int m = group_map.size()/2;
+      if(s > 0){
+        while(i <= s){
+          m = i + ((m - i)/2);
+          if(group_map[m] == index){
+            return m;
+          }
+          else if(group_map[m] < index){
+            i = m + 1;
+          } else { 
+            i = m - 1; 
+          }
         }
-        else if(group_map[m] < index){
-          i = m + 1;
-        } else { 
-          i = m - 1; 
-        }
-      }
-      
+      } 
       return -1;
     }
   };
   
   
   
-struct Rxn {
-  Natural cell;
-  Natural reaciton;
-  Real upper_bound;
-  Real lower_bound;
-  friend bool opperator==(const Rxn& a, const Rxn& b){ return (a.cell == b.cell && a.reaction == b.reaction);}
-  friend bool opperator<(const Rxn& a, const Rxn& b){return (a.upper_bound < b.upper_bound);}
-  friend bool opperator> (const Rxn& a, const Rxn& b){return (b < a);}
-  
-  int get_index() {return (int)(std::log2(upper_bound));}
-  
-};
-  
 }
-}
+} 
+#endif
