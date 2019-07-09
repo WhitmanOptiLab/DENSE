@@ -65,11 +65,11 @@ private:
   //
   bool fire_delay_reactions(Minutes tau, std::vector<std::pair<dense::Natural,dense::Natural>>* changed);
   //
-  bool rejection_tests(Rxn* rxn, int min_group_index);
+  bool rejection_tests( Rxn* rxn,int min_group_index);
   //
-  void schedule_or_fire_reaction(Rxn next_reaction);
+  void schedule_or_fire_reaction(Rxn* next_reaction);
   //
-  void fire_reaction(Rxn rxn);
+  void fire_reaction(Rxn* rxn);
   //
   bool check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>* changed_species);
   //
@@ -116,7 +116,6 @@ public:
   }
   
 
-
   Minutes age_by(Minutes duration);
   
   Real calculate_neighbor_average (dense::Natural cell, specie_id species, dense::Natural delay) const {
@@ -149,23 +148,25 @@ private:
 
 class ConcentrationContext {
       public:
-        ConcentrationContext(std::vector<Real> concentrations) :
-            concs(concentrations){}
+        ConcentrationContext(std::vector<Real> concentrations, Rejection_Based_Simulation& sim, Natural cell) :
+            concs(concentrations), ctxt(sim, cell) {};
         Real getCon(specie_id specie, int = 0) const {
           return concs.at(specie);
         }
         Real getCon(specie_id specie){
           return concs.at(specie);
         }
-        Real getRate(reaction_id) const { return 0.0;};
-        Real getDelay(delay_reaction_id) const { return 0.0; }
-        Real getCritVal(critspecie_id) const { return 0.0; }
+        Real getRate(reaction_id reaction) const { return ctxt.getRate(reaction);};
+        Real getDelay(delay_reaction_id reaction) const { return ctxt.getDelay(reaction); }
+        Real getCritVal(critspecie_id reaction) const { return ctxt.getCritVal(reaction); }
         Real calculateNeighborAvg(specie_id sp, int = 0) const {
            (void)sp;
             return 0.0;
         }
       private:
+        
         std::vector<Real> concs;
+        Context<Rejection_Based_Simulation> ctxt;
     };
 
 }

@@ -29,51 +29,60 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
   while(age() < end_time){
     auto r_1 = getRandVariable();
     auto min_group_index = propensity_groups.get_minimal_group_index(r_1);
-    bool reaction_fired = false;
-    std::vector<std::pair<dense::Natural,dense::Natural>>* changed_species = nullptr;
+    bool reaction_fired = false; 
+    std::vector<std::pair<dense::Natural,dense::Natural>> s;
+    std::vector<std::pair<dense::Natural,dense::Natural>>* changed_species = &s;
     while(!reaction_fired){
-    std::cout << "you are here \n";
       auto r_2 = getRandVariable();
       Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
+      std::cout << "firing delays \n";
       bool all_delays_fired = fire_delay_reactions(tau, changed_species);
+      std::cout<< "delays fired1 \n";
       if(all_delays_fired){
-        Rxn* reaction_to_be_fired = nullptr;
+        Rxn r;
+        Rxn* reaction_to_be_fired = &r;
+        std::cout << "doing rejection tests \n";
         reaction_fired = rejection_tests(reaction_to_be_fired, min_group_index);
+        std::cout << "rejection tests done \n";
         if(reaction_fired){
-          schedule_or_fire_reaction(*(reaction_to_be_fired));
+        schedule_or_fire_reaction(reaction_to_be_fired);
         }
-        std::cout << "do we make it here?";
-        Simulation::age_by(tau);
+
+        Simulation::age_by(tau -age());
       }
     }
     if(check_bounds(changed_species)){
+
       update_bounds(*(changed_species));
     }
+
   }
   return age();
 }
   
   
   
-void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn rxn){
+void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn* rxn){
   Delay_Rxn delay_reaction;
-  delay_reaction.rxn = rxn;
-  delay_reaction.delay_reaction = dense::model::getDelayReactionId(rxn.reaction);
+  delay_reaction.rxn = *rxn;
+  delay_reaction.delay_reaction = dense::model::getDelayReactionId(rxn->reaction);
   if(delay_reaction.delay_reaction != NUM_DELAY_REACTIONS){
     delay_reaction.delay = Minutes{Context(*this, delay_reaction.rxn.cell).getDelay(delay_reaction.delay_reaction)};
+    
     delay_schedule.push(delay_reaction);
   }
-  else{
+  else{ 
     fire_reaction(rxn);
   }
   
 }
   
-void Rejection_Based_Simulation::fire_reaction(Rxn rxn){
-  const reaction_base& r = dense::model::getReaction(rxn.reaction);
-  const specie_id* specie_deltas = r.getSpecieDeltas();
-  for(int i = 0; i < r.getNumDeltas(); i++){
-    update_concentration(rxn.cell, specie_deltas[i], r.getDeltas()[i]);
+void Rejection_Based_Simulation::fire_reaction(Rxn* rxn){
+  Rxn r = *rxn;
+  const reaction_base& rn = dense::model::getReaction(r.reaction);
+  const specie_id* specie_deltas = rn.getSpecieDeltas();
+  for(int i = 0; i < rn.getNumDeltas(); i++){
+    update_concentration(r.cell, specie_deltas[i], rn.getDeltas()[i]);
   }
 }
 
@@ -91,8 +100,8 @@ void Rejection_Based_Simulation::init_bounds() {
     }
     concentration_bounds[0].push_back(temp_lower_bounds);
     concentration_bounds[1].push_back(temp_upper_bounds);
-    ConcentrationContext lower_context(concentration_bounds[0][i]);
-    ConcentrationContext upper_context(concentration_bounds[1][i]);
+    ConcentrationContext lower_context(concentration_bounds[0][i], *this, i);
+    ConcentrationContext upper_context(concentration_bounds[1][i], *this, i);
     
       
       Rxn rxn; 
@@ -101,7 +110,6 @@ void Rejection_Based_Simulation::init_bounds() {
       rxn.cell = i; \
       rxn.lower_bound = dense::model::reaction_##name.active_rate(lower_context); \
       rxn.upper_bound = dense::model::reaction_##name.active_rate(upper_context); \
-      std::cout << dense::model::reaction_##name.active_rate(Context(*this, rxn.cell)); \
       reactions.push_back(rxn); 
       #include "reactions_list.hpp"
       #undef REACTION  
@@ -112,38 +120,43 @@ void Rejection_Based_Simulation::init_bounds() {
   
 void Rejection_Based_Simulation::init_dependancy_graph(){
 
-  class DependanceContext {
-    public:
-    DependanceContext(std::vector<specie_id>& neighbordeps_tofill, std::vector<specie_id>& deps_tofill) :
-    interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
-    
-    Real getCon(specie_id sp, int = 0) const{
-      intradeps_tofill.push_back(sp);
-      return 0.0;
-    }
-    
-    Real getCon(specie_id sp){
-      intradeps_tofill.push_back(sp);
-      return 0.0;
-    }
-    Real getRate(reaction_id) const { return 0.0;}
-    Real getDelay(delay_reaction_id) const {return 0.0;}
-    Real getCritVal(critspecie_id) const {return 0.0;}
-    Real calculateNeighborAvg(specie_id sp, int = 0) const {
-      interdeps_tofill.push_back(sp);
-      return 0.0;
-    }
-    private:
-    std::vector<specie_id>& interdeps_tofill;
-    std::vector<specie_id>& intradeps_tofill;
-  };
+  std::vector<specie_id> neighbor_dependencies[NUM_REACTIONS];
+    std::vector<specie_id> dependencies[NUM_REACTIONS];
+
+    class DependanceContext {
+      public:
+        DependanceContext(std::vector<specie_id>& neighbordeps_tofill,std::vector<specie_id>& deps_tofill) :
+            interdeps_tofill(neighbordeps_tofill), intradeps_tofill(deps_tofill) {};
+        Real getCon(specie_id sp, int = 0) const {
+            intradeps_tofill.push_back(sp);
+            return 0.0;
+        };
+        Real getCon(specie_id sp){
+            intradeps_tofill.push_back(sp);
+            return 0.0;
+        };
+        Real getRate(reaction_id) const { return 0.0; };
+        Real getDelay(delay_reaction_id) const { return 0.0; };
+        Real getCritVal(critspecie_id) const { return 0.0; };
+        Real calculateNeighborAvg(specie_id sp, int = 0) const {
+            interdeps_tofill.push_back(sp);
+            return 0.0;
+        };
+      private:
+        std::vector<specie_id>& interdeps_tofill;
+        std::vector<specie_id>& intradeps_tofill;
+    };
+
+    #define REACTION(name) \
+    const reaction<name>& r##name = dense::model::reaction_##name; \
+    r##name.active_rate( DependanceContext (neighbor_dependencies[name],dependencies[name]));
+    #include "reactions_list.hpp"
+    #undef REACTION
   
-  #define REACTION(name) \
-  const reaction<name>& r##name = dense::model::reaction_##name; \
-  r##name.active_rate( DependanceContext(depends_on_species[name], depends_on_neighbor_species[name]));
-  #include "reactions_list.hpp"
-  #undef REACTION
-  
+  for(int i = 0; i < NUM_REACTIONS; i++){
+    depends_on_species[i] = dependencies[i];
+    depends_on_neighbor_species[i] = neighbor_dependencies[i];
+  }
 }
 
 
@@ -154,7 +167,7 @@ bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau,    std::vecto
     while(delay_schedule.top().delay < age() + tau){
       auto reaction = delay_schedule.top();
       delay_schedule.pop();
-      fire_reaction(reaction.rxn);
+      fire_reaction(&reaction.rxn);
       delay_count += reaction.delay;
       if(check_bounds(changed)){
         Simulation::age_by(delay_count);
@@ -171,7 +184,6 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
   Real two_power = pow(2,min_group_l_value);
   bool mu_found = false;
   int mu;
-  
   while(!mu_found){
     Real r_2 = getRandVariable();
     mu = (int)(min_group.size() * r_2);
@@ -190,7 +202,7 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
       mu_found = true;
     }
   }
-  
+ 
   Real r_4 = getRandVariable();
   Rxn reaction = min_group.at(mu);
   bool accepted = false;
@@ -209,9 +221,12 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
     }
     
   }
-  
+
   if(accepted){
-    *(rxn) = reaction;
+    *rxn = reaction;
+  }
+  else{
+    (void)rxn;
   }
   
   return accepted;
@@ -250,6 +265,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
   std::vector<Rxn> new_reactions;
   
   for(std::pair<dense::Natural,dense::Natural> specie : to_update){
+    
     int current_conc = concs[specie.first][specie.second];
     Real upper = current_conc + (current_conc * 0.2);
     Real lower = current_conc - (current_conc * 0.2);
@@ -257,8 +273,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     concentration_bounds[0][specie.first][specie.second] = lower;
     concentration_bounds[1][specie.first][specie.second] = upper;
     
-    
     for(int r = 0; r < NUM_REACTIONS; r++){
+
       for(size_t s = 0; s < depends_on_species[r].size(); s++){
         if(specie.second == depends_on_species[r][s]){
           Rxn old_reaction = reactions[r];
@@ -266,8 +282,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
           new_reaction.cell = old_reaction.cell;
           new_reaction.reaction = old_reaction.reaction;
           
-          ConcentrationContext lower_context(concentration_bounds[0][specie.first]);
-          ConcentrationContext upper_context(concentration_bounds[1][specie.first]);
+          ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
+          ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
           new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
           new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
           
@@ -275,6 +291,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
           new_reactions.push_back(new_reaction);
         }
       }
+      
       for(size_t n = 0; n < depends_on_neighbor_species[r].size(); n++){
         if(specie.second == depends_on_neighbor_species[r][n]){
           Rxn old_reaction = reactions[r];
@@ -282,8 +299,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             Rxn new_reaction;
             new_reaction.cell = neighbors_by_cell_[old_reaction.cell][c];
             new_reaction.reaction = old_reaction.reaction;
-            ConcentrationContext lower_context(concentration_bounds[0][specie.first]);
-            ConcentrationContext upper_context(concentration_bounds[1][specie.first]);
+            ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
+            ConcentrationContext upper_context(concentration_bounds[1][specie.first],*this, specie.first);
             new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
             new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
             old_reactions.push_back(old_reaction);
@@ -293,11 +310,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
       }
     }
     
-    
-    propensity_groups.update_groups(old_reactions, new_reactions); 
-  
-    
   }
+  propensity_groups.update_groups(old_reactions, new_reactions); 
 }
   
   

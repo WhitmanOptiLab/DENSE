@@ -23,7 +23,6 @@ namespace stochastic {
     void init_propensity_groups(std::vector<Rxn> reactions){
       for(Rxn reaction : reactions){
         place_in_group(reaction);
-        std::cout << "placed reaction in group with upper bound: " << reaction.upper_bound << ' ' << reaction.cell << ' ' << reaction.reaction << '\n';
       }
       init_p_values();
     }
@@ -35,12 +34,12 @@ namespace stochastic {
       //Remove old reactions from their groups
       for(auto reaction : old_reactions){
         size_t i = 0;
-        int index = reaction.get_index();
+        int index = group_index(reaction.get_index());
         
         if(index == -1){
           std::cout << "In update_groups: invalid group index" << "\n";
         }
-
+        
         while(i < groups[index].size()){
 
           if(groups[index][i] == reaction){
@@ -57,7 +56,9 @@ namespace stochastic {
       
       //Add in new reactions
       for(Rxn rxn : new_reactions){
+  
         place_in_group(rxn);
+        
         update_p_value(group_index(rxn.get_index()));
       }
     }
@@ -67,6 +68,7 @@ namespace stochastic {
     
   int get_minimal_group_index(Real r_1){
       Real test_factor = p_naught * r_1;
+
       Real sum_p_values = 0;
       size_t i = 0;
       int index = p_values.size() + 1; 
@@ -77,11 +79,11 @@ namespace stochastic {
         }
         i++;
       }
-      return index;
+      return group_index(index);
     }
     
   
-  std::vector<Rxn> get_group_at_index(int l){ return groups[group_index(l)];}
+  std::vector<Rxn> get_group_at_index(int l){ return groups[l];}
     
   int get_l_value(int index){
     return group_map[index];
@@ -107,35 +109,47 @@ namespace stochastic {
 
       int current_group = group_index(p);
       
-      
       //Create new group
       if(current_group == -1){
         
+        std::vector<Rxn> to_insert;
+        to_insert.push_back(reaction);
         size_t i = 0;
-        std::cout << "in making new group \n";
-        if(group_map.size() > 0){
-          std::vector<int>::iterator map_it = group_map.begin();
-          std::vector<std::vector<Rxn>>::iterator groups_it = groups.begin();
-
-          while(i < (group_map.size() -1)){
-            std::cout << "entering loop \n";
-            if(group_map[i] < p && group_map[i+1] > p){
-              group_map.insert((map_it+i+1), p);
-              std::vector<Rxn> to_insert;
-              to_insert.push_back(reaction);
-              groups.insert((groups_it+i+1), to_insert);
-             std::cout << "leaving loop. pushed back " << p << "\n";
-              return;
-            }
-            i++;
-            }
+        
+        if(group_map.size() == 0){
+          
+          group_map.push_back(p);
+          groups.push_back(to_insert);
+         
           }
           else{
-            group_map.push_back(p);
-            std::vector<Rxn> to_insert;
-            to_insert.push_back(reaction);
-            groups.push_back(to_insert);
-            std::cout << "pushed back " << p << '\n';
+            std::vector<int>::iterator map_it = group_map.begin();
+            std::vector<std::vector<Rxn>>::iterator groups_it = groups.begin();
+            
+            if(group_map.size() == 1){
+              if(group_map[0] > p){
+                group_map.insert(map_it, p);
+                groups.insert(groups_it, to_insert);
+              }
+              else{
+                group_map.push_back(p);
+                groups.push_back(to_insert);
+                
+              }
+            }
+            else{
+              while(i < (group_map.size() )){
+
+                if(group_map[i] < p ){
+                  if(group_map[i+1] > p){
+                    group_map.insert((map_it+i+1), p);
+                    groups.insert((groups_it+i+1), to_insert);
+                    return;
+                  }
+                }
+                i++;
+              }
+            }
           }
         }
       
@@ -172,7 +186,7 @@ namespace stochastic {
     
     
     void update_p_value(int index){
-      int current_group = group_index(index);
+      int current_group = index;
       p_naught -= p_values[current_group];
       int new_p = 0;
       for(size_t i = 0; i < groups[current_group].size(); i++){
@@ -195,9 +209,17 @@ namespace stochastic {
             return m;
           }
           else if(group_map[m] < index){
+            if((m+1 < s)){
+              if(group_map[m+1] > index){
+                return -1;
+              }
+            }
             i = m + 1;
           } else { 
             i = m - 1; 
+            if(i == -1){
+              return i;
+            }
           }
         }
       } 

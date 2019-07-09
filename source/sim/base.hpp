@@ -192,7 +192,8 @@ class Simulation {
     Natural* neighbor_count_by_cell_ = {};
 
   public:
-
+    
+  
     Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
     cell_param<NUM_PARAMS> cell_parameters_ = {};
 
