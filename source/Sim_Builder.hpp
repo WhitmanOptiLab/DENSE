@@ -78,21 +78,26 @@ namespace dense {
             bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
             conc_vector(init_conc, i_or_o, &conc);
             adjacency_graph = std::move(adj_graph);
+            if (!arg_parse::get<int>("ff", "num-grow-cell", &num_grow_cell, false)) {
+              num_grow_cell = 0;
+            }
         }
 
         std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
             std::vector<Deterministic_Simulation> simulations;
             for (auto& parameter_set : param_sets) {
-              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
+              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph, num_grow_cell);
             }
             return simulations;
         };
+
       private:
         Real* perturbation_factors;
         Real** gradient_factors;
         Real step_size;
         std::vector<Real> conc;
         NGraph::Graph adjacency_graph;
+        dense::Natural num_grow_cell;
    };
    template<>
    class Sim_Builder <Fast_Gillespie_Direct_Simulation>{
@@ -109,8 +114,6 @@ namespace dense {
                  if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
                      seed = std::random_device()();
                  }
-                 // Warn user that they are not running deterministic sim
-                 std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
                  std::cout << "Stochastic simulation seed: " << seed << '\n';
                  perturbation_factors = pf;
                  gradient_factors = gf;
@@ -118,18 +121,23 @@ namespace dense {
                  bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
                  conc_vector(init_conc, i_or_o, &conc);
                  adjacency_graph = std::move(adj_graph);
+                 if (!arg_parse::get<int>("ff", "num-grow-cell", &num_grow_cell, false)) {
+                     num_grow_cell = 0;
+                 }
 								}
         std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
             std::vector<Fast_Gillespie_Direct_Simulation> simulations;
             for (auto& parameter_set : param_sets) {
-                simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
+                simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph, num_grow_cell);
             }
             return simulations;
        }
+       
       private:
         Real* perturbation_factors;
         Real** gradient_factors;
         int seed;
+        dense::Natural num_grow_cell;
         std::vector<int> conc;
         NGraph::Graph adjacency_graph;
    };
@@ -165,6 +173,7 @@ namespace dense {
           }
           return simulations;
         }
+
         private:
           Real* perturbation_factors;
           Real** gradient_factors;

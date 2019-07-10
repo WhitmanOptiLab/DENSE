@@ -54,6 +54,9 @@ void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
     {
       log << "Time,";
     }
+    if (this->icCellColumn){
+      log << "Cell,";
+    }
     for (specie_id const& lcfID : this->observed_species_)
     {
       log << specie_str[lcfID] << ',';
@@ -61,20 +64,30 @@ void csvw_sim<Simulation>::update (Simulation& simulation, std::ostream& log) {
     log << '\n';
     print_header_ = false;
   }
-
-    for (Natural c = this->min; c < this->max; ++c) {
-      if (icTimeColumn) {
-        log << simulation.age().count() << ',';
-        }
+    
+  dense::Natural physical_cell = 0;
+  bool once = true;
+  for (int& virtual_cell : this->physical_cells_id) {
+    if(virtual_cell >= 0){
+      if (icTimeColumn && once) {
+        log << "Time: " << simulation.age().count() << ',';
+      } else if (icTimeColumn && !once) log << ',';
+      if(this->icCellColumn){
+        log << "Cell: " << virtual_cell << ",";
+      }
       for (specie_id const& lcfID : this->observed_species_) {
-        log << simulation.get_concentration(c, lcfID) << ',';
+        log << simulation.get_concentration(physical_cell, lcfID) << ',';
       }
       log << '\n';
+      once = false;
     }
+    physical_cell++;
+  }
 
-    if (this->max > this->min) {
-      log << '\n';
-    }
+  //if simulating more than one cell, add a space between the time blocks
+  if (this->max > this->min) {
+    log << '\n';
+  }
 }
 
 }

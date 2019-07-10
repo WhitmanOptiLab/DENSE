@@ -45,14 +45,14 @@ const simulation_cuda::Context::SpecieRates simulation_cuda::Context::calculateR
 
 IF_CUDA(__host__ __device__)
 void simulation_cuda::Context::updateCon(const simulation_cuda::Context::SpecieRates& rates){
-    //double step_size= _simulation.step_size;
+  //double step_size= _simulation.step_size;
 
-    double curr_rate=0;
-    for (int i=0; i< NUM_SPECIES; i++){
-        curr_rate= rates[i];
-        static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][1][_cell]=
-          static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][0][_cell] + _simulation._step_size* curr_rate;
-    }
+  double curr_rate=0;
+  for (int i=0; i< NUM_SPECIES; i++){
+      curr_rate= rates[i];
+      static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][1][_cell]=
+        static_cast<simulation_cuda&>(_simulation)._baby_cl_cuda[i][0][_cell] + _simulation._step_size* curr_rate;
+  }
 
 }
 
