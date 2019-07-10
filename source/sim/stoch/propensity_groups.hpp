@@ -39,28 +39,29 @@ namespace stochastic {
         if(index == -1){
           std::cout << "In update_groups: invalid group index" << "\n";
         }
-        
         while(i < groups[index].size()){
 
           if(groups[index][i] == reaction){
 
             groups[index].erase(groups[index].begin()+ i);
             update_p_value(index);
+            if(groups[index].empty()){
+              groups.erase(groups.begin() +index);
+              group_map.erase(group_map.begin() + index);
+              p_values.erase(p_values.begin() + index);
+            }
             break;
-           }
-
-          i++;
         }
+        i++;
       }
-      
+      }
       
       //Add in new reactions
       for(Rxn rxn : new_reactions){
-  
         place_in_group(rxn);
-        
         update_p_value(group_index(rxn.get_index()));
       }
+      
     }
       
     
@@ -68,18 +69,18 @@ namespace stochastic {
     
   int get_minimal_group_index(Real r_1){
       Real test_factor = p_naught * r_1;
-
       Real sum_p_values = 0;
       size_t i = 0;
-      int index = p_values.size() + 1; 
       while(i < p_values.size()){
         sum_p_values += p_values[i];
         if(sum_p_values > test_factor){
-          index = group_map[i];
+          return i;
         }
         i++;
       }
-      return group_index(index);
+      std::cout << "sum of p values is: " << sum_p_values << '\n' <<
+        "text factor is: " << test_factor << '\n' << "this is not ok \n";
+      return -1;
     }
     
   
@@ -111,7 +112,6 @@ namespace stochastic {
       
       //Create new group
       if(current_group == -1){
-        
         std::vector<Rxn> to_insert;
         to_insert.push_back(reaction);
         size_t i = 0;
@@ -120,20 +120,24 @@ namespace stochastic {
           
           group_map.push_back(p);
           groups.push_back(to_insert);
+          p_values.push_back(0.0);
          
           }
           else{
             std::vector<int>::iterator map_it = group_map.begin();
             std::vector<std::vector<Rxn>>::iterator groups_it = groups.begin();
+            std::vector<Real>::iterator p_val_it = p_values.begin();
             
             if(group_map.size() == 1){
               if(group_map[0] > p){
                 group_map.insert(map_it, p);
                 groups.insert(groups_it, to_insert);
+                p_values.insert(p_val_it, 0.0);
               }
               else{
                 group_map.push_back(p);
                 groups.push_back(to_insert);
+                p_values.push_back(0.0);
                 
               }
             }
@@ -141,10 +145,17 @@ namespace stochastic {
               while(i < (group_map.size() )){
 
                 if(group_map[i] < p ){
-                  if(group_map[i+1] > p){
-                    group_map.insert((map_it+i+1), p);
-                    groups.insert((groups_it+i+1), to_insert);
-                    return;
+                  if(i+1 < group_map.size()){
+                    if(group_map[i+1] > p){
+                      group_map.insert((map_it+i+1), p);
+                      groups.insert((groups_it+i+1), to_insert);
+                      p_values.insert((p_val_it+i+1), 0.0);
+                      return;
+                    }
+                  } else{
+                      group_map.push_back(p);
+                      groups.push_back(to_insert);
+                      p_values.push_back(0.0);
                   }
                 }
                 i++;
@@ -155,20 +166,34 @@ namespace stochastic {
       
       //add to existing group
       else {
-        int current_group_size = groups[current_group].size();
-        //std::vector<std::vector<Rxn>>::iterator it = groups.begin();
         
-        for(int i =0; i < current_group_size; i++){
-          if(i == current_group_size-1){
-            groups[current_group].push_back(reaction);
-          } else if(groups[current_group][i] < reaction && reaction < groups[current_group][i+1]){
-              std::vector<Rxn>::iterator current_group_it = groups[current_group].begin();
-              groups[current_group].insert((current_group_it+i+1), reaction);
+        if(reaction <= groups[current_group][0]){
+          std::vector<Rxn>::iterator current_group_it = groups[current_group].begin();
+          groups[current_group].insert(current_group_it, reaction);
+        }
+        else{
+          int current_group_size = groups[current_group].size();
+          for(int i =0; i < current_group_size; i++){
+            if(i >= current_group_size-1){
+              if(reaction <= groups[current_group][i]){
+                std::vector<Rxn>::iterator current_group_it = groups[current_group].begin();
+                groups[current_group].insert((current_group_it+i), reaction);
+              }
+              else{
+                groups[current_group].push_back(reaction);
+              }
+            }
+            else{
+              if(groups[current_group][i] <= reaction && reaction < groups[current_group][i+1]){
+                std::vector<Rxn>::iterator current_group_it = groups[current_group].begin();
+                groups[current_group].insert((current_group_it+i+1), reaction);
+              }
+            }
           }
         }
       }
     }
-    
+  
     
     
     void init_p_values(){
@@ -179,7 +204,7 @@ namespace stochastic {
           p_i += groups[i][j].upper_bound;
         }
         p_naught += p_i;
-        p_values.push_back(p_i);    
+        p_values[i] = p_i;
       }  
     }
     

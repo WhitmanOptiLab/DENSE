@@ -30,42 +30,36 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
     auto r_1 = getRandVariable();
     auto min_group_index = propensity_groups.get_minimal_group_index(r_1);
     bool reaction_fired = false; 
-    std::vector<std::pair<dense::Natural,dense::Natural>> s;
-    std::vector<std::pair<dense::Natural,dense::Natural>>* changed_species = &s;
+    std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
+    bool all_delays_fired = false;
     while(!reaction_fired){
       auto r_2 = getRandVariable();
       Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
-      std::cout << "firing delays \n";
-      bool all_delays_fired = fire_delay_reactions(tau, changed_species);
-      std::cout<< "delays fired1 \n";
+      all_delays_fired = fire_delay_reactions(tau, changed_species);
       if(all_delays_fired){
-        Rxn r;
-        Rxn* reaction_to_be_fired = &r;
-        std::cout << "doing rejection tests \n";
+        Rxn reaction_to_be_fired;
         reaction_fired = rejection_tests(reaction_to_be_fired, min_group_index);
-        std::cout << "rejection tests done \n";
         if(reaction_fired){
         schedule_or_fire_reaction(reaction_to_be_fired);
         }
-
-        Simulation::age_by(tau -age());
+        Simulation::age_by(tau);
       }
     }
-    if(check_bounds(changed_species)){
-
-      update_bounds(*(changed_species));
+    if(all_delays_fired){
+      if(check_bounds(changed_species)){
+        update_bounds(changed_species);
+      }
     }
-
   }
   return age();
 }
   
   
   
-void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn* rxn){
+void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn& rxn){
   Delay_Rxn delay_reaction;
-  delay_reaction.rxn = *rxn;
-  delay_reaction.delay_reaction = dense::model::getDelayReactionId(rxn->reaction);
+  delay_reaction.rxn = rxn;
+  delay_reaction.delay_reaction = dense::model::getDelayReactionId(rxn.reaction);
   if(delay_reaction.delay_reaction != NUM_DELAY_REACTIONS){
     delay_reaction.delay = Minutes{Context(*this, delay_reaction.rxn.cell).getDelay(delay_reaction.delay_reaction)};
     
@@ -77,17 +71,15 @@ void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn* rxn){
   
 }
   
-void Rejection_Based_Simulation::fire_reaction(Rxn* rxn){
-  Rxn r = *rxn;
-  const reaction_base& rn = dense::model::getReaction(r.reaction);
+void Rejection_Based_Simulation::fire_reaction(Rxn& rxn){
+  const reaction_base& rn = dense::model::getReaction(rxn.reaction);
   const specie_id* specie_deltas = rn.getSpecieDeltas();
   for(int i = 0; i < rn.getNumDeltas(); i++){
-    update_concentration(r.cell, specie_deltas[i], rn.getDeltas()[i]);
+    update_concentration(rxn.cell, specie_deltas[i], rn.getDeltas()[i]);
   }
 }
 
 void Rejection_Based_Simulation::init_bounds() {
-  std::cout << cell_count() << '\n';
   for(int i = 0; i <cell_count(); i++){
     std::vector<Real> temp_lower_bounds;
     std::vector<Real> temp_upper_bounds;
@@ -161,13 +153,13 @@ void Rejection_Based_Simulation::init_dependancy_graph(){
 
 
   
-bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau,    std::vector<std::pair<dense::Natural,dense::Natural>>* changed){
+bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau,    std::vector<std::pair<dense::Natural,dense::Natural>>& changed){
   if(!delay_schedule.empty()){
     Minutes delay_count = Minutes{0};
     while(delay_schedule.top().delay < age() + tau){
       auto reaction = delay_schedule.top();
       delay_schedule.pop();
-      fire_reaction(&reaction.rxn);
+      fire_reaction(reaction.rxn);
       delay_count += reaction.delay;
       if(check_bounds(changed)){
         Simulation::age_by(delay_count);
@@ -178,12 +170,13 @@ bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau,    std::vecto
   return true;
 }
 
-bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
+bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int min_group_index){
   auto min_group = propensity_groups.get_group_at_index(min_group_index);
   auto min_group_l_value = propensity_groups.get_l_value(min_group_index);  
   Real two_power = pow(2,min_group_l_value);
   bool mu_found = false;
   int mu;
+  std::cout << "find mu \n";
   while(!mu_found){
     Real r_2 = getRandVariable();
     mu = (int)(min_group.size() * r_2);
@@ -197,12 +190,11 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
     Real r_3 = getRandVariable();
     #endif 
     #undef DOUBLE_PRECISION_VARIABLE
-    
     if(r_3 <= (min_group.at(mu).upper_bound/two_power)){
       mu_found = true;
     }
   }
- 
+ std::cout << "mu found \n";
   Real r_4 = getRandVariable();
   Rxn reaction = min_group.at(mu);
   bool accepted = false;
@@ -223,7 +215,7 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn* rxn, int min_group_index){
   }
 
   if(accepted){
-    *rxn = reaction;
+    rxn = reaction;
   }
   else{
     (void)rxn;
@@ -237,7 +229,7 @@ Real Rejection_Based_Simulation::get_real_propensity(Rxn rxn){
   return std::max(dense::model::active_rate(rxn.reaction, Context(*this, rxn.cell)), Real{0}); 
 }
   
-bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>* changed_species){
+bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species){
   bool changed = false;
   std::vector<std::pair<dense::Natural,dense::Natural>> new_concs;
   
@@ -253,17 +245,17 @@ bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natur
     }
   }
   if(changed){
-    *(changed_species) = new_concs;
+    changed_species = new_concs;
   }
   return changed;
 }
   
 //finish
-void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natural,dense::Natural>> to_update){
+void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natural,dense::Natural>>& to_update){
   
   std::vector<Rxn> old_reactions;
   std::vector<Rxn> new_reactions;
-  
+
   for(std::pair<dense::Natural,dense::Natural> specie : to_update){
     
     int current_conc = concs[specie.first][specie.second];
@@ -281,7 +273,6 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
           Rxn new_reaction;
           new_reaction.cell = old_reaction.cell;
           new_reaction.reaction = old_reaction.reaction;
-          
           ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
           ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
           new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
@@ -312,6 +303,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     
   }
   propensity_groups.update_groups(old_reactions, new_reactions); 
+
 }
   
   

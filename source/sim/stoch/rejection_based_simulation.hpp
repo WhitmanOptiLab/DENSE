@@ -63,17 +63,17 @@ private:
   //
   void init_dependancy_graph();
   //
-  bool fire_delay_reactions(Minutes tau, std::vector<std::pair<dense::Natural,dense::Natural>>* changed);
+  bool fire_delay_reactions(Minutes tau, std::vector<std::pair<dense::Natural,dense::Natural>>& changed);
   //
-  bool rejection_tests( Rxn* rxn,int min_group_index);
+  bool rejection_tests( Rxn& rxn,int min_group_index);
   //
-  void schedule_or_fire_reaction(Rxn* next_reaction);
+  void schedule_or_fire_reaction(Rxn& next_reaction);
   //
-  void fire_reaction(Rxn* rxn);
+  void fire_reaction(Rxn& rxn);
   //
-  bool check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>* changed_species);
+  bool check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species);
   //
-  void update_bounds(std::vector<std::pair<dense::Natural, dense::Natural>> to_update);
+  void update_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& to_update);
   //
   Real get_real_propensity(Rxn rxn);
   //

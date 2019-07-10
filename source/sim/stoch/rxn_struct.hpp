@@ -20,6 +20,7 @@ struct Rxn {
   friend bool operator==(const Rxn& a, const Rxn& b){ return (a.cell == b.cell && a.reaction == b.reaction);}
   friend bool operator<(const Rxn& a, const Rxn& b){return (a.upper_bound < b.upper_bound);}
   friend bool operator> (const Rxn& a, const Rxn& b){return (b < a);}
+  friend bool operator<=(const Rxn& a, const Rxn& b){return((a < b) || (a.upper_bound == b.upper_bound)); }
   
   int get_index() {if(upper_bound == 0) {return 0;} else{return (int)(std::log2(upper_bound));}}
   
