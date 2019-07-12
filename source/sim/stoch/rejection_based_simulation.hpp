@@ -41,11 +41,11 @@ private:
   std::vector<Rxn> reactions;
   
   //"depends_on_species" keeps track of which reactions are affected by a change in concentraion of a species in its own cell
-  std::vector<specie_id> depends_on_species[NUM_REACTIONS];
+  std::vector<reaction_id> depends_on_species[NUM_SPECIES];
   
   
   //"depends_on_neighbor_species" keeps track of which reactions are affected by a change in concentraion of a species in a neighboring cell
-  std::vector<specie_id> depends_on_neighbor_species[NUM_REACTIONS];
+  std::vector<reaction_id> depends_on_neighbor_species[NUM_SPECIES];
   
   //"propensity_groups" is the partitions of all reactions based on their propensities
   Propensity_Groups propensity_groups;

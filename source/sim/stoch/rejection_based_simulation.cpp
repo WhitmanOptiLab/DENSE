@@ -146,8 +146,12 @@ void Rejection_Based_Simulation::init_dependancy_graph(){
     #undef REACTION
   
   for(int i = 0; i < NUM_REACTIONS; i++){
-    depends_on_species[i] = dependencies[i];
-    depends_on_neighbor_species[i] = neighbor_dependencies[i];
+    for( auto s : dependencies[i]){
+      depends_on_species[s].push_back((reaction_id)i);
+    }
+    for(auto s : neighbor_dependencies[i]){
+      depends_on_neighbor_species[s].push_back((reaction_id)i);
+    }
   }
 }
 
@@ -263,13 +267,9 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     concentration_bounds[0][specie.first][specie.second] = lower;
     concentration_bounds[1][specie.first][specie.second] = upper;
     int begin_bounds = specie.first*NUM_REACTIONS;
-    int r = 0;
-    while(r < NUM_REACTIONS){
 
-      for(size_t s = 0; s < depends_on_species[r].size(); s++){
-        
-          if(specie.second == depends_on_species[r][s]){
-            Rxn old_reaction = reactions[begin_bounds];
+      for(reaction_id r : depends_on_species[specie.second]){
+            Rxn old_reaction = reactions[begin_bounds+r];
             Rxn new_reaction;
             new_reaction.cell = old_reaction.cell;
             new_reaction.reaction = old_reaction.reaction;
@@ -277,17 +277,15 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
             new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
             new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
-            if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))){
-              reactions[begin_bounds] = new_reaction;
+           if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))){
+              reactions[begin_bounds+r] = new_reaction;
               old_reactions.push_back(old_reaction);
               new_reactions.push_back(new_reaction);
-            }
-        }
+            }  
       }
       
-      for(size_t n = 0; n < depends_on_neighbor_species[r].size(); n++){
-        if(specie.second == depends_on_neighbor_species[r][n]){
-          Rxn old_reaction = reactions[begin_bounds];
+        for(reaction_id r : depends_on_neighbor_species[specie.second]){
+          Rxn old_reaction = reactions[begin_bounds+r];
           for(dense::Natural c = 0; neighbor_count_by_cell_[old_reaction.cell]; c++){
             Rxn new_reaction;
             new_reaction.cell = neighbors_by_cell_[old_reaction.cell][c];
@@ -302,14 +300,10 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
               old_reactions.push_back(old_reaction);
               new_reactions.push_back(new_reaction);
             }
-          }
         }
       }
-      r++;
-      begin_bounds++;
     }
     
-  }
 
   propensity_groups.update_groups(old_reactions, new_reactions); 
 }
