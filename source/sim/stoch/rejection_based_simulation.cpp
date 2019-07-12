@@ -176,25 +176,23 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int min_group_index){
   Real two_power = pow(2,min_group_l_value);
   bool mu_found = false;
   int mu;
-  std::cout << "find mu \n";
   while(!mu_found){
     Real r_2 = getRandVariable();
     mu = (int)(min_group.size() * r_2);
     
     #define DOUBLE_PRECISION_VARIABLE
     #ifdef DOUBLE_PRECISION_VARIABLE
-    Real r_3 = min_group.size() * r_2;
+    Real r_3 = (min_group.size() * r_2) -mu;
    
     #else
     
     Real r_3 = getRandVariable();
     #endif 
     #undef DOUBLE_PRECISION_VARIABLE
-    if(r_3 <= (min_group.at(mu).upper_bound/two_power)){
+    if(r_3 <= (min_group[mu].upper_bound/two_power)){
       mu_found = true;
     }
   }
- std::cout << "mu found \n";
   Real r_4 = getRandVariable();
   Rxn reaction = min_group.at(mu);
   bool accepted = false;
@@ -264,28 +262,32 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     
     concentration_bounds[0][specie.first][specie.second] = lower;
     concentration_bounds[1][specie.first][specie.second] = upper;
-    
-    for(int r = 0; r < NUM_REACTIONS; r++){
+    int begin_bounds = specie.first*NUM_REACTIONS;
+    int r = 0;
+    while(r < NUM_REACTIONS){
 
       for(size_t s = 0; s < depends_on_species[r].size(); s++){
-        if(specie.second == depends_on_species[r][s]){
-          Rxn old_reaction = reactions[r];
-          Rxn new_reaction;
-          new_reaction.cell = old_reaction.cell;
-          new_reaction.reaction = old_reaction.reaction;
-          ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
-          ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
-          new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
-          new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
-          
-          old_reactions.push_back(old_reaction);
-          new_reactions.push_back(new_reaction);
+        
+          if(specie.second == depends_on_species[r][s]){
+            Rxn old_reaction = reactions[begin_bounds];
+            Rxn new_reaction;
+            new_reaction.cell = old_reaction.cell;
+            new_reaction.reaction = old_reaction.reaction;
+            ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
+            ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
+            new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
+            new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
+            if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))){
+              reactions[begin_bounds] = new_reaction;
+              old_reactions.push_back(old_reaction);
+              new_reactions.push_back(new_reaction);
+            }
         }
       }
       
       for(size_t n = 0; n < depends_on_neighbor_species[r].size(); n++){
         if(specie.second == depends_on_neighbor_species[r][n]){
-          Rxn old_reaction = reactions[r];
+          Rxn old_reaction = reactions[begin_bounds];
           for(dense::Natural c = 0; neighbor_count_by_cell_[old_reaction.cell]; c++){
             Rxn new_reaction;
             new_reaction.cell = neighbors_by_cell_[old_reaction.cell][c];
@@ -294,16 +296,22 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             ConcentrationContext upper_context(concentration_bounds[1][specie.first],*this, specie.first);
             new_reaction.lower_bound = dense::model::active_rate(new_reaction.reaction, lower_context); 
             new_reaction.upper_bound = dense::model::active_rate(new_reaction.reaction, upper_context); 
-            old_reactions.push_back(old_reaction);
-            new_reactions.push_back(new_reaction);
+            int cell_reaction = (neighbors_by_cell_[old_reaction.cell][c]*NUM_REACTIONS)+r;
+            if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))){
+              reactions[cell_reaction] = new_reaction;
+              old_reactions.push_back(old_reaction);
+              new_reactions.push_back(new_reaction);
+            }
           }
         }
       }
+      r++;
+      begin_bounds++;
     }
     
   }
-  propensity_groups.update_groups(old_reactions, new_reactions); 
 
+  propensity_groups.update_groups(old_reactions, new_reactions); 
 }
   
   
