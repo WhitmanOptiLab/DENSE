@@ -55,10 +55,8 @@ namespace stochastic {
           std::cout << "Error: invalid reaction has index: " << reaction_index << '\n'
           << "group has size: " << groups[current_group].size() << '\n';
         }
-
       place_in_group(new_reactions[i]);
       update_p_value(new_reactions[i], true);
-
     }
     }
     
@@ -113,7 +111,6 @@ namespace stochastic {
         to_insert.push_back(reaction);
         
         if(group_map.size() == 0){
-          
           group_map.push_back(p);
           groups.push_back(to_insert);
           p_values.push_back(0.0);
@@ -129,20 +126,18 @@ namespace stochastic {
                 group_map.push_back(p);
                 groups.push_back(to_insert);
                 p_values.push_back(0.0);
-                
               }
             }
             
             else{
               size_t i = 0;
               while(i < (group_map.size() )){
-
                 if(group_map[i] < p ){
                   if(i+1 < group_map.size()){
                     if(group_map[i+1] > p){
                       group_map.insert((group_map.begin()+i+1), p);
                       groups.insert((groups.begin()+i+1), to_insert);
-                      p_values.insert((p_values.begin()+i+1), 0.0);
+                      p_values.insert((p_values.begin()+i+1),0.0);
                       return;
                     }
                   } else{

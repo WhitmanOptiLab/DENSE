@@ -31,7 +31,7 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
     auto min_group_index = propensity_groups.get_minimal_group_index(r_1);
     bool reaction_fired = false; 
     std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
-    bool all_delays_fired = false;
+    bool all_delays_fired = false; 
     while(!reaction_fired){
       auto r_2 = getRandVariable();
       Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
@@ -267,7 +267,6 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     concentration_bounds[0][specie.first][specie.second] = lower;
     concentration_bounds[1][specie.first][specie.second] = upper;
     int begin_bounds = specie.first*NUM_REACTIONS;
-
       for(reaction_id r : depends_on_species[specie.second]){
             Rxn old_reaction = reactions[begin_bounds+r];
             Rxn new_reaction;
@@ -283,12 +282,11 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
               new_reactions.push_back(new_reaction);
             }  
       }
-      
         for(reaction_id r : depends_on_neighbor_species[specie.second]){
-          Rxn old_reaction = reactions[begin_bounds+r];
-          for(dense::Natural c = 0; neighbor_count_by_cell_[old_reaction.cell]; c++){
+          for(dense::Natural c = 0; c < neighbor_count_by_cell_[specie.first]; c++){
+            Rxn old_reaction = reactions[begin_bounds+r];
             Rxn new_reaction;
-            new_reaction.cell = neighbors_by_cell_[old_reaction.cell][c];
+            new_reaction.cell = neighbors_by_cell_[specie.first][c];
             new_reaction.reaction = old_reaction.reaction;
             ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
             ConcentrationContext upper_context(concentration_bounds[1][specie.first],*this, specie.first);
@@ -302,9 +300,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             }
         }
       }
-    }
-    
-
+    } 
   propensity_groups.update_groups(old_reactions, new_reactions); 
 }
   
