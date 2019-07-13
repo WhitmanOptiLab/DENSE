@@ -492,7 +492,9 @@ void ESDoStat(ESStatistics *stats, ESPopulation *population,   \
   for(i=0; i<eslambda; i++)
   {
     if(ShareIsZero(population->phi[i])==shareDefTrue )
+    {
       count++;
+    }
     else
       continue;
     if(flag < 0)
@@ -500,7 +502,7 @@ void ESDoStat(ESStatistics *stats, ESPopulation *population,   \
       flag = i;
       continue;
     }
-    if(population->f[i] < population->f[flag])
+    if(population->f[i] > population->f[flag])
       flag = i;
   }
   if(count <=0)
@@ -650,7 +652,7 @@ void ESScorePopulation(ESPopulation * population, ESParameter *param, int lambda
   {
     indvdl = population->member[i];
     indvdl->f = scores[i];
-    printf("%f \n", scores[i]);
+    //printf("%f \n", scores[i]);
   }
 
   free(genes);

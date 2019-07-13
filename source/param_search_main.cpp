@@ -18,12 +18,14 @@ main.cpp contains the main, usage, and licensing functions.
 Avoid putting functions in main.cpp that could be put in a more specific file.
 */
 
+
 // Include MPI if compiled with it
-#if defined(MPI)
+#if defined(USE_MPI)
 	#undef MPI // MPI uses this macro as well, so temporarily undefine it
 	#include <mpi.h> // Needed for MPI_Comm_rank, MPI_COMM_WORLD
 	#define MPI // The MPI macro should be checked only for definition, not value
 #endif
+
 
 #if 0
 #include "main.hpp" // Function declarations
@@ -79,22 +81,22 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
 	
 	using Simulation = Fast_Gillespie_Direct_Simulation;
 	std::vector<double> scores;
-	
-	for(auto param_set : population){
-    
-    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),analysisEntries);	
-		
-    double sse  = 0.0;	
-		for(std::size_t j = 0;  j < simulation_means.size(); j++){
-      
-      sse = ((real_results[j] - simulation_means[j])*(real_results[j] -simulation_means[j]));
-      
-    }
- 
+
+    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, sim.get_simulations(population),analysisEntries);	
+  
+    std::cout << "simsize: " << simulation_means[0].size() << " rstsize: "<< real_results.size() << "\n";
+
+    for(size_t i = 0; i < simulation_means.size(); i++){
+      double sse  = 0.0;	
+      for(std::size_t j = 0;  j < simulation_means[i].size(); j++){
+
+        sse += ((real_results[j] - simulation_means[i][j])*(real_results[j] - simulation_means[i][j]));
+
+      }
       scores.push_back(sse);
-	}
+    }
 	
-  return scores;
+    return scores;
 }
 
 /* main is called when the program is run and performs all program functionality
@@ -120,9 +122,9 @@ int main (int argc, char** argv) {
   }
 	
   using Simulation = Fast_Gillespie_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, argc, argv); 
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), argc, argv); 
 	
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.cell_total)));
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices())));
 	
   std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
     [&](const std::vector<Parameter_Set>& population) {

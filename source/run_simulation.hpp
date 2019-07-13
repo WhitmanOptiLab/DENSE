@@ -169,7 +169,7 @@ void run_simulation(
   #else
   template <Simulation_Concept Simulation>
   #endif
-	std::vector<Real> run_and_return_analyses(
+	std::vector<std::vector<Real>> run_and_return_analyses(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -181,7 +181,7 @@ void run_simulation(
   #else
   template <Simulation_Concept Simulation>
   #endif
-	std::vector<Real> run_and_return_analyses(
+	std::vector<std::vector<Real>> run_and_return_analyses(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -201,7 +201,7 @@ void run_simulation(
                     }
 
                     void operator()() {
-                    return analysis->when_updated_by(*simulation, log.stream());
+                      analysis->when_updated_by(*simulation, log.stream());
                     }
 
                     std::unique_ptr<Analysis<Simulation>> analysis;
@@ -226,27 +226,28 @@ void run_simulation(
                 // ========================= RUN THE SHOW =========================
 
                 Real analysis_chunks = duration / notify_interval;
+                int size_callbacks = callbacks.size();
 
                 for (dense::Natural a = 0; a < analysis_chunks; a++) {
                     std::vector<Simulation const*> bad_simulations;
                     for (auto& callback : callbacks) {
-                    try {
-                        callback();
-                    }
-                    catch (dense::Bad_Simulation_Error<Simulation>& error) {
-                        bad_simulations.push_back(std::addressof(error.simulation()));
-                    }
+                      try {
+                          callback();
+                      }
+                      catch (dense::Bad_Simulation_Error<Simulation>& error) {
+                          bad_simulations.push_back(std::addressof(error.simulation()));
+                      }
                     }
                     for (auto& bad_simulation : bad_simulations) {
-                    auto has_bad_simulation = [=](Callback const& callback) {
-                        return callback.simulation == bad_simulation;
-                    };
-                    callbacks.erase(
-                        std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
-                        callbacks.end());
-                    using std::swap;
-                    swap(simulations[bad_simulation - simulations.data()], simulations.back());
-                    simulations.pop_back();
+                      auto has_bad_simulation = [=](Callback const& callback) {
+                          return callback.simulation == bad_simulation;
+                      };
+                      callbacks.erase(
+                          std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
+                          callbacks.end());
+                      using std::swap;
+                      swap(simulations[bad_simulation - simulations.data()], simulations.back());
+                      simulations.pop_back();
                     }
 
                     for (auto & simulation : simulations) {
@@ -254,20 +255,28 @@ void run_simulation(
                     }
                 }
 		
-								std::vector<Real> analyses;
+				std::vector<std::vector<Real>> analyses;
+                size_t conc_size = callbacks[0].analysis->get_details().concs.size();
 								
 
                 for (auto& callback : callbacks) {
                     callback.analysis->finalize();
-               //     callback.analysis->show(&callback.log);
-										
-										Details analysis_details = callback.analysis->get_details();
-										
-										for(size_t i = 0; i < analysis_details.concs.size(); i++){
-												analyses.push_back(analysis_details.concs[i]);
-										}
+                   //     callback.analysis->show(&callback.log);
+
+                    Details analysis_details = callback.analysis->get_details();
+                    std::vector<Real> to_insert;
+                    for(size_t i = 0; i < analysis_details.concs.size(); i++){
+                      to_insert.push_back(analysis_details.concs[i]);
+                    }
+                    analyses.push_back(to_insert);
                 }
-					return analyses;
+    
+                for (int i = analyses.size(); i < size_callbacks; i++){
+                    //std::vector<Real> to_insert(conc_size, 0);
+                    analyses.emplace_back(conc_size, 0);
+                    std::cout << "insert one \n";
+                }
+		return analyses;
 		
 	}
 	

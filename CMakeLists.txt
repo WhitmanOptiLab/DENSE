@@ -16,10 +16,10 @@ include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
 string(REPLACE ";" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} "
- "-g -fconcepts -pedantic -fmax-errors=3 -Wall -Wextra -Werror -Wcast-align -Wcast-qual -Wctor-dtor-privacy "
+ "-g -fconcepts -fmax-errors=3 -pedantic -Wall -Wextra -Werror -Wcast-align -Wcast-qual -Wctor-dtor-privacy "
  "-Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wno-type-limits "
  "-Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wstrict-null-sentinel -Wstrict-overflow=1 "
- "-Wswitch-default -Wundef -Wunused -Wzero-as-null-pointer-constant -Wuseless-cast -Wsuggest-override -fopenmp")
+ "-Wswitch-default -Wundef -Wunused -Wuseless-cast -Wsuggest-override -fopenmp -DMPI=1")
 if(COMPILER_SUPPORTS_CXX11)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 elseif(COMPILER_SUPPORTS_CXX0X)
@@ -43,6 +43,13 @@ if (${CUDA_FOUND})
 else (${CUDA_FOUND})
   message("CUDA not found on this system - building CPU-only")
 endif (${CUDA_FOUND})
+
+find_package(MPI QUIET)
+if (${MPI_FOUND})
+  message(STATUS "Run: ${MPIEXEC} ${MPIEXEC_NUMPROC_FLAG} ${MPIEXEC_MAX_NUMPROCS} ${MPIEXEC_PREFLAGS} EXECUTABLE ${MPIEXEC_POSTFLAGS} ARGS ${MPI_CXX_COMPILE_FLAGS}")
+else (${MPI_FOUND})
+  message("MPI not found")
+endif (${MPI_FOUND})
 
 enable_testing()
 

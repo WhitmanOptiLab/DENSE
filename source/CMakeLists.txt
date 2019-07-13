@@ -37,13 +37,15 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
-					${DENSE_SOURCE_DIR}/source/search/sres.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
+          ${DENSE_SOURCE_DIR}/source/search/sres.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
           )
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
+    target_include_directories(${localname} PUBLIC ${MPI_CXX_INCLUDE_PATH})
+    target_link_libraries(${localname} ${MPI_CXX_LIBRARIES})
   endif (NOT TARGET ${localname})
 endfunction(SIMCORELIB localname simdir)
 
@@ -76,14 +78,50 @@ function(PARAMSEARCH localname simdir)
   target_link_libraries(${localname} PUBLIC ${localname}_lib)
 endfunction(PARAMSEARCH localname simdir)
 
+function(PARAM_SEARCH_MPI_LIB localname simdir)
+  if (NOT TARGET ${localname})
+    add_library(${localname}
+          ${DENSE_SOURCE_DIR}/source/core/build_once.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/base.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
+          ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
+          ${DENSE_SOURCE_DIR}/source/utility/color.cpp
+          ${DENSE_SOURCE_DIR}/source/utility/preprocessor.cpp
+          ${DENSE_SOURCE_DIR}/source/io/arg_parse.cpp
+          ${DENSE_SOURCE_DIR}/source/io/csvr.cpp
+          ${DENSE_SOURCE_DIR}/source/io/csvr_sim.cpp
+          ${DENSE_SOURCE_DIR}/source/io/csvw.cpp
+          ${DENSE_SOURCE_DIR}/source/io/ezxml/ezxml.c
+          ${DENSE_SOURCE_DIR}/source/arg_parse.hpp
+          ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
+          ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
+          ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
+          ${DENSE_SOURCE_DIR}/source/search/sres.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres-mpi/ESES.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres-mpi/ESSRSort.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres-mpi/sharefunc.cpp
+          )
+    target_include_directories(${localname} PUBLIC ${simdir})
+    target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
+    target_include_directories(${localname} PUBLIC ${MPI_CXX_INCLUDE_PATH})
+    target_link_libraries(${localname} ${MPI_CXX_LIBRARIES})
+  endif (NOT TARGET ${localname})
+endfunction(PARAM_SEARCH_MPI_LIB localname simdir)
 
-function(BENCHMARK localname simdir)
-  SIMCORELIB(${localname}_lib ${simdir})
-  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
+function(PARAMSEARCHMPI localname simdir)
+  PARAM_SEARCH_MPI_LIB(${localname}_lib ${simdir})
+  add_executable(${localname} ${PROJECT_SOURCE_DIR}/source/param_search_main.cpp)
   target_include_directories(${localname} PUBLIC ${simdir})
-  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
-  target_link_libraries(${localname} PUBLIC ${localname}_lib)
-endfunction(BENCHMARK localname simdir)
+  target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
+  target_include_directories(${localname} PRIVATE ${MPI_CXX_INCLUDE_PATH})
+  target_compile_options(${localname} PRIVATE ${MPI_CXX_COMPILE_FLAGS})
+  target_link_libraries(${localname} ${MPI_CXX_LIBRARIES})
+  target_link_libraries(${localname} ${localname}_lib)
+endfunction(PARAMSEARCHMPI localname simdir)
 
 
 function(CUDASIMCORELIB localname simdir)
@@ -128,10 +166,10 @@ endfunction(CUDA_SIMULATION localname simdir)
 function(PARAM_SEARCH_LIB localname simdir)
   if (NOT TARGET ${localname})
     add_library(${localname}
-                   ${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
-                   ${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
-                   ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
-                   ${DENSE_SOURCE_DIR}/source/search/sres.cpp)
+      ${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
+      ${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
+      ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
+      ${DENSE_SOURCE_DIR}/source/search/sres.cpp)
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
   endif (NOT TARGET ${localname})
@@ -167,12 +205,17 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-		PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
-    set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${CUDA_FOUND})
+    if (${MPI_FOUND})
+      PARAMSEARCHMPI(paramsearch_mpi ${PROJECT_BINARY_DIR})
+      set_target_properties(paramsearch_mpi PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    else(${MPI_FOUND})
+      PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
+      set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif (${MPI_FOUND})
     # Forces csv_gen to run before all the test_'s are built.
     # This occurs when 'make' is run.
     add_custom_target(csv_gen_run ${PROJECT_BINARY_DIR}/source/csv_gen ${PROJECT_BINARY_DIR}/ )

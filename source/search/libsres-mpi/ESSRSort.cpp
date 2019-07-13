@@ -51,8 +51,7 @@
  **     break                                                       **
  *********************************************************************/
 
-void
-ESSRSort(double *f, double *phi, double pf, int eslambda, int N, int *I)
+void ESSRSort(double *f, double *phi, double pf, int eslambda, int N, int *I)
 {
   int i, j;
   double u;

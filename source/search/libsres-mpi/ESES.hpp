@@ -35,6 +35,7 @@
 
 #ifndef ESES_HPP
 #define ESES_HPP
+#include <functional>
 
 #define esDefPopsize 300
 #define esDefGeneration 500
@@ -50,7 +51,7 @@
  ** to calculate fitness and constraints and assign to ESIndividual **
  ** fg(x,dim, f, g)                                                 **
  *********************************************************************/
-typedef void(*ESfcnFG) (double *, double *, double *);
+typedef std::function<void(double **, double *, double **, int)> ESfcnFG;
 
 /*********************************************************************
  ** function to transform x(op) and sp                              **
@@ -284,7 +285,7 @@ void ESCopyIndividual(ESIndividual *, ESIndividual *, ESParameter *);
  ** ESDeInitialStat(stats)                                          **
  ** free statistics                                                 **
  *********************************************************************/
-void ESInitialStat(ESStatistics **, ESPopulation *, ESParameter *);
+void ESInitialStat(ESStatistics **, ESParameter *);
 void ESDeInitialStat(ESStatistics *);
 /*********************************************************************
  ** do statistics                                                   **
@@ -356,7 +357,7 @@ void ESSelectPopulation(ESPopulation *, ESParameter *);
  ** Slave:  re-calculate f/g/phi                                    **
  *********************************************************************/
 void ESMutate(ESPopulation *, ESParameter *);
-void ESMPIMutate(ESPopulation *, ESParameter *);
+void ESMPIMutate(ESParameter *);
 
 #endif
 
