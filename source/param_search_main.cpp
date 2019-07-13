@@ -18,12 +18,14 @@ main.cpp contains the main, usage, and licensing functions.
 Avoid putting functions in main.cpp that could be put in a more specific file.
 */
 
+
 // Include MPI if compiled with it
-#if defined(MPI)
+#if defined(USE_MPI)
 	#undef MPI // MPI uses this macro as well, so temporarily undefine it
 	#include <mpi.h> // Needed for MPI_Comm_rank, MPI_COMM_WORLD
 	#define MPI // The MPI macro should be checked only for definition, not value
 #endif
+
 
 #if 0
 #include "main.hpp" // Function declarations
@@ -77,28 +79,27 @@ int printing_precision = 6;
 
 std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<Real> real_results, Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Param_Static_Args a, const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Fast_Gillespie_Direct_Simulation>>>> &analysisEntries) {
 	
-	using Simulation = Fast_Gillespie_Direct_Simulation;
-	std::vector<double> scores;
-	
-//	for(auto param_set : population){
-    
-    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(population)),analysisEntries);	
-		
+  using Simulation = Fast_Gillespie_Direct_Simulation;
+  std::vector<double> scores;
+  auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, sim.get_simulations(population),analysisEntries);	
+
+  std::cout << "simsize: " << simulation_means[0].size() << " rstsize: "<< real_results.size() << "\n";
+
+  for(size_t i = 0; i < simulation_means.size(); i++){
     double sse  = 0.0;	
-    for(std::size_t j = 0;  j < simulation_means.size(); j++){
-      
-      sse += ((real_results[j] - simulation_means[j])*(real_results[j] -simulation_means[j]));
-      
+    for(std::size_t j = 0;  j < simulation_means[i].size(); j++){
+
+      sse += ((real_results[j] - simulation_means[i][j])*(real_results[j] - simulation_means[i][j]));
+
     }
-   
     scores.push_back(sse);
-//	}
-	
+  }
+
   return scores;
 }
 
 /* main is called when the program is run and performs all program functionality
-	parameters:
+   parameters:
 		argc: the number of command-line arguments
 		argv: the array of command-line arguments
 	returns: 0 on success, a positive integer on failure

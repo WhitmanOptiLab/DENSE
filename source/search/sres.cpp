@@ -25,38 +25,36 @@ Avoid placing I/O functions here and add them to io.cpp instead.
 
 // Include MPI if compiled with it
 // libSRES has different files for MPI and non-MPI versions
-#if defined(USE_MPI)
-#include <mpi.h> // Needed for MPI_Comm_rank, MPI_COMM_WORLD
-#include "libsres-mpi/sharefunc.hpp"
-#include "libsres-mpi/ESSRSort.hpp"
-#include "libsres-mpi/ESES.hpp"
-#else
+//#if defined(MPI)
+//  #include <mpi.h>
+//  #include "libsres-mpi/sharefunc.hpp"
+//  #include "libsres-mpi/ESSRSort.hpp"
+//  #include "libsres-mpi/ESES.hpp"
+//#else
 #include "libsres/sharefunc.hpp"
 #include "libsres/ESSRSort.hpp"
 #include "libsres/ESES.hpp"
-#endif
+//#endif
 
 #include "sres.hpp" // Function declarations
 
 
 //#include "io.hpp"
 
-namespace {
 /* get_rank gets the MPI rank of the process or returns 0 if MPI is not active
 	parameters:
 	returns: the rank
 	notes:
-	todo:
-int get_rank () {
-	int rank = 0;
-	#if defined(MPI)
-		MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-	#endif
-	return rank;
-}
-*/
+	todo: */
+//int get_rank () {
+//	int rank = 0;
+//	#if defined(MPI)
+//		MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+//	#endif
+//	return rank;
+//}
 
-}
+
 
 void SRES::simulate_population(int popc, double** population, double* scores) {
   std::vector<Parameter_Set> sets;

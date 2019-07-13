@@ -127,8 +127,9 @@ namespace dense {
 								}
         std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
             std::vector<Fast_Gillespie_Direct_Simulation> simulations;
+            simulations.reserve(param_sets.size());
             for (auto& parameter_set : param_sets) {
-                simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph, num_grow_cell);
+                simulations.emplace_back(parameter_set, perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
             }
             return simulations;
        }

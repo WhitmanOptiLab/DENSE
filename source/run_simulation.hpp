@@ -169,7 +169,7 @@ void run_simulation(
   #else
   template <Simulation_Concept Simulation>
   #endif
-	std::vector<Real> run_and_return_analyses(
+	std::vector<std::vector<Real>> run_and_return_analyses(
         std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -230,31 +230,31 @@ void run_simulation(
     for (dense::Natural a = 0; a < analysis_chunks; a++) {
         std::vector<Simulation const*> bad_simulations;
         for (auto& callback : callbacks) {
-        try {
+          try {
             callback();
-        }
-        catch (dense::Bad_Simulation_Error<Simulation>& error) {
+          }
+          catch (dense::Bad_Simulation_Error<Simulation>& error) {
             bad_simulations.push_back(std::addressof(error.simulation()));
-        }
+          }
         }
         for (auto& bad_simulation : bad_simulations) {
-        auto has_bad_simulation = [=](Callback const& callback) {
+          auto has_bad_simulation = [=](Callback const& callback) {
             return callback.simulation == bad_simulation;
-        };
-        callbacks.erase(
-            std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
-            callbacks.end());
-        using std::swap;
-        swap(simulations[bad_simulation - simulations.data()], simulations.back());
-        simulations.pop_back();
+          };
+          callbacks.erase(
+              std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
+              callbacks.end());
+          using std::swap;
+          swap(simulations[bad_simulation - simulations.data()], simulations.back());
+          simulations.pop_back();
         }
 
         for (auto & simulation : simulations) {
-        auto age = simulation.age_by(notify_interval);
+          auto age = simulation.age_by(notify_interval);
         }
     }
 		
-				std::vector<Real> analyses;
+    std::vector<Real> analyses;
 								
 
     for (auto& callback : callbacks) {
@@ -266,7 +266,7 @@ void run_simulation(
         }
      }
     
-					return analyses;
+    return analyses;
 	}
 }
 
