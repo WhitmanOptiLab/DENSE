@@ -37,19 +37,19 @@ void BasicAnalysis<Simulation>::update (Simulation& simulation, std::ostream&) {
 
 template <typename Simulation>
 void BasicAnalysis<Simulation>::finalize () {
-
-if(!finalized){
-	finalized = true;
-}
-  for (auto & cell_means : means_by_context) {
-    for (auto & mean : cell_means) {
-      mean /= Analysis<>::samples;
+    if(!finalized){
+        finalized = true;
     }
-  }
-	detail.concs = means;
-	detail.other_details.emplace_back(mins);
-	detail.other_details.emplace_back(maxs);
+    for (auto & cell_means : means_by_context) {
+      for (auto & mean : cell_means) {
+        mean /= Analysis<>::samples;
+      }
+    }
+    detail.concs = means;
+    detail.other_details.emplace_back(mins);
+    detail.other_details.emplace_back(maxs);
 }
+
 
 template<typename Simulation>
 Details BasicAnalysis<Simulation>::get_details(){

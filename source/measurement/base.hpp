@@ -89,7 +89,7 @@ class Analysis : public Analysis<> {
 
     virtual void finalize() = 0;
 	
-	 	virtual Details get_details() = 0;
+    virtual Details get_details() = 0;
 
     void when_updated_by(Simulation & simulation, std::ostream& log);
     

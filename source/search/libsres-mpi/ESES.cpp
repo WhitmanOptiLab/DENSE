@@ -46,8 +46,10 @@
 #include "sharefunc.hpp"
 #include "ESSRSort.hpp"
 #include "ESES.hpp"
+#include <iostream>
 
-#include "../source/io.hpp"
+
+
 
 extern int printing_precision; // Declared in main.cpp
 
@@ -89,7 +91,7 @@ extern int printing_precision; // Declared in main.cpp
  ** free param and population                                       **
  ** finalize MPI                                                    **
  *********************************************************************/
-void ESInitial(/*int *argc, char ***argv,   */\
+void ESInitial(/*int *argc, char ***argv, */  \
                unsigned int seed, ESParameter ** param,ESfcnTrsfm *trsfm,  \
                ESfcnFG fg, int es, int constraint, int dim, double* ub,   \
                double *lb, int miu, int lambda, int gen,  \
@@ -99,9 +101,11 @@ void ESInitial(/*int *argc, char ***argv,   */\
   unsigned int outseed;
   int myid, numprocs;
 
-  //MPI_Init(argc, argv);
+  MPI_Init(NULL, NULL);
+  //std::this_thread::sleep_for (std::chrono::seconds(10));
   MPI_Comm_rank(MPI_COMM_WORLD, &myid);
   MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
+  
   if(numprocs < 2)
   {
     printf("Requiring at least 2 processes!\n");
@@ -112,7 +116,7 @@ void ESInitial(/*int *argc, char ***argv,   */\
   ESInitialParam(param, trsfm, fg, es, outseed,constraint, dim, ub, lb,   \
                  miu, lambda, gen, gamma, alpha, varphi, retry);
   ESInitialPopulation(population, (*param));
-  ESInitialStat(stats, (*population), (*param));
+  ESInitialStat(stats, (*param));
 
   /*if(myid == 0)
   {
@@ -174,7 +178,7 @@ void ESInitialParam(ESParameter **param,ESfcnTrsfm *trsfm,  \
 
   (*param) = (ESParameter *)ShareMallocM1c(sizeof(ESParameter));
   (*param)->trsfm = nullptr;
-  (*param)->fg = nullptr;
+  new (&((*param)->fg)) ESfcnFG();
   (*param)->ub = nullptr;
   (*param)->lb = nullptr;
   (*param)->spb = nullptr;
@@ -340,7 +344,7 @@ void ESInitialIndividual(ESIndividual **indvdl, ESParameter *param)
     (*indvdl)->sp[i] = (ub[i] - lb[i])/sqrt(dim);
   }
 
-  fg((*indvdl)->op, &((*indvdl)->f), (*indvdl)->g);
+  //fg((*indvdl)->op, &((*indvdl)->f), (*indvdl)->g, 1);
   (*indvdl)->phi = 0.0;
   for(i=0; i<constraint; i++)
   {
@@ -360,10 +364,12 @@ void ESDeInitialIndividual(ESIndividual *indvdl)
 
   return;
 }
+/*
 void ESPrintIndividual(ESIndividual *indvdl, ESParameter *param)
 {
   return;
 }
+*/
 void ESPrintOp(ESIndividual *indvdl, ESParameter *param)
 {
   int i = 0;
@@ -452,8 +458,7 @@ void ESCopyIndividual(ESIndividual *from, ESIndividual *to, ESParameter *param)
  ** ESDeInitialStat(stats)                                          **
  ** free statistics                                                 **
  *********************************************************************/
-void ESInitialStat(ESStatistics **stats, ESPopulation *population,   \
-                   ESParameter *param)
+void ESInitialStat(ESStatistics **stats, ESParameter *param)
 {
   (*stats) = (ESStatistics *)ShareMallocM1c(sizeof(ESStatistics));
   (*stats)->bestgen = 0;
@@ -529,6 +534,7 @@ void ESDoStat(ESStatistics *stats, ESPopulation *population,   \
     return;
 
   ESCopyIndividual(population->member[flag], stats->thisbestindvdl, param);
+  //std::cout <<population->member[flag]->f << "\nbestind:" << stats->bestindvdl->f << "flag:" << flag << std::endl;
   if( population->f[flag] <= stats->bestindvdl->f  \
       || ShareIsZero(stats->bestindvdl->phi)==shareDefFalse )
   {
@@ -588,7 +594,7 @@ void ESStep(ESPopulation *population, ESParameter *param,   \
   }
   else
   {
-    ESMPIMutate(population, param);
+    ESMPIMutate(param);
     stats->curgen +=1;
   }
 
@@ -666,6 +672,17 @@ void ESSelectPopulation(ESPopulation *population, ESParameter *param)
   return;
 }
 
+void ESSetPhiVal(ESIndividual *indvdl, ESParameter *param) {
+  indvdl->phi = 0.0;
+  for(int i=0; i<param->constraint; i++)
+  {
+    if(indvdl->g[i] > 0.0)
+      indvdl->phi += (indvdl->g[i])*(indvdl->g[i]);
+  }
+  return;
+}
+
+
 /*********************************************************************
  ** mutate                                                          **
  ** ESMutate(population, param)                                     **
@@ -696,7 +713,7 @@ void ESSelectPopulation(ESPopulation *population, ESParameter *param)
 void ESMutate(ESPopulation * population, ESParameter *param)
 {
   int i, j, k, l;
-  int miu, dim,lambda, constraint;
+  int miu, dim, lambda, constraint;
   double gamma, alpha;
   double tau, tau_;
   int retry;
@@ -711,6 +728,7 @@ void ESMutate(ESPopulation * population, ESParameter *param)
   int numprocs,nummpi;
   MPI_Status status;
   double *gfphi;
+  //double *scores;
   char strOK[] = "OK";
   int lenOK = 2;
   lenOK = strlen(strOK);
@@ -808,7 +826,31 @@ void ESMutate(ESPopulation * population, ESParameter *param)
       j=1;
     MPI_Send(population->member[i]->op,dim,MPI_DOUBLE,j,i,MPI_COMM_WORLD);
   }
+  
+//  for(l=1; l<numprocs; l++)
+//  {
+//    for(i=0,j=1,nummpi=0; i<lambda; i++,j++)
+//    {
+//      if(j==numprocs)
+//        j=1;
+//      if(j==l)
+//        nummpi++;
+//    }
+//    if(nummpi<=0)
+//      break;
+//    
+//    MPI_Send(strOK,lenOK,MPI_BYTE,l,l,MPI_COMM_WORLD);
+//  }
+//  
+//  for(i=0,j=1; i<lambda; i++,j++)
+//  {
+//    if(j==numprocs)
+//      j=1;
+//    MPI_Send(population->member[i]->g,dim,MPI_DOUBLE,j,i,MPI_COMM_WORLD);
+//  }
+  
   gfphi = ShareMallocM1d(2+constraint);
+  
   for(l=1; l<numprocs; l++)
   {
     for(i=0,j=1,nummpi=0; i<lambda; i++,j++)
@@ -820,7 +862,9 @@ void ESMutate(ESPopulation * population, ESParameter *param)
     }
     if(nummpi<=0)
       break;
+    
     MPI_Send(strOK,lenOK,MPI_BYTE,l,l,MPI_COMM_WORLD);
+    
     for(i=0,j=1; i<lambda; i++,j++)
     {
       if(j==numprocs)
@@ -829,10 +873,11 @@ void ESMutate(ESPopulation * population, ESParameter *param)
         continue;
       MPI_Recv(gfphi,2+constraint,MPI_DOUBLE,j,i,MPI_COMM_WORLD,&status);
       indvdl = population->member[i];
-      for(k=0;k<constraint;k++)
-        indvdl->g[k] = gfphi[k];
-      indvdl->f = gfphi[k++];
-      indvdl->phi = gfphi[k++];
+      //for(k=0;k<constraint;k++)
+      //  indvdl->g[k] = gfphi[k];
+      ESSetPhiVal(indvdl, param);
+      indvdl->f = gfphi[constraint];
+      //indvdl->phi = gfphi[constraint+1];
       population->f[i] = indvdl->f;
       population->phi[i] = indvdl->phi;
     }
@@ -850,12 +895,12 @@ void ESMutate(ESPopulation * population, ESParameter *param)
   return;
 }
 
-void ESMPIMutate(ESPopulation *population, ESParameter *param)
+void ESMPIMutate(ESParameter *param)
 {
-  int i,j,k,l;
+  int i,j,l;
   int lambda, dim, constraint;
 
-  double *op, **gfphi;
+  double **gfphi;
   int nummpi;
   int myid, numprocs;
   MPI_Status status;
@@ -880,8 +925,9 @@ void ESMPIMutate(ESPopulation *population, ESParameter *param)
   if(nummpi<=0)
     return;
 
-  op = ShareMallocM1d(dim);
-  gfphi = ShareMallocM2d(nummpi,2+constraint);
+  double** genes = ShareMallocM2d(nummpi, dim);
+  double* scores = ShareMallocM1d(nummpi);
+  gfphi = ShareMallocM2d(nummpi,2+dim);
 
   for(i=0,j=1,l=0; i<lambda; i++,j++)
   {
@@ -889,18 +935,35 @@ void ESMPIMutate(ESPopulation *population, ESParameter *param)
       j = 1;
     if(j!=myid)
       continue;
-    MPI_Recv(op, dim, MPI_DOUBLE, 0,i,MPI_COMM_WORLD,&status);
-    param->fg(op, &(gfphi[l][constraint]),gfphi[l]);
-    gfphi[l][constraint+1] = 0.0;
-    for(k=0;k<constraint;k++)
-    {
-      if(gfphi[l][k]>0.0)
-        gfphi[l][constraint+1] += (gfphi[l][k]*gfphi[l][k]);
-    }
+    MPI_Recv(genes[l], dim, MPI_DOUBLE, 0,i,MPI_COMM_WORLD,&status);
     l++;
+  }
+  
+//  for(i=0,j=1,l=0; i<lambda; i++,j++)
+//  {
+//    if(j==numprocs)
+//      j = 1;
+//    if(j!=myid)
+//      continue;
+//    MPI_Recv(cons[l], dim, MPI_DOUBLE, 0,i,MPI_COMM_WORLD,&status);
+//    l++;
+//  }
+  
+  param->fg(genes, scores, gfphi, nummpi);
+  
+  for(l=0; l<nummpi; l++)
+  {
+    gfphi[l][constraint] = scores[l];    
+//    gfphi[l][constraint+1] = 0.0;
+//    for(k=0;k<constraint;k++)
+//    {
+//      if(gfphi[l][k]>0.0)
+//        gfphi[l][constraint+1] += (gfphi[l][k]*gfphi[l][k]);
+//    }
   }
 
   MPI_Recv(buf,lenOK,MPI_BYTE,0,myid,MPI_COMM_WORLD, &status);
+  
   for(i=0,j=1,l=0; i<lambda; i++,j++)
   {
     if(j==numprocs)
@@ -911,10 +974,12 @@ void ESMPIMutate(ESPopulation *population, ESParameter *param)
     l++;
   }
 
-  ShareFreeM1d(op);
-  op = nullptr;
+  ShareFreeM1d(scores);
+  scores = nullptr;
   ShareFreeM2d(gfphi,nummpi);
   gfphi = nullptr;
+  ShareFreeM2d(genes,nummpi);
+  genes = nullptr;
 
   return;
 }
