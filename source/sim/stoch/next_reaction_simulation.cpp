@@ -103,7 +103,6 @@ void Next_Reaction_Simulation::tauLeap(){
 	std::pair<Natural, reaction_id> j = choose_reaction();
 	reaction_id r =j.second;
 	int c = j.first;
-
   fireOrSchedule(c,r);
 }
 
@@ -245,4 +244,7 @@ void Next_Reaction_Simulation::initTau() {
   }
 }
 
-}}
+	
+} //namespace stochastic
+} //namespace dense
+

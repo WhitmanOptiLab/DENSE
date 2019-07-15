@@ -23,10 +23,11 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
     }
 }
 
-dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cells_total, int width_total,
-                    Minutes step_size, std::vector<Real> conc) :
-    Simulation(ps, cells_total, width_total, pnFactorsPert, pnFactorsGrad), _intDelays(width_total, cells_total),
-     _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(2), _baby_cl(*this) {
+dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
+                    Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
+    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad), 
+    _intDelays(NUM_DELAY_REACTIONS, cell_count()),
+    _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(2), _baby_cl(*this) {
       //Copy and normalize _delays into _intDelays
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
         for (dense::Natural j = 0; j < cell_count(); ++j) {

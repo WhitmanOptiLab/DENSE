@@ -165,7 +165,7 @@ void run_simulation(
             
         }
 
-	
+
 	#ifndef __cpp_concepts
   template <typename Simulation>
   #else
@@ -278,6 +278,5 @@ void run_simulation(
 }
 
 #endif
-
 
 

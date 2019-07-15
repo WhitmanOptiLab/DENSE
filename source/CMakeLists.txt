@@ -46,6 +46,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rejection_based_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rxn_struct.hpp
+
           )
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
@@ -84,6 +85,7 @@ endfunction(STOCH_NR_SIMULATION localname simdir)
 #  target_include_directories(${localname} PUBLIC ${PROJECT_SOURCE_DIR}/source)
 #  target_link_libraries(${localname} PUBLIC ${localname}_lib)
 #endfunction(PARAMSEARCH localname simdir)
+
 
 
 function(CUDASIMCORELIB localname simdir)
