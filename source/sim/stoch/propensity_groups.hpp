@@ -28,10 +28,10 @@ namespace stochastic {
     }
   
     
-    
     void update_groups( std::vector<Rxn>& old_reactions, std::vector<Rxn>& new_reactions){
       
       for(size_t i = 0; i < old_reactions.size(); i++){
+        update_p_value(old_reactions[i], false);
         int current_group = group_index(old_reactions[i].get_index());
         int reaction_index = find_reaction_index(old_reactions[i]);
         if(reaction_index >= 0){
@@ -49,7 +49,6 @@ namespace stochastic {
           *    p_values.erase(p_values.begin()+current_group);
           *  }
           */
-            update_p_value(old_reactions[i], false);
         }
         else{
           std::cout << "Error: invalid reaction has index: " << reaction_index << '\n'
@@ -123,30 +122,36 @@ namespace stochastic {
                 p_values.insert(p_values.begin(), 0.0);
               }
               else{
+           
                 group_map.push_back(p);
                 groups.push_back(to_insert);
                 p_values.push_back(0.0);
               }
-            }
+          }
             
             else{
-              size_t i = 0;
-              while(i < (group_map.size() )){
-                if(group_map[i] < p ){
+              if( group_map[0] > p){
+                  group_map.insert(group_map.begin(), p);
+                  groups.insert(groups.begin(), to_insert);
+                  p_values.insert(p_values.begin(),0.0);
+                  return;
+                }
+              else{
+                for(size_t i = 0; i < group_map.size(); i++){
                   if(i+1 < group_map.size()){
-                    if(group_map[i+1] > p){
-                      group_map.insert((group_map.begin()+i+1), p);
-                      groups.insert((groups.begin()+i+1), to_insert);
-                      p_values.insert((p_values.begin()+i+1),0.0);
-                      return;
+                    if((group_map[i] < p) && (group_map[i+1] > p)){
+                        group_map.insert((group_map.begin()+i+1), p);
+                        groups.insert((groups.begin()+i+1), to_insert);
+                        p_values.insert((p_values.begin()+i+1),0.0);
+                        return;
                     }
                   } else{
-                      group_map.push_back(p);
-                      groups.push_back(to_insert);
-                      p_values.push_back(0.0);
+                        group_map.push_back(p);
+                        groups.push_back(to_insert);
+                        p_values.push_back(0.0);
+                        return;
                   }
                 }
-                i++;
               }
             }
         }

@@ -63,7 +63,7 @@ private:
   //
   void init_dependancy_graph();
   //
-  bool fire_delay_reactions(Minutes tau, std::vector<std::pair<dense::Natural,dense::Natural>>& changed);
+  bool fire_delay_reactions(Minutes tau);
   //
   bool rejection_tests( Rxn& rxn,int min_group_index);
   //
@@ -82,23 +82,15 @@ public:
 
   
   
-  Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed) : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-  , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
-  //, concentration_bounds[0](cell_count, std::vector<Real>(NUM_SPECIES, 0))
-  //, concentration_bound[1](cell_count, std::vector<Real>(NUM_SPECIES, 0))
-  //, reactions(cell_count)
-  //, depends_on_species(NUM_SPECIES)
-  //, depends_on_neighbor_species(NUM_SPECIES)
+ 
+   Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
   , delay_schedule()
   , generator(seed){
-    std::cout << "bounds going \n";
     init_bounds();
-    std::cout << "groups going \n";
     propensity_groups.init_propensity_groups(reactions);
-    std::cout << "dependancy graph \n";
     init_dependancy_graph();
   }
-  
   
   Real get_concentration(dense::Natural cell, specie_id species) const {
     return concs.at(cell).at(species);

@@ -41,7 +41,6 @@ function(SIMCORELIB localname simdir)
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/propensity_groups.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rejection_based_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
