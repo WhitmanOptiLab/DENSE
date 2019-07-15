@@ -27,15 +27,23 @@ CUDA_AGNOSTIC
 Minutes Rejection_Based_Simulation::age_by(Minutes duration){
   auto end_time = age() + duration;
   while(age() < end_time){
+    std::cout << "1  \n";
     auto r_1 = getRandVariable();
+    std::cout << "2 \n";
     auto min_group_index = propensity_groups.get_minimal_group_index(r_1);
+    std::cout << "3 \n";
     bool reaction_fired = false; 
+    
+    std::cout << "4 \n";
     std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
+    std::cout << "5 \n";
     bool all_delays_fired = false; 
     while(!reaction_fired){
       auto r_2 = getRandVariable();
       Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
+      std::cout << "firing delays \n";
       all_delays_fired = fire_delay_reactions(tau, changed_species);
+      std::cout << "delays fired? " << all_delays_fired << '\n';
       if(all_delays_fired){
         Rxn reaction_to_be_fired;
         reaction_fired = rejection_tests(reaction_to_be_fired, min_group_index);

@@ -91,8 +91,11 @@ public:
   //, depends_on_neighbor_species(NUM_SPECIES)
   , delay_schedule()
   , generator(seed){
+    std::cout << "bounds going \n";
     init_bounds();
+    std::cout << "groups going \n";
     propensity_groups.init_propensity_groups(reactions);
+    std::cout << "dependancy graph \n";
     init_dependancy_graph();
   }
   
