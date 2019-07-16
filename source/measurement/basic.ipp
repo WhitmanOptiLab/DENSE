@@ -76,14 +76,14 @@ void BasicAnalysis<Simulation>::show (csvw * csv_out) {
   Analysis<>::show(csv_out);
   if (csv_out) {
     auto & out = *csv_out;
-    out << "Species,Minimum Concentration,Mean Concentration,Maximum Concentration,Standard Deviation \n";
+    //out << "Species,Minimum Concentration,Mean Concentration,Maximum Concentration,Standard Deviation \n";
     //out << std::scientific << std::setprecision(5);
     for (specie_id species : Analysis<>::observed_species_) {
-      out << specie_str[species] << "," <<
-        mins[species] << "," <<
-        means[species] << "," <<
-        maxs[species] << "," <<
-        std::sqrt(variance[species]) << "\n" ;
+      out << specie_str[species] << "\n" <<
+        "Minimum Concentration:\n" << mins[species] << "\n" <<
+        "Mean Concentration:\n" << means[species] << "\n" <<
+        "Maximum Concentration:\n" << maxs[species] << "\n" <<
+        "Standard Deviation:\n" << std::sqrt(variance[species]) << "\n" ;
     }
   }
 }
