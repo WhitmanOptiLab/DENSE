@@ -114,7 +114,6 @@ void create_default_graph(NGraph::Graph* a_graph, int cell_total, int tissue_wid
       Natural top_left     = (i                  + la              ) % cell_total;
       Natural top_right    = (i - tissue_width + ra + cell_total) % cell_total;
       Natural bottom_left  = (i - tissue_width + la + cell_total) % cell_total;
-      std::cout << top << std::endl;
 
       if (is_former_edge) {
         a_graph->insert_edge_noloop(i,abs(top));
