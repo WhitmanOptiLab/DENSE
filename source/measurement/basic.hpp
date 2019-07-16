@@ -50,7 +50,7 @@ class BasicAnalysis : public Analysis<Simulation> {
 
   private:
 
-    std::vector<Real> mins, maxs, means;
+    std::vector<Real> mins, maxs, means, variance;
 		
 		bool finalized;
 		
