@@ -30,7 +30,11 @@ class Analysis<void> {
       start_time{time_range.first},
       end_time{time_range.second},
       min{cell_range.first},
-      max{cell_range.second} {
+      max{cell_range.second},
+      physical_cells_id{std::vector<dense::Natural>(cell_range.second)} {
+      for(dense::Natural i = 0; i < cell_range.second; i++){
+        physical_cells_id[i] = i;
+      }
     }
 
     virtual void show (csvw* csv_out = nullptr) {
@@ -45,6 +49,10 @@ class Analysis<void> {
         out << time << " min\n";
       }
     }
+  
+    void show_cells(){
+      icCellColumn = true;
+    }
 
   protected:
 
@@ -53,6 +61,10 @@ class Analysis<void> {
     Real start_time, end_time;
 
     dense::Natural min, max;
+  
+    std::vector<dense::Natural> physical_cells_id;
+
+    bool icCellColumn = false;
 
     Real time = 0;
 
@@ -80,6 +92,12 @@ class Analysis : public Analysis<> {
 	 	virtual Details get_details() = 0;
 
     void when_updated_by(Simulation & simulation, std::ostream& log);
+    
+    void update_cell_range(dense::Natural new_min, dense::Natural new_max, std::vector<Natural> physical_id){
+      min = new_min;
+      max = new_max;
+      physical_cells_id = std::move(physical_id);
+    }
 
 };
 
