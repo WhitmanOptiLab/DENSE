@@ -23,24 +23,19 @@ public:
 
     Natural cell_count_ = {};
     Natural simulation_width_ = {};
-    T *_array = {};
+    std::vector<std::array<T, N> > _array;
 
     CUDA_AGNOSTIC
-    cell_param(Natural width_total, Natural cells_total);
+    cell_param(Natural width_total, Natural cells_total, Natural _num_growth_cells = 0);
 
     CUDA_AGNOSTIC
-    ~cell_param() {
-      delete[] _array;
+    std::array<T, N>& operator[](int cell){
+      return _array[cell];
     }
 
     CUDA_AGNOSTIC
-    T* operator[](int i){
-      return &_array[cell_count_ * i];
-    }
-
-    CUDA_AGNOSTIC
-    T const* operator[](int i) const{
-      return &_array[cell_count_ * i];
+    const std::array<T, N>& operator[](int cell) const{
+      return _array[cell];
     }
 
     CUDA_AGNOSTIC
@@ -52,6 +47,12 @@ public:
     int width() const {
       return cell_count_;
     }
+    
+    CUDA_AGNOSTIC
+    std::vector<std::array<T, N> >& array(){
+      return _array;
+    }
+    
 };
 
 }

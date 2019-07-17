@@ -120,7 +120,18 @@ public:
       auto& concentration = concs[cell_][sid];
       concentration = std::max(concentration + delta, 0);
     }
-
+  
+    //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
+    void add_cell(Natural cell, Natural parent = 0){
+      Natural cell_index = find_id(cell); //new_index is the physical id for the virtual cell
+      Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
+      cell_index++; parent_index++;
+      add_cell_base(cell);
+    }
+  
+    void remove_cell(Natural cell){
+      remove_cell_base(cell);
+    }
 
   /*
    * GETTOTALPROPENSITY

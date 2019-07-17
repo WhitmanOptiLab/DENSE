@@ -25,21 +25,20 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
   auto end_time = age() + duration;
   while (age() < end_time) {
     Minutes tau, t_until_event;
-
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
-     if(end_time < (age()+t_until_event)){
-		 Minutes diff = end_time - age();
-		 Simulation::age_by(diff);
-		 return age();
-		 }
-		 Simulation::age_by(t_until_event);
+      if(end_time < (age()+t_until_event)){
+        Minutes diff = end_time - age();
+        Simulation::age_by(diff);
+        return age();
+      }
+      Simulation::age_by(t_until_event);
       executeDelayRXN();
     }
-		if(end_time < (age() + tau)){
-		Minutes diff = end_time - age();
-		Simulation::age_by(diff);
-		return age();
-		}
+    if(end_time < (age() + tau)){
+      Minutes diff = end_time - age();
+      Simulation::age_by(diff);
+      return age();
+    }
     tauLeap();
     Simulation::age_by(tau);
   }
