@@ -260,12 +260,10 @@ class Simulation {
       Graph::vertex_set neigh_in = Graph::in_neighbors(index);
       std::vector<Natural>* neighbors = new std::vector<Natural>;
       for ( auto cell = neigh_out.begin(); cell != neigh_out.end(); cell++ ){
-        dense::Natural physical_cell = find_id(*cell);
-        neighbors->push_back(physical_cell);
+        neighbors->push_back(*cell);
       }
       for ( auto cell = neigh_in.begin(); cell != neigh_in.end(); cell++ ){
-        dense::Natural physical_cell = find_id(*cell);
-        neighbors->push_back(physical_cell);
+        neighbors->push_back(*cell);
       }
       Natural old_index = find_id(c); //old_index is the virtual id for the physical cell c
       neighbor_count_by_cell_[old_index] = neighbors->size();
