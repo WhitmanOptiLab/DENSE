@@ -55,6 +55,10 @@ private:
   
   std::default_random_engine generator;
   
+  double delta;
+  
+  int y;
+  
   
   
   static std::uniform_real_distribution<Real> distribution_;
@@ -85,8 +89,19 @@ public:
  
    Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
-  , delay_schedule()
-  , generator(seed){
+    , delay_schedule()
+    , generator(seed){
+    init_bounds();
+    propensity_groups.init_propensity_groups(reactions);
+    init_dependancy_graph();
+  }
+  
+    Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph, double d, int yval) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
+    , delay_schedule()
+    , generator(seed)
+    , delta(d)
+    , y(yval){
     init_bounds();
     propensity_groups.init_propensity_groups(reactions);
     init_dependancy_graph();

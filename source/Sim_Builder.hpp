@@ -191,6 +191,14 @@ namespace dense {
                  if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
                      seed = std::random_device()();
                  }
+                 delta = 0.2;
+                 if(!arg_parse::get<double>("dd", "delta", &delta, false)){
+                  delta = 0.2;
+                 }
+                 y = 0;
+                 if(!arg_parse::get<int>("y", "y-value", &y, false)){
+                  y = 0;
+                 }
                  // Warn user that they are not running deterministic sim
                  std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
                  std::cout << "Stochastic simulation seed: " << seed << '\n';
@@ -204,7 +212,7 @@ namespace dense {
         std::vector<Rejection_Based_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
             std::vector<Rejection_Based_Simulation> simulations;
             for (auto& parameter_set : param_sets) {
-                simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
+                simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph, delta, y);
             }
             return simulations;
        }
@@ -212,6 +220,8 @@ namespace dense {
         Real* perturbation_factors;
         Real** gradient_factors;
         int seed;
+        double delta;
+        int y;
         std::vector<int> conc;
         NGraph::Graph adjacency_graph;
    };
