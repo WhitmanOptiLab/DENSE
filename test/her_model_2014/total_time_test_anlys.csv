@@ -1,4 +1,19 @@
 # Showing cells 0-9 until 299.99 min
-Species,Minimum Concentration,Mean Concentration,Maximum Concentration
-ph1,0,188.374,252.34
-ph7,0,218.24,290.925
+ph1
+Minimum Concentration:
+0
+Mean Concentration:
+188.374
+Maximum Concentration:
+252.34
+Standard Deviation:
+54.4004
+ph7
+Minimum Concentration:
+0
+Mean Concentration:
+218.24
+Maximum Concentration:
+290.925
+Standard Deviation:
+61.6938

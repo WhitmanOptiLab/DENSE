@@ -1,5 +1,28 @@
-# Showing cells 0-99 between 3 min and 14.5438 min
-Species,Minimum Concentration,Mean Concentration,Maximum Concentration
-FE2,0,1.45455,6
-FE3,0,3.03283,13
-BR,0,1.98485,9
+# Showing cells 0-99 between 3 min and 14.5482 min
+FE2
+Minimum Concentration:
+0
+Mean Concentration:
+1.19697
+Maximum Concentration:
+6
+Standard Deviation:
+1.62
+FE3
+Minimum Concentration:
+0
+Mean Concentration:
+3.34343
+Maximum Concentration:
+11
+Standard Deviation:
+2.17191
+BR
+Minimum Concentration:
+0
+Mean Concentration:
+2.05303
+Maximum Concentration:
+12
+Standard Deviation:
+2.45974
