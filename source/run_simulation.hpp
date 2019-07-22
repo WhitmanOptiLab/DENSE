@@ -150,10 +150,10 @@ void run_simulation(
                     }
 
                     for (auto & simulation : simulations) {
-                    auto age = simulation.age_by(notify_interval);
-                    if (a % notifications_per_min == 0) {
-                        std::cout << "Time: " << age / Minutes{1} << '\n';
-                    }
+                      auto age = simulation.age_by(notify_interval);
+                      if (a % notifications_per_min == 0) {
+                          std::cout << "Time: " << age / Minutes{1} << '\n';
+                      }
                     }
                 }
 

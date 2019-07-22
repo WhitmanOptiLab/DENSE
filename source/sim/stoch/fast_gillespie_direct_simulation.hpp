@@ -105,9 +105,6 @@ public:
 
     void update_concentration (dense::Natural cell_, specie_id sid, int delta) {
       auto& concentration = concs[cell_][sid];
-//      if(concs[cell_][sid] + delta < 0){
-//        throw(std::out_of_range("Cell concentration out of bounds. Cell: " + std::to_string(cell_) + " Specie: " + std::to_string(sid) + " Delta: " + std::to_string(delta)));
-//      }
       concentration = std::max(concentration + delta, 0);
     }
     
