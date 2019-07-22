@@ -18,6 +18,7 @@
 #include <chrono>
 #include <type_traits>
 #include <utility>
+#include <chrono>
 
 # if defined __CUDA_ARCH__
 using Minutes = Real;
@@ -37,6 +38,7 @@ concept bool Simulation_Concept() {
     { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
     { simulation.add_cell(Natural{}, Natural{})} -> void;
     { simulation.remove_cell(Natural{})} -> void;
+    { simulation.get_performance(std::chrono::duration<double>{})}-> Real;
   };
 }
 # endif
@@ -127,7 +129,12 @@ class Simulation {
 
     CUDA_AGNOSTIC
     Natural& cell_count () noexcept;
-  
+
+    ///calculate how many reaction are fired in a second for each time step
+    Real get_performance(std::chrono::duration<double> elapsed) noexcept;
+    
+    Real step(bool restart) noexcept;
+
     //add_cell_base: takes a virtual cell and adds it to the graph
     Natural add_cell_base(Natural cell){
       adjacency_graph.insert_vertex(cell);
@@ -278,6 +285,7 @@ class Simulation {
     Natural circumference_ = {};
     Natural cell_count_ = {};
     int _num_growth_cells;
+    Real step_;
     //physical_cells_id: indecies 0...cell_count_ are virtual cell ids, and nodes represent the 
     //    physical cell at that virtual cell index
     //    EX: physical_cells_id_[0] = 12 means that virtual cell 0 represents the 12th physical 
@@ -362,6 +370,21 @@ inline Minutes Simulation::age () const noexcept {
 CUDA_AGNOSTIC
 inline Minutes Simulation::age_by (Minutes duration) noexcept {
   return Minutes{ age_ += duration / Minutes{1} };
+}
+
+CUDA_AGNOSTIC
+inline Real Simulation::step (bool restart) noexcept {
+  if (restart){
+    return Real{step_ = 0.0};
+  }else{
+    return Real{ step_ += 1.0 };
+  }
+  
+}
+
+CUDA_AGNOSTIC
+inline Real Simulation::get_performance(std::chrono::duration<double> elapsed) noexcept{
+  return Real{step_/elapsed.count()};
 }
 
 CUDA_AGNOSTIC

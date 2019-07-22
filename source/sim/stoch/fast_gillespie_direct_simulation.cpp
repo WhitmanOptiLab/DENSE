@@ -27,6 +27,8 @@ Minutes Fast_Gillespie_Direct_Simulation::age_by (Minutes duration) {
     event_schedule.pop();
   }
   auto end_time = age() + duration;
+  auto start = std::chrono::high_resolution_clock::now();
+  Simulation::step(true);
   while (age() < end_time) {
     Minutes tau, t_until_event;
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
@@ -42,6 +44,8 @@ Minutes Fast_Gillespie_Direct_Simulation::age_by (Minutes duration) {
   if(std::isnan(age() / Minutes{1})){
     throw(std::out_of_range("Time is out of range"));
   }
+  auto finish = std::chrono::high_resolution_clock::now();
+  std::cout<< "reactions fired per second: "<<Simulation::get_performance(finish - start)<<std::endl;
   return age();
 }
 
@@ -134,6 +138,7 @@ void Fast_Gillespie_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid)
 void Fast_Gillespie_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
    const reaction_base& r = dense::model::getReaction(rid);
    const specie_id* specie_deltas = r.getSpecieDeltas();
+   Simulation::step(false);
    for (int i=0; i < r.getNumDeltas(); i++){
       update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
    }
