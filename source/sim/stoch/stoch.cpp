@@ -23,6 +23,8 @@ std::uniform_real_distribution<Real> Stochastic_Simulation::distribution_ = std:
 CUDA_AGNOSTIC
 Minutes Stochastic_Simulation::age_by (Minutes duration) {
   auto end_time = age() + duration;
+  auto start = std::chrono::high_resolution_clock::now();
+  Simulation::step(true);
   while (age() < end_time) {
     Minutes tau, t_until_event;
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
@@ -42,6 +44,8 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
     tauLeap();
     Simulation::age_by(tau);
   }
+  auto finish = std::chrono::high_resolution_clock::now();
+  std::cout<< "reactions fired per second: "<<Simulation::get_performance(finish - start)<<std::endl;
   return age();
 }
 
@@ -137,6 +141,7 @@ void Stochastic_Simulation::fireOrSchedule(Natural cell, reaction_id rid){
 void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
+  Simulation::step(false);
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
