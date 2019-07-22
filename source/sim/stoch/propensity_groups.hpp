@@ -26,6 +26,9 @@ namespace stochastic {
         place_in_group(reaction, true, temp);
       }
       init_p_values();
+      for(size_t i =0; i < organized_p_values.size(); i++){
+        std::cout << organized_p_values[i] << "\n";
+      }
     }
   
     
@@ -276,7 +279,7 @@ namespace stochastic {
         }
       }
       else if(organized_groups[m] == organized_groups.front()){
-        std::cout
+        std::cout << "going from head \n";
         if(organized_groups.size() <= 1){
           organized_p_values[m] = new_p;
         }
@@ -291,6 +294,7 @@ namespace stochastic {
         }
       }
       else if(organized_groups[m] == organized_groups.back()){
+        std::cout << "going from back \n";
         if(organized_groups.size() <= 1){
           organized_p_values[m] = new_p;
         }
@@ -298,7 +302,9 @@ namespace stochastic {
           std::vector<Rxn>* group = organized_groups[m];
           organized_groups.erase(organized_groups.begin()+m);
           organized_p_values.erase(organized_p_values.begin()+m);
+          std::cout << "sifting \n";
           organized_groups_sift_up(m, new_p, group);
+          std::cout << "done sifting \n";
         }
         else{
           organized_p_values[m] = new_p;
@@ -330,7 +336,7 @@ namespace stochastic {
       organized_p_values.push_back(p);
     }
     else{
-      for(size_t i = index; i <= organized_p_values.size(); i++){
+      for(size_t i = index; i <= organized_p_values.size(); i--){
         if(organized_p_values[i] <= p){
           organized_groups.insert((organized_groups.begin()+index+1), group_pointer);
           organized_p_values.insert((organized_p_values.begin()+ index+ 1), p);
