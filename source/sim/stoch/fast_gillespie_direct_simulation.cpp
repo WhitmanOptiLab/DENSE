@@ -143,7 +143,7 @@ void Fast_Gillespie_Direct_Simulation::fireReaction(dense::Natural cell, reactio
       update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
    }
    if(std::isnan(total_propensity_)){
-      throw(std::out_of_range("bad"));
+      throw(std::out_of_range("total_propensity_ is out or range: -nan"));
    }
    update_propensities(cell, rid);
 }
