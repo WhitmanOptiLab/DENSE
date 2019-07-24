@@ -1,3 +1,6 @@
+#ifndef COMPLETE_TREE
+#define COMPLETE_TREE
+
 #include <utility>
 #include <vector>
 #include <functional>
@@ -161,3 +164,4 @@ namespace stochastic {
 
 }
 }
+#endif

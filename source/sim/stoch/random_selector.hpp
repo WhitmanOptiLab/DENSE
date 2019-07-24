@@ -1,3 +1,5 @@
+#ifndef RANDOM_SELECTOR
+#define RANDOM_SELECTOR
 #include "completetree.hpp"
 #include "utility/numerics.hpp"
 #include <limits>
@@ -14,6 +16,8 @@ template <class IntType = int, size_t precision = std::numeric_limits<Real>::dig
 class nonuniform_int_distribution {
  public:
   //Weights can be of any type, but most be convertable to Real values
+  nonuniform_int_distribution() = delete;
+  nonuniform_int_distribution(IntType max_size) : total_weight{0.0}, _tree(max_size)  {};
   template<typename T>
   nonuniform_int_distribution(const std::vector<T>& weights) :
     total_weight{0.0},
@@ -27,7 +31,9 @@ class nonuniform_int_distribution {
 
   template<class URNG>
   IntType operator()(URNG& g) {
+
     Real target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
+    std::cout << target << ' ' << total_weight << '\n';
     IntType node = _tree.root();
     while(_tree[_tree.left_of(node)].second > target ||
              _tree[node].first + _tree[_tree.left_of(node)].second < target) {
@@ -57,3 +63,4 @@ class nonuniform_int_distribution {
 
 }
 }
+#endif

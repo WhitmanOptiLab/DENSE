@@ -27,8 +27,7 @@ CUDA_AGNOSTIC
 Minutes Rejection_Based_Simulation::age_by(Minutes duration){
   auto end_time = age() + duration;
   while(age() < end_time){
-    auto r_1 = getRandVariable();
-    auto min_group_index = propensity_groups.get_minimal_group_index(r_1);
+    auto min_group_index = propensity_groups.get_minimal_group_l(generator);
     bool reaction_fired = false; 
     std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
     bool all_delays_fired = false; 
@@ -187,7 +186,7 @@ bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau){
 
 bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int min_group_index){
   auto min_group = propensity_groups.get_group_at_index(min_group_index);
-  auto min_group_l_value = propensity_groups.get_l_value(min_group_index);  
+  auto min_group_l_value = min_group_index;
   Real two_power = pow(2,min_group_l_value);
   bool mu_found = false;
   int mu;
@@ -204,7 +203,7 @@ bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int min_group_index){
     Real r_3 = getRandVariable();
     #endif 
     #undef DOUBLE_PRECISION_VARIABLE
-    if(r_3 <= (min_group[mu].upper_bound/two_power)){
+    if(r_3 <= (min_group[mu].upper_bound/(two_power+1))){
       mu_found = true;
     }
   }
