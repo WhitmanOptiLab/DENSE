@@ -274,9 +274,6 @@ namespace dense {
                  if(!arg_parse::get<int>("y", "y-value", &y, false)){
                   y = 0;
                  }
-                 // Warn user that they are not running deterministic sim
-                 std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
-                 std::cout << "Stochastic simulation seed: " << seed << '\n';
                  perturbation_factors = pf;
                  gradient_factors = gf;
                  std::string init_conc;
