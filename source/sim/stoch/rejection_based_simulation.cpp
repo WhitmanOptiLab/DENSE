@@ -26,6 +26,8 @@ std::uniform_real_distribution<Real> Rejection_Based_Simulation::distribution_ =
 CUDA_AGNOSTIC
 Minutes Rejection_Based_Simulation::age_by(Minutes duration){
   auto end_time = age() + duration;
+  auto start = std::chrono::high_resolution_clock::now();
+  Simulation::step(true);
   while(age() < end_time){
     auto min_group_index = propensity_groups.get_minimal_group_l(generator);
     bool reaction_fired = false; 
@@ -52,6 +54,8 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
       }
     }
   }
+  auto finish = std::chrono::high_resolution_clock::now();
+  Simulation::push_performance(finish - start);
   return age();
 }
   
@@ -74,6 +78,7 @@ void Rejection_Based_Simulation::schedule_or_fire_reaction(Rxn& rxn){
 void Rejection_Based_Simulation::fire_reaction(Rxn& rxn){
   const reaction_base& rn = dense::model::getReaction(rxn.reaction);
   const specie_id* specie_deltas = rn.getSpecieDeltas();
+  Simulation::step(false);
   for(int i = 0; i < rn.getNumDeltas(); i++){
     update_concentration(rxn.cell, specie_deltas[i], rn.getDeltas()[i]);
   }

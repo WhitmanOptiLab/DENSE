@@ -38,7 +38,6 @@ using dense::stochastic::Next_Reaction_Simulation;
 using dense::Details;
 
 
-
 //std::string left_pad (std::string string, std::size_t min_size, char padding = ' ');
 
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ') {
@@ -127,6 +126,7 @@ void run_simulation(
 
                 Real analysis_chunks = duration / notify_interval;
                 int notifications_per_min = decltype(duration)(1.0) / notify_interval;
+                std::vector<std::vector<Real>> perf;
 
                 for (dense::Natural a = 0; a < analysis_chunks; a++) {
                     std::vector<Simulation const*> bad_simulations;
@@ -152,9 +152,17 @@ void run_simulation(
 
                     for (auto & simulation : simulations) {
                     auto age = simulation.age_by(notify_interval);
+                    perf.push_back(simulation.get_perf());
                     if (a % notifications_per_min == 0) {
                         std::cout << "Time: " << age / Minutes{1} << '\n';
                     }
+                    }
+                }
+
+                csvw csv_out("benchmark_data.csv");
+                for (int i = 0; (unsigned)i < perf.size(); ++i){
+                    for(int j = 0; (unsigned)j < perf[i].size(); ++j){
+                    csv_out.add_data(perf[i][j]);
                     }
                 }
 

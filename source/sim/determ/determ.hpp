@@ -90,6 +90,11 @@ public:
   CUDA_AGNOSTIC
   Minutes age_by (Minutes duration);
 
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
+
 };
 
 }

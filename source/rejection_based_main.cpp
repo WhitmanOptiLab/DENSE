@@ -7,7 +7,6 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
-#include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/rejection_based_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"

@@ -13,6 +13,7 @@
 #include <queue>
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 namespace dense {
 namespace stochastic {
@@ -133,6 +134,10 @@ public:
     return sum / neighbor_count_by_cell_[cell];
   }
   
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
 private:
    //"event" represents a delayed reaction scheduled to fire later
   struct event { 

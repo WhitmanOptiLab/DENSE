@@ -35,6 +35,7 @@ concept bool Simulation_Concept() {
     { simulation_const.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
     { simulation_const.get_concentration(Natural{}, specie_id{}) } -> Real;
     { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
+    { simulation.get_performance()} noexcept -> std::vector<Real>;
   };
 }
 # endif
@@ -126,6 +127,11 @@ class Simulation {
     CUDA_AGNOSTIC
     Natural& cell_count () noexcept;
 
+    ///calculate how many reaction are fired in a second for each time step and push into performance vector
+    void push_performance(std::chrono::duration<double> elapsed) noexcept;
+    std::vector<Real> get_performance() noexcept;
+    Real step(bool restart) noexcept;
+
   protected:
 
     CUDA_AGNOSTIC
@@ -185,6 +191,8 @@ class Simulation {
     Parameter_Set parameter_set_ = {};
     int index;
     NGraph::Graph adjacency_graph;
+    Real step_;
+    std::vector<Real> performance_;
 
   protected:
 
@@ -262,6 +270,25 @@ CUDA_AGNOSTIC
 inline Minutes Simulation::age_by (Minutes duration) noexcept {
   return Minutes{ age_ += duration / Minutes{1} };
 }
+
+CUDA_AGNOSTIC
+inline Real Simulation::step (bool restart) noexcept {
+  if (restart){
+    return Real{step_ = 0.0};
+  }else{
+    return Real{ step_ += 1.0 };
+  }
+  
+}
+
+CUDA_AGNOSTIC
+inline void Simulation::push_performance(std::chrono::duration<double> elapsed) noexcept{
+   performance_.push_back(step_/elapsed.count());
+}
+
+CUDA_AGNOSTIC
+inline std::vector<Real> Simulation::get_performance() noexcept
+    {return performance_;}
 
 CUDA_AGNOSTIC
 inline Simulation::~Simulation () noexcept = default;
