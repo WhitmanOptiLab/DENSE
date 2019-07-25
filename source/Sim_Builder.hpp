@@ -228,8 +228,6 @@ namespace dense {
               if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
               seed = std::random_device()();
               }
-              // Warn user that they are not running deterministic sim
-              std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
               std::cout << "Stochastic simulation seed: " << seed << '\n';
               perturbation_factors = pf;
               gradient_factors = gf;
