@@ -35,19 +35,34 @@ class nonuniform_int_distribution {
     Real target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
     std::cout << target << ' ' << total_weight << '\n';
     IntType node = _tree.root();
-    while(_tree[_tree.left_of(node)].second > target ||
-             _tree[node].first + _tree[_tree.left_of(node)].second < target) {
-      if (_tree[_tree.left_of(node)].second > target) {
+    //Loop until target random value is in between weight(left) and weight(left) + value(node)
+    while(weight_of(_tree.left_of(node)) > target ||
+             _tree[node].first + weight_of(_tree.left_of(node)) < target) {
+      if (weight_of(_tree.left_of(node)) > target) {
         node = _tree.left_of(node);
       } else {
-        target -= _tree[node].first + _tree[_tree.left_of(node)].second;
+        target -= _tree[node].first + weight_of(_tree.left_of(node));
         node = _tree.right_of(node);
+      }
+      //Should this ever happen?  No, but floating-point rounding means it's 
+      //  theoretically possible, and it's better to reboot than crash at this point
+      if (node > _tree.last()) {
+        node = _tree.root();
+        target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
       }
     }
     return node;
   }
 
  private:
+  Real value_of(IntType i) {
+    return i > _tree.last() ? 0.0 : _tree[i].first;
+  }
+  
+  Real weight_of(IntType i) {
+    return i > _tree.last() ? 0.0 : _tree[i].second;
+  }
+  
   Real sum_weights(IntType i) {
     if (i > _tree.last()) return 0.0f;
     _tree[i].second =
