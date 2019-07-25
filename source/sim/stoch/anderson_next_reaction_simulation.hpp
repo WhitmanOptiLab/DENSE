@@ -84,11 +84,11 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Anderson_Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-	  , reaction_schedule(NUM_REACTIONS * cell_count)
-    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
-    , propensities(cell_count)
+    Anderson_Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+	  , reaction_schedule(NUM_REACTIONS * cell_count())
+    , concs(cell_count(), conc)
+    , propensities(cell_count())
     , generator(seed) {
       // 1.a. generate the dependency graph
       initPropensityNetwork();
@@ -97,7 +97,7 @@ public:
       // 1.c. for each i, generate a putative time, tau_i according to
       //      an exponential distribution with parameter a_i;
       // 1.d. store the values in an indexed priority queue P;
-      for (dense::Natural c = 0; c < cell_count; ++c) {
+      for (dense::Natural c = 0; c < cell_count(); ++c) {
         for (int i = 0; i < NUM_REACTIONS; ++i) {
           auto r = static_cast<reaction_id>(i);
           auto eid = encode(c, r);

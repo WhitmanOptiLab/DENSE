@@ -24,6 +24,8 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/anderson_next_reaction_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
           ${DENSE_SOURCE_DIR}/source/utility/color.cpp
@@ -68,9 +70,17 @@ function(REJECTION_BASED_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp)
 endfunction(REJECTION_BASED_SIMULATION localname simdir)
 
- function(GILLESPIE_SIMULATION localname simdir)
-  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
+function(GILLESPIE_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Gillespie_Direct_main.cpp)
 endfunction(GILLESPIE_SIMULATION localname simdir)
+
+function(ANDERSON_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Anderson_main.cpp)
+endfunction(ANDERSON_SIMULATION localname simdir)
+
+ function(FAST_GILLESPIE_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
+endfunction(FAST_GILLESPIE_SIMULATION localname simdir)
 
 function(STOCH_NR_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Next_Reaction_Main.cpp)
@@ -166,10 +176,14 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     REJECTION_BASED_SIMULATION(rejection ${PROJECT_BINARY_DIR})
     set_target_properties(rejection PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-    GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})
-    set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    FAST_GILLESPIE_SIMULATION(fast_gillespie ${PROJECT_BINARY_DIR})
+    set_target_properties(fast_gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    ANDERSON_SIMULATION(anderson ${PROJECT_BINARY_DIR})
+    set_target_properties(anderson PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})
+    set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 		#PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
     #set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})

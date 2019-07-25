@@ -1,3 +1,6 @@
+#ifndef IND_PRI_Q
+#define IND_PRI_Q
+
 #include <utility>
 #include <vector>
 #include <functional>
@@ -177,3 +180,5 @@ namespace stochastic {
 
 }
 }
+
+#endif

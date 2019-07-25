@@ -72,9 +72,6 @@ namespace stochastic {
       update_p_value(new_reactions[i], true);
     }
     chooser = nonuniform_int_distribution<int>(organized_p_values);
-    for(size_t i = 0; i < organized_p_values.size(); i++){
-      std::cout << organized_p_values[i] << '\n';
-    }
     }
     
   
@@ -164,9 +161,6 @@ namespace stochastic {
                 }
               }
             }
-        for(size_t i = 0; i < group_map.size(); i++){
-          std::cout << group_map[i] << '\n';
-        }
         }
       
       //add to existing group
