@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include <set>
+#include <chrono>
 
 namespace dense {
 namespace stochastic {

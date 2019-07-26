@@ -116,21 +116,21 @@ void create_default_graph(NGraph::Graph* a_graph, int cell_total, int tissue_wid
       Natural bottom_left  = (i - tissue_width + la + cell_total) % cell_total;
 
       if (is_former_edge) {
-        a_graph->insert_edge_noloop(i,abs(top));
-        a_graph->insert_edge_noloop(i,abs(top_left));
-        a_graph->insert_edge_noloop(i,abs(top_right));
-        a_graph->insert_edge_noloop(i,abs(bottom_left));
+        a_graph->insert_edge(i,abs(top));
+        a_graph->insert_edge(i,abs(top_left));
+        a_graph->insert_edge(i,abs(top_right));
+        a_graph->insert_edge(i,abs(bottom_left));
       } else if (is_latter_edge) {
-        a_graph->insert_edge_noloop(i,abs(top));
-        a_graph->insert_edge_noloop(i,abs(top_right));
-        a_graph->insert_edge_noloop(i,abs(bottom_right));
-        a_graph->insert_edge_noloop(i,abs(bottom));
+        a_graph->insert_edge(i,abs(top));
+        a_graph->insert_edge(i,abs(top_right));
+        a_graph->insert_edge(i,abs(bottom_right));
+        a_graph->insert_edge(i,abs(bottom));
       } else {
-        a_graph->insert_edge_noloop(i,abs(top_right));
-        a_graph->insert_edge_noloop(i,abs(bottom_right));
-        a_graph->insert_edge_noloop(i,abs(bottom));
-        a_graph->insert_edge_noloop(i,abs(top_left));
-        a_graph->insert_edge_noloop(i,abs(bottom_left));
+        a_graph->insert_edge(i,abs(top_right));
+        a_graph->insert_edge(i,abs(bottom_right));
+        a_graph->insert_edge(i,abs(bottom));
+        a_graph->insert_edge(i,abs(top_left));
+        a_graph->insert_edge(i,abs(bottom_left));
     }
   }
 }
@@ -158,7 +158,6 @@ void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc
 
 void graph_constructor(Static_Args_Base* param_args, std::string string_file, int cell_total, int tissue_width){
   NGraph::Graph a_graph;
-  a_graph.set_undirected();
   if(cell_total == 0 && tissue_width == 0){
     std::ifstream open_file(string_file);
     if( open_file ){

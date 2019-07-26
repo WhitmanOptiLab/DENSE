@@ -31,7 +31,7 @@ public:
     //"event" represents a delayed reaction scheduled to fire later
     struct event {
       Minutes time;
-	    Natural cell;
+	     Natural cell;
       reaction_id rxn;
 	    friend bool operator<(event const& a, event const &b) { return a.time < b.time;}
 	    friend bool operator>(event const& a, event const& b) { return b < a; }
@@ -39,11 +39,10 @@ public:
 
     //"event_schedule" is a set ordered by time of delay reactions that will fire
     std::priority_queue<event, std::vector<event>, std::greater<event>> event_schedule;
-
     //"concs" stores current concentration levels for every species in every cell
     std::vector<std::vector<int> > concs;
     //"propensities" stores probability of each rxn firing, calculated from active rates
-    std::vector<std::vector<Real> > propensities;
+    std::vector<std::vector<Real>> propensities;
     //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> propensity_network[NUM_REACTIONS];
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
@@ -81,8 +80,8 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
-    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell = 0)
+    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell)
     , concs(cell_count(), conc)
     , propensities(cell_count())
     , generator{seed} {
@@ -91,6 +90,11 @@ public:
     }
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
+      try { 
+        concs.at(cell).at(species);
+      } catch (exception& error) {
+        throw(std::out_of_range("Tried to fetch concentration of physical cell " + std::to_string(cell) + ", which is out of bounds"));
+      }
       return concs.at(cell).at(species);
     }
 
@@ -103,7 +107,29 @@ public:
       auto& concentration = concs[cell_][sid];
       concentration = std::max(concentration + delta, 0);
     }
-
+    
+    //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
+    void add_cell(Natural cell, Natural parent = 0){
+      Natural cell_index = add_cell_base(cell);; //new_index is the physical id for the virtual cell
+      Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
+      if(cell_index >= Natural(concs.size())){
+        concs.push_back(concs[parent_index]);
+      } else {
+        concs[cell_index] = concs[parent_index];
+      }
+      cell_parameters_[cell_index] = cell_parameters_[parent_index];
+    }
+  
+    //remove_cell: takes a virtual id and removes it from the simulation, setting it's propensities and concentrations to zero
+    void remove_cell(Natural cell){
+      Natural cell_index = remove_cell_base(cell);
+      for(auto& spe : concs[cell_index]){
+        spe = 0;
+      }
+      for(auto& rxn : propensities[cell_index]){
+        rxn = 0;
+      }
+    }
 
   /*
    * GETTOTALPROPENSITY
@@ -133,13 +159,17 @@ public:
     CUDA_AGNOSTIC
     __attribute_noinline__ int choose_reaction(Real propensity_portion) {
       Real sum = 0;
-      for (Natural c = {}; c < cell_count(); ++c) {
-        for (Natural s = {}; s < NUM_REACTIONS; ++s) {
-          sum += propensities[c][s];
-          if (sum > propensity_portion) {
-            return (c * NUM_REACTIONS) + s;
+      Natural c = 0;
+      for (Natural virtual_cell : physical_cells_id()) {
+        if(virtual_cell >= 0){
+          for (Natural s = {}; s < NUM_REACTIONS; ++s) {
+            sum += propensities[c][s];
+            if (sum > propensity_portion) {
+              return (c * NUM_REACTIONS) + s;
+            }
           }
         }
+        c++;
       }
       return cell_count() * NUM_REACTIONS - 1;
     }
@@ -175,6 +205,7 @@ public:
         }
         #include "reactions_list.hpp"
         #undef REACTION
+        
         /*for (auto rxn : propensity_network[rid]) {
           auto& p = propensities[cell_][rxn];
           auto new_p = dense::model::active_rate(rxn, Context(this, cell_));
@@ -205,7 +236,8 @@ public:
     for (dense::Natural i = 0; i < neighbor_count_by_cell_[cell]; ++i) {
       sum += concs[neighbors_by_cell_[cell][i]][species];
     }
-    return sum / neighbor_count_by_cell_[cell];
+    Real avg = sum / neighbor_count_by_cell_[cell];
+    return std::isnan(avg) ? 0 : avg;
   }
 
   Minutes age_by(Minutes duration);

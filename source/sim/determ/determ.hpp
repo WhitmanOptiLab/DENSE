@@ -53,13 +53,14 @@ class Deterministic_Simulation : public Simulation {
   //double max_scores[NUM_SECTIONS]; // The maximum score possible for all mutants for each testing section
   //double max_score_all; // The maximum score possible for all mutants for all testing sections
 
+  
   int _j;
   dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
 private:
   baby_cl _baby_cl;
 public:
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
-                    Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph);
+                    Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell = 0);
 
   CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates);
@@ -84,11 +85,29 @@ public:
         sum += _baby_cl.row_at(species, -delay)[neighbors_by_cell_[cell][i]];
     }
     Real avg = sum / neighbor_count_by_cell_[cell];
-    return avg;
+    return std::isnan(avg) ? 0 : avg;
   }
 
   CUDA_AGNOSTIC
   Minutes age_by (Minutes duration);
+  
+  //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
+  void add_cell(Natural cell, Natural parent = 0){
+    Natural cell_index = find_id(cell); //new_index is the physical id for the virtual cell
+    Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
+    add_cell_base(cell);
+    for (int specie = 0; specie < NUM_SPECIES; specie++) {
+      int specie_size = _baby_cl.get_species_size(specie);
+      for (int time = 0; time < specie_size; time++){
+        _baby_cl.row_at(specie,time)[cell_index] = _baby_cl.row_at(specie,time)[parent_index];
+      }
+    }
+  }
+  
+  //remove_cellL: takes a virtual cell and removes it from the simulation
+  void remove_cell(Natural cell){
+    remove_cell_base(cell);
+  }
 
   std::vector<Real> get_perf(){
     return Simulation::get_performance();

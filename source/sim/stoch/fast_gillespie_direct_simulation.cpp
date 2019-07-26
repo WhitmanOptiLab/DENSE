@@ -22,19 +22,23 @@ std::uniform_real_distribution<Real> Fast_Gillespie_Direct_Simulation::distribut
 
 CUDA_AGNOSTIC
 Minutes Fast_Gillespie_Direct_Simulation::age_by (Minutes duration) {
+  initPropensities();
+  while(!event_schedule.empty()){
+    event_schedule.pop();
+  }
   auto end_time = age() + duration;
   auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);
   while (age() < end_time) {
     Minutes tau, t_until_event;
-
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
       Simulation::age_by(t_until_event);
       executeDelayRXN();
       if (age() >= end_time) return age();
     }
-
+    
     tauLeap();
+    
     Simulation::age_by(tau);
   }
   auto finish = std::chrono::high_resolution_clock::now();
@@ -50,18 +54,17 @@ Minutes Fast_Gillespie_Direct_Simulation::generateTau() {
   auto r = getRandVariable();
   auto log_inv_r = -std::log(r);
 
-	return Minutes{ log_inv_r / get_total_propensity() };
+// return std::isnan(log_inv_r / get_total_propensity()) ? Minutes{std::numeric_limits<Real>::infinity()} : Minutes{ log_inv_r / get_total_propensity() };
+return Minutes{ log_inv_r / get_total_propensity() };
 }
 
 /*
  * GETSOONESTDELAY
- * return "dTime": the time that the next scheduled delay reaction will fire
+ * return "dTime": the time texecuteDelayRXNhat the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
 Minutes Fast_Gillespie_Direct_Simulation::getSoonestDelay() const {
-  return event_schedule.empty() ?
-    Minutes{ std::numeric_limits<Real>::infinity() } :
-    event_schedule.top().time;
+  return event_schedule.empty() ? Minutes{ std::numeric_limits<Real>::infinity() } : event_schedule.top().time;
 }
 
 Minutes Fast_Gillespie_Direct_Simulation::time_until_next_event() const {
@@ -96,13 +99,13 @@ Real Fast_Gillespie_Direct_Simulation::getRandVariable() {
 */
 void Fast_Gillespie_Direct_Simulation::tauLeap(){
 
-	Real propensity_portion = getRandVariable() * get_total_propensity();
+	 Real propensity_portion = getRandVariable() * get_total_propensity();
 
-	int j = choose_reaction(propensity_portion);
-	int r = j % NUM_REACTIONS;
-	int c = j / NUM_REACTIONS;
-
-    fireOrSchedule(c,(reaction_id)r);
+	 int j = choose_reaction(propensity_portion);
+	 int r = j % NUM_REACTIONS;
+  int c = j / NUM_REACTIONS;
+  
+  fireOrSchedule(c,(reaction_id)r);
 }
 
 /*
@@ -115,12 +118,12 @@ void Fast_Gillespie_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid)
 
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
-	if (dri!=NUM_DELAY_REACTIONS) {
-		event_schedule.push({ age() + Minutes{ Context(*this, cell).getDelay(dri) }, cell, rid });
-	}
-	else {
-		fireReaction(cell, rid);
-	}
+ if (dri!=NUM_DELAY_REACTIONS) {
+  event_schedule.push({ age() + Minutes{ Context(*this, cell).getDelay(dri) }, cell, rid });
+ }
+ else {
+  fireReaction(cell, rid);
+ }
 }
 
 /*
@@ -144,15 +147,20 @@ void Fast_Gillespie_Direct_Simulation::fireReaction(dense::Natural cell, reactio
  * sets the propensities of each reaction in each cell to its respective active
 */
 void Fast_Gillespie_Direct_Simulation::initPropensities(){
-   total_propensity_ = 0.0;
-    for (dense::Natural c = 0; c < cell_count(); ++c) {
-        Context ctxt(*this,c);
-        #define REACTION(name) \
-        propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
-        total_propensity_ += propensities[c].back();
-        #include "reactions_list.hpp"
-        #undef REACTION
+  propensities = std::vector<std::vector<Real>>(physical_cells_id().size());
+  total_propensity_ = 0.0;
+  int c = 0;
+  for (dense::Natural& virtual_cell : physical_cells_id()) {
+    if(virtual_cell >= 0){
+      Context ctxt(*this,c);
+      #define REACTION(name) \
+      propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
+      total_propensity_ += propensities[c].back();
+      #include "reactions_list.hpp"
+      #undef REACTION
     }
+    c++;
+  }
 }
 
 /*

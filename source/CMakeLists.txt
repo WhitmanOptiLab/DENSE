@@ -39,6 +39,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
+          ${DENSE_SOURCE_DIR}/source/Sim_Initializer.hpp
 					${DENSE_SOURCE_DIR}/source/search/sres.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
@@ -184,8 +185,6 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(anderson PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})
     set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
-		#PARAMSEARCH(paramsearch ${PROJECT_BINARY_DIR})
-    #set_target_properties(paramsearch PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
       CUDA_SIMULATION(cuda_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(cuda_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")

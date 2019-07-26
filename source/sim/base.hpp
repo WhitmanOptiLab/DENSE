@@ -11,13 +11,14 @@
 #include "ngraph/ngraph_components.hpp"
 
 #include <vector>
+#include <cmath>
 #include <iostream>
 #include <initializer_list>
 #include <algorithm>
 #include <chrono>
 #include <type_traits>
 #include <utility>
-
+#include <chrono>
 
 # if defined __CUDA_ARCH__
 using Minutes = Real;
@@ -40,9 +41,9 @@ concept bool Simulation_Concept() {
 }
 # endif
 
-
 namespace dense {
 
+  
 class Simulation;
 
 template <typename Simulation_T>
@@ -129,11 +130,99 @@ class Simulation {
 
     ///calculate how many reaction are fired in a second for each time step and push into performance vector
     void push_performance(std::chrono::duration<double> elapsed) noexcept;
+    ///calculate how many reaction are fired in a second for each time step
     std::vector<Real> get_performance() noexcept;
     Real step(bool restart) noexcept;
 
+    //add_cell_base: takes a virtual cell and adds it to the graph
+    Natural add_cell_base(Natural cell){
+      adjacency_graph.insert_vertex(cell);
+      update_cell_count();
+      Natural cell_index = find_id(cell);
+      physical_cells_id_[cell_index] = cell;
+      neighbor_count_by_cell_[cell_index] = 0;
+      neighbors_by_cell_[cell_index] = std::vector<Natural>();
+      //cell_parameters_[cell_index] initialized in the derived class      
+      return cell_index;
+    }
+  
+    //update_cell_count: will change internal variable cell count to match number of vertices
+    void update_cell_count(){
+      cell_count_ = adjacency_graph.num_vertices();
+      cell_parameters_.cell_count_ = cell_count_;
+    }
+    
+    //remove_cell: takes a virtual cell id and removes it from the graph
+    //  -TODO: whipe out any states scheduled with the cell, for future events (delays)
+    //         then exclude it from the loops calculating propensities
+    Natural remove_cell_base(Natural cell){
+      adjacency_graph.remove_vertex(cell);
+      Natural old_index = find_id(cell); //old_cell is the index
+      update_cell_count();
+      for( Natural c : neighbors_by_cell_[old_index] ){
+        calculate_cell_neighbors(c);
+      }
+      //set the virtual cell spot of the physical cell as available
+      physical_cells_id_[old_index] = -1;
+      //zero neighbors and cell parameters at the cells physical index
+      neighbors_by_cell_[old_index] = std::vector<Natural>();
+      neighbor_count_by_cell_[old_index] = 0;
+      for(auto& rxn : cell_parameters_[old_index]){
+        rxn = 0;
+      }
+      return old_index;
+    }
+  
+    //add_edge: takes two virtual cell ids and adds an edge to the graph
+    void add_edge(Natural cell1, Natural cell2){
+      if(!adjacency_graph.includes_vertex(cell1)) return; 
+      if(!adjacency_graph.includes_vertex(cell2)) return;
+      update_cell_count();
+      adjacency_graph.insert_edge(cell1, cell2);
+      adjacency_graph.insert_edge(cell2, cell1);
+      calculate_cell_neighbors(cell1);
+      calculate_cell_neighbors(cell2);
+    }
+  
+    //remove_edge: takes two virtual cell ids and removes the edge between them
+    void remove_edge(Natural cell1, Natural cell2){
+      adjacency_graph.remove_edge(cell1,cell2);
+      adjacency_graph.remove_edge(cell2,cell1);
+      calculate_cell_neighbors(cell1);
+      calculate_cell_neighbors(cell2);
+    }
+  
+    //find_id: adds a virtual cell into the physical_cells_id_ conversion table, the index it is stored at
+    //    is the physical id and the virtual cell is the element contained 
+    Natural find_id(Natural cell){
+      Natural id = 0;
+      Natural open = 0;
+      bool found = false;
+      for(auto& cell_x : physical_cells_id_){
+        if( cell_x == cell){
+          return id;
+        }
+        if( cell_x == -1 && !found){ found = true; open = id; }
+        id++;
+      }
+      if( found ){
+        physical_cells_id_[open] = cell;
+        return open;
+      }
+      physical_cells_id_.push_back(-1);
+      return find_id(cell);
+    }
+  
+    int num_growth_cells(){
+      return _num_growth_cells;
+    }
+    
+    std::vector<int> physical_cells_id(){
+      return physical_cells_id_;
+    }
+  
   protected:
-
+  
     CUDA_AGNOSTIC
     Simulation () = default;
 
@@ -143,59 +232,70 @@ class Simulation {
      * arg "cells_total": the maximum amount of cells to simulate for (initial count for non-growing tissues)
      * arg "width_total": the circumference of the tube, in cells
     */
-    Simulation(Parameter_Set parameter_set, NGraph::Graph adj_graph, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr) noexcept;
+    Simulation(Parameter_Set parameter_set, NGraph::Graph adj_graph, Real* perturbation_factors = nullptr, Real** gradient_factors = nullptr, Natural num_growth_cell = 0) noexcept;
 
     CUDA_AGNOSTIC
     ~Simulation () noexcept;
-
-
+  
   private:
 
     void calc_max_delays(Real*, Real**);
   
-  
     /*
      * CALC_NEIGHBOR_2D
-     * populates the data structure "_neighbors" with cell indices of neighbors
+     * populates the data structure "neighbors_by_cell_" with the virtual cell indices of neighbors
      * loads graph from "adjacency_graph", either user specified or default graph from graph_constructor()
     */
     CUDA_AGNOSTIC
     void calc_neighbor_2d() noexcept {
       for ( auto p = adjacency_graph.begin(); p != adjacency_graph.end(); p++ ){
-          Graph::vertex_set neigh = Graph::out_neighbors(p);
-          Graph::vertex_set neigh1 = Graph::in_neighbors(p);
         //Update later to remove need for circumference
+          Graph::vertex_set neigh = Graph::out_neighbors(p);
           circumference_ = std::max(circumference_, Natural(neigh.size()));
           auto index = adjacency_graph.node(p);
-          std::vector<Natural>* neighbors = new std::vector<Natural>;
-          for ( auto cell = neigh.begin(); cell != neigh.end(); cell++ ){
-            neighbors->push_back(*cell);
-          }
-          for ( auto cell = neigh1.begin(); cell != neigh1.end(); cell++ ){
-            neighbors->push_back(*cell);
-          }
-          neighbor_count_by_cell_[index] = neighbors->size();
-          neighbors_by_cell_[index] = std::move(*neighbors);
+          calculate_cell_neighbors(index, false);
       }
     //Update later to remove need for circumference
       if (circumference_ == 0){
         circumference_ = 1;
       }
     }
-
-  private:
+  
+      //calculate_cell_neighbors: takes a virtual cell and calculates its neighbors
+    void calculate_cell_neighbors(Natural c, bool first = true){
+      auto index = adjacency_graph.find(c);
+      Graph::vertex_set neigh_out = Graph::out_neighbors(index);
+      std::vector<Natural>* neighbors = new std::vector<Natural>;
+      Natural old_index = find_id(c); //old_index is the virtual id for the physical cell c
+      for ( auto cell = neigh_out.begin(); cell != neigh_out.end(); cell++ ){
+        Natural neigh = *cell;
+        if(first){
+          neigh = find_id(*cell);
+        }
+        neighbors->push_back(neigh);
+      }
+      neighbor_count_by_cell_[old_index] = neighbors->size();
+      neighbors_by_cell_[old_index] = std::move(*neighbors);
+    }
 
     Real age_ = {};
     Natural circumference_ = {};
-    Natural cell_count_ = {};
-    Parameter_Set parameter_set_ = {};
-    int index;
-    NGraph::Graph adjacency_graph;
+    Natural cell_count_ = {}; 
+  protected:
+    int _num_growth_cells;
     Real step_;
+    //physical_cells_id: indecies 0...cell_count_ are virtual cell ids, and nodes represent the 
+    //    physical cell at that virtual cell index
+    //    EX: physical_cells_id_[0] = 12 means that virtual cell 0 represents the 12th physical 
+    //        cell currently in the simulation
+    std::vector<int> physical_cells_id_ = {};
+    Parameter_Set parameter_set_ = {};
+    //adjacency_graph: graph that contains physical cell nodes
+    NGraph::Graph adjacency_graph;
     std::vector<Real> performance_;
 
-  protected:
-
+    
+    //neighbors_by_cell_ and neighbor_count_by_cell_ are structures of virtual cell ids
     std::vector<std::vector<Natural>> neighbors_by_cell_ = {};
     Natural* neighbor_count_by_cell_ = {};
 
@@ -203,7 +303,7 @@ class Simulation {
     
   
     Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
-    cell_param<NUM_PARAMS> cell_parameters_ = {};
+    cell_param<NUM_PARAMS> cell_parameters_;
 
   // Sizes
   // Real* factors_perturb;
@@ -287,8 +387,11 @@ inline void Simulation::push_performance(std::chrono::duration<double> elapsed) 
 }
 
 CUDA_AGNOSTIC
-inline std::vector<Real> Simulation::get_performance() noexcept
-    {return performance_;}
+inline std::vector<Real> Simulation::get_performance() noexcept{
+  return performance_;
+}
+
+CUDA_AGNOSTIC
 
 CUDA_AGNOSTIC
 inline Simulation::~Simulation () noexcept = default;
@@ -297,17 +400,23 @@ inline Simulation::~Simulation () noexcept = default;
 
 template <typename T>
 Real dense::Context<T>::getCritVal(critspecie_id rcritsp) const {
-  return owner_->cell_parameters_[NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp][cell_];
+  return owner_->cell_parameters_[cell_][NUM_REACTIONS+NUM_DELAY_REACTIONS+rcritsp];
 }
 
 template <typename T>
 Real dense::Context<T>::getRate(reaction_id reaction) const {
-    return owner_->cell_parameters_[reaction][cell_];
+  if(std::isnan(owner_->cell_parameters_[cell_][reaction])){
+    throw(std::out_of_range("isnan() throw on cell_parameters_ " + std::to_string(owner_->cell_parameters_[cell_][reaction])));
+  }
+  return owner_->cell_parameters_[cell_][reaction];
 }
 
 template <typename T>
 Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const {
-  return owner_->cell_parameters_[NUM_REACTIONS+delay_reaction][cell_];
+  if(std::isnan(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])){
+    throw(std::out_of_range("isnan() throw on getDelay " + std::to_string(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])));
+  }
+  return owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction];
 }
 
 template <typename T>

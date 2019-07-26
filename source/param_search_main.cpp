@@ -80,19 +80,19 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
 	using Simulation = Fast_Gillespie_Direct_Simulation;
 	std::vector<double> scores;
 	
-	for(auto param_set : population){
+//	for(auto param_set : population){
     
-    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(param_set)),analysisEntries);	
+    auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, std::move(sim.get_simulations(population)),analysisEntries);	
 		
     double sse  = 0.0;	
-		for(std::size_t j = 0;  j < simulation_means.size(); j++){
+    for(std::size_t j = 0;  j < simulation_means.size(); j++){
       
-      sse = ((real_results[j] - simulation_means[j])*(real_results[j] -simulation_means[j]));
+      sse += ((real_results[j] - simulation_means[j])*(real_results[j] -simulation_means[j]));
       
     }
- 
-      scores.push_back(sse);
-	}
+   
+    scores.push_back(sse);
+//	}
 	
   return scores;
 }
@@ -120,9 +120,9 @@ int main (int argc, char** argv) {
   }
 	
   using Simulation = Fast_Gillespie_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, argc, argv); 
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, argc, argv); 
 	
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.cell_total)));
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices())));
 	
   std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
     [&](const std::vector<Parameter_Set>& population) {

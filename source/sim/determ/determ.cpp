@@ -16,7 +16,9 @@ Minutes dense::Deterministic_Simulation::age_by (Minutes duration) {
     Simulation::step(false);
   }
   auto finish = std::chrono::high_resolution_clock::now();
+
   Simulation::push_performance(finish - start);
+
   return Simulation::age_by(duration);
 }
 
@@ -29,8 +31,8 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
 }
 
 dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
-                    Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
-    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad), 
+                    Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell) :
+    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell), 
     _intDelays(NUM_DELAY_REACTIONS, cell_count()),
     _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(2), _baby_cl(*this) {
       //Copy and normalize _delays into _intDelays
@@ -76,8 +78,12 @@ dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::ca
 
 CUDA_AGNOSTIC
 void dense::Deterministic_Simulation::step() {
-    for (dense::Natural k = 0; k < cell_count(); k++) {
-      update_concentrations(k, calculate_concentrations(k));
+    int c = 0;
+    for (dense::Natural k = 0; k < dense::Natural(physical_cells_id().size()); k++) {
+      if(physical_cells_id()[k] >= 0){ //check if the cell has been removed from the simulation
+        update_concentrations(c, calculate_concentrations(c));
+      }
+      c++;
     }
     _j++;
     _baby_cl.advance();
