@@ -31,7 +31,11 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
       Simulation::age_by(t_until_event);
       executeDelayRXN();
-      if (age() >= end_time) return age();
+      if (age() >= end_time){
+        auto finish = std::chrono::high_resolution_clock::now();
+        Simulation::push_performance(finish - start);
+        return age();
+      } 
     }
 
     tauLeap();

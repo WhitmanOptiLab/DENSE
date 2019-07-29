@@ -96,7 +96,7 @@ public:
     }
   
     std::vector<Real> get_perf(){
-      return std::vector<Real>(cell_count());
+      return Simulation::get_performance();
     }
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
