@@ -68,7 +68,7 @@ template <typename Simulation>
 #else
 template <Simulation_Concept Simulation>
 #endif
-void run_simulation(
+std::vector<std::vector<Real>> run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
@@ -80,7 +80,7 @@ void run_simulation(
     #else
     template <Simulation_Concept Simulation>
     #endif
-    void run_simulation(
+    std::vector<std::vector<Real>> run_simulation(
          std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -152,25 +152,25 @@ void run_simulation(
 
                     for (auto & simulation : simulations) {
                       auto age = simulation.age_by(notify_interval);
-                      perf.push_back(simulation.get_perf());
                       if (a % notifications_per_min == 0) {
+                          perf.push_back(simulation.get_perf());
                           std::cout << "Time: " << age / Minutes{1} << '\n';
                       }
                     }
                 }
 
-                csvw csv_out("benchmark_data.csv");
-                for (int i = 0; (unsigned)i < perf.size(); ++i){
-                    for(int j = 0; (unsigned)j < perf[i].size(); ++j){
-                    csv_out.add_data(perf[i][j]);
-                    }
-                }
+//                csvw csv_out("benchmark_data.csv");
+//                for (int i = 0; (unsigned)i < perf.size(); ++i){
+//                    for(int j = 0; (unsigned)j < perf[i].size(); ++j){
+//                    csv_out.add_data(perf[i][j]);
+//                    }
+//                }
 
                 for (auto& callback : callbacks) {
                     callback.analysis->finalize();
                     callback.analysis->show(&callback.log);
                 }
-            
+                return perf;
         }
 
 

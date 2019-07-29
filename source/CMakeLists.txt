@@ -40,12 +40,13 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Initializer.hpp
-					${DENSE_SOURCE_DIR}/source/search/sres.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
-					${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
+          ${DENSE_SOURCE_DIR}/source/search/sres.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
+          ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/propensity_groups.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rejection_based_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rxn_struct.hpp
 
@@ -66,6 +67,10 @@ endfunction(SIMULATION localname simdir mainfile)
 function(DETERMINISTIC_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/deterministic_main.cpp)
 endfunction(DETERMINISTIC_SIMULATION localname simdir)
+
+function(SORTING_DIRECT_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Sorting_Direct_Main.cpp)
+endfunction(SORTING_DIRECT_SIMULATION localname simdir)
 
 function(REJECTION_BASED_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp)
@@ -183,6 +188,8 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     ANDERSON_SIMULATION(anderson ${PROJECT_BINARY_DIR})
     set_target_properties(anderson PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    SORTING_DIRECT_SIMULATION(sortingdirect ${PROJECT_BINARY_DIR})
+    set_target_properties(sortingdirect PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})
     set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     if (${CUDA_FOUND})
