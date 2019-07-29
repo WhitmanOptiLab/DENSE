@@ -278,6 +278,7 @@ namespace dense {
                  if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
                      seed = std::random_device()();
                  }
+                 std::cout << "Stochastic simulation seed: " << seed << '\n';
                  delta = 0.2;
                  if(!arg_parse::get<double>("dd", "delta", &delta, false)){
                   delta = 0.2;

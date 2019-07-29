@@ -680,6 +680,33 @@ __/__/source/sim/stoch/rejection_based_simulation.cpp.s:
 	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/rejection_based_simulation.cpp.s
 .PHONY : __/__/source/sim/stoch/rejection_based_simulation.cpp.s
 
+__/__/source/sim/stoch/sorting_direct_simulation.o: __/__/source/sim/stoch/sorting_direct_simulation.cpp.o
+
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.o
+
+# target to build an object file
+__/__/source/sim/stoch/sorting_direct_simulation.cpp.o:
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/sorting_direct_simulation.cpp.o
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.cpp.o
+
+__/__/source/sim/stoch/sorting_direct_simulation.i: __/__/source/sim/stoch/sorting_direct_simulation.cpp.i
+
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.i
+
+# target to preprocess a source file
+__/__/source/sim/stoch/sorting_direct_simulation.cpp.i:
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/sorting_direct_simulation.cpp.i
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.cpp.i
+
+__/__/source/sim/stoch/sorting_direct_simulation.s: __/__/source/sim/stoch/sorting_direct_simulation.cpp.s
+
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.s
+
+# target to generate assembly for a file
+__/__/source/sim/stoch/sorting_direct_simulation.cpp.s:
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/build.make DENSE/test/her_model_2014/CMakeFiles/her2014_simulation_lib.dir/__/__/source/sim/stoch/sorting_direct_simulation.cpp.s
+.PHONY : __/__/source/sim/stoch/sorting_direct_simulation.cpp.s
+
 __/__/source/sim/stoch/stoch.o: __/__/source/sim/stoch/stoch.cpp.o
 
 .PHONY : __/__/source/sim/stoch/stoch.o
@@ -858,6 +885,9 @@ help:
 	@echo "... __/__/source/sim/stoch/rejection_based_simulation.o"
 	@echo "... __/__/source/sim/stoch/rejection_based_simulation.i"
 	@echo "... __/__/source/sim/stoch/rejection_based_simulation.s"
+	@echo "... __/__/source/sim/stoch/sorting_direct_simulation.o"
+	@echo "... __/__/source/sim/stoch/sorting_direct_simulation.i"
+	@echo "... __/__/source/sim/stoch/sorting_direct_simulation.s"
 	@echo "... __/__/source/sim/stoch/stoch.o"
 	@echo "... __/__/source/sim/stoch/stoch.i"
 	@echo "... __/__/source/sim/stoch/stoch.s"
