@@ -24,12 +24,14 @@ namespace stochastic {
     
     void init_propensity_groups(std::vector<Rxn>& reactions){
       bool temp = false;
+      std::cout << "initializing \n";
       for(Rxn reaction : reactions){
         place_in_group(reaction, true, temp);
       }
       init_p_values();
       init_organized_groups();
       chooser = nonuniform_int_distribution<int>(organized_p_values);
+      std::cout << "initialized \n";
     }
   
     
@@ -72,9 +74,6 @@ namespace stochastic {
       update_p_value(new_reactions[i], true);
     }
     chooser = nonuniform_int_distribution<int>(organized_p_values);
-    for(size_t i = 0; i < organized_p_values.size(); i++){
-      std::cout << organized_p_values[i] << '\n';
-    }
     }
     
   
@@ -119,54 +118,10 @@ namespace stochastic {
         }
         std::vector<Rxn> to_insert;
         to_insert.push_back(reaction);
-        if(group_map.size() == 0){
-          group_map.push_back(p);
-          groups.push_back(to_insert);
-          p_values.push_back(0.0);
-         
-          }
-          else if(group_map.size() == 1){
-              if(group_map[0] > p){
-                group_map.insert(group_map.begin(), p);
-                groups.insert(groups.begin(), to_insert);
-                p_values.insert(p_values.begin(), 0.0);
-              }
-              else{
-           
-                group_map.push_back(p);
-                groups.push_back(to_insert);
-                p_values.push_back(0.0);
-              }
-          }
-            
-            else{
-              if( group_map[0] > p){
-                  group_map.insert(group_map.begin(), p);
-                  groups.insert(groups.begin(), to_insert);
-                  p_values.insert(p_values.begin(),0.0);
-                  return;
-                }
-              else{
-                for(size_t i = 0; i < group_map.size(); i++){
-                  if(i+1 < group_map.size()){
-                    if((group_map[i] < p) && (group_map[i+1] > p)){
-                        group_map.insert((group_map.begin()+i+1), p);
-                        groups.insert((groups.begin()+i+1), to_insert);
-                        p_values.insert((p_values.begin()+i+1),0.0);
-                        return;
-                    }
-                  } else{
-                        group_map.push_back(p);
-                        groups.push_back(to_insert);
-                        p_values.push_back(0.0);
-                        return;
-                  }
-                }
-              }
-            }
-        for(size_t i = 0; i < group_map.size(); i++){
-          std::cout << group_map[i] << '\n';
-        }
+        groups.push_back(to_insert);
+        p_values.push_back(0.0);
+        group_map.push_back(p);
+        sort_groups();
         }
       
       //add to existing group
@@ -228,7 +183,25 @@ namespace stochastic {
       }
     }
     
-    
+    void sort_groups(){
+      size_t i = 1;
+      while(i < groups.size()){
+        int group_val = group_map[i];
+        Real p_val = p_values[i];
+        std::vector<Rxn> group = groups[i];
+        int j = i - 1;
+        while((j >= 0) && (group_map[j] > group_val)){
+          group_map[j+1] = group_map[j];
+          p_values[j+1] = p_values[j];
+          groups[j+1] = groups[j];
+          j = j-1;
+        }
+        group_map[j+1] = group_val;
+        p_values[j+1] = p_val;
+        groups[j+1] = group;
+        i++;
+      }
+    }
     void update_p_value(Rxn reaction, bool adding_to){
       int current_group = group_index(reaction.get_index());
       if(adding_to){

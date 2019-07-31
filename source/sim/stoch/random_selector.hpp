@@ -33,7 +33,6 @@ class nonuniform_int_distribution {
   IntType operator()(URNG& g) {
 
     Real target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
-    std::cout << target << ' ' << total_weight << '\n';
     IntType node = _tree.root();
     //Loop until target random value is in between weight(left) and weight(left) + value(node)
     while(weight_of(_tree.left_of(node)) > target ||
