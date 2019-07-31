@@ -18,6 +18,7 @@
 #include <chrono>
 #include <type_traits>
 #include <utility>
+#include <chrono>
 
 # if defined __CUDA_ARCH__
 using Minutes = Real;
@@ -37,6 +38,7 @@ concept bool Simulation_Concept() {
     { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
     { simulation.add_cell(Natural{}, Natural{})} -> void;
     { simulation.remove_cell(Natural{})} -> void;
+    { simulation.get_performance(std::chrono::duration<double>{})}-> Real;
   };
 }
 # endif
@@ -127,7 +129,12 @@ class Simulation {
 
     CUDA_AGNOSTIC
     Natural& cell_count () noexcept;
-  
+
+    ///calculate how many reaction are fired in a second for each time step
+    Real get_performance(std::chrono::duration<double> elapsed) noexcept;
+    
+    Real step(bool restart) noexcept;
+
     //add_cell_base: takes a virtual cell and adds it to the graph
     Natural add_cell_base(Natural cell){
       adjacency_graph.insert_vertex(cell);
@@ -172,14 +179,16 @@ class Simulation {
       if(!adjacency_graph.includes_vertex(cell1)) return; 
       if(!adjacency_graph.includes_vertex(cell2)) return;
       update_cell_count();
-      adjacency_graph.insert_undirected_edge(cell1, cell2);
+      adjacency_graph.insert_edge(cell1, cell2);
+      adjacency_graph.insert_edge(cell2, cell1);
       calculate_cell_neighbors(cell1);
       calculate_cell_neighbors(cell2);
     }
   
     //remove_edge: takes two virtual cell ids and removes the edge between them
     void remove_edge(Natural cell1, Natural cell2){
-      adjacency_graph.remove_undirected_edge(cell1,cell2);
+      adjacency_graph.remove_edge(cell1,cell2);
+      adjacency_graph.remove_edge(cell2,cell1);
       calculate_cell_neighbors(cell1);
       calculate_cell_neighbors(cell2);
     }
@@ -212,9 +221,9 @@ class Simulation {
     std::vector<int> physical_cells_id(){
       return physical_cells_id_;
     }
-
+  
   protected:
-
+  
     CUDA_AGNOSTIC
     Simulation () = default;
 
@@ -245,7 +254,7 @@ class Simulation {
           Graph::vertex_set neigh = Graph::out_neighbors(p);
           circumference_ = std::max(circumference_, Natural(neigh.size()));
           auto index = adjacency_graph.node(p);
-          calculate_cell_neighbors(index);
+          calculate_cell_neighbors(index, false);
       }
     //Update later to remove need for circumference
       if (circumference_ == 0){
@@ -254,30 +263,28 @@ class Simulation {
     }
   
       //calculate_cell_neighbors: takes a virtual cell and calculates its neighbors
-    void calculate_cell_neighbors(Natural c){
+    void calculate_cell_neighbors(Natural c, bool first = true){
       auto index = adjacency_graph.find(c);
       Graph::vertex_set neigh_out = Graph::out_neighbors(index);
-      Graph::vertex_set neigh_in = Graph::in_neighbors(index);
       std::vector<Natural>* neighbors = new std::vector<Natural>;
-      for ( auto cell = neigh_out.begin(); cell != neigh_out.end(); cell++ ){
-        dense::Natural physical_cell = find_id(*cell);
-        neighbors->push_back(physical_cell);
-      }
-      for ( auto cell = neigh_in.begin(); cell != neigh_in.end(); cell++ ){
-        dense::Natural physical_cell = find_id(*cell);
-        neighbors->push_back(physical_cell);
-      }
       Natural old_index = find_id(c); //old_index is the virtual id for the physical cell c
+      for ( auto cell = neigh_out.begin(); cell != neigh_out.end(); cell++ ){
+        Natural neigh = *cell;
+        if(first){
+          neigh = find_id(*cell);
+        }
+        neighbors->push_back(neigh);
+      }
       neighbor_count_by_cell_[old_index] = neighbors->size();
       neighbors_by_cell_[old_index] = std::move(*neighbors);
     }
 
-  private:
-
     Real age_ = {};
     Natural circumference_ = {};
-    Natural cell_count_ = {};
+    Natural cell_count_ = {}; 
+  protected:
     int _num_growth_cells;
+    Real step_;
     //physical_cells_id: indecies 0...cell_count_ are virtual cell ids, and nodes represent the 
     //    physical cell at that virtual cell index
     //    EX: physical_cells_id_[0] = 12 means that virtual cell 0 represents the 12th physical 
@@ -287,7 +294,6 @@ class Simulation {
     //adjacency_graph: graph that contains physical cell nodes
     NGraph::Graph adjacency_graph;
 
-  protected:
     
     //neighbors_by_cell_ and neighbor_count_by_cell_ are structures of virtual cell ids
     std::vector<std::vector<Natural>> neighbors_by_cell_ = {};
@@ -365,6 +371,21 @@ inline Minutes Simulation::age_by (Minutes duration) noexcept {
 }
 
 CUDA_AGNOSTIC
+inline Real Simulation::step (bool restart) noexcept {
+  if (restart){
+    return Real{step_ = 0.0};
+  }else{
+    return Real{ step_ += 1.0 };
+  }
+  
+}
+
+CUDA_AGNOSTIC
+inline Real Simulation::get_performance(std::chrono::duration<double> elapsed) noexcept{
+  return Real{step_/elapsed.count()};
+}
+
+CUDA_AGNOSTIC
 inline Simulation::~Simulation () noexcept = default;
 
 }
@@ -377,7 +398,7 @@ Real dense::Context<T>::getCritVal(critspecie_id rcritsp) const {
 template <typename T>
 Real dense::Context<T>::getRate(reaction_id reaction) const {
   if(std::isnan(owner_->cell_parameters_[cell_][reaction])){
-    throw(std::out_of_range("isnan() throw on " + std::to_string(owner_->cell_parameters_[cell_][reaction])));
+    throw(std::out_of_range("isnan() throw on cell_parameters_ " + std::to_string(owner_->cell_parameters_[cell_][reaction])));
   }
   return owner_->cell_parameters_[cell_][reaction];
 }
@@ -385,7 +406,7 @@ Real dense::Context<T>::getRate(reaction_id reaction) const {
 template <typename T>
 Real dense::Context<T>::getDelay(delay_reaction_id delay_reaction) const {
   if(std::isnan(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])){
-    throw(std::out_of_range("isnan() throw on " + std::to_string(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])));
+    throw(std::out_of_range("isnan() throw on getDelay " + std::to_string(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])));
   }
   return owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction];
 }
@@ -402,9 +423,6 @@ dense::Real dense::Context<T>::getCon(specie_id sp, int delay) const {
 
 template <typename T>
 dense::Real dense::Context<T>::calculateNeighborAvg(specie_id sp, int delay) const {
-//  if(std::isnan(owner_->cell_parameters_[cell_][NUM_REACTIONS+delay_reaction])){
-//    throw(std::out_of_range("isnan() throw on calculateNeighborAvg: " + std::to_string(cell_)));
-//  }
   return owner_->calculate_neighbor_average(cell_, sp, delay);
 }
 

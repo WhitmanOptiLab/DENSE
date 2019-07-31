@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include <set>
+#include <chrono>
 
 namespace dense {
 namespace stochastic {
@@ -24,6 +25,8 @@ std::uniform_real_distribution<Real> Next_Reaction_Simulation::distribution_ = s
 CUDA_AGNOSTIC
 Minutes Next_Reaction_Simulation::age_by (Minutes duration) {
   auto end_time = age() + duration;
+  auto start = std::chrono::high_resolution_clock::now();
+  Simulation::step(true);
   while (age() < end_time) {
     //std::cout << "Age: " << age() / Minutes{1} << '\n';
     // 2. Let mu be the reaction whose putative time, tau_mu, stored in P is least.
@@ -42,6 +45,8 @@ Minutes Next_Reaction_Simulation::age_by (Minutes duration) {
     update_propensities_and_taus(c, r);
     // 6. Go to step 2.
   }
+  auto finish = std::chrono::high_resolution_clock::now();
+  std::cout<< "reactions fired per second: "<<Simulation::get_performance(finish - start)<<std::endl;
   return age();
 }
 
@@ -136,6 +141,7 @@ void Next_Reaction_Simulation::fireOrSchedule(int cell, reaction_id rid){
 void Next_Reaction_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
+  Simulation::step(false);
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}

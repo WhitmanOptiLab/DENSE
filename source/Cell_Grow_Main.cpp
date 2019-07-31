@@ -140,8 +140,8 @@ void run_and_modify_simulation(
           simulation.remove_edge(0,1);
           simulation.remove_edge(18,13);
           simulation.add_cell(15);
-          simulation.add_cell(15,18);
-          simulation.add_cell(15,13);
+          simulation.add_cell(20,18);
+          simulation.add_cell(10,13);
           for (auto& callback : callbacks) {
             callback.analysis->update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
           }
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]){
   if(args.help == 2){
     return EXIT_FAILURE;
   }
-  using Simulation = Deterministic_Simulation;
+  using Simulation = Fast_Gillespie_Direct_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
   
   dense::run_and_modify_simulation<Simulation>(true, Minutes(3), args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)), 

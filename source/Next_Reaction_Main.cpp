@@ -51,6 +51,8 @@ int main(int argc, char* argv[]){
   }
   int num_vertices = args.adj_graph.num_vertices();
   using Simulation = Next_Reaction_Simulation;
+  auto num_vertices = args.adj_graph.num_vertices();
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), ac, av); 
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, num_vertices));
+  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),
+    parse_analysis_entries<Simulation>(argc, argv, num_vertices));
 }
