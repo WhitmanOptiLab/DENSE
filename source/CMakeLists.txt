@@ -23,8 +23,9 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/stoch/anderson_next_reaction_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/anderson_next_reaction.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
@@ -49,7 +50,6 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rxn_struct.hpp
-
           )
     target_include_directories(${localname} PUBLIC ${simdir})
     target_include_directories(${localname} PUBLIC ${DENSE_SOURCE_DIR}/source)
@@ -80,8 +80,12 @@ function(GILLESPIE_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Gillespie_Direct_main.cpp)
 endfunction(GILLESPIE_SIMULATION localname simdir)
 
+function(SORTING_DIRECT_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/sorting_direct_Main.cpp)
+endfunction(SORTING_DIRECT_SIMULATION localname simdir)
+
 function(ANDERSON_SIMULATION localname simdir)
-  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Anderson_main.cpp)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Anderson_Next_Reaction_Main.cpp)
 endfunction(ANDERSON_SIMULATION localname simdir)
 
  function(FAST_GILLESPIE_SIMULATION localname simdir)
@@ -91,7 +95,6 @@ endfunction(FAST_GILLESPIE_SIMULATION localname simdir)
 function(STOCH_NR_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Next_Reaction_Main.cpp)
 endfunction(STOCH_NR_SIMULATION localname simdir)
-
 
 #function(PARAMSEARCH localname simdir)
 #  SIMCORELIB(${localname}_lib ${simdir})
@@ -186,6 +189,8 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
     set_target_properties(fast_gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
     set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    SORTING_DIRECT_SIMULATION(sortingreaction ${PROJECT_BINARY_DIR})
+    set_target_properties(sortingreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     ANDERSON_SIMULATION(anderson ${PROJECT_BINARY_DIR})
     set_target_properties(anderson PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     SORTING_DIRECT_SIMULATION(sortingdirect ${PROJECT_BINARY_DIR})

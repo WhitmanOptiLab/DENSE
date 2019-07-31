@@ -36,11 +36,9 @@ Minutes Sorting_Direct_Simulation::age_by (Minutes duration) {
     }
     */
     if(end_time < (age() + tau)){
-        Minutes diff = end_time - age();
-        Simulation::age_by(diff);
-        auto finish = std::chrono::high_resolution_clock::now();
-        Simulation::push_performance(finish - start);
-        return age();
+      Minutes diff = end_time - age();
+      Simulation::age_by(diff);
+      return age();
     }
     tauLeap();
     Simulation::age_by(tau);
@@ -151,7 +149,7 @@ void Sorting_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
 */
 void Sorting_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	Simulation::step(false);
- const reaction_base& r = dense::model::getReaction(rid);
+  const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);

@@ -86,6 +86,7 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
+
     Sorting_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
     : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
@@ -98,6 +99,7 @@ public:
     std::vector<Real> get_perf(){
       return Simulation::get_performance();
     }
+
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
       return concs.at(cell).at(species);
