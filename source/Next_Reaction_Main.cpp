@@ -49,6 +49,7 @@ int main(int argc, char* argv[]){
   if(args.help == 2){
     return EXIT_FAILURE;
   }
+  int num_vertices = args.adj_graph.num_vertices();
   using Simulation = Next_Reaction_Simulation;
   auto num_vertices = args.adj_graph.num_vertices();
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), ac, av); 
