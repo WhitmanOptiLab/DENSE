@@ -84,12 +84,12 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-	  , reaction_schedule(NUM_REACTIONS * cell_count)
-    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
-    , propensities(cell_count)
-    , generator(seed) {
+    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    , reaction_schedule(NUM_REACTIONS * cell_count()) 
+    , concs(cell_count(), conc)
+    , propensities(cell_count())
+    , generator{seed} {
       // 1.a. generate the dependency graph
       initPropensityNetwork();
       // 1.b. calculate the propensity function a_i for all i
@@ -97,7 +97,7 @@ public:
       // 1.c. for each i, generate a putative time, tau_i according to
       //      an exponential distribution with parameter a_i;
       // 1.d. store the values in an indexed priority queue P;
-      for (dense::Natural c = 0; c < cell_count; ++c) {
+      for (dense::Natural c = 0; c < cell_count(); ++c) {
         for (int i = 0; i < NUM_REACTIONS; ++i) {
           auto r = static_cast<reaction_id>(i);
           auto eid = encode(c, r);
@@ -120,7 +120,18 @@ public:
       auto& concentration = concs[cell_][sid];
       concentration = std::max(concentration + delta, 0);
     }
-
+  
+    //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
+    void add_cell(Natural cell, Natural parent = 0){
+      Natural cell_index = find_id(cell); //new_index is the physical id for the virtual cell
+      Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
+      cell_index++; parent_index++;
+      add_cell_base(cell);
+    }
+  
+    void remove_cell(Natural cell){
+      remove_cell_base(cell);
+    }
 
   /*
    * GETTOTALPROPENSITY
@@ -226,10 +237,15 @@ public:
 
   Minutes age_by(Minutes duration);
 
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
+
   private:
 
     Minutes time_until_next_event () const;
-	
+
 		event_id encode(Natural cell, reaction_id reaction){
 			Natural rxn_id = static_cast<Natural>(reaction);
 			return (cell*NUM_REACTIONS)+rxn_id;
@@ -238,14 +254,11 @@ public:
 			reaction_id rxn_id = static_cast<reaction_id>(e % NUM_REACTIONS);
 			Natural c = e / NUM_REACTIONS;
 			return std::make_pair(c,rxn_id);
-		}
-	
+		}	
     void initTau();
-
-  
 };
-
 }
 }
 
 #endif
+

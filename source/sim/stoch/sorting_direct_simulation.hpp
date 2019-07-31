@@ -86,14 +86,20 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Sorting_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count, std::vector<int>(NUM_SPECIES, 0))
-    , propensities(cell_count)
+
+    Sorting_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
+    : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
+    , propensities(cell_count())
     , generator{seed} {
       initPropensityNetwork();
       initPropensities();
     }
+  
+    std::vector<Real> get_perf(){
+      return Simulation::get_performance();
+    }
+
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
       return concs.at(cell).at(species);

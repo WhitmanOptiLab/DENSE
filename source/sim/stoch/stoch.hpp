@@ -81,10 +81,10 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int cell_count, int width_total, int seed, std::vector<int> conc)
-    : Simulation(ps, cell_count, width_total, pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count, conc)
-    , propensities(cell_count)
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    , concs(cell_count(), conc)
+    , propensities(cell_count())
     , generator{seed} {
       initPropensityNetwork();
       initPropensities();
@@ -103,7 +103,18 @@ public:
       auto& concentration = concs[cell_][sid];
       concentration = std::max(concentration + delta, 0);
     }
-
+  
+    //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
+    void add_cell(Natural cell, Natural parent){
+      Natural cell_index = find_id(cell); //new_index is the physical id for the virtual cell
+      Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
+      cell_index++; parent_index++;
+      add_cell_base(cell);
+    }
+  
+    void remove_cell(Natural cell){
+      remove_cell_base(cell);
+    }
 
   /*
    * GETTOTALPROPENSITY
@@ -209,6 +220,11 @@ public:
   }
 
   Minutes age_by(Minutes duration);
+
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
 
   private:
 

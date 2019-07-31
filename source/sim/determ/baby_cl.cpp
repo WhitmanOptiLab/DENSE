@@ -11,5 +11,5 @@ dense::baby_cl::baby_cl(Deterministic_Simulation& sim)
         sum += _specie_size[i];
     }
     _total_length = sum * _width;
-    _array = decltype(_array){new Real[_total_length]()};
+    _array = decltype(_array){new Real[_total_length + sim.num_growth_cells()]()};
 }

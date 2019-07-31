@@ -1,0 +1,3 @@
+[submodule "test/ndiff"]
+	path = test/ndiff
+	url = https://github.com/quinoacomputing/ndiff.git

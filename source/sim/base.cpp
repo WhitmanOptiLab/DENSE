@@ -9,39 +9,47 @@
 
 template<int N, class T>
 void initialize_params(dense::cell_param<N,T> & self, Parameter_Set const& ps, Real normfactor, Real* factors_perturb, Real** factors_gradient) {
+  for(dense::Natural c = 0; c < self.cell_count_; c++){
     for (int i = 0; i < N; i++) {
-      auto begin = self[i], end = begin + self.cell_count_;
-      std::fill(begin, end, ps.data()[i] / normfactor);
+      self[c][i] = ps.data()[i] / normfactor;
       if (Real factor = factors_perturb ? factors_perturb[i] : 0.0) {
-        std::transform(begin, end, begin, [=](Real param) {
-          return param * random_perturbation(factor);
-        });
-      }
-    }
-    if (factors_gradient) {
-      for (int i = 0; i < N; i++) {
-        if (factors_gradient[i]) {
-          for (Natural k = 0; k < self.cell_count_; ++k) {
-            // Calculate the cell's index relative to the active start
-            int gradient_index = self.simulation_width_ - k % self.simulation_width_;
-            self[i][k] *= factors_gradient[i][gradient_index];
-          }
+        for(auto& param : self[c]){
+          param = param * random_perturbation(factor);
         }
       }
     }
+  }
+  if (factors_gradient) {
+    for (int i = 0; i < N; i++) {
+      if (factors_gradient[i]) {
+        for (Natural k = 0; k < self.cell_count_; ++k) {
+          // Calculate the cell's index relative to the active start
+          int gradient_index = self.simulation_width_ - k % self.simulation_width_;
+          self[k][i] *= factors_gradient[i][gradient_index];
+        }
+      }
+    }
+  }
 }
 
-dense::Simulation::Simulation(Parameter_Set parameter_set, Natural cell_count, Natural circumference, Real* factors_perturb, Real** factors_gradient) :
-    circumference_{circumference},
-    cell_count_{cell_count},
+dense::Simulation::Simulation(Parameter_Set parameter_set, NGraph::Graph adj_graph, Real* factors_perturb, Real** factors_gradient, dense::Natural num_growth_cell) noexcept :
+    circumference_{0},
+    cell_count_{Natural(adj_graph.num_vertices())},
+    _num_growth_cells(num_growth_cell),
+    physical_cells_id_(cell_count(),-1),
     parameter_set_{std::move(parameter_set)},
-    neighbors_by_cell_{new CUDA_Array<Natural, 6>[cell_count]},
-    neighbor_count_by_cell_{new dense::Natural[cell_count]},
-    cell_parameters_(circumference, cell_count)
+    neighbors_by_cell_{decltype(neighbors_by_cell_.size())(cell_count() + _num_growth_cells), std::vector<Natural>()},
+    neighbor_count_by_cell_{new dense::Natural[cell_count() + _num_growth_cells]},
+    cell_parameters_(circumference_, cell_count(), _num_growth_cells)
   {
+    adjacency_graph = std::move(adj_graph);
     calc_max_delays(factors_perturb, factors_gradient);
     calc_neighbor_2d();
     initialize_params(cell_parameters_, parameter_set_, 1.0, factors_perturb, factors_gradient);
+    //set the physical cells to be the same as the virtual cells
+    for( Natural c = 0; c < cell_count(); c++){
+      physical_cells_id_[c] = c;
+    }
   }
 
 void dense::Simulation::calc_max_delays(Real* factors_perturb, Real** factors_gradient) {

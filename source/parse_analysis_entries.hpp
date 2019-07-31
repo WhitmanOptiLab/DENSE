@@ -63,14 +63,14 @@ template <Simulation_Concept Simulation>
 #endif
 std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse_analysis_entries(int argc, char* argv[], int cell_total) {
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>  named_analysis_vector;
-	arg_parse::init(argc, argv);
+	 arg_parse::init(argc, argv);
   using style::Mode;
   style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
   
   // Analyses each with own file writer
   std::string config_file;
   std::string data_ioe;
-	std::vector<Species> default_specie_option;
+	 std::vector<Species> default_specie_option;
   arg_parse::get<std::vector<Species>>("o", "specie-option", &default_specie_option, false);
 
   if (arg_parse::get<std::string>("a", "analysis", &config_file, false)) {
@@ -78,35 +78,35 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
     ezxml_t config = ezxml_parse_file(config_file.c_str());
 
     for (ezxml_t anlys = ezxml_child(config, "anlys"); anlys != nullptr; anlys = anlys->next) {
-      std::string type = ezxml_attr(anlys, "type");
-      std::pair<dense::Natural, dense::Natural> cell_range = {
-        std::stold(xml_child_text(anlys, "cell-start")),
-        std::stold(xml_child_text(anlys, "cell-end"))
-      };
-      std::pair<Real, Real> time_range = {
-        std::stold(xml_child_text(anlys, "time-start")),
-        std::stold(xml_child_text(anlys, "time-end"))
-      };
-      std::vector<Species> specie_option = str_to_species(xml_child_text(anlys, "species"));
-      std::string out_file = xml_child_text(anlys, "out-file");
+        std::string type = ezxml_attr(anlys, "type");
+        std::pair<dense::Natural, dense::Natural> cell_range = {
+          std::stold(xml_child_text(anlys, "cell-start")),
+          std::stold(xml_child_text(anlys, "cell-end"))
+        };
+        std::pair<Real, Real> time_range = {
+          std::stold(xml_child_text(anlys, "time-start")),
+          std::stold(xml_child_text(anlys, "time-end"))
+        };
+        std::vector<Species> specie_option = str_to_species(xml_child_text(anlys, "species"));
+        std::string out_file = xml_child_text(anlys, "out-file");
 
-      if (type == "basic") {
-        named_analysis_vector.emplace_back(out_file,
-          std14::make_unique<BasicAnalysis<Simulation>>(
-            specie_option, cell_range, time_range));
-      }
-      else if (type == "oscillation") {
-        Real win_range = std::stold(xml_child_text(anlys, "win-range"));
-        Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
+        if (type == "basic") {
+          named_analysis_vector.emplace_back(out_file,
+            std14::make_unique<BasicAnalysis<Simulation>>(
+              specie_option, cell_range, time_range));
+        }
+        else if (type == "oscillation") {
+          Real win_range = std::stold(xml_child_text(anlys, "win-range"));
+          Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
 
-        named_analysis_vector.emplace_back(out_file,
-          std14::make_unique<OscillationAnalysis<Simulation>>(
-            anlys_intvl, win_range, specie_option, cell_range, time_range));
-      }
-      else {
-        std::cout << style::apply(Color::yellow) <<
-          "Warning: Skipping unknown analysis type \"" << type << "\"\n" << style::reset();
-      }
+          named_analysis_vector.emplace_back(out_file,
+            std14::make_unique<OscillationAnalysis<Simulation>>(
+              anlys_intvl, win_range, specie_option, cell_range, time_range));
+        }
+        else {
+          std::cout << style::apply(Color::yellow) <<
+            "Warning: Skipping unknown analysis type \"" << type << "\"\n" << style::reset();
+        }
     }
   } else if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "") {
     // Data export aka file log
@@ -115,8 +115,7 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
         cell_total,
         arg_parse::get<std::string>("v", "time-col", nullptr, false),
         default_specie_option));
-  }
-  else if (!arg_parse::get<bool>("N", "test-run", nullptr, false)) {
+  } else if (!arg_parse::get<bool>("N", "test-run", nullptr, false)) {
       std::cout << style::apply(Color::yellow) << "Warning: performing basic analysis only.  Did you mean to use the [-e | --data-export] and/or [-a | --analysis] flag(s)? (use -N to suppress this error)" << style::reset() << '\n';
 
       named_analysis_vector.emplace_back("", std14::make_unique<BasicAnalysis<Simulation>>(

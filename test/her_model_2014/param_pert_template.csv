@@ -1,0 +1,18 @@
+# CSV Specification
+#   Ignored by the file readers are:
+#     (1) Empty cells / Blank rows / Whitespace
+#     (2) Comment whose rows always begin with a '#'
+#         For best results delete all comments before loading this file into any Excel-like program.
+#     (3) Any cell which does not conform to the scientific notation format 3.14e-41 or simple whole numbers and decimals
+#         Often times cells which do not contain numbers are intended to be column headers. These are not parsed by the simulation and can technically be modified by the users as they wish.
+#         It is futile to add/remove/modify the column headers with the expectation of changing the program's behavior. Data must be entered in the default order for it to be parsed correctly.
+# None of these comments include commas because it messes with the column widths when loaded into Excel-like programs.
+# For more information and examples see README.md section 2.2.0
+
+# Rename this file by removing the "_template" from the file name (or just change the name entirely) once the data has been entered!
+# This file should only contain one set of perturbations. Only this one perturbations set is applied to all parameter sets when a simulation set is being run.
+# Use '0' to indicate that a reaction should not have perturbations.
+# For more information and examples see README.md section 2.2.2
+
+pert_mh1_synthesis, pert_mh7_synthesis, pert_mh13_synthesis, pert_md_synthesis, pert_mh1_degradation, pert_mh7_degradation, pert_mh13_degradation, pert_md_degradation, pert_ph1_synthesis, pert_ph7_synthesis, pert_ph13_synthesis, pert_pd_synthesis, pert_ph1_degradation, pert_ph7_degradation, pert_ph13_degradation, pert_pd_degradation, pert_ph11_association, pert_ph17_association, pert_ph113_association, pert_ph77_association, pert_ph713_association, pert_ph1313_association, pert_ph11_dissociation, pert_ph17_dissociation, pert_ph113_dissociation, pert_ph77_dissociation, pert_ph713_dissociation, pert_ph1313_dissociation, pert_ph11_degradation, pert_ph17_degradation, pert_ph113_degradation, pert_ph77_degradation, pert_ph713_degradation, pert_ph1313_degradation, , pert_dreact_mh1_synthesis, pert_dreact_mh7_synthesis, pert_dreact_mh13_synthesis, pert_dreact_md_synthesis, pert_dreact_ph1_synthesis, pert_dreact_ph7_synthesis, pert_dreact_ph13_synthesis, pert_dreact_pd_synthesis, , pert_rcrit_rcrit_pd, pert_rcrit_rcrit_ph11, pert_rcrit_rcrit_ph713, 
+0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, , 0, 0, 0, 0, 0, 0, 0, 0, , 0, 0, 0, 

@@ -96,4 +96,3 @@ if (${CUDA_FOUND})
   CUDA_SIMULATION(her2014_cuda_simulation ${CMAKE_CURRENT_SOURCE_DIR})
 endif (${CUDA_FOUND})
 
-PARAM_SEARCH_LIB(her2014_param_search_lib ${CMAKE_CURRENT_SOURCE_DIR})
