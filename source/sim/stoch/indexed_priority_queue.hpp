@@ -68,7 +68,7 @@ namespace stochastic {
       void push(value_type value) {
         auto& node = node_at(value.first);
         if (node == null_node()) {
-          _heap.push(value);
+          _heap.add_entry(value);
           node = _heap.last();
         } else {
           _heap.value_of(node) = value;
@@ -83,7 +83,7 @@ namespace stochastic {
         if (node != _heap.last()) {
           swap(node, _heap.last());
         }
-        _heap.pop();
+        _heap.remove_last_entry();
         sift_down(node);
         node_at(i) = null_node();
       }
