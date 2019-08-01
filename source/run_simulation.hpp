@@ -12,6 +12,7 @@
 #include "sim/determ/determ.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
+#include "sim/stoch/anderson_next_reaction.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "measurement/details.hpp"
@@ -35,6 +36,7 @@ using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::stochastic::Anderson_Next_Reaction_Simulation;
 using dense::Details;
 
 
