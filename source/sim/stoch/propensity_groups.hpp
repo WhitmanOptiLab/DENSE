@@ -24,14 +24,12 @@ namespace stochastic {
     
     void init_propensity_groups(std::vector<Rxn>& reactions){
       bool temp = false;
-      std::cout << "initializing \n";
       for(Rxn reaction : reactions){
         place_in_group(reaction, true, temp);
       }
       init_p_values();
       init_organized_groups();
       chooser = nonuniform_int_distribution<int>(organized_p_values);
-      std::cout << "initialized \n";
     }
   
     

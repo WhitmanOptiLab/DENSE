@@ -44,8 +44,6 @@ else (${CUDA_FOUND})
   message("CUDA not found on this system - building CPU-only")
 endif (${CUDA_FOUND})
 
-enable_testing()
+#enable_testing()
 
 add_subdirectory(source)
-
-add_subdirectory(test)

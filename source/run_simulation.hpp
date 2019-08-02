@@ -12,7 +12,7 @@
 #include "sim/determ/determ.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
-#include "sim/stoch/anderson_next_reaction.hpp"
+#include "sim/stoch/anderson_next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "measurement/details.hpp"
@@ -87,9 +87,8 @@ std::vector<std::vector<Real>> run_simulation(
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
         std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
-
+      
              struct Callback {
-
                     Callback(
                     std::unique_ptr<Analysis<Simulation>> analysis,
                     Simulation & simulation,
@@ -125,7 +124,7 @@ std::vector<std::vector<Real>> run_simulation(
                 // End all observer preparation
 
                 // ========================= RUN THE SHOW =========================
-
+                
                 Real analysis_chunks = duration / notify_interval;
                 int notifications_per_min = decltype(duration)(1.0) / notify_interval;
                 std::vector<std::vector<Real>> perf;
@@ -154,7 +153,7 @@ std::vector<std::vector<Real>> run_simulation(
 
                     for (auto & simulation : simulations) {
                       auto age = simulation.age_by(notify_interval);
-                      if (a % notifications_per_min == 0) {
+                      if (notifications_per_min == 0 || a % notifications_per_min == 0) {
                           perf.push_back(simulation.get_perf());
                           std::cout << "Time: " << age / Minutes{1} << '\n';
                       }
