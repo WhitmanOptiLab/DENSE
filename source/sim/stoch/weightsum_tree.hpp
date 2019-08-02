@@ -22,8 +22,21 @@ class weightsum_tree {
     total_weight = sum_weights(_tree().root());
   }
 
+  void swap_with_child(PosType parent, PosType child) {
+    Real weight_diff = _tree().weight_of(parent) - _tree().weight_of(child);
+    _tree().weightsum_of(child) += weight_diff;
+    std::swap(_tree().weight_of(parent), _tree().weight_of(child));
+  }
+
+  void swap(PosType i, PosType j) {
+    Real old_i_weight = _tree().weight_of(i);
+    update_weight(i, _tree().weight_of(j));
+    update_weight(j, old_i_weight);
+  }
+
   void update_weight(PosType i, Real new_weight) {
     Real weight_diff = new_weight - _tree().weight_of(i);
+    _tree().weight_of(i) = new_weight;
     while (i != _tree().root()) {
       _tree().weightsum_of(i) += weight_diff;
       i = Tree::parent_of(i);
@@ -66,6 +79,14 @@ class weightsum_tree {
       sum_weights(Tree::left_of(i)) + sum_weights(Tree::right_of(i)) 
       + _tree().weight_of(i);
     return _tree().weightsum_of(i);
+  }
+  bool isAncestor(PosType i, PosType j) {
+    unsigned int ilz = __builtin_clz(i+1);
+    unsigned int jlz = __builtin_clz(j+1);
+    if (ilz > jlz) {
+      return (j >> (ilz - jlz)) == i;
+    } 
+    return false;
   }
 
   Real total_weight;

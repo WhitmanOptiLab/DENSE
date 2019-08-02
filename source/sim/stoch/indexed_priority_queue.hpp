@@ -7,20 +7,38 @@
 #include <type_traits>
 
 #include "completetree.hpp"
+#include "heap.hpp"
 
 namespace dense {
 namespace stochastic {
+
+namespace {
+  enum class ignore{};
+}
 
   template <
     typename I,
     typename T,
     typename Compare = std::less<T>
   >
-  class indexed_priority_queue {
+  class indexed_priority_queue : 
+    //Indexed priority queue extends a complete tree...
+    public complete_tree<
+      typename std::conditional< std::is_enum<I>::value, 
+        typename std::underlying_type< 
+          typename std::conditional<std::is_enum<I>::value, I, ignore>::type>::type,
+        I>::type,
+      std::pair<I, T> >,
+
+    //... using the heap mix-in
+    protected heap< indexed_priority_queue<I, T, Compare>, 
+      typename std::conditional< std::is_enum<I>::value, 
+        typename std::underlying_type< 
+          typename std::conditional<std::is_enum<I>::value, I, ignore>::type>::type,
+        I>::type >
+  {
 
     private:
-
-      enum class ignore {};
 
       template <typename E>
       using underlying_if_enum = typename std::conditional<
@@ -43,13 +61,18 @@ namespace stochastic {
       using const_iterator = value_type const*;
       using reference = value_type&;
       using const_reference = value_type const&;
+      using BaseTree = complete_tree<node_type, value_type>;
+      using Heap = heap<indexed_priority_queue<index_type, mapped_type, Compare>, node_type>;
+
+      friend Heap;
    
       indexed_priority_queue() = delete;
 
       indexed_priority_queue(I max_size, Compare compare = Compare{}) :
+        BaseTree(max_size),
+        Heap(),
         _compare{compare},
-        _heap(max_size),
-        _map(max_size, null_node()) {}
+        _node_for_index(max_size, max_size) {}
 
       indexed_priority_queue(indexed_priority_queue const&) = default;
 
@@ -61,52 +84,40 @@ namespace stochastic {
 
       ~indexed_priority_queue() = default;
 
-      size_type max_size() const { return _heap.max_size(); }
-      size_type size() const { return _heap.size(); }
-      bool empty() const { return _heap.empty() == 0; }
+      size_type max_size() const { return BaseTree::max_size(); }
+      size_type size() const { return BaseTree::size(); }
+      bool empty() const { return BaseTree::empty() == 0; }
 
       void push(value_type value) {
-        auto& node = node_at(value.first);
-        if (node == null_node()) {
-          _heap.add_entry(value);
-          node = _heap.last();
+        auto& node = _node_for_index[value.first];
+        if (node == BaseTree::null_node()) {
+          Heap::push(value);
         } else {
-          _heap.value_of(node) = value;
+          Heap::update(node, value);
         }
-        sift_up(node) || sift_down(node);
       }
 
-      void pop() {
-        if (empty()) return;
-        auto node = root();
-        auto i = _heap.value_of(node).first;
-        if (node != _heap.last()) {
-          swap(node, _heap.last());
-        }
-        _heap.remove_last_entry();
-        sift_down(node);
-        node_at(i) = null_node();
-      }
+      void pop() { Heap::pop(); }
 
-      const_iterator begin() const { return _heap.iterator_for(root()); }
-      const_iterator end() const { return _heap.end(); }
-      const_reference top() const { return _heap.top(); }
+      const_iterator begin() const { return BaseTree::iterator_for(BaseTree::root()); }
+      const_iterator end() const { return BaseTree::end(); }
+      const_reference top() const { return top(); }
 
       mapped_type const& operator[](index_type i) const {
-        return _heap.value_of(node_at(i)).second;
+        return BaseTree::value_of(_node_for_index[i]).second;
       }
 
       const_iterator find(index_type i) const {
-        auto node = node_at(i);
-        return node == null_node() ? end() : _heap.iterator_for(node);
+        auto node = _node_for_index[i];
+        return node == BaseTree::null_node() ? end() : BaseTree::iterator_for(node);
       }
 
       mapped_type const& at(index_type i) const {
-        auto node = node_at(i);
-        if (node == null_node()) {
+        auto node = _node_for_index[i];
+        if (node == BaseTree::null_node()) {
           throw std::out_of_range("Index out of range");
         }
-        return _heap.value_of(node).second;
+        return BaseTree::value_of(node).second;
       }
 
       template <typename... Args>
@@ -121,61 +132,24 @@ namespace stochastic {
       }
 
       bool less(node_type a, node_type b) const {
-        return _compare(_heap.value_of(a).second, _heap.value_of(b).second);
-      }
-
-      node_type const& node_at(index_type i) const {
-        return _map[static_cast<node_type>(i)];
-      }
-
-      node_type& node_at(index_type i) {
-        return const_cast<node_type &>(const_this().node_at(i));
-      }
-
-      static constexpr node_type root() { return decltype(_heap)::root(); }
-
-      node_type parent_of(node_type node) const { return _heap.parent_of(node); }
-      node_type left_of(node_type node) const { return _heap.left_of(node); }
-      node_type right_of(node_type node) const { return _heap.right_of(node); }
-
-      node_type min_child_of(node_type node) const {
-        auto left = left_of(node);
-        auto right = right_of(node);
-        return (right < _heap.size() && less(right, left)) ? right : left;
+        return _compare(BaseTree::value_of(a).second, BaseTree::value_of(b).second);
       }
 
       void swap(node_type a, node_type b) {
-        using std::swap;
-        swap(_heap.value_of(a), _heap.value_of(b));
-        node_at(_heap.value_of(a).first) = a;
-        node_at(_heap.value_of(b).first) = b;
+        std::swap(BaseTree::value_of(a), BaseTree::value_of(b));
+        _node_for_index[id_of(a)] = a;
+        _node_for_index[id_of(b)] = b;
       }
 
-      bool sift_up(node_type node) {
-        node_type start = node, parent;
-        while (node != root() && less(node, parent = parent_of(node))) {
-          swap(node, parent);
-          node = parent;
-        }
-        return node != start;
+      void swap_with_child(node_type a, node_type b) {
+        swap(a, b);
       }
 
-      bool sift_down(node_type node) {
-        node_type start = node, min_child;
-        while (left_of(node) < _heap.size() && less(min_child = min_child_of(node), node)) {
-          swap(node, min_child);
-          node = min_child;
-        }
-        return node != start;
-      }
+      index_type& id_of(node_type p) { return BaseTree::value_of(p).first; }
 
       mapped_compare _compare{};
 
-      node_type null_node() const { return _heap.null_node(); }
-
-      complete_tree<node_type, value_type> _heap;
-
-      std::vector<node_type> _map;
+      std::vector<node_type> _node_for_index;
   };
 
 }

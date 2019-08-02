@@ -9,6 +9,14 @@
 namespace dense {
 namespace stochastic {
 
+
+
+  /* This complete tree class is meant to be subclassed to build various 
+   * data structures.  Because most of those data structures require 
+   * updates when values are modified, only const access to elements is 
+   * granted publicly, while there are protected methods for non-const 
+   * element access.
+   */
   template <
     typename P,
     typename T
@@ -54,6 +62,7 @@ namespace stochastic {
 
       ~complete_tree() = default;
 
+      //Tree property methods
       size_type max_size() const {
         return static_cast<position_type>(_max_size);
       }
@@ -66,6 +75,9 @@ namespace stochastic {
         return _size == 0;
       }
 
+      //Tree modification methods
+      //
+    protected:
       void add_entry(entry_type entry) {
         _tree.at(last()+1) = entry;
         _size++;
@@ -82,6 +94,7 @@ namespace stochastic {
       }
 
       //Iterator methods
+    public:
       const_iterator begin() const {
         return iterator_for(root());
       }
@@ -94,10 +107,20 @@ namespace stochastic {
         return _tree.data() + node;
       }
 
+    protected:
       iterator iterator_for(position_type node) {
         return const_cast<iterator>(const_this().iterator_for(node));
       }
+      
+      iterator begin() {
+        return iterator_for(root());
+      }
 
+      iterator end() {
+        return iterator_for(last()) + 1;
+      }
+
+    public:
       //Position methods
       static constexpr position_type root() { return 0; }
       position_type last() const { return _size - 1; }
@@ -117,18 +140,12 @@ namespace stochastic {
         return (node + 1) << 1;
       }
 
-
-
       //Element access
       const_reference top() const {
         return value_of(root());
       }
 
       const_reference operator[](position_type i) const {
-        return _tree[i];
-      }
-
-      reference operator[](position_type i) {
         return _tree[i];
       }
 
@@ -139,12 +156,6 @@ namespace stochastic {
         return _tree[i];
       }
 
-      reference at(position_type i) {
-        if (i >= _size) {
-          throw std::out_of_range("Index out of range");
-        }
-        return _tree[i];
-      }
 
       complete_tree const& const_this() const {
         return static_cast<complete_tree const&>(*this);
@@ -154,10 +165,22 @@ namespace stochastic {
         return *iterator_for(node);
       }
 
+    protected:
       reference value_of(position_type node) {
         return const_cast<reference>(const_this().value_of(node));
       }
-    
+
+      reference operator[](position_type i) {
+        return _tree[i];
+      }
+
+      reference at(position_type i) {
+        if (i >= _size) {
+          throw std::out_of_range("Index out of range");
+        }
+        return _tree[i];
+      }
+      
     private:
       position_type _max_size;
       std::vector<entry_type> _tree;
