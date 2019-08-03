@@ -49,8 +49,8 @@ int main(int argc, char* argv[]){
     return EXIT_FAILURE;
   }
   using Simulation = Sorting_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.cell_total, args.tissue_width, ac, av); 
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.cell_total));
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
+  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 }
 /*
 Snapshot<> snapshot;

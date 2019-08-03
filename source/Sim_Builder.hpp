@@ -13,7 +13,7 @@
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "sim/stoch/sorting_direct_simulation.hpp"
-#include "sim/stoch/anderson_next_reaction.hpp"
+#include "sim/stoch/anderson_next_reaction_simulation.hpp"
 #include "sim/stoch/Gillespie_Direct_Simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
@@ -351,6 +351,7 @@ namespace dense {
         std::vector<int> conc;
         NGraph::Graph adjacency_graph;
    };
+   /*
   template<>
    class Sim_Builder <Sorting_Direct_Simulation>{
         using This = Sim_Builder<Sorting_Direct_Simulation>;
@@ -448,6 +449,7 @@ namespace dense {
 						int tissue_width;
 						int seed;
    };
+   */
 }
 
 #endif

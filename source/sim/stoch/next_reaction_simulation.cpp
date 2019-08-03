@@ -145,7 +145,7 @@ void Next_Reaction_Simulation::fireReaction(dense::Natural cell, reaction_id rid
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
-	update_propensities_and_taus(cell, rid);
+	//update_propensities_and_taus(cell, rid);
 }
 
 /*

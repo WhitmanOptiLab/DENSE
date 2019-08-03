@@ -25,7 +25,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/stoch/anderson_next_reaction.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/anderson_next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
@@ -85,7 +85,7 @@ function(SORTING_DIRECT_SIMULATION localname simdir)
 endfunction(SORTING_DIRECT_SIMULATION localname simdir)
 
 function(ANDERSON_SIMULATION localname simdir)
-  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Anderson_Next_Reaction_Main.cpp)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Anderson_main.cpp)
 endfunction(ANDERSON_SIMULATION localname simdir)
 
  function(FAST_GILLESPIE_SIMULATION localname simdir)

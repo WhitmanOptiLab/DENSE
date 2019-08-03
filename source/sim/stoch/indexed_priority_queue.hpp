@@ -8,6 +8,7 @@
 
 #include "completetree.hpp"
 #include "heap.hpp"
+#include "indexed_collection.hpp"
 
 namespace dense {
 namespace stochastic {
@@ -35,7 +36,16 @@ namespace {
       typename std::conditional< std::is_enum<I>::value, 
         typename std::underlying_type< 
           typename std::conditional<std::is_enum<I>::value, I, ignore>::type>::type,
-        I>::type >
+        I>::type >,
+
+    //... and the indexed collection mix-in
+    public indexed_collection<  indexed_priority_queue<I, T, Compare>, 
+      I, 
+      typename std::conditional< std::is_enum<I>::value, 
+        typename std::underlying_type< 
+          typename std::conditional<std::is_enum<I>::value, I, ignore>::type>::type,
+        I>::type,
+      T>
   {
 
     private:
@@ -63,16 +73,18 @@ namespace {
       using const_reference = value_type const&;
       using BaseTree = complete_tree<node_type, value_type>;
       using Heap = heap<indexed_priority_queue<index_type, mapped_type, Compare>, node_type>;
+      using Index = indexed_collection<indexed_priority_queue<index_type, mapped_type, Compare>, index_type, node_type, mapped_type>;
 
       friend Heap;
+      friend Index;
    
       indexed_priority_queue() = delete;
 
       indexed_priority_queue(I max_size, Compare compare = Compare{}) :
         BaseTree(max_size),
         Heap(),
-        _compare{compare},
-        _node_for_index(max_size, max_size) {}
+        Index(max_size),
+        _compare{compare} {}
 
       indexed_priority_queue(indexed_priority_queue const&) = default;
 
@@ -84,12 +96,8 @@ namespace {
 
       ~indexed_priority_queue() = default;
 
-      size_type max_size() const { return BaseTree::max_size(); }
-      size_type size() const { return BaseTree::size(); }
-      bool empty() const { return BaseTree::empty() == 0; }
-
       void push(value_type value) {
-        auto& node = _node_for_index[value.first];
+        auto node = Index::node_for_index(value.first);
         if (node == BaseTree::null_node()) {
           Heap::push(value);
         } else {
@@ -97,23 +105,23 @@ namespace {
         }
       }
 
-      void pop() { Heap::pop(); }
-
-      const_iterator begin() const { return BaseTree::iterator_for(BaseTree::root()); }
-      const_iterator end() const { return BaseTree::end(); }
-      const_reference top() const { return top(); }
+      void pop() { 
+        auto index_removed = id_of(BaseTree::root());
+        Heap::pop(); 
+        Index::dissociate(index_removed);
+      }
 
       mapped_type const& operator[](index_type i) const {
-        return BaseTree::value_of(_node_for_index[i]).second;
+        return BaseTree::value_of(Index::node_for_index(i)).second;
       }
 
       const_iterator find(index_type i) const {
-        auto node = _node_for_index[i];
-        return node == BaseTree::null_node() ? end() : BaseTree::iterator_for(node);
+        auto node = Index::node_for_index(i);
+        return node == BaseTree::null_node() ? BaseTree::end() : BaseTree::iterator_for(node);
       }
 
       mapped_type const& at(index_type i) const {
-        auto node = _node_for_index[i];
+        auto node = Index::node_for_index(i);
         if (node == BaseTree::null_node()) {
           throw std::out_of_range("Index out of range");
         }
@@ -125,7 +133,13 @@ namespace {
         push(value_type(std::forward<Args>(args)...));
       }
 
+
     private:
+      void add_entry(value_type v) {
+        BaseTree::add_entry(v);
+        auto newp = BaseTree::last();
+        Index::associate(id_of(newp), newp);
+      }
 
       indexed_priority_queue const& const_this() const {
         return static_cast<indexed_priority_queue const&>(*this);
@@ -136,9 +150,8 @@ namespace {
       }
 
       void swap(node_type a, node_type b) {
-        std::swap(BaseTree::value_of(a), BaseTree::value_of(b));
-        _node_for_index[id_of(a)] = a;
-        _node_for_index[id_of(b)] = b;
+        std::swap(BaseTree::value_of(a).second, BaseTree::value_of(b).second);
+        Index::swap(a, b);
       }
 
       void swap_with_child(node_type a, node_type b) {
@@ -148,10 +161,7 @@ namespace {
       index_type& id_of(node_type p) { return BaseTree::value_of(p).first; }
 
       mapped_compare _compare{};
-
-      std::vector<node_type> _node_for_index;
   };
-
 }
 }
 

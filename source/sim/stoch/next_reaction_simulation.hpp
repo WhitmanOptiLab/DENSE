@@ -97,14 +97,7 @@ public:
       // 1.c. for each i, generate a putative time, tau_i according to
       //      an exponential distribution with parameter a_i;
       // 1.d. store the values in an indexed priority queue P;
-      for (dense::Natural c = 0; c < cell_count(); ++c) {
-        for (int i = 0; i < NUM_REACTIONS; ++i) {
-          auto r = static_cast<reaction_id>(i);
-          auto eid = encode(c, r);
-          auto tau = generateTau(propensities[c][r]);
-          reaction_schedule.emplace(eid, tau);
-        }
-      }
+      initTau();
     }
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
@@ -171,32 +164,30 @@ public:
     */
     CUDA_AGNOSTIC
     __attribute_noinline__ void update_propensities_and_taus(dense::Natural cell_, reaction_id rid) {
+        //rid just fired, so schedule a new time for it
         #define REACTION(name)\
+        if (name == rid) { /* alpha == mu */\
+            /* 5.a. update a_alpha (propensity) */\
+            auto& a = propensities[cell_][name];\
+            /* 5.c. generate a random number according to an exponential\
+                    distribution with parameter a_mu */\
+            auto p = generateTau(a);\
+            /* Set tau_alpha <- p + t */\
+            auto tau_alpha = p + age();\
+            /* 5.d. replace the old tau_alpha in P with the new value */\
+            reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
+        }\
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
-            if (name == rid) { /* alpha == mu */\
-              /* 5.a. update a_alpha (propensity) */\
-              auto& a = propensities[cell_][name];\
-              auto new_a = std::max(dense::model::reaction_##name.active_rate(Context(*this, cell_)), Real{0}); \
-              a = new_a;\
-              /* 5.c. generate a random number according to an exponential\
-                      distribution with parameter a_mu */\
-              auto p = generateTau(new_a);\
-              /* Set tau_alpha <- p + t */\
-              auto tau_alpha = p + age();\
-              /* 5.d. replace the old tau_alpha in P with the new value */\
-              reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
-            } else if ( name == propensity_network[rid][i] ) { /* alpha != mu */\
-              /* 5.a. update a_alpha (propensity) */\
-              auto& a = propensities[cell_][name];\
-              auto old_a = a;\
-              auto new_a = std::max(dense::model::reaction_##name.active_rate(Context(*this, cell_)), Real{0});\
-              a = new_a;\
-              /* 5.b. set tau_alpha <- (a_alpha_old / a_alpha_new)(tau_alpha - t) + t */\
-              auto tau_alpha = reaction_schedule.at(encode(cell_, name));\
-              tau_alpha = (old_a / new_a)*(tau_alpha - age()) + age();\
-              /* 5.d. replace the old tau_alpha in P with the new value */\
-              reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
-            } \
+           /* 5.a. update a_alpha (propensity) */\
+            auto& a = propensities[cell_][name];\
+            auto old_a = a;\
+            auto new_a = std::max(dense::model::reaction_##name.active_rate(Context(*this, cell_)), Real{0});\
+            a = new_a;\
+            /* 5.b. set tau_alpha <- (a_alpha_old / a_alpha_new)(tau_alpha - t) + t */\
+            auto tau_alpha = reaction_schedule.at(encode(cell_, name));\
+            tau_alpha = (old_a / new_a)*(tau_alpha - age()) + age();\
+            /* 5.d. replace the old tau_alpha in P with the new value */\
+            reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
         } \
         for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
             if (name == neighbor_propensity_network[rid][r]) { \
