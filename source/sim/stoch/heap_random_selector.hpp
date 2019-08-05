@@ -20,7 +20,7 @@ namespace stochastic {
 template <class IntType = int, size_t precision = std::numeric_limits<Real>::digits>
 class heap_random_selector : protected complete_tree<IntType, std::tuple<IntType, Real, Real> >,  
                              public heap<heap_random_selector<IntType, precision>, IntType>,
-                             protected weightsum_tree<heap_random_selector<IntType, precision>, IntType, IntType, precision> {
+                             protected weightsum_tree<heap_random_selector<IntType, precision>, IntType, precision> {
  public:
   using BaseTree = complete_tree<IntType, std::tuple<IntType, Real, Real> >;
   using Heap = heap<heap_random_selector<IntType, precision>, IntType>;
@@ -55,7 +55,7 @@ class heap_random_selector : protected complete_tree<IntType, std::tuple<IntType
   //Methods of WeightSum we want to make available
   template<class URNG>
   IntType operator()(URNG& g) { 
-    return WeightSum::operator()(g);
+    return id_of(WeightSum::operator()(g));
   }
 
  private:
@@ -65,10 +65,6 @@ class heap_random_selector : protected complete_tree<IntType, std::tuple<IntType
     BaseTree::remove_last_entry();
   }
 
-  void swap_with_child(PosType parent, PosType child) {
-    std::swap(id_of(parent), id_of(child));
-    WeightSum::swap_with_child(parent, child);
-  }
 
   Real& weight_of(PosType p) {
     return std::get<1>(BaseTree::value_of(p));
@@ -82,6 +78,11 @@ class heap_random_selector : protected complete_tree<IntType, std::tuple<IntType
   void swap(PosType i, PosType j) {
     std::swap(id_of(i), id_of(j));
     WeightSum::swap(i, j);
+  }
+
+  void swap_with_child(PosType parent, PosType child) {
+    std::swap(id_of(parent), id_of(child));
+    WeightSum::swap_with_child(parent, child);
   }
 
   bool less(PosType a, PosType b) const {

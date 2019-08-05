@@ -42,3 +42,14 @@ add_test("simple-rej-test"
  -D args:string=${ndiff_args}
  -P ${CMAKE_SOURCE_DIR}/test/simple_model/run_test.cmake
 )
+
+set (run_rej_cmd ${CMAKE_CURRENT_BINARY_DIR}/log_direct)
+
+add_test("log-direct-test"
+ ${CMAKE_COMMAND} 
+ -D test_cmd=${run_nr_cmd} 
+ -D test_args:string=${test_args}
+ -D cmp=${ndiff_cmd}
+ -D args:string=${ndiff_args}
+ -P ${CMAKE_SOURCE_DIR}/test/simple_model/run_test.cmake
+)

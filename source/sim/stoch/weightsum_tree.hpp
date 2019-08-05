@@ -12,14 +12,14 @@ namespace stochastic {
 
 //Class to randomly select an index where each index's probability of being 
 //  selected is weighted by a given vector.  
-template <class Tree, class PosType, class IntType = int, size_t precision = std::numeric_limits<Real>::digits>
+template <class Tree, class PosType, size_t precision = std::numeric_limits<Real>::digits>
 class weightsum_tree {
  public:
   //Weights can be of any type, but most be convertable to Real values
   weightsum_tree() = default;
 
   void compute_weights() {
-    total_weight = sum_weights(_tree().root());
+    _total_weight = sum_weights(_tree().root());
   }
 
   void swap_with_child(PosType parent, PosType child) {
@@ -42,13 +42,15 @@ class weightsum_tree {
       i = Tree::parent_of(i);
     }
     _tree().weightsum_of(i) += weight_diff;
-    total_weight += weight_diff;
+    _total_weight += weight_diff;
   }
 
-  template<class URNG>
-  IntType operator()(URNG& g) {
+  Real total_weight() { return _total_weight; }
 
-    Real target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
+  template<class URNG>
+  PosType operator()(URNG& g) {
+
+    Real target = std::generate_canonical<Real, precision, URNG>(g)*_total_weight;
     PosType node = _tree().root();
     //Loop until target random value is in between weight(left) and weight(left) + value(node)
     while(checked_weightsum(Tree::left_of(node)) > target ||
@@ -63,10 +65,10 @@ class weightsum_tree {
       //  theoretically possible, and it's better to reboot than crash at this point
       if (node > _tree().last()) {
         node = _tree().root();
-        target = std::generate_canonical<Real, precision, URNG>(g)*total_weight;
+        target = std::generate_canonical<Real, precision, URNG>(g)*_total_weight;
       }
     }
-    return _tree().id_of(node);
+    return node; //Should never happen?
   }
 
  private:
@@ -89,7 +91,7 @@ class weightsum_tree {
     return false;
   }
 
-  Real total_weight;
+  Real _total_weight;
 };
 
 }

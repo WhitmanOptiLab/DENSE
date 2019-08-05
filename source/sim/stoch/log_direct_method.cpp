@@ -106,18 +106,10 @@ Real Sorting_Direct_Simulation::getRandVariable() {
  * arg "tau": timestep to leap forward by
 */
 void Sorting_Direct_Simulation::tauLeap(){
-
-	Real propensity_portion = getRandVariable() * get_total_propensity();
-
-    int RSOIndex = choose_reaction(propensity_portion);
-	int j = RSO[RSOIndex];
+  int j = choose_reaction();
 	int r = j % NUM_REACTIONS;
 	int c = j / NUM_REACTIONS;
-
-    fireOrSchedule(c,(reaction_id)r);
-    if (RSOIndex != 0) {
-      std::swap(RSO[RSOIndex], RSO[RSOIndex-1]);
-    }
+  fireOrSchedule(c,(reaction_id)r);
 }
 
 /*
@@ -161,20 +153,16 @@ void Sorting_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id ri
  * sets the propensities of each reaction in each cell to its respective active
 */
 void Sorting_Direct_Simulation::initPropensities(){
-   total_propensity_ = 0.0;
+    std::vector<Real> prop_list;
     for (dense::Natural c = 0; c < cell_count(); ++c) {
         Context ctxt(*this,c);
         #define REACTION(name) \
-        propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
-        total_propensity_ += propensities[c].back();
+        prop_list.push_back(dense::model::reaction_##name.active_rate(ctxt));\
         #include "reactions_list.hpp"
         #undef REACTION
     }
-    //initialize RSO: allocate memory and fill with consecutive rxnID
-    RSO.reserve(cell_count() * NUM_REACTIONS); 
-    for(int i = 0; i< cell_count()*NUM_REACTIONS; ++i){
-      RSO.push_back(i);
-    }
+    //initialize propensity random selector
+    propensities = fast_random_selector<int>(prop_list);
 }
 
 /*
