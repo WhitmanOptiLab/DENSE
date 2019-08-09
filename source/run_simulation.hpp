@@ -70,7 +70,7 @@ template <typename Simulation>
 #else
 template <Simulation_Concept Simulation>
 #endif
-std::vector<std::vector<Real>> run_simulation(
+std::vector<Real> run_simulation(
   std::chrono::duration<Real, std::chrono::minutes::period> duration,
   std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
   std::vector<Simulation> simulations,
@@ -82,7 +82,7 @@ std::vector<std::vector<Real>> run_simulation(
     #else
     template <Simulation_Concept Simulation>
     #endif
-    std::vector<std::vector<Real>> run_simulation(
+    std::vector<Real> run_simulation(
          std::chrono::duration<Real, std::chrono::minutes::period> duration,
         std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
         std::vector<Simulation> simulations,
@@ -128,7 +128,7 @@ std::vector<std::vector<Real>> run_simulation(
 
                 Real analysis_chunks = duration / notify_interval;
                 int notifications_per_min = decltype(duration)(1.0) / notify_interval;
-                std::vector<std::vector<Real>> perf;
+                std::vector<Real> perf;
 
                 for (dense::Natural a = 0; a < analysis_chunks; a++) {
                     std::vector<Simulation const*> bad_simulations;
@@ -155,7 +155,7 @@ std::vector<std::vector<Real>> run_simulation(
                     for (auto & simulation : simulations) {
                       auto age = simulation.age_by(notify_interval);
                       if (a % notifications_per_min == 0) {
-                          perf.push_back(simulation.get_perf());
+                          perf.push_back(simulation.get_perf()[0]);
                           std::cout << "Time: " << age / Minutes{1} << '\n';
                       }
                     }
