@@ -48,6 +48,10 @@ private:
   //"depends_on_neighbor_species" keeps track of which reactions are affected by a change in concentraion of a species in a neighboring cell
   std::vector<reaction_id> depends_on_neighbor_species[NUM_SPECIES];
   
+  //"depends_on_reaction" is a dependency graph that shows which specie concentrations are affected by a given reaction firing
+  
+  std::vector<specie_id> depends_on_reaction[NUM_REACTIONS];
+  
   //"propensity_groups" is the partitions of all reactions based on their propensities
   Propensity_Groups propensity_groups;
   
@@ -76,7 +80,7 @@ private:
   //
   void fire_reaction(Rxn& rxn);
   //
-  bool check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species);
+  bool check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species, Rxn fired_reaction);
   //
   void update_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& to_update);
   //
