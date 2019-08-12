@@ -47,6 +47,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/search/libsres/sharefunc.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/propensity_groups.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rejection_based_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/log_direct_method.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/rejection_based_main.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/rxn_struct.hpp
@@ -97,7 +98,7 @@ function(STOCH_NR_SIMULATION localname simdir)
 endfunction(STOCH_NR_SIMULATION localname simdir)
 
 function(LOG_DIRECT_SIMULATION localname simdir)
-  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/log_direct_method.cpp)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/log_direct_main.cpp)
 endfunction(LOG_DIRECT_SIMULATION localname simdir)
 
 #function(PARAMSEARCH localname simdir)

@@ -1,5 +1,5 @@
 #include <cmath>
-#include "sorting_direct_simulation.hpp"
+#include "log_direct_method.hpp"
 #include "sim/cell_param.hpp"
 #include "model_impl.hpp"
 #include "core/model.hpp"
@@ -19,10 +19,10 @@ namespace stochastic {
  * postcondition: ti>=time_total
 */
 
-std::uniform_real_distribution<Real> Sorting_Direct_Simulation::distribution_ = std::uniform_real_distribution<Real>{0.0, 1.0};
+std::uniform_real_distribution<Real> Log_Direct_Simulation::distribution_ = std::uniform_real_distribution<Real>{0.0, 1.0};
 
 CUDA_AGNOSTIC
-Minutes Sorting_Direct_Simulation::age_by (Minutes duration) {
+Minutes Log_Direct_Simulation::age_by (Minutes duration) {
   auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);
   auto end_time = age() + duration;
@@ -35,12 +35,12 @@ Minutes Sorting_Direct_Simulation::age_by (Minutes duration) {
       executeDelayRXN();
       if (age() >= end_time) return age();
     }
-    */
     if(end_time < (age() + tau)){
       Minutes diff = end_time - age();
       Simulation::age_by(diff);
       return age();
     }
+    */
     tauLeap();
     Simulation::age_by(tau);
   }
@@ -53,7 +53,7 @@ Minutes Sorting_Direct_Simulation::age_by (Minutes duration) {
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-Minutes Sorting_Direct_Simulation::generateTau() {
+Minutes Log_Direct_Simulation::generateTau() {
   auto r = getRandVariable();
   auto log_inv_r = -std::log(r);
 
@@ -66,13 +66,13 @@ Minutes Sorting_Direct_Simulation::generateTau() {
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
 /*
-Minutes Sorting_Direct_Simulation::getSoonestDelay() const {
+Minutes Log_Direct_Simulation::getSoonestDelay() const {
   return event_schedule.empty() ?
     Minutes{ std::numeric_limits<Real>::infinity() } :
     event_schedule.top().time;
 }
 
-Minutes Sorting_Direct_Simulation::time_until_next_event() const {
+Minutes Log_Direct_Simulation::time_until_next_event() const {
   return getSoonestDelay() - age();
 }
 */
@@ -84,7 +84,7 @@ Minutes Sorting_Direct_Simulation::time_until_next_event() const {
  * postcondition: the soonest scheduled delay reaction is removed from the schedule
 */
 /*
-void Sorting_Direct_Simulation::executeDelayRXN() {
+void Log_Direct_Simulation::executeDelayRXN() {
   event delay_rxn = event_schedule.top();
   fireReaction(delay_rxn.cell, delay_rxn.rxn);
   event_schedule.pop();
@@ -96,7 +96,7 @@ void Sorting_Direct_Simulation::executeDelayRXN() {
  * return "u": a random variable between 0.0 and 1.0
 */
 
-Real Sorting_Direct_Simulation::getRandVariable() {
+Real Log_Direct_Simulation::getRandVariable() {
 	return distribution_(generator);
 }
 
@@ -105,7 +105,7 @@ Real Sorting_Direct_Simulation::getRandVariable() {
  * chooses a reaction to fire or schedule and moves forward in time
  * arg "tau": timestep to leap forward by
 */
-void Sorting_Direct_Simulation::tauLeap(){
+void Log_Direct_Simulation::tauLeap(){
   int j = choose_reaction();
 	int r = j % NUM_REACTIONS;
 	int c = j / NUM_REACTIONS;
@@ -118,7 +118,7 @@ void Sorting_Direct_Simulation::tauLeap(){
  * arg "c": the cell that the reaction takes place in
  * arg "rid": the reaction to fire or schedule
 */
-void Sorting_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
+void Log_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
     /*
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
@@ -138,7 +138,7 @@ void Sorting_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
  * arg "*c": pointer to a context of the cell to fire the reaction in
  * arg "rid": reaction to fire
 */
-void Sorting_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
+void Log_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	Simulation::step(false);
   const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
@@ -152,12 +152,12 @@ void Sorting_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id ri
  * INITPROPENSITIES
  * sets the propensities of each reaction in each cell to its respective active
 */
-void Sorting_Direct_Simulation::initPropensities(){
+void Log_Direct_Simulation::initPropensities(){
     std::vector<Real> prop_list;
     for (dense::Natural c = 0; c < cell_count(); ++c) {
         Context ctxt(*this,c);
         #define REACTION(name) \
-        prop_list.push_back(dense::model::reaction_##name.active_rate(ctxt));\
+        prop_list.push_back(dense::model::reaction_##name.active_rate(ctxt));
         #include "reactions_list.hpp"
         #undef REACTION
     }
@@ -170,7 +170,7 @@ void Sorting_Direct_Simulation::initPropensities(){
  * populates the "propensity_network" and "neighbor_propensity_network" data structures
  * finds inter- and intracellular reactions that have rates affected by the firing of each rxn
 */
-void Sorting_Direct_Simulation::initPropensityNetwork() {
+void Log_Direct_Simulation::initPropensityNetwork() {
 
     std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
     std::set<specie_id> dependencies[NUM_REACTIONS];

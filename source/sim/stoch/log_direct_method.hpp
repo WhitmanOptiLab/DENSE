@@ -56,7 +56,6 @@ public:
     //random number generator
     std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
 
-    Real total_propensity_ = {};
     static std::uniform_real_distribution<Real> distribution_;
 
     Minutes generateTau();
@@ -87,7 +86,7 @@ public:
      * initializes fields "t" and "generator"
     */
 
-    Sorting_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
+    Log_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
     : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count()*NUM_REACTIONS)
@@ -100,6 +99,7 @@ public:
       return Simulation::get_performance();
     }
 
+    Real get_total_propensity() const {return propensities.total_weight();}
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
       return concs.at(cell).at(species);
@@ -137,8 +137,8 @@ public:
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \
-                auto& p = propensities.update(encode(cell_,name), \
-                    dense::model::reaction_##name.active_rate(Context(*this, cell_)); \
+                propensities.update_weight(encode(cell_,name), \
+                    dense::model::reaction_##name.active_rate(Context(*this, cell_))); \
             } \
         } \
         for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
@@ -146,8 +146,8 @@ public:
                 for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
                     int n_cell = neighbors_by_cell_[cell_][n]; \
                     Context neighbor(*this, n_cell); \
-                    auto& p = propensities.update(encode(n_cell, name), \
-                        dense::model::reaction_##name.active_rate(neighbor); \
+                    propensities.update_weight(encode(n_cell, name), \
+                        dense::model::reaction_##name.active_rate(neighbor)); \
                 } \
             } \
         }

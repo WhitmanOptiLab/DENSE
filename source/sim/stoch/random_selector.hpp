@@ -17,8 +17,9 @@ template <class IntType = int, size_t precision = std::numeric_limits<Real>::dig
 class nonuniform_int_distribution : protected complete_tree<IntType, std::pair<Real, Real> >,  
                                     public weightsum_tree<nonuniform_int_distribution<IntType, precision>, IntType, precision> {
  public:
+  using This = nonuniform_int_distribution<IntType, precision>;
   using BaseTree = complete_tree<IntType, std::pair<Real, Real> >;
-  using WeightSum = weightsum_tree<nonuniform_int_distribution<IntType, precision>, IntType, precision>;
+  using WeightSum = weightsum_tree<This, IntType, precision>;
   friend WeightSum;
   using PosType = typename BaseTree::position_type;
   static PosType left_of(PosType i) { return BaseTree::left_of(i);}
@@ -45,6 +46,9 @@ class nonuniform_int_distribution : protected complete_tree<IntType, std::pair<R
   }
   Real& weightsum_of(PosType p) {
     return BaseTree::value_of(p).second;
+  }
+  const Real& weightsum_of(PosType p) const {
+    return const_cast<This*>(this)->weightsum_of(p);
   }
 
   PosType id_of(PosType p) { return p; }

@@ -11,6 +11,7 @@
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
+#include "sim/stoch/log_direct_method.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "sim/stoch/sorting_direct_simulation.hpp"
 #include "sim/stoch/anderson_next_reaction_simulation.hpp"
@@ -41,6 +42,7 @@ using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+using dense::stochastic::Log_Direct_Simulation;
 using dense::stochastic::Anderson_Next_Reaction_Simulation;
 using dense::Sorting_Direct_Simulation;
 using dense::stochastic::Rejection_Based_Simulation;
@@ -351,105 +353,47 @@ namespace dense {
         std::vector<int> conc;
         NGraph::Graph adjacency_graph;
    };
-   /*
-  template<>
-   class Sim_Builder <Sorting_Direct_Simulation>{
-        using This = Sim_Builder<Sorting_Direct_Simulation>;
 
-        public: 
-            Sim_Builder (This const&) = default;
-            This& operator= (This&&);
-            Sim_Builder(Real* pf, Real** gf, int ct, int tw, int argc, char* argv[]){
-									arg_parse::init(argc, argv);
-        					using style::Mode;
-									style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-									seed = 0;
-									if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
-									seed = std::random_device()();
-									}
-									// Warn user that they are not running deterministic sim
-									std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
-									std::cout << "Stochastic simulation seed: " << seed << '\n';
-									perturbation_factors = pf;
-									gradient_factors = gf;
-									cell_total = ct;
-									tissue_width = tw;
-								}
-           std::vector<Sorting_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-									std::vector<Sorting_Direct_Simulation> simulations;
-									for (auto& parameter_set : param_sets) {
-											simulations.emplace_back(
-											std::move(parameter_set), perturbation_factors, gradient_factors,
-											cell_total, tissue_width, seed);
-											}
-									return simulations;
-										}
-
-					std::vector<Sorting_Direct_Simulation> get_simulations(Parameter_Set param_sets){
-								std::vector<Sorting_Direct_Simulation> simulations;
-								simulations.emplace_back(
-								std::move(param_sets), perturbation_factors, gradient_factors,
-								cell_total, tissue_width, seed);
-    						return simulations;
-						}
-
-        private:
-						Real* perturbation_factors;
-						Real** gradient_factors;
-						int cell_total;
-						int tissue_width;
-						int seed;
-
-   };
    template<>
-   class Sim_Builder <Anderson_Next_Reaction_Simulation>{
-        using This = Sim_Builder<Anderson_Next_Reaction_Simulation>;
+   class Sim_Builder <Log_Direct_Simulation>{
+      using This = Sim_Builder<Log_Direct_Simulation>;
 
-        public: 
-            Sim_Builder (This const&) = default;
-            This& operator= (This&&);
-            Sim_Builder(Real* pf, Real** gf, int ct, int tw, int argc, char* argv[]){
-								arg_parse::init(argc, argv);
-								using style::Mode;
-								style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-								seed = 0;
-								if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
-								seed = std::random_device()();
-								}
-								// Warn user that they are not running deterministic sim
-								std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
-								std::cout << "Stochastic simulation seed: " << seed << '\n';
-								perturbation_factors = pf;
-								gradient_factors = gf;
-								cell_total = ct;
-								tissue_width = tw;
-								}
-            std::vector<Anderson_Next_Reaction_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-								std::vector<Anderson_Next_Reaction_Simulation> simulations;
-								for (auto& parameter_set : param_sets) {
-								simulations.emplace_back(
-								std::move(parameter_set), perturbation_factors, gradient_factors,
-								cell_total, tissue_width, seed);
-				}
-    						return simulations;
-						}
+      public: 
+        Sim_Builder (This const&) = default;
+        This& operator= (This&&);
+        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
+           arg_parse::init(argc, argv);
+               using style::Mode;
+           style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
+           seed = 0;
+           if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
+             seed = std::random_device()();
+           }
+           std::cout << "Stochastic simulation seed: " << seed << '\n';
+           perturbation_factors = pf;
+           gradient_factors = gf;
+           adjacency_graph = std::move(adj_graph);
+           std::string init_conc;
+           bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+           conc_vector(init_conc, i_or_o, &conc);
+        }
 
-						 std::vector<Anderson_Next_Reaction_Simulation> get_simulations(Parameter_Set param_sets){
-								std::vector<Anderson_Next_Reaction_Simulation> simulations;
-								simulations.emplace_back(
-								std::move(param_sets), perturbation_factors, gradient_factors,
-								cell_total, tissue_width, seed);
-    						return simulations;
-						}
+        std::vector<Log_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+           std::vector<Log_Direct_Simulation> simulations;
+           for (auto& parameter_set : param_sets) {
+             simulations.emplace_back(std::move(parameter_set), adjacency_graph, conc, perturbation_factors, gradient_factors, seed);
+           }
+           return simulations;
+        }
 
-        private:
-						Real* perturbation_factors;
-						Real** gradient_factors;
-						int cell_total;
-						int tissue_width;
-						int seed;
+      private:
+        Real* perturbation_factors;
+        Real** gradient_factors;
+        int seed;
+        std::vector<int> conc;
+        NGraph::Graph adjacency_graph;
    };
-   */
+
 }
 
 #endif

@@ -155,7 +155,7 @@ std::vector<Real> run_simulation(
                     for (auto & simulation : simulations) {
                       auto age = simulation.age_by(notify_interval);
                       if (a % notifications_per_min == 0) {
-                          perf.push_back(simulation.get_perf()[0]);
+                          perf.push_back(simulation.get_perf().at(0));
                           std::cout << "Time: " << age / Minutes{1} << '\n';
                       }
                     }
@@ -172,6 +172,7 @@ std::vector<Real> run_simulation(
                     callback.analysis->finalize();
                     callback.analysis->show(&callback.log);
                 }
+
                 return perf;
         }
 

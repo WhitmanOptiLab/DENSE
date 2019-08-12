@@ -45,7 +45,7 @@ class weightsum_tree {
     _total_weight += weight_diff;
   }
 
-  Real total_weight() { return _total_weight; }
+  Real total_weight() const { return _total_weight; }
 
   template<class URNG>
   PosType operator()(URNG& g) {
@@ -73,8 +73,9 @@ class weightsum_tree {
 
  private:
   Tree& _tree() { return *static_cast<Tree*>(this); }
-  Real checked_weightsum(PosType node) { return node > _tree().last() ? 0 : _tree().weightsum_of(node); }
-  Real checked_weight(PosType node) { return node > _tree().last() ? 0 : _tree().weight_of(node); }
+  const Tree& _tree() const { return *static_cast<const Tree*>(this); }
+  Real checked_weightsum(PosType node) const { return node > _tree().last() ? 0 : _tree().weightsum_of(node); }
+  Real checked_weight(PosType node) const { return node > _tree().last() ? 0 : _tree().weight_of(node); }
   Real sum_weights(PosType i) {
     if (i > _tree().last()) return 0.0f;
     _tree().weightsum_of(i) =

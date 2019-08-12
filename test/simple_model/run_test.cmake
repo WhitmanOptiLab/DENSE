@@ -15,12 +15,11 @@ execute_process(
    ERROR_VARIABLE diffout
 )
 
-if(${diffout} MATCHES "diffs have been detected")
-   set (test_not_successful TRUE)
-else()
-   set (test_not_successful FALSE)
+if(run_fail)
+   message( SEND_ERROR "error running simulation" )
 endif()
 
-if( test_not_successful )
+if(${diffout} MATCHES "diffs have been detected")
    message( SEND_ERROR "test.out does not match test.ref!" )
-endif( test_not_successful )
+endif()
+
