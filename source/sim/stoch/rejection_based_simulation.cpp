@@ -33,12 +33,12 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
     bool reaction_fired = false; 
     std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
     bool all_delays_fired = false; 
+    Rxn reaction_to_be_fired;
     while(!reaction_fired){
       auto r_2 = getRandVariable();
       Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
       all_delays_fired = fire_delay_reactions(tau);
       if(all_delays_fired){
-        Rxn reaction_to_be_fired;
         reaction_fired = rejection_tests(reaction_to_be_fired, min_group_index);
         if(reaction_fired){
         schedule_or_fire_reaction(reaction_to_be_fired);
@@ -49,7 +49,7 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
       }
     }
     if(all_delays_fired){
-      if(check_bounds(changed_species)){
+      if(check_bounds(changed_species, reaction_to_be_fired)){
         update_bounds(changed_species);
       }
     }
@@ -161,6 +161,7 @@ void Rejection_Based_Simulation::init_dependancy_graph(){
   for(int i = 0; i < NUM_REACTIONS; i++){
     for( auto s : dependencies[i]){
       depends_on_species[s].push_back((reaction_id)i);
+      depends_on_reaction[i].push_back(s);
     }
     for(auto s : neighbor_dependencies[i]){
       depends_on_neighbor_species[s].push_back((reaction_id)i);
@@ -179,7 +180,7 @@ bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau){
       fire_reaction(reaction.rxn);
       delay_count += (reaction.delay- age());
       std::vector<std::pair<dense::Natural, dense::Natural>> changed;
-      if(check_bounds(changed)){
+      if(check_bounds(changed, reaction.rxn)){
         Simulation::age_by(delay_count);
         update_bounds(changed);
         return false;
@@ -245,18 +246,16 @@ Real Rejection_Based_Simulation::get_real_propensity(Rxn rxn){
   return std::max(dense::model::active_rate(rxn.reaction, Context(*this, rxn.cell)), Real{0}); 
 }
   
-bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species){
+bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natural, dense::Natural>>& changed_species, Rxn fired_reaction){
   bool changed = false;
   std::vector<std::pair<dense::Natural,dense::Natural>> new_concs;
-  
-  for(dense::Natural c = 0; c < cell_count(); c++){
-    for(dense::Natural r = 0; r < NUM_SPECIES; r++){
-      if(concs[c][r] < concentration_bounds[0][c][r] || concs[c][r] > concentration_bounds[1][c][r]){
-        auto new_pair = std::pair<dense::Natural, dense::Natural>(c,r);
-        new_concs.push_back(new_pair);
-        if(!changed){
-          changed = true;
-        }
+  dense::Natural c = fired_reaction.cell;
+  for(auto r : depends_on_reaction[fired_reaction.reaction]){
+    if(concs[c][r] < concentration_bounds[0][c][r] || concs[c][r] > concentration_bounds[1][c][r]){
+      auto new_pair = std::pair<dense::Natural, dense::Natural>(c,r);
+      new_concs.push_back(new_pair);
+      if(!changed){
+        changed = true;
       }
     }
   }
