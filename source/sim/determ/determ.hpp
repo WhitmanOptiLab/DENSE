@@ -109,6 +109,11 @@ public:
     remove_cell_base(cell);
   }
 
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
+
 };
 
 }

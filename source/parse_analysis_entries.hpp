@@ -125,4 +125,6 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
   return named_analysis_vector;
 }
 }
+
 #endif
+

@@ -36,9 +36,7 @@ concept bool Simulation_Concept() {
     { simulation_const.get_concentration(Natural{}, specie_id{}, Natural{}) } -> Real;
     { simulation_const.get_concentration(Natural{}, specie_id{}) } -> Real;
     { simulation_const.calculate_neighbor_average(Natural{}, specie_id{}, Natural{}) } -> Real;
-    { simulation.add_cell(Natural{}, Natural{})} -> void;
-    { simulation.remove_cell(Natural{})} -> void;
-    { simulation.get_performance(std::chrono::duration<double>{})}-> Real;
+    { simulation.get_performance()} noexcept -> std::vector<Real>;
   };
 }
 # endif
@@ -130,9 +128,10 @@ class Simulation {
     CUDA_AGNOSTIC
     Natural& cell_count () noexcept;
 
+    ///calculate how many reaction are fired in a second for each time step and push into performance vector
+    void push_performance(std::chrono::duration<double> elapsed) noexcept;
     ///calculate how many reaction are fired in a second for each time step
-    Real get_performance(std::chrono::duration<double> elapsed) noexcept;
-    
+    std::vector<Real> get_performance() noexcept;
     Real step(bool restart) noexcept;
 
     //add_cell_base: takes a virtual cell and adds it to the graph
@@ -293,6 +292,7 @@ class Simulation {
     Parameter_Set parameter_set_ = {};
     //adjacency_graph: graph that contains physical cell nodes
     NGraph::Graph adjacency_graph;
+    std::vector<Real> performance_;
 
     
     //neighbors_by_cell_ and neighbor_count_by_cell_ are structures of virtual cell ids
@@ -300,7 +300,8 @@ class Simulation {
     Natural* neighbor_count_by_cell_ = {};
 
   public:
-
+    
+  
     Real max_delays[NUM_SPECIES] = {};  // The maximum number of time steps that each specie might be accessed in the past
     cell_param<NUM_PARAMS> cell_parameters_;
 
@@ -381,9 +382,16 @@ inline Real Simulation::step (bool restart) noexcept {
 }
 
 CUDA_AGNOSTIC
-inline Real Simulation::get_performance(std::chrono::duration<double> elapsed) noexcept{
-  return Real{step_/elapsed.count()};
+inline void Simulation::push_performance(std::chrono::duration<double> elapsed) noexcept{
+   performance_.push_back(step_/elapsed.count());
 }
+
+CUDA_AGNOSTIC
+inline std::vector<Real> Simulation::get_performance() noexcept{
+  return performance_;
+}
+
+CUDA_AGNOSTIC
 
 CUDA_AGNOSTIC
 inline Simulation::~Simulation () noexcept = default;

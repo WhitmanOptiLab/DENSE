@@ -54,3 +54,4 @@ int main(int argc, char* argv[]){
   run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 
 }
+

@@ -59,4 +59,6 @@ Snapshot<> data = simulation.snapshot();
 template <typename Simulation>
 Real Reaction_Traits<ph1_synthesis>::calculate_rate_for(Region<Simulation> region) {
 }
+
 */
+

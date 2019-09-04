@@ -34,18 +34,19 @@ Minutes Fast_Gillespie_Direct_Simulation::age_by (Minutes duration) {
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
       Simulation::age_by(t_until_event);
       executeDelayRXN();
-      if (age() >= end_time) return age();
+      if (age() >= end_time){
+        auto finish = std::chrono::high_resolution_clock::now();
+        Simulation::push_performance(finish - start);
+        return age();
+      } 
     }
     
     tauLeap();
     
     Simulation::age_by(tau);
   }
-  if(std::isnan(age() / Minutes{1})){
-    throw(std::out_of_range("Time is out of range"));
-  }
   auto finish = std::chrono::high_resolution_clock::now();
-  std::cout<< "reactions fired per second: "<<Simulation::get_performance(finish - start)<<std::endl;
+  Simulation::push_performance(finish - start);
   return age();
 }
 
@@ -136,16 +137,13 @@ void Fast_Gillespie_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid)
  * arg "rid": reaction to fire
 */
 void Fast_Gillespie_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
-   const reaction_base& r = dense::model::getReaction(rid);
-   const specie_id* specie_deltas = r.getSpecieDeltas();
-   Simulation::step(false);
-   for (int i=0; i < r.getNumDeltas(); i++){
-      update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
-   }
-   if(std::isnan(total_propensity_)){
-      throw(std::out_of_range("total_propensity_ is out or range: -nan"));
-   }
-   update_propensities(cell, rid);
+	const reaction_base& r = dense::model::getReaction(rid);
+	const specie_id* specie_deltas = r.getSpecieDeltas();
+  Simulation::step(false);
+	for (int i=0; i<r.getNumDeltas(); i++){
+		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
+	}
+	update_propensities(cell, rid);
 }
 
 /*

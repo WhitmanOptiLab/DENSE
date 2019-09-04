@@ -31,6 +31,8 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
       if(end_time < (age()+t_until_event)){
         Minutes diff = end_time - age();
         Simulation::age_by(diff);
+        auto finish = std::chrono::high_resolution_clock::now();
+        Simulation::push_performance(finish - start);
         return age();
       }
       Simulation::age_by(t_until_event);
@@ -39,13 +41,15 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
     if(end_time < (age() + tau)){
       Minutes diff = end_time - age();
       Simulation::age_by(diff);
+      auto finish = std::chrono::high_resolution_clock::now();
+      Simulation::push_performance(finish - start);
       return age();
     }
     tauLeap();
     Simulation::age_by(tau);
   }
   auto finish = std::chrono::high_resolution_clock::now();
-  std::cout<< "reactions fired per second: "<<Simulation::get_performance(finish - start)<<std::endl;
+  Simulation::push_performance(finish - start);
   return age();
 }
 

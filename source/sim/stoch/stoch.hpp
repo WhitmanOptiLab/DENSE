@@ -221,6 +221,11 @@ public:
 
   Minutes age_by(Minutes duration);
 
+  std::vector<Real> get_perf(){
+    return Simulation::get_performance();
+  }
+
+
   private:
 
     Minutes time_until_next_event () const;

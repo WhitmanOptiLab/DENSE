@@ -41,6 +41,12 @@ using dense::graph_constructor;
 using dense::Static_Args;
 using dense::Param_Static_Args;
 
+using dense::csvw_sim;
+using dense::CSV_Streamed_Simulation;
+using dense::Deterministic_Simulation;
+using dense::Fast_Gillespie_Direct_Simulation;
+using dense::stochastic::Next_Reaction_Simulation;
+
 namespace dense{
 
 void display_usage(std::ostream& out);
@@ -353,6 +359,7 @@ arg_parse::init(argc, argv);
 	param_args.num_generations = arg_parse::get<int>("nn", "num-generations", 100);
   return param_args;
 }
+
 
 }
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mcclelnr/DENSE
+CMAKE_SOURCE_DIR = /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mcclelnr/DENSE/test/her_model_2014
+CMAKE_BINARY_DIR = /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -67,17 +67,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
-	/usr/bin/ctest --force-new-ctest-process $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -91,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/DENSE/test/her_model_2014/CMakeFiles /home/mcclelnr/DENSE/test/her_model_2014/source/CMakeFiles/progress.marks
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/DENSE/test/her_model_2014/CMakeFiles 0
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks/CMakeFiles /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks/DENSE/test/her_model_2014/source/CMakeFiles/progress.marks
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f CMakeFiles/Makefile2 DENSE/test/her_model_2014/source/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/clean
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f CMakeFiles/Makefile2 DENSE/test/her_model_2014/source/clean
 .PHONY : clean
 
 # The main clean target
@@ -108,489 +97,18 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f CMakeFiles/Makefile2 DENSE/test/her_model_2014/source/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/preinstall
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(MAKE) -f CMakeFiles/Makefile2 DENSE/test/her_model_2014/source/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-# Convenience name for target.
-source/CMakeFiles/csv_gen.dir/rule:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/csv_gen.dir/rule
-.PHONY : source/CMakeFiles/csv_gen.dir/rule
-
-# Convenience name for target.
-csv_gen: source/CMakeFiles/csv_gen.dir/rule
-
-.PHONY : csv_gen
-
-# fast build rule for target.
-csv_gen/fast:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/build
-.PHONY : csv_gen/fast
-
-# Convenience name for target.
-source/CMakeFiles/csv_gen_run.dir/rule:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/csv_gen_run.dir/rule
-.PHONY : source/CMakeFiles/csv_gen_run.dir/rule
-
-# Convenience name for target.
-csv_gen_run: source/CMakeFiles/csv_gen_run.dir/rule
-
-.PHONY : csv_gen_run
-
-# fast build rule for target.
-csv_gen_run/fast:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen_run.dir/build.make source/CMakeFiles/csv_gen_run.dir/build
-.PHONY : csv_gen_run/fast
-
-# Convenience name for target.
-source/CMakeFiles/simulation_lib.dir/rule:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/simulation_lib.dir/rule
-.PHONY : source/CMakeFiles/simulation_lib.dir/rule
-
-# Convenience name for target.
-simulation_lib: source/CMakeFiles/simulation_lib.dir/rule
-
-.PHONY : simulation_lib
-
-# fast build rule for target.
-simulation_lib/fast:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/build
-.PHONY : simulation_lib/fast
-
-# Convenience name for target.
-source/CMakeFiles/simulation.dir/rule:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f CMakeFiles/Makefile2 source/CMakeFiles/simulation.dir/rule
-.PHONY : source/CMakeFiles/simulation.dir/rule
-
-# Convenience name for target.
-simulation: source/CMakeFiles/simulation.dir/rule
-
-.PHONY : simulation
-
-# fast build rule for target.
-simulation/fast:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/build
-.PHONY : simulation/fast
-
-core/build_once.o: core/build_once.cpp.o
-
-.PHONY : core/build_once.o
-
-# target to build an object file
-core/build_once.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.o
-.PHONY : core/build_once.cpp.o
-
-core/build_once.i: core/build_once.cpp.i
-
-.PHONY : core/build_once.i
-
-# target to preprocess a source file
-core/build_once.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.i
-.PHONY : core/build_once.cpp.i
-
-core/build_once.s: core/build_once.cpp.s
-
-.PHONY : core/build_once.s
-
-# target to generate assembly for a file
-core/build_once.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/core/build_once.cpp.s
-.PHONY : core/build_once.cpp.s
-
-csv_gen.o: csv_gen.cpp.o
-
-.PHONY : csv_gen.o
-
-# target to build an object file
-csv_gen.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/csv_gen.cpp.o
-.PHONY : csv_gen.cpp.o
-
-csv_gen.i: csv_gen.cpp.i
-
-.PHONY : csv_gen.i
-
-# target to preprocess a source file
-csv_gen.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/csv_gen.cpp.i
-.PHONY : csv_gen.cpp.i
-
-csv_gen.s: csv_gen.cpp.s
-
-.PHONY : csv_gen.s
-
-# target to generate assembly for a file
-csv_gen.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/csv_gen.cpp.s
-.PHONY : csv_gen.cpp.s
-
-io/arg_parse.o: io/arg_parse.cpp.o
-
-.PHONY : io/arg_parse.o
-
-# target to build an object file
-io/arg_parse.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.o
-.PHONY : io/arg_parse.cpp.o
-
-io/arg_parse.i: io/arg_parse.cpp.i
-
-.PHONY : io/arg_parse.i
-
-# target to preprocess a source file
-io/arg_parse.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.i
-.PHONY : io/arg_parse.cpp.i
-
-io/arg_parse.s: io/arg_parse.cpp.s
-
-.PHONY : io/arg_parse.s
-
-# target to generate assembly for a file
-io/arg_parse.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/arg_parse.cpp.s
-.PHONY : io/arg_parse.cpp.s
-
-io/csvr.o: io/csvr.cpp.o
-
-.PHONY : io/csvr.o
-
-# target to build an object file
-io/csvr.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.o
-.PHONY : io/csvr.cpp.o
-
-io/csvr.i: io/csvr.cpp.i
-
-.PHONY : io/csvr.i
-
-# target to preprocess a source file
-io/csvr.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.i
-.PHONY : io/csvr.cpp.i
-
-io/csvr.s: io/csvr.cpp.s
-
-.PHONY : io/csvr.s
-
-# target to generate assembly for a file
-io/csvr.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr.cpp.s
-.PHONY : io/csvr.cpp.s
-
-io/csvr_sim.o: io/csvr_sim.cpp.o
-
-.PHONY : io/csvr_sim.o
-
-# target to build an object file
-io/csvr_sim.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.o
-.PHONY : io/csvr_sim.cpp.o
-
-io/csvr_sim.i: io/csvr_sim.cpp.i
-
-.PHONY : io/csvr_sim.i
-
-# target to preprocess a source file
-io/csvr_sim.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.i
-.PHONY : io/csvr_sim.cpp.i
-
-io/csvr_sim.s: io/csvr_sim.cpp.s
-
-.PHONY : io/csvr_sim.s
-
-# target to generate assembly for a file
-io/csvr_sim.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvr_sim.cpp.s
-.PHONY : io/csvr_sim.cpp.s
-
-io/csvw.o: io/csvw.cpp.o
-
-.PHONY : io/csvw.o
-
-# target to build an object file
-io/csvw.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.o
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.o
-.PHONY : io/csvw.cpp.o
-
-io/csvw.i: io/csvw.cpp.i
-
-.PHONY : io/csvw.i
-
-# target to preprocess a source file
-io/csvw.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.i
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.i
-.PHONY : io/csvw.cpp.i
-
-io/csvw.s: io/csvw.cpp.s
-
-.PHONY : io/csvw.s
-
-# target to generate assembly for a file
-io/csvw.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/io/csvw.cpp.s
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/csvw.cpp.s
-.PHONY : io/csvw.cpp.s
-
-io/ezxml/ezxml.o: io/ezxml/ezxml.c.o
-
-.PHONY : io/ezxml/ezxml.o
-
-# target to build an object file
-io/ezxml/ezxml.c.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.o
-.PHONY : io/ezxml/ezxml.c.o
-
-io/ezxml/ezxml.i: io/ezxml/ezxml.c.i
-
-.PHONY : io/ezxml/ezxml.i
-
-# target to preprocess a source file
-io/ezxml/ezxml.c.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.i
-.PHONY : io/ezxml/ezxml.c.i
-
-io/ezxml/ezxml.s: io/ezxml/ezxml.c.s
-
-.PHONY : io/ezxml/ezxml.s
-
-# target to generate assembly for a file
-io/ezxml/ezxml.c.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/io/ezxml/ezxml.c.s
-.PHONY : io/ezxml/ezxml.c.s
-
-main.o: main.cpp.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation.dir/build.make source/CMakeFiles/simulation.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-sim/base.o: sim/base.cpp.o
-
-.PHONY : sim/base.o
-
-# target to build an object file
-sim/base.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.o
-.PHONY : sim/base.cpp.o
-
-sim/base.i: sim/base.cpp.i
-
-.PHONY : sim/base.i
-
-# target to preprocess a source file
-sim/base.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.i
-.PHONY : sim/base.cpp.i
-
-sim/base.s: sim/base.cpp.s
-
-.PHONY : sim/base.s
-
-# target to generate assembly for a file
-sim/base.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/base.cpp.s
-.PHONY : sim/base.cpp.s
-
-sim/determ/baby_cl.o: sim/determ/baby_cl.cpp.o
-
-.PHONY : sim/determ/baby_cl.o
-
-# target to build an object file
-sim/determ/baby_cl.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.o
-.PHONY : sim/determ/baby_cl.cpp.o
-
-sim/determ/baby_cl.i: sim/determ/baby_cl.cpp.i
-
-.PHONY : sim/determ/baby_cl.i
-
-# target to preprocess a source file
-sim/determ/baby_cl.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.i
-.PHONY : sim/determ/baby_cl.cpp.i
-
-sim/determ/baby_cl.s: sim/determ/baby_cl.cpp.s
-
-.PHONY : sim/determ/baby_cl.s
-
-# target to generate assembly for a file
-sim/determ/baby_cl.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/baby_cl.cpp.s
-.PHONY : sim/determ/baby_cl.cpp.s
-
-sim/determ/determ.o: sim/determ/determ.cpp.o
-
-.PHONY : sim/determ/determ.o
-
-# target to build an object file
-sim/determ/determ.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.o
-.PHONY : sim/determ/determ.cpp.o
-
-sim/determ/determ.i: sim/determ/determ.cpp.i
-
-.PHONY : sim/determ/determ.i
-
-# target to preprocess a source file
-sim/determ/determ.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.i
-.PHONY : sim/determ/determ.cpp.i
-
-sim/determ/determ.s: sim/determ/determ.cpp.s
-
-.PHONY : sim/determ/determ.s
-
-# target to generate assembly for a file
-sim/determ/determ.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/determ/determ.cpp.s
-.PHONY : sim/determ/determ.cpp.s
-
-sim/stoch/stoch.o: sim/stoch/stoch.cpp.o
-
-.PHONY : sim/stoch/stoch.o
-
-# target to build an object file
-sim/stoch/stoch.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.o
-.PHONY : sim/stoch/stoch.cpp.o
-
-sim/stoch/stoch.i: sim/stoch/stoch.cpp.i
-
-.PHONY : sim/stoch/stoch.i
-
-# target to preprocess a source file
-sim/stoch/stoch.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.i
-.PHONY : sim/stoch/stoch.cpp.i
-
-sim/stoch/stoch.s: sim/stoch/stoch.cpp.s
-
-.PHONY : sim/stoch/stoch.s
-
-# target to generate assembly for a file
-sim/stoch/stoch.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/sim/stoch/stoch.cpp.s
-.PHONY : sim/stoch/stoch.cpp.s
-
-utility/color.o: utility/color.cpp.o
-
-.PHONY : utility/color.o
-
-# target to build an object file
-utility/color.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.o
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.o
-.PHONY : utility/color.cpp.o
-
-utility/color.i: utility/color.cpp.i
-
-.PHONY : utility/color.i
-
-# target to preprocess a source file
-utility/color.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.i
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.i
-.PHONY : utility/color.cpp.i
-
-utility/color.s: utility/color.cpp.s
-
-.PHONY : utility/color.s
-
-# target to generate assembly for a file
-utility/color.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/csv_gen.dir/build.make source/CMakeFiles/csv_gen.dir/utility/color.cpp.s
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/color.cpp.s
-.PHONY : utility/color.cpp.s
-
-utility/common_utils.o: utility/common_utils.cpp.o
-
-.PHONY : utility/common_utils.o
-
-# target to build an object file
-utility/common_utils.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.o
-.PHONY : utility/common_utils.cpp.o
-
-utility/common_utils.i: utility/common_utils.cpp.i
-
-.PHONY : utility/common_utils.i
-
-# target to preprocess a source file
-utility/common_utils.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.i
-.PHONY : utility/common_utils.cpp.i
-
-utility/common_utils.s: utility/common_utils.cpp.s
-
-.PHONY : utility/common_utils.s
-
-# target to generate assembly for a file
-utility/common_utils.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/common_utils.cpp.s
-.PHONY : utility/common_utils.cpp.s
-
-utility/preprocessor.o: utility/preprocessor.cpp.o
-
-.PHONY : utility/preprocessor.o
-
-# target to build an object file
-utility/preprocessor.cpp.o:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.o
-.PHONY : utility/preprocessor.cpp.o
-
-utility/preprocessor.i: utility/preprocessor.cpp.i
-
-.PHONY : utility/preprocessor.i
-
-# target to preprocess a source file
-utility/preprocessor.cpp.i:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.i
-.PHONY : utility/preprocessor.cpp.i
-
-utility/preprocessor.s: utility/preprocessor.cpp.s
-
-.PHONY : utility/preprocessor.s
-
-# target to generate assembly for a file
-utility/preprocessor.cpp.s:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(MAKE) -f source/CMakeFiles/simulation_lib.dir/build.make source/CMakeFiles/simulation_lib.dir/utility/preprocessor.cpp.s
-.PHONY : utility/preprocessor.cpp.s
 
 # Help Target
 help:
@@ -599,57 +117,7 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... csv_gen"
-	@echo "... test"
-	@echo "... csv_gen_run"
-	@echo "... simulation_lib"
-	@echo "... simulation"
 	@echo "... edit_cache"
-	@echo "... core/build_once.o"
-	@echo "... core/build_once.i"
-	@echo "... core/build_once.s"
-	@echo "... csv_gen.o"
-	@echo "... csv_gen.i"
-	@echo "... csv_gen.s"
-	@echo "... io/arg_parse.o"
-	@echo "... io/arg_parse.i"
-	@echo "... io/arg_parse.s"
-	@echo "... io/csvr.o"
-	@echo "... io/csvr.i"
-	@echo "... io/csvr.s"
-	@echo "... io/csvr_sim.o"
-	@echo "... io/csvr_sim.i"
-	@echo "... io/csvr_sim.s"
-	@echo "... io/csvw.o"
-	@echo "... io/csvw.i"
-	@echo "... io/csvw.s"
-	@echo "... io/ezxml/ezxml.o"
-	@echo "... io/ezxml/ezxml.i"
-	@echo "... io/ezxml/ezxml.s"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... sim/base.o"
-	@echo "... sim/base.i"
-	@echo "... sim/base.s"
-	@echo "... sim/determ/baby_cl.o"
-	@echo "... sim/determ/baby_cl.i"
-	@echo "... sim/determ/baby_cl.s"
-	@echo "... sim/determ/determ.o"
-	@echo "... sim/determ/determ.i"
-	@echo "... sim/determ/determ.s"
-	@echo "... sim/stoch/stoch.o"
-	@echo "... sim/stoch/stoch.i"
-	@echo "... sim/stoch/stoch.s"
-	@echo "... utility/color.o"
-	@echo "... utility/color.i"
-	@echo "... utility/color.s"
-	@echo "... utility/common_utils.o"
-	@echo "... utility/common_utils.i"
-	@echo "... utility/common_utils.s"
-	@echo "... utility/preprocessor.o"
-	@echo "... utility/preprocessor.i"
-	@echo "... utility/preprocessor.s"
 .PHONY : help
 
 
@@ -661,6 +129,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/mcclelnr/DENSE/test/her_model_2014 && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/mcclelnr/BENCHMARK_DENSE/DENSE_Research_Benchmarks && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
