@@ -161,20 +161,24 @@ public:
     CUDA_AGNOSTIC
     __attribute_noinline__ void update_propensities_and_taus(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name)\
-        for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
-            if (name == rid) { /* alpha == mu */\
-              /* 5.a. update a_alpha (propensity) */\
-              auto& a = propensities[cell_][name];\
-              auto new_a = std::max(dense::model::reaction_##name.active_rate(Context(*this, cell_)), Real{0}); \
-              a = new_a;\
-              /* 5.c. generate a random number according to an exponential\
-                      distribution with parameter a_mu */\
-              auto p = generateTau(new_a);\
-              /* Set tau_alpha <- p + t */\
-              auto tau_alpha = p + age();\
-              /* 5.d. replace the old tau_alpha in P with the new value */\
-              reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
-            } else if ( name == propensity_network[rid][i] ) { /* alpha != mu */\
+	if (name == rid) { /* alpha == mu */\
+          /* 5.a. update a_alpha (propensity) */\
+          auto& a = propensities[cell_][name];\
+          auto new_a = std::max(dense::model::reaction_##name.active_rate(Context(*this, cell_)), Real{0}); \
+          a = new_a;\
+          /* 5.c. generate a random number according to an exponential\
+                  distribution with parameter a_mu */\
+          auto p = generateTau(new_a);\
+          /* Set tau_alpha <- p + t */\
+          auto tau_alpha = p + age();\
+          /* 5.d. replace the old tau_alpha in P with the new value */\
+          reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
+        }
+        #include "reactions_list.hpp"
+        #undef REACTION
+        for (std::size_t i=0; i< propensity_network[rid].size(); i++) {
+            #define REACTION(name)\
+            if ( name == propensity_network[rid][i] ) { /* alpha != mu */\
               /* 5.a. update a_alpha (propensity) */\
               auto& a = propensities[cell_][name];\
               auto old_a = a;\
@@ -185,9 +189,12 @@ public:
               tau_alpha = (old_a / new_a)*(tau_alpha - age()) + age();\
               /* 5.d. replace the old tau_alpha in P with the new value */\
               reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
-            } \
-        } \
-        for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
+            }
+            #include "reactions_list.hpp"
+            #undef REACTION
+        } 
+        for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) {
+            #define REACTION(name)\
             if (name == neighbor_propensity_network[rid][r]) { \
                 for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
                     int n_cell = neighbors_by_cell_[cell_][n]; /* alpha != mu */\
@@ -202,10 +209,10 @@ public:
                     /* 5.d. replace the old tau_alpha in P with the new value */\
                     reaction_schedule.emplace(encode(cell_, name), tau_alpha);\
                 } \
-            } \
+            }
+            #include "reactions_list.hpp"
+            #undef REACTION
         }
-        #include "reactions_list.hpp"
-        #undef REACTION
     }
 
 
