@@ -140,6 +140,13 @@ void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
+  event fired_reaction;
+  fired_reaction.time = age();
+  fired_reaction.cell = cell;
+  fired_reaction.reaction_id = rid;
+  
+  event_log.push_back(fired_reaction);
+  
 	update_propensities(cell, rid);
 }
 

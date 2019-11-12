@@ -48,6 +48,8 @@ public:
     std::vector<reaction_id> propensity_network[NUM_REACTIONS];
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
+    std::vector<event> event_log;
+    std::vector<std::pair<reaction_id,t>> delay_reaction_schedule;
     //random number generator
     std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
 
