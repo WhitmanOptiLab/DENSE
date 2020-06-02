@@ -13,12 +13,16 @@ set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}" PARENT_SCOPE)
 #Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
 include(CheckCXXCompilerFlag)
-set(CMAKE_CXX_STANDARD 20)
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.11")
+  set(CMAKE_CXX_STANDARD 20)
+else()
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED 11)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ferror-limit=3 -Wlogical-op-parentheses -Wnoexcept-type")
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=3 -Wlogical-op -Wnoexcept -Wstrict-null-snetinel -Wuseless-cast -Wsuggest-override")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=3 -Wlogical-op -Wnoexcept -Wstrict-null-sentinel -Wuseless-cast -Wsuggest-override")
 endif()
 string(REPLACE ";" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} "
  "-g -pedantic -Wall -Wextra -Werror -Wno-cast-align -Wcast-qual -Wctor-dtor-privacy "
