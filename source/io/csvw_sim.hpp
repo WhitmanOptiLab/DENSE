@@ -13,7 +13,7 @@ using dense::Details;
 namespace dense {
 
 template <typename Simulation>
-class csvw_sim : public Analysis<Simulation> {
+class csvw_sim final : public Analysis<Simulation> {
 
   public:
     csvw_sim(Natural cell_total,

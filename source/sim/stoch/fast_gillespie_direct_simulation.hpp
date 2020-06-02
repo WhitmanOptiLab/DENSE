@@ -81,7 +81,7 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    Fast_Gillespie_Direct_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed, std::vector<int> conc, NGraph::Graph adj_graph)
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count())
@@ -113,7 +113,7 @@ public:
   */
    // Todo: store this as a cached variable and change it as propensities change;
    // sum += new_value - old_value;
-    __attribute_noinline__ Real get_total_propensity() const {
+    Real get_total_propensity() const {
       Real sum = total_propensity_; // 0.0;
       /*for (dense::Natural c = 0; c < _cells_total; ++c) {
         for (int r=0; r<NUM_REACTIONS; r++) {
@@ -131,7 +131,7 @@ public:
      * return "j": the index of the reaction chosen.
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ int choose_reaction(Real propensity_portion) {
+    int choose_reaction(Real propensity_portion) {
       Real sum = 0;
       for (Natural c = {}; c < cell_count(); ++c) {
         for (Natural s = {}; s < NUM_REACTIONS; ++s) {
@@ -150,7 +150,7 @@ public:
      * arg "rid": the reaction that fired
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
+    void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \

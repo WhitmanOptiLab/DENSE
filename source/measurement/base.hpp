@@ -70,6 +70,8 @@ class Analysis : public Analysis<> {
   public:
 
     using Analysis<>::Analysis;
+    
+    virtual ~Analysis() = default;
 
     virtual void update(Simulation& start, std::ostream& log = std::cout) = 0;
 

@@ -124,7 +124,7 @@ int main (int argc, char** argv) {
   using Simulation = Fast_Gillespie_Direct_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), argc, argv); 
 	
-  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(std::move(parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices())));
+  std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 	
   std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
     [&](const std::vector<Parameter_Set>& population) {

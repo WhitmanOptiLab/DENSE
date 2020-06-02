@@ -2,6 +2,7 @@
 #define DENSE_UTILITY_PREPROCESSOR_HPP
 
 #include <iosfwd>
+#include <cstddef>
 
 /// Yield a string literal representing the supplied arguments
 ///   as they were prior to macro expansion.
@@ -22,7 +23,7 @@ namespace preprocessor {
       using Iterator = char const*;
 
       /// Construct a text view to a fixed-length character array.
-      template <std::ptrdiff_t size>
+      template <ptrdiff_t size>
       constexpr Text(char const (& data)[size])
       : Text(data, data + size) {
       }
@@ -47,7 +48,7 @@ namespace preprocessor {
 
       /// Get the character at the specified offset within a text view.
       ///   Expects 0 <= `index` < `size()`.
-      constexpr char operator[] (std::ptrdiff_t index) const noexcept {
+      constexpr char operator[] (ptrdiff_t index) const noexcept {
         return data()[index];
       }
 
