@@ -116,7 +116,7 @@ public:
 
 };
 
-template <typename Simulation>
+/*template <typename Simulation>
 class CorrelationAnalysis : public Analysis<Simulation> {
 
   public:
@@ -133,7 +133,7 @@ class CorrelationAnalysis : public Analysis<Simulation> {
     }
 
     bool pearson_correlate();
-};
+}; */
 
 #include "oscillation.ipp"
 

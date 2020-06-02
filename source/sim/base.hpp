@@ -291,9 +291,9 @@ class Simulation {
     //        cell currently in the simulation
     std::vector<int> physical_cells_id_ = {};
     Parameter_Set parameter_set_ = {};
+
     //adjacency_graph: graph that contains physical cell nodes
     NGraph::Graph adjacency_graph;
-
     
     //neighbors_by_cell_ and neighbor_count_by_cell_ are structures of virtual cell ids
     std::vector<std::vector<Natural>> neighbors_by_cell_ = {};

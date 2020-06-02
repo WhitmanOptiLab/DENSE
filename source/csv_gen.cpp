@@ -142,7 +142,7 @@ csvw_param::csvw_param(std::string const& pcfFileName, param_type const& pcfType
             param_type_str = "gradients";
             nPrefix = { "grad_x1_", "grad_y1_", "grad_x2_", "grad_y2_" };
             break;
-        default: throw std::out_of_range("Invalid param_type: " + static_cast<int>(pcfType));
+        default: throw std::out_of_range("Invalid param_type: " + std::to_string(static_cast<int>(pcfType)));
     }
 
     // Write column headers
