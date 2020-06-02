@@ -51,7 +51,7 @@ int main(int argc, char* argv[]){
   }
   using Simulation = Deterministic_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av); 
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 }
 /*
 Snapshot<> snapshot;

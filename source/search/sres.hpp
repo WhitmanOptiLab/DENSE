@@ -47,7 +47,7 @@ class SRES {
 	ESParameter* param;
 	ESPopulation* population;
 	ESStatistics* stats;
-	double pf;
+	//double pf;
 	const Parameter_Set& lowerBounds;
   const Parameter_Set& upperBounds;
   int popsize, parentsize, ngenerations;
@@ -60,7 +60,7 @@ class SRES {
 	SRES (int population_size, int num_parents, int num_generations,
 	      const Parameter_Set& lBounds, const Parameter_Set& uBounds, SRES_Scorer scorer,
 	      int seed = 0) :
-	    param(nullptr), population(nullptr), stats(nullptr), pf(0),
+	    param(nullptr), population(nullptr), stats(nullptr),
 	    lowerBounds(lBounds), upperBounds(uBounds), popsize(population_size),
 	    parentsize(num_parents), ngenerations(num_generations), score_fcn(scorer)
 	{

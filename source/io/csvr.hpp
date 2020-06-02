@@ -88,7 +88,7 @@ public:
 private:
     // Input file of CSV
     std::unique_ptr<std::istream> iFile;
-    unsigned int iLine;
+    //unsigned int iLine;
 };
 
 #endif

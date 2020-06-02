@@ -9,7 +9,7 @@ using style::Color;
 
 
 csvr::csvr(std::string const& file_name, bool suppress_file_not_found) :
-    iFile{}, iLine(1) {
+    iFile{} {
 
     auto file { std14::make_unique<std::ifstream>(file_name) };
     // Check if open successful
