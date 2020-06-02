@@ -84,7 +84,7 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    Next_Reaction_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed, std::vector<int> conc, NGraph::Graph adj_graph)
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , reaction_schedule(NUM_REACTIONS * cell_count()) 
     , concs(cell_count(), conc)

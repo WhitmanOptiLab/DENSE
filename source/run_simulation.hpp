@@ -91,7 +91,7 @@ void run_simulation(
                     std::unique_ptr<Analysis<Simulation>> analysis,
                     Simulation & simulation,
                     csvw log
-                    ):
+                    ) noexcept :
                     analysis   { std::move(analysis) },
                     simulation { std::addressof(simulation) },
                     log        { std::move(log) }
@@ -193,7 +193,7 @@ void run_simulation(
                     std::unique_ptr<Analysis<Simulation>> analysis,
                     Simulation & simulation,
                     csvw log
-                    ):
+                    ) noexcept :
                     analysis   { std::move(analysis) },
                     simulation { std::addressof(simulation) },
                     log        { std::move(log) }

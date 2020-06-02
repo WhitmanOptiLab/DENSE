@@ -81,7 +81,7 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed, std::vector<int> conc, NGraph::Graph adj_graph)
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count())
