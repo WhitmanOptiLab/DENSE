@@ -251,7 +251,7 @@ void run_simulation(
                     }
 
                     for (auto & simulation : simulations) {
-                    auto age = simulation.age_by(notify_interval);
+                    (void) simulation.age_by(notify_interval);
                     }
                 }
 		
