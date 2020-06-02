@@ -1,5 +1,5 @@
 #Would prefer to make this 3.1, as it makes C++ dialect selection automatic.
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.1)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
@@ -8,25 +8,23 @@ RelWithDebInfo MinSizeRel."
       FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-project (DDESimulatorTemplate CXX C)
+project (DDESimulatorTemplate CXX C) 
 set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(DENSE_SOURCE_DIR "${PROJECT_SOURCE_DIR}" PARENT_SCOPE)
 #Would prefer to use CMAKE_CXX_STANDARD in CMake 3.1, but not yet
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-string(REPLACE ";" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} "
- "-g -fconcepts -fmax-errors=3 -pedantic -Wall -Wextra -Werror -Wcast-align -Wcast-qual -Wctor-dtor-privacy "
- "-Wdisabled-optimization -Wformat=2 -Winit-self -Wlogical-op -Wmissing-include-dirs -Wno-type-limits "
- "-Wnoexcept -Woverloaded-virtual -Wredundant-decls -Wstrict-null-sentinel -Wstrict-overflow=1 "
- "-Wswitch-default -Wundef -Wunused -Wuseless-cast -Wsuggest-override -fopenmp -DMPI=1")
-if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-elseif(COMPILER_SUPPORTS_CXX0X)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-else()
-        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED 11)
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ferror-limit=3 -Wlogical-op-parentheses -Wnoexcept-type")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmax-errors=3 -Wlogical-op -Wnoexcept -Wstrict-null-snetinel -Wuseless-cast -Wsuggest-override")
 endif()
+string(REPLACE ";" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} "
+ "-g -pedantic -Wall -Wextra -Werror -Wno-cast-align -Wcast-qual -Wctor-dtor-privacy "
+ "-Wdisabled-optimization -Wformat=2 -Winit-self -Wmissing-include-dirs -Wno-type-limits "
+ "-Woverloaded-virtual -Wredundant-decls -Wstrict-overflow=1 "
+ "-Wswitch-default -Wundef -Wunused -DMPI=1")
 
 set(Real "double" CACHE STRING "dense::Real")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDENSE_CONFIGURABLE_Real=\"${Real}\"")
@@ -43,6 +41,8 @@ if (${CUDA_FOUND})
 else (${CUDA_FOUND})
   message("CUDA not found on this system - building CPU-only")
 endif (${CUDA_FOUND})
+
+
 
 find_package(MPI QUIET)
 if (${MPI_FOUND})

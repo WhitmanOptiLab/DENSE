@@ -183,7 +183,7 @@ class Simulation {
     Natural circumference_ = {};
     Natural cell_count_ = {};
     Parameter_Set parameter_set_ = {};
-    int index;
+    //int index;
     NGraph::Graph adjacency_graph;
 
   protected:
