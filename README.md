@@ -49,7 +49,7 @@ linux, mac. windows if-y
 ***
 #### 0.1: Compilers
 
-CMake version 2.8+ required, along with a supported build manager (make is the only tested system currently.)
+CMake version 3.9+ required, along with a supported build manager (make is the only tested system currently.)
 A C++ compiler with support for at least the C++11 standard is required.
 In order to compile the CUDA accelerated code, both a CUDA 6.0+ compiler and NVIDIA GPU hardware with "Compute Capability 3.0+" are needed.
 
