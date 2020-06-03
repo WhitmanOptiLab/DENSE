@@ -1,5 +1,6 @@
 #Would prefer to make this 3.1, as it makes C++ dialect selection automatic.
-cmake_minimum_required (VERSION 3.1)
+#changed to 3.9 to mirror readme requirements
+cmake_minimum_required (VERSION 3.9)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
