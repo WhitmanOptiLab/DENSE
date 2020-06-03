@@ -152,7 +152,22 @@ void run_simulation(
                     for (auto & simulation : simulations) {
                     auto age = simulation.age_by(notify_interval);
                     if (a % notifications_per_min == 0) {
-                        std::cout << "Time: " << age / Minutes{1} << '\n';
+                        int barWidth = 10;
+                        std::cout << "[";
+                        int pos = (age / Minutes{1});
+                        for (int i = 0; i < barWidth; ++i){
+                            if (i < pos){
+                                std::cout << "=";
+                            } else if (i == pos){
+                                std::cout << ">";
+                            } else {
+                                std::cout << " ";
+                            }
+                        }
+                        std::cout << "] " << (age / Minutes{1});
+                        std::cout.flush();
+                        std::cout << std::endl;
+                        //std::cout << "Time: " << age / Minutes{1} << '\n';
                     }
                     }
                 }

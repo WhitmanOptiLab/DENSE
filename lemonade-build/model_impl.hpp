@@ -38,25 +38,25 @@ RATETYPE reaction<buy_lemons>::active_rate(const Ctxt& c) {
 
 template<>
 template<class Ctxt>
-Real reaction<buy_sugar>::active_rate (const Ctxt& c) {
+Real reaction<buy_sugar>::active_rate(const Ctxt& c) {
     return c.getRate(buy_sugar);
 }
 
 template<>
 template<class Ctxt>
-Real reaction<make_quality>::active_rate (const Ctxt& c) {
+Real reaction<make_quality>::active_rate(const Ctxt& c) {
     return c.getRate(make_quality)*c.getCon(lemon)*c.getCon(sugar);
 }
 
 template<>
 template<class Ctxt>
-Real reaction<quality_to_satisfaction>::active_rate (const Ctxt& c) {
+Real reaction<quality_to_satisfaction>::active_rate(const Ctxt& c) {
     return c.getRate(quality_to_satisfaction);
 }
 
 template<>
 template<class Ctxt>
-Real reaction<satisfaction_to_tips>::active_rate (const Ctxt& c) {
+Real reaction<satisfaction_to_tips>::active_rate(const Ctxt& c) {
     return c.getRate(satisfaction_to_tips);
 }
 #endif // MODEL_IMPL_H
