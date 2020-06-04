@@ -38,7 +38,10 @@ using dense::stochastic::Next_Reaction_Simulation;
 using dense::Details;
 
 
-
+//static bool check = false;
+//static int num_equals = 0;
+//static int prev_num_equals = 0;
+static std::string line_of_progress = "";
 //std::string left_pad (std::string string, std::size_t min_size, char padding = ' ');
 
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ') {
@@ -152,21 +155,36 @@ void run_simulation(
                     for (auto & simulation : simulations) {
                     auto age = simulation.age_by(notify_interval);
                     if (a % notifications_per_min == 0) {
-                        int barWidth = 10;
-                        std::cout << "[";
+                        string currline = "[";
+                        int barWidth = 70;
+                        //std::cout << "[";
+                        
                         int pos = (age / Minutes{1});
+                        pos = barWidth * (a / analysis_chunks);
                         for (int i = 0; i < barWidth; ++i){
                             if (i < pos){
-                                std::cout << "=";
+                                //std::cout << "=";
+                                currline += "=";
+                                
                             } else if (i == pos){
-                                std::cout << ">";
+                                //std::cout << ">";
+                                currline += ">";
                             } else {
-                                std::cout << " ";
+                                //std::cout << " ";
+                                currline += " ";
                             }
                         }
-                        std::cout << "] " << (age / Minutes{1});
+                        currline += "] ";
+                        if (line_of_progress.compare(currline) != 0){
+                            
+                            line_of_progress = currline;
+                            std::cout << currline << 100 * (a / analysis_chunks) << " %\r";
+                            std::cout.flush();
+                            std::cout << std::endl;
+                        }
+                        /*std::cout << "] " << 100 * (a / analysis_chunks) << " %\r";
                         std::cout.flush();
-                        std::cout << std::endl;
+                        std::cout << std::endl;*/
                         //std::cout << "Time: " << age / Minutes{1} << '\n';
                     }
                     }
