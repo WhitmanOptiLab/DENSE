@@ -100,8 +100,15 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
           Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
 
           named_analysis_vector.emplace_back(out_file,
-            std14::make_unique<OscillationAnalysis<Simulation>>(
-              anlys_intvl, win_range, specie_option, cell_range, time_range));
+              std14::make_unique<OscillationAnalysis<Simulation>>(
+                anlys_intvl, win_range, specie_option, cell_range, time_range));
+        } else if (type == "convergence") {
+          Real windowSize = std::stold(xml_child_text(anlys, "window-size"));
+          Real thresHold = std::stold(xml_child_text(anlys, "threshold"));
+
+          named_analysis_vector.emplace_back(out_file,
+              std14::make_unique<ConvergenceAnalysis<Simulation>>(anlys_intvl, windowSize,
+                thresHold, specie_option, cell_range, time_range));
         }
         else {
           std::cout << style::apply(Color::yellow) <<
@@ -111,7 +118,7 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
   } else if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "") {
     // Data export aka file log
     // Can't do it if already using data-import
-      named_analysis_vector.emplace_back(data_ioe, std14::make_unique<csvw_sim<Simulation>>(
+    named_analysis_vector.emplace_back(data_ioe, std14::make_unique<csvw_sim<Simulation>>(
         cell_total,
         arg_parse::get<std::string>("v", "time-col", nullptr, false),
         default_specie_option));
