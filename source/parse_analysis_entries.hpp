@@ -102,6 +102,13 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
         named_analysis_vector.emplace_back(out_file,
           std14::make_unique<OscillationAnalysis<Simulation>>(
             anlys_intvl, win_range, specie_option, cell_range, time_range));
+      } else if (type == "convergence") {
+          Real windowSize = std::stold(xml_child_text(anlys, "window-size"));
+          Real thresHold = std::stold(xml_child_text(anlys, "threshold"));
+          
+          named_analysis_vector.emplace_back(out_file,
+            std14::make_unique<ConvergenceAnalysis<Simulation>>(anlys_intvl, windowSize,
+                thresHold, specie_option, cell_range, time_range));
       }
       else {
         std::cout << style::apply(Color::yellow) <<
