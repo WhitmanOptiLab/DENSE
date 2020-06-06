@@ -64,9 +64,9 @@ public:
             range_steps(range/interval), analysis_interval(interval)
     {
         auto cell_count = Analysis<>::max - Analysis<>::min;
-        for (std::size_t i = 0; i < Analysis<>::observed_species_.size(); ++i)
+        for (std::size_t i = 0; i < cell_count; ++i)
         {
-            windows.emplace_back(cell_count, Queue<Real>(range_steps));
+            windows.emplace_back(Analysis<>::observed_species_.size(), Queue<Real>(range_steps));
             peaksAndTroughs.emplace_back(cell_count);
             bst.emplace_back(cell_count);
             amplitudes.emplace_back(cell_count, 0.0);
