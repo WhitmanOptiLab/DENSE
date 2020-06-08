@@ -2,8 +2,9 @@
 #define  PARSE_HPP
 
 #include "io/arg_parse.hpp"
-#include "measurement/oscillation.hpp"
 #include "measurement/basic.hpp"
+#include "measurement/convergence.hpp"
+#include "measurement/oscillation.hpp"
 #include "measurement/bad_simulation_error.hpp"
 #include "utility/style.hpp"
 #include "utility/common_utils.hpp"
@@ -78,42 +79,43 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
     ezxml_t config = ezxml_parse_file(config_file.c_str());
 
     for (ezxml_t anlys = ezxml_child(config, "anlys"); anlys != nullptr; anlys = anlys->next) {
-        std::string type = ezxml_attr(anlys, "type");
-        std::pair<dense::Natural, dense::Natural> cell_range = {
-          std::stold(xml_child_text(anlys, "cell-start")),
-          std::stold(xml_child_text(anlys, "cell-end"))
-        };
-        std::pair<Real, Real> time_range = {
-          std::stold(xml_child_text(anlys, "time-start")),
-          std::stold(xml_child_text(anlys, "time-end"))
-        };
-        std::vector<Species> specie_option = str_to_species(xml_child_text(anlys, "species"));
-        std::string out_file = xml_child_text(anlys, "out-file");
+      std::string type = ezxml_attr(anlys, "type");
+      std::pair<dense::Natural, dense::Natural> cell_range = {
+        std::stold(xml_child_text(anlys, "cell-start")),
+        std::stold(xml_child_text(anlys, "cell-end"))
+      };
+      std::pair<Real, Real> time_range = {
+        std::stold(xml_child_text(anlys, "time-start")),
+        std::stold(xml_child_text(anlys, "time-end"))
+      };
+      std::vector<Species> specie_option = str_to_species(xml_child_text(anlys, "species"));
+      std::string out_file = xml_child_text(anlys, "out-file");
 
-        if (type == "basic") {
-          named_analysis_vector.emplace_back(out_file,
-            std14::make_unique<BasicAnalysis<Simulation>>(
-              specie_option, cell_range, time_range));
-        }
-        else if (type == "oscillation") {
-          Real win_range = std::stold(xml_child_text(anlys, "win-range"));
-          Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
+      if (type == "basic") {
+        named_analysis_vector.emplace_back(out_file,
+          std14::make_unique<BasicAnalysis<Simulation>>(
+            specie_option, cell_range, time_range));
+      }
+      else if (type == "oscillation") {
+        Real win_range = std::stold(xml_child_text(anlys, "win-range"));
+        Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
 
-          named_analysis_vector.emplace_back(out_file,
-              std14::make_unique<OscillationAnalysis<Simulation>>(
-                anlys_intvl, win_range, specie_option, cell_range, time_range));
-        } else if (type == "convergence") {
-          Real windowSize = std::stold(xml_child_text(anlys, "window-size"));
-          Real thresHold = std::stold(xml_child_text(anlys, "threshold"));
-
-          named_analysis_vector.emplace_back(out_file,
-              std14::make_unique<ConvergenceAnalysis<Simulation>>(anlys_intvl, windowSize,
-                thresHold, specie_option, cell_range, time_range));
-        }
-        else {
-          std::cout << style::apply(Color::yellow) <<
-            "Warning: Skipping unknown analysis type \"" << type << "\"\n" << style::reset();
-        }
+        named_analysis_vector.emplace_back(out_file,
+          std14::make_unique<OscillationAnalysis<Simulation>>(
+            anlys_intvl, win_range, specie_option, cell_range, time_range));
+      } else if (type == "convergence") {
+        Real anlys_intvl = std::stold(xml_child_text(anlys, "anlys-intvl"));
+        Real windowSize = std::stold(xml_child_text(anlys, "window-size"));
+        Real thresHold = std::stold(xml_child_text(anlys, "threshold"));
+          
+        named_analysis_vector.emplace_back(out_file,
+          std14::make_unique<ConvergenceAnalysis<Simulation>>(anlys_intvl, windowSize,
+              thresHold, specie_option, cell_range, time_range));
+      }
+      else {
+        std::cout << style::apply(Color::yellow) <<
+          "Warning: Skipping unknown analysis type \"" << type << "\"\n" << style::reset();
+      }
     }
   } else if (arg_parse::get<std::string>("e", "data-export", &data_ioe, false) && data_ioe != "") {
     // Data export aka file log

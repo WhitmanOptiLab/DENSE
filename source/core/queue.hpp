@@ -51,7 +51,7 @@ public:
 	}
 */
 
-	size_type getSize() { return (size + end - start) % size + 1; }
+	size_type getSize() const { return (size + end - start) % size + 1; }
 
 	void enqueue(value_type entry){
 		if (end == (size-1)){
@@ -87,7 +87,7 @@ public:
 		return popped;
 	}
 
-	value_type getVal(dense::Natural index){
+	value_type getVal(dense::Natural index) const {
 		return contents[index];
 	}
 
