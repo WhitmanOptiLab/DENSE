@@ -52,10 +52,10 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
         for (Natural c = this->min; c < this->max; ++c){
             for (std::size_t i =0; i < this-> pcfSpecieOption.size(); ++i){
                 Real concentration = simulation.get_concentration(c, this->pcfSpecieOption[i]); 
-		if(windows[c][i].getSize() == window_size){
+		if(windows[c][i].getSize() == window_steps){
 		    windows[c][i].dequeue();
 		}
-		if(windows[c][i].getSize() < window_size){
+		if(windows[c][i].getSize() < window_steps){
                	    windows[c][i].enqueue(concentration);
 		}
                 convergences[c][i].merge_results(check_convergence(windows[c][i], concentration),
