@@ -51,10 +51,13 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
         //not sure yet how this type of update would differ from the other analysis types
         for (Natural c = this->min; c < this->max; ++c){
             for (std::size_t i =0; i < this-> pcfSpecieOption.size(); ++i){
-                Real concentration = simulation.get_concentration(c, this->pcfSpecieOption[i]);
-                //FIX
-                windows[c][i].dequeue();
-                windows[c][i].enqueue(concentration);
+                Real concentration = simulation.get_concentration(c, this->pcfSpecieOption[i]); 
+		if(windows[c][i].getSize() == window_size){
+		    windows[c][i].dequeue();
+		}
+		if(windows[c][i].getSize() < window_size){
+               	    windows[c][i].enqueue(concentration);
+		}
                 convergences[c][i].merge_results(check_convergence(windows[c][i], concentration),
                                                  simulation.age());
             }
