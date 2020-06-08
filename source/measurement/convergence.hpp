@@ -79,14 +79,7 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
     }
 
     
-    bool windowCheck(Real val){
-        if (val >= convergence_value){
-            convergence = true;
-            convergence_bools.push_back(convergence);
-        } else {
-            
-        }
-    }
+    
 
     //copy constructor
     ConvergenceAnalysis* clone() const override{
@@ -121,7 +114,7 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
             std::vector<Real> values;
             std::vector<Real> starts;
             for (std::size_t i =0; i < this-> pcfSpecieOption.size(); ++i){
-              value.push_back(convergences[c][i].value);
+              values.push_back(convergences[c][i].value);
               starts.push_back(convergences[c][i].start);
             }
             detail.other_details.push_back(values);
