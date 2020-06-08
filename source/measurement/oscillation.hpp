@@ -64,7 +64,7 @@ public:
             range_steps(range/interval), analysis_interval(interval)
     {
         auto cell_count = Analysis<>::max - Analysis<>::min;
-        for (std::size_t i = 0; i < cell_count; ++i)
+        for (dense::Natural i = 0; i < cell_count; ++i)
         {
             windows.emplace_back(Analysis<>::observed_species_.size(), Queue<Real>(range_steps));
             peaksAndTroughs.emplace_back(cell_count);
@@ -115,25 +115,6 @@ public:
 	}
 
 };
-
-/*template <typename Simulation>
-class CorrelationAnalysis : public Analysis<Simulation> {
-
-  public:
-
-    CorrelationAnalysis(
-      std::vector<Species> const& pcfSpecieOption,
-  std::pair<dense::Natural, dense::Natural> cell_range,
-  std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() })
-    : Analysis<Simulation>(pcfSpecieOption, cell_range, time_range)
-    {
-    }
-
-    void update(Simulation& simulation, std::ostream&) override {
-    }
-
-    bool pearson_correlate();
-}; */
 
 #include "oscillation.ipp"
 
