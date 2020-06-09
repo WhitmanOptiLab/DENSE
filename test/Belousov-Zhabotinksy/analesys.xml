@@ -44,7 +44,7 @@
         <anlys-intvl>0.5</anlys-intvl>
         <win-range>4.0</win-range>
         <cell-start>0</cell-start>
-        <cell-end>100</cell-end>
+        <cell-end>99</cell-end>
         <time-start>0</time-start>
         <time-end>14</time-end>
         <out-file>anlys_oscil.csv</out-file>
