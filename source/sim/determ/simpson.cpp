@@ -29,6 +29,8 @@ dense::Simpson_Simulation::Simpson_Simulation(const Parameter_Set& ps, Real* pnF
       }
     }
 
+
+
 void dense::Simpson_Simulation::step() {
     for (dense::Natural k = 0; k < cell_count(); k++) {
       update_concentrations(k, calculate_concentrations(k));

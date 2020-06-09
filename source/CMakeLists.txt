@@ -145,8 +145,8 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/core/build_once.cu
           ${DENSE_SOURCE_DIR}/source/sim/set_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/base.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp

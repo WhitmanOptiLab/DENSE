@@ -1,6 +1,7 @@
 #include <cmath>
 #include "num_sim.hpp"
 #include "simpson.hpp"
+#include "determ.hpp"
 #include "model_impl.hpp"
 #include "baby_cl.hpp"
 #include <limits>

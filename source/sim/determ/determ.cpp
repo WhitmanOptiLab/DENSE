@@ -51,6 +51,7 @@ dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& p
       }
     }
 
+
 CUDA_AGNOSTIC
 dense::Deterministic_Simulation::SpecieRates dense::Deterministic_Simulation::calculate_concentrations(dense::Natural cell) {
     //Step 1: for each reaction, compute reaction rate
