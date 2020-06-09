@@ -24,7 +24,7 @@ namespace dense {
     using Context = dense::Context<Simpson_Simulation>;
     Simpson_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph);
-
+                    
     CUDA_AGNOSTIC
     SpecieRates calculate_concentrations(dense::Natural cell);
 

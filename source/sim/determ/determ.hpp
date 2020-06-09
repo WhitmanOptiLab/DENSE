@@ -23,22 +23,13 @@ class Deterministic_Simulation : public Simulation, public Numerical_Integration
   using Context = dense::Context<Deterministic_Simulation>;
   Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell = 0);
-
   CUDA_AGNOSTIC
   void update_concentrations(dense::Natural cell, SpecieRates const& rates) override;
-
   CUDA_AGNOSTIC
   SpecieRates calculate_concentrations(dense::Natural cell);
-
   void step() override;
-
-  Real get_concentration(dense::Natural cell, specie_id species) const {
-    return get_concentration(cell, species, 1);
-  }
-
-  Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const {
-    return _baby_cl.row_at(species, 1 - delay)[cell];
-  }
+  CUDA_AGNOSTIC
+  Minutes age_by (Minutes duration) override;
 
   dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const override {
     // Average the given cell's neighbors' concentrations
