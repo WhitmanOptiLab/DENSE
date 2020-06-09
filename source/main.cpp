@@ -7,6 +7,8 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
+#include "sim/determ/simpson.hpp"
+#include "sim/determ/num_sim.hpp"
 #include "sim/stoch/stoch.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
@@ -214,7 +216,7 @@ int main(int argc, char* argv[]) {
   std::string init_conc;
   //initialize conc vector with initial concentrations or 0s
   bool c_or_0 = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
-  
+
   csvr parse_param_sets(param_sets, false);
   auto parameter_sets = parse_param_sets.get_param_sets();
 
@@ -391,13 +393,13 @@ void run_simulation(
       swap(simulations[bad_simulation - simulations.data()], simulations.back());
       simulations.pop_back();
     }
-		
+
 		if(is_deterministic){
-		
-			#pragma omp parallel for 
+
+			#pragma omp parallel for
 			for (auto it = simulations.begin(); it < simulations.end(); it++) {
      	auto age = it->age_by(notify_interval);
-			
+
      	if (a % notifications_per_min == 0) {
 				#pragma omp critical
 				{
@@ -405,7 +407,7 @@ void run_simulation(
       	}
 			}
     }
-		
+
 		} else{
 			for (auto & simulation : simulations) {
      	auto age = simulation.age_by(notify_interval);

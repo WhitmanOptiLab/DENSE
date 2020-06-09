@@ -34,7 +34,7 @@ namespace dense {
     }
 
     CUDA_AGNOSTIC
-    virtual void update_concentrations(dense::Natural cell, SpecieRates const& rates);
+    virtual void update_concentrations(dense::Natural cell, SpecieRates const& rates) = 0;
 
     virtual void step() = 0;
 
