@@ -76,6 +76,7 @@ endif (NOT EXISTS ${PROJECT_BINARY_DIR}/specie_list.hpp)
 
 option(BUILD_ALL_METHODS "Build executibles for all simulation methods" ON)
 option(DETERMINISTIC_SIM "" ON)
+option(SIMPSON_SIM "" ON)
 option(GILLESPIE_SIM "" ${BUILD_ALL_METHODS})
 option(NEXTREACTION_SIM "" ON)
 option(CUDA_SIM "" ${BUILD_ALL_METHODS})
