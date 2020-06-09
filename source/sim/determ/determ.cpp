@@ -1,5 +1,6 @@
 #include <cmath>
 #include "determ.hpp"
+#include "num_sim.hpp"
 #include "model_impl.hpp"
 #include <limits>
 #include <iostream>
@@ -25,9 +26,8 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
 
 dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
-    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad), 
-    _intDelays(NUM_DELAY_REACTIONS, cell_count()),
-    _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(2), _baby_cl(*this) {
+    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
+    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
       //Copy and normalize _delays into _intDelays
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
         for (dense::Natural j = 0; j < cell_count(); ++j) {
