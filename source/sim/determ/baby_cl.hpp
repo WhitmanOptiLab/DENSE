@@ -9,6 +9,7 @@
 namespace dense {
 
 class Deterministic_Simulation;
+class Simpson_Simulation;
 // Simulation_History
 class baby_cl {
 
@@ -30,7 +31,8 @@ class baby_cl {
     }
 
     baby_cl(Deterministic_Simulation& sim);
-  
+    baby_cl(Simpson_Simulation& sim);
+
     int get_species_size(int species){
       return _specie_size[species];
     }
@@ -40,7 +42,7 @@ public:
       j = (j == 0) ? _j[species] : wrap(_j[species] + j, _specie_size[species]);
       return &_array[_position[species] + _width * j];
     }
-    
+
     Real const* row_at(int species, int j) const {
       j = (j == 0) ? _j[species] : wrap(_j[species] + j, _specie_size[species]);
       return &_array[_position[species] + _width * j];

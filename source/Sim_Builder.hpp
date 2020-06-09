@@ -10,6 +10,7 @@
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
 #include "sim/determ/determ.hpp"
+#include "sim/determ/simpson.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -43,10 +44,10 @@ namespace dense {
     template <Simulation_Concept Simulation>
     #endif
     class Sim_Builder {
-        
+
         using This = Sim_Builder;
 
-        public: 
+        public:
             Sim_Builder (This const&) = default;
             This& operator= (This&&);
             Sim_Builder<Simulation>(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]);
@@ -60,7 +61,7 @@ namespace dense {
    class Sim_Builder <Deterministic_Simulation>{
         using This = Sim_Builder<Deterministic_Simulation>;
 
-      public: 
+      public:
         This& operator= (This&&);
         Sim_Builder (This const&) = default;
         Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
@@ -100,10 +101,48 @@ namespace dense {
         dense::Natural num_grow_cell;
    };
    template<>
+   class Sim_Builder <Simpson_Simulation>{
+        using This = Sim_Builder<Simpson_Simulation>;
+
+      public:
+        This& operator= (This&&);
+        Sim_Builder (This const&) = default;
+        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
+            arg_parse::init(argc, argv);
+            using style::Mode;
+            style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
+            step_size = arg_parse::get<Real>("s", "step-size", 0.0);
+            //require step_size for deterministic simulation
+            if(step_size == 0.0){
+              arg_parse::get<bool>("s", "step-size", nullptr, true);
+            }
+            perturbation_factors = pf;
+            gradient_factors = gf;
+            std::string init_conc;
+            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+            conc_vector(init_conc, i_or_o, &conc);
+            adjacency_graph = std::move(adj_graph);
+        }
+
+        std::vector<Simpson_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+            std::vector<Simpson_Simulation> simulations;
+            for (auto& parameter_set : param_sets) {
+              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
+            }
+            return simulations;
+        };
+      private:
+        Real* perturbation_factors;
+        Real** gradient_factors;
+        Real step_size;
+        std::vector<Real> conc;
+        NGraph::Graph adjacency_graph;
+   };
+   template<>
    class Sim_Builder <Fast_Gillespie_Direct_Simulation>{
         using This = Sim_Builder<Fast_Gillespie_Direct_Simulation>;
 
-        public: 
+        public:
             Sim_Builder (This const&) = default;
             This& operator= (This&&);
             Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
@@ -146,7 +185,7 @@ namespace dense {
    class Sim_Builder <Next_Reaction_Simulation>{
         using This = Sim_Builder<Next_Reaction_Simulation>;
 
-        public: 
+        public:
           Sim_Builder (This const&) = default;
           This& operator= (This&&);
           Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
