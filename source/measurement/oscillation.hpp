@@ -64,9 +64,9 @@ public:
             range_steps(range/interval), analysis_interval(interval)
     {
         auto cell_count = Analysis<>::max - Analysis<>::min;
-        for (dense::Natural i = 0; i < cell_count; ++i)
+        for (std::size_t i = 0; i < Analysis<>::observed_species_.size(); ++i)
         {
-            windows.emplace_back(Analysis<>::observed_species_.size(), Queue<Real>(range_steps));
+            windows.emplace_back(cell_count, Queue<Real>(range_steps));
             peaksAndTroughs.emplace_back(cell_count);
             bst.emplace_back(cell_count);
             amplitudes.emplace_back(cell_count, 0.0);
@@ -102,7 +102,7 @@ public:
 
 	
 			for(size_t i = 0; i <  peaksAndTroughs.size(); i++){
-					for(size_t j = 0; j <  peaksAndTroughs[i].size(); i++){
+					for(size_t j = 0; j <  peaksAndTroughs[j].size(); j++){
 							for(size_t l = 0; l <  peaksAndTroughs[i][j].size(); l++){
 								times.push_back(peaksAndTroughs[i][j][l].time);
 								detail.concs.push_back( peaksAndTroughs[i][j][l].conc);
