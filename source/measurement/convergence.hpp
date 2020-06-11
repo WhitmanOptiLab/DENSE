@@ -53,12 +53,13 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
         for (Natural c = this->min; c < this->max; ++c){
             for (std::size_t i =0; i < Analysis<>::observed_species_.size(); ++i){
               Real concentration = simulation.get_concentration(c, Analysis<>::observed_species_[i]);
-              if(windows[c][i].getSize() == window_steps){
+
+              windows[c][i].enqueue(concentration);
+
+              if(windows[c][i].getSize() == window_steps + 1){
                 windows[c][i].dequeue();
               }
-              if(windows[c][i].getSize() < window_steps){
-                windows[c][i].enqueue(concentration);
-              }
+            
               convergences[c][i].merge_results(check_convergence(windows[c][i], concentration),
                   simulation.age()/Minutes(1));
             }
@@ -66,7 +67,7 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
     }
 
     Real check_convergence(const Queue<Real>& window, Real asymptote) {
-      if ( window.getSize() != window_size ) {
+      if ( window.getSize() != window_steps ) {
         return NAN;
       }
 
@@ -102,6 +103,25 @@ class ConvergenceAnalysis : public Analysis<Simulation>{
             }
         }
     }
+
+    void show (csvw *csv_out = nullptr) override{
+        Analysis<>::show(csv_out);
+        if(csv_out){
+            for (Natural c = this->min; c < this->max; ++c) {
+
+                *csv_out << "\n# Showing cell " << c << "\nSpecies";
+                 for (specie_id const& lcfID : this->observed_species_)
+                     *csv_out << ',' << specie_str[lcfID];
+                
+                csv_out->add_div("\nconvergence value,");
+                for(std::size_t i =0; i < Analysis<>::observed_species_.size(); ++i)
+                    csv_out->add_data(convergences[c][i].value);
+                
+
+            }
+        }
+    }
+
 
     //analysis overview
     //what we give back to the user
