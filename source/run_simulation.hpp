@@ -41,7 +41,13 @@ using dense::Details;
 //static bool check = false;
 //static int num_equals = 0;
 //static int prev_num_equals = 0;
-static std::string line_of_progress = "";
+
+
+//static int step = 1;
+//static int displayNext = step;
+//static int percent = 0;
+//static char square = (char) 254;
+
 //std::string left_pad (std::string string, std::size_t min_size, char padding = ' ');
 
 std::string left_pad (std::string string, std::size_t min_size, char padding = ' ') {
@@ -79,16 +85,19 @@ void run_simulation(
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
 
 
+std::string line_of_progress;
+void print_progress_bar(std::string previous, dense::Natural a, Real limit, int pos);
+
 #ifndef __cpp_concepts
 template <typename Simulation>
 #else
-  template <Simulation_Concept Simulation>
+template <Simulation_Concept Simulation>
 #endif
-  void run_simulation(
-      std::chrono::duration<Real, std::chrono::minutes::period> duration,
-      std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
-      std::vector<Simulation> simulations,
-      std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
+void run_simulation(
+    std::chrono::duration<Real, std::chrono::minutes::period> duration,
+    std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
+    std::vector<Simulation> simulations,
+    std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
     struct Callback {
       Callback(
           std::unique_ptr<Analysis<Simulation>> analysis,
@@ -155,33 +164,8 @@ template <typename Simulation>
       for (auto & simulation : simulations) {
         auto age = simulation.age_by(notify_interval);
         if (a % notifications_per_min == 0) {
-          string currline = "[";
-          int barWidth = 70;
-          //std::cout << "[";
-
           int pos = (age / Minutes{1});
-          pos = barWidth * (a / analysis_chunks);
-          for (int i = 0; i < barWidth; ++i){
-            if (i < pos){
-              //std::cout << "=";
-              currline += "=";
-
-            } else if (i == pos){
-              //std::cout << ">";
-              currline += ">";
-            } else {
-              //std::cout << " ";
-              currline += " ";
-            }
-          }
-          currline += "] ";
-          if (line_of_progress.compare(currline) != 0){
-
-            line_of_progress = currline;
-            std::cout << currline << 100 * (a / analysis_chunks) << " %\r";
-            std::cout.flush();
-            std::cout << std::endl;
-          }
+          print_progress_bar(line_of_progress, a, analysis_chunks, pos);
         }
       }
     }
@@ -190,9 +174,37 @@ template <typename Simulation>
       callback.analysis->finalize();
       callback.analysis->show(&callback.log);
     }
-            
-  }
+}
 
+void print_progress_bar(std::string previous, dense::Natural a, Real limit, int pos){
+  string currline = "[";
+  int barWidth = 70;
+  //std::cout << "[";
+
+
+  pos = barWidth * (a / limit);
+  for (int i = 0; i < barWidth; ++i){
+    if (i < pos){
+      //std::cout << "=";
+      currline += "=";
+
+    } else if (i == pos){
+      //std::cout << ">";
+      currline += ">";
+    } else {
+      //std::cout << " ";
+      currline += " ";
+    }
+  }
+  currline += "] ";
+  if (previous.compare(currline) != 0){
+
+    previous = currline;
+    std::cout << currline << int(100 * double (a / limit)) << " %\r";
+    std::cout.flush();
+    //std::cout << std::endl;
+  }
+}
 #ifndef __cpp_concepts
 template <typename Simulation>
 #else
