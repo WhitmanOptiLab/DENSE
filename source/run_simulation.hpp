@@ -200,11 +200,12 @@ void print_progress_bar(std::string previous, dense::Natural a, Real limit, int 
   if (previous.compare(currline) != 0){
 
     previous = currline;
-    std::cout << currline << int(100 * double (a / limit)) << " %\r";
+    std::cout << currline << int(100 * a / limit) << " %\r";
     std::cout.flush();
     //std::cout << std::endl;
   }
 }
+
 #ifndef __cpp_concepts
 template <typename Simulation>
 #else
