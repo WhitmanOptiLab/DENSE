@@ -22,6 +22,7 @@ namespace dense {
     dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
     Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Deterministic_Simulation& sim);
     Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Simpson_Simulation& sim);
+    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Trapezoid_Simulation& sim);
   protected:
     baby_cl _baby_cl;
   public:
