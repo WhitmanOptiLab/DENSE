@@ -69,7 +69,7 @@ class Analysis<void> {
     Real time = 0;
 
     dense::Natural samples = 0;
-	
+
 
 };
 
@@ -82,7 +82,7 @@ class Analysis : public Analysis<> {
   public:
 
     using Analysis<>::Analysis;
-    
+
     virtual ~Analysis() = default;
 
     virtual void update(Simulation& start, std::ostream& log = std::cout) = 0;
@@ -90,7 +90,7 @@ class Analysis : public Analysis<> {
     virtual Analysis* clone() const = 0;
 
     virtual void finalize() = 0;
-	
+
     virtual Details get_details() = 0;
 
     void when_updated_by(Simulation & simulation, std::ostream& log);

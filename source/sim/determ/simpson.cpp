@@ -48,15 +48,15 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
     //Runs through and performs one step of Simpson's Rule to each specie
     for (int i = 0; i < NUM_SPECIES; i++) {
       //_curr_coeff is '1' for the first two steps, we just use Euler's Method
+      auto curr_rate = rates[i];
       if (!_second_point_calculated) {
-        auto curr_rate = rates[i];
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
+        _prev_rates[i] = curr_rate;
       } else {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/3)*((_curr_coeff-1)*_prev_rates[i] + rates[i]);
-        _prev_rates[i] = rates[i];
+        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/3)*((_curr_coeff-1)*_prev_rates[i] + curr_rate);
+        _prev_rates[i] = curr_rate;
       }
     }
-
     //Updating what has been done.
     //These if-else statements are ordered in priority
     if (!_first_point_calculated) {

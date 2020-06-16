@@ -18,6 +18,9 @@ class baby_cl_cuda : public baby_cl {
 
     baby_cl_cuda(int length, int width, Simpson_Simulation& sim) : baby_cl(length,width,sim) {}
 
+    baby_cl_cuda(Trapezoid_Simulation& sim) : baby_cl(sim) { }
+
+    baby_cl_cuda(int length, int width, Trapezoid_Simulation& sim) : baby_cl(length,width,sim) {}
     ~baby_cl_cuda() {
       dealloc_array();
     }
