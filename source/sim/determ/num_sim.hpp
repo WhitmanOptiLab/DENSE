@@ -23,6 +23,7 @@ namespace dense {
     Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Deterministic_Simulation& sim);
     Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Simpson_Simulation& sim);
     Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Trapezoid_Simulation& sim);
+    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Average_Simulation& sim);
   protected:
     baby_cl _baby_cl;
   public:

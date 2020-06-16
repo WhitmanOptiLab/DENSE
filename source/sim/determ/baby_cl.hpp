@@ -11,6 +11,7 @@ namespace dense {
 class Deterministic_Simulation;
 class Simpson_Simulation;
 class Trapezoid_Simulation;
+class Average_Simulation;
 // Simulation_History
 class baby_cl {
 
@@ -34,6 +35,7 @@ class baby_cl {
     baby_cl(Deterministic_Simulation& sim);
     baby_cl(Simpson_Simulation& sim);
     baby_cl(Trapezoid_Simulation& sim);
+    baby_cl(Average_Simulation& sim);
 
     int get_species_size(int species){
       return _specie_size[species];
