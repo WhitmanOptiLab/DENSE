@@ -90,7 +90,26 @@ add_test( "time_total_test_01"
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
+ set(no_convergence_test "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+add_test( "no_convergence_test"
+ ${CMAKE_COMMAND}
+ -D test_cmd=${test_cmd}
+ -D test_args:string=${no_convergence_test}
+ -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/test_convergence_0_threshold_results.csv
+ -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_converge_0_threshold.csv
+ -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
+ )
 
+
+ set(convergence_test "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+add_test( "convergence_test"
+ ${CMAKE_COMMAND}
+ -D test_cmd=${test_cmd}
+ -D test_args:string=${convergence_test}
+ -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/test_convergence.csv
+ -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_converge.csv
+ -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
+ )
 
 if (${CUDA_FOUND})
   CUDA_SIMULATION(her2014_cuda_simulation ${CMAKE_CURRENT_SOURCE_DIR})
