@@ -25,4 +25,14 @@
         <time-end>60</time-end>
         <out-file>anlys_oscil.csv</out-file>
     </anlys>
+    <anlys type="basic oscillation">
+        <species>ph1, mh1, md</species>
+        <anlys-intvl>0.01</anlys-intvl>
+        <win-range>4.0</win-range>
+        <cell-start>0</cell-start>
+        <cell-end>5</cell-end>
+        <time-start>0</time-start>
+        <time-end>60</time-end>
+        <out-file>anlys_basic_osci.csv</out-file>
+    </anlys>
 </analyses>

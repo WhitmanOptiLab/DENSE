@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/mcclelnr/DENSE/source/io/ezxml/ezxml.c
+/Users/myan/Documents/GitHub/DENSE/source/io/ezxml/ezxml.c
 stdlib.h
 -
 stdio.h
@@ -26,9 +26,9 @@ sys/mman.h
 sys/stat.h
 -
 ezxml.h
-/home/mcclelnr/DENSE/source/io/ezxml/ezxml.h
+/Users/myan/Documents/GitHub/DENSE/source/io/ezxml/ezxml.h
 
-/home/mcclelnr/DENSE/source/io/ezxml/ezxml.h
+/Users/myan/Documents/GitHub/DENSE/source/io/ezxml/ezxml.h
 stdlib.h
 -
 stdio.h

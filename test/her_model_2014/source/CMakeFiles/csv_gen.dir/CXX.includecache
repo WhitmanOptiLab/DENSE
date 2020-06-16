@@ -47,46 +47,48 @@ cstddef
 ../../source/utility/preprocessor.hpp
 iosfwd
 -
+cstddef
+-
 
 ../../source/utility/style.hpp
 string
 -
 
-/home/mcclelnr/DENSE/source/core/reaction.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reaction.hpp
 specie.hpp
-/home/mcclelnr/DENSE/source/core/specie.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie.hpp
 utility/cuda.hpp
-/home/mcclelnr/DENSE/source/core/utility/cuda.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/utility/cuda.hpp
 utility/numerics.hpp
-/home/mcclelnr/DENSE/source/core/utility/numerics.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/utility/numerics.hpp
 string
 -
 utility
 -
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/core/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reactions_list.hpp
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/core/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reactions_list.hpp
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/core/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reactions_list.hpp
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/core/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reactions_list.hpp
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/core/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reactions_list.hpp
 
-/home/mcclelnr/DENSE/source/core/specie.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie.hpp
 string
 -
 specie_list.hpp
-/home/mcclelnr/DENSE/source/core/specie_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie_list.hpp
 specie_list.hpp
-/home/mcclelnr/DENSE/source/core/specie_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie_list.hpp
 specie_list.hpp
-/home/mcclelnr/DENSE/source/core/specie_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie_list.hpp
 
-/home/mcclelnr/DENSE/source/csv_gen.cpp
+/Users/myan/Documents/GitHub/DENSE/source/csv_gen.cpp
 utility/style.hpp
-/home/mcclelnr/DENSE/source/utility/style.hpp
+/Users/myan/Documents/GitHub/DENSE/source/utility/style.hpp
 cstdlib
 -
 iostream
@@ -94,13 +96,13 @@ iostream
 string
 -
 io/csvw.hpp
-/home/mcclelnr/DENSE/source/io/csvw.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/csvw.hpp
 utility/style.hpp
-/home/mcclelnr/DENSE/source/utility/style.hpp
+/Users/myan/Documents/GitHub/DENSE/source/utility/style.hpp
 core/specie.hpp
-/home/mcclelnr/DENSE/source/core/specie.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/specie.hpp
 core/reaction.hpp
-/home/mcclelnr/DENSE/source/core/reaction.hpp
+/Users/myan/Documents/GitHub/DENSE/source/core/reaction.hpp
 iostream
 -
 stdexcept
@@ -108,29 +110,29 @@ stdexcept
 string
 -
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/reactions_list.hpp
 reactions_list.hpp
-/home/mcclelnr/DENSE/source/reactions_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/reactions_list.hpp
 specie_list.hpp
-/home/mcclelnr/DENSE/source/specie_list.hpp
+/Users/myan/Documents/GitHub/DENSE/source/specie_list.hpp
 
-/home/mcclelnr/DENSE/source/io/csvw.cpp
+/Users/myan/Documents/GitHub/DENSE/source/io/csvw.cpp
 csvw.hpp
-/home/mcclelnr/DENSE/source/io/csvw.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/csvw.hpp
 utility/style.hpp
-/home/mcclelnr/DENSE/source/io/utility/style.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/utility/style.hpp
 utility/common_utils.hpp
-/home/mcclelnr/DENSE/source/io/utility/common_utils.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/utility/common_utils.hpp
 cfloat
 -
 iostream
 -
 
-/home/mcclelnr/DENSE/source/io/csvw.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/csvw.hpp
 utility/numerics.hpp
-/home/mcclelnr/DENSE/source/io/utility/numerics.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/utility/numerics.hpp
 utility/common_utils.hpp
-/home/mcclelnr/DENSE/source/io/utility/common_utils.hpp
+/Users/myan/Documents/GitHub/DENSE/source/io/utility/common_utils.hpp
 fstream
 -
 string
@@ -140,11 +142,11 @@ memory
 iostream
 -
 
-/home/mcclelnr/DENSE/source/utility/color.cpp
+/Users/myan/Documents/GitHub/DENSE/source/utility/color.cpp
 style.hpp
-/home/mcclelnr/DENSE/source/utility/style.hpp
+/Users/myan/Documents/GitHub/DENSE/source/utility/style.hpp
 
-/home/mcclelnr/DENSE/source/utility/style.hpp
+/Users/myan/Documents/GitHub/DENSE/source/utility/style.hpp
 string
 -
 
