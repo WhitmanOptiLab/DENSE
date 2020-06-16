@@ -24,6 +24,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
@@ -73,6 +74,10 @@ function(TRAPEZOID_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Trapezoidal_main.cpp)
 endfunction(TRAPEZOID_SIMULATION localname simdir)
 
+function(AVERAGE_SIMULATION localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Average_main.cpp)
+endfunction(AVERAGE_SIMULATION localname simdir)
+
 function(GILLESPIE_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Fast_Gillespie_Main.cpp)
 endfunction(GILLESPIE_SIMULATION localname simdir)
@@ -103,6 +108,7 @@ function(PARAM_SEARCH_MPI_LIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
@@ -154,6 +160,7 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp
@@ -217,6 +224,11 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       TRAPEZOID_SIMULATION(trapezoid_simulation ${PROJECT_BINARY_DIR})
       set_target_properties(trapezoid_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${TRAPEZOID_SIM})
+
+    if (${AVERAGE_SIM})
+      AVERAGE_SIMULATION(average_simulation ${PROJECT_BINARY_DIR})
+      set_target_properties(average_simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif (${AVERAGE_SIM})
 
     if (${GILLESPIE_SIM})
       GILLESPIE_SIMULATION(gillespie ${PROJECT_BINARY_DIR})

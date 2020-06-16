@@ -19,11 +19,13 @@ Minutes dense::Trapezoid_Simulation::age_by (Minutes duration) {
 CUDA_AGNOSTIC
 void dense::Trapezoid_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
     for (int i=0; i< NUM_SPECIES; i++){
+      auto curr_rate = rates[i];
       if (!_second_point_calculated) {
-        auto curr_rate = rates[i];
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
+        _prev_rates[i] = curr_rate;
       } else {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/2)*(rates[i] + next_rate_predicted(i, rates));
+        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/2)*(3*curr_rate - _prev_rates[i]);
+        _prev_rates[i] = curr_rate;
       }
     }
     if (!_first_point_calculated) {
@@ -31,10 +33,6 @@ void dense::Trapezoid_Simulation::update_concentrations(dense::Natural cell, Spe
     } else if (!_second_point_calculated) {
       _second_point_calculated = true;
     }
-}
-
-float dense::Trapezoid_Simulation::next_rate_predicted(int index, SpecieRates const& rates) {
-  return 2*rates[index] - _prev_rates[index];
 }
 
 dense::Trapezoid_Simulation::Trapezoid_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,

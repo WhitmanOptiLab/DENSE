@@ -16,7 +16,6 @@ typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
 class Trapezoid_Simulation : public Simulation, public Numerical_Integration {
   private:
-    float next_rate_predicted(int index, SpecieRates const& rates);
     double _prev_rates[NUM_SPECIES];
     bool _first_point_calculated = false;
     bool _second_point_calculated = false;

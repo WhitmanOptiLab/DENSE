@@ -1,5 +1,5 @@
 #include <cmath>
-#include "simpson.hpp"
+#include "avg.hpp"
 #include "num_sim.hpp"
 #include "model_impl.hpp"
 #include "baby_cl.hpp"
@@ -7,7 +7,7 @@
 #include <iostream>
 #include <cassert>
 
-dense::Simpson_Simulation::Simpson_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
+dense::Average_Simulation::Average_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
     Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
@@ -31,7 +31,7 @@ dense::Simpson_Simulation::Simpson_Simulation(const Parameter_Set& ps, Real* pnF
 
 
 
-void dense::Simpson_Simulation::step() {
+void dense::Average_Simulation::step() {
     for (dense::Natural k = 0; k < cell_count(); k++) {
       update_concentrations(k, calculate_concentrations(k));
     }
@@ -40,7 +40,7 @@ void dense::Simpson_Simulation::step() {
 }
 
 CUDA_AGNOSTIC
-void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
+void dense::Average_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
   //TODO: Implement Simpson's rule in this function
   //      it is currently left as the same implementation as Deterministic_Simulation,
   //      just to see what method was previously used.
@@ -53,7 +53,10 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
         _prev_rates[i] = curr_rate;
       } else {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/3)*((_curr_coeff-1)*_prev_rates[i] + curr_rate);
+        float s_val = _simpson_value(curr_rate, cell, i);
+        float e_val = _euler_value(curr_rate, cell, i);
+        float t_val = _trapezoid_value(curr_rate, cell, i);
+        _baby_cl.row_at(i, 1)[cell] =  e_val/3 + s_val/3 + t_val/3;
         _prev_rates[i] = curr_rate;
       }
     }
@@ -71,9 +74,20 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
     }
 }
 
+float dense::Average_Simulation::_simpson_value(float curr_rate, dense::Natural cell, int index) {
+  return _baby_cl.row_at(index, 0)[cell] + (_step_size / 3) * ((_curr_coeff - 1) * _prev_rates[index] + curr_rate);
+}
+
+float dense::Average_Simulation::_euler_value(float curr_rate, dense::Natural cell, int index) {
+  return _baby_cl.row_at(index, 0)[cell] + _step_size * curr_rate;
+}
+
+float dense::Average_Simulation::_trapezoid_value(float curr_rate, dense::Natural cell, int index) {
+  return _baby_cl.row_at(index, 0)[cell] + (_step_size / 2) * (3 * curr_rate - _prev_rates[index]);
+}
 
 CUDA_AGNOSTIC
-dense::Simpson_Simulation::SpecieRates dense::Simpson_Simulation::calculate_concentrations(dense::Natural cell) {
+dense::Average_Simulation::SpecieRates dense::Average_Simulation::calculate_concentrations(dense::Natural cell) {
     //Step 1: for each reaction, compute reaction rate
     CUDA_Array<Real, NUM_REACTIONS> reaction_rates;
     #define REACTION(name) reaction_rates[name] = dense::model::reaction_##name.active_rate(Context(*this, cell));
@@ -97,7 +111,7 @@ dense::Simpson_Simulation::SpecieRates dense::Simpson_Simulation::calculate_conc
 
 
 CUDA_AGNOSTIC
-Minutes dense::Simpson_Simulation::age_by (Minutes duration) {
+Minutes dense::Average_Simulation::age_by (Minutes duration) {
   //TODO: This should be able to stay as is, but confirm that the only real difference is in the definition of Step()
   assert(duration > 0 && t > 0 && _step_size > 0);
   dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
