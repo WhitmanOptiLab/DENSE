@@ -58,7 +58,8 @@ bool csvr::get_real(std::istream& iFile, Real* pnRate) {
   std::string tParam; int iLine = 0;
 
   char c;
-  while (iFile >> c) {
+  while (iFile.peek() != EOF) {
+      iFile.get(c);
       // Skip line comments
       if (c == '#') {
           iFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -66,13 +67,14 @@ bool csvr::get_real(std::istream& iFile, Real* pnRate) {
           ++iLine;
       }
       // Parse only if not whitespace except for \n
-      else if (c != ' ' && c != '\t')
-      {
+      else if (c != ' ' && c != '\t' && c != '\r'){
         // Ignore non-numeric, non data seperator, non e, -, and + characters
         if (!( (c >= '0' && c <= '9') || c == '.' || c == ',' || c == '\n' ||
-                c == 'e' || c == '-' || c == '+') )
-        {
-            iFile.ignore(std::numeric_limits<std::streamsize>::max(), ',');
+                c == 'e' || c == '-' || c == '+') ){
+            char temp;
+            do{
+              iFile.get(temp);
+            }while(!(temp == ',' || temp == '\n'));
             tParam.clear();
         }
         // If hit data seperator, add data to respective array
@@ -81,12 +83,11 @@ bool csvr::get_real(std::istream& iFile, Real* pnRate) {
           tParam += c;
         }
         else if (!tParam.empty()) {
-          char* tInvalidAt;
+          char* tInvalidAt = nullptr;
           Real tRate = strtold(tParam.c_str(), &tInvalidAt);
 
           // If found invalid while parsing
-          if (*tInvalidAt)
-          {
+          if (*tInvalidAt){
               std::cout << style::apply(Color::red) <<
                   "CSV parsing failed. Invalid data contained "
                   "at line " << "(unknown)" << "." <<
@@ -98,6 +99,7 @@ bool csvr::get_real(std::istream& iFile, Real* pnRate) {
           return true;
         }
       }
+      
 
       // Increment line counter
       if (c == '\n') {
