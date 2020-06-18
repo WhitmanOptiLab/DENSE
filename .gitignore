@@ -23,4 +23,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 build/
+DS_Store
+.DS_Store
 lemonade-build/
