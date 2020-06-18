@@ -7,7 +7,7 @@ DETERMINISTIC_SIMULATION(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/her2014_simulation)
-set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "her_test"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -17,7 +17,7 @@ add_test( "her_test"
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
 )
 
-set(cell_width_test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_width_test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 1 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_width_test"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -27,7 +27,7 @@ add_test( "cell_width_test"
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
-set(cell_width_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 50 --tissue-width 10 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_width_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 50 --tissue-width 10 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_width_test_01"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -38,7 +38,7 @@ add_test( "cell_width_test_01"
  )
 
 
-set(cell_width_test_02_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 10 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_width_test_02_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 10 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_width_test_02"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -49,7 +49,7 @@ add_test( "cell_width_test_02"
  )
 
 
-set(cell_number_test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 50 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_number_test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 50 --tissue-width 5 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_number_test"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
@@ -59,7 +59,7 @@ add_test( "cell_number_test"
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
-set(cell_number_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 200 --tissue-width 5 --time-total 3000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
+set(cell_number_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 200 --tissue-width 5 --time-total 60 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
 add_test( "cell_number_test_01"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
