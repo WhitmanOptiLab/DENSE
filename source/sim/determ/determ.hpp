@@ -41,9 +41,6 @@ class Deterministic_Simulation : public Simulation, public Numerical_Integration
     return std::isnan(avg) ? 0 : avg;
   }
 
-  CUDA_AGNOSTIC
-  Minutes age_by (Minutes duration) override;
-  
   //add_cell: takes two cells in virtual id form and makes new cell from the parent cells history
   void add_cell(Natural cell, Natural parent = 0){
     Natural cell_index = find_id(cell); //new_index is the physical id for the virtual cell
