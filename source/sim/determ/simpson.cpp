@@ -53,7 +53,12 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
         _prev_rates[i] = curr_rate;
       } else {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/3)*((_curr_coeff-1)*_prev_rates[i] + curr_rate);
+        auto next_rate_predicted = 2*curr_rate - _prev_rates[i];
+        if (_curr_coeff == 4) {
+          _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/4) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
+        } else {
+          _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/2) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
+        }
         _prev_rates[i] = curr_rate;
       }
     }
