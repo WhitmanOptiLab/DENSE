@@ -75,7 +75,12 @@ void dense::Average_Simulation::update_concentrations(dense::Natural cell, Speci
 }
 
 float dense::Average_Simulation::_simpson_value(float curr_rate, dense::Natural cell, int index) {
-  return _baby_cl.row_at(index, 0)[cell] + (_step_size / 3) * ((_curr_coeff - 1) * _prev_rates[index] + curr_rate);
+  auto next_rate_predicted = 2*curr_rate - _prev_rates[index];
+  if (_curr_coeff == 4) {
+    return _baby_cl.row_at(index, 0)[cell] + (_step_size/4) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
+  } else {
+    return _baby_cl.row_at(index, 0)[cell] + (_step_size/2) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
+  }
 }
 
 float dense::Average_Simulation::_euler_value(float curr_rate, dense::Natural cell, int index) {
