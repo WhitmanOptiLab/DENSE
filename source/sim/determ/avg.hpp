@@ -32,6 +32,12 @@ namespace dense {
     SpecieRates calculate_concentrations(dense::Natural cell);
 
     void step() override;
+      
+    virtual ~Average_Simulation() = default;
+      
+    Average_Simulation(Average_Simulation&&) = default;
+      
+    Average_Simulation & operator= (Average_Simulation&&) = default;
 
     dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const override {
       // Average the given cell's neighbors' concentrations
