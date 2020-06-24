@@ -1,0 +1,13 @@
+<analyses>
+	<anlys type="convergence">
+        <species>convergence_specie</species>
+        <anlys-intvl>.01</anlys-intvl>
+        <window-size>.5</window-size>
+        <threshold>.9</threshold>
+        <cell-start>0</cell-start>
+        <cell-end>99</cell-end>
+        <time-start>0</time-start>
+        <time-end>14</time-end>
+        <out-file>anlys_converge.csv</out-file>
+    </anlys>
+</analyses>
