@@ -205,6 +205,9 @@ void print_progress_bar(std::string previous, dense::Natural a, Real limit, int 
     //std::cout << std::endl;
   }
 }
+    
+    
+    
 
 #ifndef __cpp_concepts
 template <typename Simulation>
