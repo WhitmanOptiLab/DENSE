@@ -10,14 +10,14 @@ CUDA_AGNOSTIC
 Minutes dense::Deterministic_Simulation::age_by (Minutes duration) {
   assert(duration > 0 && t > 0 && _step_size > 0);
   dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
-  auto start = std::chrono::high_resolution_clock::now();
+  //auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);
   for (dense::Natural s = 0; s < steps; ++s) {
     step();
     Simulation::step(false);
   }
-  auto finish = std::chrono::high_resolution_clock::now();
-  std::cout<< "steps per second: "<<Simulation::get_performance(finish - start)<<std::endl;
+  //auto finish = std::chrono::high_resolution_clock::now();
+  //std::cout<< "steps per second: "<<Simulation::get_performance(finish - start)<<std::endl;
   return Simulation::age_by(duration);
 }
 
@@ -31,7 +31,7 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
 
 dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell) :
-    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell), 
+    Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell),
     Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
       //Copy and normalize _delays into _intDelays
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {

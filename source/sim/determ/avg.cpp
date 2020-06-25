@@ -27,7 +27,7 @@ dense::Average_Simulation::Average_Simulation(const Parameter_Set& ps, Real* pnF
           }
         }
       }
-    }
+}
 
 
 
@@ -51,12 +51,28 @@ void dense::Average_Simulation::update_concentrations(dense::Natural cell, Speci
       auto curr_rate = rates[i];
       if (!_second_point_calculated) {
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
+        if (!_second_point_calculated && _first_point_calculated) {
+          _prev_rate_of_rates[i] = (curr_rate-_prev_rates[i])/(_step_size);
+        }
         _prev_rates[i] = curr_rate;
       } else {
+        double rate_of_rates = 2*_prev_rate_of_rates[i] - _last_rate_of_rates[i];
         float s_val = _simpson_value(curr_rate, cell, i);
         float e_val = _euler_value(curr_rate, cell, i);
         float t_val = _trapezoid_value(curr_rate, cell, i);
-        _baby_cl.row_at(i, 1)[cell] =  e_val/3 + s_val/3 + t_val/3;
+        float r_val = _retian_value(curr_rate, cell, i, rate_of_rates);
+        _baby_cl.row_at(i, 1)[cell] =  e_val/4 + s_val/4 + t_val/4 + r_val/4;
+
+
+        //TESTING
+        /*
+        double rate_of_rates = 2*_prev_rate_of_rates[i] - _last_rate_of_rates[i];
+
+        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size*(curr_rate + _step_size*rate_of_rates);
+        */
+
+        _last_rate_of_rates[i] = _prev_rate_of_rates[i];
+        _prev_rate_of_rates[i] = rate_of_rates;
         _prev_rates[i] = curr_rate;
       }
     }
@@ -72,6 +88,10 @@ void dense::Average_Simulation::update_concentrations(dense::Natural cell, Speci
     } else {
       _curr_coeff = 4;
     }
+}
+
+float dense::Average_Simulation::_retian_value(float curr_rate, dense::Natural cell, int index, double rate_of_rates) {
+  return _baby_cl.row_at(index, 0)[cell] + _step_size*(curr_rate + _step_size*rate_of_rates);
 }
 
 float dense::Average_Simulation::_simpson_value(float curr_rate, dense::Natural cell, int index) {
