@@ -9,6 +9,9 @@
 #include "core/specie.hpp"
 #include "core/parameter_set.hpp"
 
+#include <array>
+#include <vector>
+
 namespace dense {
 
 class Simulation;

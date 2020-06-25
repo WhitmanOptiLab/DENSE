@@ -27,6 +27,9 @@ class Deterministic_Simulation : public Simulation, public Numerical_Integration
   void update_concentrations(dense::Natural cell, SpecieRates const& rates) override;
   CUDA_AGNOSTIC
   SpecieRates calculate_concentrations(dense::Natural cell);
+  Deterministic_Simulation(Deterministic_Simulation&&) = default;
+  Deterministic_Simulation & operator= (Deterministic_Simulation&&) = default;
+  virtual ~Deterministic_Simulation() = default;
   void step() override;
   CUDA_AGNOSTIC
   Minutes age_by (Minutes duration) override;

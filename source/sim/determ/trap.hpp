@@ -32,6 +32,12 @@ class Trapezoid_Simulation : public Simulation, public Numerical_Integration {
   SpecieRates calculate_concentrations(dense::Natural cell);
 
   void step() override;
+    
+  virtual ~Trapezoid_Simulation() = default;
+    
+  Trapezoid_Simulation(Trapezoid_Simulation&&) = default;
+    
+  Trapezoid_Simulation & operator= (Trapezoid_Simulation&&) = default;
 
   CUDA_AGNOSTIC
   Minutes age_by (Minutes duration) override;
