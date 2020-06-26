@@ -118,7 +118,7 @@ dense::Average_Simulation::SpecieRates dense::Average_Simulation::calculate_conc
 CUDA_AGNOSTIC
 Minutes dense::Average_Simulation::age_by (Minutes duration) {
   //TODO: This should be able to stay as is, but confirm that the only real difference is in the definition of Step()
-  assert(duration > 0 && t > 0 && _step_size > 0);
+  assert(duration > (Minutes)0 && _step_size > 0);
   dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
   for (dense::Natural s = 0; s < steps; ++s) {
     step();
