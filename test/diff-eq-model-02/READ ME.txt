@@ -1,0 +1,25 @@
+The equations used in this model, along with initial conditions, are as follows:
+
+x_1' = x_1 - x_2
+
+x_2' = -x_1 - 0.5*x_2
+
+x_1(0) = 10
+
+x_2(0) = 12
+
+x_1(t) = (34/5)e^(-t) + (16/5)e^((3/2)t)
+
+x_2(t) = (68/5)e^(-t) - (8/5)e^((3/2)t)
+
+To run a single simulation with the initial conditions, run:
+
+./<simulation type> -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.01 -s 0.01 -e "<simulation type>_output.csv"
+
+To run all simulations, copy and paste the following:
+
+step size = 0.01
+./simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.01 -s 0.01 -e "euler_output.csv" && ./simpson_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.01 -s 0.01 -e "simpson_output.csv" && ./trapezoid_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.01 -s 0.01 -e "trapezoid_output.csv" && ./average_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.01 -s 0.01 -e "average_output.csv"
+
+step size = 0.1
+./simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.1 -s 0.1 -e "euler_output.csv" && ./simpson_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.1 -s 0.1 -e "simpson_output.csv" && ./trapezoid_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.1 -s 0.1 -e "trapezoid_output.csv" && ./average_simulation -d ./init_conc.csv -p ./param_set.csv -c 2 -w 2 -t 1.01 -u 0.1 -s 0.1 -e "average_output.csv"
