@@ -1,5 +1,7 @@
+add_subdirectory(numdiff-5.9.0)
 add_subdirectory(her_model_2014)
 add_subdirectory(simple_convergence_test)
+add_subdirectory(stochastic_convergence_test)
 add_subdirectory(Nan_Test)
 add_subdirectory(time_test)
 #add_subdirectory(new_model)
