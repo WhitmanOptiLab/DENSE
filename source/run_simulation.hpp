@@ -15,6 +15,7 @@
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "measurement/details.hpp"
+#include "progress.hpp"
 
 using style::Color;
 
@@ -86,7 +87,6 @@ void run_simulation(
 
 
 std::string line_of_progress;
-void print_progress_bar(std::string previous, dense::Natural a, Real limit, int pos);
 
 #ifndef __cpp_concepts
 template <typename Simulation>
@@ -138,8 +138,12 @@ void run_simulation(
 
     Real analysis_chunks = duration / notify_interval;
     int notifications_per_min = decltype(duration)(1.0) / notify_interval;
-
-    for (dense::Natural a = 0; a < analysis_chunks; a++) {
+    
+    dense::Natural a = 0;
+    Progress p(line_of_progress, a, analysis_chunks);
+    for (a = 0; a < analysis_chunks; a++) {
+      p.set_line_of_progress(line_of_progress);
+      p.set_n(a);
       std::vector<Simulation const*> bad_simulations;
       for (auto& callback : callbacks) {
         try {
@@ -161,12 +165,15 @@ void run_simulation(
         simulations.pop_back();
       }
 
+        if (a % notifications_per_min == 0) {
+            //int pos = (age / Minutes{1});
+            
+            p.print_progress_bar();
+        }
       for (auto & simulation : simulations) {
         auto age = simulation.age_by(notify_interval);
-        if (a % notifications_per_min == 0) {
-          int pos = (age / Minutes{1});
-          print_progress_bar(line_of_progress, a, analysis_chunks, pos);
-        }
+        int pos = (age / Minutes{1});
+        pos = 0;
       }
     }
 
@@ -175,38 +182,6 @@ void run_simulation(
       callback.analysis->show(&callback.log);
     }
 }
-
-void print_progress_bar(std::string previous, dense::Natural a, Real limit, int pos){
-  string currline = "[";
-  int barWidth = 70;
-  //std::cout << "[";
-
-
-  pos = barWidth * (a / limit);
-  for (int i = 0; i < barWidth; ++i){
-    if (i < pos){
-      //std::cout << "=";
-      currline += "=";
-
-    } else if (i == pos){
-      //std::cout << ">";
-      currline += ">";
-    } else {
-      //std::cout << " ";
-      currline += " ";
-    }
-  }
-  currline += "] ";
-  if (previous.compare(currline) != 0){
-
-    previous = currline;
-    std::cout << currline << int(100 * a / limit) << " %\r";
-    std::cout.flush();
-    //std::cout << std::endl;
-  }
-}
-    
-    
     
 
 #ifndef __cpp_concepts

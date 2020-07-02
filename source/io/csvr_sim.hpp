@@ -14,7 +14,7 @@ class CSV_Streamed_Simulation : public csvr, public Simulation // <- order impor
 {
   public:
 
-    CSV_Streamed_Simulation(std::string const& pcfFileName, std::vector<Species> const& pcfSpecieVec);
+    CSV_Streamed_Simulation(std::string const& pcfFileName);
 
     CSV_Streamed_Simulation(CSV_Streamed_Simulation&&) = default;
     CSV_Streamed_Simulation& operator=(CSV_Streamed_Simulation&&) = default;
