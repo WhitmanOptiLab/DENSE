@@ -171,9 +171,7 @@ void run_simulation(
             p.print_progress_bar();
         }
       for (auto & simulation : simulations) {
-        auto age = simulation.age_by(notify_interval);
-        int pos = (age / Minutes{1});
-        pos = 0;
+        (void) age = simulation.age_by(notify_interval);
       }
     }
 
