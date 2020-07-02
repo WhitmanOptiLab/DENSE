@@ -20,9 +20,12 @@ namespace dense {
     bool _first_point_calculated = false;
     bool _second_point_calculated = false;
     double _prev_rates[NUM_SPECIES];
+    double _prev_rate_of_rates[NUM_SPECIES];
+    double _last_rate_of_rates[NUM_SPECIES];
     float _simpson_value(float curr_rate, dense::Natural cell, int index);
     float _euler_value(float curr_rate, dense::Natural cell, int index);
     float _trapezoid_value(float curr_rate, dense::Natural cell, int index);
+    float _retian_value(float curr_rate, dense::Natural cell, int index, double rate_of_rates);
   public:
     using Context = dense::Context<Average_Simulation>;
     Average_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
