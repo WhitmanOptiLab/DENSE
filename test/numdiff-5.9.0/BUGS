@@ -1,0 +1,22 @@
+Bug reports have to be sent to the address
+<ivprimi(at)libero(dot)it> . Please, put Numdiff
+in the subject and indicate the version of the operating system you
+are running (in particular, do not forget to specify if
+it is a 32- or a 64-bit system), and, if you know it, 
+the version of the compiler used to build Numdiff.
+Please write also whether your version of Numdiff uses the
+GNU MP library or not.
+Before writing an email be sure to run the latest
+stable version of Numdiff, I do not provide
+support for older versions.
+
+-------------------------------------------------------------------------------
+
+Known issues
+============
+
+Numdiff cannot be successfully installed if the target directory chosen
+for the installation is a directory whose path includes one or more spaces.
+This is not an issue of Numdiff but of GNU shtool, which is used to
+perform the installation in a portable way.
+Thanks to Tim Jenness for having reported this problem.
