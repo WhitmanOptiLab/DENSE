@@ -171,7 +171,7 @@ void run_simulation(
             p.print_progress_bar();
         }
       for (auto & simulation : simulations) {
-        (void) age = simulation.age_by(notify_interval);
+        (void) simulation.age_by(notify_interval);
       }
     }
 
@@ -180,126 +180,9 @@ void run_simulation(
       callback.analysis->show(&callback.log);
     }
 }
+}
     
 
-#ifndef __cpp_concepts
-template <typename Simulation>
-#else
-template <Simulation_Concept Simulation>
-#endif
-std::vector<std::vector<Real>> run_and_return_analyses(
-    std::chrono::duration<Real, std::chrono::minutes::period> duration,
-    std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
-    std::vector<Simulation> simulations,
-    const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries);
 
-
-#ifndef __cpp_concepts
-template <typename Simulation>
-#else
-template <Simulation_Concept Simulation>
-#endif
-std::vector<std::vector<Real>> run_and_return_analyses(
-      std::chrono::duration<Real, std::chrono::minutes::period> duration,
-      std::chrono::duration<Real, std::chrono::minutes::period> notify_interval,
-      std::vector<Simulation> simulations,
-      const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries){
-
-
-  struct Callback {
-                Callback(
-                std::unique_ptr<Analysis<Simulation>> analysis,
-                Simulation & simulation,
-                csvw log
-                ) noexcept :
-                analysis   { std::move(analysis) },
-                simulation { std::addressof(simulation) },
-                log        { std::move(log) }
-                {
-                }
-
-                void operator()() {
-                  analysis->when_updated_by(*simulation, log.stream());
-                }
-
-                std::unique_ptr<Analysis<Simulation>> analysis;
-                Simulation* simulation;
-                csvw log;
-
-            };
-            std::vector<Callback> callbacks;
-                // If multiple sets, set file name to "x_####.y"
-            for (std::size_t i = 0; i < simulations.size(); ++i) {
-                for (auto& name_and_analysis : analysis_entries) {
-                auto& out_file = name_and_analysis.first;
-                callbacks.emplace_back(
-                    std::unique_ptr<Analysis<Simulation>>(name_and_analysis.second->clone()),
-                    simulations[i],
-                    out_file.empty() ? csvw(std::cout) :
-                    csvw(simulations.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
-                }
-            }
-              // End all observer preparation
-
-              // ========================= RUN THE SHOW =========================
-
-              Real analysis_chunks = duration / notify_interval;
-              int size_callbacks = callbacks.size();
-
-              for (dense::Natural a = 0; a < analysis_chunks; a++) {
-                  std::vector<Simulation const*> bad_simulations;
-                  for (auto& callback : callbacks) {
-                    try {
-                        callback();
-                    }
-                    catch (dense::Bad_Simulation_Error<Simulation>& error) {
-                        bad_simulations.push_back(std::addressof(error.simulation()));
-                    }
-                  }
-                  for (auto& bad_simulation : bad_simulations) {
-                    auto has_bad_simulation = [=](Callback const& callback) {
-                        return callback.simulation == bad_simulation;
-                    };
-                    callbacks.erase(
-                        std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
-                        callbacks.end());
-                    using std::swap;
-                    swap(simulations[bad_simulation - simulations.data()], simulations.back());
-                    simulations.pop_back();
-                  }
-
-                  for (auto & simulation : simulations) {
-                  (void) simulation.age_by(notify_interval);
-                  }
-              }
-
-      std::vector<std::vector<Real>> analyses;
-              size_t conc_size = callbacks[0].analysis->get_details().concs.size();
-
-
-              for (auto& callback : callbacks) {
-                  callback.analysis->finalize();
-                 //     callback.analysis->show(&callback.log);
-
-                  Details analysis_details = callback.analysis->get_details();
-                  std::vector<Real> to_insert;
-                  for(size_t i = 0; i < analysis_details.concs.size(); i++){
-                    to_insert.push_back(analysis_details.concs[i]);
-                  }
-                  analyses.push_back(to_insert);
-              }
-
-              for (int i = analyses.size(); i < size_callbacks; i++){
-                  //std::vector<Real> to_insert(conc_size, 0);
-                  analyses.emplace_back(conc_size, 0);
-                  std::cout << "insert one \n";
-              }
-  return analyses;
-
-}
-
-
-
-}
 
 #endif

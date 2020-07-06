@@ -170,6 +170,7 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
+	  ${DENSE_SOURCE_DIR}/source/in_memory_log.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
@@ -247,6 +248,11 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
       set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${NEXTREACTION_SIM})
+    if (${IN_MEM_LOG})
+      IN_MEMORY_LOG(simulation ${PROJECT_BINARY_DIR})
+      set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif (${IN_MEM_LOG})
+
 
     if (${CUDA_FOUND})
       if (${CUDA_SIM})

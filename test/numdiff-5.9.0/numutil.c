@@ -217,12 +217,12 @@ snum (const char *str, const struct numfmt* pnf,
 
   digits = strscale = 0;
   length = strlen(pnf->currency); 
-  if ( (*ptr == pnf->pos_sign) )
+  if (*ptr == pnf->pos_sign)
     {
       pcform->sgn = POS_SIGN;
       move_ahead(ptr);
     }
-  else if ( (*ptr == pnf->neg_sign) )
+  else if (*ptr == pnf->neg_sign)
     {
       pcform->sgn = NEG_SIGN;
       move_ahead(ptr);
