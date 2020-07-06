@@ -11,7 +11,7 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
                         std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }) :
         Analysis<Simulation>(pcfSpecieOption, cell_range, time_range),  
         finalized(false),
-        iSpecieVec(pcfSpecieOption)
+        iSpecieVec(pcfSpecieOption))
     {
         time = 0;
     }
@@ -85,24 +85,18 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
         return iCellEnd;
     }
      
-    void age_by (Minutes duration) {
-        Minutes stopping_time = age() + duration;
-        while (age() < stopping_time) {
-            iRate.resize(cell_count());
-            for (dense::Natural cell = iCellStart; cell < iCellEnd; ++cell) {
-                age_by((iTimeCol ? Minutes{ csvr::next<Real>() } : stopping_time) - age());
-                for (auto & species : iSpecieVec) {
-                    iRate[cell][species] = csvr::next<Real>();
-                }
-            }
-            iRate.clear();
-        }
-        return age();
+    Minutes age_by (Minutes duration) override{
+        assert(duration > (Minutes)0 && _step_size > 0);
+        dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
+        
+        
+        return Simulation::age_by(duration);
     }
 
   private:
     std::vector<std::vector<std::vector<Real>>> concentrations;
     dense::Natural time;
+    dense::Natural current;
     bool finalized;
 
     std::vector<Species> iSpecieVec;
