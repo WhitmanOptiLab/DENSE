@@ -8,10 +8,12 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
 
     in_memory_log(std::vector<Species> const& pcfSpecieOption, 
                         std::pair<dense::Natural, dense::Natural> cell_range, 
-                        std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }) :
+                        std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }),
+                        std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval :
         Analysis<Simulation>(pcfSpecieOption, cell_range, time_range),  
         finalized(false),
-        iSpecieVec(pcfSpecieOption))
+        iSpecieVec(pcfSpecieOption),
+        analysis_interval(analysis_interval)
     {
         time = 0;
     }
@@ -26,6 +28,7 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
         if(!finalized){
             finalized = true;
         }
+        time = 0;
     }
 
     void show (csvw *csv_out = nullptr) override{
@@ -72,7 +75,7 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
     }
 
     Real get_concentration(dense::Natural cell, specie_id species, dense::Natural) const {
-      return concentrations[cell][species];
+      return concentrations[cell][species][time];
     }
 
     int getCellStart()
@@ -84,25 +87,40 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
     {
         return iCellEnd;
     }
+
+    void to_minutes(dense:Natural time){
+        return (Minutes)(time * analysis_interval)
+    }
+
+    void to_natural(Minutes time){
+        return (dense::Natural)(time / analysis_interval)
+    }
      
-    Minutes age_by (Minutes duration) override{
-        assert(duration > (Minutes)0 && _step_size > 0);
-        dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
-        
-        
-        return Simulation::age_by(duration);
+    void age_by (Minutes duration) {
+        Minutes total_time = to_minutes(time) + duration;
+        time = to_natural(total_time);
+        /*
+        Minutes stopping_time = age() + duration;
+        while (age() < stopping_time) {
+            iRate.resize(cell_count());
+            for (dense::Natural cell = iCellStart; cell < iCellEnd; ++cell) {
+                age_by((iTimeCol ? Minutes{ csvr::next<Real>() } : stopping_time) - age());
+                for (auto & species : iSpecieVec) {
+                    iRate[cell][species] = csvr::next<Real>();
+                }
+            }
+            iRate.clear();
+        }
+        return age();
+        */
     }
 
   private:
     std::vector<std::vector<std::vector<Real>>> concentrations;
     dense::Natural time;
-    dense::Natural current;
     bool finalized;
+    std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
 
     std::vector<Species> iSpecieVec;
-    bool iTimeCol;
     Natural iCellStart, iCellEnd;
-    std::vector<std::map<specie_id, Real>> iRate;
-
-
 };
