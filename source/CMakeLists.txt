@@ -90,6 +90,13 @@ function(STOCH_NR_SIMULATION localname simdir)
   SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/Next_Reaction_Main.cpp)
 endfunction(STOCH_NR_SIMULATION localname simdir)
 
+function(LOG_DATA_IMPORTS localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/log_data_imports.cpp)
+endfunction(LOG_DATA_IMPORTS localname simdir)
+
+function(IN_MEMORY_LOG localname simdir)
+  SIMULATION(${localname} ${simdir} ${DENSE_SOURCE_DIR}/source/in_memory_log_main.cpp)
+endfunction(IN_MEMORY_LOG localname simdir)
 
 function(PARAMSEARCH localname simdir)
   SIMCORELIB(${localname}_lib ${simdir})
@@ -124,6 +131,7 @@ function(PARAM_SEARCH_MPI_LIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/arg_parse.hpp
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
+	  ${DENSE_SOURCE_DIR}/source/run_analysis_only.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
           ${DENSE_SOURCE_DIR}/source/search/sres.cpp
           ${DENSE_SOURCE_DIR}/source/search/libsres-mpi/ESES.cpp
@@ -162,6 +170,7 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
+	  ${DENSE_SOURCE_DIR}/source/in_memory_log.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
@@ -239,6 +248,11 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       STOCH_NR_SIMULATION(nextreaction ${PROJECT_BINARY_DIR})
       set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${NEXTREACTION_SIM})
+    if (${IN_MEM_LOG})
+      IN_MEMORY_LOG(inmemorylog ${PROJECT_BINARY_DIR})
+      set_target_properties(inmemorylog PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif (${IN_MEM_LOG})
+
 
     if (${CUDA_FOUND})
       if (${CUDA_SIM})

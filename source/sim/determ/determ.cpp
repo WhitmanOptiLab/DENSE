@@ -8,7 +8,7 @@
 
 CUDA_AGNOSTIC
 Minutes dense::Deterministic_Simulation::age_by (Minutes duration) {
-  assert(duration > 0 && t > 0 && _step_size > 0);
+  assert(duration > (Minutes)0 && _step_size > 0);
   dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
   //auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);

@@ -117,3 +117,18 @@ dense::Simpson_Simulation::SpecieRates dense::Simpson_Simulation::calculate_conc
 
     return specie_deltas;
 }
+<<<<<<< HEAD
+=======
+
+
+CUDA_AGNOSTIC
+Minutes dense::Simpson_Simulation::age_by (Minutes duration) {
+  //TODO: This should be able to stay as is, but confirm that the only real difference is in the definition of Step()
+  assert(duration > (Minutes)0 && _step_size > 0);
+  dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
+  for (dense::Natural s = 0; s < steps; ++s) {
+    step();
+  }
+  return Simulation::age_by(duration);
+}
+>>>>>>> 266855deff36cb4a44ce96faf516a2223d39307e
