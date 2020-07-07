@@ -6,38 +6,7 @@
 #include <iostream>
 #include <cassert>
 
-<<<<<<< HEAD
-=======
-CUDA_AGNOSTIC
-Minutes dense::Trapezoid_Simulation::age_by (Minutes duration) {
-  assert(duration > (Minutes)0 && _step_size > 0);
-  dense::Natural steps = (duration /*+ std::remainder(t, _step_size)*/) / Minutes{ _step_size };
-  for (dense::Natural s = 0; s < steps; ++s) {
-    step();
-  }
-  return Simulation::age_by(duration);
-}
 
-CUDA_AGNOSTIC
-void dense::Trapezoid_Simulation::update_concentrations(dense::Natural cell, SpecieRates const& rates) {
-    for (int i=0; i< NUM_SPECIES; i++){
-      auto curr_rate = rates[i];
-      if (!_second_point_calculated) {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
-        _prev_rates[i] = curr_rate;
-      } else {
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + (_step_size/2)*(3*curr_rate - _prev_rates[i]);
-        _prev_rates[i] = curr_rate;
-      }
-    }
-    if (!_first_point_calculated) {
-      _first_point_calculated = true;
-    } else if (!_second_point_calculated) {
-      _second_point_calculated = true;
-    }
-}
-
->>>>>>> 266855deff36cb4a44ce96faf516a2223d39307e
 dense::Trapezoid_Simulation::Trapezoid_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
