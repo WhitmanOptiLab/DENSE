@@ -97,6 +97,7 @@ const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>
         // ========================= RUN THE SHOW =========================
         
         Real analysis_chunks = duration / notify_interval;
+        int notifications_per_min = decltype(duration)(1.0) / notify_interval;
         int size_callbacks = callbacks.size();
     
         dense::Natural a = 0;
@@ -131,9 +132,9 @@ const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>
                 p.print_progress_bar();
             }
             for (auto & simulation : simulations) {
-                void age = simulation.age_by(notify_interval);
-                int pos = (age / Minutes{1});
-                pos = 0;
+                (void) simulation.age_by(notify_interval);
+                //int pos = (age / Minutes{1});
+                //pos = 0;
             }
         }
         
