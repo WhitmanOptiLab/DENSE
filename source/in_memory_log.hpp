@@ -88,11 +88,11 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
         return iCellEnd;
     }
 
-    void to_minutes(dense:Natural time){
+    Minutes to_minutes(dense:Natural time){
         return (Minutes)(time * analysis_interval)
     }
 
-    void to_natural(Minutes time){
+    dense::Natural to_natural(Minutes time){
         return (dense::Natural)(time / analysis_interval)
     }
      
