@@ -4,7 +4,7 @@
 
 namespace dense {
 
-CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName, std::vector<Species> const& pcfSpecieVec) :
+CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName) :
     csvr(pcfFileName), Simulation()
 {
     cell_count() = csvr::next<dense::Natural>();
@@ -20,14 +20,7 @@ CSV_Streamed_Simulation::CSV_Streamed_Simulation(std::string const& pcfFileName,
         csvr::get_next(&t);
         if (t > 0)
         {
-            for (std::size_t j = 0; j < pcfSpecieVec.size(); j++)
-            {
-                if (pcfSpecieVec[j] == (specie_id) i)
-                {
-                    iSpecieVec.push_back((specie_id) i);
-                    break;
-                }
-            }
+            iSpecieVec.push_back((specie_id) i);
         }
     }
 }
