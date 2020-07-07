@@ -249,8 +249,8 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       set_target_properties(nextreaction PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${NEXTREACTION_SIM})
     if (${IN_MEM_LOG})
-      IN_MEMORY_LOG(simulation ${PROJECT_BINARY_DIR})
-      set_target_properties(simulation PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+      IN_MEMORY_LOG(inmemorylog ${PROJECT_BINARY_DIR})
+      set_target_properties(inmemorylog PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${IN_MEM_LOG})
 
 
