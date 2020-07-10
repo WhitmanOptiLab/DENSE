@@ -3,14 +3,15 @@
 
 #include "base.hpp"
 
-class in_memory_log : public Analysis<Simulation>, public Simulation{
+template <typename Sim>
+class in_memory_log : public Analysis<Sim>, public Simulation{
   public:
 
     in_memory_log(std::vector<Species> const& pcfSpecieOption, 
                         std::pair<dense::Natural, dense::Natural> cell_range, 
                         std::pair<Real, Real> time_range = { 0, std::numeric_limits<Real>::infinity() }),
                         std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval :
-        Analysis<Simulation>(pcfSpecieOption, cell_range, time_range),  
+        Analysis<Sim>(pcfSpecieOption, cell_range, time_range),  
         finalized(false),
         iSpecieVec(pcfSpecieOption),
         analysis_interval(analysis_interval)
@@ -64,7 +65,7 @@ class in_memory_log : public Analysis<Simulation>, public Simulation{
     */
 
     //get concentration of each species at a time t
-    void update(Simulation& simulation, std::ostream&) override {
+    void update(Sim& simulation, std::ostream&) override {
         for (Natural cell_no = this->min; cell_no < this->max; ++cell_no) {
             for (std::size_t i = 0; i < this->observed_species_.size(); ++i) {
   		        Real concentration = simulation.get_concentration(cell_no, this->observed_species_[i]);
