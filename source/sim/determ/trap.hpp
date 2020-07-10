@@ -16,7 +16,7 @@ typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
 class Trapezoid_Simulation : public Simulation, public Numerical_Integration {
   private:
-    double _prev_rates[NUM_SPECIES];
+    std::vector<vector<double>> _prev_rates;
     bool _first_point_calculated = false;
     bool _second_point_calculated = false;
 
@@ -32,11 +32,11 @@ class Trapezoid_Simulation : public Simulation, public Numerical_Integration {
   SpecieRates calculate_concentrations(dense::Natural cell);
 
   void step() override;
-    
+
   virtual ~Trapezoid_Simulation() = default;
-    
+
   Trapezoid_Simulation(Trapezoid_Simulation&&) = default;
-    
+
   Trapezoid_Simulation & operator= (Trapezoid_Simulation&&) = default;
 
   CUDA_AGNOSTIC

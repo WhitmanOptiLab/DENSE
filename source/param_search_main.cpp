@@ -51,6 +51,7 @@ Avoid putting functions in main.cpp that could be put in a more specific file.
 #include "arg_parse.hpp"
 #include "parse_analysis_entries.hpp"
 #include "measurement/details.hpp"
+#include "run_analysis_only.hpp"
 
 #include <chrono>
 #include <cstdlib>
@@ -73,20 +74,20 @@ using dense::Sim_Builder;
 using dense::param_search_parse_static_args;
 using dense::parse_analysis_entries;
 using dense::Param_Static_Args;
-using dense::run_and_return_analyses;
+using dense::run_analysis_only;
 using dense::Details;
 int printing_precision = 6;
 
 std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population, std::vector<Real> real_results, Sim_Builder<Fast_Gillespie_Direct_Simulation> sim, Param_Static_Args a, const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Fast_Gillespie_Direct_Simulation>>>> &analysisEntries) {
-	
+
   using Simulation = Fast_Gillespie_Direct_Simulation;
   std::vector<double> scores;
-  auto simulation_means = run_and_return_analyses<Simulation>(a.simulation_duration, a.analysis_interval, sim.get_simulations(population),analysisEntries);	
+  auto simulation_means = run_analysis_only<Simulation>(a.simulation_duration, a.analysis_interval, sim.get_simulations(population),analysisEntries);
 
   std::cout << "simsize: " << simulation_means[0].size() << " rstsize: "<< real_results.size() << "\n";
 
   for(size_t i = 0; i < simulation_means.size(); i++){
-    double sse  = 0.0;	
+    double sse  = 0.0;
     for(std::size_t j = 0;  j < simulation_means[i].size(); j++){
 
       sse += ((real_results[j] - simulation_means[i][j])*(real_results[j] - simulation_means[i][j]));
@@ -108,29 +109,29 @@ std::vector<double> her2014_scorer (const std::vector<Parameter_Set>& population
 	todo:
 */
 int main (int argc, char** argv) {
-	
+
 	//Init Simulation Object
 	Param_Static_Args args = param_search_parse_static_args(argc, argv);
-	
+
   if(args.help == 1){
     return EXIT_SUCCESS;
   }
-  
+
   if(args.help == 2){
     return EXIT_FAILURE;
   }
-	
+
   using Simulation = Fast_Gillespie_Direct_Simulation;
-  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, argc, argv); 
-	
+  Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, argc, argv);
+
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries(parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
-	
-  std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer = 
+
+  std::function<std::vector<Real>(const std::vector<Parameter_Set>&)> SRESscorer =
     [&](const std::vector<Parameter_Set>& population) {
-		
+
 	    return her2014_scorer(population, args.real_input, sim, args, analysis_entries);
 	  };
-	
+
   SRES sres_driver(args.pop, args.parent, args.num_generations, args.lbounds, args.ubounds, SRESscorer);
 
 	// Run libSRES
