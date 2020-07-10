@@ -19,21 +19,23 @@ namespace dense {
     int _curr_coeff = 1;
     bool _first_point_calculated = false;
     bool _second_point_calculated = false;
-    double _prev_rates[NUM_SPECIES];
+    std::vector<vector<double>> _prev_rates;
+    std::vector<vector<double>> _last_rates;
+
   public:
     using Context = dense::Context<Simpson_Simulation>;
     Simpson_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph);
-                    
+
     CUDA_AGNOSTIC
     SpecieRates calculate_concentrations(dense::Natural cell);
 
     void step() override;
-      
+
     virtual ~Simpson_Simulation() = default;
-      
+
     Simpson_Simulation(Simpson_Simulation&&) = default;
-      
+
     Simpson_Simulation & operator= (Simpson_Simulation&&) = default;
 
     dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const override {
