@@ -22,6 +22,7 @@
 #include "io/ezxml/ezxml.h"
 #include "measurement/details.hpp"
 #include "progress.hpp"
+#include "Callback.hpp"
 
 using style::Color;
 
@@ -62,28 +63,7 @@ template <Simulation_Concept Simulation>
 std::vector<std::vector<Real>> run_analysis_only(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations,
 const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries){
         
-        
-        struct Callback {
-            Callback(
-                     std::unique_ptr<Analysis<Simulation>> analysis,
-                     Simulation & simulation,
-                     csvw log
-                     ) noexcept :
-            analysis   { std::move(analysis) },
-            simulation { std::addressof(simulation) },
-            log        { std::move(log) }
-            {
-            }
-            
-            void operator()() {
-                analysis->when_updated_by(*simulation, log.stream());
-            }
-            
-            std::unique_ptr<Analysis<Simulation>> analysis;
-            Simulation* simulation;
-            csvw log;
-            
-        };
+    
         std::vector<Callback> callbacks;
         // If multiple sets, set file name to "x_####.y"
         for (std::size_t i = 0; i < simulations.size(); ++i) {
