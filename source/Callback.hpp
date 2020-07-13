@@ -44,15 +44,37 @@ using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 using dense::Details;
 
-
+template <typename Simulation>
 class Callback{
     public:
-        Callback(std::unique_ptr<Analysis<Simulation>> analysis, Simulation & simulation, csvw log) noexcept : analysis   { std::move(analysis) }, simulation { std::addressof(simulation) }, log { std::move(log) };
+        Callback(std::unique_ptr<Analysis<Simulation>> analysis, Simulation * simulation, csvw log) noexcept : analysis   { std::move(analysis) }, simulation(simulation), log { std::move(log) }
+        {
+        };
     
-    
+        std::unique_ptr<Analysis<Simulation>> get_analysis(){
+            return std::move(analysis);
+        }
+
+        Details get_details(){
+            return analysis->get_details();
+        }
+
+        void finalize(){
+            analysis->finalize();
+        }
+
+        const Simulation* get_simulation() const{
+            return simulation;
+        }
+
         void operator()(){
             analysis->when_updated_by(*simulation, log.stream());
         }
+
+        virtual ~Callback() = default;
+        Callback(Callback&&)  = default;
+        Callback & operator= (Callback&&) = default;
+
     private:
         std::unique_ptr<Analysis<Simulation>> analysis;
         Simulation* simulation;

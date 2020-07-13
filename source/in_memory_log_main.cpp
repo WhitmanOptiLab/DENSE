@@ -76,40 +76,27 @@ int main(int argc, char* argv[]){
     
     Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
 
-    in_memory_log buffer = in_memory_log();
+    std::vector<Species> species_list;
+    #define SPECIE(name) species_list.push_back(name);
+    #include "specie_list.hpp"
+    #undef SPECIE
+
     std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> buffer_analysis_form;
 
-    for (ezxml_t anlys = ezxml_child(config, "anlys"); anlys != nullptr; anlys = anlys->next){
-        std::vector<Species> specie_option = str_to_species(xml_child_text(anlys, "species"));
-        std::string out_file = xml_child_text(anlys, "out-file");
-        std::pair<dense::Natural, dense::Natural> cell_range = {
-        std::stold(xml_child_text(anlys, "cell-start")),
-        std::stold(xml_child_text(anlys, "cell-end"))
-        };
-        std::pair<Real, Real> time_range = {
-        std::stold(xml_child_text(anlys, "time-start")),
-        std::stold(xml_child_text(anlys, "time-end"))
-        };
-    } 
-
-    //new function?
-    std::string xml_child_text(ezxml_t xml, char const* name, std::string default_ = "") {
-         ezxml_t child = ezxml_child(xml, name);
-        return child == nullptr ? default_ : child->txt;
-    }
-
-    //how to get cell_range, species vector, time_range?, does this go into the for loop above? only one thing in vector?
-    buffer_analysis_form.emplace_back(out_file, std14::make_unique<in_memory_log<Simulation>>(
-            specie_option, cell_range, time_range));
+    buffer_analysis_form.emplace_back("", std14::make_unique<in_memory_log<Simulation> >(
+            species_list, std::make_pair<dense::Natural, dense::Natural>(0, args.adj_graph.num_vertices()), args.analysis_interval));
 
     //vector of call backs or analysis, myans new function
-    std::vector in_memory_log_returns= run_analysis_only<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), buffer_analysis_form));
+    std::vector<Callback<Simulation> > in_memory_log_returns = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), std::move(buffer_analysis_form));
 
     //convert above vector to get vector of inmemory log objects which are the analyses?
-    //temp_vec =
+    std::vector<in_memory_log<Simulation>> new_buffer;
+    for(unsigned int i = 0; i < in_memory_log_returns.size(); i++){
+        new_buffer.emplace_back(std::move(*static_cast<in_memory_log<Simulation>*>(in_memory_log_returns[i].get_analysis().release())));
+    }
 
 
-    run_simulation(args.simulation_duration, args.analysis_interval, temp_vec, parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()))
+    run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
 
 }
 
