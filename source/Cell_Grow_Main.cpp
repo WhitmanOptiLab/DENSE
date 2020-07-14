@@ -169,7 +169,7 @@ void run_and_modify_simulation(
       }
       for (auto& bad_simulation : bad_simulations) {
         auto has_bad_simulation = [=](Callback const& callback) {
-            return callback.simulation == bad_simulation;
+            return callback.get_simulation();
         };
         callbacks.erase(
             std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
