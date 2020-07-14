@@ -15,6 +15,7 @@
 #include "run_simulation.hpp"
 #include "arg_parse.hpp"
 #include "parse_analysis_entries.hpp"
+#include "Callback.hpp"
 
 using style::Color;
 
@@ -57,6 +58,16 @@ int main(int argc, char* argv[]){
   }
   
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+  auto t1 = std::chrono::high_resolution_clock::now();
+  std::vector<Callback> callbacks = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+  for (auto& callback : callbacks) {
+      callback.analysis->finalize();
+      callback.analysis->show(&callback.log);
+  }
+    
+  auto t2 = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+  std::cout << duration;
+  return 0;
 
 }
