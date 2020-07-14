@@ -1,6 +1,6 @@
 //
 //  in_memory_log_main.cpp
-//  
+//
 //
 //  Created by Myan Sudharsanan on 7/2/20.
 //
@@ -68,43 +68,25 @@ int main(int argc, char* argv[]){
         return 0;
     }
     Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
+
     std::vector<Species> species_list;
-#define SPECIE(name) species_list.push_back(#name);
-#include "specie_list.hpp"
-#undef SPECIE
-    in_memory_log buffer = in_memory_log(species_list, {0,args.adj_graph.num_vertices()}, args.analysis_interval);
+    #define SPECIE(name) species_list.push_back(name);
+    #include "specie_list.hpp"
+    #undef SPECIE
+
     std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> buffer_analysis_form;
-    buffer_analysis_form.emplace_back(out_file, std14::make_unique<in_memory_log<Simulation> >(
-                                                                                               species_list, {0,args.adj_graph.num_vertices()}, args.analysis_interval));
+
+    buffer_analysis_form.emplace_back("", std14::make_unique<in_memory_log<Simulation> >(
+            species_list, std::make_pair<dense::Natural, dense::Natural>(0, args.adj_graph.num_vertices()), args.analysis_interval));
+
     //vector of call backs or analysis, myans new function
-    std::vector<Callback> in_memory_log_returns = run_analysis_only<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), buffer_analysis_form));
+    std::vector<Callback<Simulation> > in_memory_log_returns = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), std::move(buffer_analysis_form));
+
     //convert above vector to get vector of inmemory log objects which are the analyses?
-    std::vector<in_memory_log> new_buffer;
-    for(int i = 0; i < in_memory_log_returns.size(); i++){
-        new_buffer.push_back(*(std::unique_ptr<in_memory_log>(in_memory_log_returns[i].get_analysis())));
+    std::vector<in_memory_log<Simulation>> new_buffer;
+    for(unsigned int i = 0; i < in_memory_log_returns.size(); i++){
+        new_buffer.emplace_back(std::move(*static_cast<in_memory_log<Simulation>*>(in_memory_log_returns[i].get_analysis().release())));
     }
-    run_simulation(args.simulation_duration, args.analysis_interval, new_buffer, parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()))
-}
-#endif
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
