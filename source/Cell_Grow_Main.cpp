@@ -15,6 +15,7 @@
 #include "run_simulation.hpp"
 #include "arg_parse.hpp"
 #include "parse_analysis_entries.hpp"
+#include "Callback.hpp"
 
 using style::Color;
 
@@ -68,27 +69,6 @@ void run_and_modify_simulation(
   std::vector<Simulation> simulations,
   std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
 
-  struct Callback {
-    Callback(
-    std::unique_ptr<Analysis<Simulation>> analysis,
-    Simulation & simulation,
-    csvw log
-    ):
-    analysis   { std::move(analysis) },
-    simulation { std::addressof(simulation) },
-    log        { std::move(log) }
-    {
-    }
-
-    void operator()() {
-      return analysis->when_updated_by(*simulation, log.stream());
-    }
-
-    std::unique_ptr<Analysis<Simulation>> analysis;
-    Simulation* simulation;
-    csvw log;
-
-  };
   std::vector<Callback> callbacks;
       // If multiple sets, set file name to "x_####.y"
   for (std::size_t i = 0; i < simulations.size(); ++i) {
@@ -104,7 +84,7 @@ void run_and_modify_simulation(
   //show cells in out file
   if(show_cells){
     for (auto& callback : callbacks) {
-      callback.analysis->show_cells();
+      callback.show_cells();
     }
   }
   
@@ -126,7 +106,7 @@ void run_and_modify_simulation(
           simulation.add_edge(18,13);
           simulation.add_edge(18,0);
           for (auto& callback : callbacks) {
-            callback.analysis->update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
+            callback.update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
           }
         }
       }
@@ -143,7 +123,7 @@ void run_and_modify_simulation(
           simulation.add_cell(20,18);
           simulation.add_cell(10,13);
           for (auto& callback : callbacks) {
-            callback.analysis->update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
+            callback.update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
           }
         }
       }
@@ -153,7 +133,7 @@ void run_and_modify_simulation(
           simulation.remove_cell(6);
           simulation.remove_cell(7);
           for (auto& callback : callbacks) {
-            callback.analysis->update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
+            callback.update_cell_range(0, simulation.cell_count(), simulation.physical_cells_id());
           }
         }
       }
@@ -169,7 +149,7 @@ void run_and_modify_simulation(
       }
       for (auto& bad_simulation : bad_simulations) {
         auto has_bad_simulation = [=](Callback const& callback) {
-            return callback.simulation == bad_simulation;
+            return callback.get_simulation();
         };
         callbacks.erase(
             std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
@@ -188,8 +168,8 @@ void run_and_modify_simulation(
   }
 
   for (auto& callback : callbacks) {
-      callback.analysis->finalize();
-      callback.analysis->show(&callback.log);
+      callback.finalize();
+      callback.show();
   }
 }
 

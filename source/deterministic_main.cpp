@@ -16,6 +16,8 @@
 #include "run_simulation.hpp"
 #include "arg_parse.hpp"
 #include "parse_analysis_entries.hpp"
+#include "Callback.hpp"
+#include "runtimecheck.hpp"
 
 using style::Color;
 
@@ -58,7 +60,20 @@ int main(int argc, char* argv[]){
   }
   
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av); 
-  run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+    runtimecheck r;
+    std::vector<Callback<Simulation> > callbacks = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+    r.set_end();
+    r.set_begin();
+    for (auto& callback : callbacks) {
+        callback.finalize();
+        callback.show();
+    }
+    r.set_end();
+    auto duration1 = r.get_duration(0, 0);
+    std::cout << "Simulation only: " << duration1 << endl;
+    auto duration2 = r.get_duration(1, 1);
+    std::cout << "Finalization: " << duration2 << endl;
+    return 0;
 }
 /*
 Snapshot<> snapshot;
