@@ -8,8 +8,7 @@
 #define LogTimes_main_h
 
 
-#ifndef LogTimes_main_h
-#define LogTimes_main_h
+
 #include <stdio.h>
 #include "io/arg_parse.hpp"
 #include "measurement/oscillation.hpp"
@@ -90,5 +89,5 @@ int main(int argc, char* argv[]){
 
 
     run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
-
+}
 #endif

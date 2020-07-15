@@ -22,38 +22,38 @@
 
 class runtimecheck{
     private:
-        auto duration;
-        auto begin;
-        auto end;
+        double duration;
+        std::chrono::high_resolution_clock::time_point begin;
+        std::chrono::high_resolution_clock::time_point end;
     
-        std::vector<auto> durations;
-        std::vector<auto> beginnings;
-        std::vector<auto> endings;
+        std::vector<double> durations;
+        std::vector<std::chrono::high_resolution_clock::time_point> beginnings;
+        std::vector<std::chrono::high_resolution_clock::time_point> endings;
     public:
         runtimecheck(){
             begin = std::chrono::high_resolution_clock::now();
-            beginnings.push_back(begin);
+            beginnings.emplace_back(begin);
         }
     
         void set_end(){
             end = std::chrono::high_resolution_clock::now();
-            endings.push_back(end);
+            endings.emplace_back(end);
         }
     
         void set_begin(){
             begin = std::chrono::high_resolution_clock::now();
-            beginnings.push_back(begin);
+            beginnings.emplace_back(begin);
         }
     
-        auto get_duration(int i, int j){
-            duration = std::chrono::duration_cast<std::chrono::microseconds>( end[i] - begin[j] ).count();
-            durations.push_back(duration);
+        double get_duration(int i, int j){
+            duration = std::chrono::duration_cast<std::chrono::microseconds>( endings[i] - beginnings[j] ).count();
+            durations.emplace_back(duration);
             return duration;
         }
     
-        std::vector<auto> duration_list (){
+        /*std::vector<double> duration_list (){
             return durations;
-        }
+        }*/
     
         virtual ~runtimecheck() = default;
         runtimecheck(runtimecheck&&)  = default;

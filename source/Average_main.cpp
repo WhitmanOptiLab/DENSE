@@ -54,8 +54,8 @@ int main(int argc, char* argv[]){
   }
   using Simulation = Average_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
-  runtimecheck r();
-  std::vector<Callback> callbacks = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
+  runtimecheck r;
+  std::vector<Callback<Simulation> > callbacks = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
   r.set_end();
   r.set_begin();
   for (auto& callback : callbacks) {
