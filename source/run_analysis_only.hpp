@@ -119,14 +119,14 @@ const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>
         }
         
         std::vector<std::vector<Real>> analyses;
-        size_t conc_size = callbacks[0].analysis->get_details().concs.size();
+        size_t conc_size = callbacks[0].get_details().concs.size();
         
         
         for (auto& callback : callbacks) {
             callback.analysis->finalize();
             //     callback.analysis->show(&callback.log);
             
-            Details analysis_details = callback.analysis->get_details();
+            Details analysis_details = callback.get_details();
             std::vector<Real> to_insert;
             for(size_t i = 0; i < analysis_details.concs.size(); i++){
                 to_insert.push_back(analysis_details.concs[i]);
