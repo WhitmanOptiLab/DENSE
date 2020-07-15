@@ -75,6 +75,7 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
 
       } else {
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, -1)[cell] + (_step_size/3)*(6.5*curr_rate - _prev_rates[cell][i] + 0.5*_last_rates[cell][i]);
+        std::cout << "n-2: " << _last_rates[cell][i] << ". n-1: " << _prev_rates[cell][i] << ". n: " << curr_rate << std::endl;
         _last_rates[cell][i] = _prev_rates[cell][i];
         _prev_rates[cell][i] = curr_rate;
       }

@@ -16,16 +16,12 @@ namespace dense {
 
   class Average_Simulation : public Simulation, public Numerical_Integration {
   private:
-    int _curr_coeff = 1;
     bool _first_point_calculated = false;
     bool _second_point_calculated = false;
-    double _prev_rates[NUM_SPECIES];
-    double _prev_rate_of_rates[NUM_SPECIES];
-    double _last_rate_of_rates[NUM_SPECIES];
-    float _simpson_value(float curr_rate, dense::Natural cell, int index);
-    float _euler_value(float curr_rate, dense::Natural cell, int index);
-    float _trapezoid_value(float curr_rate, dense::Natural cell, int index);
-    float _retian_value(float curr_rate, dense::Natural cell, int index, double rate_of_rates);
+    bool _third_point_calculated = false;
+    std::vector<vector<double>> _n_minus_1_rates;
+    std::vector<vector<double>> _n_minus_2_rates;
+    std::vector<vector<double>> _n_minus_3_rates;
   public:
     using Context = dense::Context<Average_Simulation>;
     Average_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
@@ -35,11 +31,11 @@ namespace dense {
     SpecieRates calculate_concentrations(dense::Natural cell);
 
     void step() override;
-      
+
     virtual ~Average_Simulation() = default;
-      
+
     Average_Simulation(Average_Simulation&&) = default;
-      
+
     Average_Simulation & operator= (Average_Simulation&&) = default;
 
     dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const override {
