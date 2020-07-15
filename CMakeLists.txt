@@ -84,7 +84,7 @@ option(NEXTREACTION_SIM "" ON)
 option(CUDA_SIM "" ${BUILD_ALL_METHODS})
 option(MPI_PARAM_SEARCH "" ${BUILD_ALL_METHODS})
 option(PARAM_SEARCH "" ${BUILD_ALL_METHODS})
-option(IN_MEMORY_LOG "" ON)
+option(IN_MEM_LOG "" ON)
 
 enable_testing()
 
