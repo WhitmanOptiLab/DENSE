@@ -63,13 +63,13 @@ template <Simulation_Concept Simulation>
 std::vector<std::vector<Real>> run_analysis_only(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations,
 const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> &analysis_entries){
         
-    
+        using Callback = Callback<Simulation>; 
         std::vector<Callback> callbacks;
         // If multiple sets, set file name to "x_####.y"
         for (std::size_t i = 0; i < simulations.size(); ++i) {
             for (auto& name_and_analysis : analysis_entries) {
                 auto& out_file = name_and_analysis.first;
-                callbacks.emplace_back(std::unique_ptr<Analysis<Simulation>>(name_and_analysis.second->clone()), simulations[i], out_file.empty() ? csvw(std::cout) : csvw(simulations.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
+                callbacks.emplace_back(std::unique_ptr<Analysis<Simulation>>(name_and_analysis.second->clone()), std::addressof(simulations[i]), out_file.empty() ? csvw(std::cout) : csvw(simulations.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
             }
         }
         // End all observer preparation
@@ -96,7 +96,7 @@ const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>
             }
             for (auto& bad_simulation : bad_simulations) {
                 auto has_bad_simulation = [=](Callback const& callback) {
-                    return callback.simulation == bad_simulation;
+                    return callback.get_simulation() == bad_simulation;
                 };
                 callbacks.erase(
                                 std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
@@ -119,14 +119,14 @@ const std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>>
         }
         
         std::vector<std::vector<Real>> analyses;
-        size_t conc_size = callbacks[0].analysis->get_details().concs.size();
+        size_t conc_size = callbacks[0].get_details().concs.size();
         
         
         for (auto& callback : callbacks) {
-            callback.analysis->finalize();
+            callback.finalize();
             //     callback.analysis->show(&callback.log);
             
-            Details analysis_details = callback.analysis->get_details();
+            Details analysis_details = callback.get_details();
             std::vector<Real> to_insert;
             for(size_t i = 0; i < analysis_details.concs.size(); i++){
                 to_insert.push_back(analysis_details.concs[i]);

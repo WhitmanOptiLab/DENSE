@@ -11,7 +11,8 @@ class in_memory_log : public Analysis<Sim>, public Simulation{
                         std::pair<dense::Natural, dense::Natural> cell_range,
                         std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval) :
         //default time range 0 to infinity 
-        Analysis<Sim>(pcfSpecieOption, cell_range),  
+        Analysis<Sim>(pcfSpecieOption, cell_range), 
+        concentrations(cell_range.second, std::vector<std::vector<dense::Real> >(pcfSpecieOption.size())), 
         finalized(false),
         analysis_interval(analysis_interval),
         iSpecieVec(pcfSpecieOption)
@@ -69,7 +70,7 @@ class in_memory_log : public Analysis<Sim>, public Simulation{
         for (Natural cell_no = this->min; cell_no < this->max; ++cell_no) {
             for (std::size_t i = 0; i < this->observed_species_.size(); ++i) {
   		        Real concentration = simulation.get_concentration(cell_no, this->observed_species_[i]);
-                concentrations[cell_no][i][time] = concentration;
+                concentrations[cell_no][i].push_back(concentration);
   	        }
         }
         time++;
