@@ -55,6 +55,10 @@ class Callback{
         Details get_details(){
             return analysis->get_details();
         }
+    
+        csvw get_log(){
+            return log;
+        }
 
         void finalize(){
             analysis->finalize();
@@ -66,6 +70,18 @@ class Callback{
 
         void operator()(){
             analysis->when_updated_by(*simulation, log.stream());
+        }
+    
+        void show_cells(){
+            analysis->show_cells();
+        }
+    
+        void update_cell_range(int i, dense::Natural cell_count, std::vector<int> physical_cells_id){
+            analysis->update_cell_range(i, cell_count, physical_cells_id);
+        }
+    
+        void show(){
+            analysis->show(&log);
         }
 
         virtual ~Callback() = default;
