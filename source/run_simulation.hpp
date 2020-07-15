@@ -85,7 +85,7 @@ template <typename Simulation>
 #else
 template <Simulation_Concept Simulation>
 #endif
-std::vector<Callback> run_simulation(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations, std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
+std::vector<Callback<Simulation> > run_simulation(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations, std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries);
     
     
 #ifndef __cpp_concepts
@@ -93,14 +93,14 @@ template <typename Simulation>
 #else
 template <Simulation_Concept Simulation>
 #endif
-    std::vector<Callback> run_simulation(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations, std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
-        
+    std::vector<Callback<Simulation> > run_simulation(std::chrono::duration<Real, std::chrono::minutes::period> duration, std::chrono::duration<Real, std::chrono::minutes::period> notify_interval, std::vector<Simulation> simulations, std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> analysis_entries){
+        using Callback = Callback<Simulation>;
         std::vector<Callback> callbacks;
         // If multiple sets, set file name to "x_####.y"
         for (std::size_t i = 0; i < simulations.size(); ++i) {
             for (auto& name_and_analysis : analysis_entries) {
                 auto& out_file = name_and_analysis.first;
-            callbacks.emplace_back(std::unique_ptr<Analysis<Simulation>>(name_and_analysis.second->clone()), simulations[i], out_file.empty() ? csvw(std::cout) :
+            callbacks.emplace_back(std::unique_ptr<Analysis<Simulation>>(name_and_analysis.second->clone()), std::addressof(simulations[i]), out_file.empty() ? csvw(std::cout) :
                 csvw(simulations.size() == 1 ? out_file : file_add_num(out_file, "_", '0', i, 4, ".")));
             }
         }
@@ -127,7 +127,7 @@ template <Simulation_Concept Simulation>
             }
             for (auto& bad_simulation : bad_simulations) {
                 auto has_bad_simulation = [=](Callback const& callback) {
-                    return callback.simulation == bad_simulation;
+                    return callback.get_simulation() == bad_simulation;
                 };
                 callbacks.erase(
                                 std::remove_if(callbacks.begin(), callbacks.end(), has_bad_simulation),
