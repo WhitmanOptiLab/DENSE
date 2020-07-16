@@ -33,6 +33,9 @@
 #include "sim/base.hpp"
 #include "core/specie.hpp"
 #include "in_memory_log.hpp"
+#include "Callback.hpp"
+#include "runtimecheck.hpp"
+
 using style::Color;
 #include <chrono>
 #include <cstdlib>
@@ -94,7 +97,7 @@ int main(int argc, char* argv[]){
     r.set_end();
     r.set_begin();
 
-    std::vector<Callback<Simulation> > callbacks = run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
+    std::vector<Callback<in_memory_log<Simulation> > > callbacks = run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
 
     r.set_end();
     r.set_begin();
