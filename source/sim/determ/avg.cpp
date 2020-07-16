@@ -12,6 +12,13 @@ dense::Average_Simulation::Average_Simulation(const Parameter_Set& ps, Real* pnF
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
     Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
       //Copy and normalize _delays into _intDelays
+      std::vector<std::vector<double>>* v_1 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
+      std::vector<std::vector<double>>* v_2 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
+      std::vector<std::vector<double>>* v_3 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
+      _n_minus_1_rates = *v_1;
+      _n_minus_2_rates = *v_2;
+      _n_minus_3_rates = *v_3;
+      delete v_1; delete v_2; delete v_3;
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
         for (dense::Natural j = 0; j < cell_count(); ++j) {
           _intDelays[i][j] = cell_parameters_[NUM_REACTIONS+i][j] / _step_size;
@@ -35,6 +42,13 @@ void dense::Average_Simulation::step() {
     for (dense::Natural k = 0; k < cell_count(); k++) {
       update_concentrations(k, calculate_concentrations(k));
     }
+    if (!_first_point_calculated) {
+      _first_point_calculated = true;
+    } else if (!_second_point_calculated) {
+      _second_point_calculated = true;
+    } else if (!_third_point_calculated) {
+      _third_point_calculated = true;
+    }
     _j++;
     _baby_cl.advance();
 }
@@ -49,67 +63,22 @@ void dense::Average_Simulation::update_concentrations(dense::Natural cell, Speci
     for (int i = 0; i < NUM_SPECIES; i++) {
       //_curr_coeff is '1' for the first two steps, we just use Euler's Method
       auto curr_rate = rates[i];
-      if (!_second_point_calculated) {
+      if (!_third_point_calculated) {
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size * curr_rate;
-        if (!_second_point_calculated && _first_point_calculated) {
-          _prev_rate_of_rates[i] = (curr_rate-_prev_rates[i])/(_step_size);
-        }
-        _prev_rates[i] = curr_rate;
+        _n_minus_3_rates[cell][i] = _n_minus_2_rates[cell][i];
+        _n_minus_2_rates[cell][i] = _n_minus_1_rates[cell][i];
+        _n_minus_1_rates[cell][i] = curr_rate;
       } else {
-        double rate_of_rates = 2*_prev_rate_of_rates[i] - _last_rate_of_rates[i];
-        float s_val = _simpson_value(curr_rate, cell, i);
-        float e_val = _euler_value(curr_rate, cell, i);
-        float t_val = _trapezoid_value(curr_rate, cell, i);
-        float r_val = _retian_value(curr_rate, cell, i, rate_of_rates);
-        _baby_cl.row_at(i, 1)[cell] =  e_val/4 + s_val/4 + t_val/4 + r_val/4;
-
-
-        //TESTING
-        /*
-        double rate_of_rates = 2*_prev_rate_of_rates[i] - _last_rate_of_rates[i];
-
-        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell] + _step_size*(curr_rate + _step_size*rate_of_rates);
-        */
-
-        _last_rate_of_rates[i] = _prev_rate_of_rates[i];
-        _prev_rate_of_rates[i] = rate_of_rates;
-        _prev_rates[i] = curr_rate;
+        //Weights to be described at a later time
+        _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell]
+              + (_step_size/720) * (1148*curr_rate - 515*_n_minus_1_rates[cell][i] + 106*_n_minus_2_rates[cell][i] - 19*_n_minus_3_rates[cell][i]);
+        _n_minus_3_rates[cell][i] = _n_minus_2_rates[cell][i];
+        _n_minus_2_rates[cell][i] = _n_minus_1_rates[cell][i];
+        _n_minus_1_rates[cell][i] = curr_rate;
       }
     }
-    //Updating what has been done.
-    //These if-else statements are ordered in priority
-    if (!_first_point_calculated) {
-      _first_point_calculated = true;
-    } else if (!_second_point_calculated) {
-      _second_point_calculated = true;
-      _curr_coeff = 4;
-    } else if (_curr_coeff == 4) {
-      _curr_coeff = 2;
-    } else {
-      _curr_coeff = 4;
-    }
 }
 
-float dense::Average_Simulation::_retian_value(float curr_rate, dense::Natural cell, int index, double rate_of_rates) {
-  return _baby_cl.row_at(index, 0)[cell] + _step_size*(curr_rate + _step_size*rate_of_rates);
-}
-
-float dense::Average_Simulation::_simpson_value(float curr_rate, dense::Natural cell, int index) {
-  auto next_rate_predicted = 2*curr_rate - _prev_rates[index];
-  if (_curr_coeff == 4) {
-    return _baby_cl.row_at(index, 0)[cell] + (_step_size/4) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
-  } else {
-    return _baby_cl.row_at(index, 0)[cell] + (_step_size/2) * ((_curr_coeff - 1) * curr_rate + next_rate_predicted);
-  }
-}
-
-float dense::Average_Simulation::_euler_value(float curr_rate, dense::Natural cell, int index) {
-  return _baby_cl.row_at(index, 0)[cell] + _step_size * curr_rate;
-}
-
-float dense::Average_Simulation::_trapezoid_value(float curr_rate, dense::Natural cell, int index) {
-  return _baby_cl.row_at(index, 0)[cell] + (_step_size / 2) * (3 * curr_rate - _prev_rates[index]);
-}
 
 CUDA_AGNOSTIC
 dense::Average_Simulation::SpecieRates dense::Average_Simulation::calculate_concentrations(dense::Natural cell) {
