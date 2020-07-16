@@ -1,6 +1,6 @@
 //
 //  log_data_imports.cpp
-//  
+//
 //
 //  Created by Myan Sudharsanan on 6/30/20.
 //
@@ -58,7 +58,7 @@ using dense::run_simulation;
 int main(int argc, char* argv[]){
     int ac = argc;
     char** av = argv;
-    
+
     Static_Args args = parse_static_args(argc, argv);
     if(args.help == 1){
         return EXIT_SUCCESS;
@@ -67,7 +67,7 @@ int main(int argc, char* argv[]){
         return EXIT_FAILURE;
     }
     using Simulation = CSV_Streamed_Simulation;
-    
+
     std::string data_import;
     Simulation s(arg_parse::get<std::string>("i", "data-import", &data_import));
     //Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
