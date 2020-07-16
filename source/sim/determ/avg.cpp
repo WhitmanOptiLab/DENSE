@@ -69,9 +69,9 @@ void dense::Average_Simulation::update_concentrations(dense::Natural cell, Speci
         _n_minus_2_rates[cell][i] = _n_minus_1_rates[cell][i];
         _n_minus_1_rates[cell][i] = curr_rate;
       } else {
+        //Weights to be described at a later time
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, 0)[cell]
               + (_step_size/720) * (1148*curr_rate - 515*_n_minus_1_rates[cell][i] + 106*_n_minus_2_rates[cell][i] - 19*_n_minus_3_rates[cell][i]);
-              //+ _step_size * ((1148/720)*curr_rate - (515/720)*_n_minus_1_rates[cell][i] + (106/720)*_n_minus_2_rates[cell][i] - (19/720)*_n_minus_3_rates[cell][i]);
         _n_minus_3_rates[cell][i] = _n_minus_2_rates[cell][i];
         _n_minus_2_rates[cell][i] = _n_minus_1_rates[cell][i];
         _n_minus_1_rates[cell][i] = curr_rate;
