@@ -34,14 +34,13 @@ using style::Color;
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
-using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 
 namespace dense{
 
 struct Static_Args_Base {
-  Real*  perturbation_factors; 
+  Real*  perturbation_factors;
   Real**  gradient_factors;
   std::chrono::duration<Real, std::chrono::minutes::period> simulation_duration;
   std::chrono::duration<Real, std::chrono::minutes::period> analysis_interval;
@@ -61,26 +60,26 @@ struct Param_Static_Args : public Static_Args_Base {
 	std::vector<Real> real_input;
 	int num_generations;
 };
-  
+
 void parse_graphml(const char* file, NGraph::Graph* adj_graph){
   ezxml_t graphml = ezxml_parse_file(file);
   ezxml_t _graph = ezxml_child(graphml, "graph");
   ezxml_t _edges = ezxml_child(_graph, "edges");
   ezxml_t _edge = ezxml_child(_edges, "edge");
-  
+
   if(_edge == nullptr){
     _edge = ezxml_child(_graph, "edge");
   }
-  
+
   while ( _edge ){
     const char* vertex1 = ezxml_attr(_edge, "vertex1");
     const char* vertex2 = ezxml_attr(_edge, "vertex2");
     const char* source = ezxml_attr(_edge, "source");
     const char* target = ezxml_attr(_edge, "target");
-    
+
     std::string begin;
     std::string end;
-    
+
     if(vertex1){
       begin = std::string(vertex1);
       end = std::string(vertex2);
@@ -88,12 +87,12 @@ void parse_graphml(const char* file, NGraph::Graph* adj_graph){
       begin = std::string(source);
       end = std::string(target);
     }
-    
+
     if(begin[0] == 'n'){
       begin.erase(begin.begin());
       end.erase(end.begin());
     }
-    
+
     adj_graph->insert_edge_noloop(stoi(begin), stoi(end));
 
     _edge = ezxml_next(_edge);
@@ -134,7 +133,7 @@ void create_default_graph(NGraph::Graph* a_graph, int cell_total, int tissue_wid
     }
   }
 }
-  
+
 template <typename NUM_TYPE>
 void conc_vector(std::string init_conc, bool c_or_0, std::vector<NUM_TYPE>* conc){
   if(c_or_0){

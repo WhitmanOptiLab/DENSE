@@ -31,7 +31,6 @@ using style::Color;
 #include <iostream>
 
 using dense::csvw_sim;
-using dense::Trapezoid_Simulation;
 using dense::Sim_Builder;
 using dense::parse_static_args;
 using dense::parse_analysis_entries;
@@ -50,7 +49,7 @@ int main(int argc, char* argv[]){
   if(args.help == 2){
     return EXIT_FAILURE;
   }
-  using Simulation = Trapezoid_Simulation;
+  using Simulation = dense::Trapezoid_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
   run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 }

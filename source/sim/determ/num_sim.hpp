@@ -9,6 +9,7 @@
 #include "core/reaction.hpp"
 #include "baby_cl.hpp"
 
+
 namespace dense {
   typedef cell_param<NUM_DELAY_REACTIONS, int> IntDelays;
 
@@ -20,10 +21,13 @@ namespace dense {
     Real _step_size;
     int _j;
     dense::Natural _num_history_steps; // how many steps in history are needed for this numerical method
-    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Deterministic_Simulation& sim);
-    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Simpson_Simulation& sim);
-    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Trapezoid_Simulation& sim);
-    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Average_Simulation& sim);
+
+    template<class Numerical_Simulation>
+    Numerical_Integration(int num_delay_rxn, Natural& cell_cnt, Minutes& step_size, Numerical_Simulation& sim, int num_hist) :
+            _intDelays(num_delay_rxn, cell_cnt),
+            _step_size{step_size / Minutes{1}}, _j(0), _num_history_steps(num_hist), _baby_cl(sim) {
+
+    }
   protected:
     baby_cl _baby_cl;
   public:

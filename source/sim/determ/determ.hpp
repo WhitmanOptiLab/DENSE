@@ -56,7 +56,7 @@ class Deterministic_Simulation : public Simulation, public Numerical_Integration
       }
     }
   }
-  
+
   //remove_cellL: takes a virtual cell and removes it from the simulation
   void remove_cell(Natural cell){
     remove_cell_base(cell);

@@ -10,7 +10,7 @@
 dense::Trapezoid_Simulation::Trapezoid_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
-    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
+    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 2) {
       std::vector<std::vector<double>>* v_1 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
       _prev_rates = *v_1;
       delete v_1;

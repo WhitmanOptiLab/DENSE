@@ -34,7 +34,6 @@ using style::Color;
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
-using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 using dense::conc_vector;
@@ -252,7 +251,7 @@ namespace dense {
             }
             return simulations;
        }
-       
+
       private:
         Real* perturbation_factors;
         Real** gradient_factors;

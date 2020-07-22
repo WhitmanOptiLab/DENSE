@@ -1,6 +1,6 @@
 //
 //  progress.hpp
-//  
+//
 //
 //  Created by Myan Sudharsanan on 6/24/20.
 //
@@ -37,12 +37,11 @@
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
-using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 using dense::Details;
 namespace dense {
-    
+
     class Progress{
         private:
             std::string line_of_progress;
@@ -54,15 +53,15 @@ namespace dense {
                 n = a;
                 end = limit;
             }
-        
+
             void set_line_of_progress(std::string current){
                 line_of_progress = current;
             }
-        
+
             void set_n(dense::Natural c){
                 n = c;
             }
-        
+
             void set_end(Real max){
                 end = max;
             }
@@ -71,14 +70,14 @@ namespace dense {
                 string currline = "[";
                 int barWidth = 70;
                 //std::cout << "[";
-                
-                
+
+
                 int loc = barWidth * (n / end);
                 for (int i = 0; i < barWidth; ++i){
                     if (i < loc){
                         //std::cout << "=";
                         currline += "=";
-                        
+
                     } else if (i == loc){
                         //std::cout << ">";
                         currline += ">";
@@ -89,7 +88,7 @@ namespace dense {
                 }
                 currline += "] ";
                 if (line_of_progress.compare(currline) != 0){
-                    
+
                     line_of_progress = currline;
                     std::cout << currline << int(100 * n / end) << " %\r";
                     std::cout.flush();

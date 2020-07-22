@@ -34,7 +34,6 @@ using style::Color;
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
-using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
 using dense::graph_constructor;
@@ -123,11 +122,11 @@ arg_parse::init(argc, argv);
     param_args.help = 2;
     return param_args;
   }
-  
+
   bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
   bool w_flag = arg_parse::get<int>("w", "tissue-width", &tissue_width, false);
   bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
-  
+
   simulation_duration = decltype(simulation_duration)(time_total);
   analysis_interval = decltype(analysis_interval)(anlys_intvl);
 
@@ -136,11 +135,11 @@ arg_parse::init(argc, argv);
 
   param_args.gradient_factors = parse_gradients(
     arg_parse::get<std::string>("g", "gradients", ""), tissue_width);
- 
+
   param_args.simulation_duration = simulation_duration;
   param_args.analysis_interval = analysis_interval;
   param_args.param_sets =  csvr(param_sets).get_param_sets();
-  
+
   if ( w_flag && c_flag && !f_flag){
     if (cell_total <= 0 || tissue_width <= 0){
       std::cout << style::apply(Color::red) <<
@@ -148,7 +147,7 @@ arg_parse::init(argc, argv);
           "The cell total specified with [-c | --cell-total] or the tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
         param_args.help = 2;
         return param_args;
-    }   
+    }
     if (tissue_width > cell_total){
       std::cout << style::apply(Color::red) <<
         "Error: Your current set of command line arguments produces a useless state. "
@@ -213,20 +212,20 @@ void display_param_search_usage(std::ostream& out) {
     yellow << "[-v | --time-col]        <bool> " <<
     green << "Toggles whether file output includes a time column. Convenient for making graphs in Excel-like programs but slows down file writing. Time could be inferred without this column through the row number and the analysis interval.\n" <<
     yellow << "[-N | --test-run]        <bool> " <<
-    green << "Enables running a simulation without output for performance testing.\n" << 
+    green << "Enables running a simulation without output for performance testing.\n" <<
 		yellow << "[-pp | --total-population]        <int> " <<
-    green << "The population of total simulations to use each generation, min=1, default=400\n" << 
+    green << "The population of total simulations to use each generation, min=1, default=400\n" <<
 		yellow << "[-m| --parents]        <int> " <<
-    green << "The number of parameters\n" << 
+    green << "The number of parameters\n" <<
 		yellow << "[-bb| --param-bounds]        <string> " <<
-    green << "The filepath to CSV file with parameter search boundaries(requires precisely two sets)\n" << 
+    green << "The filepath to CSV file with parameter search boundaries(requires precisely two sets)\n" <<
 		yellow << "[-ri| --real-input]        <string> " <<
     green << "The filepath to a CSV file with the data which the estimated parameter simulations shall be scored against\n" <<
 		yellow << "[-nn| --num-generations]        <int> " <<
-    green << "The number of generations in which parameters shall be guessed.\n" << 
+    green << "The number of generations in which parameters shall be guessed.\n" <<
 		style::reset();
 }
-	
+
 Param_Static_Args param_search_parse_static_args(int argc, char* argv[]);
 
 Param_Static_Args param_search_parse_static_args(int argc, char* argv[]){
@@ -273,12 +272,12 @@ arg_parse::init(argc, argv);
   csvr csv_in(boundsfile);
 
   std::vector<Parameter_Set> bounds = csv_in.get_param_sets();
-		
+
   if (bounds.size() != 2) {
     std::cout << style::apply(Color::red) << "ERROR, parameter bounds file does not contain precisely two sets\n" << style::reset();
     param_args.help = 2;
   }
-	
+
 	std::string real_inputs;
 	if(!arg_parse::get<std::string>("ri", "real-input", &real_inputs,true)) {
 		param_args.help = 2;
@@ -290,14 +289,14 @@ arg_parse::init(argc, argv);
 	Real entry = -1;
 	Real *data_getter = &entry;
 
-	
+
 	if(!csv_in_.get_next(data_getter)){
 		std::cout << style::apply(Color::red) << "Error, data submitted is misformatted \n" << style::reset();
 	}
 
 	std::cout << entry << '\n';
 	rinput.push_back(entry);
-	
+
 	while(csv_in_.get_next(data_getter)){
 		rinput.push_back(*data_getter);
 	}
@@ -314,10 +313,10 @@ arg_parse::init(argc, argv);
   bool c_flag = arg_parse::get<int>("c", "cell-total", &cell_total, false);
   bool w_flag = arg_parse::get<int>("w", "tissue-width", &tissue_width, false);
   bool f_flag = arg_parse::get<std::string>("f", "cell-graph", &cell_graph, false);
-  
+
   param_args.simulation_duration = simulation_duration;
   param_args.analysis_interval = analysis_interval;
-  
+
   if ( w_flag && c_flag && !f_flag){
     if (cell_total <= 0 || tissue_width <= 0){
       std::cout << style::apply(Color::red) <<
@@ -325,7 +324,7 @@ arg_parse::init(argc, argv);
           "The cell total specified with [-c | --cell-total] or the tissue width specified with [-w | --tissue-width] is invalid.\n" << style::reset();
         param_args.help = 2;
         return param_args;
-    }   
+    }
     if (tissue_width > cell_total){
       std::cout << style::apply(Color::red) <<
         "Error: Your current set of command line arguments produces a useless state. "
