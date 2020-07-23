@@ -32,7 +32,7 @@ void dense::Deterministic_Simulation::update_concentrations(dense::Natural cell,
 dense::Deterministic_Simulation::Deterministic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph, dense::Natural num_grow_cell) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell),
-    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this) {
+    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 0) {
       //Copy and normalize _delays into _intDelays
       for (int i = 0; i < NUM_DELAY_REACTIONS; i++) {
         for (dense::Natural j = 0; j < cell_count(); ++j) {
