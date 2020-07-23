@@ -8,10 +8,6 @@
 
 namespace dense {
 
-class Deterministic_Simulation;
-class Simpson_Simulation;
-class Trapezoid_Simulation;
-class Average_Simulation;
 // Simulation_History
 class baby_cl {
 
@@ -32,10 +28,17 @@ class baby_cl {
       return (x + y) % y;
     }
 
-    baby_cl(Deterministic_Simulation& sim);
-    baby_cl(Simpson_Simulation& sim);
-    baby_cl(Trapezoid_Simulation& sim);
-    baby_cl(Average_Simulation& sim);
+    template<class Numerical_Simulation>
+    baby_cl(Numerical_Simulation& sim) : _width{sim.cell_count()} {
+        unsigned sum = 0;
+        for (int i = 0; i < NUM_SPECIES; i++) {
+            _position[i] = sum * _width; //for each specie
+            _specie_size[i] = (sim.max_delays[i] / sim._step_size) + sim._num_history_steps + 2;
+            sum += _specie_size[i];
+        }
+        _total_length = sum * NUM_SPECIES * _width;
+        _array = decltype(_array){new Real[_total_length + sim.num_growth_cells()]()};
+    }
 
     int get_species_size(int species){
       return _specie_size[species];
