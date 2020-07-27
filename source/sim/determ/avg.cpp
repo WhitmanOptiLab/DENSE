@@ -10,7 +10,7 @@
 dense::Average_Simulation::Average_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
-    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 2) {
+    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 0) {
       //Copy and normalize _delays into _intDelays
       std::vector<std::vector<double>>* v_1 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
       std::vector<std::vector<double>>* v_2 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));

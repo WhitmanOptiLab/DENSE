@@ -10,7 +10,7 @@
 dense::Simpson_Simulation::Simpson_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad,
                     Minutes step_size, std::vector<Real> conc, NGraph::Graph adj_graph) :
     Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad),
-    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 3) {
+    Numerical_Integration(NUM_DELAY_REACTIONS, cell_count(), step_size, *this, 1) {
       //Copy and normalize _delays into _intDelays
       std::vector<std::vector<double>>* v_1 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
       std::vector<std::vector<double>>* v_2 = new std::vector<std::vector<double>> (cell_count(), std::vector<double> (NUM_SPECIES, 0));
@@ -72,7 +72,6 @@ void dense::Simpson_Simulation::update_concentrations(dense::Natural cell, Speci
           _last_rates[cell][i] = _prev_rates[cell][i];
         }
         _prev_rates[cell][i] = curr_rate;
-
       } else {
         _baby_cl.row_at(i, 1)[cell] = _baby_cl.row_at(i, -1)[cell] + (_step_size/3)*(6.5*curr_rate - _prev_rates[cell][i] + 0.5*_last_rates[cell][i]);
         _last_rates[cell][i] = _prev_rates[cell][i];

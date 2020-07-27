@@ -7,12 +7,7 @@
 #include <memory>
 
 namespace dense {
-/*
-class Deterministic_Simulation;
-class Simpson_Simulation;
-class Trapezoid_Simulation;
-class Average_Simulation;
-*/
+
 // Simulation_History
 class baby_cl {
 
@@ -38,7 +33,7 @@ class baby_cl {
         int max_delay = 0;
         for (int i = 0; i < NUM_SPECIES; i++) {
             if (sim.max_delays[i] >= max_delay) {
-              _specie_size = (sim.max_delays[i] / sim._step_size) + sim._num_history_steps;
+              _specie_size = (sim.max_delays[i] / sim._step_size) + sim._num_history_steps + 2;
               max_delay = sim.max_delays[i];
             }
         }
