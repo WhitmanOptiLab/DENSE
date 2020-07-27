@@ -21,11 +21,11 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/core/build_once.cpp
           ${DENSE_SOURCE_DIR}/source/sim/base.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
@@ -112,11 +112,11 @@ function(PARAM_SEARCH_MPI_LIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/core/build_once.cpp
           ${DENSE_SOURCE_DIR}/source/sim/base.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
@@ -165,7 +165,7 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/core/build_once.cu
           ${DENSE_SOURCE_DIR}/source/sim/set_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/base.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/simpson.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/avg.cpp
@@ -173,7 +173,7 @@ function(CUDASIMCORELIB localname simdir)
 	  ${DENSE_SOURCE_DIR}/source/in_memory_log.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp
-          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl_cuda.cu
           ${DENSE_SOURCE_DIR}/source/io/arg_parse.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp

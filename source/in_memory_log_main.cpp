@@ -85,7 +85,7 @@ int main(int argc, char* argv[]){
 
     //vector of call backs or analysis, myans new function
     std::vector<Callback<Simulation> > in_memory_log_returns = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), std::move(buffer_analysis_form));
-    
+
     r.set_end();
     r.set_begin();
     //convert above vector to get vector of inmemory log objects which are the analyses?
@@ -93,22 +93,22 @@ int main(int argc, char* argv[]){
     for(unsigned int i = 0; i < in_memory_log_returns.size(); i++){
         new_buffer.emplace_back(std::move(*static_cast<in_memory_log<Simulation>*>(in_memory_log_returns[i].get_analysis().release())));
     }
-    
+
     r.set_end();
     r.set_begin();
-    
+
     std::vector<Callback<in_memory_log<Simulation> > > callbacks = run_simulation(args.simulation_duration, args.analysis_interval, std::move(new_buffer), parse_analysis_entries<in_memory_log<Simulation>>(argc, argv, args.adj_graph.num_vertices()));
-    
+
     r.set_end();
     r.set_begin();
-    
+
     for (auto& callback : callbacks) {
         callback.finalize();
         callback.show();
     }
-    
+
     r.set_end();
-    
+
     auto duration1 = r.get_duration(0, 0);
     std::cout << "First Simulation only: " << duration1 << endl;
     auto duration2 = r.get_duration(1, 1);
