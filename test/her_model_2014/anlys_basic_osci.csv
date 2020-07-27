@@ -1,27 +1,27 @@
-# Showing cells 0-5 until 69.99 min
+# Showing cells 0-5 until 59.99 min
 
 # Showing cell 0
 Species,ph1,mh1,md
-avg peak,91.9669,67.0467,12.4814,
-avg amp,27.0254,12.9297,4.72235,
-avg per,24.004,18.534,17.0833,
+avg peak,92.0549,67.0549,12.4714,
+avg amp,27.0677,12.9332,4.71722,
+avg per,24,18.526,17.08,
 # Showing cell 1
 Species,ph1,mh1,md
-avg peak,91.9669,67.0467,12.4814,
-avg amp,27.0254,18.0781,5.02602,
-avg per,24.004,19.0917,16.8486,
+avg peak,92.0549,67.0549,12.4714,
+avg amp,27.0677,12.9332,4.71722,
+avg per,24,18.526,17.08,
 # Showing cell 2
 Species,ph1,mh1,md
-avg peak,91.9669,67.0467,12.4814,
-avg amp,27.0254,18.0781,5.02602,
-avg per,24.004,19.0917,16.8486,
+avg peak,92.0549,67.0549,12.4714,
+avg amp,27.0677,12.9332,4.71722,
+avg per,24,18.526,17.08,
 # Showing cell 3
 Species,ph1,mh1,md
-avg peak,91.9669,67.0467,12.4814,
-avg amp,27.0254,18.0781,5.02602,
-avg per,24.004,19.0917,16.8486,
+avg peak,92.0549,67.0549,12.4714,
+avg amp,27.0677,12.9332,4.71722,
+avg per,24,18.526,17.08,
 # Showing cell 4
 Species,ph1,mh1,md
-avg peak,91.9669,67.0467,12.4814,
-avg amp,27.0254,18.0781,5.02602,
-avg per,24.004,19.0917,16.8486,
+avg peak,92.0549,67.0549,12.4714,
+avg amp,27.0677,12.9332,4.71722,
+avg per,24,18.526,17.08,
