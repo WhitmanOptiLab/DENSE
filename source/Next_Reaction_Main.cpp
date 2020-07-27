@@ -56,7 +56,7 @@ int main(int argc, char* argv[]){
     std::cout << style::apply(Color::red) << "param_sets is empty" << '\n';
     return 0;
   }
-  
+
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, std::move(args.adj_graph), ac, av);
     runtimecheck r;
     std::vector<Callback<Simulation> > callbacks = run_simulation<Simulation>(args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets),parse_analysis_entries<Simulation>(argc, argv, num_vertices));
