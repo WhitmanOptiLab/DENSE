@@ -12,7 +12,7 @@
 #include "sim/determ/determ.hpp"
 #include "sim/determ/simpson.hpp"
 #include "sim/determ/trap.hpp"
-#include "sim/determ/avg.hpp"
+#include "sim/determ/odepk.hpp"
 #include "sim/stoch/fast_gillespie_direct_simulation.hpp"
 #include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
@@ -104,8 +104,8 @@ namespace dense {
    };
 
    template<>
-   class Sim_Builder <Average_Simulation>{
-        using This = Sim_Builder<Average_Simulation>;
+   class Sim_Builder <ODEpack_Simulation>{
+        using This = Sim_Builder<ODEpack_Simulation>;
 
       public:
         This& operator= (This&&);
@@ -127,8 +127,8 @@ namespace dense {
             adjacency_graph = std::move(adj_graph);
         }
 
-        std::vector<Average_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<Average_Simulation> simulations;
+        std::vector<ODEpack_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+            std::vector<ODEpack_Simulation> simulations;
             for (auto& parameter_set : param_sets) {
               simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
             }
@@ -252,7 +252,7 @@ namespace dense {
             }
             return simulations;
        }
-       
+
       private:
         Real* perturbation_factors;
         Real** gradient_factors;
