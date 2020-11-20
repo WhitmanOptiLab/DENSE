@@ -14,6 +14,7 @@ add_test( "her_test"
  -D test_args:string=${test_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/anlys_basic_a.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance:string=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
 )
 
@@ -24,6 +25,7 @@ add_test( "cell_width_test"
  -D test_args:string=${cell_width_test_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/anlys_basic_a.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance:string=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -34,6 +36,7 @@ add_test( "cell_width_test_01"
  -D test_args:string=${cell_width_test_01_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/cell_width_test_anlys.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance:string=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -45,6 +48,7 @@ add_test( "cell_width_test_02"
  -D test_args:string=${cell_width_test_02_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/cell_width_test_anlys.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -56,6 +60,7 @@ add_test( "cell_number_test"
  -D test_args:string=${cell_number_test_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/anlys_basic_a.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -66,27 +71,30 @@ add_test( "cell_number_test_01"
  -D test_args:string=${cell_number_test_01_args}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/anlys_basic_a.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
 
 set(time_total_test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 300 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
-add_test( "time_total_test"
+add_test( "time_total_test_01"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
  -D test_args:string=${time_total_test_args}
- -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/total_time_test_anlys.csv
+ -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/total_time_test_01_anlys.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
 set(time_total_test_01_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 10 --tissue-width 5 --time-total 5000 --anlys-intvl .01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
-add_test( "time_total_test_01"
+add_test( "time_total_test_02"
  ${CMAKE_COMMAND}
  -D test_cmd=${test_cmd}
  -D test_args:string=${time_total_test_01_args}
- -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/total_time_test_01_anlys.csv
+ -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/total_time_test_02_anlys.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_basic_a.csv
+ -D tolerance=0.005
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -97,6 +105,7 @@ add_test( "no_convergence_test"
  -D test_args:string=${no_convergence_test}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/test_convergence_0_threshold_results.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_converge_0_threshold.csv
+ -D tolerance=0.001
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
@@ -108,6 +117,7 @@ add_test( "convergence_test"
  -D test_args:string=${convergence_test}
  -D output_blessed=${CMAKE_CURRENT_SOURCE_DIR}/test_convergence.csv
  -D output_test=${CMAKE_CURRENT_BINARY_DIR}/anlys_converge.csv
+ -D tolerance=0.001
  -P ${CMAKE_SOURCE_DIR}/test/her_model_2014/run_test.cmake
  )
 
