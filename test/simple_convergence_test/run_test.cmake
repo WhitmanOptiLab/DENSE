@@ -6,12 +6,12 @@ if( NOT output_test )
    message( FATAL_ERROR "Variable output_test not defined" )
 endif( NOT output_test )
 
-message(${test_cmd} ${test_args} )
-separate_arguments( test_args )
+message(${test_cmd})
+separate_arguments( test_cmd )
 
 
 execute_process(
-   COMMAND ${test_cmd} ${test_args} RESULT_VARIABLE run_fail
+   COMMAND ${test_cmd} RESULT_VARIABLE run_fail
 )
 
 execute_process(

@@ -1,7 +1,7 @@
 <analyses>
 	<anlys type="convergence">
         <species>convergence_specie</species>
-        <anlys-intvl>.01</anlys-intvl>
+        <anlys-intvl>.1</anlys-intvl>
         <window-size>.5</window-size>
         <threshold>.9</threshold>
         <cell-start>0</cell-start>
