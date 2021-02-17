@@ -16,11 +16,14 @@ separate_arguments( test_args )
 execute_process(
    COMMAND ${test_cmd} ${test_args} RESULT_VARIABLE run_fail
 )
+if( run_fail )
+   message( SEND_ERROR "Simulation run failure" )
+endif( run_fail )
 
 message( "Tolerance is" ${tolerance} )
 
 execute_process (
-   COMMAND ${CMAKE_CURRENT_BINARY_DIR}/../numdiff-5.9.0/numdiff -s ,\n -r ${tolerance} ${output_blessed} ${output_test}
+   COMMAND ${CMAKE_CURRENT_BINARY_DIR}/../numdiff-5.9.0/numdiff -s ",\n" -r ${tolerance} ${output_blessed} ${output_test}
    RESULT_VARIABLE test_not_successful
 )
 
