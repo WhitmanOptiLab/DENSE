@@ -10,7 +10,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 #add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-DETERMINISTIC_SIMULATION(time_test ${CMAKE_CURRENT_SOURCE_DIR})
+BUILTIN_SIM_CLI(time_test ${CMAKE_CURRENT_SOURCE_DIR} "Deterministic_Simulation")
 
 #the current DENSE build's compiled simulation called "simulation" 
 set(simA_cmd ${CMAKE_SOURCE_DIR}/test/time_test/simulation)

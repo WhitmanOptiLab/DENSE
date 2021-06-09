@@ -26,4 +26,4 @@ add_executable(
     xmalloc.c 
 )
 target_compile_options(numdiff PRIVATE ${CMAKE_C_FLAGS_DEBUG})
-target_link_options(numdiff PRIVATE ${CMAKE_C_FLAGS_DEBUG})
+#target_link_options(numdiff PRIVATE ${CMAKE_C_FLAGS_DEBUG})

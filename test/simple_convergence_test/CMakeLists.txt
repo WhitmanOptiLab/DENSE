@@ -2,7 +2,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-DETERMINISTIC_SIMULATION(convergence_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+BUILTIN_SIM_CLI(convergence_simulation ${CMAKE_CURRENT_SOURCE_DIR} "Deterministic_Simulation")
 
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/convergence_simulation)
 set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 10 --anlys-intvl 0.01 --step-size .01 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")
