@@ -2,7 +2,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-GILLESPIE_SIMULATION(stochastic_convergence_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+BUILTIN_SIM_CLI(stochastic_convergence_simulation ${CMAKE_CURRENT_SOURCE_DIR} "Fast_Gillespie_Direct_Simulation")
 
 set(test_cmd "${CMAKE_CURRENT_BINARY_DIR}/stochastic_convergence_simulation")
 string(APPEND test_cmd " --param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 10 --anlys-intvl 0.1 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analyses.xml")

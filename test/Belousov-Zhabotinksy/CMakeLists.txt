@@ -2,7 +2,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
-DETERMINISTIC_SIMULATION(bz_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+BUILTIN_SIM_CLI(bz_simulation ${CMAKE_CURRENT_SOURCE_DIR} "Fast_Gillespie_Direct_Simulation")
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/bz_simulation)
 set(test_args "--param-sets ${CMAKE_CURRENT_SOURCE_DIR}/param_sets.csv --cell-total 100 --tissue-width 100 --time-total 15 --anlys-intvl 0.5 -r 279507039 --analysis ${CMAKE_CURRENT_SOURCE_DIR}/analesys.xml")
 add_test( "oscil_test_pt1"

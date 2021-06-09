@@ -3,7 +3,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 add_subdirectory("${DENSE_SOURCE_DIR}/source" "${CMAKE_CURRENT_BINARY_DIR}/source")
 
 
-DETERMINISTIC_SIMULATION(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR})
+BUILTIN_SIM_CLI(her2014_simulation ${CMAKE_CURRENT_SOURCE_DIR} "Deterministic_Simulation")
 
 
 set(test_cmd ${CMAKE_CURRENT_BINARY_DIR}/her2014_simulation)
