@@ -9,15 +9,10 @@
 #include "utility/common_utils.hpp"
 #include "io/csvr_sim.hpp"
 #include "io/csvw_sim.hpp"
-#include "sim/determ/determ.hpp"
-#include "sim/determ/simpson.hpp"
-#include "sim/determ/trap.hpp"
-#include "sim/determ/odepk.hpp"
-#include "sim/stoch/fast_gillespie_direct_simulation.hpp"
-#include "sim/stoch/next_reaction_simulation.hpp"
 #include "model_impl.hpp"
 #include "io/ezxml/ezxml.h"
 #include "arg_parse.hpp"
+#include "Sim_Initializer.hpp"
 
 using style::Color;
 
@@ -34,272 +29,85 @@ using style::Color;
 
 using dense::csvw_sim;
 using dense::CSV_Streamed_Simulation;
-using dense::Deterministic_Simulation;
-using dense::Fast_Gillespie_Direct_Simulation;
-using dense::stochastic::Next_Reaction_Simulation;
 using dense::conc_vector;
+
 namespace dense {
-
-    #ifndef __cpp_concepts
-    template <typename Simulation>
-    #else
-    template <Simulation_Concept Simulation>
-    #endif
-    class Sim_Builder {
-
-        using This = Sim_Builder;
-
-        public:
-            Sim_Builder (This const&) = default;
-            This& operator= (This&&);
-            Sim_Builder<Simulation>(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]);
-            std::vector<Simulation> get_simulations();
-        private:
-            Real* perturbation_factors;
-            Real** gradient_factors;
-   };
-
-   template<>
-   class Sim_Builder <Deterministic_Simulation>{
-        using This = Sim_Builder<Deterministic_Simulation>;
-
+    class Sim_Builder_Base {
       public:
-        This& operator= (This&&);
-        Sim_Builder (This const&) = default;
-        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
+        Sim_Builder_Base(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
+          perturbation_factors(pf), gradient_factors(gf)
+        {
             arg_parse::init(argc, argv);
             using style::Mode;
             style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-            step_size = arg_parse::get<Real>("s", "step-size", 0.0);
-            //require step_size for deterministic simulation
-            if(step_size == 0.0){
-              arg_parse::get<bool>("s", "step-size", nullptr, true);
-            }
-            perturbation_factors = pf;
-            gradient_factors = gf;
-            std::string init_conc;
-            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
-            conc_vector(init_conc, i_or_o, &conc);
+            i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
             adjacency_graph = std::move(adj_graph);
             if (!arg_parse::get<int>("ff", "num-grow-cell", &num_grow_cell, false)) {
               num_grow_cell = 0;
             }
         }
 
-        std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<Deterministic_Simulation> simulations;
-            for (auto& parameter_set : param_sets) {
-              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph, num_grow_cell);
-            }
-            return simulations;
-        };
-
-      private:
+      protected:
         Real* perturbation_factors;
         Real** gradient_factors;
-        Real step_size;
-        std::vector<Real> conc;
         NGraph::Graph adjacency_graph;
         dense::Natural num_grow_cell;
-   };
+        bool i_or_o;
+        std::string init_conc;
+    };
 
-   template<>
-   class Sim_Builder <ODEpack_Simulation>{
-        using This = Sim_Builder<ODEpack_Simulation>;
-
+    class Sim_Builder_Determ : public Sim_Builder_Base {
       public:
-        This& operator= (This&&);
-        Sim_Builder (This const&) = default;
-        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-            arg_parse::init(argc, argv);
-            using style::Mode;
-            style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
+        Sim_Builder_Determ(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
+          Sim_Builder_Base(pf, gf, adj_graph, argc, argv) 
+        {
             step_size = arg_parse::get<Real>("s", "step-size", 0.0);
             //require step_size for deterministic simulation
             if(step_size == 0.0){
               arg_parse::get<bool>("s", "step-size", nullptr, true);
             }
-            perturbation_factors = pf;
-            gradient_factors = gf;
             std::string init_conc;
-            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
             conc_vector(init_conc, i_or_o, &conc);
             adjacency_graph = std::move(adj_graph);
-        }
-
-        std::vector<ODEpack_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<ODEpack_Simulation> simulations;
-            for (auto& parameter_set : param_sets) {
-              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
+            if (!arg_parse::get<int>("ff", "num-grow-cell", &num_grow_cell, false)) {
+              num_grow_cell = 0;
             }
-            return simulations;
-        };
-      private:
-        Real* perturbation_factors;
-        Real** gradient_factors;
+        }
+      protected:
         Real step_size;
         std::vector<Real> conc;
-        NGraph::Graph adjacency_graph;
-   };
+    };
 
-   template<>
-   class Sim_Builder <Simpson_Simulation>{
-        using This = Sim_Builder<Simpson_Simulation>;
-
+    class Sim_Builder_Stoch : public Sim_Builder_Base {
       public:
-        This& operator= (This&&);
-        Sim_Builder (This const&) = default;
-        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-            arg_parse::init(argc, argv);
-            using style::Mode;
-            style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-            step_size = arg_parse::get<Real>("s", "step-size", 0.0);
-            //require step_size for deterministic simulation
-            if(step_size == 0.0){
-              arg_parse::get<bool>("s", "step-size", nullptr, true);
+        Sim_Builder_Stoch(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
+          Sim_Builder_Base(pf, gf, adj_graph, argc, argv) 
+        {
+            seed = 0;
+            if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
+                seed = std::random_device()();
             }
-            perturbation_factors = pf;
-            gradient_factors = gf;
-            std::string init_conc;
-            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
+            std::cout << "Stochastic simulation seed: " << seed << '\n';
             conc_vector(init_conc, i_or_o, &conc);
-            adjacency_graph = std::move(adj_graph);
         }
-
-        std::vector<Simpson_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<Simpson_Simulation> simulations;
-            for (auto& parameter_set : param_sets) {
-              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
-            }
-            return simulations;
-        };
-      private:
-        Real* perturbation_factors;
-        Real** gradient_factors;
-        Real step_size;
-        std::vector<Real> conc;
-        NGraph::Graph adjacency_graph;
-   };
-   template<>
-   class Sim_Builder <Trapezoid_Simulation>{
-        using This = Sim_Builder<Trapezoid_Simulation>;
-
-      public:
-        This& operator= (This&&);
-        Sim_Builder (This const&) = default;
-        Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-            arg_parse::init(argc, argv);
-            using style::Mode;
-            style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-            step_size = arg_parse::get<Real>("s", "step-size", 0.0);
-            //require step_size for deterministic simulation
-            if(step_size == 0.0){
-              arg_parse::get<bool>("s", "step-size", nullptr, true);
-            }
-            perturbation_factors = pf;
-            gradient_factors = gf;
-            std::string init_conc;
-            bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
-            conc_vector(init_conc, i_or_o, &conc);
-            adjacency_graph = std::move(adj_graph);
-        }
-
-        std::vector<Trapezoid_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<Trapezoid_Simulation> simulations;
-            for (auto& parameter_set : param_sets) {
-              simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
-            }
-            return simulations;
-        };
-      private:
-        Real* perturbation_factors;
-        Real** gradient_factors;
-        Real step_size;
-        std::vector<Real> conc;
-        NGraph::Graph adjacency_graph;
-   };
-   template<>
-   class Sim_Builder <Fast_Gillespie_Direct_Simulation>{
-        using This = Sim_Builder<Fast_Gillespie_Direct_Simulation>;
-
-        public:
-            Sim_Builder (This const&) = default;
-            This& operator= (This&&);
-            Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-                 arg_parse::init(argc, argv);
-                 using style::Mode;
-                 style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-                 seed = 0;
-                 if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
-                     seed = std::random_device()();
-                 }
-                 std::cout << "Stochastic simulation seed: " << seed << '\n';
-                 perturbation_factors = pf;
-                 gradient_factors = gf;
-                 std::string init_conc;
-                 bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
-                 conc_vector(init_conc, i_or_o, &conc);
-                 adjacency_graph = std::move(adj_graph);
-                 if (!arg_parse::get<int>("ff", "num-grow-cell", &num_grow_cell, false)) {
-                     num_grow_cell = 0;
-                 }
-								}
-        std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-            std::vector<Fast_Gillespie_Direct_Simulation> simulations;
-            simulations.reserve(param_sets.size());
-            for (auto& parameter_set : param_sets) {
-                simulations.emplace_back(parameter_set, perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
-            }
-            return simulations;
-       }
-
-      private:
-        Real* perturbation_factors;
-        Real** gradient_factors;
+      protected:
         int seed;
-        dense::Natural num_grow_cell;
         std::vector<int> conc;
-        NGraph::Graph adjacency_graph;
-   };
-   template<>
-   class Sim_Builder <Next_Reaction_Simulation>{
-        using This = Sim_Builder<Next_Reaction_Simulation>;
+    };
 
-        public:
-          Sim_Builder (This const&) = default;
-          This& operator= (This&&);
-          Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]){
-              arg_parse::init(argc, argv);
-              using style::Mode;
-              style::configure(arg_parse::get<bool>("n", "no-color", nullptr, false) ? Mode::disable : Mode::force);
-              seed = 0;
-              if (!arg_parse::get<int>("r", "rand-seed", &seed, false)) {
-              seed = std::random_device()();
-              }
-              // Warn user that they are not running deterministic sim
-              std::cout << style::apply(Color::yellow) << "Running stochastic simulation. To run deterministic simulation, specify a step size using the [-s | --step-size] flag." << style::reset() << '\n';
-              std::cout << "Stochastic simulation seed: " << seed << '\n';
-              perturbation_factors = pf;
-              gradient_factors = gf;
-              std::string init_conc;
-              bool i_or_o = arg_parse::get<std::string>("d", "initial-conc", &init_conc, false);
-              conc_vector(init_conc, i_or_o, &conc);
-              adjacency_graph = std::move(adj_graph);
-								}
-        std::vector<Next_Reaction_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-          std::vector<Next_Reaction_Simulation> simulations;
-          for (auto& parameter_set : param_sets) {
-            simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
-          }
-          return simulations;
-        }
+    #ifndef __cpp_concepts
+    template <class Simulation>
+    #else
+    template <Simulation_Concept Simulation>
+    #endif
+    class Sim_Builder {
+        using This = Sim_Builder;
 
-        private:
-          Real* perturbation_factors;
-          Real** gradient_factors;
-          int seed;
-          std::vector<int> conc;
-          NGraph::Graph adjacency_graph;
-     };
+      public:
+        Sim_Builder (This const&) = default;
+        This& operator= (This&&);
+        Sim_Builder<Simulation>(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]);
+        std::vector<Simulation> get_simulations();
+    };
 }
 #endif

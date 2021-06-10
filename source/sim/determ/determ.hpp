@@ -9,6 +9,7 @@
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
 #include "baby_cl.hpp"
+#include "Sim_Builder.hpp"
 
 /* simulation contains simulation data, partially taken from input_params and partially derived from other information
  */
@@ -63,5 +64,23 @@ class Deterministic_Simulation : public Simulation, public Numerical_Integration
   }
 };
 
+template<>
+class Sim_Builder <Deterministic_Simulation> : public Sim_Builder_Determ {
+  using This = Sim_Builder<Deterministic_Simulation>;
+
+  public:
+  This& operator= (This&&);
+  Sim_Builder (This const&) = default;
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) : 
+    Sim_Builder_Determ(pf, gf, adj_graph, argc, argv) {}
+
+  std::vector<Deterministic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Deterministic_Simulation> simulations;
+    for (auto& parameter_set : param_sets) {
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, Minutes{step_size}, conc, adjacency_graph);
+    }
+    return simulations;
+  };
+};
 }
 #endif
