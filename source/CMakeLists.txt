@@ -37,11 +37,11 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${DENSE_SOURCE_DIR}/source/io/csvw.cpp
           ${DENSE_SOURCE_DIR}/source/io/ezxml/ezxml.c
-          ${DENSE_SOURCE_DIR}/source/arg_parse.hpp
+          ${DENSE_SOURCE_DIR}/source/arg_parse.cpp
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
           ${DENSE_SOURCE_DIR}/source/Sim_Builder.hpp
-          ${DENSE_SOURCE_DIR}/source/Sim_Initializer.hpp
+          ${DENSE_SOURCE_DIR}/source/Sim_Initializer.cpp
 					${DENSE_SOURCE_DIR}/source/search/sres.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESES.cpp
 					${DENSE_SOURCE_DIR}/source/search/libsres/ESSRSort.cpp
@@ -97,7 +97,7 @@ function(PARAM_SEARCH_MPI_LIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/io/csvr_sim.cpp
           ${DENSE_SOURCE_DIR}/source/io/csvw.cpp
           ${DENSE_SOURCE_DIR}/source/io/ezxml/ezxml.c
-          ${DENSE_SOURCE_DIR}/source/arg_parse.hpp
+          ${DENSE_SOURCE_DIR}/source/arg_parse.cpp
           ${DENSE_SOURCE_DIR}/source/parse_analysis_entries.hpp
           ${DENSE_SOURCE_DIR}/source/run_simulation.hpp
 	  ${DENSE_SOURCE_DIR}/source/run_analysis_only.hpp

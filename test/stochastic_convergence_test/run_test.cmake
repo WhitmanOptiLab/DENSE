@@ -17,7 +17,7 @@ if( run_fail )
 endif( run_fail )
 
 set(numdiff_call "../../test/numdiff-5.9.0/numdiff")
-string(APPEND numdiff_call " -s ' \\\\t\\\\n,' -a 100")
+string(APPEND numdiff_call " -s ' \\\\t\\\\n,' -a 150")
 separate_arguments( compare_command UNIX_COMMAND ${numdiff_call} )
 execute_process(
    COMMAND ${compare_command} ${output_blessed} ${output_test}

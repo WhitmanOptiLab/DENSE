@@ -7,12 +7,14 @@
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
+#include "Sim_Builder.hpp"
 #include <vector>
 #include <set>
 #include <queue>
 #include <random>
 
 namespace dense {
+namespace stochastic {
 
 /*
  * STOCHASTIC SIMULATOR:
@@ -249,6 +251,27 @@ public:
 
 };
 
+}
+using stochastic::Fast_Gillespie_Direct_Simulation;
+
+template<>
+class Sim_Builder <Fast_Gillespie_Direct_Simulation> : public Sim_Builder_Stoch {
+  using This = Sim_Builder<Fast_Gillespie_Direct_Simulation>;
+
+  public:
+  This& operator= (This&&);
+  Sim_Builder (This const&) = default;
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) : 
+    Sim_Builder_Stoch(pf, gf, adj_graph, argc, argv) {}
+
+  std::vector<Fast_Gillespie_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Fast_Gillespie_Direct_Simulation> simulations;
+    for (auto& parameter_set : param_sets) {
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph, num_grow_cell);
+    }
+    return simulations;
+  };
+};
 }
 
 #endif

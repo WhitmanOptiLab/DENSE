@@ -7,6 +7,7 @@
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
+#include "Sim_Builder.hpp"
 #include "indexed_priority_queue.hpp"
 #include <vector>
 #include <set>
@@ -253,5 +254,26 @@ public:
     void initTau();
 };
 }
+using stochastic::Next_Reaction_Simulation;
+
+template<>
+class Sim_Builder <Next_Reaction_Simulation> : public Sim_Builder_Stoch {
+  using This = Sim_Builder<Next_Reaction_Simulation>;
+
+  public:
+  This& operator= (This&&);
+  Sim_Builder (This const&) = default;
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) : 
+    Sim_Builder_Stoch(pf, gf, adj_graph, argc, argv) {}
+
+  std::vector<Next_Reaction_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Next_Reaction_Simulation> simulations;
+    for (auto& parameter_set : param_sets) {
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
+    }
+    return simulations;
+  };
+};
+
 }
 #endif
