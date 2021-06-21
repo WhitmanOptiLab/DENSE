@@ -44,7 +44,7 @@ Minutes Sorting_Direct_Simulation::age_by (Minutes duration) {
     Simulation::age_by(tau);
   }
   auto finish = std::chrono::high_resolution_clock::now();
-  Simulation::push_performance(finish - start);
+  std::cout << "Reactions fired per second: " << Simulation::get_performance(finish - start) << std::endl;
   return age();
 }
 

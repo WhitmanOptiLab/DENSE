@@ -7,5 +7,6 @@
 #include "determ/odepk.hpp"
 #include "stoch/fast_gillespie_direct_simulation.hpp"
 #include "stoch/next_reaction_simulation.hpp"
+#include "stoch/sorting_direct_simulation.hpp"
 
 #endif //SIM_METHODS_H

@@ -44,8 +44,10 @@ public:
     std::priority_queue<event, std::vector<event>, std::greater<event>> event_schedule;
     */
     
-    //"RSO" is Reaction Search Order that sorted and stored the propensities of reactions approximately throughout the simulation
-    std::vector<int> RSO; //[cell_count() * NUM_REACTIONS]
+    // 1. Initialization 
+
+    //"RSO" is Reaction Search Order that sorts and stores the propensities of reactions approximately throughout the simulation
+    std::vector<int> RSO; //[cell_count() * NUM_REACTIONS]   ------> 4
 
     //"concs" stores current concentration levels for every species in every cell
     std::vector<std::vector<int> > concs;
@@ -148,7 +150,7 @@ public:
           return i;
         }
       }
-      return cell_count() * NUM_REACTIONS - 1;
+      return 0; // -- returning the first index as that by default has the highest propensity // Unedited: Scell_count() * NUM_REACTIONS - 1 
     }
 
     /*

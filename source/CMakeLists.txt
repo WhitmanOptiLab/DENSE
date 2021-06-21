@@ -19,6 +19,7 @@ function(SIMCORELIB localname simdir)
   if (NOT TARGET ${localname})
     add_library(${localname}
           ${DENSE_SOURCE_DIR}/source/core/build_once.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/sorting_direct_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/base.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.hpp
@@ -198,6 +199,11 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       BUILTIN_SIM_CLI(gillespie ${PROJECT_BINARY_DIR} "Fast_Gillespie_Direct_Simulation")
       set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${GILLESPIE_SIM})
+
+    if (${SIM_SORTING_DIRECT_HPP})
+      BUILTIN_SIM_CLI(directsorting ${PROJECT_BINARY_DIR} "Sorting_Direct_Simulation")
+      set_target_properties(directsorting PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif ( ${SIM_SORTING_DIRECT_HPP})
 
     if (${NEXTREACTION_SIM})
       BUILTIN_SIM_CLI(nextreaction ${PROJECT_BINARY_DIR} "Next_Reaction_Simulation")
