@@ -8,5 +8,7 @@
 #include "stoch/fast_gillespie_direct_simulation.hpp"
 #include "stoch/next_reaction_simulation.hpp"
 #include "stoch/sorting_direct_simulation.hpp"
+#include "stoch/log_direct_method.hpp"
+#include "stoch/rejection_based_simulation.hpp"
 
 #endif //SIM_METHODS_H

@@ -55,7 +55,7 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
     }
   }
   auto finish = std::chrono::high_resolution_clock::now();
-  Simulation::push_performance(finish - start);
+  Simulation::get_performance(finish - start);
   return age();
 }
   
@@ -115,7 +115,7 @@ void Rejection_Based_Simulation::init_bounds() {
       rxn.cell = i; \
       rxn.lower_bound = std::max(0.0,dense::model::reaction_##name.active_rate(lower_context)); \
       rxn.upper_bound = std::max(0.0,dense::model::reaction_##name.active_rate(upper_context)); \
-      reactions.push_back(rxn); 
+      reactions.push_back(rxn);
       #include "reactions_list.hpp"
       #undef REACTION  
     }
@@ -297,7 +297,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
             new_reaction.lower_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, lower_context)); 
             new_reaction.upper_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, upper_context)); 
-           if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))){
+           if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))) {
               reactions[begin_bounds+r] = new_reaction;
               old_reactions.push_back(old_reaction);
               new_reactions.push_back(new_reaction);
