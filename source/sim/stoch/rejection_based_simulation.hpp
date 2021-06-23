@@ -8,6 +8,7 @@
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
 #include "propensity_groups.hpp"
+#include "Sim_Builder.hpp"
 #include <vector>
 #include <set>
 #include <queue>
@@ -41,11 +42,11 @@ private:
   //"reaction_propensity_bounds" keeps track of the current propensity bounds(std::pair<lower bound, upper bound>) of ech reaction in every cell
   std::vector<Rxn> reactions;
   
-  //"depends_on_species" keeps track of which reactions are affected by a change in concentraion of a species in its own cell
+  //"depends_on_species" keeps track of which reactions are affected by a change in concentration of a species in its own cell
   std::vector<reaction_id> depends_on_species[NUM_SPECIES];
   
   
-  //"depends_on_neighbor_species" keeps track of which reactions are affected by a change in concentraion of a species in a neighboring cell
+  //"depends_on_neighbor_species" keeps track of which reactions are affected by a change in concentration of a species in a neighboring cell
   std::vector<reaction_id> depends_on_neighbor_species[NUM_SPECIES];
   
   //"depends_on_reaction" is a dependency graph that shows which specie concentrations are affected by a given reaction firing
@@ -179,8 +180,29 @@ class ConcentrationContext {
         std::vector<Real> concs;
         Context<Rejection_Based_Simulation> ctxt;
     };
+}
+
+using stochastic::Rejection_Based_Simulation;
+
+template<>
+class Sim_Builder <Rejection_Based_Simulation> : public Sim_Builder_Stoch {
+  using This = Sim_Builder<Rejection_Based_Simulation>;
+  
+  public:
+  This& operator = (This&&);
+  Sim_Builder (This const&) = default;
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
+    Sim_Builder_Stoch(pf, gf, adj_graph, argc, argv) {}
+
+  std::vector<Rejection_Based_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Rejection_Based_Simulation> simulations;
+    for (auto& parameter_set : param_sets) {
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
+    }
+    return simulations;
+  };
+};
 
 }
-using stochastic::Rejection_Based_Simulation;
-}
+
 #endif
