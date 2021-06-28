@@ -30,6 +30,7 @@ function(SIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/odepk.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
@@ -91,6 +92,7 @@ function(PARAM_SEARCH_MPI_LIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/odepk.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/num_sim.hpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/fast_gillespie_direct_simulation.cpp
+          ${DENSE_SOURCE_DIR}/source/sim/stoch/Gillespie_Direct_Simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/next_reaction_simulation.cpp
           ${DENSE_SOURCE_DIR}/source/sim/stoch/stoch.cpp
           ${DENSE_SOURCE_DIR}/source/utility/common_utils.cpp
@@ -143,7 +145,7 @@ function(CUDASIMCORELIB localname simdir)
           ${DENSE_SOURCE_DIR}/source/sim/determ/trap.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/odepk.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ.cpp
-	  ${DENSE_SOURCE_DIR}/source/in_memory_log.hpp
+	        ${DENSE_SOURCE_DIR}/source/in_memory_log.hpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/determ_cuda.cu
           ${DENSE_SOURCE_DIR}/source/sim/cell_param.cpp
           ${DENSE_SOURCE_DIR}/source/sim/determ/baby_cl.hpp
@@ -201,6 +203,11 @@ if( ${CMAKE_CURRENT_BINARY_DIR} STREQUAL ${PROJECT_BINARY_DIR}/source)
       BUILTIN_SIM_CLI(gillespie ${PROJECT_BINARY_DIR} "Fast_Gillespie_Direct_Simulation")
       set_target_properties(gillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
     endif (${GILLESPIE_SIM})
+
+    if (${SLOW_GILLESPIE_SIM})
+      BUILTIN_SIM_CLI(slowgillespie ${PROJECT_BINARY_DIR} "Gillespie_Direct_Simulation")
+      set_target_properties(slowgillespie PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+    endif (${SLOW_GILLESPIE_SIM})
 
     if (${SIM_SORTING_DIRECT_HPP})
       BUILTIN_SIM_CLI(directsorting ${PROJECT_BINARY_DIR} "Sorting_Direct_Simulation")

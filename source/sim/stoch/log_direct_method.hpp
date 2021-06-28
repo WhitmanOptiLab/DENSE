@@ -87,7 +87,7 @@ public:
      * initializes fields "t" and "generator"
     */
 
-    Log_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
+    Log_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed)
     : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count()*NUM_REACTIONS)
@@ -120,7 +120,7 @@ public:
      * return "j": the index of the reaction chosen in RSO.
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ int choose_reaction() {
+    int choose_reaction() {
       return propensities(generator);
     }
 
@@ -130,7 +130,7 @@ public:
      * arg "rid": the reaction that fired
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
+    void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \

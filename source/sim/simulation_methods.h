@@ -10,5 +10,6 @@
 #include "stoch/sorting_direct_simulation.hpp"
 #include "stoch/log_direct_method.hpp"
 #include "stoch/rejection_based_simulation.hpp"
+#include "stoch/Gillespie_Direct_Simulation.hpp"
 
 #endif //SIM_METHODS_H
