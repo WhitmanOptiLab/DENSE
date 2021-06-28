@@ -7,12 +7,14 @@
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
+#include "Sim_Builder.hpp"
 #include <vector>
 #include <set>
 #include <queue>
 #include <random>
-
+ 
 namespace dense {
+namespace stochastic{
 
 /*
  * STOCHASTIC SIMULATOR:
@@ -81,7 +83,7 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed, std::vector<int> conc, NGraph::Graph adj_graph)
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count())
@@ -113,7 +115,7 @@ public:
   */
    // Todo: store this as a cached variable and change it as propensities change;
    // sum += new_value - old_value;
-    __attribute_noinline__ Real get_total_propensity() const {
+    Real get_total_propensity() const {
       Real sum = total_propensity_; // 0.0;
       /*for (dense::Natural c = 0; c < _cells_total; ++c) {
         for (int r=0; r<NUM_REACTIONS; r++) {
@@ -131,7 +133,7 @@ public:
      * return "j": the index of the reaction chosen.
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ int choose_reaction(Real propensity_portion) {
+    int choose_reaction(Real propensity_portion) {
       Real sum = 0;
       for (Natural c = {}; c < cell_count(); ++c) {
         for (Natural s = {}; s < NUM_REACTIONS; ++s) {
@@ -178,7 +180,7 @@ public:
     }
 */
     CUDA_AGNOSTIC
-    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
+    void update_propensities(dense::Natural cell_, reaction_id rid) {
   #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \
@@ -238,16 +240,39 @@ public:
 
   Minutes age_by(Minutes duration);
 
-  std::vector<Real> get_perf(){
-    return Simulation::get_performance();
-  }
-
+  //std::vector<Real> get_perf(){
+    //return Simulation::get_performance();
+  //}
 
   private:
 
     Minutes time_until_next_event () const;
 
 };
+}
+
+using stochastic::Stochastic_Simulation;
+
+template<>
+class Sim_Builder <Stochastic_Simulation> : public Sim_Builder_Stoch {
+  using This = Sim_Builder<Stochastic_Simulation>;
+
+  public:
+  This& operator = (This&&);
+  Sim_Builder (This const&) = default;
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
+    Sim_Builder_Stoch(pf, gf, adj_graph, argc, argv) {}
+
+  std::vector<Stochastic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Stochastic_Simulation> simulations;
+    for (auto& parameter_set : param_sets) {
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
+    }
+    return simulations;
+  };
+};
 
 }
+
+
 #endif

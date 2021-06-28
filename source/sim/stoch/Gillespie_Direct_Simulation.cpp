@@ -9,6 +9,9 @@
 #include <set>
 
 namespace dense {
+namespace stochastic{
+
+
 
 /*
  * SIMULATE
@@ -33,7 +36,7 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
       executeDelayRXN();
       if (age() >= end_time){
         auto finish = std::chrono::high_resolution_clock::now();
-        Simulation::push_performance(finish - start);
+        Simulation::get_performance(finish - start);
         return age();
       } 
     }
@@ -42,7 +45,7 @@ Minutes Stochastic_Simulation::age_by (Minutes duration) {
     Simulation::age_by(tau);
   }
   auto finish = std::chrono::high_resolution_clock::now();
-  Simulation::push_performance(finish - start);
+  Simulation::get_performance(finish - start);
   return age();
 }
 
@@ -234,4 +237,5 @@ void Stochastic_Simulation::initPropensityNetwork() {
     #undef REACTION
 }
 
+}
 }

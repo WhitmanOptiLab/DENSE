@@ -27,7 +27,7 @@ Minutes Log_Direct_Simulation::age_by (Minutes duration) {
   Simulation::step(true);
   auto end_time = age() + duration;
   while (age() < end_time) {
-    Minutes tau, t_until_event;
+    Minutes tau;
     tau = generateTau();
     /*
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
