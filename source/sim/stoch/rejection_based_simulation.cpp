@@ -29,23 +29,24 @@ Minutes Rejection_Based_Simulation::age_by(Minutes duration){
   auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);
   while(age() < end_time){
-    auto min_group_index = propensity_groups.get_minimal_group_l(generator);
-    bool reaction_fired = false; 
     std::vector<std::pair<dense::Natural,dense::Natural>> changed_species;
     bool all_delays_fired = false; 
+    bool reaction_fired = false; 
     Rxn reaction_to_be_fired;
     while(!reaction_fired){
-      auto r_2 = getRandVariable();
-      Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
-      all_delays_fired = fire_delay_reactions(tau);
-      if(all_delays_fired){
-        reaction_fired = rejection_tests(reaction_to_be_fired, min_group_index);
-        if(reaction_fired){
+    auto group_index = propensity_groups.select_group_by_pl(generator);
+    auto r_2 = getRandVariable();
+    Minutes tau = Minutes{(-1/propensity_groups.get_p_naught())*(std::log(r_2))};
+    all_delays_fired = fire_delay_reactions(tau);
+    if(all_delays_fired){
+      reaction_fired = rejection_tests(reaction_to_be_fired, group_index);
+      if(reaction_fired){
         schedule_or_fire_reaction(reaction_to_be_fired);
-        }
-        Simulation::age_by(tau);
-      }else{
-        reaction_fired = true;
+      }
+      Simulation::age_by(tau);
+    }
+    else{
+      reaction_fired = true;
       }
     }
     if(all_delays_fired){
@@ -92,7 +93,7 @@ void Rejection_Based_Simulation::init_bounds() {
     for(size_t j = 0; j < NUM_SPECIES; j++){
       Real lower;
       Real upper;
-      if(concs[i][j] >= (y/delta) || concs[i][j] <= y){ 
+      if(concs[i][j] >= (y/delta)){ 
         lower = concs[i][j]*(1-delta);
         upper = concs[i][j]*(1+delta);
       } 
@@ -105,8 +106,8 @@ void Rejection_Based_Simulation::init_bounds() {
     }
     concentration_bounds[0].push_back(temp_lower_bounds);
     concentration_bounds[1].push_back(temp_upper_bounds);
-    ConcentrationContext lower_context(concentration_bounds[0][i], *this, i);
-    ConcentrationContext upper_context(concentration_bounds[1][i], *this, i);
+    ConcentrationContext lower_context(concentration_bounds[0], *this, i);
+    ConcentrationContext upper_context(concentration_bounds[1], *this, i);
     
       
       Rxn rxn; 
@@ -190,34 +191,36 @@ bool Rejection_Based_Simulation::fire_delay_reactions(Minutes tau){
   return true;
 }
 
-bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int min_group_index){
-  auto min_group = propensity_groups.get_group_at_index(min_group_index);
-  auto min_group_l_value = min_group_index;
-  Real two_power = pow(2,min_group_l_value);
+bool Rejection_Based_Simulation::rejection_tests(Rxn& rxn, int group_index){
+  auto group = propensity_groups.get_group_at_index(group_index);
+  auto group_rank = group[0].get_group_rank();
+  Real two_power = pow(2,group_rank);
   bool mu_found = false;
   int mu;
   while(!mu_found){
     Real r_2 = getRandVariable();
-    mu = (int)(min_group.size() * r_2);
+    mu = (int)(group.size() * r_2);
     
     #define DOUBLE_PRECISION_VARIABLE
     #ifdef DOUBLE_PRECISION_VARIABLE
-    Real r_3 = (min_group.size() * r_2) -mu;
+    Real r_3 = (group.size() * r_2) -mu;
    
     #else
     
     Real r_3 = getRandVariable();
     #endif 
     #undef DOUBLE_PRECISION_VARIABLE
-    if(r_3 <= (min_group[mu].upper_bound/(two_power+1))){
+    if(r_3 <= (group[mu].upper_bound/(two_power))){
       mu_found = true;
     }
   }
   Real r_4 = getRandVariable();
-  Rxn reaction = min_group.at(mu);
+  Rxn reaction = group.at(mu);
   bool accepted = false;
   
-
+  assert(reaction.lower_bound <= get_real_propensity(reaction));
+  assert(reaction.upper_bound >= get_real_propensity(reaction));
+  
   if(r_4 <= reaction.lower_bound/reaction.upper_bound){
     
     accepted = true;
@@ -250,9 +253,11 @@ bool Rejection_Based_Simulation::check_bounds(std::vector<std::pair<dense::Natur
   bool changed = false;
   std::vector<std::pair<dense::Natural,dense::Natural>> new_concs;
   dense::Natural c = fired_reaction.cell;
-  for(auto r : depends_on_reaction[fired_reaction.reaction]){
-    if(concs[c][r] < concentration_bounds[0][c][r] || concs[c][r] > concentration_bounds[1][c][r]){
-      auto new_pair = std::pair<dense::Natural, dense::Natural>(c,r);
+  const reaction_base& rn = dense::model::getReaction(fired_reaction.reaction);
+  for(int i = 0; i < rn.getNumDeltas(); i++){
+    const specie_id s = rn.getSpecieDeltas()[i];
+    if(concs[c][s] < concentration_bounds[0][c][s] || concs[c][s] > concentration_bounds[1][c][s]){
+      auto new_pair = std::pair<dense::Natural, dense::Natural>(c,s);
       new_concs.push_back(new_pair);
       if(!changed){
         changed = true;
@@ -276,7 +281,7 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
     int current_conc = concs[specie.first][specie.second];
     Real lower;
     Real upper;
-    if(current_conc >= (y/delta) || current_conc <= y){ 
+    if(current_conc >= (y/delta)){ 
       upper = current_conc*(1+delta);
       lower = current_conc*(1-delta);
    } 
@@ -293,8 +298,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             Rxn new_reaction;
             new_reaction.cell = old_reaction.cell;
             new_reaction.reaction = old_reaction.reaction;
-            ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
-            ConcentrationContext upper_context(concentration_bounds[1][specie.first], *this, specie.first);
+            ConcentrationContext lower_context(concentration_bounds[0], *this, specie.first);
+            ConcentrationContext upper_context(concentration_bounds[1], *this, specie.first);
             new_reaction.lower_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, lower_context)); 
             new_reaction.upper_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, upper_context)); 
            if(!((old_reaction.upper_bound == new_reaction.upper_bound)&& (old_reaction.lower_bound == new_reaction.lower_bound))) {
@@ -309,8 +314,8 @@ void Rejection_Based_Simulation::update_bounds(std::vector<std::pair<dense::Natu
             Rxn new_reaction;
             new_reaction.cell = neighbors_by_cell_[specie.first][c];
             new_reaction.reaction = old_reaction.reaction;
-            ConcentrationContext lower_context(concentration_bounds[0][specie.first], *this, specie.first);
-            ConcentrationContext upper_context(concentration_bounds[1][specie.first],*this, specie.first);
+            ConcentrationContext lower_context(concentration_bounds[0], *this, specie.first);
+            ConcentrationContext upper_context(concentration_bounds[1],*this, specie.first);
             new_reaction.lower_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, lower_context)); 
             new_reaction.upper_bound = std::max(0.0,dense::model::active_rate(new_reaction.reaction, upper_context)); 
             int cell_reaction = (neighbors_by_cell_[old_reaction.cell][c]*NUM_REACTIONS)+r;

@@ -22,7 +22,7 @@ struct Rxn {
   friend bool operator> (const Rxn& a, const Rxn& b){return (b < a);}
   friend bool operator<=(const Rxn& a, const Rxn& b){return((a < b) || (a.upper_bound == b.upper_bound)); }
   
-  int get_index() {if(upper_bound == 0) {return 0;} else{return (int)(std::log2(upper_bound));}}
+  int get_group_rank() {if(upper_bound == 0) {return std::numeric_limits<int>::min();} else{return (int)(ceil(std::log2(upper_bound)));}}
   
 };
   

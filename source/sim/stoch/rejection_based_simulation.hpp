@@ -61,6 +61,8 @@ private:
   
   std::default_random_engine generator;
   
+  protected:
+
   double delta;
   
   int y;
@@ -89,20 +91,8 @@ private:
   //
   Real getRandVariable(); 
 public: 
-
   
-  
- 
-   Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
-    , concs(cell_count(), conc)
-    , delay_schedule()
-    , generator(seed){
-    init_bounds();
-    propensity_groups.init_propensity_groups(reactions);
-    init_dependancy_graph();
-  }
-  
-    Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph, double d, int yval) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
+    Rejection_Based_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, int seed, std::vector<int> conc, NGraph::Graph adj_graph, double d = 0.1, int yval = 5) :  Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , delay_schedule()
     , generator(seed)
@@ -160,25 +150,31 @@ private:
 
 class ConcentrationContext {
       public:
-        ConcentrationContext(std::vector<Real> concentrations, Rejection_Based_Simulation& sim, Natural cell) :
-            concs(concentrations), ctxt(sim, cell) {};
+        ConcentrationContext(std::vector<std::vector<Real>> concentrations, Rejection_Based_Simulation& sim, Natural cell) :
+            concs(concentrations), ctxt(sim), Cell(cell) {};
         Real getCon(specie_id specie, int = 0) const {
-          return concs.at(specie);
+          return concs[specie][Cell]; 
         }
         Real getCon(specie_id specie){
-          return concs.at(specie);
+          return concs[specie][Cell];
         }
         Real getRate(reaction_id reaction) const { return ctxt.getRate(reaction);};
         Real getDelay(delay_reaction_id reaction) const { return ctxt.getDelay(reaction); }
         Real getCritVal(critspecie_id reaction) const { return ctxt.getCritVal(reaction); }
         Real calculateNeighborAvg(specie_id sp, int = 0) const {
-           (void)sp;
-            return 0.0;
+          Real sum = 0;
+          auto count = concs[sp].size();
+          for (unsigned int i = 0; i < count; i++) {
+            sum += concs[sp][i];
+          }
+          sum /= count;
+          return sum;
         }
       private:
         
-        std::vector<Real> concs;
-        Context<Rejection_Based_Simulation> ctxt;
+        std::vector<std::vector<Real>> &concs; //use the concs at specie [] && [] --> use the specific cells for species now when implementing the data structure
+        Context<Rejection_Based_Simulation> ctxt; //  save cell as a separate field of the concentrationContext -----> the constructor call is not recognizing the function
+        Natural Cell;
     };
 }
 
