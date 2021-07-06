@@ -16,7 +16,7 @@ function(STOCHASTIC_CONVERGENCE_TEST method name)
       )
 endfunction(STOCHASTIC_CONVERGENCE_TEST method name)
 
-#STOCHASTIC_CONVERGENCE_TEST("Stochastic_Simulation" "dir")
+STOCHASTIC_CONVERGENCE_TEST("Stochastic_Simulation" "dir")
 STOCHASTIC_CONVERGENCE_TEST("Fast_Gillespie_Direct_Simulation" "fastdir")
 STOCHASTIC_CONVERGENCE_TEST("Next_Reaction_Simulation" "nr")
 STOCHASTIC_CONVERGENCE_TEST("Sorting_Direct_Simulation" "sorting_dir_")

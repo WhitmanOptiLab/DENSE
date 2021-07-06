@@ -1,5 +1,5 @@
 #include <cmath>
-#include "log_direct_method.hpp"
+#include "Gillespie_Direct_Simulation.hpp"
 #include "sim/cell_param.hpp"
 #include "model_impl.hpp"
 #include "core/model.hpp"
@@ -9,7 +9,9 @@
 #include <set>
 
 namespace dense {
-namespace stochastic {
+namespace stochastic{
+
+
 
 /*
  * SIMULATE
@@ -19,33 +21,31 @@ namespace stochastic {
  * postcondition: ti>=time_total
 */
 
-std::uniform_real_distribution<Real> Log_Direct_Simulation::distribution_ = std::uniform_real_distribution<Real>{0.0, 1.0};
+std::uniform_real_distribution<Real> Stochastic_Simulation::distribution_ = std::uniform_real_distribution<Real>{0.0, 1.0};
 
 CUDA_AGNOSTIC
-Minutes Log_Direct_Simulation::age_by (Minutes duration) {
+Minutes Stochastic_Simulation::age_by (Minutes duration) {
+  auto end_time = age() + duration;
   auto start = std::chrono::high_resolution_clock::now();
   Simulation::step(true);
-  auto end_time = age() + duration;
   while (age() < end_time) {
-    Minutes tau;
-    tau = generateTau();
-    /*
+    Minutes tau, t_until_event;
+
     while ((tau = generateTau()) > (t_until_event = time_until_next_event())) {
       Simulation::age_by(t_until_event);
       executeDelayRXN();
-      if (age() >= end_time) return age();
+      if (age() >= end_time){
+        auto finish = std::chrono::high_resolution_clock::now();
+        Simulation::get_performance(finish - start);
+        return age();
+      } 
     }
-    if(end_time < (age() + tau)){
-      Minutes diff = end_time - age();
-      Simulation::age_by(diff);
-      return age();
-    }
-    */
+
     tauLeap();
     Simulation::age_by(tau);
   }
   auto finish = std::chrono::high_resolution_clock::now();
-  std::cout << "Reactions fired per second: " << Simulation::get_performance(finish - start) << std::endl;
+  Simulation::get_performance(finish - start);
   return age();
 }
 
@@ -53,7 +53,7 @@ Minutes Log_Direct_Simulation::age_by (Minutes duration) {
  * GENERATETAU
  * return "tau": possible timestep leap calculated from a random variable
 */
-Minutes Log_Direct_Simulation::generateTau() {
+Minutes Stochastic_Simulation::generateTau() {
   auto r = getRandVariable();
   auto log_inv_r = -std::log(r);
 
@@ -65,17 +65,15 @@ Minutes Log_Direct_Simulation::generateTau() {
  * return "dTime": the time that the next scheduled delay reaction will fire
  * if no delay reaction is scheduled, the maximum possible float is returned
 */
-/*
-Minutes Log_Direct_Simulation::getSoonestDelay() const {
+Minutes Stochastic_Simulation::getSoonestDelay() const {
   return event_schedule.empty() ?
     Minutes{ std::numeric_limits<Real>::infinity() } :
     event_schedule.top().time;
 }
 
-Minutes Log_Direct_Simulation::time_until_next_event() const {
+Minutes Stochastic_Simulation::time_until_next_event() const {
   return getSoonestDelay() - age();
 }
-*/
 
 /*
  * EXECUTEDELAYRXN
@@ -83,20 +81,18 @@ Minutes Log_Direct_Simulation::time_until_next_event() const {
  * precondition: a delay reaction is scheduled
  * postcondition: the soonest scheduled delay reaction is removed from the schedule
 */
-/*
-void Log_Direct_Simulation::executeDelayRXN() {
+void Stochastic_Simulation::executeDelayRXN() {
   event delay_rxn = event_schedule.top();
   fireReaction(delay_rxn.cell, delay_rxn.rxn);
   event_schedule.pop();
 }
-*/
 
 /*
  * GETRANDVARIABLE
  * return "u": a random variable between 0.0 and 1.0
 */
 
-Real Log_Direct_Simulation::getRandVariable() {
+Real Stochastic_Simulation::getRandVariable() {
 	return distribution_(generator);
 }
 
@@ -105,11 +101,15 @@ Real Log_Direct_Simulation::getRandVariable() {
  * chooses a reaction to fire or schedule and moves forward in time
  * arg "tau": timestep to leap forward by
 */
-void Log_Direct_Simulation::tauLeap(){
-  int j = choose_reaction();
+void Stochastic_Simulation::tauLeap(){
+
+	Real propensity_portion = getRandVariable() * get_total_propensity();
+
+	int j = choose_reaction(propensity_portion);
 	int r = j % NUM_REACTIONS;
 	int c = j / NUM_REACTIONS;
-  fireOrSchedule(c,(reaction_id)r);
+
+    fireOrSchedule(c,(reaction_id)r);
 }
 
 /*
@@ -118,8 +118,8 @@ void Log_Direct_Simulation::tauLeap(){
  * arg "c": the cell that the reaction takes place in
  * arg "rid": the reaction to fire or schedule
 */
-void Log_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
-    /*
+void Stochastic_Simulation::fireOrSchedule(int cell, reaction_id rid){
+
 	delay_reaction_id dri = dense::model::getDelayReactionId(rid);
 
 	if (dri!=NUM_DELAY_REACTIONS) {
@@ -128,8 +128,6 @@ void Log_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
 	else {
 		fireReaction(cell, rid);
 	}
-    */
-    fireReaction(cell, rid);
 }
 
 /*
@@ -138,10 +136,10 @@ void Log_Direct_Simulation::fireOrSchedule(int cell, reaction_id rid){
  * arg "*c": pointer to a context of the cell to fire the reaction in
  * arg "rid": reaction to fire
 */
-void Log_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
-	Simulation::step(false);
-  const reaction_base& r = dense::model::getReaction(rid);
+void Stochastic_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
+	const reaction_base& r = dense::model::getReaction(rid);
 	const specie_id* specie_deltas = r.getSpecieDeltas();
+  Simulation::step(false);
 	for (int i=0; i<r.getNumDeltas(); i++){
 		update_concentration(cell, specie_deltas[i], r.getDeltas()[i]);
 	}
@@ -152,17 +150,16 @@ void Log_Direct_Simulation::fireReaction(dense::Natural cell, reaction_id rid){
  * INITPROPENSITIES
  * sets the propensities of each reaction in each cell to its respective active
 */
-void Log_Direct_Simulation::initPropensities(){
-    std::vector<Real> prop_list;
+void Stochastic_Simulation::initPropensities(){
+   total_propensity_ = 0.0;
     for (dense::Natural c = 0; c < cell_count(); ++c) {
         Context ctxt(*this,c);
         #define REACTION(name) \
-        prop_list.push_back(dense::model::reaction_##name.active_rate(ctxt));
+        propensities[c].push_back(dense::model::reaction_##name.active_rate(ctxt));\
+        total_propensity_ += propensities[c].back();
         #include "reactions_list.hpp"
         #undef REACTION
     }
-    //initialize propensity random selector
-    propensities = fast_random_selector<int>(prop_list);
 }
 
 /*
@@ -170,7 +167,7 @@ void Log_Direct_Simulation::initPropensities(){
  * populates the "propensity_network" and "neighbor_propensity_network" data structures
  * finds inter- and intracellular reactions that have rates affected by the firing of each rxn
 */
-void Log_Direct_Simulation::initPropensityNetwork() {
+void Stochastic_Simulation::initPropensityNetwork() {
 
     std::set<specie_id> neighbor_dependencies[NUM_REACTIONS];
     std::set<specie_id> dependencies[NUM_REACTIONS];

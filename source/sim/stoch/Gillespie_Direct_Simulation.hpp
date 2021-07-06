@@ -1,5 +1,5 @@
-#ifndef SIM_LOG_DIRECT_HPP
-#define SIM_LOG_DIRECT_HPP
+#ifndef SIM_STOCH_HPP
+#define SIM_STOCH_HPP
 
 #include "sim/base.hpp"
 #include "core/parameter_set.hpp"
@@ -7,15 +7,14 @@
 #include "core/specie.hpp"
 #include "sim/cell_param.hpp"
 #include "core/reaction.hpp"
-#include "datastructures/modifiable_heap_random_selector.hpp"
 #include "Sim_Builder.hpp"
 #include <vector>
 #include <set>
 #include <queue>
 #include <random>
-
+ 
 namespace dense {
-namespace stochastic {
+namespace stochastic{
 
 /*
  * STOCHASTIC SIMULATOR:
@@ -23,11 +22,11 @@ namespace stochastic {
  * uses Gillespie's tau leaping algorithm
  * uses Barrio's delay SSA
 */
-class Log_Direct_Simulation : public Simulation {
+class Stochastic_Simulation : public Simulation {
 
 public:
 
-    using Context = dense::Context<Log_Direct_Simulation>;
+    using Context = dense::Context<Stochastic_Simulation>;
 
  private:
 
@@ -40,16 +39,13 @@ public:
 	    friend bool operator>(event const& a, event const& b) { return b < a; }
     };
 
-    /*
     //"event_schedule" is a set ordered by time of delay reactions that will fire
     std::priority_queue<event, std::vector<event>, std::greater<event>> event_schedule;
-    */
-    
+
     //"concs" stores current concentration levels for every species in every cell
     std::vector<std::vector<int> > concs;
-    //"propensities" stores probability of each rxn firing, calculated from active rates, and 
-    //  enables weighted random selection from among its elements
-    fast_random_selector<int> propensities;
+    //"propensities" stores probability of each rxn firing, calculated from active rates
+    std::vector<std::vector<Real> > propensities;
     //for each rxn, stores intracellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> propensity_network[NUM_REACTIONS];
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
@@ -57,6 +53,7 @@ public:
     //random number generator
     std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
 
+    Real total_propensity_ = {};
     static std::uniform_real_distribution<Real> distribution_;
 
     Minutes generateTau();
@@ -86,17 +83,14 @@ public:
      * calls simulation base constructor
      * initializes fields "t" and "generator"
     */
-
-    Log_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed)
-    : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
+    Stochastic_Simulation(const Parameter_Set& ps, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed, std::vector<int> conc, NGraph::Graph adj_graph)
+    : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
-    , propensities(cell_count()*NUM_REACTIONS)
+    , propensities(cell_count())
     , generator{seed} {
       initPropensityNetwork();
       initPropensities();
     }
-  
-    Real get_total_propensity() const {return propensities.total_weight();}
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
       return concs.at(cell).at(species);
@@ -113,15 +107,43 @@ public:
     }
 
 
+  /*
+   * GETTOTALPROPENSITY
+   * sums the propensities of every reaction in every cell
+   * called by "generateTau" in simulation_stoch.cpp
+   * return "sum": the propensity sum
+  */
+   // Todo: store this as a cached variable and change it as propensities change;
+   // sum += new_value - old_value;
+    Real get_total_propensity() const {
+      Real sum = total_propensity_; // 0.0;
+      /*for (dense::Natural c = 0; c < _cells_total; ++c) {
+        for (int r=0; r<NUM_REACTIONS; r++) {
+          sum += propensities[c][r];
+        }
+      }*/
+      return sum;
+    }
+
+
     /*
      * CHOOSEREACTION
      * randomly chooses a reaction biased by their propensities
      * arg "propensity_portion": the propensity sum times a random variable between 0.0 and 1.0
-     * return "j": the index of the reaction chosen in RSO.
+     * return "j": the index of the reaction chosen.
     */
     CUDA_AGNOSTIC
-    int choose_reaction() {
-      return propensities(generator);
+    int choose_reaction(Real propensity_portion) {
+      Real sum = 0;
+      for (Natural c = {}; c < cell_count(); ++c) {
+        for (Natural s = {}; s < NUM_REACTIONS; ++s) {
+          sum += propensities[c][s];
+          if (sum > propensity_portion) {
+            return (c * NUM_REACTIONS) + s;
+          }
+        }
+      }
+      return cell_count() * NUM_REACTIONS - 1;
     }
 
     /*
@@ -129,28 +151,76 @@ public:
      * recalculates the propensities of reactions affected by the firing of "rid"
      * arg "rid": the reaction that fired
     */
-    CUDA_AGNOSTIC
-    void update_propensities(dense::Natural cell_, reaction_id rid) {
+/*    CUDA_AGNOSTIC
+    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \
-                propensities.update_weight(encode(cell_,name), \
-                    dense::model::reaction_##name.active_rate(Context(*this, cell_))); \
+                auto& p = propensities[cell_][name];\
+                auto new_p = dense::model::reaction_##name.active_rate(Context(*this, cell_)); \
+                total_propensity_ += new_p - p;\
+                p = new_p;\
             } \
         } \
+    \
         for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
             if (name == neighbor_propensity_network[rid][r]) { \
                 for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
                     int n_cell = neighbors_by_cell_[cell_][n]; \
                     Context neighbor(*this, n_cell); \
-                    propensities.update_weight(encode(n_cell, name), \
-                        dense::model::reaction_##name.active_rate(neighbor)); \
+                    auto& p = propensities[n_cell][name];\
+                    auto new_p = dense::model::reaction_##name.active_rate(neighbor); \
+                    total_propensity_ += new_p - p;\
+                    p = new_p;\
+                } \
+            } \
+        }
+        #include "reactions_list.hpp"
+        #undef REACTION 
+    }
+*/
+    CUDA_AGNOSTIC
+    void update_propensities(dense::Natural cell_, reaction_id rid) {
+  #define REACTION(name) \
+        for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
+            if ( name == propensity_network[rid][i] ) { \
+                auto& p = propensities[cell_][name];\
+                auto new_p = dense::model::reaction_##name.active_rate(Context(*this, cell_)); \
+                total_propensity_ += new_p - p;\
+                p = new_p;\
+            } \
+        } \
+    \
+        for (std::size_t r=0; r< neighbor_propensity_network[rid].size(); r++) { \
+            if (name == neighbor_propensity_network[rid][r]) { \
+                for (dense::Natural n=0; n < neighbor_count_by_cell_[cell_]; n++) { \
+                    int n_cell = neighbors_by_cell_[cell_][n]; \
+                    Context neighbor(*this, n_cell); \
+                    auto& p = propensities[n_cell][name];\
+                    auto new_p = dense::model::reaction_##name.active_rate(neighbor); \
+                    total_propensity_ += new_p - p;\
+                    p = new_p;\
                 } \
             } \
         }
         #include "reactions_list.hpp"
         #undef REACTION
     }
+        /*for (auto rxn : propensity_network[rid]) {
+          auto& p = propensities[cell_][rxn];
+          auto new_p = dense::model::active_rate(rxn, Context(this, cell_));
+          total_propensity_ += new_p - p;
+          p = new_p;
+        }
+        for (auto rxn : neighbor_propensity_network[rid]) {
+          for (Natural n = 0; n < neighbor_count_by_cell_[cell_]; ++n) {
+            Natural n_cell = neighbors_by_cell_[cell_][n];
+            auto& p = propensities[n_cell][rxn];
+            auto new_p = dense::model::active_rate(rxn, Context(this, n_cell));
+            total_propensity_ += new_p - p;
+            p = new_p;
+          }
+        }*/
 
 
   /*
@@ -170,38 +240,39 @@ public:
 
   Minutes age_by(Minutes duration);
 
+  //std::vector<Real> get_perf(){
+    //return Simulation::get_performance();
+  //}
+
   private:
-    int encode(Natural cell, reaction_id reaction){
-			Natural rxn_id = static_cast<Natural>(reaction);
-			return (cell*NUM_REACTIONS)+rxn_id;
-		}
 
     Minutes time_until_next_event () const;
 
 };
-
 }
-using stochastic::Log_Direct_Simulation;
+
+using stochastic::Stochastic_Simulation;
 
 template<>
-class Sim_Builder <Log_Direct_Simulation> : public Sim_Builder_Stoch {
-  using This = Sim_Builder<Log_Direct_Simulation>;
+class Sim_Builder <Stochastic_Simulation> : public Sim_Builder_Stoch {
+  using This = Sim_Builder<Stochastic_Simulation>;
 
   public:
-  This& operator= (This&&);
+  This& operator = (This&&);
   Sim_Builder (This const&) = default;
-  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) : 
+  Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]) :
     Sim_Builder_Stoch(pf, gf, adj_graph, argc, argv) {}
 
-  std::vector<Log_Direct_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
-    std::vector<Log_Direct_Simulation> simulations;
+  std::vector<Stochastic_Simulation> get_simulations(std::vector<Parameter_Set> param_sets){
+    std::vector<Stochastic_Simulation> simulations;
     for (auto& parameter_set : param_sets) {
-      simulations.emplace_back(std::move(parameter_set), adjacency_graph, conc, perturbation_factors, gradient_factors, seed);
+      simulations.emplace_back(std::move(parameter_set), perturbation_factors, gradient_factors, seed, conc, adjacency_graph);
     }
     return simulations;
   };
 };
 
 }
+
 
 #endif
