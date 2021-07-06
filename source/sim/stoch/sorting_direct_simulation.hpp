@@ -82,7 +82,7 @@ public:
     using SpecieRates = CUDA_Array<Real, NUM_SPECIES>;
 
   private:
-    void fireReaction(dense::Natural cell, const reaction_id rid);
+    void fireReaction(dense::Natural cell, const reaction_id rid); 
 
   public:
     /*
@@ -91,7 +91,7 @@ public:
      * initializes fields "t" and "generator"
     */
 
-    Sorting_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, int seed)
+    Sorting_Direct_Simulation(const Parameter_Set& ps, NGraph::Graph adj_graph, std::vector<int> conc, Real* pnFactorsPert, Real** pnFactorsGrad, unsigned int seed)
     : Simulation(ps, adj_graph, pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count())
@@ -123,7 +123,7 @@ public:
   */
    // Todo: store this as a cached variable and change it as propensities change;
    // sum += new_value - old_value;
-    __attribute_noinline__ Real get_total_propensity() const {
+     Real get_total_propensity() const {
       Real sum = total_propensity_; // 0.0;
       /*for (dense::Natural c = 0; c < _cells_total; ++c) {
         for (int r=0; r<NUM_REACTIONS; r++) {
@@ -141,7 +141,7 @@ public:
      * return "j": the index of the reaction chosen in RSO.
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ int choose_reaction(Real propensity_portion) {
+    int choose_reaction(Real propensity_portion) {
       Real selector = propensity_portion;
       for (int i = 0; i < cell_count()*NUM_REACTIONS; ++i) {
         int rxnIndex = RSO[i];
@@ -159,7 +159,7 @@ public:
      * arg "rid": the reaction that fired
     */
     CUDA_AGNOSTIC
-    __attribute_noinline__ void update_propensities(dense::Natural cell_, reaction_id rid) {
+     void update_propensities(dense::Natural cell_, reaction_id rid) {
         #define REACTION(name) \
         for (std::size_t i=0; i< propensity_network[rid].size(); i++) { \
             if ( name == propensity_network[rid][i] ) { \
