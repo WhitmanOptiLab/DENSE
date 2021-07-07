@@ -106,21 +106,23 @@ void Rejection_Based_Simulation::init_bounds() {
     }
     concentration_bounds[0].push_back(temp_lower_bounds);
     concentration_bounds[1].push_back(temp_upper_bounds);
-    ConcentrationContext lower_context(concentration_bounds[0], *this, i);
-    ConcentrationContext upper_context(concentration_bounds[1], *this, i);
-    
-      
-      Rxn rxn; 
-      #define REACTION(name) \
-      rxn.reaction = name; \
-      rxn.cell = i; \
-      rxn.lower_bound = std::max(0.0,dense::model::reaction_##name.active_rate(lower_context)); \
-      rxn.upper_bound = std::max(0.0,dense::model::reaction_##name.active_rate(upper_context)); \
-      reactions.push_back(rxn);
-      #include "reactions_list.hpp"
-      #undef REACTION  
-    }
   }
+    for(int i = 0; i <cell_count(); i++) {
+      ConcentrationContext lower_context(concentration_bounds[0], *this, i);
+      ConcentrationContext upper_context(concentration_bounds[1], *this, i);
+      for(size_t j = 0; j < NUM_SPECIES; j++) {
+        Rxn rxn; 
+        #define REACTION(name) \
+        rxn.reaction = name; \
+        rxn.cell = i; \
+        rxn.lower_bound = std::max(0.0,dense::model::reaction_##name.active_rate(lower_context)); \
+        rxn.upper_bound = std::max(0.0,dense::model::reaction_##name.active_rate(upper_context)); \
+        reactions.push_back(rxn);
+        #include "reactions_list.hpp"
+        #undef REACTION  
+      }
+    }
+}
   
   
   

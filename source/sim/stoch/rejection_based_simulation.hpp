@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <chrono>
 
+
 namespace dense {
 namespace stochastic {
 
@@ -35,9 +36,9 @@ public:
 private:
    //"concs" contains the current concentration of each species in every cell
   std::vector<std::vector<int>> concs;
-  
+
   //"concentration_bounds" contains the current concentration bounds (std::pair<lower bound, upper bound>)of each species in every cell. Array row 0 is lower bounds, array row 1 is upper bounds. 
-  std::vector<std::vector<Real>> concentration_bounds[2];
+  std::array<std::vector<std::vector<Real>>, 2> concentration_bounds;   //  (x, std::vector<Real>(NUM_SPECIES));
   
   //"reaction_propensity_bounds" keeps track of the current propensity bounds(std::pair<lower bound, upper bound>) of ech reaction in every cell
   std::vector<Rxn> reactions;
@@ -98,6 +99,7 @@ public:
     , generator(seed)
     , delta(d)
     , y(yval){
+
     init_bounds();
     propensity_groups.init_propensity_groups(reactions);
     init_dependancy_graph();
@@ -150,13 +152,13 @@ private:
 
 class ConcentrationContext {
       public:
-        ConcentrationContext(std::vector<std::vector<Real>> concentrations, Rejection_Based_Simulation& sim, Natural cell) :
+        ConcentrationContext(const std::vector<std::vector<Real>>& concentrations, Rejection_Based_Simulation& sim, Natural cell) :
             concs(concentrations), ctxt(sim), Cell(cell) {};
         Real getCon(specie_id specie, int = 0) const {
-          return concs[specie][Cell]; 
+          return concs[Cell][specie]; 
         }
         Real getCon(specie_id specie){
-          return concs[specie][Cell];
+          return concs[Cell][specie];
         }
         Real getRate(reaction_id reaction) const { return ctxt.getRate(reaction);};
         Real getDelay(delay_reaction_id reaction) const { return ctxt.getDelay(reaction); }
@@ -172,8 +174,8 @@ class ConcentrationContext {
         }
       private:
         
-        std::vector<std::vector<Real>> &concs; //use the concs at specie [] && [] --> use the specific cells for species now when implementing the data structure
-        Context<Rejection_Based_Simulation> ctxt; //  save cell as a separate field of the concentrationContext -----> the constructor call is not recognizing the function
+        const std::vector<std::vector<Real>> &concs; 
+        Context<Rejection_Based_Simulation> ctxt;
         Natural Cell;
     };
 }
