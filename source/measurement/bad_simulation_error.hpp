@@ -11,7 +11,7 @@ namespace dense {
   template <typename Simulation>
   #else
   template <Simulation_Concept Simulation>
-  #endif
+  #endif 
   class Bad_Simulation_Error : public std::runtime_error {
 
     public:

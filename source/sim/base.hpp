@@ -132,6 +132,7 @@ class Simulation {
 
     ///calculate how many reaction are fired in a second for each time step
     Real get_performance(std::chrono::duration<double> elapsed) noexcept;
+    Real get_step() noexcept;
     
     Real step(bool restart) noexcept;
 
@@ -383,6 +384,10 @@ inline Real Simulation::step (bool restart) noexcept {
 CUDA_AGNOSTIC
 inline Real Simulation::get_performance(std::chrono::duration<double> elapsed) noexcept{
   return Real{step_/elapsed.count()};
+}
+CUDA_AGNOSTIC
+inline Real Simulation::get_step() noexcept{
+  return step_;
 }
 
 CUDA_AGNOSTIC

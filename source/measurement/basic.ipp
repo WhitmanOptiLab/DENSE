@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-template <typename Simulation>
+template <typename Simulation> 
 BasicAnalysis<Simulation>::BasicAnalysis (
   std::vector<Species> const& observed_species,
   std::pair<dense::Natural, dense::Natural> cell_range,
@@ -48,7 +48,7 @@ void BasicAnalysis<Simulation>::finalize () {
     detail.concs = means;
     detail.other_details.emplace_back(mins);
     detail.other_details.emplace_back(maxs);
-}
+} 
 
 
 template<typename Simulation>

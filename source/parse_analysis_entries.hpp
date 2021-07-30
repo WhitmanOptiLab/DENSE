@@ -36,6 +36,8 @@ using dense::CSV_Streamed_Simulation;
 using dense::Deterministic_Simulation;
 using dense::Fast_Gillespie_Direct_Simulation;
 using dense::stochastic::Next_Reaction_Simulation;
+#include "measurement/perf.hpp"
+
 
 namespace dense {
 
@@ -140,6 +142,7 @@ std::vector<std::pair<std::string, std::unique_ptr<Analysis<Simulation>>>> parse
       named_analysis_vector.emplace_back("", std14::make_unique<BasicAnalysis<Simulation>>(
         default_specie_option, std::make_pair(0, cell_total)));
   }
+  named_analysis_vector.emplace_back("performance_obj", std14::make_unique<PerfAnalysis<Simulation>>(default_specie_option, std::make_pair(0, cell_total)) );
 
   return named_analysis_vector;
 }
