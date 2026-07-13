@@ -1,0 +1,3 @@
+[submodule "source/sim/determ/methods/DDEINT"]
+	path = source/sim/determ/methods/DDEINT
+	url = https://github.com/WhitmanOptiLab/DDEINT.git
