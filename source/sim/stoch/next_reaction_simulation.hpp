@@ -1,6 +1,8 @@
 #ifndef SIM_STOCH_NEXT_REACTION_SIMULATION_HPP
 #define SIM_STOCH_NEXT_REACTION_SIMULATION_HPP
 
+#define __attribute_noinline__ __attribute__((noinline))
+
 #include "sim/base.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
@@ -89,7 +91,7 @@ public:
     , reaction_schedule(NUM_REACTIONS * cell_count()) 
     , concs(cell_count(), conc)
     , propensities(cell_count())
-    , generator{seed} {
+    , generator{static_cast<unsigned int>(seed)} {
       // 1.a. generate the dependency graph
       initPropensityNetwork();
       // 1.b. calculate the propensity function a_i for all i
@@ -127,6 +129,10 @@ public:
       Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
       cell_index++; parent_index++;
       add_cell_base(cell);
+
+      // Add these two lines here to satisfy the compiler:
+      (void)cell_index;
+      (void)parent_index;
     }
   
     void remove_cell(Natural cell){

@@ -1,6 +1,8 @@
 #ifndef SIM_STOCH_HPP
 #define SIM_STOCH_HPP
 
+#define __attribute_noinline__ __attribute__((noinline))
+
 #include "sim/base.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
@@ -49,7 +51,9 @@ public:
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
     //random number generator
+    //std::mt19937 generator = std::mt19937{ std::random_device()() };
     std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
+
 
     Real total_propensity_ = {};
     static std::uniform_real_distribution<Real> distribution_;
@@ -85,7 +89,7 @@ public:
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad)
     , concs(cell_count(), conc)
     , propensities(cell_count())
-    , generator{seed} {
+    , generator{static_cast<unsigned int>(seed)} {
       initPropensityNetwork();
       initPropensities();
     }
@@ -110,6 +114,10 @@ public:
       Natural parent_index = find_id(parent); //parent_index is the physical id for the parent virtual cell
       cell_index++; parent_index++;
       add_cell_base(cell);
+
+      // Add these two lines directly below it:
+      (void)cell_index;
+      (void)parent_index;
     }
   
     void remove_cell(Natural cell){

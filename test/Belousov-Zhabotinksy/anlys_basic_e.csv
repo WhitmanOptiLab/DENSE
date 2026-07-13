@@ -1,5 +1,5 @@
-# Showing cells 0-99 between 12 min and 14.5438 min
+# Showing cells 0-99 between 12 min and 14.5335 min
 Species,Minimum Concentration,Mean Concentration,Maximum Concentration
-FE2,0,1.30808,8
-FE3,0,8.07071,42
-BR,0,4.82071,33
+FE2,0,1.03535,6
+FE3,0,3.51263,12
+BR,0,1.67424,8

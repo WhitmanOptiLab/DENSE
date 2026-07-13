@@ -49,7 +49,7 @@ namespace dense {
         public: 
             Sim_Builder (This const&) = default;
             This& operator= (This&&);
-            Sim_Builder<Simulation>(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]);
+            Sim_Builder(Real* pf, Real** gf, NGraph::Graph adj_graph, int argc, char* argv[]);
             std::vector<Simulation> get_simulations();
         private:
             Real* perturbation_factors;

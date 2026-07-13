@@ -19,6 +19,7 @@
 #include <type_traits>
 #include <utility>
 #include <chrono>
+#include <array>
 
 # if defined __CUDA_ARCH__
 using Minutes = Real;

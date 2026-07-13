@@ -56,6 +56,7 @@ bool csvr::get_next(Real* pnRate) {
 bool csvr::get_real(std::istream& iFile, Real* pnRate) {
   // tParam data from file to be "pushed" to pfRate
   std::string tParam; int iLine = 0;
+  (void)iLine;
 
   char c;
   while (iFile >> c) {

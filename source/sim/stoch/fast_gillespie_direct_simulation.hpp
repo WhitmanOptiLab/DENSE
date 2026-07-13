@@ -1,6 +1,8 @@
 #ifndef SIM_STOCH_FAST_HPP
 #define SIM_STOCH_FAST_HPP
 
+#define __attribute_noinline__ __attribute__((noinline))
+
 #include "sim/base.hpp"
 #include "core/parameter_set.hpp"
 #include "core/model.hpp"
@@ -48,6 +50,7 @@ public:
     //for each rxn, stores intercellular reactions whose rates are affected by a firing of that rxn
     std::vector<reaction_id> neighbor_propensity_network[NUM_REACTIONS];
     //random number generator
+    //std::mt19937 generator = std::mt19937{ std::random_device()() };
     std::default_random_engine generator = std::default_random_engine{ std::random_device()() };
 
     Real total_propensity_ = {};
@@ -84,14 +87,14 @@ public:
     : Simulation(ps, std::move(adj_graph), pnFactorsPert, pnFactorsGrad, num_grow_cell)
     , concs(cell_count(), conc)
     , propensities(cell_count())
-    , generator{seed} {
+    , generator{static_cast<unsigned int>(seed)} {
       initPropensityNetwork();
       initPropensities();
     }
 
     Real get_concentration (dense::Natural cell, specie_id species) const {
       try { 
-        concs.at(cell).at(species);
+        return concs.at(cell).at(species);
       } catch (exception& error) {
         throw(std::out_of_range("Tried to fetch concentration of physical cell " + std::to_string(cell) + ", which is out of bounds"));
       }
