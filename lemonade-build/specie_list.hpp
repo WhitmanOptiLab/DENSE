@@ -1,0 +1,14 @@
+#ifndef CRITICAL_SPECIE
+#define CRITICAL_SPECIE SPECIE
+#define UNDO_CRITICAL_SPECIE_DEF
+#endif
+CRITICAL_SPECIE(lemon)
+CRITICAL_SPECIE(sugar)
+SPECIE(lemonade)
+SPECIE(money)
+SPECIE(good_lemonade)
+SPECIE(customer_satisfaction)
+#ifdef UNDO_CRITICAL_SPECIE_DEF
+#undef CRITICAL_SPECIE
+#undef UNDO_CRITICAL_SPECIE_DEF
+#endif

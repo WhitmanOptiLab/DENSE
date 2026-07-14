@@ -209,6 +209,6 @@ int main(int argc, char* argv[]){
   using Simulation = Fast_Gillespie_Direct_Simulation;
   Sim_Builder<Simulation> sim = Sim_Builder<Simulation>(args.perturbation_factors, args.gradient_factors, args.adj_graph, ac, av);
   
-  dense::run_and_modify_simulation<Simulation>(true, Minutes(3), args.simulation_duration, args.analysis_interval, std::move(sim.get_simulations(args.param_sets)), 
+  dense::run_and_modify_simulation<Simulation>(true, Minutes(3), args.simulation_duration, args.analysis_interval, sim.get_simulations(args.param_sets), 
                                                parse_analysis_entries<Simulation>(argc, argv, args.adj_graph.num_vertices()));
 }
