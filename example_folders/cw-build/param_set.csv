@@ -1,0 +1,2 @@
+demand_slope,demand_base,supply_slope,supply_base,rcrit_a,rcrit_b,rcrit_c,rcrit_d,rcrit_speed,dreact_supply_slope,
+1,1,1,1,-0.5,1.5,0.4,0.0,1.0,1.0,

@@ -75,7 +75,7 @@ public:
   }
 
   Real get_concentration(dense::Natural cell, specie_id species, dense::Natural delay) const {
-    return _baby_cl.row_at(species, 1 - delay)[cell];
+    return _baby_cl.row_at(species, 1 - static_cast<int>(delay))[cell];
   }
 
   dense::Real calculate_neighbor_average(dense::Natural cell, specie_id species, dense::Natural delay = 0) const {

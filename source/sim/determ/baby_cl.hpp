@@ -25,8 +25,12 @@ class baby_cl {
 
     template <typename NumericT>
     CUDA_AGNOSTIC
+    // Fix: Standard C++ modulo (%) on negative values truncates toward zero,
+    // which yields a negative remainder and causes out-of-bounds array indexing.
+    // This approach ensures a mathematically true, non-negative modulo value.
     static NumericT wrap (NumericT x, NumericT y) {
-      return (x + y) % y;
+      NumericT r = x % y;
+      return r < 0 ? r + y : r;
     }
 
     baby_cl(Deterministic_Simulation& sim);
